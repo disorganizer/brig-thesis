@@ -1,6 +1,6 @@
-TODO: Erwähnen dass es sich um eine Zusammenarbe it mit Chris P. handelt.
-
 # Motivation
+
+TODO: Erwähnen dass es sich um eine Zusammenarbe it mit Chris P. handelt.
 
 Einfache und sichere Dateisynchronisation ist trotz vieler Lösungsansätze 
 noch immer ein unvollständig gelöstes Problem. Versucht man beispielsweise
