@@ -24,46 +24,130 @@ sein.
 
 ## Eigenschaften und Anforderungen
 
-TODO: Infinit thesis anschauen wegen Anforderungen.
+Die Anforderungen an ``brig`` lassen sich in drei Kategorien unterteilen:
 
-Basis:
+- Anforderungen an die Integrität: ``brig`` muss die Daten die es speichert 
+  versionieren, auf Integrität prüfen können und korrekt wiedergeben können.
+- Anforderungen an die Sicherheit: Alle Daten die ``brig`` anvertraut werden,
+  sollten sowohl bei der Speicherung "auf der Festplatte" als auch bei der
+  Übertragung zwischen Partnern verschlüsselt werden. Die Implementierung
+  der Sicherheitstechniken sollte transparent von Nutzern und Experten
+  nachvollzogen werden können.
+- Anforderungen an die Benutzbarkeit: Die Software soll möglichst einfach zu
+  nutzen und zu installieren sein. Der Nutzer soll ``brig`` auf den populärsten
+  Betriebssystemen nutzen können und auch Daten mit Nutzern anderer
+  Betriebssysteme austauschen können. 
 
-    Durability:  Keep what was inserted once agreed.
-        Problem: Hardware ist nicht ausfallsicher, kann gestohlen werden.
-        -> Redundanz.
+Die Kategorien beinhalten einzelne, konkretere Anforderungen, die im Folgenden 
+aufgelistet und erklärt werden. Dabei wird jeweils im ersten Paragraphen die
+eigentliche Anforderung formuliert und danach beispielhaft erklärt.
+Nicht jede Anforderung kann dabei voll umgesetzt werden. Teils überschneiden
+oder widersprechen sich Anforderungen an die Sicherheit und an die Effizienz,
+da beispielsweise verschlüsselte Speicherung mit effizienter Dekodierung
+kollidiert. Auch ist hohe Benutzbarkeit bei gleichzeitig hohen
+Sicherheitsanforderungen schwierig umzusetzen (das Neueingeben eines Passworts
+bei jedem Zugriff mag sicherer sein, aber kaum benutzerfreundlich). 
+Die Anforderungen werden daher nach dieser Faustregel priorisiert:
 
-    Availability: Daten müssen erreichbar sein und bleiben.
-        -> Ausfallsicherheit
-        
-    Integrity: Inserted == Output (MACs etc.)
-        Daten sollen nicht absichtlich oder unabsichtlich verändert werden können.
+$$Benutzbarkeit \ge Sicherheit \geq Effizienz$$
 
-    Effizienz: 
+Im Zweifel wurde sich also beim Entwurf also für die Benutzbarkeit entschieden,
+da ein sehr sicheres System zwar den Nutzer beschützen kann, er wird es aber
+ungern nutzen wollen und eventuell dazu tendieren um ``brig`` herum zu arbeiten.
+Das heißt allerdings keineswegs dass ``brig`` »per Entwurf« unsicher ist. 
+Es wurden lediglich auf zu invasive Sicherheitstechniken verzichtet, welche den
+Nutzer stören könnten.
 
-Sicherheit:
+Gleichzeitig wird allerdings bei Fragen zwischen Effizienz und Sicherheit
+zugunsten der Sicherheit entschieden. (TODO: Begründung?)
 
-    Privacy: Verschlüsselte Speicherung.
-    Anonymität:  Verschlüsselte übertragung.
-    Sharing: Easy sharing with other users being users of brig or not. 
-    Offenheit und Transparenz: 
+(TODO: Referenz zu Infinit Thesis hierhin:)
 
-Benutzbarkeit:
+Die Anforderungen sind an die Eigenschaften des verteilten Dateisystems
+*Infinit* (beschrieben in [@quintard2012towards], siehe S.39) angelehnt.
 
-    Versionierung: 
-        Verhinderung mehrerer Nutzerkopien.
+### Anforderungen die Integrität
 
-    Usability:
-        Vertrautheit: Organisation als Datei.
-        Einfache Installation
-        Einfache Nutzung
+**Langlebigkeit:** Daten die ``brig`` anvertraut werden, müssen solange ohne
+Veränderung und Datenverlust gespeichert werden bis kein Nutzer mehr
+diese Datei benötigt.
 
-    Capacity: No size/file limits
+Dabei ist zu beachten, dass diese Anforderung nur mit einer gewissen
+Wahrscheinlichkeit erfüllt werden kann, da heutige Hardware nicht die Integrität
+der Daten gewährleisten kann. So können beispielsweise Bitfehler bei der
+Verarbeitung im Hauptspeicher, SSDs die Strahlung ausgesetzt sind oder
+konventionelle Festplatten mit beschädigten Platten die geschriebenen Daten
+verändern. Ist die Datei nur einmal gespeichert worden, kann sie von
+Softwareseite aus nicht mehr fehlerfrei hergestellt werden.
 
-    Generalität: Keine Nutzung von techniken die den Nutzerstamm
-    auf bestimmte Plattformen einschränken würde oder den Kauf zusätzlicherHardware
-    bedingt. Der Einsatz von btrfs oder zfs zur Speicherung oder die Annahme
-    eines bestimmten RAID--Verbundes entfällt daher.
-    Portabilität: Auch mobile Plattform, zunehmende Fragmentierung
+Um diese Fehlerquelle zu verkleinern sollte eine Möglichkeit zur redundanten
+Speicherung geschaffen werden, bei der eine minimale Anzahl von Kopien einer
+Datei konfiguriert werden kann.
+
+**Verfügbarkeit:** Alle Daten die ``brig`` verwaltet sollen stets erreichbar sein und
+bleiben. TODO: Problem: Netzwerkpartner nicht erreichbar.
+
+**Integrität:** Es muss sichergestellt werden, dass absichtliche oder
+unabsichtliche Veränderungen an den Daten festgestellt werden können.
+
+Unabsichtliche Änderungen können wie oben beschrieben beispielsweise durch
+fehlerhafte Hardware geschehen. Absichtliche Änderungen können durch
+Angriffe von außen passieren, bei denen gezielt Dateien gezielt von einem
+Angreifer manipuliert werden. Als Beispiel könnte man an einen Schüler denken,
+welcher unbemerkt seine Noten in der Datenbank seiner Schule manipulieren will.
+    
+Aus diesem Grund sollte das Dateiformat von ``brig`` mittels Message Authentication
+Codes (MACs) sicherstellen können, dass die gespeicherten Daten denen
+entsprechen, welche ursprünglich hinzugefügt worden sind.
+
+$### Sicherheit
+
+**Verschlüsselte Speicherung:** Die Daten sollten verschlüsselt auf der
+Festplatte abgelegt werden und nur bei Bedarf wieder entschlüsselt werden.
+Kryptografische Schlüssel sollten aus denselben Gründen nicht unverschlüsselt
+auf der Platte abgelegt werden und sonst nur im Hauptspeicher abgelegt werden.
+
+**Verschlüsselte Übertragung:** Bei der Synchronisation zwischen Teilnehmern
+sollte der gesamte Verkehr ebenfalls verschlüsselt erfolgen. Nicht nur die
+Dateien selbst, sondern auch die dazugehörigen Metadaten sollten verschlüsselt
+werden. 
+
+**Authentifizierung:** ``brig`` sollte die Möglichkeit bieten zu überprüfen ob
+Synchronisationspartner wirklich diejenigen sind die sie vorgeben zu sein.
+Dabei muss zwischen der initialien Authentifizierung und der fortlaufenden
+Authentifizierung unterschieden werden. Bei der initialen Authentifizierung 
+wird neben einigen Sicherheitsfragen ein Fingerprint des Kommunikationspartners
+übertragen, welcher bei der fortlaufenden Authentifizierung auf Änderung
+überprüft wird.
+
+Mit welchen Partnern synchronisiert werden soll und wie vertrauenswürdig diese
+sind kann ``brig`` nicht selbstständig ermessen. 
+TODO: weitere erläuterung und ersten paragraphen verkleinern
+
+**Sicheres Teilen:** 
+
+**Transparenz:** 
+
+### Benutzbarkeit
+
+Versionierung: 
+    Verhinderung mehrerer Nutzerkopien.
+
+Usability:
+    Vertrautheit: Organisation als Datei.
+    Einfache Installation
+    Einfache Nutzung
+
+Capacity: No size/file limits
+
+Generalität: Keine Nutzung von techniken die den Nutzerstamm
+auf bestimmte Plattformen einschränken würde oder den Kauf zusätzlicherHardware
+bedingt. Der Einsatz von btrfs oder zfs zur Speicherung oder die Annahme
+eines bestimmten RAID--Verbundes entfällt daher.
+
+Portabilität: Auch mobile Plattform, zunehmende Fragmentierung
+
+No Lock-in: Nutzer müssen nicht zwangsweise brig verwenden.
 
 ## Zielgruppen
 
@@ -155,3 +239,6 @@ realisiert werden.
 Hürden bei entwicklung
 
 ## Annahmen
+
+- Sicherheit der verwendeten Algorithmen gewährleistet -> Quantencomputer.
+- IPFS Annahmen:
