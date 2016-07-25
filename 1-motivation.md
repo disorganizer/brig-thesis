@@ -1,7 +1,5 @@
 # Motivation
 
-TODO: Erwähnen dass es sich um eine Zusammenarbe it mit Chris P. handelt.
-
 Einfache und sichere Dateisynchronisation ist trotz vieler Lösungsansätze 
 noch immer ein unvollständig gelöstes Problem. Versucht man beispielsweise
 eine Datei zwischen zwei Personen zu teilen, so kann man unter anderen zwischen
@@ -14,7 +12,7 @@ ergeben sich in der Praxis meist sehr unterschiedliche Probleme. Bei E--Mails
 kann oft nur eine maximale Dateigröße übermittelt werden, die Übertragung von
 Dateien mittels ``ssh`` ist für die meisten Nutzer zu kompliziert und zentrale
 Dienste rufen einerseits Sicherheitsbedenken hervor, andererseits sind sie meist
-nur bedingt kostenlos und können ausfallen.
+nur bedingt kostenlos und können unvermittelt ausfallen.
 
 Zahlreiche Ansätze haben versucht diese Probleme in der Praxis abzumildern oder
 zu lösen. Ein Gegenentwurf zu den zentralen Ansätzen bilden die dezentralen
@@ -29,7 +27,12 @@ oder an den Sicherheitsanforderungen, die insbesondere Unternehmen an eine
 solche Lösung stellen. Diese Arbeit versucht einen dezentralen Ansatz zur
 Dateisynchronisation vorzustellen, der eine Balance zwischen Sicherheit und
 Benutzbarkeit herstellt. Die hier vorgestellte und quelloffene Lösung trägt
-den Namen »``brig``«.
+den Namen »``brig``«. Entwickelt wird die Lösung dabei vom Autor dieser Arbeit
+und seinen Mitstudenten Christoph Piechula, welcher in seiner Arbeit (TODO:
+ref) die Sicherheitsaspekte der Software detailliert beleuchtet.
+Der aktuelle Quelltext findet sich auf Code--Hosting--Plattform GitHub[^GITHUB].
+
+[^GITHUB]: \url{http://github.com/disorganizer/brig}
 
 ## Der Name
 
@@ -46,10 +49,27 @@ von Versionsverwaltungssystemen durch die verhältnismäßige einfache Anwendung
 gestiegen. Wir hoffen mit ``brig`` eine ähnlich flexible Lösung für große
 Dateien etablieren zu können. 
 
-# Lizenz
+## Lizenz
 
 Eine sicherheitskritische Lösung sollte den Nutzern die
 Möglichkeit geben nachzuschauen, wie die Sicherheitskonzepte implementieren sind.
 Aus diesem Grund und um eine freie Weiterentwicklung zu gewährleisten wird die
 entwickelte Software unter die ``AGPLv3`` (Affero General Public License,
-Version 3 TODO: ref) gestellt.
+Version 3[^AGPL]) gestellt.
+
+[^AGPL]: Lizenztext: \url{www.gnu.org/licenses/agpl-3.0.de.html}
+
+## Organisation
+
+Diese Arbeit wird einen Überblick über die aktuelle Implementierung und die
+Designentscheidungen dahinter geben, sowie die notwendigen Techniken beleuchten.
+Wie oben bereits erwähnt, schildert Herr Piechula in seiner Arbeit (TODO: ref) 
+die Sicherheitskonzepte im Detail, weshalb diese hier nur oberflächlich
+angeschnitten werden. 
+
+Die vorliegende Arbeit ist in vier große logische Blöcke gegliedert:
+
+- Kapitel 1 - 3 (Motivation, Einleitung, Stand der Technik) 
+- Kapitel 4 - 5 (Architektur, Implementierung)
+- Kapitel 6 - 7 (Benutzerhandbuch, Benutzbarkeit)
+- Kapitel 8 - 9 (Erweiterungen, Fazit)

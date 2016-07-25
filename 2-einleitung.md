@@ -100,7 +100,9 @@ Aus diesem Grund sollte das Dateiformat von ``brig`` mittels Message Authenticat
 Codes (MACs) sicherstellen können, dass die gespeicherten Daten denen
 entsprechen, welche ursprünglich hinzugefügt worden sind.
 
-$### Sicherheit
+**Dezentralität:** TODO
+
+### Sicherheit
 
 **Verschlüsselte Speicherung:** Die Daten sollten verschlüsselt auf der
 Festplatte abgelegt werden und nur bei Bedarf wieder entschlüsselt werden.
@@ -109,12 +111,12 @@ auf der Platte abgelegt werden und sonst nur im Hauptspeicher abgelegt werden.
 
 **Verschlüsselte Übertragung:** Bei der Synchronisation zwischen Teilnehmern
 sollte der gesamte Verkehr ebenfalls verschlüsselt erfolgen. Nicht nur die
-Dateien selbst, sondern auch die dazugehörigen Metadaten sollten verschlüsselt
+Dateien selbst, sondern auch die dazugehörigen Metadaten sollen verschlüsselt
 werden. 
 
-**Authentifizierung:** ``brig`` sollte die Möglichkeit bieten zu überprüfen ob
+**Authentifizierung:** ``brig`` sollte die Möglichkeit bieten zu überprüfen, ob
 Synchronisationspartner wirklich diejenigen sind die sie vorgeben zu sein.
-Dabei muss zwischen der initialien Authentifizierung und der fortlaufenden
+Dabei muss zwischen der initialen Authentifizierung und der fortlaufenden
 Authentifizierung unterschieden werden. Bei der initialen Authentifizierung 
 wird neben einigen Sicherheitsfragen ein Fingerprint des Kommunikationspartners
 übertragen, welcher bei der fortlaufenden Authentifizierung auf Änderung
@@ -123,6 +125,37 @@ wird neben einigen Sicherheitsfragen ein Fingerprint des Kommunikationspartners
 Mit welchen Partnern synchronisiert werden soll und wie vertrauenswürdig diese
 sind kann ``brig`` nicht selbstständig ermessen. 
 TODO: weitere erläuterung und ersten paragraphen verkleinern
+
+**Identität:** Jeder Benutzer des Netzwerks muss eine öffentliche Identität besitzen welche ihn eindeutig
+kennzeichnet. Gekoppelt mit der öffentlichen Identität soll jeder Nutzer ein Geheimnis kennen, mithilfe 
+dessen er sich gegenüber anderen authentifizieren kann. Die öffentliche Identität soll menschenlesbar sein
+und keine Registrierung an einer zentralen Stelle benötigen. 
+
+Eine mögliches Format für eine menschenlesbare Identität wäre eine abgeschwächte Form der Jabber--ID[^JID] (*JID*).
+Diese hat, ähnlich wie eine E--Mail Adresse, die Form ``Nutzer@Domäne.tld/Ressource``. 
+Beim Jabber/XMPP Protokoll ist der Teil hinter dem ``/`` optional, der Rest ist zwingend erforderlich.
+Als Abschwächung wird vorgeschlagen, auch den Teil hinter dem ``@`` optional zu machen. 
+Valide Identitätsbezeichner wären also:
+
+- ``alice``
+- ``alice@company``
+- ``alice@company.de``
+- ``alice@company.de/laptop``
+- ``böb@subdomain.company.de/desktop``
+
+TODO: genaue regeln 
+
+Dies hat aus unserer Sich folgende wesentlichen Vorteile:
+
+- Eine E--Mail Adresse  oder eine JID ist gleichzeitig ein valider Identitätsbezeichner.
+- Der Nutzer kann eine fast beliebige Unicode Sequenz als Name verwenden, was beispielsweise
+  für Nutzer des kyrillischen Alphabetes nützlich ist.
+- Unternehmen können die Identifikationsbezeichner hierarchisch gliedern. So kann *Alice* der
+  Bezeichner ``alice@security.google.com`` zugewiesen werden, wenn sie im Sicherheitsteam arbeitet.
+- Der *Ressourcen*--Teil hinter dem ``/`` ermöglicht die Nutzung desselben Nutzernamens auf verschiedenen Geräten,
+  wie ``desktop`` oder ``laptop``. 
+
+[^JID]: \url{https://de.wikipedia.org/wiki/Jabber_Identifier}
 
 **Sicheres Teilen:** 
 
@@ -138,7 +171,14 @@ Usability:
     Einfache Installation
     Einfache Nutzung
 
-Capacity: No size/file limits
+**Keine künstlichen Limitierungen:** Mit ``brig`` sollten die gleichen für den
+Nutzer gewohnten Operationen und Limitierungen gelten wie in einem normalen
+Dateisystem.
+
+Dateien sollen kopiert, verschoben und gelöscht werden. Zudem sollten keine
+Limitierungen der Pfadlänge durch ``brig`` erfolgen, auch keine bestimmte
+Enkodierung soll forciert werden. Ebenfalls soll die Dateigröße nur durch das
+darunter liegende System begrenzt werden.
 
 Generalität: Keine Nutzung von techniken die den Nutzerstamm
 auf bestimmte Plattformen einschränken würde oder den Kauf zusätzlicherHardware
@@ -209,7 +249,6 @@ kann es auch als Plattform für jede andere Anwendung genutzt werden, die Dateie
 sicher austauschen und synchronisieren müssen. Eine Anwendung in der Industrie 4.0 
 wäre beispielsweise die Synchronisierung von Konfigurationsdateien im gesamten Netzwerk.
 
-
 ### Einsatz im öffentlichen Bereich
 
 Aufgrund der Ende-zu-Ende Verschlüsselung und einfachen Benutzbarkeit ist eine
@@ -234,9 +273,6 @@ realisiert werden.
 
 ## Einsatszenarien
 
-## Problemstellung
-
-Hürden bei entwicklung
 
 ## Annahmen
 

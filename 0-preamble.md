@@ -9,8 +9,8 @@ include-headers:
 fontsize: 11pt
 sections: yes
 toc: yes
-lof: no
-lot: no
+lof: yes
+lot: yes
 date: \today
 ---
 

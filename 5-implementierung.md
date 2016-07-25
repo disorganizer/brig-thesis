@@ -1,6 +1,5 @@
 # Implementierung
 
-
 ## Wahl der Sprache
 
 ## FUSE Layer
@@ -21,3 +20,7 @@ vim, git, go, glide
 ## Übersicht
 
 Konzeptueller überblick über die Go-Pakete.
+
+## Problemstellungen
+
+Hürden bei entwicklung
