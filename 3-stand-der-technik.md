@@ -140,19 +140,21 @@ unserer Sicht wichtigsten Eigenschaften:
 | *Syncthing*          | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |  \xmark           | \xmark          |
 | *BitTorrent Sync*    | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |  \xmark           | \xmark          |
 | ``git-annex``        | \cmark              | \cmark                           | \cmark                                 |  \xmark           |  \cmark         |
-| ``brig``             | \cmark              | \cmark                           | \cmark                                 |  \cmark           |  \cmark         |
+| ``brig`` (Prototyp)  | \cmark              | \cmark                           | \cmark                                 |  \xmark           |  \xmark         |
+| ``brig`` (Ziel)      | \cmark              | \cmark                           | \cmark                                 |  \xmark           |  \cmark         |
 
 
 **Praktische Aspekte:**
 
-|                      | **FOSS**            | **Einfach nutzbar** | **Einfache Installation**  | **Intelligentes Routing** | **Kompression** |
+|                      | **FOSS**            | **Einfach nutzbar** | **Einfache Installation**  | **Intell. Routing** | **Kompression** |
 | -------------------- | ------------------- | ------------------- |--------------------------  | ------------------------- |-----------------|
-| *Dropbox/Boxcryptor* | \xmark              | \cmark              | \cmark                     |  \xmark                   | \xmark          |
-| *ownCloud*           | \cmark              | \cmark              | \xmark                     |  \xmark                   | \xmark          |
-| *Syncthing*          | \cmark              | \cmark              | \cmark                     |  \cmark                   | \xmark          |
-| *BitTorrent Sync*    | \xmark              | \cmark              | \cmark                     |  \cmark                   | \xmark          |
-| ``git-annex``        | \cmark              | \xmark              | \xmark                     |  \xmark                   | \xmark          |
-| ``brig``             | \cmark              | \cmark              | \cmark                     |  \cmark                   | \cmark          |
+| *Dropbox/Boxcryptor* | \xmark              | \cmark              | \cmark                     |  \xmark             | \xmark          |
+| *ownCloud*           | \cmark              | \cmark              | \xmark                     |  \xmark             | \xmark          |
+| *Syncthing*          | \cmark              | \cmark              | \cmark                     |  \cmark             | \xmark          |
+| *BitTorrent Sync*    | \xmark              | \cmark              | \cmark                     |  \cmark             | \xmark          |
+| ``git-annex``        | \cmark              | \xmark              | \xmark                     |  \xmark             | \xmark          |
+| ``brig`` (Prototyp)  | \cmark              | \xmark              | \textcolor{YellowOrange}{Auf Linux} |  \cmark             | \cmark          |
+| ``brig`` (Ziel)      | \cmark              | \cmark              | \cmark                     |  \cmark             | \cmark          | 
 
 ## Interplanetary Filesystem
 
@@ -172,6 +174,17 @@ mittels dieser Prüfsumme die Datei lokalisieren und empfangen.
 Vereinfacht gesagt ist es nun die Hauptaufgabe von ``brig`` dem Nutzer die gewohnte
 Abstraktionsschicht eines Dateisystem zu geben, während im Hintergrund jede
 Datei zu einer Prüfsumme aufgelöst wird.
+
+Im Vergleich zu zentralen Ansätzen (bei dem der zentrale Server einen *Single
+Point of Failure* darstellt) können Dateien intelligent geroutet werden und
+müssen nicht physikalisch auf allen Geräten verfügbar sein. Wird beispielsweise
+ein großes Festplattenimage (~8GB) in einem Vorlesungssaal von jedem Teilnehmer
+heruntergeladen, so muss bei zentralen Diensten die Datei vielmals über das
+vermutlich bereits ausgelastete Netzwerk der Hochschule gezogen werden. In einem
+*CAN*, kann die Datei in Blöcke unterteilt werden, die von jedem Teilnehmer
+gleich wieder verteilt werden können, sobald sie heruntergeladen wurden. Der
+Nutzer sieht dabei ganz normal die gesamte Datei, ``brig``, bzw. das *CAN* erledigt
+dabei das Routing transparent im Hintergrund.
 
 Technisch basiert ``IPFS`` auf der verteilten Hashtabelle
 *Kademlia*[@maymounkov2002kademlia], welches mit den Erkenntnissen auf den

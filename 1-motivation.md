@@ -56,6 +56,18 @@ Möglichkeit geben nachzuschauen, wie die Sicherheitskonzepte implementieren sin
 Aus diesem Grund und um eine freie Weiterentwicklung zu gewährleisten wird die
 entwickelte Software unter die ``AGPLv3`` (Affero General Public License,
 Version 3[^AGPL]) gestellt.
+Diese stellt sicher, dass Verbesserungen am Projekt auch wieder in dieses
+zurückfließen müssen.
+
+Dass die Software quelloffen ist, ist kein Widerspruch zur wirtschaftlichen
+Verwertung. Statt auf Softwareverkäufe zu setzen lässt sich mit dem Einsatz und
+der Anpassung der Software Geld verdienen.  Das Open--Source Modell bietet aus
+unserer Sicht hierbei sogar einige grundlegende Vorteile:
+
+- Schnellere Verbreitung durch fehlende Kostenbarriere auf Nutzerseite.
+- Kann von Nutzern und Unternehmen ihren Bedürfnissen angepasst werden.
+- Transparenz in puncto Sicherheit (keine offensichtlichen Backdoors möglich).
+- Fehlerkorrekturen, Weiterentwicklung und Testing aus der Community.
 
 [^AGPL]: Lizenztext: \url{www.gnu.org/licenses/agpl-3.0.de.html}
 
@@ -73,3 +85,5 @@ Die vorliegende Arbeit ist in vier große logische Blöcke gegliedert:
 - Kapitel 4 - 5 (Architektur, Implementierung)
 - Kapitel 6 - 7 (Benutzerhandbuch, Benutzbarkeit)
 - Kapitel 8 - 9 (Erweiterungen, Fazit)
+
+TODO: Inhalt beschreiben.
