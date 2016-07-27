@@ -20,13 +20,14 @@ Umfeld.
 Als weiteres Abgrenzungsmerkmal setzt ``brig`` nicht auf möglichst hohe
 Effizienz (wie beispielsweise die meisten verteilten Dateisysteme es tun)
 sondern versucht möglichst generell anwendbar über Netzwerkgrenzen hinweg zu
-sein. 
+sein.
 
 ## Eigenschaften und Anforderungen
 
-Die Anforderungen an ``brig`` lassen sich in drei Kategorien unterteilen:
+Im Folgenden werden auf die Anforderungen eingegangen, welche ``brig`` erfüllen soll.
+Die Anforderungen lassen sich in drei Kategorien unterteilen:
 
-- Anforderungen an die Integrität: ``brig`` muss die Daten die es speichert 
+- Anforderungen an die Integrität: ``brig`` muss die Daten die es speichert
   versionieren, auf Integrität prüfen können und korrekt wiedergeben können.
 - Anforderungen an die Sicherheit: Alle Daten die ``brig`` anvertraut werden,
   sollten sowohl bei der Speicherung "auf der Festplatte" als auch bei der
@@ -36,17 +37,18 @@ Die Anforderungen an ``brig`` lassen sich in drei Kategorien unterteilen:
 - Anforderungen an die Benutzbarkeit: Die Software soll möglichst einfach zu
   nutzen und zu installieren sein. Der Nutzer soll ``brig`` auf den populärsten
   Betriebssystemen nutzen können und auch Daten mit Nutzern anderer
-  Betriebssysteme austauschen können. 
+  Betriebssysteme austauschen können.
 
-Die Kategorien beinhalten einzelne, konkretere Anforderungen, die im Folgenden 
+Die Kategorien beinhalten einzelne, konkretere Anforderungen, die im Folgenden
 aufgelistet und erklärt werden. Dabei wird jeweils im ersten Paragraphen die
 eigentliche Anforderung formuliert und danach beispielhaft erklärt.
+
 Nicht jede Anforderung kann dabei voll umgesetzt werden. Teils überschneiden
 oder widersprechen sich Anforderungen an die Sicherheit und an die Effizienz,
 da beispielsweise verschlüsselte Speicherung mit effizienter Dekodierung
 kollidiert. Auch ist hohe Benutzbarkeit bei gleichzeitig hohen
 Sicherheitsanforderungen schwierig umzusetzen (das Neueingeben eines Passworts
-bei jedem Zugriff mag sicherer sein, aber kaum benutzerfreundlich). 
+bei jedem Zugriff mag sicherer sein, aber kaum benutzerfreundlich).
 Die Anforderungen werden daher nach dieser Faustregel priorisiert:
 
 $$Benutzbarkeit \ge Sicherheit \geq Effizienz$$
@@ -54,19 +56,44 @@ $$Benutzbarkeit \ge Sicherheit \geq Effizienz$$
 Im Zweifel wurde sich also beim Entwurf also für die Benutzbarkeit entschieden,
 da ein sehr sicheres System zwar den Nutzer beschützen kann, er wird es aber
 ungern nutzen wollen und eventuell dazu tendieren um ``brig`` herum zu arbeiten.
-Das heißt allerdings keineswegs dass ``brig`` »per Entwurf« unsicher ist. 
+Das heißt allerdings keineswegs dass ``brig`` »per Entwurf« unsicher ist.
 Es wurden lediglich auf zu invasive Sicherheitstechniken verzichtet, welche den
 Nutzer stören könnten.
-
 Gleichzeitig wird allerdings bei Fragen zwischen Effizienz und Sicherheit
 zugunsten der Sicherheit entschieden. (TODO: Begründung?)
 
-(TODO: Referenz zu Infinit Thesis hierhin:)
-
-Die Anforderungen sind an die Eigenschaften des verteilten Dateisystems
-*Infinit* (beschrieben in [@quintard2012towards], siehe S.39) angelehnt.
+Die Anforderungen sind teilweise an die Eigenschaften des verteilten Dateisystems
+*Infinit* (beschrieben in [@quintard2012towards], siehe S.39) angelehnt und
+an die Ausrichtung von ``brig`` angepasst wurden.
 
 ### Anforderungen die Integrität
+
+**Dezentralität:** Statt einem zentralen Dienst, soll ``brig`` die Basis eines
+dezentralen Netzwerkes bilden. Dabei stellt jeder Teilnehmer einen Knoten in
+diesem Netzwerk dar. Nutzer des Netzwerkes können Dateien zwischen
+verschiedenen Teilnehmern synchronisieren. Dabei muss nicht zwangsweise die
+gesamte Datei übertragen werden, jeder Nutzer verwaltet lediglich eine Liste
+der Metadaten der Dateien, die jeder Teilnehmer besitzt. Durch die Entkopplung
+zwischen Metadaten und tatsächlichen Metadaten ist es möglich bestimmte Dateien
+»on-demand« und für den Nutzer transparent zu übertragen.
+
+Der Hauptvorteil einer dezentralen Architektur ist die erhöhte Ausfallsicherheit
+und der Fakt, dass das Netzwerk durch seine Nutzer entsteht und keine besondere
+Infrastruktur benötigt. Stattdessen funktioniert ``brig`` als *Overlay--Netzwerk* (Siehe [@peer2peer], S.8)
+über das Internet.
+
+**Pinning:** Der Nutzer soll Kontrolle darüber haben, welche Dateien er lokal auf seinem
+Rechner speichert und welche er von anderen Teilnehmern dynamisch empfangen will.
+Dazu wird das Konzept des »Pinnings« und der »Quota« eingeführt. Ein Nutzer kann eine Datei
+manuell *pinnen*, um sie auf seinem lokalen Rechner zu behalten oder um ``brig`` anzuweisen
+sie aus dem Netzwerk lokal zwischenzulagern. Dateien, die der Nutzer ``brig`` hinzugefügt
+hat, werden implizit mit einem *Pin* versehen. Die *Quota* hingegen beschreibt ein Limit
+an Bytes, die lokal zwischengespeichert werden dürfen. TODO: hard and soft limit.
+
+Das manuelle Pinnen von Dateien ist insbesondere nützlich, wenn eine bestimmte Datei
+zu einer Zeit ohne Internetzugang benötigt wird. Ein typisches Beispiel wäre ein Zug--Pendler
+der ein Spreadsheet--Dokument auf dem Weg zur Arbeit editieren möchte. Er kann dieses vorher *pinnen*
+um es lokal auf seinem Laptop zwischenzulagern.
 
 **Langlebigkeit:** Daten die ``brig`` anvertraut werden, müssen solange ohne
 Veränderung und Datenverlust gespeichert werden bis kein Nutzer mehr
@@ -85,7 +112,8 @@ Speicherung geschaffen werden, bei der eine minimale Anzahl von Kopien einer
 Datei konfiguriert werden kann.
 
 **Verfügbarkeit:** Alle Daten die ``brig`` verwaltet sollen stets erreichbar sein und
-bleiben. TODO: Problem: Netzwerkpartner nicht erreichbar.
+bleiben. In der Praxis ist dies natürlich nur möglich, wenn alle Netzwerkteilnehmer ohne Unterbrechung
+laufen oder wenn 
 
 **Integrität:** Es muss sichergestellt werden, dass absichtliche oder
 unabsichtliche Veränderungen an den Daten festgestellt werden können.
@@ -95,14 +123,10 @@ fehlerhafte Hardware geschehen. Absichtliche Änderungen können durch
 Angriffe von außen passieren, bei denen gezielt Dateien gezielt von einem
 Angreifer manipuliert werden. Als Beispiel könnte man an einen Schüler denken,
 welcher unbemerkt seine Noten in der Datenbank seiner Schule manipulieren will.
-    
-Aus diesem Grund sollte das Dateiformat von ``brig`` mittels Message Authentication
-Codes (MACs) sicherstellen können, dass die gespeicherten Daten denen
+
+Aus diesem Grund sollte das Dateiformat von ``brig`` mittels *Message Authentication
+Codes* (MACs) sicherstellen können, dass die gespeicherten Daten denen
 entsprechen, welche ursprünglich hinzugefügt worden sind.
-
-**Dezentralität:** TODO
-
-**Pinning:** TODO
 
 ### Sicherheit
 
@@ -114,38 +138,53 @@ auf der Platte abgelegt werden und sonst nur im Hauptspeicher abgelegt werden.
 **Verschlüsselte Übertragung:** Bei der Synchronisation zwischen Teilnehmern
 sollte der gesamte Verkehr ebenfalls verschlüsselt erfolgen. Nicht nur die
 Dateien selbst, sondern auch die dazugehörigen Metadaten sollen verschlüsselt
-werden. 
+werden.
 
 **Authentifizierung:** ``brig`` sollte die Möglichkeit bieten zu überprüfen, ob
 Synchronisationspartner wirklich diejenigen sind die sie vorgeben zu sein.
 Dabei muss zwischen der initialen Authentifizierung und der fortlaufenden
-Authentifizierung unterschieden werden. Bei der initialen Authentifizierung 
+Authentifizierung unterschieden werden. Bei der initialen Authentifizierung
 wird neben einigen Sicherheitsfragen ein Fingerprint des Kommunikationspartners
 übertragen, welcher bei der fortlaufenden Authentifizierung auf Änderung
 überprüft wird.
 
 Mit welchen Partnern synchronisiert werden soll und wie vertrauenswürdig diese
-sind kann ``brig`` nicht selbstständig ermessen. 
+sind kann ``brig`` nicht selbstständig ermessen.
 TODO: weitere erläuterung und ersten paragraphen verkleinern
 
 **Identität:** Jeder Benutzer des Netzwerks muss eine öffentliche Identität besitzen welche ihn eindeutig
-kennzeichnet. Gekoppelt mit der öffentlichen Identität soll jeder Nutzer ein Geheimnis kennen, mithilfe 
+kennzeichnet. Gekoppelt mit der öffentlichen Identität soll jeder Nutzer ein Geheimnis kennen, mithilfe
 dessen er sich gegenüber anderen authentifizieren kann. Die öffentliche Identität soll menschenlesbar sein
-und keine Registrierung an einer zentralen Stelle benötigen. 
+und keine Registrierung an einer zentralen Stelle benötigen.
 
 Eine mögliches Format für eine menschenlesbare Identität wäre eine abgeschwächte Form der Jabber--ID[^JID] (*JID*).
-Diese hat, ähnlich wie eine E--Mail Adresse, die Form ``Nutzer@Domäne.tld/Ressource``. 
+Diese hat, ähnlich wie eine E--Mail Adresse, die Form ``Nutzer@Domäne.tld/Ressource``.
 Beim Jabber/XMPP Protokoll ist der Teil hinter dem ``/`` optional, der Rest ist zwingend erforderlich.
-Als Abschwächung wird vorgeschlagen, auch den Teil hinter dem ``@`` optional zu machen. 
-Valide Identitätsbezeichner wären also:
+Als Abschwächung wird vorgeschlagen, auch den Teil hinter dem ``@`` optional zu machen.
+
+Darüber hinaus sollen folgende Regeln gelten:
+
+- Es sind keine Leerzeichen erlaubt.
+- Ein leerer String ist nicht valide.
+- Der String muss valides UTF8 (TODO: ref) sein.
+- Der String muss der »UTF-8 Shortest Form[^SHORTEST]« entsprechen
+- Der String darf durch die »UTF-8 NKFC Normalisierung[^NORMALIZATION]« nicht verändert werden.
+- Alle Charaktere müssen druckbar und auf dem Bildschirm darstellbar sein.
+
+Insbesondere die letzten vier Punkte dienen der Sicherheit, da ein Angreifer versuchen könnte
+eine Unicode--Sequenz zu generieren, welche visuell genauso ausschaut wie die eines anderen Nutzers,
+aber einer anderen Byte--Reihenfolge und somit einer anderen Identität entspricht.
+
+[^SHORTEST]: Siehe auch: \url{http://unicode.org/versions/corrigendum1.html}
+[^NORMALIZATION]: Siehe auch: \url{http://www.unicode.org/reports/tr15/\#Norm_Forms}
+
+Valide Identitätsbezeichner wären also beispielsweise:
 
 - ``alice``
 - ``alice@company``
 - ``alice@company.de``
 - ``alice@company.de/laptop``
 - ``böb@subdomain.company.de/desktop``
-
-TODO: genaue regeln 
 
 Dies hat aus unserer Sich folgende wesentlichen Vorteile:
 
@@ -155,13 +194,13 @@ Dies hat aus unserer Sich folgende wesentlichen Vorteile:
 - Unternehmen können die Identifikationsbezeichner hierarchisch gliedern. So kann *Alice* der
   Bezeichner ``alice@security.google.com`` zugewiesen werden, wenn sie im Sicherheitsteam arbeitet.
 - Der *Ressourcen*--Teil hinter dem ``/`` ermöglicht die Nutzung desselben Nutzernamens auf verschiedenen Geräten,
-  wie ``desktop`` oder ``laptop``. 
+  wie ``desktop`` oder ``laptop``.
 
 [^JID]: \url{https://de.wikipedia.org/wiki/Jabber_Identifier}
 
-**Sicheres Teilen:** 
+**Sicheres Teilen:**
 
-**Transparenz:** 
+**Transparenz:**
 
 ### Benutzbarkeit
 
@@ -191,11 +230,11 @@ ist momentan nur unter unixoiden Betriebssystemen lauffähig.
 
 **Einfache Installation:** ``brig`` sollte möglichst einfach und ohne Vorkenntnisse
 installierbar sein. Zur Installation gehört dabei nicht nur die Beschaffung der Software
-und deren Installation im System, sondern auch die initiale Konfiguration. 
+und deren Installation im System, sondern auch die initiale Konfiguration.
 
 Die Erfahrungen des Autors haben gezeigt, dass Nutzer verständlicherweise oft eine einfache
 zu installierende Software zur einer schwerer zu installierenden Software bevorzugen (die
-aber möglicherweise ihr Problem besser löst). 
+aber möglicherweise ihr Problem besser löst).
 
 **Keine künstlichen Limitierungen:** Mit ``brig`` sollten die gleichen für den
 Nutzer gewohnten Operationen und Limitierungen gelten wie in einem normalen
@@ -211,16 +250,29 @@ die Dateigröße nur durch das darunter liegende System begrenzt werden.
 einschränken würde oder den Kauf zusätzlicherHardware bedingt. Der Einsatz von
 plattformspezifischen Dateisystemen btrfs oder ZFS zur Speicherung oder die Annahme eines
 bestimmten RAID--Verbundes entfällt daher. Auch darf nicht vorausgesetzt werden, dass
-alle Nutzer ``brig`` verwenden (Lock--in, TODO). Aus diesem Grund 
+alle Nutzer ``brig`` verwenden, da dies ein Lock--in wie bei anderen Produkten bedeuten würde.
+
+Ein häufiger Anwendungsfall ist ein Nutzer, der ein bestimmtes Dokument seinen Mitmenschen
+zu Verfügung stellen möchte. Optimalerweise müssen dabei die Empfänger des Dokuments
+keine weitere Software installiert haben, sondern können die Datei einfach als Hyperlink
+in ihrem Browser herunterladen. Zentrale Dienste können dies relativ einfach leisten, indem
+sie einen Webservice anbieten, welcher die Datei von einer zentralen Stelle herunterladbar macht.
+Ein dezentrales Netzwerk wie ``brig`` muss hingegen »Gateways« anbieten, also eine handvoll
+Dienste, welche zwischen den »normalen Internet« und dem ``brig``--Netzwerk vermitteln.
+Die Nutzer, welche die Dateien verteilen wollen, können ein solches Gateway selbst betreiben.
+Alternativ können sie die entsprechende Datei mit einem öffentlichen Gateway teilen, welches
+von Freiwilligen betrieben wird. Solche öffentlichen Gateways wären die einzige
+öffentlich getragene  Infrastruktur.
 
 ## Zielgruppen
 
-Auch wenn ``brig`` extrem flexibel einsetzbar ist, sind die primären Zielgruppen
-Unternehmen und Heimanwender. Aufgrund der starken Ende-zu-Ende Verschlüsselung
-ist ``brig`` auch für Berufsgruppen, bei denen eine hohe Diskretion bezüglich
-Datenschutz gewahrt werden muss, attraktiv. Hier wären in erster Linie
-Journalisten, Anwälte, Ärzte mit Schweigepflicht auch Aktivisten und politisch
-verfolgte Minderheiten, zu nennen.
+Auch wenn ``brig`` extrem flexibel einsetzbar ist, sind die primären
+Zielgruppen Unternehmen und Heimanwender.  Aufgrund der starken Ende-zu-Ende
+Verschlüsselung ist ``brig`` allerdings auch insbesondre für Berufsgruppen
+attraktiv, bei denen eine hohe Diskretion bezüglich Datenschutz gewahrt werden
+muss. Hier wären in erster Linie Journalisten, Anwälte, Ärzte mit
+Schweigepflicht auch Aktivisten und politisch verfolgte Minderheiten, zu
+nennen.
 
 ### Unternehmen
 
@@ -264,13 +316,13 @@ wie Laptops und Smartphones, würden dann ebenfalls ``brig`` nutzen, aber mit
 deutlich geringeren Speicherquotas (maximales Speicherlimit), so dass nur die
 aktuell benötigten Dateien physikalisch auf dem Gerät vorhanden sind. Die
 anderen Dateien lagern »im Netz« und können transparent von ``brig`` von anderen
-verfügbaren Knoten geholt werden. 
+verfügbaren Knoten geholt werden.
 
 ### Plattform für industrielle Anwendungen
 
 Da ``brig`` auch komplett automatisiert und ohne Interaktion nutzbar sein soll,
 kann es auch als Plattform für jede andere Anwendung genutzt werden, die Dateien
-sicher austauschen und synchronisieren müssen. Eine Anwendung in der Industrie 4.0 
+sicher austauschen und synchronisieren müssen. Eine Anwendung in der Industrie 4.0
 wäre beispielsweise die Synchronisierung von Konfigurationsdateien im gesamten Netzwerk.
 
 ### Einsatz im öffentlichen Bereich
@@ -286,7 +338,7 @@ heutzutage schwierig Dokumente sicher mit Behörden auszutauschen. ``brig``
 könnte hier einen »Standard« etablieren und in Zukunft als eine »Plattform«
 dienen, um beispielsweise medizinische Unterlagen mit dem Hospital auszutauschen.
 
-### Berufsgruppen mit hohen Sicherheitsanforderungen 
+### Berufsgruppen mit hohen Sicherheitsanforderungen
 
 Hier wären in erster Linie Berufsgruppen mit Schweigepflicht zu nennen wie Ärzte,
 Notare und Anwälte aber auch Journalisten und politisch verfolgte Aktivisten.
