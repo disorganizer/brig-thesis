@@ -19,8 +19,9 @@ Umfeld.
 
 Als weiteres Abgrenzungsmerkmal setzt ``brig`` nicht auf möglichst hohe
 Effizienz (wie beispielsweise die meisten verteilten Dateisysteme es tun)
-sondern versucht möglichst generell anwendbar über Netzwerkgrenzen hinweg zu
-sein.
+sondern versucht möglichst generell anwendbar sein und über Netzwerkgrenzen
+hinweg funktioneren. Dadurch soll es zu einer Art »Standard« werden, auf denen
+sich möglichst viele Anwender einigen können.
 
 ## Eigenschaften und Anforderungen
 
@@ -82,13 +83,18 @@ und der Fakt, dass das Netzwerk durch seine Nutzer entsteht und keine besondere
 Infrastruktur benötigt. Stattdessen funktioniert ``brig`` als *Overlay--Netzwerk* (Siehe [@peer2peer], S.8)
 über das Internet.
 
-**Pinning:** Der Nutzer soll Kontrolle darüber haben, welche Dateien er lokal auf seinem
-Rechner speichert und welche er von anderen Teilnehmern dynamisch empfangen will.
-Dazu wird das Konzept des »Pinnings« und der »Quota« eingeführt. Ein Nutzer kann eine Datei
-manuell *pinnen*, um sie auf seinem lokalen Rechner zu behalten oder um ``brig`` anzuweisen
-sie aus dem Netzwerk lokal zwischenzulagern. Dateien, die der Nutzer ``brig`` hinzugefügt
-hat, werden implizit mit einem *Pin* versehen. Die *Quota* hingegen beschreibt ein Limit
-an Bytes, die lokal zwischengespeichert werden dürfen. TODO: hard and soft limit.
+**Pinning:** Der Nutzer soll Kontrolle darüber haben, welche Dateien er lokal
+auf seinem Rechner speichert und welche er von anderen Teilnehmern dynamisch
+empfangen will. Dazu wird das Konzept des »Pinnings« und der »Quota«
+eingeführt. Ein Nutzer kann eine Datei manuell *pinnen*, um sie auf seinem
+lokalen Rechner zu behalten oder um ``brig`` anzuweisen sie aus dem Netzwerk
+lokal zwischenzulagern. Dateien, die der Nutzer ``brig`` hinzugefügt hat,
+werden implizit mit einem *Pin* versehen. Die *Quota* hingegen beschreibt ein
+Limit an Bytes, die lokal zwischengespeichert werden dürfen. Dabei gibt es ein
+hartes und ein weiches Limit. Wird das weiche Limit erreicht oder übertreten,
+so dürfen keine weiteren Dateien automatisch von ``brig`` gepinnt werden. Nach
+Erreichen des harten Limits funktioniert auch das manuelle Pinnen durch den
+Benutzer nicht mehr.
 
 Das manuelle Pinnen von Dateien ist insbesondere nützlich, wenn eine bestimmte Datei
 zu einer Zeit ohne Internetzugang benötigt wird. Ein typisches Beispiel wäre ein Zug--Pendler
@@ -111,9 +117,19 @@ Um diese Fehlerquelle zu verkleinern sollte eine Möglichkeit zur redundanten
 Speicherung geschaffen werden, bei der eine minimale Anzahl von Kopien einer
 Datei konfiguriert werden kann.
 
-**Verfügbarkeit:** Alle Daten die ``brig`` verwaltet sollen stets erreichbar sein und
-bleiben. In der Praxis ist dies natürlich nur möglich, wenn alle Netzwerkteilnehmer ohne Unterbrechung
-laufen oder wenn 
+**Verfügbarkeit:** Alle Daten die ``brig`` verwaltet sollen stets erreichbar
+sein und bleiben. In der Praxis ist dies natürlich nur möglich, wenn alle
+Netzwerkteilnehmer ohne Unterbrechung zur Verfügung stehen oder wenn alle
+Dateien lokal zwischengelagert worden sind. 
+
+In der Praxis sind viele Nutzer zu unterschiedlichen Zeiten online oder
+zu komplett verschiedenen Zeiten. Aufgrund der Zeitverschiebung wäre eine
+Zusammenarbeit zwischen einem chinesischen Nutzer und einem deutschen Nutzer
+schwierig. Eine mögliche Lösung wäre die Einrichtung eines automatsierten Knoten
+der ständig verfügbar ist. Statt Dateien direkt miteinander zu teilen, könnte Nutzer
+diesen Knoten als Zwischenlager benutzen.
+
+(TODO: GrafiK?)
 
 **Integrität:** Es muss sichergestellt werden, dass absichtliche oder
 unabsichtliche Veränderungen an den Daten festgestellt werden können.
@@ -135,10 +151,20 @@ Festplatte abgelegt werden und nur bei Bedarf wieder entschlüsselt werden.
 Kryptografische Schlüssel sollten aus denselben Gründen nicht unverschlüsselt
 auf der Platte abgelegt werden und sonst nur im Hauptspeicher abgelegt werden.
 
+Wie in Kapitel 3 (TODO: ref) beleuchtet wird, speichern die meisten Dienste und
+Anwendungen zum Dateiaustausch ihre Dateien in keiner verschlüsselten Form. Es
+gibt allerdings eine Reihe von Angriffsszenarien (TODO: ref kitteh arbeit), die
+durch eine Vollverschlüsselung der Daten verhindert werden können.
+
 **Verschlüsselte Übertragung:** Bei der Synchronisation zwischen Teilnehmern
 sollte der gesamte Verkehr ebenfalls verschlüsselt erfolgen. Nicht nur die
-Dateien selbst, sondern auch die dazugehörigen Metadaten sollen verschlüsselt
-werden.
+Dateien selbst, sondern auch die dazugehörigen Metadaten sollen Ende--zu--Ende
+verschlüsselt werden.
+
+Die Verschlüsselung der Metadaten erscheint vor allen im Lichte der
+Enthüllungen zur NSA--Affäre geboten (TODO: ref). Eine Ende--zu--Ende Verschlüsselung ist
+in diesem Fall vor allem deswegen wichtig, weil der Datenverkehr unter
+Umständen auch über andere Knoten im Netzwerk gehen kann.
 
 **Authentifizierung:** ``brig`` sollte die Möglichkeit bieten zu überprüfen, ob
 Synchronisationspartner wirklich diejenigen sind die sie vorgeben zu sein.
@@ -149,8 +175,17 @@ wird neben einigen Sicherheitsfragen ein Fingerprint des Kommunikationspartners
 überprüft wird.
 
 Mit welchen Partnern synchronisiert werden soll und wie vertrauenswürdig diese
-sind kann ``brig`` nicht selbstständig ermessen.
-TODO: weitere erläuterung und ersten paragraphen verkleinern
+sind kann ``brig`` nicht selbstständig ermessen. Es kann allerdings dem Nutzer
+Hilfsmitteln geben, um die Identität des Gegenübers zu überprüfen. So könnten
+Werkzeuge angeboten werden, mithilfe dessen der Nutzer dem potenziellen Partner
+eine Frage (mit vordefinierter Antwort) schicken können, die dieser dann
+beantworten muss. Alternativ können sich beide Partner vorher auf einen
+separaten Kanal auf ein gemeinsames Geheimnis einigen, welches dann über
+``brig`` ausgetauscht und überprüft werden kann. Diese beiden Möglichkeiten
+sind inspiriert von der OTR Implementierung des Instant-Messangers Pidgin. Eine
+modernere Variante wäre die Generierung eines QR--Codes aus der geheimen
+Identität beider Partner. Diese könnten beide Partner dann beispielsweise über
+ihr Smartphone scannen, austauschen und manuell vergleichen.
 
 **Identität:** Jeder Benutzer des Netzwerks muss eine öffentliche Identität besitzen welche ihn eindeutig
 kennzeichnet. Gekoppelt mit der öffentlichen Identität soll jeder Nutzer ein Geheimnis kennen, mithilfe
@@ -198,11 +233,20 @@ Dies hat aus unserer Sich folgende wesentlichen Vorteile:
 
 [^JID]: \url{https://de.wikipedia.org/wiki/Jabber_Identifier}
 
-**Sicheres Teilen:**
+**Transparenz:** Die Implementierung aller oben genannten Sicherheitsfeatures
+muss für Anwender und Entwickler nachvollziehbar und verständlich sein. Durch
+die Öffnung des gesamten Quelltextes können Entwickler den Code auf Fehler
+überprüfen. Normale Anwender können die Arbeit von Herrn Piechula lesen, um
+einen Überblick über die Funktionsweise und Architektur der Sicherheitsfeatures
+zu bekommen. Desweiteren wird auch die Weiterentwicklung der Software offen gehalten[^SECNOTE].
 
-**Transparenz:**
+[^SECNOTE]: TODO: Sicherheitslücken sollten vertraulich gemeldet werden. (TODO: ref kitteh arbeit?)
 
 ### Benutzbarkeit
+
+*Anmerkung:* In Kapitel 7 (TODO: ref) werden weitere Anforderungen zur Benutzbarkeit in Bezug
+auf eine grafische Oberfläche definiert. Da diese nicht für die Gesamtheit der Software relevant sind,
+werden sie hier ausgelassen.
 
 **Automatische Versionierung:** Die Dateien die ``brig`` verwaltet, sollen automatisch versioniert
 werden. Die Versionierung soll dabei in Form von Checkpoints bei jeder Dateiänderung
@@ -211,7 +255,7 @@ zusammenhängenden Commit zusammengefasst werden. Die Menge an Dateien die in al
 vorhanden sind werden durch eine Speicher-Quota geregelt, die nicht überschritten wird.
 Wird dieses Limit überschritten, so werden die ältesten Dateien von der lokalen Maschine
 gelöscht. Die jeweiligen Checkpoints sind aber noch  vorhanden und der darin verwiesene
-Stand kann von anderen Teilnehmern aus dem Netzwerk geholt werden, falls verfügbar.
+Satand kann von anderen Teilnehmern aus dem Netzwerk geholt werden, falls verfügbar.
 
 Nutzer tendieren oft dazu mehrere Kopien einer Datei unter verschiedenen Orten als Backup
 anzulegen. Leider artet dies erfahrungsgemäß in der Praxis oft dazu aus, dass Dateinamen
@@ -263,6 +307,10 @@ Die Nutzer, welche die Dateien verteilen wollen, können ein solches Gateway sel
 Alternativ können sie die entsprechende Datei mit einem öffentlichen Gateway teilen, welches
 von Freiwilligen betrieben wird. Solche öffentlichen Gateways wären die einzige
 öffentlich getragene  Infrastruktur.
+
+**Stabilität:** Die Software muss ohne Abstürze und offensichtliche Fehler funktionieren.
+
+TODO: Testsuite bla.
 
 ## Zielgruppen
 
@@ -348,6 +396,21 @@ könnte allerdings später mit Hilfe des Tor Netzwerks (Tor Onion Routing Projek
 realisiert werden.
 
 ## Einsatszenarien
+
+``brig`` soll letztendlich deutlich flexibler nutzbar sein als zentrale Dienste
+und vergleichbare Software. Nutzbar soll es sein als…
+
+- *Synchronisationslösung*: Spiegelung von zwei oder mehr Ordnern.
+- *Transferlösung*: »Veröffentlichen« von Dateien nach Außen mittels Hyperlinks.
+- *Versionsverwaltung*: Bis zu einer konfigurierbaren Tiefe können Dateien wiederhergestellt werden.
+- *Backup- und Archivierungslösung*: Verschiedene »Knoten--Typen« möglich.
+- *Verschlüsselter Safe*: ein »Repository«[^REPO] kann »verschlossen« und wieder »geöffnet« werden.
+- *Semantisch durchsuchbares* Tag-basiertes Dateisystem[^TAG].
+- *Plattform* für verteilte und sicherheitskritische Anwendungen.
+- …einer beliebigen Kombination der oberen Punkte.
+
+[^TAG]: Mit einem ähnlichen Ansatz wie \url{https://en.wikipedia.org/wiki/Tagsistant}
+[^REPO]: *Repository:* Hier ein »magischer« Ordner in denen alle Dateien im Netzwerk angezeigt werden.
 
 
 ## Annahmen

@@ -87,3 +87,21 @@ Die vorliegende Arbeit ist in vier große logische Blöcke gegliedert:
 - Kapitel 8 - 9 (Erweiterungen, Fazit)
 
 TODO: Inhalt beschreiben.
+
+
+## Über die Autoren
+
+Wir sind zwei Master--Studenten an der Hochschule Augsburg, die von Freier
+Software begeistert sind und mit ihr die Welt ein bisschen besser machen wollen.
+Momentan entwickeln wir ``brig`` im Rahmen unserer Masterarbeiten bei Prof
+Dr.-Ing. Thorsten Schöler in der Distributed--Systems--Group[^DSG]. 
+Wir haben beide Erfahrung darin Open--Source--Software zu entwickeln und zu
+betreuen, weswegen wir das nun auch gerne »hauptberuflich« fortführen würden.
+
+Unsere momentanen sonstigen Projekte finden sich auf GitHub:
+
+* \url{https://github.com/sahib} (Projekte von Christopher Pahl)
+* \url{https://github.com/qitta} (Projekte von Christoph Piechula)
+* \url{https://github.com/studentkittens} (gemeinsame Projekte und Studienarbeiten)
+
+[^DSG]: Siehe auch: \url{http://dsg.hs-augsburg.de/}

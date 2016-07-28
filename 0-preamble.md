@@ -6,7 +6,7 @@ include-headers:
     - \usepackage[ngerman]{babel}
     - \usepackage{csquotes}
     - \usepackage[babel, german=quotes]{csquotes}
-fontsize: 12pt
+fontsize: 11pt
 sections: yes
 toc: yes
 lof: yes
