@@ -11,5 +11,3 @@
 ## Portierbarkeit
 
 Android, Windows.
-
-# Anhänge
