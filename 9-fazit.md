@@ -1,5 +1,8 @@
 # Fazit
 
+Ambitioniertes Projekt,
+trotzdem positive Resultate trotz Zeitmangels.
+
 ## Erfüllung der Anforderungen
 
 ## Selbstkritik

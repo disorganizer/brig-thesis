@@ -59,12 +59,110 @@ GLOBAL OPTIONS:
 ## Installation
 
 ``brig`` kann momentan nur aus den Quellen installiert werden. Zudem wurde
-der Prototyp nur auf Linux Systemen[^SYSTEM] getestet.
+der Prototyp nur auf Linux Systemen[^SYSTEM] getestet, sollte aber prinzipiell
+auch unter Mac OSX funktionieren. Die Installation aus den Quellen ist in beiden
+Fällen relativ einfach und besteht aus maximal zwei Schritten:
+
+**Installation von Go:** Falls noch nicht geschehen, muss der *Go*--Compiler
+und die mitgelieferte Standardbibliothek installiert werden. Dazu kann in Linux
+Distribution der mitgelieferte Paketmanager genutzt werden. Unter ArchLinux ist
+der Befehl etwa ``pacman -S go`` unter Debian/Ubuntu ``apt-get install
+golang``. In allen anderen Fällen kann ein Installationspaket von
+``golang.org``[^GOLANG_DOWNLOAD] heruntergeladen werden.
+Ist *Go* installiert, muss noch der Pfad definiert werden, in dem alle *Go*--Quellen
+landen. Dazu ist das Setzen der Umgebungsvariable ``GOPATH`` nötig:
+
+```bash
+$ mkdir ~/go
+$ export GOPATH=~/go
+$ export PATH=$PATH:~/go/bin
+```
+
+Die letzten beiden ``export`` Kommandos sollte man in eine Datei wie
+``.bashrc`` einfügen, um zu gewährleisten, dass die Umgebungsvariablen in jeder
+Sitzung erneut gesetzt werden.
+
+[^GOLANG_DOWNLOAD]: \url{https://golang.org/dl/}
+
+**Übersetzen der Quellen:** Ist *Go* installiert, kann mittels des ``go
+get``--Werkzeugs ``brig`` kompiliert werden:
+
+```bash
+$ go get github.com/disorganizer/brig
+```
+
+Nach erfolgreicher Ausführung (kann je nach Rechner zwischen etwa einer bis
+zehn Minuten dauern) sollte eine *brig* Kommando auf der Kommandozeile verfügbar sein.
+Ohne weitere Argumente sollte das Kommando den oben stehenden Hilfetext produzieren.
 
 [^SYSTEM]: Im Falle der Autoren ist das: ArchLinux mit Kernel 4.4 und Go in Version 1.5 bis 1.6.
 
 ### Cross-Compiling
 
+Sobald eine erste öffentliche Version von ``brig`` veröffentlicht wurde, wollen
+wir vorgebaute Binärdateien für die populärsten Plattformen anbieten. Um von
+einem einzigen Host--System aus Binärdateien für andere Plattformen zu
+erstellen, kann der *Go*--Compiler mittels der Umgebungsvariablen ``GOOS`` und
+``GOARCH`` dafür konfiguriert werden. ``GOOS`` steuert dabei, die Zielplattform
+(z.B. *linux* oder *windows*), ``GOARCH`` hingegen steuert die Zielarchitektur
+der CPU (``arm``, ``386``, ``amd64``). Folgendes Shellskript kann daher genutzt
+werden, um für einen Großteil der Plattformen eine Binärdatei zu erzeugen:
+
+```bash
+#!/bin/sh
+PLATFORMS=( linux darwin windows )
+ARCHS=( 386 amd64 arm )
+OUTDIR=/tmp/brig-binaries
+
+mkdir -p "$OUTDIR"
+cd "$GOPATH/src/github.com/disorganizer/brig" || exit 1
+
+for platform in "${PLATFORMS[@]}"; do 
+    for arch in "${ARCHS[@]}"; do
+        printf "## Building %s-%s\n" $platform $arch
+        export GOARCH=$arch; export GOOS=$platform
+
+        # This calls `go install` with some extras:
+        make || exit 2
+        cp $GOBIN/brig "$OUTDIR/brig-$platform-arch"
+    done
+done
+```
+
+[^GOENV]: \url{https://golang.org/doc/install/source#environment}
+
 ## Basics
 
-## Anwendungsbeispiele
+Die Bedienung von ``brig`` ist an das Versionsverwaltungssystem ``git``
+angelehnt. Genau wie dieses, bietet ``brig`` für jede Unterfunktionalität ein
+einzelnes Subkommando an. Damit ``git``--Nutzer die Bedienung leichter fällt,
+wurden viele Subkommandos ähnlich benannt, wenn sie in etwa dasselbe tun. So
+fügen sowohl ``git add``, als auch ``brig add`` Dateien dem Repository hinzu.
+
+Es wird allerdings empfohlen nicht nur aufgrund des Namens auf die
+Funktionalität zu schließen. So fügt ``brig add`` Dateien von überall aus dem
+Dateisystem hinzu, bei ``git add`` müssen sie unterhalb des
+Repository--Wurzelverzeichnises liegen. Die Nahmensähnlichkeit soll nur als
+Anknüpfungspunkt für erfahrene Anwender dienen.
+
+## Anlegen eines Repositories
+
+Repository erklären.
+
+```bash
+$ export BRIG_PATH=/tmp/alice
+$ brig init alice@wonderland.lit/desktop
+```
+
+- Frage nach Passphrase.
+- Wiederholung des Passphrases.
+
+```bash
+tree $BRIG_PATH/.brig
+```
+
+## Dateien hinzufügen, löschen und verschieben
+
+## Mounten
+
+## Dateien teilen
