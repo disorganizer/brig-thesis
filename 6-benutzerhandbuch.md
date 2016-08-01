@@ -117,7 +117,7 @@ OUTDIR=/tmp/brig-binaries
 mkdir -p "$OUTDIR"
 cd "$GOPATH/src/github.com/disorganizer/brig" || exit 1
 
-for platform in "${PLATFORMS[@]}"; do 
+for platform in "${PLATFORMS[@]}"; do
     for arch in "${ARCHS[@]}"; do
         printf "## Building %s-%s\n" $platform $arch
         export GOARCH=$arch; export GOOS=$platform
@@ -155,6 +155,7 @@ $ brig init alice@wonderland.lit/desktop
 ```
 
 - Frage nach Passphrase.
+- Passphrase mindest komplexität, ref. auf kitteh.
 - Wiederholung des Passphrases.
 
 ```bash

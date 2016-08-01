@@ -7,6 +7,8 @@ umzusetzen. Dazu gehört unter anderem die Konzeption einer grafischen
 Oberfläche.
 
 
+Größtes Problem: Starten des Hintergrunddienstes ``brigd``.
+
 ## Anforderungen
 
 http://www.usabilitynet.org/trump/methods/recommended/requirements.htm

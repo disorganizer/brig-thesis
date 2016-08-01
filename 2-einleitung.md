@@ -43,6 +43,8 @@ Die Anforderungen lassen sich in drei Kategorien unterteilen:
 Die Kategorien beinhalten einzelne, konkretere Anforderungen, die im Folgenden
 aufgelistet und erklärt werden. Dabei wird jeweils im ersten Paragraphen die
 eigentliche Anforderung formuliert und danach beispielhaft erklärt.
+Ob und wie die Anforderung letzlich erfüllt wurde, wird in Kapitel (TODO: ref)
+betrachtet.
 
 Nicht jede Anforderung kann dabei voll umgesetzt werden. Teils überschneiden
 oder widersprechen sich Anforderungen an die Sicherheit und an die Effizienz,
