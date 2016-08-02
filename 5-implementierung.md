@@ -115,4 +115,8 @@ Portbelegung...
 
 Hürden bei entwicklung
 
+- Pull requests bei ipfs projekt
+
+(DefaultHash und Help fix)
+
 # Testsuite

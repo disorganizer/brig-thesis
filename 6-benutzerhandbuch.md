@@ -6,7 +6,7 @@ gezeigt. Im Folgenden werden die einzelnen zur Verfügung stehenden Optionen und
 Kommandos erklärt. Daneben wird auch eine Anleitung zur Installation gegeben
 und es werden Ratschläge zur optimalen Nutzung erteilt.
 
-```
+```bash
 NAME:
    brig - Secure and dezentralized file synchronization
 
@@ -43,13 +43,13 @@ COMMANDS:
      tree	List files in a tree
      ls		List files
      mkdir	Create an empty directory
-     add	Transer file into brig's control
+     add	Transer file into brig`s control
      rm		Remove the file and optionally old versions of it
      mv		Move a specific file
      cat	Concatenates a file
 
 GLOBAL OPTIONS:
-   --nodaemon, -n		Don't run the daemon
+   --nodaemon, -n		Don`t run the daemon
    --password value, -x value	Supply user password
    --path value			Path of the repository (default: ".") [$BRIG_PATH]
    --help, -h			show help
@@ -60,8 +60,8 @@ GLOBAL OPTIONS:
 
 ``brig`` kann momentan nur aus den Quellen installiert werden. Zudem wurde
 der Prototyp nur auf Linux Systemen[^SYSTEM] getestet, sollte aber prinzipiell
-auch unter Mac OSX funktionieren. Die Installation aus den Quellen ist in beiden
-Fällen relativ einfach und besteht aus maximal zwei Schritten:
+auch unter *Mac OS X* funktionieren. Die Installation aus den Quellen ist in beiden
+Fällen vergleichsweise einfach und besteht aus maximal zwei Schritten:
 
 **Installation von Go:** Falls noch nicht geschehen, muss der *Go*--Compiler
 und die mitgelieferte Standardbibliothek installiert werden. Dazu kann in Linux

@@ -1,6 +1,7 @@
 # Einleitung
 
-In diesem Kapitel wird... TODO
+In diesem Kapitel werden das Projektziel definiert und die  Anforderungen an
+eine moderne Dateisynchronisationslösung festgelegt.
 
 ## Projektziel
 
@@ -18,24 +19,24 @@ andere, verteilte Anwendungen dienen -- wie beispielsweise aus dem Industrie 4.0
 Umfeld.
 
 Als weiteres Abgrenzungsmerkmal setzt ``brig`` nicht auf möglichst hohe
-Effizienz (wie beispielsweise die meisten verteilten Dateisysteme es tun)
-sondern versucht möglichst generell anwendbar sein und über Netzwerkgrenzen
-hinweg funktioneren. Dadurch soll es zu einer Art »Standard« werden, auf denen
-sich möglichst viele Anwender einigen können.
+Effizienz (wie es typischerweise verteilte Dateisysteme tun) sondern versucht
+möglichst generell anwendbar sein und über Netzwerkgrenzen hinweg funktioneren.
+Dadurch soll es zu einer Art »Standard« werden, auf denen sich möglichst viele
+Anwender einigen können.
 
 ## Eigenschaften und Anforderungen
 
 Im Folgenden werden auf die Anforderungen eingegangen, welche ``brig`` erfüllen soll.
-Die Anforderungen lassen sich in drei Kategorien unterteilen:
+Die Anforderungen lassen sich in drei grobe Kategorien unterteilen:
 
-- Anforderungen an die Integrität: ``brig`` muss die Daten die es speichert
+- **Anforderungen an die Integrität:** ``brig`` muss die Daten die es speichert
   versionieren, auf Integrität prüfen können und korrekt wiedergeben können.
-- Anforderungen an die Sicherheit: Alle Daten die ``brig`` anvertraut werden,
+- **Anforderungen an die Sicherheit:** Alle Daten die ``brig`` anvertraut werden,
   sollten sowohl bei der Speicherung "auf der Festplatte" als auch bei der
   Übertragung zwischen Partnern verschlüsselt werden. Die Implementierung
   der Sicherheitstechniken sollte transparent von Nutzern und Experten
   nachvollzogen werden können.
-- Anforderungen an die Benutzbarkeit: Die Software soll möglichst einfach zu
+- **Anforderungen an die Benutzbarkeit:** Die Software soll möglichst einfach zu
   nutzen und zu installieren sein. Der Nutzer soll ``brig`` auf den populärsten
   Betriebssystemen nutzen können und auch Daten mit Nutzern anderer
   Betriebssysteme austauschen können.
@@ -43,15 +44,15 @@ Die Anforderungen lassen sich in drei Kategorien unterteilen:
 Die Kategorien beinhalten einzelne, konkretere Anforderungen, die im Folgenden
 aufgelistet und erklärt werden. Dabei wird jeweils im ersten Paragraphen die
 eigentliche Anforderung formuliert und danach beispielhaft erklärt.
-Ob und wie die Anforderung letzlich erfüllt wurde, wird in Kapitel (TODO: ref)
+Ob und wie die Anforderung letztlich erfüllt wurde, wird in Kapitel (TODO: ref)
 betrachtet.
 
 Nicht jede Anforderung kann dabei voll umgesetzt werden. Teils überschneiden
 oder widersprechen sich Anforderungen an die Sicherheit und an die Effizienz,
 da beispielsweise verschlüsselte Speicherung mit effizienter Dekodierung
 kollidiert. Auch ist hohe Benutzbarkeit bei gleichzeitig hohen
-Sicherheitsanforderungen schwierig umzusetzen (das Neueingeben eines Passworts
-bei jedem Zugriff mag sicherer sein, aber kaum benutzerfreundlich).
+Sicherheitsanforderungen schwierig umzusetzen. Das Neueingeben eines Passworts
+bei jedem Zugriff mag sicherer sein, aber eben leider kaum benutzerfreundlich.
 Die Anforderungen werden daher nach dieser Faustregel priorisiert:
 
 $$Benutzbarkeit \ge Sicherheit \geq Effizienz$$
@@ -61,13 +62,21 @@ da ein sehr sicheres System zwar den Nutzer beschützen kann, er wird es aber
 ungern nutzen wollen und eventuell dazu tendieren um ``brig`` herum zu arbeiten.
 Das heißt allerdings keineswegs dass ``brig`` »per Entwurf« unsicher ist.
 Es wurden lediglich auf zu invasive Sicherheitstechniken verzichtet, welche den
-Nutzer stören könnten.
-Gleichzeitig wird allerdings bei Fragen zwischen Effizienz und Sicherheit
-zugunsten der Sicherheit entschieden. (TODO: Begründung?)
+Nutzer stören könnten. Oder um Rob Pike[@pike2001security, S.24] zu zitieren:
 
-Die Anforderungen sind teilweise an die Eigenschaften des verteilten Dateisystems
-*Infinit* (beschrieben in [@quintard2012towards], siehe S.39) angelehnt und
-an die Ausrichtung von ``brig`` angepasst wurden.
+```
+	Weak security that’s easy to use will help more people than strong
+	security that’s hard to use. For example door locks.
+```
+
+Bei Fragen zwischen Effizienz und Sicherheit wird allerdings eher zugunsten der
+Sicherheit entschieden. Man könnte hier argumentieren, dass die Effizienz durch
+bessere Hardware von alleine steigt, die Sicherheit hingegen nicht.
+(TODO: srsly?)
+
+Die unten stehenden Anforderungen sind teilweise an die Eigenschaften des
+verteilten Dateisystems *Infinit* (beschrieben in [@quintard2012towards], siehe
+S.39) angelehnt und an die Ausrichtung von ``brig`` angepasst wurden.
 
 ### Anforderungen die Integrität
 
@@ -80,10 +89,10 @@ der Metadaten der Dateien, die jeder Teilnehmer besitzt. Durch die Entkopplung
 zwischen Metadaten und tatsächlichen Metadaten ist es möglich bestimmte Dateien
 »on-demand« und für den Nutzer transparent zu übertragen.
 
-Der Hauptvorteil einer dezentralen Architektur ist die erhöhte Ausfallsicherheit
-und der Fakt, dass das Netzwerk durch seine Nutzer entsteht und keine besondere
-Infrastruktur benötigt. Stattdessen funktioniert ``brig`` als *Overlay--Netzwerk* (Siehe [@peer2peer], S.8)
-über das Internet.
+Der Hauptvorteil einer dezentralen Architektur ist die erhöhte
+Ausfallsicherheit und der Fakt, dass das Netzwerk durch seine Nutzer entsteht
+und keine besondere Infrastruktur benötigt. Stattdessen funktioniert ``brig``
+als *Overlay--Netzwerk* (Siehe [@peer2peer], S.8) über das Internet.
 
 **Pinning:** Der Nutzer soll Kontrolle darüber haben, welche Dateien er lokal
 auf seinem Rechner speichert und welche er von anderen Teilnehmern dynamisch
@@ -114,7 +123,6 @@ Verarbeitung im Hauptspeicher, SSDs die Strahlung ausgesetzt sind oder
 konventionelle Festplatten mit beschädigten Platten die geschriebenen Daten
 verändern. Ist die Datei nur einmal gespeichert worden, kann sie von
 Softwareseite aus nicht mehr fehlerfrei hergestellt werden.
-
 Um diese Fehlerquelle zu verkleinern sollte eine Möglichkeit zur redundanten
 Speicherung geschaffen werden, bei der eine minimale Anzahl von Kopien einer
 Datei konfiguriert werden kann.
@@ -131,7 +139,7 @@ schwierig. Eine mögliche Lösung wäre die Einrichtung eines automatsierten Kno
 der ständig verfügbar ist. Statt Dateien direkt miteinander zu teilen, könnte Nutzer
 diesen Knoten als Zwischenlager benutzen.
 
-(TODO: GrafiK?)
+(TODO: Grafik?)
 
 **Integrität:** Es muss sichergestellt werden, dass absichtliche oder
 unabsichtliche Veränderungen an den Daten festgestellt werden können.
@@ -146,7 +154,7 @@ Aus diesem Grund sollte das Dateiformat von ``brig`` mittels *Message Authentica
 Codes* (MACs) sicherstellen können, dass die gespeicherten Daten denen
 entsprechen, welche ursprünglich hinzugefügt worden sind.
 
-### Sicherheit
+### Anforderungen an die Sicherheit
 
 **Verschlüsselte Speicherung:** Die Daten sollten verschlüsselt auf der
 Festplatte abgelegt werden und nur bei Bedarf wieder entschlüsselt werden.
@@ -233,7 +241,7 @@ Dies hat aus unserer Sich folgende wesentlichen Vorteile:
 - Der *Ressourcen*--Teil hinter dem ``/`` ermöglicht die Nutzung desselben Nutzernamens auf verschiedenen Geräten,
   wie ``desktop`` oder ``laptop``.
 
-[^JID]: \url{https://de.wikipedia.org/wiki/Jabber_Identifier}
+[^JID]: Mehr Details unter: \url{https://de.wikipedia.org/wiki/Jabber_Identifier}
 
 **Transparenz:** Die Implementierung aller oben genannten Sicherheitsfeatures
 muss für Anwender und Entwickler nachvollziehbar und verständlich sein. Durch
@@ -244,20 +252,20 @@ zu bekommen. Desweiteren wird auch die Weiterentwicklung der Software offen geha
 
 [^SECNOTE]: TODO: Sicherheitslücken sollten vertraulich gemeldet werden. (TODO: ref kitteh arbeit?)
 
-### Benutzbarkeit
+### Anforderung an die Benutzbarkeit
 
-*Anmerkung:* In Kapitel 7 (TODO: ref) werden weitere Anforderungen zur Benutzbarkeit in Bezug
-auf eine grafische Oberfläche definiert. Da diese nicht für die Gesamtheit der Software relevant sind,
-werden sie hier ausgelassen.
+*Anmerkung:* In Kapitel 7 (TODO: ref) werden weitere Anforderungen zur
+Benutzbarkeit in Bezug auf eine grafische Oberfläche definiert. Da diese nicht
+für die Gesamtheit der Software relevant sind, werden sie hier ausgelassen.
 
 **Automatische Versionierung:** Die Dateien die ``brig`` verwaltet, sollen automatisch versioniert
-werden. Die Versionierung soll dabei in Form von Checkpoints bei jeder Dateiänderung
-erfolgen. Größere Mengen von Checkpoints können manuell oder per Timer in einem
-zusammenhängenden Commit zusammengefasst werden. Die Menge an Dateien die in alter Version
+werden. Die Versionierung soll dabei in Form von *Checkpoints* bei jeder Dateiänderung
+erfolgen. Größere Mengen von Checkpoints können manuell oder per *Timer* in einem
+zusammenhängenden *Commit* zusammengefasst werden. Die Menge an Dateien die in alter Version
 vorhanden sind werden durch eine Speicher-Quota geregelt, die nicht überschritten wird.
 Wird dieses Limit überschritten, so werden die ältesten Dateien von der lokalen Maschine
 gelöscht. Die jeweiligen Checkpoints sind aber noch  vorhanden und der darin verwiesene
-Satand kann von anderen Teilnehmern aus dem Netzwerk geholt werden, falls verfügbar.
+Stand kann von anderen Teilnehmern aus dem Netzwerk geholt werden, falls verfügbar.
 
 Nutzer tendieren oft dazu mehrere Kopien einer Datei unter verschiedenen Orten als Backup
 anzulegen. Leider artet dies erfahrungsgemäß in der Praxis oft dazu aus, dass Dateinamen
@@ -310,9 +318,15 @@ Alternativ können sie die entsprechende Datei mit einem öffentlichen Gateway t
 von Freiwilligen betrieben wird. Solche öffentlichen Gateways wären die einzige
 öffentlich getragene  Infrastruktur.
 
-**Stabilität:** Die Software muss ohne Abstürze und offensichtliche Fehler funktionieren.
+**Stabilität:** Die Software muss ohne Abstürze und offensichtliche Fehler
+funktionieren. Eine umfangreiche Testsuite soll die Fehlerfreiheit der Software
+beweisen, quantisierbar machen und die Weiterentwicklung erleichtern.
 
-TODO: Testsuite bla.
+**Effizienz:** Die Geschwindigkeit der Software auf durchschnittlicher Hardware
+schnell genug sein, um den Anwender ein flüssiges Arbeiten ermöglichen zu
+können. Die Geschwindigkeit sollte durch eine Benchmarksuite messbar gemacht
+werden und bei jedem neuen Release mit dem Vorgänger verglichen werden.
+
 
 ## Zielgruppen
 
@@ -324,6 +338,9 @@ muss. Hier wären in erster Linie Journalisten, Anwälte, Ärzte mit
 Schweigepflicht auch Aktivisten und politisch verfolgte Minderheiten, zu
 nennen.
 
+Im Folgenden werden die verschiedenen Zielgruppen und Plattformen genauer
+besprochen und wie diese von ``brig`` profitieren können.
+
 ### Unternehmen
 
 Unternehmen können ``brig`` nutzen, um ihre Daten und Dokumente intern zu
@@ -331,8 +348,10 @@ verwalten. Besonders sicherheitskritische Dateien entgehen so der Lagerung in
 Cloud--Services oder der Gefahr von Kopien auf unsicheren
 Mitarbeiter--Endgeräten. Größere Unternehmen verwalten dabei meist ein
 Rechenzentrum in dem firmeninterne Dokumente gespeichert werden. Von den
-Nutzern werden diese dann meist mittels Diensten wie *ownCloud* oder *Samba*
+Nutzern werden diese dann meist mittels Diensten wie *ownCloud*[^NEXTCLOUD] oder *Samba*
 »händisch« heruntergeladen.
+
+[^NEXTCLOUD]: Siehe auch \url{https://owncloud.org}, bzw. dessen Fork *Nextcloud* \url{https://nextcloud.com/}
 
 In diesem Fall könnte man ``brig`` im Rechenzentrum und auf allen Endgeräten
 installieren. Das Rechenzentrum würde die Datei mit tiefer Versionierung
@@ -399,23 +418,34 @@ realisiert werden.
 
 ## Einsatszenarien
 
-``brig`` soll letztendlich deutlich flexibler nutzbar sein als zentrale Dienste
-und vergleichbare Software. Nutzbar soll es sein als…
+Kurz zusammengefasst soll ``brig`` also in folgenden Einsatszenarien praktikabel nutzbar sein:
 
-- *Synchronisationslösung*: Spiegelung von zwei oder mehr Ordnern.
-- *Transferlösung*: »Veröffentlichen« von Dateien nach Außen mittels Hyperlinks.
-- *Versionsverwaltung*: Bis zu einer konfigurierbaren Tiefe können Dateien wiederhergestellt werden.
-- *Backup- und Archivierungslösung*: Verschiedene »Knoten--Typen« möglich.
-- *Verschlüsselter Safe*: ein »Repository«[^REPO] kann »verschlossen« und wieder »geöffnet« werden.
-- *Semantisch durchsuchbares* Tag-basiertes Dateisystem[^TAG].
-- *Plattform* für verteilte und sicherheitskritische Anwendungen.
-- …einer beliebigen Kombination der oberen Punkte.
+**Synchronisationslösung:** Spiegelung von zwei oder mehr Ordnern und das Teilen desselben
+zwischen mehreren Nutzern. Eine selektive Synchronisation ist vorerst nicht vorgesehen.
 
-[^TAG]: Mit einem ähnlichen Ansatz wie \url{https://en.wikipedia.org/wiki/Tagsistant}
+**Transferlösung:** »Veröffentlichen« von Dateien nach Außen mittels *Gateways* über den Browser.
+				TODO: Gateway erklären/einführen?
+
+**Versionsverwaltung:** Bis zu einer konfigurierbaren Tiefe können Dateien wiederhergestellt werden.
+
+**Backup- und Archivierungslösung:** Verschiedene »Knoten--Typen« möglich.
+
+**Verschlüsselter Safe:** ein »Repository«[^REPO] kann »verschlossen« und wieder »geöffnet« werden.
+
+**Plattform:** für verteilte und sicherheitskritische Anwendungen.
+
 [^REPO]: *Repository:* Hier ein »magischer« Ordner in denen alle Dateien im Netzwerk angezeigt werden.
-
 
 ## Annahmen
 
-- Sicherheit der verwendeten Algorithmen gewährleistet -> Quantencomputer.
-- IPFS Annahmen:
+Die oben gemachten Aussagen fußen auf einigen Annahmen, die im Folgenden aufgelistet werden:
+
+* IPFS Annahmen:
+
+	- IPFS ist ein globales Netz über dem Internet
+	- ausreichend hohe Geschwindigkeit
+	- stete Weiterentwicklung
+
+* Netzwerk-setup "normal"
+
+* Sicherheit der verwendeten Algorithmen gewährleistet -> Quantencomputer.

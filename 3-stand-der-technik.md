@@ -1,8 +1,20 @@
 # Stand der Technik
 
+In diesem Kapiteln wird ein kurzer Überblick über die wissenschaftlichen
+Arbeiten zum Thema Peer--to--Peer--Dateisysteme und Dateisynchronisation
+gegeben. Im Anschluss werden einige der derzeit verfügbaren und populären
+Softwarelösungen zur Dateisynchronisation untersucht. Schließlich wird *IPFS*
+als Grundlage von ``brig`` vorgestellt und beleuchtet warum es eine geeignete
+technische Basis bildet.
+
 ## Wissenschaftliche Ansätze
 
-### Theorie zu P2p Netzwerken
+- Peer--to--Peer Netzwerke sind ein relativ gut erforschtes Thema.
+- werden zum Dateiaustausch benutzt, siehe. Bittorrent
+- Aufteilung der Teile in Blöcke
+- Nutzung einer Distributed Hash Table
+
+### Theorie zu P2P Netzwerken
 
 - Distributed Hashtable
 - Bittorrent vergleich
@@ -54,7 +66,7 @@ Technisch nachteilhaft ist vor allem, dass jede Datei »über den Pazifik« hinw
 synchronisiert werden muss, nur um schließlich auf dem Arbeitsrechner 
 »nebenan« anzukommen.
 
-#### ownCloud
+#### ownCloud / nextCloud
 
 Aus dieser Problemstellung heraus entstand die Open--Source Lösung *ownCloud*.
 Nutzer hosten auf ihren Servern selbst eine ownCloud--Instanz und stellen
@@ -64,7 +76,6 @@ lediglich auf eigene Server übertragen wird. Einerseits ist ownCloud nicht so
 stark wie ``brig`` auf Sicherheit fokussiert, andererseits ist die Installation
 eines Serversystems für viele Nutzer eine »große« Hürde und somit zumindest für
 den Heimanwender nicht praktikabel.
-
 
 #### Syncthing
 
@@ -198,8 +209,8 @@ dient als Geheimnis mit dem ein Knoten seine Identität nachweisen kann.
 
 [^CAN]: Siehe auch: \url{https://en.wikipedia.org/wiki/Content_addressable_network} (TODO: eigenes buch referenzieren)
 
-Im Folgenden werden die Verhaltensweisen, Features und Limitationen von ``IPFS`` kurz vorgestellt, welche aus
-Sicht  von ``brig`` wichtig sind.
+Im Folgenden werden die Verhaltensweisen, Features und Limitationen von
+``IPFS`` kurz vorgestellt, welche aus Sicht  von ``brig`` wichtig sind.
 
 ### Pinning
 

@@ -1,5 +1,9 @@
 # Erweiterungen
 
+- *Semantisch durchsuchbares* Tag-basiertes Dateisystem[^TAG].
+
+[^TAG]: Mit einem ähnlichen Ansatz wie \url{https://en.wikipedia.org/wiki/Tagsistant}
+
 ## Was ``brig`` *nicht* ist
 
 Auch wenn ``brig`` sehr flexibel einsetzbar ist, ist und soll es keineswegs die
