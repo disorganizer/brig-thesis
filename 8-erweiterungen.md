@@ -34,3 +34,5 @@ laufen, um mit der Gegenseite zu kommunizieren.
 ## Zukünftige Erweiterungen
 
 Update Mechanismus?
+
+https://github.com/attic-labs/noms

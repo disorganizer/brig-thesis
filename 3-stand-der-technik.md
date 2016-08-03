@@ -1,27 +1,114 @@
 # Stand der Technik
 
 In diesem Kapiteln wird ein kurzer Überblick über die wissenschaftlichen
-Arbeiten zum Thema Peer--to--Peer--Dateisysteme und Dateisynchronisation
-gegeben. Im Anschluss werden einige der derzeit verfügbaren und populären
-Softwarelösungen zur Dateisynchronisation untersucht. Schließlich wird *IPFS*
-als Grundlage von ``brig`` vorgestellt und beleuchtet warum es eine geeignete
-technische Basis bildet.
+Arbeiten und Begrifflichkeiten zum Thema Peer--to--Peer--Dateisysteme und
+Dateisynchronisation gegeben. Im Anschluss werden einige der derzeit
+verfügbaren und populären Softwarelösungen zur Dateisynchronisation untersucht.
+Schließlich wird *IPFS* als Grundlage von ``brig`` vorgestellt und beleuchtet
+warum es eine geeignete technische Basis bildet.
+
+## Begrifflichkeiten
+
+An dieser Stelle wird eine kurze Zusammenfassung der Begrifflichkeiten gegeben,
+welche zum Verständnis der folgenden Kapitel notwendig sind.
+
+(TODO: https://github.com/ipfs/specs/blob/master/libp2p/2-state-of-the-art.md irgendwo verlinken?)
+
+### Einführung
+
+Peer-to-Peer (kurz *P2P*) Netzwerke sind gut erforscht, aber bei weitem nicht
+so weit verbreitet wie typische *Client/Server Architekturen*. Protokolle wie
+Bittorrent (TODO: ref) fristen trotz ihrer Flexibilität eher ein Nischen-Dasein
+beim Dateiaustausch. Das mag vor allem praktische Gründe haben: Die Teilnehmer
+eines P2P--Netzwerks müssen etwas zum Netzwerk beitragen. Je nach Einsatzzweck
+kann diese beizutragende Ressource Bandbreite, CPU--Zeit oder Ähnliches sein.
+Außerdem passt das Client/Server Modell auf viele Anwendungszwecke, wie ein
+Unternehmen das seinen Kunden einen Dienst oder eine Webseite anbietet. Zudem
+haben solche 'wohl-bekannten' Dienste kein Problem mit NAT Traversal (TODO:
+erklären).
+
+Dabei skalieren Client/Server Anwendungen bei weitem schlechter als verteilte
+Anwendungen. Man stelle sich einen Vorlesungssaal mit 50 Studenten vor, die ein
+Festplattenimage (Größe 5 Gigabyte) aus dem Internet laden sollen. Bei einer
+Client/Server Anwendung werden hier 50 Verbindungen zu einem Filehoster
+geöffnet. Der Flaschenhals dabei ist in diesem Fall vermutlich das WLAN im
+Saal, welches stark zusammenbrechen würde. Anders ist es wenn die Rechner der
+Studenten ein verteiltes Netzwerk bilden. Hier genügt es wenn nur ein Rechner
+einen Teil der Datei hat. Diesen Teil kann er im lokalen Netz anderen
+Teilnehmern wieder anbieten und sich Teile der Datei besorgen, die er selbst
+noch nicht hat. So muss in der Theorie die Datei nur maximal einmal über das
+WLAN übertragen werden. In diesem etwas konstruierten Beispiel hätte man also
+ein Speedupfaktor von ca. 50.
+
+(TODO: veranschaulichungsgrafik)
+
+### Aufbau eines P2P Netzwerks
+
+Eine P2P--Netzwerk wird aus den Rechnern seiner Teilnehmer aufgebaut (oft
+*Knoten* genannt). Bemerkenswert ist dabei, dass keine zentrale Instanz sich um
+die Koordination des Datenflusses im Netzwerk kümmern muss. Die Grundlage für
+die Koordination bildet dabei die *Distributed Hashtable* (dt. verteilte
+Hashtabelle). Diese nutzt eine *Hashfunktion*, um für einen bestimmten
+Datensatz zu entscheiden, welche Knoten (mindestens aber einer) im Netzwerk für
+diesen Datensatz zuständig ist. Jeder Knoten verwaltet dabei einen bestimmten
+Wertebereich der Hashfunktion und ist für diese Hashwerte zuständig. Werden
+neue Knoten hinzugefügt oder andere verlassen das Netz, werden die Wertebereich
+neu verteilt.
+
+Werden ganze Dateien in das Netzwerk »gelegt«, so können diese je nach
+Anwendung in kleine Teilblöcke aufgeteilt werden, für die jeweils unterschiedliche
+Knoten zuständig sind. Wie die einzelnen Blöcke zusammenhängen, kann beispielsweise
+in einer *Torrent*--Datei definiert sein.[^BITTORRENT]
+
+[^BITTORRENT]: Anmerkung: Bei Bittorrent kümmert sich ein *Tracker* um das Auffinden von zuständigen Knoten.
+
+### Dateisynchronisation in P2P-Netzwerken
+
+Ein häufiges Problem bei Filesharing--Netzwerken wie *Bittorrent* ist, dass
+viele Dateien nach einiger Zeit nicht mehr erreichbar sind, da es keine Knoten
+mehr gibt, welche die Blöcke der Datei *seeden* (dt. sähen, also verteilen).
+Auch ist es nur problematisch, wenn nur wenige Teilnehmer eine Block *seeden*,
+während viele andere Teilnehmer den Block herunterladen wollen.[^LEECHER] Für
+einen globale und dauerhafte Dateisynchronisation ist das
+*Bittorrent*--Protokoll also nur bedingt geeignet.
+
+Diese Problemen mildern sich deutlich ab wenn man nur eine vergleichsweise kleine
+Anzahl von Knoten verwalten muss, bei dem jeder Knoten den anderen kennt ---
+eine Vorbedingung, die bei sicherer Dateisynchronisation durchaus anzunehmen ist.
+
+[^LEECHER]: Die einseitig herunterladenden Teilnehmern werden dabei häufig als *Leecher* bezeichnet.
 
 ## Wissenschaftliche Ansätze
 
-- Peer--to--Peer Netzwerke sind ein relativ gut erforschtes Thema.
-- werden zum Dateiaustausch benutzt, siehe. Bittorrent
-- Aufteilung der Teile in Blöcke
-- Nutzung einer Distributed Hash Table
+Es gibt viele unterschiedliche Arbeiten rund um das Thema der Dateiverteilung
+in P2P--Netzwerken. Relativ wenige (TODO: refs?) konzentrieren sich dabei aber
+auf das Thema der Dateisynchronisation, wo nicht nur eine Datei ausgetauscht
+wird, sondern ein Menge von Dateien auf dem selben Stand gehalten wird. Die
+vorhandenen Arbeiten legen ihren Fokus dabei meist auf verteilte Dateisysteme,
+die sehr ähnliche Probleme lösen müssen, aber mehr auf Effizienz als auf
+Einfachheit ihren Wert legen.
 
-### Theorie zu P2P Netzwerken
+Stellvertretend für eine solche Arbeit soll hier die Disseration von Julien
+Quintard »Towards a worldwide storage infrastructure«[@quintard2012towards]
+genannt werden. In dieser wird die Implementierung und die Konzepte hinter dem
+verteilten Dateisystem *Infinit* vorgestellt. Obwohl der Fokus hier auf
+Effizienz liegt, hat *Infinit* einige auffällige Ähnlichkeiten mit ``brig``:
 
-- Distributed Hashtable
-- Bittorrent vergleich
-- Chunking (miller rabin)
-- Begriffe allgemein einführen und referenzieren
+* Weltumspannendes P2P-Netzwerk als Grundlage.
+- Nutzung von FUSE (TODO: ref) als Frontend zum Nutzer.
+- Verschlüsselte und komprimierte Speicherung der Daten.
+* Eingebaute Deduplizierung.
+* Versionierung ist vorhanden.
+
+Der Hauptunterschied ist allerdings die Zielgruppe. Während das bei ``brig``
+der »Otto--Normal--Nutzer« als kleinster Nenner ist, so ist *Infinit* auf
+Entwickler und Adminstratoren ausgelegt.
+
+[^INFINIT]: Mehr Informationen unter: \url{https://infinit.sh}
 
 ## Markt und Wettbewerber
+
+TODO: Diesen Teil überarbeiten, wurde aus Expose übernommen.
 
 Bereits ein Blick auf Wikipedia[@wiki_filesync] zeigt, dass der momentane Markt
 an Dateisynchronisationssoftware (im weitesten Sinne) sehr unübersichtlich ist.
@@ -167,9 +254,9 @@ unserer Sicht wichtigsten Eigenschaften:
 | ``brig`` (Prototyp)  | \cmark              | \xmark              | \textcolor{YellowOrange}{Auf Linux} |  \cmark             | \cmark          |
 | ``brig`` (Ziel)      | \cmark              | \cmark              | \cmark                     |  \cmark             | \cmark          | 
 
-## Interplanetary Filesystem
+## IPFS: Das Interplanetary Filesystem
 
-Anstatt das Rad neu zu erfinden, setzt ``brig`` auf das relativ neue
+Anstatt das Rad neu zu erfinden, setzt ``brig`` auf das relativ junge
 *Interplanetary Filesystem* (kurz ``IPFS``), welches von Juan Benet und seinen
 Mitentwicklern unter der MIT--Lizenz in der Programmiersprache Go entwickelt
 wird (siehe auch das Original--Paper[@benet2014ipfs]). Im Gegensatz zu den
@@ -205,12 +292,27 @@ Angriffe zu schützen) erweitert und abgesichert wurde. *S/Kademlia* verlangt
 dabei, dass jeder Knoten im Netzwerk über ein Paar von öffentlichen und
 privaten Schlüssel verfügt. Die Prüfsumme des öffentlichen Schlüssels dient
 dabei als einzigartige Identifikation des Knotens und der private Schlüssel
-dient als Geheimnis mit dem ein Knoten seine Identität nachweisen kann.
+dient als Geheimnis mit dem ein Knoten seine Identität nachweisen kann. Diese
+Kernfunktionalitäten sind bei ``IPFS`` in einer separaten Bibliothek namens
+``libp2p``[^LIBP2P] untergebracht, welche auch von anderen Programmen genutzt
+werden kann.
 
 [^CAN]: Siehe auch: \url{https://en.wikipedia.org/wiki/Content_addressable_network} (TODO: eigenes buch referenzieren)
+[^LIBP2P]: Mehr Informationen in der Dokumentation unter: \url{https://github.com/ipfs/specs/tree/master/libp2p}
 
 Im Folgenden werden die Verhaltensweisen, Features und Limitationen von
 ``IPFS`` kurz vorgestellt, welche aus Sicht  von ``brig`` wichtig sind.
+
+### Weltweites Netzwerk
+
+Standardmäßig nehmen alle *IPFS* Knoten an einem zusammenhängenden, weltweiten Netzwerk teil.
+
+
+(TODO: Screenshot von Weltkugel machen?)
+
+### Merkle DAG
+
+Ein gerichteter, azyklischer Graph, 
 
 ### Pinning
 
@@ -218,6 +320,5 @@ Im Folgenden werden die Verhaltensweisen, Features und Limitationen von
 
 ### Public Key Infrastructure
 
-### Merkle Tree
 
 ### Service Discovery

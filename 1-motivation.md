@@ -77,7 +77,7 @@ Diese Arbeit wird einen Überblick über die aktuelle Implementierung und die
 Designentscheidungen dahinter geben, sowie die notwendigen Techniken beleuchten.
 Wie oben bereits erwähnt, schildert Herr Piechula in seiner Arbeit (TODO: ref) 
 die Sicherheitskonzepte im Detail, weshalb diese hier nur oberflächlich
-angeschnitten werden. 
+angeschnitten werden.
 
 Die vorliegende Arbeit ist in vier große logische Blöcke gegliedert:
 
