@@ -47,7 +47,7 @@ sehr flexible und dezentrale Arbeitsweise bestehende zentrale Alternativen wie
 ``svn`` oder ``cvs`` fast vollständig abgelöst. Zusätzlich ist der Gesamteinsatz
 von Versionsverwaltungssystemen durch die verhältnismäßige einfache Anwendung
 gestiegen. Wir hoffen mit ``brig`` eine ähnlich flexible Lösung für große
-Dateien etablieren zu können. 
+Dateien etablieren zu können.
 
 ## Lizenz
 

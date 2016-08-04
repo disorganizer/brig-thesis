@@ -24,6 +24,9 @@ möglichst generell anwendbar sein und über Netzwerkgrenzen hinweg funktioneren
 Dadurch soll es zu einer Art »Standard« werden, auf denen sich möglichst viele
 Anwender einigen können.
 
+Um ein Eindruck von ``brig`` und seinen (angestrebten) Fähigkeiten in der Praxis
+zu bekommen, ist das *Benutzerhandbuch* in Kapitel 6 empfohlen (TODO).
+
 ## Eigenschaften und Anforderungen
 
 Im Folgenden werden auf die Anforderungen eingegangen, welche ``brig`` erfüllen soll.

@@ -116,6 +116,7 @@ Portbelegung...
 Hürden bei entwicklung
 
 - Pull requests bei ipfs projekt
+ und andere
 
 (DefaultHash und Help fix)
 

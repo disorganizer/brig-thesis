@@ -5,7 +5,7 @@ Arbeiten und Begrifflichkeiten zum Thema Peer--to--Peer--Dateisysteme und
 Dateisynchronisation gegeben. Im Anschluss werden einige der derzeit
 verfügbaren und populären Softwarelösungen zur Dateisynchronisation untersucht.
 Schließlich wird *IPFS* als Grundlage von ``brig`` vorgestellt und beleuchtet
-warum es eine geeignete technische Basis bildet.
+warum es unserer Ansicht nach eine geeignete technische Basis bildet.
 
 ## Begrifflichkeiten
 
@@ -104,6 +104,8 @@ Der Hauptunterschied ist allerdings die Zielgruppe. Während das bei ``brig``
 der »Otto--Normal--Nutzer« als kleinster Nenner ist, so ist *Infinit* auf
 Entwickler und Adminstratoren ausgelegt.
 
+TODO: `bazil` erwähnen.
+
 [^INFINIT]: Mehr Informationen unter: \url{https://infinit.sh}
 
 ## Markt und Wettbewerber
@@ -114,12 +116,12 @@ Bereits ein Blick auf Wikipedia[@wiki_filesync] zeigt, dass der momentane Markt
 an Dateisynchronisationssoftware (im weitesten Sinne) sehr unübersichtlich ist.
 Ein näherer Blick zeigt, dass die Softwareprojekte dort oft nur in Teilaspekten
 gut funktionieren oder mit anderen unlösbaren Problemen behaftet sind. Manch
-andere Software wie ``bazil``[^BAZIL] oder ``infinit``[^INFINIT] ist
+andere Software wie ``bazil``[^BAZIL] oder ``infinit``[^INFINIT_WEB] ist
 vielversprechender, allerdings ebenfalls noch im Entstehen und im Falle von
 ``infinit`` auch nur teilweise quelloffen.
 
 [^BAZIL]: Webpräsenz: \url{https://bazil.org}
-[^INFINIT]: Webpräsenz: \url{http://infinit.sh}
+[^INFINIT_WEB]: Webpräsenz: \url{http://infinit.sh}
 
 ## Verschiedene Alternativen
 
@@ -300,25 +302,194 @@ werden kann.
 [^CAN]: Siehe auch: \url{https://en.wikipedia.org/wiki/Content_addressable_network} (TODO: eigenes buch referenzieren)
 [^LIBP2P]: Mehr Informationen in der Dokumentation unter: \url{https://github.com/ipfs/specs/tree/master/libp2p}
 
-Im Folgenden werden die Verhaltensweisen, Features und Limitationen von
-``IPFS`` kurz vorgestellt, welche aus Sicht  von ``brig`` wichtig sind.
+Im Folgenden werden die Eigenschaften von ``IPFS`` kurz vorgestellt, welche von
+``brig`` genutzt werden. Einige interessante Features wie das *Naming System* (IPNS),
+und der *Record Store* (IPLD) werden dabei ausgelassen, da sie für ``brig`` (noch)
+keine praktische Bedeutung haben:
 
-### Weltweites Netzwerk
+**Weltweites Netzwerk:** Standardmäßig nehmen alle *IPFS* Knoten an einem
+zusammenhängenden, weltweiten Netzwerk teil. (TODO: Screenshot von Weltkugel
+machen?)
 
-Standardmäßig nehmen alle *IPFS* Knoten an einem zusammenhängenden, weltweiten Netzwerk teil.
+Um sich zum Netzwerk zu verbinden, müssen erst einmal passende Knoten »in der
+Nähe« des neuen Knotens gefunden werden. Dazu verbindet sich *IPFS* beim Start
+des ``ipfs daemon`` mit einigen, wohlbekannten *Bootstrap--Nodes*, dessen
+Adressen bei der Software mitgeliefert werden. Diese können dann wiederum den
+neuen Knoten an ihnen bekannte, passendere Knoten vermitteln. Die Menge der so
+entstandenen verbundenen Knoten nennt *IPFS* den *Swarm* (dt. Schwarm). Ein
+Nachbarknoten wird auch *Peer* genannt.
 
+Falls gewünscht, kann allerdings auch ein abgeschottetes Subnetz erstellt
+werden. Dazu ist es lediglich nötig, die *Bootstrap*--Nodes durch Knoten
+auszutauschen, die man selbst kontrolliert. Unternehmen könnten diesen Ansatz
+wählen, falls ihr Netzwerk komplett von der Außenwelt abgeschottet ist. Wie in
+Kapitel 4 (TODO: ref) beleuchtet wird, ist dieses Vorgehen nicht direkt aus
+Sicherheitsgründen notwendig.
 
-(TODO: Screenshot von Weltkugel machen?)
+**Operation auf Hashes:** *IPFS* arbeitet nicht mit herkömmlichen Dateipfaden,
+sondern nur mit der Prüfsumme[^IPFS_HASH] einer Datei. Im folgenden Beispiel
+wird eine Photo--Datei mittels der ``ipfs``--Kommandozeile in das Netzwerk
+gelegt:[^IPFS_DAEMON]
 
-### Merkle DAG
+```bash
+$ ipfs add my-photo.png
+QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
+```
 
-Ein gerichteter, azyklischer Graph, 
+[^IPFS_DAEMON]: Voraussetzung hierfür ist allerdings, dass der ``ipfs``--Daemon
+vorher gestartet wurde und ein Repository mittels ``ipfs init`` erzeugt wurde.
 
-### Pinning
+[^IPFS_HASH]: *Anmerkung:* *IPFS* nutzt ein spezielles Format um Hashes zu
+repräsentieren. Die ersten zwei Bytes einer Prüfsumme repräsentieren dabei den
+verwendeten Algorithmus und die Länge der darauf folgenden, eigentlichen
+Prüfsumme. Die entstandene Byte--Sequenz wird dann mittels ``base58``
+enkodiert, um sie menschenlesbar zu machen. Da der momentane
+Standardalgorithmus ``sha256`` ist, beginnt eine von *IPFS* generierte
+Prüfsumme stets mit ``Qm``. Mehr Informationen unter:
+\url{github.com/multiformats/multihash}
 
-### Dezentrales Routing
+Auf einem anderen Computer, mit laufenden ``ipfs``--Daemon, ist das Empfangen
+der Datei möglich, indem der Hash an ``ipfs cat`` gegeben wird. Dabei wird für
+den Nutzer transparent über die DHT ein Peer ausfindig gemacht, der die Datei
+anbieten kann:
 
-### Public Key Infrastructure
+```bash
+$ ipfs cat QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG > my-photo.png
+```
 
+Im Hintergrund wird die Datei dabei in kleinere Blöcke zerlegt. Von jedem Block
+wird ein Hashwert erstellt und alle Hashwerte in einem sogenannten *Merkle-DAG*
+(*Directed Acyclic Graph*). Diese Struktur ist ähnlich zu einem Merkle--Tree
+(TODO: ref), erlaubt aber zusätzlich beliebige Verlinkungen zwischen den
+Kindknoten. Der Einsatz dieser Datenstruktur hat mehrere Vorteile:
 
-### Service Discovery
+* Der Wurzelknoten hat eine Prüfsumme, die aus den Unterprüfsummen erstellt wird.
+* *Authentifizierung:* Eine Änderung der Blöcke unten resultiert zwangsweise
+  in eine Änderung der Prüfsumme oben.
+* *Deduplizierung:* Doppelte Blöcke müssen nur einmal gespeichert werden und
+  können durch Verlinkung repräsentiert werden. Das reduziert sowohl
+  Speicherkosten, als auch Übertragungsaufwand. Wie wir später sehen werden (TODO: ref) ist 
+  dieses Konzept aber nur bedingt bei ``brig`` übertragbar.
+
+Auch ganze Verzeichnisse können in einem *Merkle--DAG* gespeichert werden,
+intern werden diese ähnlich wie bei ``tar`` in eine große Datei zusammengeführt.
+
+(TODO: Grafik)
+
+### Public--Key Infrastructure
+
+Jeder Knoten im *IPFS*--Netzwerk besitzt ein RSA--Schlüsselpaar, welches beim
+Anlegen des Repositories erzeugt wird. Basierend auf den öffentlichen Schlüssel
+wird eine Prüfsumme errechnet, die dazu genutzt wird einen Knoten eindeutig zu
+identifizieren. Mithilfe dieser Identität ist es möglich, andere Nutzer im
+Netzwerk nachzuschlagen und deren öffentlichen Schlüssel zu empfangen:
+
+```bash
+# Nachschlagen des öffentlichen Schlüssels eines zufälligen Bootstrap-Nodes:
+$ ipfs id QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ
+{
+  "ID": "Qmdx8h9589Gk3ApQr35S4K8P8Q6cGmsioGBvHRGVzB3b7G",
+  "PublicKey": "CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK[...]",
+  ...
+}
+```
+
+Der öffentliche Schlüssel kann dazu genutzt werden, mit seinem Peer
+mittels asymmetrischer Verschlüsselung eine verschlüsselte Verbindung
+aufzubauen. Von ``brig`` wird dieses Konzept weiterhin genutzt, um eine Liste
+vertrauenswürdiger Knoten zu verwalten. Jeder Peer muss bei Verbindungsaufbau
+nachweisen, dass er den zum öffentlichen passenden privaten Schlüssel besitzt.
+Der genaue Ablauf dieser Authentifikation kann in [TODO ref kitteh] nachgelesen werden.
+
+**Pinning und Caching:** Das Konzept von *IPFS* basiert darauf, dass Knoten nur
+das speichern, worin sie auch interessiert sind. Daten, die von außen zum
+eigenen Knoten übertragen worden sind werden nur kurzzeitig zwischengelagert.
+Nach einiger Zeit bereinigt der eingebaute Garbage--Collector die Daten im
+*Cache*.[^IPFS_MANUAL_GC]
+
+Werden Daten allerdings über den Knoten selbst hinzugefügt, so bekommen sie
+automatisch einen *Pin* (dt. Stecknadel). *Gepinnte* Daten werden automatisch
+vom *Garbage-Collector* ignoriert und beliebig lange vorgehalten, bis sie
+wieder *unpinned* werden. Möchte ein Nutzer sicher sein, dass die Datei im
+lokalen Speicher bleibt, so kann er sie manuell pinnen:
+
+```bash
+$ ipfs pin add QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
+```
+
+Wenn die Dateien nicht mehr lokal benötigt werden, können sie *unpinned* werden:
+
+```bash
+$ ipfs pin rm QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
+```
+
+[^IPFS_MANUAL_GC]: Der Garbage--Collector kann auch manuell mittels ``ipfs repo gc`` von der Kommandozeile aufgerufen werden.
+
+**Service Discovery:** In den Anforderungen in Kapitel 2 (TODO: ref) wird eine menschenlesbare Identität
+gefordert, mit der *Peers* einfach erkennbar sind. Der von *IPFS* verwendete Identitätsbezeichner ist
+allerdings eine tendenziell schwer zu merkende Prüfsumme. Um dieses Dilemma zu lösen, wendet 
+``brig`` einen »Trick« an. Jeder ``brig``--Knoten legt eine Datensatz in das *IPFS* Netzwerk mit dem Inhalt
+``brig:<username>``. Ein Nutzer der nun einen solchen menschenlesbaren  Namen zu einem Netzwerkadresse  auflösen
+möchte, kann den Inhalt des obigen Datensatzes generieren und daraus eine Prüfsumme bilden.
+Mit der entstandenen Prüfsumme kann mittels folgenden Befehls herausgefunden werden, welche Knoten
+diesen Datensatz anbieten:
+
+```bash
+$ ipfs dht findprovs <HASH_OF_BOBS_ID>
+<PEER_ID_BOB_1>
+<PEER_ID_BOB_2>
+...
+```
+
+Da prinzipiell jeder Knoten sich als *Bob* ausgeben kann, wird aus den
+möglichen Peers, derjenige ausgewählt, dessen *IPFS*--Identitätsbezeichner (bei
+``brig`` wird dieser als *Fingerprint* bezeichnet) als vertrauenswürdig
+eingestuft wurde. Dies setzt im Umkehrschluss voraus, dass eine erstmalige
+Authentifikation stattgefunden haben muss.
+
+TODO: Grafik?
+
+**Flexibles Networking:** Einer der größten Vorteile von *IPFS* ist, dass es
+auch NAT--Grenzen hinweg funktioniert. NAT steht dabei für *Network Adress
+Resolution* (dt. Netzwerkadressübersetzung) und ist eine Technik, um zwischen
+einer öffentlichen und mehreren lokalen IP--Adressen zu vermitteln. Es wird
+aufgrund der Knappheit von IPv4 sehr häufig eingesetzt, um einen Heim- oder
+Unternehmensnetzwerk eine einzige IP-Adresse nach außen zu geben, die über
+bestimmte Ports dann den Verkehr auf die jeweiligen lokalen Adressen übersetzt.
+Der Nachteil in Bezug auf P2P--Netzwerken ist dabei, dass die Rechner hinter
+einem *NAT* nicht direkt erreichbar sind. Client/Server Anwendungen haben damit
+kein Problem, da der Client die Verbindung zum Server selbstständig aufbaut.
+Bei einer P2P--Kommunikation hingegen, muss eine Verbindung in beide Richtungen
+möglich sein --- und das möglicherweise sogar über mehrere *NATs*.
+
+Die Umgehung dieser Grenzen ist in der Literatur als *NAT Traversal* bekannt
+(TODO: ref). Eine populäre Technik ist dabei das UDP--Hole--Punching (TODO:
+ref). Dabei wird grob erklärt ein beiden Parteien bekannter Mittelmann (oft ein
+*Bootstrap*--Knoten) herangezogen, über den die eigentliche, direkte Verbindung
+aufgebaut wird. Mehr Details finden sich in TODO: ref. Eine Notwendigkeit dabei
+ist die Verwendung von *UDP* anstatt *TCP*. Um die Garantien, die *TCP*
+bezüglich der Paketzustellung gibt, zu erhalten nutzt *IPFS* die
+Anwendungs--Protokolle *UDT*. Insgesamt implementiert *IPFS* also einige
+Techniken, um, im Gegensatz zu den meisten theoretischen Ansätzen, eine leichte
+Benutzbarkeit zu gewährleisten. Speziell wäre hier zu vermeiden, dass ein
+Anwender die Einstellungen seines Routers ändern muss, um ``brig`` zu nutzen.
+
+[^UDT]: http://udt.sourceforge.net/
+
+In Einzelfällen kann es natürlich trotzdem dazu kommen, dass die von *IPFS* verwendeten Ports
+durch eine (besonders in Unternehmen übliche) Firewall blockiert werden. Dies kann nötigenfalls
+aber vom zuständigen Administrator geändert werden. Allerdings werden Unternehmen eh dazu
+tendieren nur ein abgeschottetes ``brig``--Netzwerk in der Firma einzusetzen.
+
+**Übermittlung zwischen Internet und IPFS:** Ein Client/Server--Betrieb lässt sich mithilfe der *IPFS Gateways*
+bewerkstelligen. *Gateways* sind zentrale, wohlbekannte Dienste, die zwischen dem »normalen Internet« und
+dem *IPFS* Netzwerk mittels HTTP vermitteln. Die Datei ``my-photo.png`` aus dem obigen Beispiel kann
+von von anderen Nutzern bequem über den Browser heruntergeladen werden:
+
+```bash
+curl https://gateway.ipfs.io/ipfs/QmPtoEEMMnbTSmzr28UEJFvmsD2dW88nbbCyyTrQgA9JR9 > my-photo.png
+```
+
+Auf dem *Gateway* läuft dabei ein Webserver, der dasselbe tut wie ``ipfs cat``, aber statt auf der Kommandozeile
+die Daten auf eine HTTP--Verbindung ausgibt. Standardmäßig wird mit jedem Aufruf von ``ipfs daemon``
+ein Gateway auf der Adresse ``http://localhost:8080`` gestartet.
