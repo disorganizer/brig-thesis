@@ -68,6 +68,9 @@ Dieser würde verhindern, dass Pfade teilweise doppelt abgespeichert werden.
 
 ## File Streaming
 
+
+https://en.wikipedia.org/wiki/Convergent_encryption
+
 ### Verschlüsselung
 
 ### Kompression

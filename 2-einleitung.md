@@ -421,6 +421,8 @@ realisiert werden.
 
 ## Einsatszenarien
 
+TODO:
+
 Kurz zusammengefasst soll ``brig`` also in folgenden Einsatszenarien praktikabel nutzbar sein:
 
 **Synchronisationslösung:** Spiegelung von zwei oder mehr Ordnern und das Teilen desselben
@@ -437,7 +439,10 @@ zwischen mehreren Nutzern. Eine selektive Synchronisation ist vorerst nicht vorg
 
 **Plattform:** für verteilte und sicherheitskritische Anwendungen.
 
-[^REPO]: *Repository:* Hier ein »magischer« Ordner in denen alle Dateien im Netzwerk angezeigt werden.
+Es gibt natürlich auch einige Einsattzzwecke, für die ``brig`` eher bis gar
+nicht geeignet ist. Diese werden im Kapitel 8 (TODO: ref) beleuchtet, da die
+dortige Argumentation teilweise ein Verständnis von der internen Architektur
+benötigen.
 
 ## Annahmen
 

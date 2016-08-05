@@ -102,11 +102,42 @@ Effizienz liegt, hat *Infinit* einige auffällige Ähnlichkeiten mit ``brig``:
 
 Der Hauptunterschied ist allerdings die Zielgruppe. Während das bei ``brig``
 der »Otto--Normal--Nutzer« als kleinster Nenner ist, so ist *Infinit* auf
-Entwickler und Adminstratoren ausgelegt.
-
-TODO: `bazil` erwähnen.
+Entwickler und Adminstratoren ausgelegt und leider nur teilweise quelloffen ist (TODO: ref).
 
 [^INFINIT]: Mehr Informationen unter: \url{https://infinit.sh}
+
+TODO: [@cox2004optimistic] beschreiben.
+
+### Projekte mit ähnlichen Ansätzen
+
+Es gibt eine Reihe nicht--kommerzieller Projekte, die teilweise eine ähnliche
+Ausrichtung wie ``brig`` haben und daher mindestens eine Erwähnung verdient
+haben. Im Folgenden werden die Ähnlichkeiten zu ``brig`` genannt:
+
+**bazil:**[^BAZIL_ORG]  Ein Werkzeug um Dateien verschlüsselt und dezentral zu
+verteilen. In seinem Zielen ist es also sehr ähnlich zu ``brig``, besonders da
+es ebenfalls ein FUSE--Dateisystem implementiert.[^FUSE_NOTE] Es ist eher an
+fortgeschrittene Heimanwender und Poweruser gerichtet und momentan noch nicht
+für den Produktivbetrieb geeignet. Zu diesem Zeitpunkt funktioniert es zudem
+nur lokal auf einem System ohne mit anderen Knoten kommunizieren zu können.
+
+**Tahoe-LAFS:**[^TAHOE_LAFS] Ein verteiltes Dateisystem, welches Dateien über
+eine Menge an Rechnern möglichst ausfallsicher verteilen kann, selbst wenn
+einzelne Rechner ausfallen. Es richtet sich tendenziell an Administratoren und
+Poweruser, die eine große Menge an Daten sicher lagern wollen.
+
+**restic:**{^RESTIC} Ein in *Go* geschriebenes Backup--Programm. Es
+synchronisiert zwar keine Dateien über das Netzwerk, setzt aber eine
+Versionsverwaltung mittels *Snapshots* um. Zudem verschlüsselt es alle ihm
+bekannten Dateien in einem *Repository* und gewährleistet mittels eines
+speziellen Formats deren Integrität.
+
+TODO: noch mehr nennen?
+
+[^BAZIL_ORG]: Mehr Informationen unter: \url{https://bazil.org}
+[^FUSE_NOTE]: Der Entwickler von ``bazil``  Tommi Virtanen betreut auch dankenswerterweise die FUSE--Bindings für *Go*, die auch ``brig`` nutzt.
+[^TAHOE_LAFS]: Mehr Informationen unter: \url{https://tahoe-lafs.org/trac/tahoe-lafs}
+[^RESTIC]: Mehr Informationen unter: \url{https://restic.github.io}
 
 ## Markt und Wettbewerber
 
@@ -115,13 +146,7 @@ TODO: Diesen Teil überarbeiten, wurde aus Expose übernommen.
 Bereits ein Blick auf Wikipedia[@wiki_filesync] zeigt, dass der momentane Markt
 an Dateisynchronisationssoftware (im weitesten Sinne) sehr unübersichtlich ist.
 Ein näherer Blick zeigt, dass die Softwareprojekte dort oft nur in Teilaspekten
-gut funktionieren oder mit anderen unlösbaren Problemen behaftet sind. Manch
-andere Software wie ``bazil``[^BAZIL] oder ``infinit``[^INFINIT_WEB] ist
-vielversprechender, allerdings ebenfalls noch im Entstehen und im Falle von
-``infinit`` auch nur teilweise quelloffen.
-
-[^BAZIL]: Webpräsenz: \url{https://bazil.org}
-[^INFINIT_WEB]: Webpräsenz: \url{http://infinit.sh}
+gut funktionieren oder mit anderen unlösbaren Problemen behaftet sind.
 
 ## Verschiedene Alternativen
 
@@ -193,7 +218,7 @@ Genauere Aussagen kann man leider aufgrund der geschlossenen Natur des Programms
 und der eher vagen Werbeprosa nicht treffen. Ähnlich zu *Syncthing* ist
 allerdings, dass eine Versionsverwaltung nur mittels eines »Archivordners«
 vorhanden ist. Gelöschte Dateien werden schlicht in diesen Ordner verschoben und
-können von dort wiederhergestellt werden. 
+können von dort wiederhergestellt werden.
 
 #### ``git-annex``
 
@@ -229,11 +254,11 @@ für den Ottonormalbenutzer schwierige Einrichtung und Benutzung.
 \newpage
 
 Zusammengefasst findet sich hier noch eine tabellarische Übersicht mit den aus
-unserer Sicht wichtigsten Eigenschaften: 
+unserer Sicht wichtigsten Eigenschaften:
 
 **Technische Aspekte:**
 
-|                      | **Dezentral**       | **Verschlüsselung (Client)**     | **Versionierung**                      |  **Quotas**       | **N-Kopien**    |  
+|                      | **Dezentral**       | **Verschlüsselung (Client)**     | **Versionierung**                      |  **Quotas**       | **N-Kopien**    |
 | -------------------- | ------------------- | -------------------------------- | -------------------------------------- | ------------------|------------------|
 | *Dropbox/Boxcryptor* | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |  \xmark           | \xmark          |
 | *ownCloud*           | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |  \xmark           | \xmark          |
@@ -301,6 +326,8 @@ werden kann.
 
 [^CAN]: Siehe auch: \url{https://en.wikipedia.org/wiki/Content_addressable_network} (TODO: eigenes buch referenzieren)
 [^LIBP2P]: Mehr Informationen in der Dokumentation unter: \url{https://github.com/ipfs/specs/tree/master/libp2p}
+
+### Eigenschaften von *IPFS*
 
 Im Folgenden werden die Eigenschaften von ``IPFS`` kurz vorgestellt, welche von
 ``brig`` genutzt werden. Einige interessante Features wie das *Naming System* (IPNS),
@@ -487,7 +514,8 @@ dem *IPFS* Netzwerk mittels HTTP vermitteln. Die Datei ``my-photo.png`` aus dem 
 von von anderen Nutzern bequem über den Browser heruntergeladen werden:
 
 ```bash
-curl https://gateway.ipfs.io/ipfs/QmPtoEEMMnbTSmzr28UEJFvmsD2dW88nbbCyyTrQgA9JR9 > my-photo.png
+$ export PHOTO_HASH=QmPtoEEMMnbTSmzr28UEJFvmsD2dW88nbbCyyTrQgA9JR9 
+$ curl https://gateway.ipfs.io/ipfs/$PHOTO_HASH > my-photo.png
 ```
 
 Auf dem *Gateway* läuft dabei ein Webserver, der dasselbe tut wie ``ipfs cat``, aber statt auf der Kommandozeile

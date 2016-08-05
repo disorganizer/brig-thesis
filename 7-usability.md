@@ -9,9 +9,12 @@ Oberfläche.
 
 Größtes Problem: Starten des Hintergrunddienstes ``brigd``.
 
+
 ## Anforderungen
 
 http://www.usabilitynet.org/trump/methods/recommended/requirements.htm
+
+https://en.wikipedia.org/wiki/Zooko%27s_triangle
 
 Understandability
 Learnability
