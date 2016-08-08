@@ -1,4 +1,4 @@
-# Stand der Technik
+# Stand der Technik {#sec:stand-der-technik}
 
 In diesem Kapiteln wird ein kurzer Überblick über die wissenschaftlichen
 Arbeiten und Begrifflichkeiten zum Thema Peer--to--Peer--Dateisysteme und
@@ -104,7 +104,7 @@ Der Hauptunterschied ist allerdings die Zielgruppe. Während das bei ``brig``
 der »Otto--Normal--Nutzer« als kleinster Nenner ist, so ist *Infinit* auf
 Entwickler und Adminstratoren ausgelegt und leider nur teilweise quelloffen ist (TODO: ref).
 
-[^INFINIT]: Mehr Informationen unter: \url{https://infinit.sh}
+[^INFINIT]: Mehr Informationen unter: <https://infinit.sh>
 
 TODO: [@cox2004optimistic] beschreiben.
 
@@ -134,10 +134,10 @@ speziellen Formats deren Integrität.
 
 TODO: noch mehr nennen?
 
-[^BAZIL_ORG]: Mehr Informationen unter: \url{https://bazil.org}
+[^BAZIL_ORG]: Mehr Informationen unter: <https://bazil.org>
 [^FUSE_NOTE]: Der Entwickler von ``bazil``  Tommi Virtanen betreut auch dankenswerterweise die FUSE--Bindings für *Go*, die auch ``brig`` nutzt.
-[^TAHOE_LAFS]: Mehr Informationen unter: \url{https://tahoe-lafs.org/trac/tahoe-lafs}
-[^RESTIC]: Mehr Informationen unter: \url{https://restic.github.io}
+[^TAHOE_LAFS]: Mehr Informationen unter: <https://tahoe-lafs.org/trac/tahoe-lafs>
+[^RESTIC]: Mehr Informationen unter: <https://restic.github.io>
 
 ## Markt und Wettbewerber
 
@@ -165,7 +165,7 @@ Dateisynchronisation. Verschlüsselung kann man mit Tools wie ``encfs``
 *Boxcryptor* nachrüsten. Was das Backend genau tut ist leider das Geheimnis von
 Dropbox --- es ist nicht Open--Source. 
 
-[^ENCFS]: Mehr Informationen unter \url{https://de.wikipedia.org/wiki/EncFS}
+[^ENCFS]: Mehr Informationen unter <https://de.wikipedia.org/wiki/EncFS>
 
 Die Server von Dropbox stehen in den Vereinigten Staaten, was spätestens seit
 den Snowden--Enthüllungen für ein mulmiges Gefühl sorgen sollte. Wie oben
@@ -174,7 +174,7 @@ abgemildert werden. Diese kostet aber zusätzlich und benötigt noch einen
 zusätzlichen zentralen Keyserver[^KEYSERVER]. Ein weiterer Nachteil ist hier die
 Abhängigkeit von der Verfügbarkeit des Dienstes.
 
-[^KEYSERVER]: Mehr Informationen zum Keyserver unter \url{https://www.boxcryptor.com/de/technischer-\%C3\%BCberblick\#anc09}
+[^KEYSERVER]: Mehr Informationen zum Keyserver unter <https://www.boxcryptor.com/de/technischer-\%C3\%BCberblick\#anc09>
 
 Technisch nachteilhaft ist vor allem, dass jede Datei »über den Pazifik« hinweg
 synchronisiert werden muss, nur um schließlich auf dem Arbeitsrechner 
@@ -229,7 +229,7 @@ um die Metadaten zu den Dateien abzuspeichern, die es verwaltet. Auch werden
 Dateien standardmäßig nicht automatisch synchronisiert, hier ist die Grundidee
 die Dateien selbst zu »pushen«, beziehungsweise zu »pullen«.
 
-[^ANNEX]: Webpräsenz: \url{https://git-annex.branchable.com/}
+[^ANNEX]: Webpräsenz: <https://git-annex.branchable.com/>
 
 Dieser »Do-it-yourself« Ansatz ist sehr nützlich, um ``git-annex`` als Teil der
 eigenen Anwendung einzusetzen. Für den alltäglichen Gebrauch ist es aber selbst
@@ -253,10 +253,9 @@ für den Ottonormalbenutzer schwierige Einrichtung und Benutzung.
 
 \newpage
 
-Zusammengefasst findet sich hier noch eine tabellarische Übersicht mit den aus
-unserer Sicht wichtigsten Eigenschaften:
-
-**Technische Aspekte:**
+In [@tbl:table-technical-overview] und [@tbl:table-practical-overview] findet
+sich zusammenfassend eine Übersicht, mit den aus unserer Sicht wichtigsten
+Eigenschaften.
 
 |                      | **Dezentral**       | **Verschlüsselung (Client)**     | **Versionierung**                      |  **Quotas**       | **N-Kopien**    |
 | -------------------- | ------------------- | -------------------------------- | -------------------------------------- | ------------------|------------------|
@@ -269,7 +268,7 @@ unserer Sicht wichtigsten Eigenschaften:
 | ``brig`` (Ziel)      | \cmark              | \cmark                           | \cmark                                 |  \xmark           |  \cmark         |
 
 
-**Praktische Aspekte:**
+: Übersicht über technische Aspekte {#tbl:table-technical-overview}
 
 |                      | **FOSS**            | **Einfach nutzbar** | **Einfache Installation**  | **Intell. Routing** | **Kompression** |
 | -------------------- | ------------------- | ------------------- |--------------------------  | ------------------------- |-----------------|
@@ -280,6 +279,8 @@ unserer Sicht wichtigsten Eigenschaften:
 | ``git-annex``        | \cmark              | \xmark              | \xmark                     |  \xmark             | \xmark          |
 | ``brig`` (Prototyp)  | \cmark              | \xmark              | \textcolor{YellowOrange}{Auf Linux} |  \cmark             | \cmark          |
 | ``brig`` (Ziel)      | \cmark              | \cmark              | \cmark                     |  \cmark             | \cmark          | 
+
+: Übersicht über praktische Aspekte {#tbl:table-practical-overview}
 
 ## IPFS: Das Interplanetary Filesystem
 
@@ -324,8 +325,8 @@ Kernfunktionalitäten sind bei ``IPFS`` in einer separaten Bibliothek namens
 ``libp2p``[^LIBP2P] untergebracht, welche auch von anderen Programmen genutzt
 werden kann.
 
-[^CAN]: Siehe auch: \url{https://en.wikipedia.org/wiki/Content_addressable_network} (TODO: eigenes buch referenzieren)
-[^LIBP2P]: Mehr Informationen in der Dokumentation unter: \url{https://github.com/ipfs/specs/tree/master/libp2p}
+[^CAN]: Siehe auch: <https://en.wikipedia.org/wiki/Content_addressable_network> (TODO: eigenes buch referenzieren)
+[^LIBP2P]: Mehr Informationen in der Dokumentation unter: <https://github.com/ipfs/specs/tree/master/libp2p>
 
 ### Eigenschaften von *IPFS*
 
@@ -350,7 +351,7 @@ Falls gewünscht, kann allerdings auch ein abgeschottetes Subnetz erstellt
 werden. Dazu ist es lediglich nötig, die *Bootstrap*--Nodes durch Knoten
 auszutauschen, die man selbst kontrolliert. Unternehmen könnten diesen Ansatz
 wählen, falls ihr Netzwerk komplett von der Außenwelt abgeschottet ist. Wie in
-Kapitel 4 (TODO: ref) beleuchtet wird, ist dieses Vorgehen nicht direkt aus
+[@sec:architetkur] beleuchtet wird, ist dieses Vorgehen nicht direkt aus
 Sicherheitsgründen notwendig.
 
 **Operation auf Hashes:** *IPFS* arbeitet nicht mit herkömmlichen Dateipfaden,
@@ -373,7 +374,7 @@ Prüfsumme. Die entstandene Byte--Sequenz wird dann mittels ``base58``
 enkodiert, um sie menschenlesbar zu machen. Da der momentane
 Standardalgorithmus ``sha256`` ist, beginnt eine von *IPFS* generierte
 Prüfsumme stets mit ``Qm``. Mehr Informationen unter:
-\url{github.com/multiformats/multihash}
+<github.com/multiformats/multihash>
 
 Auf einem anderen Computer, mit laufenden ``ipfs``--Daemon, ist das Empfangen
 der Datei möglich, indem der Hash an ``ipfs cat`` gegeben wird. Dabei wird für
@@ -452,7 +453,7 @@ $ ipfs pin rm QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
 
 [^IPFS_MANUAL_GC]: Der Garbage--Collector kann auch manuell mittels ``ipfs repo gc`` von der Kommandozeile aufgerufen werden.
 
-**Service Discovery:** In den Anforderungen in Kapitel 2 (TODO: ref) wird eine menschenlesbare Identität
+**Service Discovery:** In den Anforderungen in [@sec:einleitung] wird eine menschenlesbare Identität
 gefordert, mit der *Peers* einfach erkennbar sind. Der von *IPFS* verwendete Identitätsbezeichner ist
 allerdings eine tendenziell schwer zu merkende Prüfsumme. Um dieses Dilemma zu lösen, wendet 
 ``brig`` einen »Trick« an. Jeder ``brig``--Knoten legt eine Datensatz in das *IPFS* Netzwerk mit dem Inhalt

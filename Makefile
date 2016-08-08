@@ -2,7 +2,9 @@ all:
 	pandoc \
 		--filter pandoc-fignos \
 		--filter pandoc-tablenos \
+		--filter pandoc-crossref \
 		--smart \
+		--number-sections \
 		--bibliography thesis.bib \
 		--csl tex/ieee.csl \
 		-B tex/title.tex -H tex/header.tex -N \
@@ -15,13 +17,16 @@ all:
 
 html:
 	pandoc \
+		--toc \
 		--filter pandoc-fignos \
 		--filter pandoc-tablenos \
+		--filter pandoc-crossref \
 		--smart \
 		--bibliography thesis.bib \
 		--csl tex/ieee.csl \
 		-B  html/template.html \
 		-N \
+		-S \
 		--highlight-style tango \
 		-V lang=de-DE --chapters \
 		*.md \

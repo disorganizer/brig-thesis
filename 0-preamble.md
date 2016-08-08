@@ -11,10 +11,12 @@ sections: yes
 toc: yes
 lof: yes
 lot: yes
+loe: yes
+cref: yes
+listings: yes
 date: \today
 ---
 
 \newpage
-\pagenumbering{arabic} 
+\pagenumbering{arabic}
 \setcounter{page}{1}
-

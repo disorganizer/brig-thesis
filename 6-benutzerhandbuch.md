@@ -1,11 +1,11 @@
-# Benutzerhandbuch
+# Benutzerhandbuch {#sec:benutzerhandbuch}
 
 Die Funktionalität des ``brig``--Prototypen ist im momentanen Zustand nur über
 eine Kommandozeilenanwendung erreichbar. Die Hilfe dieser Anwendung wird unten
 gezeigt. Im Folgenden werden die einzelnen zur Verfügung stehenden Optionen und
 Kommandos erklärt. Daneben wird auch eine Anleitung zur Installation gegeben
 und es werden Ratschläge zur optimalen Nutzung erteilt. Vorausgesetzt wird
-dabei nur die Lektüre von Kapitel 1 und 2 (TODO: ref), damit dieses Kapitel auch als Tutorial
+dabei nur die Lektüre von [@sec:motivation] und [@sec:einleitung], damit dieses Kapitel auch als Tutorial
 gelesen werden kann.
 
 ```bash
@@ -84,7 +84,7 @@ Die letzten beiden ``export`` Kommandos sollte man in eine Datei wie
 ``.bashrc`` einfügen, um zu gewährleisten, dass die Umgebungsvariablen in jeder
 Sitzung erneut gesetzt werden.
 
-[^GOLANG_DOWNLOAD]: \url{https://golang.org/dl/}
+[^GOLANG_DOWNLOAD]: <https://golang.org/dl/>
 
 **Übersetzen der Quellen:** Ist *Go* installiert, kann mittels des ``go
 get``--Werkzeugs ``brig`` kompiliert werden:
@@ -131,7 +131,7 @@ for platform in "${PLATFORMS[@]}"; do
 done
 ```
 
-[^GOENV]: \url{https://golang.org/doc/install/source#environment}
+[^GOENV]: <https://golang.org/doc/install/source#environment>
 
 ## Basics
 

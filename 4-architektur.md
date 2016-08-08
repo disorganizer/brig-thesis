@@ -1,8 +1,8 @@
-# Architektur
+# Architektur {#sec:architetkur}
 
 In diesem Kapitel wird die Architektur des Prototypen von ``brig`` erklärt.
 Dabei wird weniger auf die genaue Funktionsweise der Komponenten eingegangen
-(das passiert im Implementierungskapitel 5 TODO: ref), sondern das
+(das passiert im [@sec:implementierung], *Implementierung*), sondern das
 Zusammenspiel der einzelnen Komponenten wird spezifiziert und welche Ein- und
 Ausgaben sie nehmen. Die Berührungspunkte mit dem Nutzer werden ebenfalls
 diskutiert.

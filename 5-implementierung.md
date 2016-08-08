@@ -1,4 +1,4 @@
-# Implementierung
+# Implementierung {#sec:implementierung}
 
 Dieses Kapitel... hat Pocken. TODO.
 
@@ -59,7 +59,7 @@ damit produzierten Quelltextes erschweren würde. Daher ist *Go* eine Sprache,
 die zwar relativ repetitiv und gesprächig ist, aber dadurch gleichzeitig auch
 sehr einfach zu lesen ist.
 
-[^MOBILE]: Siehe dazu: \url{https://golang.org/wiki/Mobile}
+[^MOBILE]: Siehe dazu: <https://golang.org/wiki/Mobile>
 
 Natürlich ist auch *Go* keine Lösung für alles. Daher werden untenstehend
 einige kleinere Nachteile (sowie unsere Lösung) angeführt, die aber in Summe
@@ -82,13 +82,13 @@ läuft darauf hinaus alle benötigten Abhängigkeiten in der gewünschten Versio
 in das eigene Quelltext--Repository zu kopieren. Dies zwar durchaus unelegante
 aber gut funktionierende Lösung verfolgt auch ``brig``[^VENDOR].
 
-[^GOPKG]: \url{http://labix.org/gopkg.in}
-[^VENDOR]: \url{https://github.com/disorganizer/brig-vendor}
+[^GOPKG]: <http://labix.org/gopkg.in>
+[^VENDOR]: <https://github.com/disorganizer/brig-vendor>
 
 **Keine modernen Sprachfeatures:** 
 Fehlende Generics und ein paar moderne Sprachfeatures TODO
 
-[^UPX]: Ein Packprogramm Mehr Informationen unter \url{http://upx.sourceforge.net}
+[^UPX]: Ein Packprogramm Mehr Informationen unter <http://upx.sourceforge.net>
 
 ## Entwicklungsumgebung
 

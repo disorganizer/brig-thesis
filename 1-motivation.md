@@ -1,4 +1,4 @@
-# Motivation
+# Motivation {#sec:motivation}
 
 Einfache und sichere Dateisynchronisation ist trotz vieler Lösungsansätze 
 noch immer ein unvollständig gelöstes Problem. Versucht man beispielsweise
@@ -32,7 +32,7 @@ und seinen Mitstudenten Christoph Piechula, welcher in seiner Arbeit (TODO:
 ref) die Sicherheitsaspekte der Software detailliert beleuchtet.
 Der aktuelle Quelltext findet sich auf Code--Hosting--Plattform GitHub[^GITHUB].
 
-[^GITHUB]: \url{http://github.com/disorganizer/brig}
+[^GITHUB]: <http://github.com/disorganizer/brig>
 
 ## Der Name
 
@@ -69,7 +69,7 @@ unserer Sicht hierbei sogar einige grundlegende Vorteile:
 - Transparenz in puncto Sicherheit (keine offensichtlichen Backdoors möglich).
 - Fehlerkorrekturen, Weiterentwicklung und Testing aus der Community.
 
-[^AGPL]: Lizenztext: \url{www.gnu.org/licenses/agpl-3.0.de.html}
+[^AGPL]: Lizenztext: <http://www.gnu.org/licenses/agpl-3.0.de.html>
 
 ## Organisation
 
@@ -81,10 +81,10 @@ angeschnitten werden.
 
 Die vorliegende Arbeit ist in vier große logische Blöcke gegliedert:
 
-- Kapitel 1 - 3 (Motivation, Einleitung, Stand der Technik): Was, Warum und Wie.
-- Kapitel 4 - 5 (Architektur, Implementierung): Technisches Design des Prototypen.
-- Kapitel 6 - 7 (Benutzerhandbuch, Benutzbarkeit): Dokumentation des Prototypen.
-- Kapitel 8 - 9 (Erweiterungen, Fazit): Ausblick in die Zukunft.
+- Kapitel 1 - 3 *(Motivation, Einleitung, Stand der Technik):* **Was, Warum und Wie.**
+- Kapitel 4 - 5 *(Architektur, Implementierung):* **Technisches Design des Prototypen.**
+- Kapitel 6 - 7 *(Benutzerhandbuch, Benutzbarkeit):* **Dokumentation des Prototypen.**
+- Kapitel 8 - 9 *(Erweiterungen, Fazit):* **Ausblick in die Zukunft.**
 
 ## Über die Autoren
 
@@ -97,8 +97,8 @@ betreuen, weswegen wir das nun auch gerne »hauptberuflich« fortführen würden
 
 Unsere momentanen sonstigen Projekte finden sich auf GitHub:
 
-* \url{https://github.com/sahib} (Projekte von Christopher Pahl)
-* \url{https://github.com/qitta} (Projekte von Christoph Piechula)
-* \url{https://github.com/studentkittens} (gemeinsame Projekte und Studienarbeiten)
+* <https://github.com/sahib> (Projekte von Christopher Pahl)
+* <https://github.com/qitta> (Projekte von Christoph Piechula)
+* <https://github.com/studentkittens> (gemeinsame Projekte und Studienarbeiten)
 
-[^DSG]: Siehe auch: \url{http://dsg.hs-augsburg.de/}
+[^DSG]: Siehe auch: <http://dsg.hs-augsburg.de/>

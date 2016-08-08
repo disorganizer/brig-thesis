@@ -1,4 +1,4 @@
-# Fazit
+# Fazit {#sec:fazit}
 
 Ambitioniertes Projekt,
 trotzdem positive Resultate trotz Zeitmangels.

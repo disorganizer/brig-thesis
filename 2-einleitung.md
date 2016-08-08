@@ -1,4 +1,4 @@
-# Einleitung
+# Einleitung {#sec:einleitung}
 
 In diesem Kapitel werden das Projektziel definiert und die  Anforderungen an
 eine moderne Dateisynchronisationslösung festgelegt.
@@ -47,7 +47,7 @@ Die Anforderungen lassen sich in drei grobe Kategorien unterteilen:
 Die Kategorien beinhalten einzelne, konkretere Anforderungen, die im Folgenden
 aufgelistet und erklärt werden. Dabei wird jeweils im ersten Paragraphen die
 eigentliche Anforderung formuliert und danach beispielhaft erklärt.
-Ob und wie die Anforderung letztlich erfüllt wurde, wird in Kapitel (TODO: ref)
+Ob und wie die Anforderung letztlich erfüllt wurde, wird in [@sec:evaluation]
 betrachtet.
 
 Nicht jede Anforderung kann dabei voll umgesetzt werden. Teils überschneiden
@@ -56,9 +56,9 @@ da beispielsweise verschlüsselte Speicherung mit effizienter Dekodierung
 kollidiert. Auch ist hohe Benutzbarkeit bei gleichzeitig hohen
 Sicherheitsanforderungen schwierig umzusetzen. Das Neueingeben eines Passworts
 bei jedem Zugriff mag sicherer sein, aber eben leider kaum benutzerfreundlich.
-Die Anforderungen werden daher nach dieser Faustregel priorisiert:
+Die Anforderungen werden daher nach dieser Faustregel in [@eq:faustregel] priorisiert:
 
-$$Benutzbarkeit \ge Sicherheit \geq Effizienz$$
+$$Benutzbarkeit \ge Sicherheit \geq Effizienz$$ {#eq:faustregel}
 
 Im Zweifel wurde sich also beim Entwurf also für die Benutzbarkeit entschieden,
 da ein sehr sicheres System zwar den Nutzer beschützen kann, er wird es aber
@@ -68,8 +68,8 @@ Es wurden lediglich auf zu invasive Sicherheitstechniken verzichtet, welche den
 Nutzer stören könnten. Oder um Rob Pike[@pike2001security, S.24] zu zitieren:
 
 ```
-	Weak security that’s easy to use will help more people than strong
-	security that’s hard to use. For example door locks.
+	Weak security that's easy to use will help more people than strong
+	security that's hard to use. For example door locks.
 ```
 
 Bei Fragen zwischen Effizienz und Sicherheit wird allerdings eher zugunsten der
@@ -164,7 +164,7 @@ Festplatte abgelegt werden und nur bei Bedarf wieder entschlüsselt werden.
 Kryptografische Schlüssel sollten aus denselben Gründen nicht unverschlüsselt
 auf der Platte abgelegt werden und sonst nur im Hauptspeicher abgelegt werden.
 
-Wie in Kapitel 3 (TODO: ref) beleuchtet wird, speichern die meisten Dienste und
+Wie in [@sec:stand-der-technik] beleuchtet wird, speichern die meisten Dienste und
 Anwendungen zum Dateiaustausch ihre Dateien in keiner verschlüsselten Form. Es
 gibt allerdings eine Reihe von Angriffsszenarien (TODO: ref kitteh arbeit), die
 durch eine Vollverschlüsselung der Daten verhindert werden können.
@@ -223,8 +223,8 @@ Insbesondere die letzten vier Punkte dienen der Sicherheit, da ein Angreifer ver
 eine Unicode--Sequenz zu generieren, welche visuell genauso ausschaut wie die eines anderen Nutzers,
 aber einer anderen Byte--Reihenfolge und somit einer anderen Identität entspricht.
 
-[^SHORTEST]: Siehe auch: \url{http://unicode.org/versions/corrigendum1.html}
-[^NORMALIZATION]: Siehe auch: \url{http://www.unicode.org/reports/tr15/\#Norm_Forms}
+[^SHORTEST]: Siehe auch: <http://unicode.org/versions/corrigendum1.html>
+[^NORMALIZATION]: Siehe auch: <http://www.unicode.org/reports/tr15/\#Norm_Forms>
 
 Valide Identitätsbezeichner wären also beispielsweise:
 
@@ -244,7 +244,7 @@ Dies hat aus unserer Sich folgende wesentlichen Vorteile:
 - Der *Ressourcen*--Teil hinter dem ``/`` ermöglicht die Nutzung desselben Nutzernamens auf verschiedenen Geräten,
   wie ``desktop`` oder ``laptop``.
 
-[^JID]: Mehr Details unter: \url{https://de.wikipedia.org/wiki/Jabber_Identifier}
+[^JID]: Mehr Details unter: <https://de.wikipedia.org/wiki/Jabber_Identifier>
 
 **Transparenz:** Die Implementierung aller oben genannten Sicherheitsfeatures
 muss für Anwender und Entwickler nachvollziehbar und verständlich sein. Durch
@@ -257,7 +257,7 @@ zu bekommen. Desweiteren wird auch die Weiterentwicklung der Software offen geha
 
 ### Anforderung an die Benutzbarkeit
 
-*Anmerkung:* In Kapitel 7 (TODO: ref) werden weitere Anforderungen zur
+*Anmerkung:* In [@sec:benutzbarkeit] werden weitere Anforderungen zur
 Benutzbarkeit in Bezug auf eine grafische Oberfläche definiert. Da diese nicht
 für die Gesamtheit der Software relevant sind, werden sie hier ausgelassen.
 
@@ -354,7 +354,7 @@ Rechenzentrum in dem firmeninterne Dokumente gespeichert werden. Von den
 Nutzern werden diese dann meist mittels Diensten wie *ownCloud*[^NEXTCLOUD] oder *Samba*
 »händisch« heruntergeladen.
 
-[^NEXTCLOUD]: Siehe auch \url{https://owncloud.org}, bzw. dessen Fork *Nextcloud* \url{https://nextcloud.com/}
+[^NEXTCLOUD]: Siehe auch <https://owncloud.org}, bzw. dessen Fork *Nextcloud* <https://nextcloud.com>
 
 In diesem Fall könnte man ``brig`` im Rechenzentrum und auf allen Endgeräten
 installieren. Das Rechenzentrum würde die Datei mit tiefer Versionierung
@@ -440,7 +440,7 @@ zwischen mehreren Nutzern. Eine selektive Synchronisation ist vorerst nicht vorg
 **Plattform:** für verteilte und sicherheitskritische Anwendungen.
 
 Es gibt natürlich auch einige Einsattzzwecke, für die ``brig`` eher bis gar
-nicht geeignet ist. Diese werden im Kapitel 8 (TODO: ref) beleuchtet, da die
+nicht geeignet ist. Diese werden im [@sec:evaluation] beleuchtet, da die
 dortige Argumentation teilweise ein Verständnis von der internen Architektur
 benötigen.
 

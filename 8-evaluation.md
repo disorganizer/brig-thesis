@@ -1,11 +1,11 @@
-# Erweiterungen
+# Evaluation {#sec:evaluation}
 
 *Semantisch durchsuchbares* Tag-basiertes Dateisystem[^TAG].
 
 Docker erwähnen, weil's so hipp ist?
 
 
-[^TAG]: Mit einem ähnlichen Ansatz wie \url{https://en.wikipedia.org/wiki/Tagsistant}
+[^TAG]: Mit einem ähnlichen Ansatz wie <https://en.wikipedia.org/wiki/Tagsistant>
 
 ## Was ``brig`` *nicht* ist
 
@@ -73,11 +73,11 @@ Netzwerkanschluss, Hauptspeicher und einer ausreichend starken CPU. Die
 Raspberry Pi (Revision 3).
 
 [^REMOTE_MOUNT]: Möglich mittels Werkzeugen wie ``sshfs``
-(\url{https://de.wikipedia.org/wiki/SSHFS}) und ``s3fs``
-(\url{https://github.com/s3fs-fuse/s3fs-fuse})
+(<https://de.wikipedia.org/wiki/SSHFS>) und ``s3fs``
+(<https://github.com/s3fs-fuse/s3fs-fuse>)
 
 [^AMAZON_S3]: Mehr Informationen unter:
-\url{https://de.wikipedia.org/wiki/Amazon_Web_Services\#Speicher}
+<https://de.wikipedia.org/wiki/Amazon_Web_Services\#Speicher>
 
 [^REPO]: *Repository:* Hier ein »magischer« Ordner in denen alle Dateien im
 Netzwerk angezeigt werden.
@@ -86,9 +86,9 @@ Netzwerk angezeigt werden.
 bis zu einen gewissen, konfigurierbaren *Beschädigungsgrad* erlaubt. Siehe auch
 [@lin2010secure]. 
 
-[^CEPH]: Webpräsenz: \url{http://ceph.com}
-[^GLUSTER]: Webpräsenz: \url{https://www.gluster.org}
-[^ABSTREIT]: Siehe auch: \url{https://de.wikipedia.org/wiki/VeraCrypt\#Glaubhafte_Abstreitbarkeit}
+[^CEPH]: Webpräsenz: <http://ceph.com>
+[^GLUSTER]: Webpräsenz: <https://www.gluster.org>
+[^ABSTREIT]: Siehe auch: <https://de.wikipedia.org/wiki/VeraCrypt\#Glaubhafte_Abstreitbarkeit>
 
 ## Fehlende Anforderungen
 
