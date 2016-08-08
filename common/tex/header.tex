@@ -32,22 +32,26 @@
 \newcommand{\cmark}{\textcolor{ForestGreen}{\ding{51}}}%
 \newcommand{\xmark}{\textcolor{red}{\ding{55}}}%
 
-\hypersetup{colorlinks,breaklinks,urlcolor=ThesisFontColor,linkcolor=ThesisFontColor}
+\hypersetup{colorlinks,breaklinks,urlcolor=ThesisLinkColor,linkcolor=ThesisFontColor}
 
-\definecolor{gray75}{gray}{0.55}
+\definecolor{gray75}{gray}{0.35}
 \newcommand{\hsp}{\hspace{5pt}}
 
 \usepackage{calc}
 \usepackage{etoolbox}
 
-%\appto\chapterheadstartvskip{%
-%  %\vspace{-7.7em} % Pull up chapter a bit.
-%  \smash{\makebox[0pt]{%
-%    \textcolor{ThesisFontColor}{%
-%      \usesizeofkomafont{chapter}\rule[-2\ht\strutbox-\dp\strutbox]{2\paperwidth}{1.65\baselineskip}%
-%}}}}
+\appto\chapterheadstartvskip{%
+  %\vspace{-7.7em} % Pull up chapter a bit.
+  \smash{\makebox[0pt]{%
+	\textcolor{ThesisBarColor}{%
+      \usesizeofkomafont{chapter}\rule[-2.18\ht\strutbox-\dp\strutbox]{2\paperwidth}{1.5\baselineskip}%
+	}
+	\textcolor{ThesisLinkColor}{%
+      \usesizeofkomafont{chapter}\rule[-2.1\ht\strutbox]{2\paperwidth}{0.04\baselineskip}%
+}}}}
+
 \renewcommand\chapterformat{%
-  \makebox[0pt][r]{\textcolor{gray}{\Huge\textsc{\thechapter}}\ \ \textcolor{black}{\smash{\rule[-2\dp\strutbox]{1.5pt}{1.5\baselineskip}}}}%
+  \makebox[0pt][r]{\textcolor{gray}{\Huge\textsc{\thechapter}}\ \ \textcolor{gray75}{\smash{\rule[-2\dp\strutbox]{1.5pt}{1.5\baselineskip}}}}%
   \enskip%
 }
 
@@ -102,7 +106,4 @@
     \fancyhead[RE]{{\nouppercase{\slshape{\leftmark}}}}
 \fi
 
-%\setlength{\topmargin}{-.5in}  %{-.5625in}
 \setlength{\footskip}{25pt} % to put page number 3/4" from the bottom of the page (1/4" from bottom of body text)
-%\setlength{\textheight}{9in}
-%\setlength{\textwidth}{6in}
