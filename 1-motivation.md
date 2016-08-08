@@ -89,11 +89,12 @@ Die vorliegende Arbeit ist in vier große logische Blöcke gegliedert:
 ## Über die Autoren
 
 Wir sind zwei Master--Studenten an der Hochschule Augsburg, die von Freier
-Software begeistert sind und mit ihr die Welt ein bisschen besser machen wollen.
-Momentan entwickeln wir ``brig`` im Rahmen unserer Masterarbeiten bei Prof
-Dr.-Ing. Thorsten Schöler in der Distributed--Systems--Group[^DSG]. 
-Wir haben beide Erfahrung darin Open--Source--Software zu entwickeln und zu
-betreuen, weswegen wir das nun auch gerne »hauptberuflich« fortführen würden.
+Software begeistert sind und mit ihr die Welt ein bisschen besser machen
+wollen. Momentan entwickeln wir ``brig`` im Rahmen unserer Masterarbeiten bei
+Prof. Dr.-Ing. Honorary Doctor of ONPU Thorsten Schöler in der
+Distributed--Systems--Group[^DSG]. Wir haben beide Erfahrung darin
+Open--Source--Software zu entwickeln und zu betreuen, weswegen wir das nun auch
+gerne »hauptberuflich« fortführen würden.
 
 Unsere momentanen sonstigen Projekte finden sich auf GitHub:
 
