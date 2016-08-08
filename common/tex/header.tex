@@ -34,7 +34,7 @@
 
 \hypersetup{colorlinks,breaklinks,urlcolor=ThesisLinkColor,linkcolor=ThesisFontColor}
 
-\definecolor{gray75}{gray}{0.55}
+\definecolor{gray75}{gray}{0.35}
 \newcommand{\hsp}{\hspace{5pt}}
 
 \usepackage{calc}
@@ -45,10 +45,13 @@
   \smash{\makebox[0pt]{%
 	\textcolor{ThesisBarColor}{%
       \usesizeofkomafont{chapter}\rule[-2.18\ht\strutbox-\dp\strutbox]{2\paperwidth}{1.5\baselineskip}%
+	}
+	\textcolor{ThesisLinkColor}{%
+      \usesizeofkomafont{chapter}\rule[-2.1\ht\strutbox]{2\paperwidth}{0.04\baselineskip}%
 }}}}
 
 \renewcommand\chapterformat{%
-  \makebox[0pt][r]{\textcolor{gray}{\Huge\textsc{\thechapter}}\ \ \textcolor{black}{\smash{\rule[-2\dp\strutbox]{1.5pt}{1.5\baselineskip}}}}%
+  \makebox[0pt][r]{\textcolor{gray}{\Huge\textsc{\thechapter}}\ \ \textcolor{gray75}{\smash{\rule[-2\dp\strutbox]{1.5pt}{1.5\baselineskip}}}}%
   \enskip%
 }
 
