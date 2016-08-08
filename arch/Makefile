@@ -7,10 +7,15 @@ all:
 		--number-sections \
 		--bibliography thesis.bib \
 		--csl tex/ieee.csl \
-		-B tex/title.tex -H tex/header.tex -N \
-		-o pdf/thesis.tex -V lang=de-DE --chapters \
+		-H tex/vars.tex \
+		-H tex/header.tex \
+		-B tex/title.tex \
+		-N \
+		-V lang=de-DE \
+		--chapters \
 		-A tex/statement.tex \
 		--highlight-style tango \
+		-o pdf/thesis.tex \
 		*.md
 
 	cd pdf && latexmk -pdf thesis.tex

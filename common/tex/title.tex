@@ -1,0 +1,80 @@
+\begin{titlepage}
+\pagecolor{ThesisBackColor}
+\begin{center}
+
+% Upper part of the page. The '~' is needed because \\
+% only works if a paragraph has started.
+%\includegraphics[width=0.25\textwidth]{docs/pics/title.png}~\\[1cm]
+\color{ThesisFontColor}
+\textsc{\huge Hochschule Augsburg}\\[0.2cm]
+\large University of Applied Sciences\\[1cm]
+\textsc{\LARGE Masterarbeit an der Fakultät Informatik}\\[0.5cm]
+\vspace{1em}
+\includegraphics[width=0.85\textwidth]{images/title.png}~\\[1cm]
+
+% Title
+\rule{\linewidth}{0.5mm}
+
+{\vspace{0.1cm}\Huge\bfseries \ThesisTitle\\[0.3cm]}
+\rule{\linewidth}{0.5mm}
+
+\vspace{0.5cm}
+
+% Author and supervisor
+\noindent
+\begin{minipage}[t]{0.4\textwidth}
+\begin{flushleft} \Large
+\emph{Student:}\\
+\textnormal{\ThesisPreName~\textsc{\ThesisSurName}} \\
+\end{flushleft}
+\end{minipage}%
+\begin{minipage}[t]{0.4\textwidth}
+\begin{flushright} \Large
+\emph{Dozent:} \\
+\textnormal{Prof.\ Dr.-Ing. \textsc{Schöler}} \\
+\vspace{1em}
+\emph{Zweitkorrektor:} \\
+\textnormal{Prof.\ Dr.\ Hubert\  \textsc{Högl}} \\
+\end{flushright}
+\end{minipage}
+
+\vfill
+
+% Bottom of the page
+{\large \today}
+\end{center}
+\end{titlepage}
+\nopagecolor
+
+\newpage
+
+\thispagestyle{empty}
+\vspace{4cm}
+\section*{Abstract}
+\ThesisAbstractEnglish
+
+\vspace{3cm}
+\section*{Zusammenfassung}
+\ThesisAbstractDeutsch
+
+\newpage
+
+\thispagestyle{empty}
+\vspace*{0in}
+\begin{center}
+	{\Large\reflectbox{\huge$_\copyright$}}\ Copyleft \ThesisAuthor~2016. \\
+  Some rights reserved. \\
+  \vspace{1in}
+  \begin{minipage}[c]{0.2\linewidth}
+    \hfill {\Huge \ccLogo~\ccAttribution}
+  \end{minipage}
+  \hspace{0.1cm}
+  \begin{minipage}[c]{0.7\linewidth}
+    Diese Arbeit ist unter den Bedingungen der \\
+    \textit{Creative Commons Attribution--3.0} lizensiert. \\
+    \url{http://creativecommons.org/licenses/by/3.0/de/}
+  \end{minipage}
+\end{center}
+\vspace{6cm}
+\ThesisThanks
+\clearpage
