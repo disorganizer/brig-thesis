@@ -29,7 +29,7 @@ html:
 		--smart \
 		--bibliography thesis.bib \
 		--csl tex/ieee.csl \
-		-B  html/template.html \
+		-B  ../common/html/template.html \
 		-N \
 		-S \
 		--highlight-style tango \
