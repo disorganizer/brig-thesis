@@ -7,10 +7,10 @@ Zusammenspiel der einzelnen Komponenten wird spezifiziert und welche Ein- und
 Ausgaben sie nehmen. Die Berührungspunkte mit dem Nutzer werden ebenfalls
 diskutiert.
 
-# Architektur von IPFS
+## Architektur von IPFS
 
-Da ``brig`` eine Art »Frontend« für ``IPFS`` ist, wird dessen Architektur
-hier kurz schematisch erklärt.
+Da ``brig`` eine Art »Frontend« für das Backend ``IPFS`` ist, wird dessen
+Architektur hier kurz schematisch erklärt.
 
 - Bitswap
 - For the swarm!
@@ -31,6 +31,8 @@ TODO: Komponentendiagramm
 ## Daemon und Client Aufteilung
 
 ## Metadatenindex
+
+TODO: Datenentkopplung.
 
 Alle Metadaten werden in einer einzigen Key--Value basierten Datenbank gespeichert.
 Die Basis eines Key--Value--Stores sind sogenannte *Buckets* (dt. Eimer).

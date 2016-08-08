@@ -12,3 +12,19 @@ all:
 		*.md
 
 	cd pdf && latexmk -pdf thesis.tex
+
+html:
+	pandoc \
+		--filter pandoc-fignos \
+		--filter pandoc-tablenos \
+		--smart \
+		--bibliography thesis.bib \
+		--csl tex/ieee.csl \
+		-B  html/template.html \
+		-N \
+		--highlight-style tango \
+		-V lang=de-DE --chapters \
+		*.md \
+		-o html/thesis.html
+
+.PHONY: html

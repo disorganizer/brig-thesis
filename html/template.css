@@ -1,0 +1,58 @@
+html {
+    margin:    0 auto;
+    max-width: 50%;
+}
+
+h1 {
+    font-family: Vollkorn;
+    font-size: 23px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 600;
+    line-height: 23px;
+}
+
+h3 {
+    font-family: Vollkorn;
+    font-size: 19px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 23px;
+}
+
+h3 {
+    font-family: Vollkorn;
+    font-size: 17px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 23px;
+}
+
+p {
+    font-family: Vollkorn;
+    font-size: 15px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 23px;
+}
+
+blockquote {
+    font-family: Vollkorn;
+    font-size: 17px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 23px;
+}
+
+pre {
+    font-family: Vollkorn;
+    font-size: 11px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 23px;
+}

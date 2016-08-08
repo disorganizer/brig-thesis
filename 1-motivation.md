@@ -18,7 +18,7 @@ Zahlreiche Ansätze haben versucht diese Probleme in der Praxis abzumildern oder
 zu lösen. Ein Gegenentwurf zu den zentralen Ansätzen bilden die dezentralen
 Ansätze. Dabei werden nicht alle Dateien an einem zentralen Punkt gespeichert,
 sondern können verteilt (ganz oder nur einzelne Blöcke einer Datei) im Netzwerk
-vorhanden sein. Dass dabei Dokumente auch durchaus doppelt gJoined May 2011espeichert werden
+vorhanden sein. Dass dabei Dokumente auch durchaus doppelt gespeichert werden
 dürfen, erhöht die Ausfallsicherheit und vermeidet den Flaschenhals zentraler
 Dienste.
 
@@ -42,7 +42,7 @@ Name einerseits, weil wir flexibel »Güter« (in Form von Dateien) in der ganze
 Welt verteilen, andererseits weil ``brig`` auf (Datei-)Strömen operiert.
 
 Dass der Name ähnlich klingt und kurz ist wie ``git`` (TODO: ref), ist kein Zufall. Das
-Versionsverwaltungssystem (version control system, kurz VCS)Joined May 2011 hat durch seine
+Versionsverwaltungssystem (version control system, kurz VCS) hat durch seine
 sehr flexible und dezentrale Arbeitsweise bestehende zentrale Alternativen wie
 ``svn`` oder ``cvs`` fast vollständig abgelöst. Zusätzlich ist der Gesamteinsatz
 von Versionsverwaltungssystemen durch die verhältnismäßige einfache Anwendung
@@ -66,7 +66,7 @@ unserer Sicht hierbei sogar einige grundlegende Vorteile:
 
 - Schnellere Verbreitung durch fehlende Kostenbarriere auf Nutzerseite.
 - Kann von Nutzern und Unternehmen ihren Bedürfnissen angepasst werden.
-- Transparenz in puncto Sicherheit (keine offensichtlichen BJoined May 2011ackdoors möglich).
+- Transparenz in puncto Sicherheit (keine offensichtlichen Backdoors möglich).
 - Fehlerkorrekturen, Weiterentwicklung und Testing aus der Community.
 
 [^AGPL]: Lizenztext: \url{www.gnu.org/licenses/agpl-3.0.de.html}
