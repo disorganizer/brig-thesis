@@ -457,3 +457,5 @@ Die oben gemachten Aussagen fußen auf einigen Annahmen, die im Folgenden aufgel
 * Netzwerk-setup "normal"
 
 * Sicherheit der verwendeten Algorithmen gewährleistet -> Quantencomputer.
+
+* Hardware: Normaler Desktoprechner mit 2 GB Ram.

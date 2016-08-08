@@ -37,7 +37,8 @@ Nicht alle Teile dieses Interfaces können von ``brig`` umgesetzt werden. So
 gibt es kaum eine verträgliche Definition von harten und weichen Verlinkungen
 (*Hardlinks* und *Symbolic Links*) für dezentrale Netzwerke. Auch spezielle
 Dateien wie *FIFOs* können in diesem Kontext nicht ohne Race--Conditions
-umgesetzt werden.
+umgesetzt werden. Entsprechende Operationen werdem von *FUSE--Layer* mit
+dem *POSIX*--Fehlercode ``ENOSYS`` (Nicht implementiert) quittiert.
 
 **Glaubhafte Abstreitbarkeit:** Auch wenn ein ``brig``--Repository in der
 geschlossenen Form als sicherer »Datensafe« einsetzbar ist, so bietet ``brig``
@@ -53,7 +54,8 @@ da es nur auf den Metadaten von Dateien arbeitet.
 können reine Speicherdienste wie *Amazon S3*[^AMAZON_S3] nicht ohne weiteres
 als Datenlager benutzt werden. Das kann allerdings leicht umgangen werden,
 indem der entfernte Speicher lokal gemounted[^REMOTE_MOUNT] wird, und der
-``brig``--Prozess lokal gestartet wird.
+``brig``--Prozess lokal gestartet wird. Werkzeuge wie ``rsync`` oder ``git--annex``
+benötigen lediglich einen ``ssh``--Zugang zur Maschine.
 
 **Keine starke Ausfallsicherheit:** ``brig`` speichert nur ganze Dateien auf
 $1$ bis $n$ Knoten. Es wird kein *Erasure--Enconding*[^ERASURE_ENCODING]
@@ -64,6 +66,11 @@ Werkzeuge kleine Blöcke der Dateien redundant auf mehreren Rechnern ablegen.
 Werden diese beschädigt können diese sich selbst reparieren oder von anderen
 Knoten neu übertragen werden. Für die meisten Anwendungszwecke halten wir
 Redundanz auf dem Dateilevel allerdings für ausreichend.
+
+**Embedded Devices:** ``brig`` benötigt ein vollständiges Betriebssystem mit
+Netzwerkanschluss, Hauptspeicher und einer ausreichend starken CPU. Die
+»unterste Grenze« für einen vernünftigen Betrieb wäre vermutlich ein aktueller
+Raspberry Pi (Revision 3).
 
 [^REMOTE_MOUNT]: Möglich mittels Werkzeugen wie ``sshfs``
 (\url{https://de.wikipedia.org/wiki/SSHFS}) und ``s3fs``
@@ -85,8 +92,14 @@ bis zu einen gewissen, konfigurierbaren *Beschädigungsgrad* erlaubt. Siehe auch
 
 ## Fehlende Anforderungen
 
+### Filesystem anforderunge (transactions?)
+
+Journal-log für atomic operations
+
 ## Zukünftige Erweiterungen
 
 Update Mechanismus?
 
 https://github.com/attic-labs/noms
+
+* Möglich machen, dass man einen existierenden OpenPGP nehmen kann.

@@ -4,7 +4,9 @@ Die Funktionalität des ``brig``--Prototypen ist im momentanen Zustand nur über
 eine Kommandozeilenanwendung erreichbar. Die Hilfe dieser Anwendung wird unten
 gezeigt. Im Folgenden werden die einzelnen zur Verfügung stehenden Optionen und
 Kommandos erklärt. Daneben wird auch eine Anleitung zur Installation gegeben
-und es werden Ratschläge zur optimalen Nutzung erteilt.
+und es werden Ratschläge zur optimalen Nutzung erteilt. Vorausgesetzt wird
+dabei nur die Lektüre von Kapitel 1 und 2 (TODO: ref), damit dieses Kapitel auch als Tutorial
+gelesen werden kann.
 
 ```bash
 NAME:
