@@ -1,4 +1,5 @@
-\usepackage[autostyle=true,german=quotes]{csquotes}
+\usepackage{url}
+\usepackage[babel, german=quotes]{csquotes}
 \usepackage{graphicx}
 \usepackage{lmodern}
 \usepackage{hyperref}
@@ -34,7 +35,7 @@
 
 \hypersetup{colorlinks,breaklinks,urlcolor=ThesisLinkColor,linkcolor=ThesisFontColor}
 
-\definecolor{gray75}{gray}{0.35}
+\definecolor{gray75}{gray}{0.25}
 \newcommand{\hsp}{\hspace{5pt}}
 
 \usepackage{calc}
@@ -44,14 +45,16 @@
   %\vspace{-7.7em} % Pull up chapter a bit.
   \smash{\makebox[0pt]{%
 	\textcolor{ThesisBarColor}{%
-      \usesizeofkomafont{chapter}\rule[-2.18\ht\strutbox-\dp\strutbox]{2\paperwidth}{1.5\baselineskip}%
-	}
+      \usesizeofkomafont{chapter}\rule[-2.5\ht\strutbox-\dp\strutbox]{2\paperwidth}{1.5\baselineskip}%
+  }}}
+  \smash{\makebox[0pt]{%
 	\textcolor{ThesisLinkColor}{%
-      \usesizeofkomafont{chapter}\rule[-2.1\ht\strutbox]{2\paperwidth}{0.04\baselineskip}%
-}}}}
+		\hspace*{9cm}\usesizeofkomafont{chapter}\rule[-2.18\ht\strutbox]{2\paperwidth}{0.04\baselineskip}%
+  }}}
+}
 
 \renewcommand\chapterformat{%
-  \makebox[0pt][r]{\textcolor{gray}{\Huge\textsc{\thechapter}}\ \ \textcolor{gray75}{\smash{\rule[-2\dp\strutbox]{1.5pt}{1.5\baselineskip}}}}%
+  \makebox[0pt][r]{\textcolor{gray}{\Huge\textsc{\thechapter}}\ \ \textcolor{gray75}{\smash{\rule[-2\dp\strutbox]{1.5pt}{1.801\baselineskip}}}}%
   \enskip%
 }
 

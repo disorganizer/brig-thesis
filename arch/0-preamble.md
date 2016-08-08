@@ -1,11 +1,6 @@
 ---
 documentclass: scrreprt
 classoption: toc=listof,index=totoc
-include-headers:
-    - \usepackage{url} 
-    - \usepackage[ngerman]{babel}
-    - \usepackage{csquotes}
-    - \usepackage[babel, german=quotes]{csquotes}
 fontsize: 11pt
 sections: yes
 toc: yes
@@ -14,6 +9,7 @@ lot: yes
 loe: yes
 cref: yes
 listings: yes
+
 date: \today
 ---
 

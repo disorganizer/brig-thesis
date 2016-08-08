@@ -1,6 +1,6 @@
 # Motivation {#sec:motivation}
 
-Einfache und sichere Dateisynchronisation ist trotz vieler Lösungsansätze 
+Einfache und sichere Dateisynchronisation ist trotz vieler Lösungsansätze
 noch immer ein unvollständig gelöstes Problem. Versucht man beispielsweise
 eine Datei zwischen zwei Personen zu teilen, so kann man unter anderen zwischen
 den folgenden Möglichkeiten wählen: Übertragung mittels USB--Stick,
@@ -12,7 +12,8 @@ ergeben sich in der Praxis meist sehr unterschiedliche Probleme. Bei E--Mails
 kann oft nur eine maximale Dateigröße übermittelt werden, die Übertragung von
 Dateien mittels ``ssh`` ist für die meisten Nutzer zu kompliziert und zentrale
 Dienste rufen einerseits Sicherheitsbedenken hervor, andererseits sind sie meist
-nur bedingt kostenlos und können unvermittelt ausfallen.
+nur bedingt kostenlos und können unvermittelt ausfallen. Für jeden neuen
+Kontakt muss stets erst aufwendig der Tauschweg ausgehandelt werden.
 
 Zahlreiche Ansätze haben versucht diese Probleme in der Praxis abzumildern oder
 zu lösen. Ein Gegenentwurf zu den zentralen Ansätzen bilden die dezentralen
@@ -28,7 +29,7 @@ solche Lösung stellen. Diese Arbeit versucht einen dezentralen Ansatz zur
 Dateisynchronisation vorzustellen, der eine Balance zwischen Sicherheit und
 Benutzbarkeit herstellt. Die hier vorgestellte und quelloffene Lösung trägt
 den Namen »``brig``«. Entwickelt wird die Lösung dabei vom Autor dieser Arbeit
-und seinen Mitstudenten Christoph Piechula, welcher in seiner Arbeit (TODO:
+und seinen Kommilitonen Christoph Piechula, welcher in seiner Arbeit (TODO:
 ref) die Sicherheitsaspekte der Software detailliert beleuchtet.
 Der aktuelle Quelltext findet sich auf Code--Hosting--Plattform GitHub[^GITHUB].
 
@@ -41,23 +42,24 @@ Zweimaster--Segelschiff aus dem 18-ten Jahrhundert. Passend erschien uns der
 Name einerseits, weil wir flexibel »Güter« (in Form von Dateien) in der ganzen
 Welt verteilen, andererseits weil ``brig`` auf (Datei-)Strömen operiert.
 
-Dass der Name ähnlich klingt und kurz ist wie ``git`` (TODO: ref), ist kein Zufall. Das
-Versionsverwaltungssystem (version control system, kurz VCS) hat durch seine
-sehr flexible und dezentrale Arbeitsweise bestehende zentrale Alternativen wie
-``svn`` oder ``cvs`` fast vollständig abgelöst. Zusätzlich ist der Gesamteinsatz
-von Versionsverwaltungssystemen durch die verhältnismäßige einfache Anwendung
+Dass der Name ähnlich klingt und kurz ist wie ``git``[^GIT_REF], ist kein
+Zufall. Das Versionsverwaltungssystem hat durch seine sehr flexible und
+dezentrale Arbeitsweise bestehende zentrale Alternativen wie ``svn`` oder
+``cvs`` fast vollständig abgelöst. Zusätzlich ist der Gesamteinsatz von
+Versionsverwaltungssystemen durch die verhältnismäßige einfache Anwendung
 gestiegen. Wir hoffen mit ``brig`` eine ähnlich flexible Lösung für große
 Dateien etablieren zu können.
 
+[^GIT_REF]: Ein dezentrales Versionsverwaltungssystem; siehe auch: <https://git-scm.com/>
+
 ## Lizenz
 
-Eine sicherheitskritische Lösung sollte den Nutzern die
-Möglichkeit geben nachzuschauen, wie die Sicherheitskonzepte implementieren sind.
-Aus diesem Grund und um eine freie Weiterentwicklung zu gewährleisten wird die
-entwickelte Software unter die ``AGPLv3`` (Affero General Public License,
-Version 3[^AGPL]) gestellt.
-Diese stellt sicher, dass Verbesserungen am Projekt auch wieder in dieses
-zurückfließen müssen.
+Eine sicherheitskritische Lösung sollte den Nutzern die Möglichkeit geben zu
+validieren, wie die Sicherheitskonzepte implementieren sind. Aus diesem Grund
+und um eine freie Weiterentwicklung zu gewährleisten wird die entwickelte
+Software unter die ``AGPLv3`` (*Affero General Public License, Version
+3*[^AGPL]) gestellt. Diese stellt sicher, dass Verbesserungen am Projekt auch
+wieder in dieses zurückfließen müssen.
 
 Dass die Software quelloffen ist, ist kein Widerspruch zur wirtschaftlichen
 Verwertung. Statt auf Softwareverkäufe zu setzen lässt sich mit dem Einsatz und
