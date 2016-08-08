@@ -251,8 +251,6 @@ Vollständigkeit halber auch OpenPGP zu nennen, was viele Nutzer zum
 Verschlüsseln von E-Mails benutzen. Aber auch hier ist der größte Nachteil die
 für den Ottonormalbenutzer schwierige Einrichtung und Benutzung.
 
-\newpage
-
 In [@tbl:table-technical-overview] und [@tbl:table-practical-overview] findet
 sich zusammenfassend eine Übersicht, mit den aus unserer Sicht wichtigsten
 Eigenschaften.

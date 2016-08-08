@@ -27,11 +27,11 @@ In der Praxis kranken leider auch diese Dienste entweder an der Benutzbarkeit
 oder an den Sicherheitsanforderungen, die insbesondere Unternehmen an eine
 solche Lösung stellen. Diese Arbeit versucht einen dezentralen Ansatz zur
 Dateisynchronisation vorzustellen, der eine Balance zwischen Sicherheit und
-Benutzbarkeit herstellt. Die hier vorgestellte und quelloffene Lösung trägt
-den Namen »``brig``«. Entwickelt wird die Lösung dabei vom Autor dieser Arbeit
-und seinen Kommilitonen Christoph Piechula, welcher in seiner Arbeit (TODO:
-ref) die Sicherheitsaspekte der Software detailliert beleuchtet.
-Der aktuelle Quelltext findet sich auf Code--Hosting--Plattform GitHub[^GITHUB].
+Benutzbarkeit herstellt. Die hier vorgestellte und quelloffene Lösung trägt den
+Namen »``brig``«. Entwickelt wird die Lösung dabei vom Autor dieser Arbeit und
+seinen Kommilitonen Christoph Piechula, welcher in seiner Arbeit[@cpiechula]
+die Sicherheitsaspekte der Software detailliert beleuchtet. Der aktuelle
+Quelltext findet sich auf Code--Hosting--Plattform GitHub[^GITHUB].
 
 [^GITHUB]: <http://github.com/disorganizer/brig>
 
@@ -50,7 +50,7 @@ Versionsverwaltungssystemen durch die verhältnismäßige einfache Anwendung
 gestiegen. Wir hoffen mit ``brig`` eine ähnlich flexible Lösung für große
 Dateien etablieren zu können.
 
-[^GIT_REF]: Ein dezentrales Versionsverwaltungssystem; siehe auch: <https://git-scm.com/>
+[^GIT_REF]: Ein dezentrales Versionsverwaltungssystem; siehe auch: <https://git-scm.com>
 
 ## Lizenz
 
@@ -59,12 +59,8 @@ validieren, wie die Sicherheitskonzepte implementieren sind. Aus diesem Grund
 und um eine freie Weiterentwicklung zu gewährleisten wird die entwickelte
 Software unter die ``AGPLv3`` (*Affero General Public License, Version
 3*[^AGPL]) gestellt. Diese stellt sicher, dass Verbesserungen am Projekt auch
-wieder in dieses zurückfließen müssen.
-
-Dass die Software quelloffen ist, ist kein Widerspruch zur wirtschaftlichen
-Verwertung. Statt auf Softwareverkäufe zu setzen lässt sich mit dem Einsatz und
-der Anpassung der Software Geld verdienen.  Das Open--Source Modell bietet aus
-unserer Sicht hierbei sogar einige grundlegende Vorteile:
+wieder in dieses zurückfließen müssen. Das Open--Source Modell bietet aus
+unserer Sicht hierbei einige grundlegende Vorteile:
 
 - Schnellere Verbreitung durch fehlende Kostenbarriere auf Nutzerseite.
 - Kann von Nutzern und Unternehmen ihren Bedürfnissen angepasst werden.
@@ -76,27 +72,30 @@ unserer Sicht hierbei sogar einige grundlegende Vorteile:
 ## Organisation
 
 Diese Arbeit wird einen Überblick über die aktuelle Implementierung und die
-Designentscheidungen dahinter geben, sowie die notwendigen Techniken beleuchten.
-Wie oben bereits erwähnt, schildert Herr Piechula in seiner Arbeit (TODO: ref) 
-die Sicherheitskonzepte im Detail, weshalb diese hier nur oberflächlich
-angeschnitten werden.
+Designentscheidungen dahinter geben, sowie die notwendigen Techniken
+beleuchten, um sie anschließend kritisch zu reflektieren.
+Wie oben bereits
+erwähnt, schildert Herr Piechula in seiner Arbeit »*Sicherheitskonzepte und
+Evaluation dezentraler Dateisynchronisationssysteme am Beispiel
+brig*«[@cpiechula] die Sicherheitskonzepte im Detail, weshalb diese hier nur
+oberflächlich angeschnitten werden.
 
-Die vorliegende Arbeit ist in vier große logische Blöcke gegliedert:
+Die vorliegende Arbeit ist in vier größere logische Blöcke gegliedert:
 
-- Kapitel 1 - 3 *(Motivation, Einleitung, Stand der Technik):* **Was, Warum und Wie.**
-- Kapitel 4 - 5 *(Architektur, Implementierung):* **Technisches Design des Prototypen.**
-- Kapitel 6 - 7 *(Benutzerhandbuch, Benutzbarkeit):* **Dokumentation des Prototypen.**
-- Kapitel 8 - 9 *(Erweiterungen, Fazit):* **Ausblick in die Zukunft.**
+- [@sec:motivation] - [@sec:stand-der-technik] *(Motivation, Einleitung, Stand der Technik):* **Hinführung zum Thema.**
+- [@sec:architektur] - [@sec:implementierung] *(Architektur, Implementierung):* **Technisches Design des Prototypen.**
+- [@sec:benutzerhandbuch] - [@sec:benutzbarkeit] *(Benutzerhandbuch, Benutzbarkeit):* **Dokumentation des Prototypen.**
+- [@sec:evaluation] - [@sec:fazit] *(Evaluation, Fazit):* **Ausblick in die Zukunft.**
 
 ## Über die Autoren
 
-Wir sind zwei Master--Studenten an der Hochschule Augsburg, die von Freier
-Software begeistert sind und mit ihr die Welt ein bisschen besser machen
+Die Autoren sind zwei Master--Studenten an der Hochschule Augsburg, die von
+Freier Software begeistert sind und mit ihr die Welt ein bisschen besser machen
 wollen. Momentan entwickeln wir ``brig`` im Rahmen unserer Masterarbeiten bei
 Prof. Dr.-Ing. Honorary Doctor of ONPU Thorsten Schöler in der
-Distributed--Systems--Group[^DSG]. Wir haben beide Erfahrung darin
-Open--Source--Software zu entwickeln und zu betreuen, weswegen wir das nun auch
-gerne »hauptberuflich« fortführen würden.
+Distributed--Systems--Group[^DSG]. Beide Autoren haben Erfahrung und Spaß darin
+Open--Source--Software zu entwickeln und zu betreuen, was neben dem Eigennutzen
+einen großen Teil unserer Motivation ausmacht.
 
 Unsere momentanen sonstigen Projekte finden sich auf GitHub:
 
@@ -104,4 +103,4 @@ Unsere momentanen sonstigen Projekte finden sich auf GitHub:
 * <https://github.com/qitta> (Projekte von Christoph Piechula)
 * <https://github.com/studentkittens> (gemeinsame Projekte und Studienarbeiten)
 
-[^DSG]: Siehe auch: <http://dsg.hs-augsburg.de/>
+[^DSG]: Siehe auch: <http://dsg.hs-augsburg.de>

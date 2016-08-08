@@ -1,7 +1,7 @@
 \usepackage[usenames,dvipsnames]{xcolor}
 \definecolor{ThesisFontColor}{named}{NavyBlue}
 \definecolor{ThesisLinkColor}{named}{MidnightBlue}
-\definecolor{ThesisBarColor}{RGB}{250,250,250}
+\definecolor{ThesisBarColor}{RGB}{245,245,247}
 \definecolor{ThesisBackColor}{RGB}{255,255,255}
 
 \newcommand{\ThesisPreName}{Christopher}
@@ -10,34 +10,50 @@
 \newcommand{\ThesisTitle}{\frqq\texttt{brig}: Ein Werkzeug zur sicheren und verteilten Dateisynchronisation\flqq}
 
 \newcommand{\ThesisAbstractDeutsch}{%
-Deutsche Zusammenfassung. Lorem ipsum dolor sit amet, consetetur sadipscing
-elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
-aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed
-diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Es wird ein neuartiges, quelloffenes Werkzeug zur sicheren und verteilten
+Dateisynchronisation namens \frqq\texttt{brig}\flqq vorgestellt. Die meisten
+etablierten Möglichkeiten zum Austausch von Dateien verlassen sich auf eine
+zentrale, oft von Unternehmen abhängige, zentrale Instanz oder haben andere
+architetktonische Defizite. Der hier vorgestellte Gegenentwurf beschreibt die
+Verwendung eines verteilten P2P--Netzwerks, um flexibel, bequem und verschlüsselt
+Dateien zwischen einer beliebigen Menge an Nutzer auszutauschen. Technischen
+Neuwert hat dabei die vollständige Entkopplung der Metadaten von den
+eigentlichen Daten. Besonderen Wert wird dabei auf die Abwägung von
+Benutzbarkeit und Sicherheit gelegt, um die Nutzung des Werkzeugs auch
+unerfahrenen Nutzern zu ermöglichen.
+
+Die vorliegende Arbeit beschreibt die Architektur und Implementierung der
+Software, versucht aber auch kritisch zu reflektieren wie die vorgestellten
+Ideen und Techniken erweitert und verbessert werden können. Zudem existiert
+eine Zwillings--Arbeit[1], welche die Sicherheitsmeachnismen von
+\frqq\texttt{brig}\flqq genauer betrachtet und evaluiert.
 }%
 
 \newcommand{\ThesisAbstractEnglish}{%
-Englische Zusammenfassung. Lorem ipsum dolor sit amet, consetetur sadipscing
-elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
-aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum
-dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed
-diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
-clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+A new open source tool for secure and distributed file synchronization with the
+name \frqq\texttt{brig}\flqq is presented. Most established ways to exchange
+files rely on a central, often company controlled, central instance or have
+other design deficits. The shown alternative describes the usage of a
+distributed peer to peer network to achieve flexible, convenient and encrypted
+file exchange between any amount of users. The main novelty from a technical
+point of view is the complete decoupling of metadata from the actual data.
+Special attention is given to the balance of usability and security in order to
+enable inexperienced users to use the software.
+
+This paper describes the architecture and implementation of the software, but
+also attempts to reflect critically on how the featured ideas and techniques
+could be improved. In addition, there a partner work[1], which discusses
+\frqq\texttt{brig}\flqq from a security perspective.
 }%
 
 \newcommand{\ThesisThanks}{%
-\textbf{Danksagung:} Dank sei an folgende Personen und Dinge gerichtet: Die
-Gattungen Felis silvestris und Ursus arctos, sowie der Obergattung der Aves,
-Espressohersteller aller Länder.
+\textbf{Danksagung:} Dank sei an folgende lebenden und toten Personen und Dinge
+gerichtet: Die Gattungen Felis silvestris und Ursus arctos, sowie der
+Obergattung der Aves, Espressohersteller aller Länder und Freunde des
+weichgummierten Holzschlägers und Cellulose-Ellipsoids.
 
 Insbesondere gilt Herrn Prof.\ Dr.\ Schöler 23x facher Dank für seine Mühen.
 Meinen Eltern sei gedankt, dass sie das verwirrte Stück Biomasse in die Welt
 gesetzt haben, welches meinen Namen trägt. Dass ich jetzt wohl mein Studium
-abschließen werde, ist für mich genauso überraschend wie für euch.
+abschließen werde, ist für mich übrigens genauso überraschend wie für euch.
 }%

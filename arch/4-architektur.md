@@ -1,4 +1,4 @@
-# Architektur {#sec:architetkur}
+# Architektur {#sec:architektur}
 
 In diesem Kapitel wird die Architektur des Prototypen von ``brig`` erklärt.
 Dabei wird weniger auf die genaue Funktionsweise der Komponenten eingegangen
