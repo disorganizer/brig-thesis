@@ -133,16 +133,16 @@ Datei konfiguriert werden kann.
 **Verfügbarkeit:** Alle Daten die ``brig`` verwaltet sollen stets erreichbar
 sein und bleiben. In der Praxis ist dies natürlich nur möglich, wenn alle
 Netzwerkteilnehmer ohne Unterbrechung zur Verfügung stehen oder wenn alle
-Dateien lokal zwischengelagert worden sind. 
+Dateien lokal zwischengelagert worden sind.
 
 In der Praxis sind viele Nutzer zu unterschiedlichen Zeiten online oder
 zu komplett verschiedenen Zeiten. Aufgrund der Zeitverschiebung wäre eine
 Zusammenarbeit zwischen einem chinesischen Nutzer und einem deutschen Nutzer
 schwierig. Eine mögliche Lösung wäre die Einrichtung eines automatsierten Knoten
 der ständig verfügbar ist. Statt Dateien direkt miteinander zu teilen, könnte Nutzer
-diesen Knoten als Zwischenlager benutzen.
+diesen Knoten als Zwischenlager benutzen, wie in [@fig:temp-datahold]
 
-(TODO: Grafik?)
+![Temporäre Datenhalde](images/temp-datahold.png){#fig:temp-datahold width=50%}
 
 **Integrität:** Es muss sichergestellt werden, dass absichtliche oder
 unabsichtliche Veränderungen an den Daten festgestellt werden können.

@@ -8,7 +8,7 @@ und es werden Ratschläge zur optimalen Nutzung erteilt. Vorausgesetzt wird
 dabei nur die Lektüre von [@sec:motivation] und [@sec:einleitung], damit dieses Kapitel auch als Tutorial
 gelesen werden kann.
 
-```bash
+```{.bash .numberLines}
 NAME:
    brig - Secure and dezentralized file synchronization
 
