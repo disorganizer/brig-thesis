@@ -349,7 +349,7 @@ Falls gewünscht, kann allerdings auch ein abgeschottetes Subnetz erstellt
 werden. Dazu ist es lediglich nötig, die *Bootstrap*--Nodes durch Knoten
 auszutauschen, die man selbst kontrolliert. Unternehmen könnten diesen Ansatz
 wählen, falls ihr Netzwerk komplett von der Außenwelt abgeschottet ist. Wie in
-[@sec:architetkur] beleuchtet wird, ist dieses Vorgehen nicht direkt aus
+[@sec:architektur] beleuchtet wird, ist dieses Vorgehen nicht direkt aus
 Sicherheitsgründen notwendig.
 
 **Operation auf Hashes:** *IPFS* arbeitet nicht mit herkömmlichen Dateipfaden,
