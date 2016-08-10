@@ -104,7 +104,9 @@ Der Hauptunterschied ist allerdings die Zielgruppe. Während das bei ``brig``
 der »Otto--Normal--Nutzer« als kleinster Nenner ist, so ist *Infinit* auf
 Entwickler und Adminstratoren ausgelegt und leider nur teilweise quelloffen ist (TODO: ref).
 
-[^INFINIT]: Mehr Informationen unter: <https://infinit.sh>
+[^INFINIT]: Mehr Informationen unter: <https://infinit.sh>  --- *Anmerkung:* Neben dem verteilten Dateisystem bietet das Unternehmen
+auch noch eine reine Datei--Transfer--Lösung namens *Infinit Transfer*. Dazu gibt es hier mehr Informationen: <https://infinit.io>
+
 
 TODO: [@cox2004optimistic] beschreiben.
 
@@ -125,6 +127,8 @@ nur lokal auf einem System ohne mit anderen Knoten kommunizieren zu können.
 eine Menge an Rechnern möglichst ausfallsicher verteilen kann, selbst wenn
 einzelne Rechner ausfallen. Es richtet sich tendenziell an Administratoren und
 Poweruser, die eine große Menge an Daten sicher lagern wollen.
+Ähnliche Produkte in diesem Bereich gibt es mit *XtreemFs*[^XTREEMFS],
+*LizardFs*[^LIZARDFS] und *MooseFs*[^MOOSEFS].
 
 **restic:**{^RESTIC} Ein in *Go* geschriebenes Backup--Programm. Es
 synchronisiert zwar keine Dateien über das Netzwerk, setzt aber eine
@@ -132,12 +136,13 @@ Versionsverwaltung mittels *Snapshots* um. Zudem verschlüsselt es alle ihm
 bekannten Dateien in einem *Repository* und gewährleistet mittels eines
 speziellen Formats deren Integrität.
 
-TODO: noch mehr nennen?
-
 [^BAZIL_ORG]: Mehr Informationen unter: <https://bazil.org>
 [^FUSE_NOTE]: Der Entwickler von ``bazil``  Tommi Virtanen betreut auch dankenswerterweise die FUSE--Bindings für *Go*, die auch ``brig`` nutzt.
 [^TAHOE_LAFS]: Mehr Informationen unter: <https://tahoe-lafs.org/trac/tahoe-lafs>
 [^RESTIC]: Mehr Informationen unter: <https://restic.github.io>
+[^LIZARDFS]: Siehe auch: <https://lizardfs.com/>
+[^XTREEMFS]: Siehe auch:  <http://www.xtreemfs.org>
+[^MOOSEFS]: Siehe auch: <http://moosefs.org/>
 
 ## Markt und Wettbewerber
 
@@ -163,7 +168,7 @@ Der vermutlich bekannteste und am weitesten verbreitete zentrale Dienst zur
 Dateisynchronisation. Verschlüsselung kann man mit Tools wie ``encfs``
 (Open--Source, siehe auch [^ENCFS]) oder dem etwas umfangreicheren, proprietären
 *Boxcryptor* nachrüsten. Was das Backend genau tut ist leider das Geheimnis von
-Dropbox --- es ist nicht Open--Source. 
+Dropbox --- es ist nicht Open--Source.
 
 [^ENCFS]: Mehr Informationen unter <https://de.wikipedia.org/wiki/EncFS>
 
@@ -177,7 +182,7 @@ Abhängigkeit von der Verfügbarkeit des Dienstes.
 [^KEYSERVER]: Mehr Informationen zum Keyserver unter <https://www.boxcryptor.com/de/technischer-\%C3\%BCberblick\#anc09>
 
 Technisch nachteilhaft ist vor allem, dass jede Datei »über den Pazifik« hinweg
-synchronisiert werden muss, nur um schließlich auf dem Arbeitsrechner 
+synchronisiert werden muss, nur um schließlich auf dem Arbeitsrechner
 »nebenan« anzukommen.
 
 #### ownCloud / nextCloud
@@ -278,6 +283,8 @@ Eigenschaften.
 | ``brig`` (Prototyp)  | \cmark              | \xmark              | \textcolor{YellowOrange}{Auf Linux} |  \cmark             | \cmark          |
 | ``brig`` (Ziel)      | \cmark              | \cmark              | \cmark                     |  \cmark             | \cmark          | 
 
+TODO: Infinit eintragen?
+
 : Übersicht über praktische Aspekte {#tbl:table-practical-overview}
 
 ## IPFS: Das Interplanetary Filesystem
@@ -349,7 +356,7 @@ Falls gewünscht, kann allerdings auch ein abgeschottetes Subnetz erstellt
 werden. Dazu ist es lediglich nötig, die *Bootstrap*--Nodes durch Knoten
 auszutauschen, die man selbst kontrolliert. Unternehmen könnten diesen Ansatz
 wählen, falls ihr Netzwerk komplett von der Außenwelt abgeschottet ist. Wie in
-[@sec:architetkur] beleuchtet wird, ist dieses Vorgehen nicht direkt aus
+[@sec:architektur] beleuchtet wird, ist dieses Vorgehen nicht direkt aus
 Sicherheitsgründen notwendig.
 
 **Operation auf Hashes:** *IPFS* arbeitet nicht mit herkömmlichen Dateipfaden,
@@ -371,8 +378,10 @@ verwendeten Algorithmus und die Länge der darauf folgenden, eigentlichen
 Prüfsumme. Die entstandene Byte--Sequenz wird dann mittels ``base58``
 enkodiert, um sie menschenlesbar zu machen. Da der momentane
 Standardalgorithmus ``sha256`` ist, beginnt eine von *IPFS* generierte
-Prüfsumme stets mit ``Qm``. Mehr Informationen unter:
-<github.com/multiformats/multihash>
+Prüfsumme stets mit »``Qm``«. Mehr Informationen unter:
+<https://github.com/multiformats/multihash>
+
+TODO: grafik: kleines bild um Hashformat visuell zu erklären?
 
 Auf einem anderen Computer, mit laufenden ``ipfs``--Daemon, ist das Empfangen
 der Datei möglich, indem der Hash an ``ipfs cat`` gegeben wird. Dabei wird für
@@ -402,13 +411,12 @@ intern werden diese ähnlich wie bei ``tar`` in eine große Datei zusammengefüh
 
 (TODO: Grafik)
 
-### Public--Key Infrastructure
-
-Jeder Knoten im *IPFS*--Netzwerk besitzt ein RSA--Schlüsselpaar, welches beim
-Anlegen des Repositories erzeugt wird. Basierend auf den öffentlichen Schlüssel
-wird eine Prüfsumme errechnet, die dazu genutzt wird einen Knoten eindeutig zu
-identifizieren. Mithilfe dieser Identität ist es möglich, andere Nutzer im
-Netzwerk nachzuschlagen und deren öffentlichen Schlüssel zu empfangen:
+**Public--Key Infrastructure:** Jeder Knoten im *IPFS*--Netzwerk besitzt ein
+RSA--Schlüsselpaar, welches beim Anlegen des Repositories erzeugt wird. Mittels
+einer Prüfsumme  wird aus dem öffentlichen Schlüssel eine Identität berechnet
+($ID = H_{sha256}(K_{Public})$). Diese kann dann dazu genutzt wird einen Knoten
+eindeutig zu identifizieren und andere Nutzer im Netzwerk nachzuschlagen und
+deren öffentlichen Schlüssel zu empfangen:
 
 ```bash
 # Nachschlagen des öffentlichen Schlüssels eines zufälligen Bootstrap-Nodes:
@@ -494,8 +502,8 @@ ref). Dabei wird grob erklärt ein beiden Parteien bekannter Mittelmann (oft ein
 *Bootstrap*--Knoten) herangezogen, über den die eigentliche, direkte Verbindung
 aufgebaut wird. Mehr Details finden sich in TODO: ref. Eine Notwendigkeit dabei
 ist die Verwendung von *UDP* anstatt *TCP*. Um die Garantien, die *TCP*
-bezüglich der Paketzustellung gibt, zu erhalten nutzt *IPFS* die
-Anwendungs--Protokolle *UDT*. Insgesamt implementiert *IPFS* also einige
+bezüglich der Paketzustellung gibt, zu erhalten nutzt *IPFS* das
+Anwendungs--Protokoll *UDT*. Insgesamt implementiert *IPFS* also einige
 Techniken, um, im Gegensatz zu den meisten theoretischen Ansätzen, eine leichte
 Benutzbarkeit zu gewährleisten. Speziell wäre hier zu vermeiden, dass ein
 Anwender die Einstellungen seines Routers ändern muss, um ``brig`` zu nutzen.
@@ -508,7 +516,7 @@ aber vom zuständigen Administrator geändert werden. Allerdings werden Unterneh
 tendieren nur ein abgeschottetes ``brig``--Netzwerk in der Firma einzusetzen.
 
 **Übermittlung zwischen Internet und IPFS:** Ein Client/Server--Betrieb lässt sich mithilfe der *IPFS Gateways*
-bewerkstelligen. *Gateways* sind zentrale, wohlbekannte Dienste, die zwischen dem »normalen Internet« und
+emulieren. *Gateways* sind zentrale, wohlbekannte Dienste, die zwischen dem »normalen Internet« und
 dem *IPFS* Netzwerk mittels HTTP vermitteln. Die Datei ``my-photo.png`` aus dem obigen Beispiel kann
 von von anderen Nutzern bequem über den Browser heruntergeladen werden:
 

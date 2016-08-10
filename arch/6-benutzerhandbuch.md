@@ -133,7 +133,7 @@ done
 
 [^GOENV]: <https://golang.org/doc/install/source#environment>
 
-## Basics
+## Grundlegende Benutzung
 
 Die Bedienung von ``brig`` ist an das Versionsverwaltungssystem ``git``
 angelehnt. Genau wie dieses, bietet ``brig`` für jede Unterfunktionalität ein
@@ -147,7 +147,7 @@ Dateisystem hinzu, bei ``git add`` müssen sie unterhalb des
 Repository--Wurzelverzeichnises liegen. Die Nahmensähnlichkeit soll nur als
 Anknüpfungspunkt für erfahrene Anwender dienen.
 
-## Anlegen eines Repositories
+### Anlegen eines Repositories
 
 Repository erklären.
 
@@ -164,8 +164,43 @@ $ brig init alice@wonderland.lit/desktop
 tree $BRIG_PATH/.brig
 ```
 
-## Dateien hinzufügen, löschen und verschieben
+### Dateien hinzufügen, löschen und verschieben
 
-## Mounten
+brig add
+brig cat
+brig rm
+brig mv
+brig ls
+brig tree
+brig mkdir
 
-## Dateien teilen
+### Nutzung des FUSE Filesystems
+
+brig mount
+
+### Versionsverwaltung
+
+brig status
+brig history
+brig log
+brig commit
+
+### Synchronisieren
+
+brig remote
+brig sync
+
+### Dateien pinnen
+
+brig pin
+
+## Fortgeschrittene Nutzung
+
+### Repository öffnen und schließen
+
+brig daemon
+brig net
+brig debug export/import
+brig config
+brig open
+brig close

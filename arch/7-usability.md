@@ -10,7 +10,7 @@ Oberfläche.
 Größtes Problem: Starten des Hintergrunddienstes ``brigd``.
 
 
-## Anforderungen
+## Anforderungen an die Benutzbarkeit
 
 http://www.usabilitynet.org/trump/methods/recommended/requirements.htm
 
@@ -22,14 +22,16 @@ Operability
 Attractiveness
 Configurability is the root of all evil
 
-## Installation
+### Installation
 
 ## Kommandozeile
 
 ## Grafische oberflächhe
 
+TODO: Mockups mit Glade/GTK machen.
+
 (nicht implementiert, aber wie könnte sie aussehen?)
 
-## Fehlerbehandlung
+## Verhalten bei Fehlern
 
 (Netzwerkfehler zB)

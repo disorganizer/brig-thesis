@@ -70,7 +70,7 @@ Nutzer stören könnten. Oder um Rob Pike[@pike2001security, S.24] zu zitieren:
 
 ```
 	Weak security that's easy to use will help more people than strong
-	security that's hard to use. For example door locks.
+	security that's hard to use. Door locks are a good example.
 ```
 
 Bei Fragen zwischen Effizienz und Sicherheit wird allerdings eher zugunsten der
@@ -84,19 +84,21 @@ S.39) angelehnt und an die Ausrichtung von ``brig`` angepasst wurden.
 
 ### Anforderungen die Integrität
 
-**Dezentralität:** Statt einem zentralen Dienst, soll ``brig`` die Basis eines
-dezentralen Netzwerkes bilden. Dabei stellt jeder Teilnehmer einen Knoten in
-diesem Netzwerk dar. Nutzer des Netzwerkes können Dateien zwischen
-verschiedenen Teilnehmern synchronisieren. Dabei muss nicht zwangsweise die
-gesamte Datei übertragen werden, jeder Nutzer verwaltet lediglich eine Liste
-der Metadaten der Dateien, die jeder Teilnehmer besitzt. Durch die Entkopplung
-zwischen Metadaten und tatsächlichen Metadaten ist es möglich bestimmte Dateien
-»on-demand« und für den Nutzer transparent zu übertragen.
+**Entkopplung von Metadaten und Daten:** Statt einem zentralen Dienst, soll
+``brig`` die Basis eines dezentralen Netzwerkes bilden. Dabei stellt jeder
+Teilnehmer einen Knoten in diesem Netzwerk dar. Nutzer des Netzwerkes können
+Dateien zwischen verschiedenen Teilnehmern synchronisieren. Dabei muss nicht
+zwangsweise die gesamte Datei übertragen werden, jeder Nutzer verwaltet
+lediglich eine Liste der Metadaten der Dateien, die jeder Teilnehmer besitzt.
+Durch die Entkopplung zwischen Metadaten und tatsächlichen Metadaten ist es
+möglich bestimmte Dateien »on-demand« und für den Nutzer transparent zu
+übertragen.
 
 Der Hauptvorteil einer dezentralen Architektur ist die erhöhte
-Ausfallsicherheit und der Fakt, dass das Netzwerk durch seine Nutzer entsteht
-und keine besondere Infrastruktur benötigt. Stattdessen funktioniert ``brig``
-als *Overlay--Netzwerk* (Siehe [@peer2peer], S.8) über das Internet.
+Ausfallsicherheit (kein *Single--Point--of--Failure*) und der Fakt, dass das
+Netzwerk durch seine Nutzer entsteht und keine besondere Infrastruktur
+benötigt. Stattdessen funktioniert ``brig`` als *Overlay--Netzwerk* (Siehe
+[@peer2peer], S.8) über das Internet.
 
 **Pinning:** Der Nutzer soll Kontrolle darüber haben, welche Dateien er lokal
 auf seinem Rechner speichert und welche er von anderen Teilnehmern dynamisch
@@ -176,9 +178,10 @@ Dateien selbst, sondern auch die dazugehörigen Metadaten sollen Ende--zu--Ende
 verschlüsselt werden.
 
 Die Verschlüsselung der Metadaten erscheint vor allen im Lichte der
-Enthüllungen zur NSA--Affäre geboten (TODO: ref). Eine Ende--zu--Ende Verschlüsselung ist
-in diesem Fall vor allem deswegen wichtig, weil der Datenverkehr unter
-Umständen auch über andere Knoten im Netzwerk gehen kann.
+Enthüllungen zur NSA--Affäre geboten[@snowdenWiki]. Eine Ende--zu--Ende
+Verschlüsselung ist in diesem Fall vor allem deswegen wichtig, weil der
+Datenverkehr unter Umständen auch über andere, ansonsten unbeteiligte, Knoten
+im Netzwerk gehen kann.
 
 **Authentifizierung:** ``brig`` sollte die Möglichkeit bieten zu überprüfen, ob
 Synchronisationspartner wirklich diejenigen sind die sie vorgeben zu sein.
@@ -422,23 +425,32 @@ realisiert werden.
 
 ## Einsatszenarien
 
-TODO:
-
-Kurz zusammengefasst soll ``brig`` also in folgenden Einsatszenarien praktikabel nutzbar sein:
+Zusammengefasst soll ``brig`` also in folgenden Einsatszenarien praktikabel nutzbar sein:
 
 **Synchronisationslösung:** Spiegelung von zwei oder mehr Ordnern und das Teilen desselben
 zwischen mehreren Nutzern. Eine selektive Synchronisation ist vorerst nicht vorgesehen.
 
 **Transferlösung:** »Veröffentlichen« von Dateien nach Außen mittels *Gateways* über den Browser.
-				TODO: Gateway erklären/einführen?
+Eine beliebige Anzahl an bekannten und unbekannten Teilnehmern können die Datei herunterladen.
 
-**Versionsverwaltung:** Bis zu einer konfigurierbaren Tiefe können Dateien wiederhergestellt werden.
+**Versionsverwaltung:** Alle Modifikationen an den bekannten Dateien werden aufgezeichnet.
+Bis zu einer gewissen Mindestiefe können Dateien wiederhergestellt werden. Die Tiefe hängt
+dabei von der *Quota* ab und ob andere Teilnehmer die Datei noch speichern.
 
-**Backup- und Archivierungslösung:** Verschiedene »Knoten--Typen« möglich.
+**Backup- und Archivierungslösung:** Es ist möglich Knoten so zu konfigurieren, dass
+(nach Möglichkeit) alle Dateien gepinned werden. Ein solcher Knoten kann dann
+anderen Teilnehmern automatisch als Archiv für alte Dateien dienen.
 
-**Verschlüsselter Safe:** ein »Repository«[^REPO] kann »verschlossen« und wieder »geöffnet« werden.
+**Verschlüsselter Safe:** Da alle Dateien verschlüsselt sind, müssen sie beim Start
+der Software erst »aufgeschlossen« werden. Da die entschlüsselten Daten nur
+im Hauptspeicher vorgehalten werden, ist nach Beenden der Software kein
+Zugriff mehr möglich.
 
-**Plattform:** für verteilte und sicherheitskritische Anwendungen.
+**Plattform:** Die momentane Implementierung ist als Werkzeugkasten für
+Dateisynchronisation ausgelegt. Sofern keine Echtzeitbedingungen benötigt
+werden, kann ``brig`` beispielsweise zum Synchronisieren von Log--Dateien im
+Industrie--4.0 Umfeld oder zum Verteilen von Konfigurations--Dateien eingesetzt
+werden.
 
 Es gibt natürlich auch einige Einsattzzwecke, für die ``brig`` eher bis gar
 nicht geeignet ist. Diese werden im [@sec:evaluation] beleuchtet, da die
@@ -446,6 +458,8 @@ dortige Argumentation teilweise ein Verständnis von der internen Architektur
 benötigen.
 
 ## Annahmen
+
+TODO: Diese wirren Gedanken ausformulieren.
 
 Die oben gemachten Aussagen fußen auf einigen Annahmen, die im Folgenden aufgelistet werden:
 
