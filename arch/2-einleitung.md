@@ -456,21 +456,3 @@ Es gibt natürlich auch einige Einsattzzwecke, für die ``brig`` eher bis gar
 nicht geeignet ist. Diese werden im [@sec:evaluation] beleuchtet, da die
 dortige Argumentation teilweise ein Verständnis von der internen Architektur
 benötigen.
-
-## Annahmen
-
-TODO: Diese wirren Gedanken ausformulieren.
-
-Die oben gemachten Aussagen fußen auf einigen Annahmen, die im Folgenden aufgelistet werden:
-
-* IPFS Annahmen:
-
-	- IPFS ist ein globales Netz über dem Internet
-	- ausreichend hohe Geschwindigkeit
-	- stete Weiterentwicklung
-
-* Netzwerk-setup "normal"
-
-* Sicherheit der verwendeten Algorithmen gewährleistet -> Quantencomputer.
-
-* Hardware: Normaler Desktoprechner mit 2 GB Ram.

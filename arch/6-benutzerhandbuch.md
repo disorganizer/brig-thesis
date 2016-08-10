@@ -8,7 +8,7 @@ und es werden Ratschläge zur optimalen Nutzung erteilt. Vorausgesetzt wird
 dabei nur die Lektüre von [@sec:motivation] und [@sec:einleitung], damit dieses Kapitel auch als Tutorial
 gelesen werden kann.
 
-```{.bash .numberLines}
+```{#lst:brig-help .bash .numberLines}
 NAME:
    brig - Secure and dezentralized file synchronization
 
@@ -147,26 +147,115 @@ Dateisystem hinzu, bei ``git add`` müssen sie unterhalb des
 Repository--Wurzelverzeichnises liegen. Die Nahmensähnlichkeit soll nur als
 Anknüpfungspunkt für erfahrene Anwender dienen.
 
+### Eingebaute Hilfe
+
+Neben diesem Dokument und der eingebauten Hilfe gibt es im Moment keine weitere
+Dokumentation zu den vorgestellten Kommandos. Die eingebaute Hilfe kann
+entweder allgemein über ``$ brig help``{.bash} aufgerufen werden (produziert
+diesselbe Ausgabe, wie in {#lst:brig-help}) oder für ein spezifisches
+Subkommando mittels ``$ brig help <subcommand>``{.bash}. Beispiel für ``$ brig
+rm``{.bash}:
+
+```bash
+NAME:
+   brig rm - Remove the file and optionally old versions of it.
+
+USAGE:
+   brig rm [command options] <file> [--recursive|-r]
+
+CATEGORY:
+   WORKING COMMANDS
+
+DESCRIPTION:
+   Remove a spcific file or directory
+
+OPTIONS:
+   --recursive, -r	Remove directories recursively
+```
+
 ### Anlegen eines Repositories
 
-Repository erklären.
+Alle von ``brig`` verwalteten Dateien werden in einem einzigen *Repository*
+verwaltet. Dies speichert alle Daten und die dazugehörigen Metadaten
+in einer Ordnerhierarchie.
+
+Um ``brig`` zu nutzen, muss daher zuerst ein Repository angelegt werden:
 
 ```bash
 $ export BRIG_PATH=/tmp/alice
 $ brig init alice@wonderland.lit/desktop
 ```
 
-- Frage nach Passphrase.
-- Passphrase mindest komplexität, ref. auf kitteh.
-- Wiederholung des Passphrases.
+Der Nutzer wird um die Eingabe einer Passphrase gebeten. Die Formulierung
+*Passphrase* ist dabei bewusst anstatt dem Wort *Passwort* gewählt, da eine
+gewisse Mindestkomplexität Voraussetzung zur erfolgreichen Eingabe ist. Die
+Komplexität wird dabei von der ``zxcvbn``--Bibliothek überprüft[^zxcvbn].
+Welche Kriterien es dabei anwendet, kann in Kapitel 8 von [@cpiechula]
+nachgeschlagen\ werden.
 
-```bash
-tree $BRIG_PATH/.brig
-```
+[^zxcvbn]: Mehr Informationen hier: <https://github.com/dropbox/zxcvbn>
+
+Nach wiederholter, erfolgreicher Eingabe der Passphrase wird ein Schlüsselpaar generiert,
+und die in [@fig:brig-repo-tree] gezeigte Verzeichnisstruktur angelegt.
+
+![Test](images/tree-brig-repo.pdf){#fig:brig-repo-tree width=50%}
 
 ### Dateien hinzufügen, löschen und verschieben
 
-brig add
+Wurde ein Repository angelegt, können einzelne Dateien oder ganze Verzeichnisse hinzugefügt werden:
+
+```bash
+$ cd $BRIG_PATH
+$ brig add ~/photos/cat.png
+/cat.png
+$ brig add ~/music/knorkator/
+/knorkator
+```
+
+Das Hinzufügen größerer Verzeichnisse nimmt etwas Zeit in Anspruch, da die
+Dateien komprimiert, verschlüsselt und gehasht werden. 
+
+----
+
+*Anmerkung:* Zum Ausführen dieser Kommandos muss man entweder im Ordner des ``brig``--Repositories
+sein oder in einem Unterordner. Andernfalls wird ``brig`` eine Meldung wie diese ausgeben:
+
+```
+10.08.2016/17:33:11 I: Unable to find repo in path or any parents: "/home/sahib"
+10.08.2016/17:33:11 W: Could not load config: open .brig/config: No such file or directory
+10.08.2016/17:33:11 W: Falling back on config defaults...
+```
+
+Oft genug reichen die Standardwerte der Konfiguration aus, damit der Befehl korrekt funktioniert.
+Alternativ kann auch die Umgebungsvariable ``BRIG_PATH`` wie oben gezeigt gesetzt werden, um
+von überall im Dateisystem das Kommando absetzen zu können.
+
+----
+
+Die hinzugefügten Dateien werden von ``brig`` einem virtuellen Wurzelknoten ``/`` hinzugefügt (``/cat.png``),
+anstatt den vollen Pfad zu erhalten (``~/photos/cat.png``) --- letzterer hätte nach der Synchronisation
+auf andere Rechner keine sinnvolle Bedeutung mehr. Dieses Prinzip wird auch ersichtlich bei Benutzung
+von ``$ brig ls``{.bash}:
+
+```bash
+$ brig ls
+105 MB	4 seconds ago	/
+2.1 MB	4 seconds ago	/photos/
+2.1 MB  5 seconds ago   /photos/cat.png
+103 MB	4 seconds ago	/knorkator/
+ 99 MB	4 seconds ago	/knorkator/hasenchartbreaker/
+7.9 MB	1 minute ago	/knorkator/hasenchartbreaker/01 Ich bin ein ganz besond'rer Mann.mp3
+...
+```
+
+Möchte man den Inhalt einer Datei von ``brig`` wieder ausgeben lassen,
+so übergibt man den Pfad an das ``cat``--Subkommando:
+
+```bash
+$ brig cat /photos/cat.png > some-cat.png
+$ open ./some-cat.png  # Öffnet die Datei in einem Bildbetrachter.
+```
+
 brig cat
 brig rm
 brig mv
@@ -199,8 +288,35 @@ brig pin
 ### Repository öffnen und schließen
 
 brig daemon
+
+Fällt der Daemon weg (durch normales Beenden oder Absturz), so fragen alle
+Kommandos, die mit ihm kommunizieren müssen nach dem Passwort. Dieses ist nötig,
+um ihn neu zu starten.
+
 brig net
 brig debug export/import
 brig config
 brig open
 brig close
+
+### Version anzeigen
+
+Die Versionsnummer von ``brig`` folgt den Prinzipien des *Semantic
+Versioning*[^SEMVER] (in der Version 2.0). Das Format entspricht dabei
+``v<MAJOR>.<MINOR>.<PATCH>[-<TAG>][+<REV>]``, wobei die Platzhalter folgende
+Bedeutung haben:
+
+* ``MAJOR``: Oberste Versionsnummer. Wird nur bei inkompatiblen API--Änderungen inkrementiert.
+* ``MINOR``: Wird bei Erweiterungen inkrementiert, welche nicht die Kompatibilität beeinflussen.
+* ``PATCH``: Wird bei Berichtigung einzelner Fehler jeweils einmal inkrementiert.
+* ``TAG``: Optional. Weißt spezielle Entwicklungsstände wie ``alpha``, ``beta``, ``final`` etc. aus.
+* ``REV``: Falls bei Kompilierzeit verfügbar, der aktuelle ``git``--HEAD.
+
+Nach der eigentliche Versionsnummer wird zusätzlich zur Information der Kompilierzeitpunkt angezeigt:
+
+```bash
+$ brig -v
+v0.1.0-alpha+cd50f68 [buildtime: 2016-07-28T12:55:29+0000]
+```
+
+[^SEMVER]: Mehr Informationen unter <http://semver.org>
