@@ -136,6 +136,8 @@ Versionsverwaltung mittels *Snapshots* um. Zudem verschlüsselt es alle ihm
 bekannten Dateien in einem *Repository* und gewährleistet mittels eines
 speziellen Formats deren Integrität.
 
+TODO: https://librevault.com anschauen, was kann das?
+
 [^BAZIL_ORG]: Mehr Informationen unter: <https://bazil.org>
 [^FUSE_NOTE]: Der Entwickler von ``bazil``  Tommi Virtanen betreut auch dankenswerterweise die FUSE--Bindings für *Go*, die auch ``brig`` nutzt.
 [^TAHOE_LAFS]: Mehr Informationen unter: <https://tahoe-lafs.org/trac/tahoe-lafs>
@@ -209,7 +211,7 @@ vom nächstgelegenen Peer mit der höchsten Bandbreite übertragen. Praktisch is
 auch, dass *Syncthing* Instanzen mittels eines zentralen Discovery--Servers
 entdeckt werden können. Nachteilig hingegen ist die fehlende
 Benutzerverwaltung: Man kann nicht festlegen von welchen Nutzern man Änderungen
-empfangen will und von welchen nicht. 
+empfangen will und von welchen nicht.
 
 #### BitTorrent Sync
 
@@ -528,3 +530,27 @@ $ curl https://gateway.ipfs.io/ipfs/$PHOTO_HASH > my-photo.png
 Auf dem *Gateway* läuft dabei ein Webserver, der dasselbe tut wie ``ipfs cat``, aber statt auf der Kommandozeile
 die Daten auf eine HTTP--Verbindung ausgibt. Standardmäßig wird mit jedem Aufruf von ``ipfs daemon``
 ein Gateway auf der Adresse ``http://localhost:8080`` gestartet.
+
+## Annahmen
+
+Das Design von ``brig`` basiert auf einigen Annahmen, die wir im Voraus treffen mussten:
+
+**Durchschnittlicher Netzwerksetup:** Für den Prototypen wird ein »normales«
+Heimnetzwerk mit mehren Computern angenommen, welche typischerweise hinter einem NAT liegen.
+Diese sollen sich mit anderen Computern in einem separaten Heimnetzwerk
+austauschen können.
+
+**Durchscnittlicher Arbeitsrechner:** Das Design wurde nicht auf minimale
+Hardware ausgerichtet. Wir gehen vom Vorhandensein eines »normalen«
+Arbeitsrechners mit normalen Prozessor und mindestens 2GB Arbeitsspeicher aus.
+
+**Stabilität von IPFS:** Wir nehmen an, dass *IPFS* stetig weiterentwickelt
+wird und im momentanen Zustand keine gravierenden Sicherheitsmängel und
+sonstige Fehler hat. Zudem nehmen wir an, dass es für unsere Zwecke ausreichend
+hohe Performanz bietet.
+
+**Sicherheit der verwendeten Algorithmen:** Wir nehmen an, dass die in den
+folgenden Kapiteln vorgestellten Sicherheitsalgorithmen auch auf absehbare Zeit
+sicher gelten. Insbesondere Erfindungen wie Quantencomputer können diese
+Annahmen gefährden. Daher sollten Algorithmen auch mit Bedacht auf diesen
+Aspekt ausgewählt werden.

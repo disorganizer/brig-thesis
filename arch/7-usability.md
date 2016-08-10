@@ -35,3 +35,5 @@ TODO: Mockups mit Glade/GTK machen.
 ## Verhalten bei Fehlern
 
 (Netzwerkfehler zB)
+
+Aufbau von Fehlermeldungen
