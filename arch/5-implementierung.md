@@ -86,7 +86,8 @@ aber gut funktionierende Lösung verfolgt auch ``brig``[^VENDOR].
 [^VENDOR]: <https://github.com/disorganizer/brig-vendor>
 
 **Keine modernen Sprachfeatures:** 
-Fehlende Generics und ein paar moderne Sprachfeatures TODO
+Fehlende Generics und ein paar moderne Sprachfeatures 
+TODO: Wirklich?
 
 [^UPX]: Ein Packprogramm Mehr Informationen unter <http://upx.sourceforge.net>
 
@@ -94,26 +95,32 @@ Fehlende Generics und ein paar moderne Sprachfeatures TODO
 
 Travis, git, nvim, glide
 
-## FUSE Layer
+## Überbick über die Software
 
-## Algorithmik
+godoc
+
+Konzeptueller überblick über die Go-Pakete.
+
+### Umgebungsvariablen
+
+### Portbelegung
+
+### FUSE Layer
+
+### Algorithmik
 
 (Flaschenhälse)
 
-## Historisches
+### Historisches
 
 - XMPP
 - MQTT
 
-## Übersicht
-
-Konzeptueller überblick über die Go-Pakete.
-
-Portbelegung... 
-
 ## Problemstellungen
 
 Hürden bei entwicklung
+
+## Beiträge zu anderen Projekten
 
 - Pull requests bei ipfs projekt
  und andere

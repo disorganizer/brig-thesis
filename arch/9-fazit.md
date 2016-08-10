@@ -1,20 +1,24 @@
 # Fazit {#sec:fazit}
 
+## Zusammenfassung
+
 Ambitioniertes Projekt,
 trotzdem positive Resultate trotz Zeitmangels.
 
+Relativ interdisplizinär: 
+
+- Sicherheit
+- P2P
+- Softwarearchitektur
+- Usability
+
 cloc-statistiken
 tree vom source
-Benchmarks!
 
-## Erfüllung der Anforderungen
+### Selbstkritik
 
-## Selbstkritik
+### Zukunft der Autoren
 
-## Finanzierung
+Weiterentwicklung gewährleistet?
 
-## Erweiterungen
-
-## Portierbarkeit
-
-Android, Windows.
+Finanzierung

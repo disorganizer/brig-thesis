@@ -1,11 +1,5 @@
 # Evaluation {#sec:evaluation}
 
-*Semantisch durchsuchbares* Tag-basiertes Dateisystem[^TAG].
-
-Docker erwähnen, weil's so hipp ist?
-
-
-[^TAG]: Mit einem ähnlichen Ansatz wie <https://en.wikipedia.org/wiki/Tagsistant>
 
 ## Was ``brig`` *nicht* ist
 
@@ -90,16 +84,38 @@ bis zu einen gewissen, konfigurierbaren *Beschädigungsgrad* erlaubt. Siehe auch
 [^GLUSTER]: Webpräsenz: <https://www.gluster.org>
 [^ABSTREIT]: Siehe auch: <https://de.wikipedia.org/wiki/VeraCrypt\#Glaubhafte_Abstreitbarkeit>
 
-## Fehlende Anforderungen
+## Defizite der aktuellen Implementierung
 
-### Filesystem anforderunge (transactions?)
+### Beschränkte Synchronisationsfähgikeiten
 
+### Testsuite zu klein
+
+### Zu geringe Ausfallsicherheit
+
+### Atomizität
+
+Filesystem anforderunge (transactions?)
 Journal-log für atomic operations
 
+## Fehlende Anforderungen
+
+Durch Anforderungen in Kapite 2 gehen und nachschauen ob alles jut ist. (Hint: Nö.)
+
 ## Zukünftige Erweiterungen
+
+*Semantisch durchsuchbares* Tag-basiertes Dateisystem[^TAG].
+
+Docker erwähnen, weil's so hipp ist?
 
 Update Mechanismus?
 
 https://github.com/attic-labs/noms
 
 * Möglich machen, dass man einen existierenden OpenPGP nehmen kann.
+
+[^TAG]: Mit einem ähnlichen Ansatz wie <https://en.wikipedia.org/wiki/Tagsistant>
+
+## Portierbarkeit
+
+Android, Windows.
+

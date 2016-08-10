@@ -9,7 +9,7 @@ diskutiert.
 
 ## Architektur von IPFS
 
-Da ``brig`` eine Art »Frontend« für das Backend ``IPFS`` ist, wird dessen
+Da ``brig`` eine Art »Frontend« für das »Backend« ``IPFS`` ist, wird dessen
 Architektur hier kurz schematisch erklärt.
 
 - Bitswap
@@ -24,13 +24,21 @@ Eher blackbox, was kommt rein was kommt raus.
 
 - Berührungspunkte mit Nutzer.
 
-$ Architektur von ``brig``
+## Architekturübersicht
 
 TODO: Komponentendiagramm
 
-## Daemon und Client Aufteilung
+### Aufbau von ``brigctl``
 
-## Metadatenindex
+Protobuf einführen
+
+Handling von mehreren Repositories
+
+### Aufbau von ``brigd``
+
+## Einzelkomponenten
+
+### Metadatenindex
 
 TODO: Datenentkopplung.
 
@@ -66,26 +74,27 @@ Dieser würde verhindern, dass Pfade teilweise doppelt abgespeichert werden.
 
 (TODO: In Grafik umwandeln)
 
-## Serialisierung
+### Serialisierung
 
-## File Streaming
-
+### Dateiströme
 
 https://en.wikipedia.org/wiki/Convergent_encryption
 
-### Verschlüsselung
+Schaubild mit den relevanten io.Reader/io.Writer
 
-### Kompression
+#### Verschlüsselung
 
-## Dateisystemordner
+#### Kompression
+
+### Dateisystemordner
 
 FUSE
 
 ### Deduplizierung
 
-## Gateway
+### Gateway
 
-## Sonstiges
+### Sonstiges
 
 ### Logging
 
