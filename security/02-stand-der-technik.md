@@ -43,8 +43,8 @@ Seiten des Nutzers helfen, jedoch ist die Software hier für den Endverbraucher
 oft zu kompliziert, aufgrund Fehlern in der Implementierung nicht optimal
 geeignet (EncFS Audit[^encfsaudit]) oder proprietär (Boxcryptor[^boxcryptor]).
 
-[^encfsaudit]:  EncFS Audit: \url{https://defuse.ca/audits/encfs.htm}
-[^boxcryptor]: Boxcryptor: \url{https://de.wikipedia.org/wiki/Boxcryptor}
+[^encfsaudit]:  EncFS Audit: <https://defuse.ca/audits/encfs.htm>
+[^boxcryptor]: Boxcryptor: <https://de.wikipedia.org/wiki/Boxcryptor>
 
 Die Sicherheit der Software beziehungsweise der verwendeten Algorithmen hängt
 in diesem Fall nicht alleine vom Schlüssel ab, wie es nach Kerckhoffs' Prinzip
@@ -108,9 +108,9 @@ verfolgen jedoch unterschiedliche Ziele:
 * Syncthing
 * Bazil[^bazil] 
 
-[^bazil]: Projektseite: \url{https://bazil.org/}
+[^bazil]: Projektseite: <https://bazil.org/>
 
-* Schöler Mail--Links
+* Schöler Mail--Link
 
 ## Markt und Wettbewerber
 
