@@ -12,7 +12,7 @@ beispielsweise das *Torrent*--Konzept zu nennen, weitere Informationen hierzu
 sind unter [@cpahl] zu finden. Bei den Cloud--Storage--Service Anbietern wird
 Dropbox als Vertreter der Klasse zentraler Systeme herangezogen.
 
-### Der »Sicherheitsbegriff«
+### Der »Sicherheitsbegriff« {#sec:sicherheit}
 
 Betrachten man die »Sicherheit« von Dateiverteilungssystemen, so muss in der
 Regel zwischen Datenschutz und Datensicherheit genauer unterscheiden werden.
