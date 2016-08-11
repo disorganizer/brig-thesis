@@ -9,8 +9,12 @@ umzusetzen. Dazu gehört unter anderem die Konzeption einer grafischen
 Oberfläche.
 
 
-Größtes Problem: Starten des Hintergrunddienstes ``brigd``.
+Vertrautheit: Vertraute Unix--Kommandos für Poweruser.
 
+Größte Probleme: 
+
+- Starten des Hintergrunddienstes ``brigd``.
+- Authentifizieren anderer Nutzer (QR-Codes!)
 
 ## Anforderungen an die Benutzbarkeit
 
@@ -29,6 +33,15 @@ Configurability is the root of all evil
 ## Kommandozeile
 
 ## Grafische oberflächhe
+
+Bereich, die die GUI abdecken muss:
+
+* Versionsverwaltung
+* Online/Offline switch
+* Remote Verwaltung
+* Einrichtung von mounts und repos
+* Sync button
+* Conflicts window
 
 TODO: Mockups mit Glade/GTK machen.
 

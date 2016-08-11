@@ -173,7 +173,7 @@ OPTIONS:
    --recursive, -r	Remove directories recursively
 ```
 
-### Anlegen eines Repositories
+### Anlegen eines Repositories (``brig init``)
 
 Alle von ``brig`` verwalteten Dateien werden in einem einzigen *Repository*
 verwaltet. Dies speichert alle Daten und die dazugehörigen Metadaten
@@ -202,7 +202,8 @@ und die in [@fig:brig-repo-tree] gezeigte Verzeichnisstruktur angelegt.
 
 ### Dateien hinzufügen, löschen und verschieben
 
-Wurde ein Repository angelegt, können einzelne Dateien oder ganze Verzeichnisse hinzugefügt werden:
+Wurde ein Repository angelegt, können einzelne Dateien oder rekursiv ganze
+Verzeichnisse hinzugefügt werden:
 
 ```bash
 $ cd $BRIG_PATH
@@ -249,43 +250,283 @@ $ brig ls
 ```
 
 Möchte man den Inhalt einer Datei von ``brig`` wieder ausgeben lassen,
-so übergibt man den Pfad an das ``cat``--Subkommando:
+so übergibt man den Pfad an das ``cat``--Subkommando[^BRIG_CAT_NOTE]:
+
+[^BRIG_CAT_NOTE]: Benannt nach dem traditionellen Unix--Kommando ``cat`` zum Ausgeben und Konkatenieren von Dateien.
 
 ```bash
 $ brig cat /photos/cat.png > some-cat.png
 $ open ./some-cat.png  # Öffnet die Datei in einem Bildbetrachter.
 ```
 
-brig cat
-brig rm
-brig mv
-brig ls
-brig tree
-brig mkdir
+Da ``brig cat``{.bash} die Datei als kontinuierlichen Strom ausgibt, ist es
+möglich größere Dateien (wie Filme) ohne Zwischendatei direkt zu verwerten:
 
-### Nutzung des FUSE Filesystems
+```bash
+$ brig cat /movies/big-buck-bunny.mov | mpv -  # Zeige Film mit `mpv`
+```
 
-brig mount
+Auch die üblichen Unix--Kommandos zum Anlegen von Verzeichnissen, sowie dem
+Löschen und Verschieben von Dateien sind verfügbar:
+
+```bash
+# Anmerkung: Der vordere '/' kann auch nach Belieben weggelassen werden.
+$ brig mkdir seen-movies
+$ brig mv movies/big-buck-bunny.mov seen-movies/
+$ brig rm seen-movies/big-buck-bunny.mov
+$ brig tree
+```
+
+### Nutzung des FUSE Filesystems (``brig mount``)
+
+Die bisherige Nutzung von ``brig`` erinnert an ``git`` und ist für alltägliche
+Aufgaben eher aufwendig und nicht kompatibel mit existierenden Dateimanagern.
+Leichter wäre es für den Benutzer wenn er seine gewohnten Anwendungen einfach
+weiterverwenden könnte. Das ist mit dem *FUSE*--Dateisystem möglich.
+Zur Verwendung muss das Dateisystem »gemounted« werden:
+
+```bash
+$ mkdir /tmp/alice-mount
+$ brig mount /tmp/alice-mount
+```
+
+Dies erstellt in ``/tmp/alice-mount`` einen speziellen Ordner, mit den bisher hinzugefügten
+Dateien:
+
+```bash
+$ ls /tmp/alice-mount
+photos  movies  knorkator
+```
+
+Es können wie gewohnt Dateien editiert werden, gelöscht und neu angelegt werden:
+
+```bash
+$ gimp /tmp/alice-moumt/photos/cat.png
+$ cp ~/dog.png /tmp/alice-mount/photos
+$ rm /tmp/alice/photos/dog.png
+```
+
+Der ``mount``--Befehl kann auch ohne Pfad aufgerufen werden. In diesem Fall wird das Dateisystem.
+direkt über dem ``brig``--Repository unter ``$BRIG_PATH`` gelegt:
+
+```bash
+$ brig mount
+$ ls $BRIG_PATH
+photos  movies  knorkator
+$ ls /tmp/alice-mount
+photos  movies  knorkatoor
+$ brig mount -u /tmp/alice-mount
+```
+
+Wie man sieht, ist auch der andere Ordner noch weiterhin benutzbar bis er »unmounted« wurde.
+Eine Modifikation in dem einen Ordner wird auch im anderen Ordner angezeigt.
+
+(TODO: Test that.)
 
 ### Versionsverwaltung
 
-brig status
-brig history
-brig log
-brig commit
+Alle genanten Operationen werden von ``brig`` im Hintergrund aufgezeichnet und
+versioniert. Dabei muss zwischen *Checkpoints* und *Commits* unterschieden
+werden. Erstere beschreiben eine atomare Änderung an einer Datei (also ob sie
+hinzugefügt, gelöscht, modifiziert oder verschoben wurde). Ein *Commit* fasst
+mehrere *Checkpoints* zu einem gemeinsamen, logischen Paket zusammen. Ähnlich
+wie bei ``git``, gibt es zudem einen *Staging*--Bereich, der aus den
+*Checkpoints* bestehen, die noch in keinem *Commit* verpackt worden sind. Ein
+wichtiger Unterschied zu ``git`` ist allerdings, dass ``brig`` auch
+automatisiert (in einem konfigurierten Zeitintevall) *Commits* erstellen kann.
+Diese dienen dann eher als Sicherungspunkte eines Repositories, beziehungsweise
+*Snapshots* wie in vielen Backup--Programmen und weniger als zusammenhänge
+Einheit logischer Änderungen.
 
-### Synchronisieren
+```bash
+$ brig status
+Changes by alice@wonderland.lit/desktop:
 
-brig remote
-brig sync
+  Added:
+		photos/kitten.png
+  Removed:
+		photos/dog.png
+  Moved:
+  		cat.png -> photos/cat.png
+```
 
-### Dateien pinnen
+Die gemachten Änderungen können mit dem ``commit``--Unterkommando in einem *Commit* verpackt werden:
 
-brig pin
+```bash
+$ brig commit -m 'Moved my cat photos to the right place.'
+3 changes committed
+```
+
+Die Nachricht, die man mittels ``-m (--message)`` angegeben hat beschreibt, was in diesem *Commit*
+passiert ist und taucht später als hilfreiche Beschreibung im ``log`` auf. Mann kann diese
+Nachricht auch weglassen, was ``brig`` dazu veranlasst eine automatische *Commit*--Nachricht zu verfassen:
+
+```bash
+$ brig add ~/garfield-small.png /photos/garfield.png
+$ brig commit
+1 change committed
+```
+
+Die gemachten *Commits* lassen sich mittels des ``log``--Unterkommandos anzeigen:
+
+```bash
+QmNLei78zW/QmNLei78zW by alice@jabber.nullcat.de/laptop, Initial commit
+QmPtprCMpd/Qma2Uquo9b by alice@jabber.nullcat.de/laptop, Moved cat photos to the right place.
+QmZNJPSbTE/QmbrpM6sKy by alice@jabber.nullcat.de/laptop, Update on 2016-08-11 15:33:37.636261051 +0200 CEST
+```
+
+Die *Checkpoints* einer einzelnen Datei zeigt der ``history`` Befehl:
+
+```bash
+/photos/cat.png
+ +-- Checkpoint #2 (moved by alice@jabber.nullcat.de/laptop)
+ |   +- Hash: Qma2Uquo9bMyuRZ7Fw1oQ1v68Vm7hpCYLRsrQXoLFpZVoK
+ |   +- What: /cat.png -> /photos/cat.png
+ |   \_ Date: 2016-08-11 15:24:39.993907482 +0200 CEST
+ \-- Checkpoint #1 (added by alice@jabber.nullcat.de/laptop)
+     |- Hash: Qma2Uquo9bMyuRZ7Fw1oQ1v68Vm7hpCYLRsrQXoLFpZVoK
+     \_ Date: 2016-08-11 15:24:15.301565687 +0200 CEST
+```
+
+TODO:
+
+brig checkout implementieren...
+
+TODO: Fügt das eigentlich einen neuen punkt in der historie hinzu oder löscht es diesen?
+Da die History linear ist, wohl ersteres.
+
+### Verwalten von Synchronisationspartnern (``brig remote``)
+
+Um seine Dateien mit anderen Teilnehmern zu teilen müssen diese erst einmal
+``brig`` bekannt gemacht werden und vom Nutzer authentifiziert werden. Für
+diese Aufgabe bietet ``brig`` das ``remote``--Unterkommando. Jedes Repository
+hat dabei eine eindeutige »Identität«, welches es im Netzwerk eindeutig
+identifiziert. Diese besteht aus einem Hash--Wert, und einem menschenlesbaren
+Nutzernamen. Für das eigene Repository kann er folgendermaßen angezeigt werden:
+
+```bash
+$ brig remote self
+QmZyhL3VAAr35a9msSyhW4zfLPnx9Jn4gMSyMQR5VCBFnx online alice@wonderland.lit/desktop
+```
+
+Das Hinzufügen eines anderen Nutzers erfordert beide Werte: Sowohl sein Nutzername,
+als auch der kryptografische Hash, der ihn unfälschbar identifiziert.
+Kennt man den Namen seines Kommunikationspartners, so kann ``brig`` alle Teilnehmer
+im Netzwerk mit diesen Namen abfragen. Im Beispiel möchte ``alice`` nun auch ein ``brig``--Repository
+auf ihren Laptop einrichten und auf ihren Arbeitsrechner dieses als Partner eintragen:
+
+```bash
+$ brig remote locate alice@wonderland.lit/laptop
+QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
+QmNwr8kJrnQdjwupCDLs2Fv8JknjWD7esrF81QDKT2Q2g6
+```
+
+Für gewöhnlich taucht hier nur ein Hash--Wert auf, in diesem Fall muss allerdings zwischen
+zwei verschiedenen Identitäten gewählt werden. Mindestens eine davon könnte allerdings
+theoretisch ein Betrüger sein, der nur den Nutzernamen *alice@wonderland.lit/laptop* verwendet.
+In diesem Fall ist es nötig über einen Seitenkanal direkt Kontakt mit der Person aufzunehmen,
+mit der man synchronisieren will und darüber die Identität abzugleichen. Ein möglicher
+Seitenkanal wäre ein Telefonanruf, E--Mail oder auch ein Instant Messenger.
+Hat man festgestellt was die richtige Identität ist,  kann man sie seiner Kontaktliste
+hinzufügen:
+
+```bash
+$ brig remote add alice@wonderland.lit/laptop QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
+```
+
+TODO: Check einbauen ob der Kontakt verfügbar ist und warnen falls nicht?
+
+Der Unterbefehl ``list`` zeigt alle verfügbaren Kontakte an und ob diese online sind:
+
+```bash
+$ brig remote list
+QmZyhL3VAAr35a9msSyhW4zfLPnx9Jn4gMSyMQR5VCBFnx online alice@wonderland.lit/laptop
+```
+
+Das Löschen eines Kontakts ist mit ``$ brig remove <username>``{.bash} möglich
+und wird nicht weiter demonstriert.
+
+### Synchronisieren (``brig sync``)
+
+*Anmerkung zur* ``git`` *Analogie:* Es ist bei ``brig`` nicht nötig eine
+gemeinsame Synchronisations--Vergangenheit zu haben. Es wird rein auf
+Dateiebene synchronisiert. Mit anderen Worten: Konflikte entstehen nur dann
+wenn mehre Teilnehmern unterschiedliche Checkpoints für einen einzelnen Pfad
+einbringen.
+
+TODO: brig sync
+
+Automatische Synchronisation?
+
+### Dateien pinnen (``brig pin``)
+
+Ist man mit dem Zug unterwegs, so kann ein Pfad »gepinnt« werden, um
+sicherzustellen dass sie lokal verfügbar ist:
+
+```bash
+$ brig pin /thesis/01-motivation.tex
+```
+
+Benötigt man später wieder den Speicherplatz, so kann die Datei wieder »unpinned« werden.
+``brig`` wird diese Datei nach einiger Zeit aus dem lokalen Zwischenspeicher entfernt, sofern
+ein Platzmangel vorherrscht.
+
+TODO: brig automatisch den gc triggern lassen.
+
+### Konfiguration (``brig config``)
+
+``brig`` bietet momentan einige wenige Konfigurationswerte, um
+das Verhalten der Software nach seinen Wünschen einzustellen.
+Ein Überblick über die verfügbaren Optionen liefert das Unterkommando ``list`` von ``brig config list``:
+
+```bash
+$ brig config list
+daemon:
+  port: 6666
+ipfs:
+  path: /tmp/alice/.brig/ipfs
+  swarmport: 4001
+repository:
+  id: alice@wonderland.lit/desktop
+```
+
+Das verwendete Format zur Speicherung und Anzeige entspricht dem YAML--Format. (TODO: Ref)
+Einzelne Werte können auch direkt angezeigt werden:
+
+```bash
+$ brig config get repository.id
+alice@wonderland.lit/desktop
+```
+
+Möchte man die Werte editieren, so können diese einzeln gesetzt werden:
+
+```bash
+$ brig config set daemon.port 7777
+```
+
+TODO: Erklärung für bestimmte Konfigurationswerte liefern?
+
+```bash
+$ brig config doc daemon.port
+Defines the port brigd is listening on locally.
+
+Requires Restart: yes
+Category:         daemon
+```
 
 ## Fortgeschrittene Nutzung
 
-### Repository öffnen und schließen
+Die obigen Kommandos reichen durchaus für die alltägliche Benutzung von
+``brig`` aus. Es gibt ein paar weitere Kommandos, die besonders für technisch
+versierte Nutzer und Entwickler interessant sind.
+
+### Repository öffnen und schließen (``brig open/close``)
+
+brig open
+
+brig close
+
+### Status von ``brigd`` (``brig daemon``)
 
 brig daemon
 
@@ -293,13 +534,26 @@ Fällt der Daemon weg (durch normales Beenden oder Absturz), so fragen alle
 Kommandos, die mit ihm kommunizieren müssen nach dem Passwort. Dieses ist nötig,
 um ihn neu zu starten.
 
-brig net
-brig debug export/import
-brig config
-brig open
-brig close
+### Netzwerkstatus (``brig net``)
 
-### Version anzeigen
+Das ``net``--Unterkommando bietet die Möglichkeit sich vom Netzwerk zu trennen und wieder
+zu verbinden:
+
+```bash
+$ brig net status
+true
+$ brig net offline
+$ brig net status
+false
+$ brig net online
+true
+```
+
+### Debugging (``brig debug``)
+
+brig debug export/import
+
+### Software--Version anzeigen (``brig version``)
 
 Die Versionsnummer von ``brig`` folgt den Prinzipien des *Semantic
 Versioning*[^SEMVER] (in der Version 2.0). Das Format entspricht dabei

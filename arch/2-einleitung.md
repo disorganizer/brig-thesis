@@ -427,8 +427,11 @@ realisiert werden.
 
 Zusammengefasst soll ``brig`` also in folgenden Einsatszenarien praktikabel nutzbar sein:
 
-**Synchronisationslösung:** Spiegelung von zwei oder mehr Ordnern und das Teilen desselben
-zwischen mehreren Nutzern. Eine selektive Synchronisation ist vorerst nicht vorgesehen.
+**Synchronisationslösung:** Spiegelung von zwei oder mehr Ordnern und das
+Teilen desselben zwischen ein oder mehreren Nutzern. Ein häufiger
+Anwendungsfall ist dabei die Synchronisation zwischen mehreren Geräten eines
+einzigen Nutzers. Eine selektive Synchronisation bestimmter Ordner ist vorerst
+nicht vorgesehen.
 
 **Transferlösung:** »Veröffentlichen« von Dateien nach Außen mittels *Gateways* über den Browser.
 Eine beliebige Anzahl an bekannten und unbekannten Teilnehmern können die Datei herunterladen.

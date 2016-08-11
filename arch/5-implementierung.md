@@ -120,6 +120,8 @@ Konzeptueller überblick über die Go-Pakete.
 
 Hürden bei entwicklung
 
+vendoring problematik
+
 ## Beiträge zu anderen Projekten
 
 - Pull requests bei ipfs projekt

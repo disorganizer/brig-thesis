@@ -22,6 +22,8 @@ tree vom source
 
 ### Selbstkritik
 
+Was würde man anders machen: Prototypischere Entwicklung, vlt. sogar einfach in bash oder python.
+
 ### Zukunft der Autoren
 
 Weiterentwicklung gewährleistet?

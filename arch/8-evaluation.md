@@ -105,6 +105,10 @@ Durch Anforderungen in Kapite 2 gehen und nachschauen ob alles jut ist. (Hint: N
 
 *Semantisch durchsuchbares* Tag-basiertes Dateisystem[^TAG].
 
+Integritätsprüfung
+
+Auto-Discovery anderer Nutzer / Gruppenbildung.
+
 Docker erwähnen, weil's so hipp ist?
 
 Update Mechanismus?

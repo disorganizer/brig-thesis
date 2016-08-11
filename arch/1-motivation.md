@@ -25,16 +25,18 @@ Dienste.
 
 In einigen anderen Bereichen konnte sich sichere Open--Source--Software
 erfolgreich etablieren. Ein gutes Beispiel hierfür ist die Messenger--Anwendung
-*Signal*, welche sichere Kommunikation auf dem Smartphone leicht macht. Wir
-sind der Meinung, dass diese Software nicht nur durch seine hohen
+*Signal*[^SIGNAL], welche sichere Kommunikation auf dem Smartphone ermöglicht.
+Wir sind der Meinung, dass diese Software nicht nur durch seine hohen
 Sicherheitsversprechen eine gewisse Verbreitung[^SIGNAL_VERBREITUNG] erfahren
 hat, sondern schlicht weil es genauso leicht benutzbar und zugänglich war, wie
-die unsichereren Alternativen. (TODO: ref statista?) Letzendlich führte dies
-sogar dazu, dass die von *Signal* genutzte Technik auch im populäreren
-*WhatsApp*--Messenger eingesetzt wurde. (TODO: ref) Gleichzeitig muss
-fairerweise auch gesagt werden, dass die gute Benutzbarkeit durch einige
-Vereinfachungen im Sicherheitsmodell erreicht wurden[^SIGNAL_WIKI].
+die unsichereren Alternativen (SMS oder frühere Versionen von *WhatsApp*).
+Letztendlich führte dies sogar dazu, dass die von *Signal* genutzte Technik
+auch im populäreren *WhatsApp*--Messenger eingesetzt wurde. (TODO: ref)
+Gleichzeitig muss fairerweise auch gesagt werden, dass die gute Benutzbarkeit
+durch einige Vereinfachungen im Sicherheitsmodell erreicht
+wurden[^SIGNAL_WIKI].
 
+[^SIGNAL]: <https://whispersystems.org>
 [^SIGNAL_VERBREITUNG]: Zwischen 1 bis 5 Millionen Installationen im PlayStore (<https://play.google.com/store/apps/details?id=org.thoughtcrime.securesms&hl=de>)
 [^SIGNAL_WIKI]: Mehr Informationen unter: <https://de.wikipedia.org/wiki/Signal_(Software)#Kritik>
 
