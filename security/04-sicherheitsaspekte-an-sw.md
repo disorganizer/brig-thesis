@@ -1,15 +1,87 @@
-# Sicherheitsanforderungen an die Software
+# Anforderungen  
 
-## Überblick zu IPFS 
+Die Betrachtung des aktuellen wissenschaftlichen und technischen Standes zeigt,
+dass die Thematik im Detail recht kompliziert ist. Nichtsdestotrotz ergeben
+sich gewissen Mindestanforderungen, die für die Entwicklung einer »sicheren«
+und dezentralen Dateisynchronisationslösung nötig sind. Um eine möglichst gute
+Sicherheit und Usability zu gewährleisten, muss die Software und der
+Softwareentwicklungsprozess gewissen Mindestanforderungen erfüllen. Da die
+Anforderungen von der Zielgruppe abhängig sind, werden folgend grundsätzliche
+Anforderungen definiert, welche sich in der Umsetzung in Details unterscheiden
+können.
 
-## Datenübertragung und Metadatenübertragung
+## Anforderungen an die Software 
 
-* XMPP?
-* MQTT?
+### Sicherheit
 
-## Benutzerverwaltung
+Wie bereits unter [@sec:sicherheit] erwähnt, ist »Sicherheit« ein sehr
+weitläufiger Begriff und immer von einem bestimmten »Angriffsszenario«
+abhängig.
 
-* Loginmöglichkeiten
-* Password
-* Hardwaretoken
-* Sicherheitsfeatures Betriebbsysteme
+Eine Software zur dezentralen Dateiverteilung benötigt Konzepte welche folgende
+Punkte gewährleisten:
+
+* Vertraulichkeit: Zugriff auf Daten durch unbefugte Personen soll nicht
+  möglich sein.
+* Integrität: Die Manipulation von Daten lässt sich nicht vermeiden. Im
+  günstigsten Fall kann bereits ein Hardwaredefekt dafür sorgen, dass bestimmte
+  Daten »verändert« an den Benutzer weitergegeben werden. Dieser Umstand
+  erfordert jedoch ein Konzept zu Erkennung einer solchen Manipulation. Der
+  Benutzer muss sicherstellen, dass die Daten die er dem System (»brig«)
+  bekannt gemacht hat, dieselben sind die er in Zukunft wieder Abruft.
+* Verfügbarkeit: Die Möglichkeit eines Dateiaustausch soll auch bei Ausfall
+  bestimmter Subsysteme weiterhin möglich sein, im Extremfall, soll der
+  Benutzer Zugriff auf seine lokalen Daten haben.
+
+Um die Authentizität von Benutzer zu prüfen und Vertraulichkeit zu
+gewährleisten, wird eine »Benutzerverwaltung« benötigt, welche es dem Benutzer
+ermöglicht die Echtheit seines Kommunikationspartners zu prüfen.
+
+### Usability
+
+Die Usability von Software ist teilweise subjektiv und ist stark von den
+Erfahrungshorizont des Nutzers abhängig. Bereits bekannte Konzepte werden oft
+als »intuitiv« empfunden, neue Konzepte hingegen oft nur mühsam vom Benutzer
+angenommen. Die Umstellung des »User Interfaces« von Windows 7 zu Windows 8
+(vgl. [@nielsen2012windows]) ist hierfür ein gutes Beispiel.
+
+Ein weiteren Punkt zeigt die Praxis. Zwar gibt es seit Jahrzehnten Software zur
+»sicheren« Kommunikation, wie beispielsweise OpenPGP, jedoch hat sich das
+Konzept nicht durchgesetzt. Über die genauen Gründe, warum sich PGP nicht
+durchgesetzt hat, kann man sich streiten. Laut Meinung des Autors, liegt es
+einerseits an der hohen Komplexität beziehungsweise Einstiegshürde,
+andererseits zeigen Umfragen, dass eine gewisse Gleichgültigkeit gegenüber dem
+Schutz der eigenen Privatsphäre vorherrscht[^umfrage]. . [^umfrage]: Umfrage
+DIVSI: <https://www.divsi.de/abhoeren-egal-ich-habe-nichts-zu-verbergen/>
+
+Um dieser Problematik möglichst aus dem Weg zu gehen, sollen folgende
+Anforderungen umgesetzt werden:
+
+**Bekannte Umgebung:** Der Benutzer soll nach der Installation der Software
+weiterhin seine »bekannte« Umgebung in Form eines Ordners vorfinden, in welchem
+er seine Daten »sicher« speichern und synchronisieren kann, wie er von bereits
+vor bekannten Cloud--Storage--Diensten, wie beispielsweise Dropbox, kennt.
+
+**Versteckte Sicherheit:** Die Sicherheitskomplexität soll möglichst hinter nur
+»einem Passwort« versteckt werden. Dies soll sicherstellen, dass der Benutzer
+nicht unnötig mit einer »unangenehmen« beziehungsweise vorgangsfremden Thematik
+konfrontiert wird.
+
+### Datenübertragung und Speicherung
+
+Die Datenübertragung soll entkoppelt von der Metadatenübertragung passieren.
+Dies ermöglicht eine gezielte Synchronisation bestimmter Daten und ermöglicht
+dem Benutzer so Ressourcen (Speicherplatz und Zeit) zu sparen. Dabei sollen die
+Daten bei der Übertragung und Speicherung verschlüsselt sein.
+
+### Weitere Anforderungen
+
+Weiterhin sollen sich die Anforderungen an die Sicherheit an den aktuell
+vorherrschenden und bewährten »Sicherheitsstandards« orientieren.
+
+## Anforderungen an die Softwareentwicklung
+
+* Transparentes Entwicklungsmodell
+* »Sichere« Softwareentwicklung
+* Signatur von Software--Releases
+* Audits?
