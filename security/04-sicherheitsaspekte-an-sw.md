@@ -37,6 +37,10 @@ Um die Authentizität von Benutzer zu prüfen und Vertraulichkeit zu
 gewährleisten, wird eine »Benutzerverwaltung« benötigt, welche es dem Benutzer
 ermöglicht die Echtheit seines Kommunikationspartners zu prüfen.
 
+Weiterhin sollen sich die Anforderungen an die Sicherheit an den aktuell
+vorherrschenden und bewährten »Sicherheitsstandards« orientieren.
+
+
 ### Usability
 
 Die Usability von Software ist teilweise subjektiv und ist stark von den
@@ -67,17 +71,10 @@ vor bekannten Cloud--Storage--Diensten, wie beispielsweise Dropbox, kennt.
 nicht unnötig mit einer »unangenehmen« beziehungsweise vorgangsfremden Thematik
 konfrontiert wird.
 
-### Datenübertragung und Speicherung
-
 Die Datenübertragung soll entkoppelt von der Metadatenübertragung passieren.
 Dies ermöglicht eine gezielte Synchronisation bestimmter Daten und ermöglicht
 dem Benutzer so Ressourcen (Speicherplatz und Zeit) zu sparen. Dabei sollen die
 Daten bei der Übertragung und Speicherung verschlüsselt sein.
-
-### Weitere Anforderungen
-
-Weiterhin sollen sich die Anforderungen an die Sicherheit an den aktuell
-vorherrschenden und bewährten »Sicherheitsstandards« orientieren.
 
 ## Anforderungen an die Softwareentwicklung
 
