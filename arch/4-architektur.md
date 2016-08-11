@@ -51,9 +51,9 @@ Die Basis eines Key--Value--Stores sind sogenannte *Buckets* (dt. Eimer).
 In diesem können wie bei einer Hashtabelle einzelne Werte einzigartigen
 Schlüsseln zugeordnet werden. Die Werte können wieder *Buckets* sein,
 wodurch die Bildung einer verschachtelten Hierarchie möglich ist.
-Die verwendete Hierarchie ist dabei schematisch in [@fig:tree-store-layout] abgebildet.
+Die verwendete Hierarchie ist dabei schematisch in [@fig:brig-store-layout] abgebildet.
 
-![Hierarchie innerhalb der Key--Value--Datenbank](images/tree-store-layout.pdf){#fig:brig-store-layout width=70%}
+![Hierarchie innerhalb der Key--Value--Datenbank](images/tree-store-layout.pdf){#fig:brig-store-layout width=100%}
 
 Anmerkung: Die Struktur ist momentan auf Einfachheit und nicht auf Speichereffizienz ausgelegt.
 Es wäre beispielsweise leicht möglich im ``index``--Bucket einen Präfixbaum (TODO: ref) zu speichern.

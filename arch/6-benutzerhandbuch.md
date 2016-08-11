@@ -370,9 +370,9 @@ $ brig commit
 Die gemachten *Commits* lassen sich mittels des ``log``--Unterkommandos anzeigen:
 
 ```bash
-QmNLei78zW/QmNLei78zW by alice@jabber.nullcat.de/laptop, Initial commit
-QmPtprCMpd/Qma2Uquo9b by alice@jabber.nullcat.de/laptop, Moved cat photos to the right place.
-QmZNJPSbTE/QmbrpM6sKy by alice@jabber.nullcat.de/laptop, Update on 2016-08-11 15:33:37.636261051 +0200 CEST
+QmNLei78zW/QmNLei78zW by alice, Initial commit
+QmPtprCMpd/Qma2Uquo9b by alice, Moved cat photos to the right place.
+QmZNJPSbTE/QmbrpM6sKy by alice, Update on 2016-08-11 15:33:37.651 +0200 CEST
 ```
 
 Die *Checkpoints* einer einzelnen Datei zeigt der ``history`` Befehl:
@@ -391,6 +391,7 @@ Die *Checkpoints* einer einzelnen Datei zeigt der ``history`` Befehl:
 TODO:
 
 brig checkout implementieren...
+brig diff auch.
 
 TODO: Fügt das eigentlich einen neuen punkt in der historie hinzu oder löscht es diesen?
 Da die History linear ist, wohl ersteres.
@@ -421,14 +422,25 @@ QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
 QmNwr8kJrnQdjwupCDLs2Fv8JknjWD7esrF81QDKT2Q2g6
 ```
 
-Für gewöhnlich taucht hier nur ein Hash--Wert auf, in diesem Fall muss allerdings zwischen
-zwei verschiedenen Identitäten gewählt werden. Mindestens eine davon könnte allerdings
-theoretisch ein Betrüger sein, der nur den Nutzernamen *alice@wonderland.lit/laptop* verwendet.
-In diesem Fall ist es nötig über einen Seitenkanal direkt Kontakt mit der Person aufzunehmen,
-mit der man synchronisieren will und darüber die Identität abzugleichen. Ein möglicher
-Seitenkanal wäre ein Telefonanruf, E--Mail oder auch ein Instant Messenger.
-Hat man festgestellt was die richtige Identität ist,  kann man sie seiner Kontaktliste
-hinzufügen:
+Falls man nur den Teil hinter dem ``@`` kennt (also die *Domain*), so, können auch alle
+Identitäten mit dieser Domain aufgelistet werden:
+
+```bash
+$ brig remote locate alice@wonderland.lit/laptop
+QmZyhL3VAAr35a9msSyhW4zfLPnx9Jn4gMSyMQR5VCBFnx
+QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
+QmNwr8kJrnQdjwupCDLs2Fv8JknjWD7esrF81QDKT2Q2g6
+```
+
+Für gewöhnlich taucht hier allerdings nur ein Hash--Wert auf, in diesem Fall
+muss allerdings zwischen zwei verschiedenen Identitäten gewählt werden.
+Mindestens eine davon könnte allerdings theoretisch ein Betrüger sein, der nur
+den Nutzernamen *alice@wonderland.lit/laptop* verwendet. In diesem Fall ist es
+nötig über einen Seitenkanal direkt Kontakt mit der Person aufzunehmen, mit der
+man synchronisieren will und darüber die Identität abzugleichen. Ein möglicher
+Seitenkanal wäre ein Telefonanruf, E--Mail oder auch ein Instant Messenger. Hat
+man festgestellt was die richtige Identität ist,  kann man sie seiner
+Kontaktliste hinzufügen:
 
 ```bash
 $ brig remote add alice@wonderland.lit/laptop QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
@@ -482,12 +494,12 @@ Ein Überblick über die verfügbaren Optionen liefert das Unterkommando ``list`
 ```bash
 $ brig config list
 daemon:
-  port: 6666
+  port: 6666                        # Der Port von brigd.
 ipfs:
-  path: /tmp/alice/.brig/ipfs
-  swarmport: 4001
+  path: /tmp/alice/.brig/ipfs       # Pfad zum IPFS-Store
+  swarmport: 4001                   # Port des IPFS Swarm
 repository:
-  id: alice@wonderland.lit/desktop
+  id: alice@wonderland.lit/desktop  # Nutzer-ID
 ```
 
 Das verwendete Format zur Speicherung und Anzeige entspricht dem YAML--Format. (TODO: Ref)
@@ -522,17 +534,54 @@ versierte Nutzer und Entwickler interessant sind.
 
 ### Repository öffnen und schließen (``brig open/close``)
 
-brig open
+Um ein Repository als *Datensafe* zu nutzen, kann mit dem ``close``--Unterkommando
+der ``brigd``--Daemon heruntergefahren werden. Danach ist das Repository nur
+mit der erneuten Eingabe eines Passwortes zugreifbar. Das kann nützlich sein,
+um Fremdzugriff auch bei physikalischer Abwesenheit am Rechner zu verhindern.
 
-brig close
+```bash
+$ brig close
+# Nach einiger Zeit ohne Netz.
+$ brig open
+Password: **********
+```
+
+Ein explizites ``brig open`` ist bei normaler Benutzung nicht nötig. Jedes
+Kommando, das von ``brigd`` abhängt, versucht diesen zu starten, wenn der
+Daemon nicht erreichbar ist. Dazu fragt es wie ``brig open``{.bash} auch nach
+dem Passwort. Das ``open``--Unterkommando ist allerdings nützlich für
+Skriptdateien, wenn der Passwort--Prompt an einer erwarteten Stelle auftauchen
+soll.
 
 ### Status von ``brigd`` (``brig daemon``)
 
-brig daemon
+Das ``daemon``--Unterkommando bietet einige Optionen, um den Status von
+``brigd`` zu überprüfen und zu verändern. Um zu überpüfen ob ``brigd`` läuft,
+kann das ``ping``--Unterkommando genutzt werden:
 
-Fällt der Daemon weg (durch normales Beenden oder Absturz), so fragen alle
-Kommandos, die mit ihm kommunizieren müssen nach dem Passwort. Dieses ist nötig,
-um ihn neu zu starten.
+```bash
+$ brig daemon ping
+#01 127.0.0.1:33024 => 127.0.0.1:6668: OK (517.310422ms)
+#02 127.0.0.1:33024 => 127.0.0.1:6668: OK (522.751µs)
+...
+```
+
+Das ``wait``--Unterkommando wartet bis ``brigd`` verfügbar ist und Kommandos entgegen nehmen kann.
+Das ist für Skripte nützlich, die darauf warten müssen ohne Passwort--Prompt normale
+``brig``--Kommandos abzusetzen:
+
+```bash
+$ echo 'Waiting for brig to start...'
+$ brig daemon wait
+$ echo 'Available! You can execute brig commands now.'
+```
+
+Auch das Starten und Beenden von ``brigd`` ist mit diesem Unterkommando direkt möglich:
+
+```bash
+$ brig daemon quit    # Momentan selbe Funktion wie `brig close`
+$ brig daemon launch  # Momentan selbe Funktion wie `brig open`
+```
 
 ### Netzwerkstatus (``brig net``)
 
@@ -551,7 +600,16 @@ true
 
 ### Debugging (``brig debug``)
 
-brig debug export/import
+Unter dem ``debug``--Unterkommando finden sich einige Hilfsmittel, um die internen Abläufe
+von ``brig`` nachvollziehen zu können:
+
+* ``brig debug export``: Exportiert den aktuellen Metadatenindex auf ``stdout``. Standardmäßig ist das Format
+  dabei die binäre Enkodierung von Protobuf. Mit der Option ``--json`` kann allerdings auch zu Debugging--Zwecken
+  der Index als JSON exportiert werden.
+* ``brig debug import``: Importiert die serialisierte Version eines Metadatenindex. Falls das Format JSON ist,
+  sollte die Option ``--json`` benutzt werden.
+* ``brig debug diff <StoreA> <StoreB>``: Zeigt Debug--Ausgaben und Differenzen zwischen zwei exportierten, serialisierten
+  Indizes.
 
 ### Software--Version anzeigen (``brig version``)
 

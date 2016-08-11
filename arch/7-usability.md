@@ -8,6 +8,7 @@ in Zukunft notwendigen Schritte beschrieben werden, um die Anforderungen
 umzusetzen. Dazu gehört unter anderem die Konzeption einer grafischen
 Oberfläche.
 
+Idee: Bei ID nur Username anzeigen, und Ressource nur wenn doppeldeutig
 
 Vertrautheit: Vertraute Unix--Kommandos für Poweruser.
 

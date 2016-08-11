@@ -435,7 +435,7 @@ mittels asymmetrischer Verschlüsselung eine verschlüsselte Verbindung
 aufzubauen. Von ``brig`` wird dieses Konzept weiterhin genutzt, um eine Liste
 vertrauenswürdiger Knoten zu verwalten. Jeder Peer muss bei Verbindungsaufbau
 nachweisen, dass er den zum öffentlichen passenden privaten Schlüssel besitzt.
-Der genaue Ablauf dieser Authentifikation kann in [TODO ref kitteh] nachgelesen werden.
+Der genaue Ablauf dieser Authentifikation kann in [TODO ref christoph] nachgelesen werden.
 
 **Pinning und Caching:** Das Konzept von *IPFS* basiert darauf, dass Knoten nur
 das speichern, worin sie auch interessiert sind. Daten, die von außen zum

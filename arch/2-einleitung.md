@@ -169,7 +169,7 @@ auf der Platte abgelegt werden und sonst nur im Hauptspeicher abgelegt werden.
 
 Wie in [@sec:stand-der-technik] beleuchtet wird, speichern die meisten Dienste und
 Anwendungen zum Dateiaustausch ihre Dateien in keiner verschlüsselten Form. Es
-gibt allerdings eine Reihe von Angriffsszenarien (TODO: ref kitteh arbeit), die
+gibt allerdings eine Reihe von Angriffsszenarien (TODO: ref christoph arbeit), die
 durch eine Vollverschlüsselung der Daten verhindert werden können.
 
 **Verschlüsselte Übertragung:** Bei der Synchronisation zwischen Teilnehmern
@@ -257,7 +257,7 @@ die Öffnung des gesamten Quelltextes können Entwickler den Code auf Fehler
 einen Überblick über die Funktionsweise und Architektur der Sicherheitsfeatures
 zu bekommen. Desweiteren wird auch die Weiterentwicklung der Software offen gehalten[^SECNOTE].
 
-[^SECNOTE]: TODO: Sicherheitslücken sollten vertraulich gemeldet werden. (TODO: ref kitteh arbeit?)
+[^SECNOTE]: TODO: Sicherheitslücken sollten vertraulich gemeldet werden. (TODO: ref christoph arbeit?)
 
 ### Anforderung an die Benutzbarkeit
 

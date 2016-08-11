@@ -124,8 +124,9 @@ vendoring problematik
 
 ## Beiträge zu anderen Projekten
 
-- Pull requests bei ipfs projekt
- und andere
+- Pull requests bei ipfs projekt und andere
+
+https://github.com/bazil/fuse/pull/152
 
 (DefaultHash und Help fix)
 
