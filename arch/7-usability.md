@@ -12,6 +12,8 @@ Idee: Bei ID nur Username anzeigen, und Ressource nur wenn doppeldeutig
 
 Vertrautheit: Vertraute Unix--Kommandos für Poweruser.
 
+Internationalisierung? Gettext von error messages?
+
 Größte Probleme: 
 
 - Starten des Hintergrunddienstes ``brigd``.

@@ -28,11 +28,123 @@ Eher blackbox, was kommt rein was kommt raus.
 
 TODO: Komponentendiagramm
 
+TODO: Repository begriff irgendwo einführen?
+
+``brig`` ist architektonisch in einem langlebigen Daemon--Prozess und einem
+kurzlebigen Kontroll--Prozess aufgeteilt, welche im Folgenden jeweils ``brigd``
+und ``brigctl`` genannt werden.[^BRIGCTL_NOTE] Beide Prozesse kommunizieren
+dabei über Netzwerk mit einem speziellen Protokoll, welches auf einen
+Serialisierungsmechanismus  von Google namens *Protobuf*[^PROTOBUF] basiert.
+Dabei wird basierend auf einer textuellen Beschreibung des Protokolls (in einer
+``.proto``--Datei mit eigener Syntax) Quelltext generiert in der gewünschten
+Zielsprache generiert. Dieser Quelltext ist dann in der Lage Datenstrukturen
+von der Zielsprache in ein serialisiertes Format zu überführen, beziehungsweise
+dieses wieder einzulesen. Als Format steht dabei wahlweise eine
+speichereffiziente, binäre Repräsentation der Daten zur Verfügung, oder eine
+menschenlesbare Darstellung als JSON--Dokument.
+
+Die Aufteilung in zwei Programmteile ist dabei inspiriert von ``MPD`` und
+``IPFS``. (TODO) Nötig ist die Aufteilung vor allem, da ``brigd`` im
+Hintergrund als Netzwerkdienst laufen muss, um Anfragen von außen verarbeiten
+zu können. Abgesehen davon ist es aus Effizienz--Gründen förderlich, wenn nicht
+bei jedem eingetippten Kommando das gesamte Repository geladen werden muss.
+Auch ist es durch die Trennung möglich, dass ``brigd`` auch von anderen
+Programmiersprachen und Prozessen auf dem selben Rechner aus gesteuert werden
+kann.
+
+[^BRIGCTL_NOTE]: Tatsächlich gibt es derzeit keine ausführbaren Dateien mit
+diesen Namen. Die Bezeichnungen ``brigctl`` und ``brigd`` dienen lediglich der
+Veranschaulichung.
+[^PROTOBUF]: Mehr Informationen unter: <https://developers.google.com/protocol-buffers>
+
 ### Aufbau von ``brigctl``
 
-Protobuf einführen
+Kurz gesagt ist ``brigctl`` eine »Fernbedienung« für ``brigd``, welche momentan
+exklusiv von der Kommandozeile aus bedient wird. In den meisten Fällen
+verbindet sich der Kommando--Prozess ``brigctl`` sich beim Start zu ``brigd``,
+sendet ein mittels *Protobuf* serialisiertes Kommando und wartet auf die
+dazugehörige Antwort welche er dann deserialisiert. Nachdem die empfangene
+Antwort je nach Art ausgewertet wurde, beendet sich der Prozess wieder.
 
-Handling von mehreren Repositories
+**Protobuf Protokoll:** Das Protokoll ist dabei so, aufgebaut, dass
+für jede Aufgabe, die ``brigd`` erledigen soll ein separates Kommando
+existiert. Neben einer allgemeinen Typbezeichnung, können auch vom Kommando
+abhängige optionale und erforderliche Parameter enthalten sein. Ein gekürzter
+Auszug aus der Protokollspezifikation veranschaulicht dies in [@lst:proto-command].
+
+```{#lst:proto-command .protobuf}
+enum MessageType {
+	ADD = 0;
+	// ...
+}
+
+message Command {
+	// Type identifier of the Command
+	required MessageType command_type = 1;
+
+	message AddCmd {
+		// Absolute path to the file on the user's disk.
+		required string file_path = 1;
+
+		// Path inside the brig repo (e.g. /photos/me.png)
+		required string repo_path = 2;
+
+		// Add directories recursively? Defaults to true.
+		optional bool recursive = 3;
+	}
+	// ... more subcommands ...
+
+	// If command_type is ADD, read from this field:
+	optional AddCmd add_command = 2;
+	// ... more command entries ...
+}
+```
+
+Analog dazu kann ``brigd`` mit einer *Response* auf ein *Command* antworten. In
+[@lst:proto-response] wird beispielhaft die Antwortspezifikation
+(``OnlineStatusResp``) auf ein ``OnlineStatusCmd``--Kommando gezeigt, welches
+prüft, ob ``brigd`` Verbindungen von Außen annimmt.
+
+```{#lst:proto-response .protobuf}
+message Response {
+	// Type identifier to the response;
+	// matches the associated command.
+    required MessageType response_type = 1;
+
+	// Everything fine?
+    required bool success = 2;
+
+	// If not, an optional error description might be provided.
+	optional string error = 3;
+
+	// Detailed error code (not yet used)
+	optional id errno = 4;
+
+	message OnlineStatusResp {
+		// True if brigd is in online mode.
+    	required bool is_online = 1;
+	}
+	// ... more sub responses ...
+
+	optional OnlineStatusResp online_status_resp = 5;
+	// ... more response entries ...
+}
+```
+
+Neben der Kommunikation mit  ``brigd`` muss ``brigctl`` noch drei andere Aufgaben erledigen:
+
+**Initiales Anlegen eines Repositories:** Bevor ``brigd`` gestatertet werden kann,
+muss die in TODO: ref gezeigte Verzeichnisstruktur angelegt werden.
+
+**Bereitstellung des User--Interfaces:** Das zugrundeliegende Protokoll wird so gut
+es geht vom Nutzer versteckt und Fehlermeldungen müssen möglichst gut beschrieben werden.
+
+**Autostart von ``brigd``:** Damit der Nutzer nicht explizit ``brigd`` starten
+muss, sollte der Daemon--Prozess automatisch im Hintergrund gestartet werden,
+falls er noch nicht erreichbar ist. Dies besorgt ``brigctl`` indem es dem
+Nutzer nach dem Passwort zum Entsperren eines Repositories fragt und das
+Passwort beim Start an ``brigd`` weitergibt, damit der Daemon--Prozess das
+Repository entsperren kann.
 
 ### Aufbau von ``brigd``
 

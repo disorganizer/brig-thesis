@@ -113,6 +113,9 @@ Docker erwähnen, weil's so hipp ist?
 
 Update Mechanismus?
 
+Virtual file system interface für repositories
+(macht möglich, das gesamte repo im speicher zu halten, oder per ssh zu streamen)
+
 https://github.com/attic-labs/noms
 
 * Möglich machen, dass man einen existierenden OpenPGP nehmen kann.
