@@ -50,6 +50,8 @@ TODO: Mockups mit Glade/GTK machen.
 
 (nicht implementiert, aber wie könnte sie aussehen?)
 
+Idee: Kontakte mit wieder erkennbaren Farben einfärben, wie bei Signal.
+
 ## Verhalten bei Fehlern
 
 (Netzwerkfehler zB)

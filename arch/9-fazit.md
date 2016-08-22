@@ -23,6 +23,10 @@ mitarbeiten.
 
 tree vom source
 
+### Abgrenzung von IPFS
+
+Momentan wird ``brig`` vollkommen separat von ``IPFS`` entwickelt. Bleibt das so?
+
 ### Selbstkritik
 
 Was würde man anders machen: Prototypischere Entwicklung, vlt. sogar einfach in bash oder python.

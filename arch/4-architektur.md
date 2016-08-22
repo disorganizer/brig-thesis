@@ -148,9 +148,23 @@ Repository entsperren kann.
 
 ### Aufbau von ``brigd``
 
-## Einzelkomponenten
+Der Daemon--Prozess implementiert alle sonstigen Funktionalitäten, die nicht
+von ``brigctl`` erfüllt werden. Die einzelnen Komponenten werden in
+[@sec:einzelkomponenten] beschrieben. In diesem Abschnitt werden nur
+die Eigenschaften von ``brigd`` als Hintergrundprozess beschrieben.
+
+Ist gleichzeitig IPFS im selben Prozess.
+
+Nach Start des Daemons, lauscht dieser als Netzwerkdienst auf einem
+Port  
+
+Global config zur Bestimmung des Ports.
+
+## Einzelkomponenten {#sec:einzelkomponenten}
 
 ### Metadatenindex
+
+Problem: Unterschiedliche Pfadkonventionen auf verschiedenen Betriebssystemen.
 
 Virtueller Wurzelknoten.
 
@@ -175,6 +189,8 @@ Dieser würde verhindern, dass Pfade teilweise doppelt abgespeichert werden.
 
 ### Serialisierung
 
+Protobuf Store Protokoll beschreiben
+
 ### Dateiströme
 
 https://en.wikipedia.org/wiki/Convergent_encryption
@@ -182,6 +198,8 @@ https://en.wikipedia.org/wiki/Convergent_encryption
 Schaubild mit den relevanten io.Reader/io.Writer
 
 #### Verschlüsselung
+
+TODO: NaCL Secretbox erwähnen, Unterschiede
 
 #### Kompression
 
@@ -191,10 +209,34 @@ FUSE
 
 ### Deduplizierung
 
+### Versionsverwaltung
+
+Commit/Checkpoint erklären!
+
+### Synchronisation
+
+Das Synchronisationsmodell von ``brig`` basiert auf einer stark vereinfachter Variante von ``git``.
+
+Unterschied:
+
+- kein gemeinsamer Root nötig (-> lösung: merge points)
+- History ist linear für jeden Benutzer. 
+
+
+Im Gegensatz zu Timed Vector Pair Sync, informierter Austausch, daher muss nicht jedesmal
+der gesamte Metadatenindex übertragen werden.
+
+Merge-Commit = Tüte mit allen Checkpoints des Gegenübers
+
+Problem: Metadaten wachsen schnell, Angreifer könnte sehr viele kleine änderungen sehr schnell machen.
+Mögliche Lösung : Delayed Checkpoints, Directory Checkpoints.
+
+Kompatible änderungen: A modifiziert, B moved.
+
 ### Gateway
 
 ### Sonstiges
 
-### Logging
+Logging
 
-### Konfiguration
+Konfiguration
