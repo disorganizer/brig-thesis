@@ -1,7 +1,10 @@
 # Einleitung {#sec:einleitung}
 
-In diesem Kapitel werden das Projektziel definiert und die  Anforderungen an
-eine moderne Dateisynchronisationslösung festgelegt.
+In diesem Kapitel wird zuerst das Projektziel formuliert und anschließend die
+Anforderungen definiert, die wir an eine ideale und moderne
+Dateisynchronisationslösung stellen würden. Abschließend wird ein kurzer Blick
+auf die Zielgruppen der Lösung geworfen und für welche Einsatzzwecke sie sich
+eignet.
 
 ## Projektziel
 
@@ -14,7 +17,7 @@ entwickelt.
 
 Nutzbar soll das resultierende Produkt, neben dem Standardanwendungsfall der
 Dateisynchronisation, auch als Backup- bzw. Archivierungs--Lösung sein. Des
-Weiteren kann es auch als verschlüsselter Daten--Safe oder als Plattform für
+Weiteren kann es auch als verschlüsselter Daten--Safe oder als »Werkzeugkasten« für
 andere, verteilte Anwendungen dienen -- wie beispielsweise aus dem Industrie 4.0
 Umfeld.
 
@@ -24,9 +27,9 @@ möglichst generell anwendbar sein und über Netzwerkgrenzen hinweg funktioneren
 Dadurch soll es zu einer Art »Standard« werden, auf denen sich möglichst viele
 Anwender einigen können.
 
-Um ein Eindruck von ``brig`` und seinen (angestrebten) Fähigkeiten in der
-Praxis zu bekommen, ist die Lektüre des *Benutzerhandbuch* in
-[@sec:benutzerhandbuch] empfohlen.
+Um ein detaillierten Eindruck von ``brig`` und seinen (angestrebten)
+Fähigkeiten in der Praxis zu bekommen, ist an dieser Stelle die Lektüre des
+*Benutzerhandbuch* in [@sec:benutzerhandbuch] empfohlen.
 
 ## Eigenschaften und Anforderungen
 
@@ -57,16 +60,17 @@ da beispielsweise verschlüsselte Speicherung mit effizienter Dekodierung
 kollidiert. Auch ist hohe Benutzbarkeit bei gleichzeitig hohen
 Sicherheitsanforderungen schwierig umzusetzen. Das Neueingeben eines Passworts
 bei jedem Zugriff mag sicherer sein, aber eben leider kaum benutzerfreundlich.
-Die Anforderungen werden daher nach dieser Faustregel in [@eq:faustregel] priorisiert:
+Die Anforderungen werden daher nach dieser sehr groben Faustregel in [@eq:faustregel] priorisiert:
 
 $$Benutzbarkeit \ge Sicherheit \geq Effizienz$$ {#eq:faustregel}
 
 Im Zweifel wurde sich also beim Entwurf also für die Benutzbarkeit entschieden,
 da ein sehr sicheres System zwar den Nutzer beschützen kann, er wird es aber
-ungern nutzen wollen und eventuell dazu tendieren um ``brig`` herum zu arbeiten.
-Das heißt allerdings keineswegs dass ``brig`` »per Entwurf« unsicher ist.
-Es wurden lediglich auf zu invasive Sicherheitstechniken verzichtet, welche den
-Nutzer stören könnten. Oder um Rob Pike[@pike2001security, S.24] zu zitieren:
+ungern nutzen wollen und eventuell dazu tendieren um ``brig`` herum zu
+arbeiten. Das heißt allerdings keineswegs dass ``brig`` »per Entwurf« unsicher
+ist. Es wurden lediglich auf zu invasive Sicherheitstechniken verzichtet,
+welche den Nutzer stören könnten. Rob Pike[@pike2001security, S.24] hat diesen
+Punkt überspitzt aber prägnant dargestellt:
 
 ```
 	Weak security that's easy to use will help more people than strong
@@ -80,7 +84,7 @@ bessere Hardware von alleine steigt, die Sicherheit hingegen nicht.
 
 Die unten stehenden Anforderungen sind teilweise an die Eigenschaften des
 verteilten Dateisystems *Infinit* (beschrieben in [@quintard2012towards], siehe
-S.39) angelehnt und an die Ausrichtung von ``brig`` angepasst wurden.
+S.39) angelehnt und an die Ausrichtung von ``brig`` angepasst worden.
 
 ### Anforderungen die Integrität
 

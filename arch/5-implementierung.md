@@ -9,7 +9,10 @@ Als Sprache zur Implementierung wurde die relativ junge Programmiersprache *Go* 
 initiiert wurde und mittlerweile von Google getragen und weiterentwickelt wird.
 Für dieses spezielle Projekt bietet die Sprache aus unserer Sicht folgende Vorteile:
 
-**Garbage Collector:** Erleichtert die Entwicklung lang laufender Dienste.
+**Garbage Collector:** Erleichtert die Entwicklung lang laufender Dienste und
+erleichtert den Programmierer die Arbeit durch den Wegfall der manuellen
+Speicherallokation und Bereinigung.
+
 **Hohe Grundperformanz:** Zwar erreicht diese nicht die Performanz von C, liegt
 aber zumindest in der selben Größenordnung (vgl. [@pike2009go], S. 37).
 
@@ -49,7 +52,7 @@ Plattformen wie *GitHub* zu installieren. Gleichzeitig ist es sehr simpel
 möglich dort eigene Bibliotheken und Anwendungen einzustellen.
 (TODO: online-build websites?)
 
-*Einheitliche Formattierung* Durch das ``go fmt`` Werkzeug und strikte
+**Einheitliche Formattierung:** Durch das ``go fmt`` Werkzeug und strikte
 Stilrichtlinien sieht jeder *Go*--Quelltext ähnlich und damit vertraut aus.
 Dies ermöglicht externen Entwicklern den Einstieg.
 
@@ -85,9 +88,9 @@ aber gut funktionierende Lösung verfolgt auch ``brig``[^VENDOR].
 [^GOPKG]: <http://labix.org/gopkg.in>
 [^VENDOR]: <https://github.com/disorganizer/brig-vendor>
 
-**Keine modernen Sprachfeatures:** 
-Fehlende Generics und ein paar moderne Sprachfeatures 
-TODO: Wirklich?
+**Keine modernen Sprachfeatures:**
+Fehlende Generics und ein paar moderne Sprachfeatures (TODO: Wirklich? Sagt man
+zwar oft, aber merken tut man nicht viel von. Immer diese Ruby Hipster)
 
 [^UPX]: Ein Packprogramm Mehr Informationen unter <http://upx.sourceforge.net>
 
@@ -99,7 +102,7 @@ Travis, git, nvim, glide
 
 godoc
 
-Konzeptueller überblick über die Go-Pakete.
+Konzeptueller überblick über die Go-Pakete (TODO: Paketdiagramm).
 
 ### Umgebungsvariablen
 

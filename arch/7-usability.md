@@ -50,7 +50,7 @@ TODO: Mockups mit Glade/GTK machen.
 
 (nicht implementiert, aber wie könnte sie aussehen?)
 
-Idee: Kontakte mit wieder erkennbaren Farben einfärben, wie bei Signal.
+Idee: Kontakte mit wieder erkennbaren Farben einfärben, wie bei Signal. -> Farbe von ID-Hash ableiten?
 
 ## Verhalten bei Fehlern
 

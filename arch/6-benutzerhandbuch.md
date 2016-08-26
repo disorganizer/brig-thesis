@@ -221,7 +221,7 @@ Dateien komprimiert, verschlüsselt und gehasht werden.
 *Anmerkung:* Zum Ausführen dieser Kommandos muss man entweder im Ordner des ``brig``--Repositories
 sein oder in einem Unterordner. Andernfalls wird ``brig`` eine Meldung wie diese ausgeben:
 
-```
+```bash
 10.08.2016/17:33:11 I: Unable to find repo in path or any parents: "/home/sahib"
 10.08.2016/17:33:11 W: Could not load config: open .brig/config: No such file or directory
 10.08.2016/17:33:11 W: Falling back on config defaults...
@@ -370,6 +370,7 @@ $ brig commit
 Die gemachten *Commits* lassen sich mittels des ``log``--Unterkommandos anzeigen:
 
 ```bash
+$ brig log
 QmNLei78zW/QmNLei78zW by alice, Initial commit
 QmPtprCMpd/Qma2Uquo9b by alice, Moved cat photos to the right place.
 QmZNJPSbTE/QmbrpM6sKy by alice, Update on 2016-08-11 15:33:37.651 +0200 CEST
@@ -541,7 +542,7 @@ um Fremdzugriff auch bei physikalischer Abwesenheit am Rechner zu verhindern.
 
 ```bash
 $ brig close
-# Nach einiger Zeit ohne Netz.
+# Nach einiger Zeit ohne Netz:
 $ brig open
 Password: **********
 ```
