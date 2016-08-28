@@ -5,7 +5,7 @@ dass die Thematik im Detail recht kompliziert ist. Nichtsdestotrotz ergeben
 sich gewissen Mindestanforderungen, die für die Entwicklung einer »sicheren«
 und dezentralen Dateisynchronisationslösung nötig sind. Um eine möglichst gute
 Sicherheit und Usability zu gewährleisten, muss die Software und der
-Softwareentwicklungsprozess gewissen Mindestanforderungen erfüllen. Da die
+Softwareentwicklungsprozess gewissen Mindestanforderungen genügen. Da die
 Anforderungen von der Zielgruppe abhängig sind, werden folgend grundsätzliche
 Anforderungen definiert, welche sich in der Umsetzung in Details unterscheiden
 können.

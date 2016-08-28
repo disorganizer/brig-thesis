@@ -36,11 +36,19 @@ muss auch genau definiert werden, gegen welches Angriffsszenario ein System
 betrachten wäre kann im einfachsten Fall, durch die Weitergabe von Zugangsdaten
 an Dritte, »ausgehebelt« werden.
 
+![Scherzhafte Darstellung eines möglichen Angriff auf eine
+Festplattenverschlüsselung mit optimalem Kosten/Nutzen--Verhältnis.[^src-xkcd]](images/security.png){#fig:img-security
+width=60%}
+
+[^src-xkcd]:Quelle: <http://imgs.xkcd.com/comics/security.png>
+
 Grundsätzlich kann bei den Bedrohungen zwischen technischer und psychologischer
 Ebene unterschieden werden. Auf technischer kommt die Ausnutzung von Schwächen
 eines bestimmten Systems zu tragen. Auf psychologischer Ebene wird der Benutzer
 manipuliert und mit sogenannten »Social Hacking«--, auch »Social
 Engineering«--Methoden dazu verleitet beispielsweise sein Passwort weiterzugeben.
+[@fig:img-security] zeigt scherzhaft eine weitere Variante für welche Menschen anfällig sind.
+
 
 * Brute--Force
 * Phishing
