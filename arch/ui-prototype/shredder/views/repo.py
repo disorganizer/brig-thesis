@@ -93,7 +93,7 @@ class RepoView(View):
 
         footer = Gtk.Label()
         footer.set_markup(
-            '<big><b>🔌</b></big> If you want to usea Yubikey, plug it in no.'
+            '<big><b>🔌</b></big> If you want to use a Yubikey, plug it in now.'
         )
         footer.set_margin_top(30)
         footer.get_style_context().add_class(Gtk.STYLE_CLASS_DIM_LABEL)

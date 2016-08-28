@@ -25,7 +25,7 @@ from shredder.util import PopupMenu, NodeState
 
 def icon_pixbuf(name):
     theme = Gtk.IconTheme.get_default()
-    info = Gtk.IconTheme.lookup_icon_for_scale(theme, name, 32, 2, 0)
+    info = Gtk.IconTheme.lookup_icon_for_scale(theme, name, 64, 1, 0)
     return Gtk.IconInfo.load_icon(info)
 
 
