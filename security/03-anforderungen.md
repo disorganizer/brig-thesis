@@ -1,16 +1,16 @@
-# Anforderungen  
+# Anforderungen
 
 Die Betrachtung des aktuellen wissenschaftlichen und technischen Standes zeigt,
 dass die Thematik im Detail recht kompliziert ist. Nichtsdestotrotz ergeben
 sich gewissen Mindestanforderungen, die für die Entwicklung einer »sicheren«
 und dezentralen Dateisynchronisationslösung nötig sind. Um eine möglichst gute
 Sicherheit und Usability zu gewährleisten, muss die Software und der
-Softwareentwicklungsprozess gewissen Mindestanforderungen erfüllen. Da die
+Softwareentwicklungsprozess gewissen Mindestanforderungen genügen. Da die
 Anforderungen von der Zielgruppe abhängig sind, werden folgend grundsätzliche
 Anforderungen definiert, welche sich in der Umsetzung in Details unterscheiden
 können.
 
-## Anforderungen an die Software 
+## Anforderungen an die Software
 
 ### Sicherheit
 
@@ -21,21 +21,9 @@ abhängig.
 Eine Software zur dezentralen Dateiverteilung benötigt Konzepte welche folgende
 Punkte gewährleisten:
 
-* Vertraulichkeit: Zugriff auf Daten durch unbefugte Personen soll nicht
-  möglich sein.
-* Integrität: Die Manipulation von Daten lässt sich nicht vermeiden. Im
-  günstigsten Fall kann bereits ein Hardwaredefekt dafür sorgen, dass bestimmte
-  Daten »verändert« an den Benutzer weitergegeben werden. Dieser Umstand
-  erfordert jedoch ein Konzept zu Erkennung einer solchen Manipulation. Der
-  Benutzer muss sicherstellen, dass die Daten die er dem System (»brig«)
-  bekannt gemacht hat, dieselben sind die er in Zukunft wieder Abruft.
-* Verfügbarkeit: Die Möglichkeit eines Dateiaustausch soll auch bei Ausfall
-  bestimmter Subsysteme weiterhin möglich sein, im Extremfall, soll der
-  Benutzer Zugriff auf seine lokalen Daten haben.
-
-Um die Authentizität von Benutzer zu prüfen und Vertraulichkeit zu
-gewährleisten, wird eine »Benutzerverwaltung« benötigt, welche es dem Benutzer
-ermöglicht die Echtheit seines Kommunikationspartners zu prüfen.
+* Vertraulichkeit: Kein Zugriff auf Daten durch unbefugte Personen.
+* Integrität: Manipulation von Daten erkennen.
+* Authentizität: Kommunikationspartner lässt sich eindeutig Identifizieren.
 
 Weiterhin sollen sich die Anforderungen an die Sicherheit an den aktuell
 vorherrschenden und bewährten »Sicherheitsstandards« orientieren.
@@ -55,8 +43,9 @@ Konzept nicht durchgesetzt. Über die genauen Gründe, warum sich PGP nicht
 durchgesetzt hat, kann man sich streiten. Laut Meinung des Autors, liegt es
 einerseits an der hohen Komplexität beziehungsweise Einstiegshürde,
 andererseits zeigen Umfragen, dass eine gewisse Gleichgültigkeit gegenüber dem
-Schutz der eigenen Privatsphäre vorherrscht[^umfrage]. . [^umfrage]: Umfrage
-DIVSI: <https://www.divsi.de/abhoeren-egal-ich-habe-nichts-zu-verbergen/>
+Schutz der eigenen Privatsphäre vorherrscht[^umfrage]. 
+
+[^umfrage]: Umfrage DIVSI: <https://www.divsi.de/abhoeren-egal-ich-habe-nichts-zu-verbergen/>
 
 Um dieser Problematik möglichst aus dem Weg zu gehen, sollen folgende
 Anforderungen umgesetzt werden:

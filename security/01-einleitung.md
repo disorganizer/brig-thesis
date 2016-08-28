@@ -9,6 +9,7 @@ Aufkommen der Cloud--Lösungen der letzten Jahre, werden Dateien immer öfters
 OneDrive« oder »Google--Drive« ausgetauscht.
 
 Diese Dienste basieren auf einer zentralen Architektur und ermöglichen dem
+
 Benutzer seine Dateien über mehrere Computer hinweg zu synchronisieren und mit
 Freunden --- oder im geschäftlichen Umfeld mit Partnern --- auszutauschen.
 Hierbei ist man in der Regel stets auf die Verfügbarkeit des jeweiligen
@@ -68,6 +69,7 @@ den bekanntesten Vertretern gehören hier wahrscheinlich
 *Syncthing*[^syncthing], *git--annex*[^git-annex] oder auch *Resilio*[^resilio].
 
 [^syncthing]: Syncthing: <https://syncthing.net/>
+
 
 [^resilio]: Resilio: <https://getsync.com/>
 

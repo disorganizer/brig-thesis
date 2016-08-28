@@ -6,14 +6,17 @@ include-headers:
     - \usepackage[ngerman]{babel}
     - \usepackage{csquotes}
     - \usepackage[babel, german=quotes]{csquotes}
-fontsize: 12pt
+fontsize: 11pt
 sections: yes
 toc: yes
 lof: yes
 lot: yes
+loe: yes
+cref: yes
+listings: yes
 date: \today
 ---
 
 \newpage
-\pagenumbering{arabic} 
+\pagenumbering{arabic}
 \setcounter{page}{1}

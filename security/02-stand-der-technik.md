@@ -8,9 +8,9 @@ Zentrale und dezentrale Systeme sind die Basis für den Austausch von
 Informationen. Ob ein System zentral oder dezentral fungiert ist nicht immer
 klar abgrenzbar. Oft kommen auch hybride Systeme zum Einsatz, welche zwar
 dezentral funktionieren, jedoch eine zentrale Instanz benötigen, hier wäre
-beispielsweise das *Torrent*--Konzept zu nennen, weitere Informationen hierzu
+beispielsweise das *Torrent*--Konzept zu nennen. Weitere Informationen hierzu
 sind unter [@cpahl] zu finden. Bei den Cloud--Storage--Service Anbietern wird
-Dropbox als Vertreter der Klasse zentraler Systeme herangezogen.
+im Folgenden Dropbox beispielhaft als Vertreter der Klasse zentraler Systeme herangezogen.
 
 ### Der »Sicherheitsbegriff« {#sec:sicherheit}
 
@@ -33,16 +33,24 @@ Die Sicherheit eines System lässt sich nicht mit einem einfachen »ja« oder
 »nein« beantworten. Betrachtet man ein System bezüglich seiner Sicherheit, so
 muss auch genau definiert werden, gegen welches Angriffsszenario ein System
 »sicher« ist. Auch ein System das aus kryptographischer Sicht als »sicher« zu
-betrachten wäre kann im einfachsten Fall, durch die Zugangsdatenweitergabe an
-Dritte, »augehebelt« werden.
+betrachten wäre kann im einfachsten Fall, durch die Weitergabe von Zugangsdaten
+an Dritte, »ausgehebelt« werden.
 
-Grundsäztlich kann bei den Bedrohungen zwischen technischer und psychologischer
+![Scherzhafte Darstellung eines möglichen Angriff auf eine
+Festplattenverschlüsselung mit optimalem Kosten/Nutzen--Verhältnis.[^src-xkcd]](images/security.png){#fig:img-security
+width=60%}
+
+[^src-xkcd]:Quelle: <http://imgs.xkcd.com/comics/security.png>
+
+Grundsätzlich kann bei den Bedrohungen zwischen technischer und psychologischer
 Ebene unterschieden werden. Auf technischer kommt die Ausnutzung von Schwächen
 eines bestimmten Systems zu tragen. Auf psychologischer Ebene wird der Benutzer
 manipuliert und mit sogenannten »Social Hacking«--, auch »Social
-Engeneering«--Methoden dazu verleitet beispielsweise sein Passwort weiterzugeben.
+Engineering«--Methoden dazu verleitet beispielsweise sein Passwort weiterzugeben.
+[@fig:img-security] zeigt scherzhaft eine weitere Variante für welche Menschen anfällig sind.
 
-* Brute Force
+
+* Brute--Force
 * Phishing
 * Ausnutzen von Softwarebugs
 
