@@ -7,38 +7,38 @@ verfügbaren und populären Softwarelösungen zur Dateisynchronisation untersuch
 Schließlich wird *IPFS* als Grundlage von ``brig`` vorgestellt und beleuchtet
 warum es unserer Ansicht nach eine geeignete technische Basis bildet.
 
-## Begrifflichkeiten
+## Grundlagen
 
-An dieser Stelle wird eine kurze Zusammenfassung der Begrifflichkeiten gegeben,
-welche zum Verständnis der folgenden Kapitel notwendig sind.
+An dieser Stelle wird eine kurze Zusammenfassung der nötigen Grundlagen
+gegeben, welche zum Verständnis der folgenden Kapitel notwendig sind.
 
 (TODO: https://github.com/ipfs/specs/blob/master/libp2p/2-state-of-the-art.md irgendwo verlinken?)
 
 ### Einführung
 
 Peer-to-Peer (kurz *P2P*) Netzwerke sind gut erforscht, aber bei weitem nicht
-so weit verbreitet wie typische *Client/Server Architekturen*. Protokolle wie
-Bittorrent (TODO: ref) fristen trotz ihrer Flexibilität eher ein Nischen-Dasein
-beim Dateiaustausch. Das mag vor allem praktische Gründe haben: Die Teilnehmer
-eines P2P--Netzwerks müssen etwas zum Netzwerk beitragen. Je nach Einsatzzweck
-kann diese beizutragende Ressource Bandbreite, CPU--Zeit oder Ähnliches sein.
-Außerdem passt das Client/Server Modell auf viele Anwendungszwecke, wie ein
-Unternehmen das seinen Kunden einen Dienst oder eine Webseite anbietet. Zudem
-haben solche 'wohl-bekannten' Dienste kein Problem mit NAT Traversal (TODO:
-erklären).
+so weit verbreitet wie typische *Client/Server Architekturen* (TODO: ref?).
+Protokolle wie Bittorrent (TODO: ref) fristen trotz ihrer Flexibilität eher ein
+Nischen-Dasein beim Dateiaustausch. Das mag vor allem praktische Gründe haben:
+Die Teilnehmer eines P2P--Netzwerks müssen etwas zum Netzwerk beitragen. Je
+nach Einsatzzweck kann diese beizutragende Ressource Bandbreite, CPU--Zeit oder
+Ähnliches sein. Außerdem passt das Client/Server Modell auf viele
+Anwendungszwecke, wie ein Unternehmen das seinen Kunden einen Dienst oder eine
+Webseite anbietet. Zudem haben solche 'wohl-bekannten' Dienste kein Problem mit
+NAT Traversal (TODO: erklären).
 
-Dabei skalieren Client/Server Anwendungen bei weitem schlechter als verteilte
-Anwendungen. Man stelle sich einen Vorlesungssaal mit 50 Studenten vor, die ein
-Festplattenimage (Größe 5 Gigabyte) aus dem Internet laden sollen. Bei einer
-Client/Server Anwendung werden hier 50 Verbindungen zu einem Filehoster
-geöffnet. Der Flaschenhals dabei ist in diesem Fall vermutlich das WLAN im
-Saal, welches stark zusammenbrechen würde. Anders ist es wenn die Rechner der
-Studenten ein verteiltes Netzwerk bilden. Hier genügt es wenn nur ein Rechner
-einen Teil der Datei hat. Diesen Teil kann er im lokalen Netz anderen
-Teilnehmern wieder anbieten und sich Teile der Datei besorgen, die er selbst
-noch nicht hat. So muss in der Theorie die Datei nur maximal einmal über das
-WLAN übertragen werden. In diesem etwas konstruierten Beispiel hätte man also
-ein Speedupfaktor von ca. 50.
+In vielen Fällen skalieren aber Client/Server Anwendungen bei weitem schlechter
+als verteilte Anwendungen. Man stelle sich einen Vorlesungssaal mit 50
+Studenten vor, die ein Festplattenimage (Größe 5 Gigabyte) aus dem Internet
+laden sollen. Bei einer Client/Server Anwendung werden hier 50 Verbindungen zu
+einem Filehoster geöffnet. Der Flaschenhals dabei ist in diesem Fall vermutlich
+das WLAN im Saal, welches stark zusammenbrechen würde. Anders ist es wenn die
+Rechner der Studenten ein verteiltes Netzwerk bilden. Hier genügt es wenn nur
+ein Rechner einen Teil der Datei hat. Diesen Teil kann er im lokalen Netz
+anderen Teilnehmern wieder anbieten und sich Teile der Datei besorgen, die er
+selbst noch nicht hat. So muss in der Theorie die Datei nur maximal einmal über
+das WLAN übertragen werden. In diesem etwas konstruierten Beispiel hätte man
+also ein Speedup--Faktor von ca. 50.
 
 (TODO: veranschaulichungsgrafik)
 
@@ -86,13 +86,14 @@ auf das Thema der Dateisynchronisation, wo nicht nur eine Datei ausgetauscht
 wird, sondern ein Menge von Dateien auf dem selben Stand gehalten wird. Die
 vorhandenen Arbeiten legen ihren Fokus dabei meist auf verteilte Dateisysteme,
 die sehr ähnliche Probleme lösen müssen, aber mehr auf Effizienz als auf
-Einfachheit ihren Wert legen.
+Einfachheit Wert legen.
 
 Stellvertretend für eine solche Arbeit soll hier die Disseration von Julien
-Quintard »Towards a worldwide storage infrastructure«[@quintard2012towards]
+Quintard *»Towards a worldwide storage infrastructure«*[@quintard2012towards]
 genannt werden. In dieser wird die Implementierung und die Konzepte hinter dem
 verteilten Dateisystem *Infinit* vorgestellt. Obwohl der Fokus hier auf
-Effizienz liegt, hat *Infinit* einige auffällige Ähnlichkeiten mit ``brig``:
+Effizienz liegt, hat *Infinit* einige auffällige Ähnlichkeiten mit ``brig`` in
+seiner momentanen Form:
 
 * Weltumspannendes P2P-Netzwerk als Grundlage.
 - Nutzung von FUSE (TODO: ref) als Frontend zum Nutzer.
@@ -106,7 +107,6 @@ Entwickler und Adminstratoren ausgelegt und leider nur teilweise quelloffen ist 
 
 [^INFINIT]: Mehr Informationen unter: <https://infinit.sh>  --- *Anmerkung:* Neben dem verteilten Dateisystem bietet das Unternehmen
 auch noch eine reine Datei--Transfer--Lösung namens *Infinit Transfer*. Dazu gibt es hier mehr Informationen: <https://infinit.io>
-
 
 TODO: [@cox2004optimistic] beschreiben.
 
@@ -130,7 +130,7 @@ Poweruser, die eine große Menge an Daten sicher lagern wollen.
 Ähnliche Produkte in diesem Bereich gibt es mit *XtreemFs*[^XTREEMFS],
 *LizardFs*[^LIZARDFS] und *MooseFs*[^MOOSEFS].
 
-**restic:**{^RESTIC} Ein in *Go* geschriebenes Backup--Programm. Es
+**restic:**[^RESTIC] Ein in *Go* geschriebenes Backup--Programm. Es
 synchronisiert zwar keine Dateien über das Netzwerk, setzt aber eine
 Versionsverwaltung mittels *Snapshots* um. Zudem verschlüsselt es alle ihm
 bekannten Dateien in einem *Repository* und gewährleistet mittels eines
@@ -285,9 +285,10 @@ Eigenschaften.
 | ``brig`` (Prototyp)  | \cmark              | \xmark              | \textcolor{YellowOrange}{Auf Linux} |  \cmark             | \cmark          |
 | ``brig`` (Ziel)      | \cmark              | \cmark              | \cmark                     |  \cmark             | \cmark          | 
 
-TODO: Infinit eintragen?
 
 : Übersicht über praktische Aspekte {#tbl:table-practical-overview}
+
+TODO: Infinit eintragen?
 
 ## IPFS: Das Interplanetary Filesystem
 
@@ -303,10 +304,16 @@ vergleichsweise dünne Schicht, zwischen Benutzer und ``IPFS`` zu fungieren.
 Dabei wird eine Datei, die in das Netzwerk gelegt wird nicht mittels eines
 Dateinamen angesprochen, sondern mittels einer Prüfsumme, die durch eine vorher
 festgelegte Hashfunktion berechnet wird. Andere Teilnehmer im Netzwerk können
-mittels dieser Prüfsumme die Datei lokalisieren und empfangen.
-Vereinfacht gesagt ist es nun die Hauptaufgabe von ``brig`` dem Nutzer die gewohnte
-Abstraktionsschicht eines Dateisystem zu geben, während im Hintergrund jede
-Datei zu einer Prüfsumme aufgelöst wird.
+mittels dieser Prüfsumme die Datei lokalisieren und empfangen. Anders als bei
+einer HTTP--URL (*Unified Resource Locator*) steckt im Pfad einer Datei (also
+der Prüfsumme) also nicht nur die Lokation der Datei, sondern sie dient auch
+als eindeutiges Identifikationsmerkmal und gleicht daher eher einem Magnet
+Link[^MAGNET_LINK] als einer URL. Vereinfacht gesagt ist es nun die
+Hauptaufgabe von ``brig`` dem Nutzer die gewohnte Abstraktionsschicht eines
+Dateisystem zu geben, während im Hintergrund jede Datei zu einer Prüfsumme
+aufgelöst wird.
+
+[^MAGNET_LINK]: Mehr Informationen unter <https://de.wikipedia.org/wiki/Magnet-Link>
 
 Im Vergleich zu zentralen Ansätzen (bei dem der zentrale Server einen *Single
 Point of Failure* darstellt) können Dateien intelligent geroutet werden und

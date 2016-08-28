@@ -1,0 +1,366 @@
+#!/bin/sh
+# This file was autowritten by rmlint
+# rmlint was executed from: /home/sahib/dev/rmlint/gui/
+# Your command line was: rmlint /usr/bin
+
+USER='sahib'
+GROUP='users'
+
+# Set to true on -n
+DO_DRY_RUN=
+
+# Set to true on -p
+DO_PARANOID_CHECK=
+
+##################################
+# GENERAL LINT HANDLER FUNCTIONS #
+##################################
+
+
+handle_emptyfile() {
+    echo 'Deleting empty file:' "$1"
+    if [ -z "$DO_DRY_RUN" ]; then
+        rm -f "$1"
+    fi
+}
+
+handle_emptydir() {
+    echo 'Deleting empty directory:' "$1"
+    if [ -z "$DO_DRY_RUN" ]; then
+        rmdir "$1"
+    fi
+}
+
+handle_bad_symlink() {
+    echo 'Deleting symlink pointing nowhere:' "$1"
+    if [ -z "$DO_DRY_RUN" ]; then
+        rm -f "$1"
+    fi
+}
+
+handle_unstripped_binary() {
+    echo 'Stripping debug symbols of:' "$1"
+    if [ -z "$DO_DRY_RUN" ]; then
+        strip -s "$1"
+    fi
+}
+
+handle_bad_user_id() {
+    echo 'chown' "$USER" "$1"
+    if [ -z "$DO_DRY_RUN" ]; then
+        chown "$USER" "$1"
+    fi
+}
+
+handle_bad_group_id() {
+    echo 'chgrp' "$GROUP" "$1"
+    if [ -z "$DO_DRY_RUN" ]; then
+        chgrp "$GROUP" "$1"
+    fi
+}
+
+handle_bad_user_and_group_id() {
+    echo 'chown' "$USER:$GROUP" "$1"
+    if [ -z "$DO_DRY_RUN" ]; then
+        chown "$USER:$GROUP" "$1"
+    fi
+}
+
+###############################
+# DUPLICATE HANDLER FUNCTIONS #
+###############################
+
+original_check() {
+    if [ ! -e "$2" ]; then
+        echo "^^^^^^ Error: original has disappeared - cancelling....."
+        return 1
+    fi
+
+    if [ ! -e "$1" ]; then
+        echo "^^^^^^ Error: duplicate has disappeared - cancelling....."
+        return 1
+    fi
+
+    # Check they are not the exact same file (hardlinks allowed):
+    if [ "$1" = "$2" ]; then
+        echo "^^^^^^ Error: original and duplicate point to the *same* path - cancelling....."
+        return 1
+    fi
+
+    # Do double-check if requested:
+    if [ -z "$DO_PARANOID_CHECK" ]; then
+        return 0
+    else
+        if cmp -s "$1" "$2"; then
+            return 0
+        else
+            echo "^^^^^^ Error: files no longer identical - cancelling....."
+            return 1
+        fi
+    fi
+}
+
+cp_hardlink() {
+    echo 'Hardlinking to original:' "$1"
+    if original_check "$1" "$2"; then
+        if [ -z "$DO_DRY_RUN" ]; then
+            cp --remove-destination --archive --link "$2" "$1"
+        fi
+    fi
+}
+
+cp_symlink() {
+    echo 'Symlinking to original:' "$1"
+    if original_check "$1" "$2"; then
+        if [ -z "$DO_DRY_RUN" ]; then
+            touch -mr "$1" "$0"
+            cp --remove-destination --archive --symbolic-link "$2" "$1"
+            touch -mr "$0" "$1"
+        fi
+    fi
+}
+
+cp_reflink() {
+    # reflink $1 to $2's data, preserving $1's  mtime
+    echo 'Reflinking to original:' "$1"
+    if original_check "$1" "$2"; then
+        if [ -z "$DO_DRY_RUN" ]; then
+            touch -mr "$1" "$0"
+            cp --reflink=always "$2" "$1"
+            touch -mr "$0" "$1"
+        fi
+    fi
+}
+
+clone() {
+    # clone $1 from $2's data
+    echo 'Cloning to: ' "$1"
+    if [ -z "$DO_DRY_RUN" ]; then
+        rmlint --btrfs-clone "$2" "$1"
+    fi
+}
+
+skip_hardlink() {
+    echo 'Leaving as-is (already hardlinked to original):' "$1"
+}
+
+skip_reflink() {
+    echo 'Leaving as-is (already reflinked to original):' "$1"
+}
+
+user_command() {
+    # You can define this function to do what you want:
+    echo 'no user command defined.'
+}
+
+remove_cmd() {
+    echo 'Deleting:' "$1"
+    if original_check "$1" "$2"; then
+        if [ -z "$DO_DRY_RUN" ]; then
+            rm -rf "$1"
+        fi
+    fi
+}
+
+##################
+# OPTION PARSING #
+##################
+
+ask() {
+    cat << EOF
+
+This script will delete certain files rmlint found.
+It is highly advisable to view the script first!
+
+Rmlint was executed in the following way:
+
+   $ rmlint /usr/bin
+
+Execute this script with -d to disable this informational message.
+Type any string to continue; CTRL-C, Enter or CTRL-D to abort immediately
+EOF
+    read eof_check
+    if [ -z "$eof_check" ]
+    then
+        # Count Ctrl-D and Enter as aborted too.
+        echo "Aborted on behalf of the user."
+        exit 1;
+    fi
+}
+
+usage() {
+    cat << EOF
+usage: $0 OPTIONS
+
+OPTIONS:
+
+  -h   Show this message.
+  -d   Do not ask before running.
+  -x   Keep rmlint.sh; do not autodelete it.
+  -p   Recheck that files are still identical before removing duplicates.
+  -n   Do not perform any modifications, just print what would be done.
+EOF
+}
+
+DO_REMOVE=
+DO_ASK=
+
+while getopts "dhxnp" OPTION
+do
+  case $OPTION in
+     h)
+       usage
+       exit 1
+       ;;
+     d)
+       DO_ASK=false
+       ;;
+     x)
+       DO_REMOVE=false
+       ;;
+     n)
+       DO_DRY_RUN=true
+       ;;
+     p)
+       DO_PARANOID_CHECK=true
+  esac
+done
+
+if [ -z $DO_ASK ]
+then
+  usage
+  ask
+fi
+
+######### START OF AUTOGENERATED OUTPUT #########
+
+handle_bad_symlink '/usr/bin/jarsigner' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/jar' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/idlj' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/extcheck' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/serialver' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/schemagen' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/rmic' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/native2ascii' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/xjc' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/wsimport' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/jstatd' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/wsgen' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/jrunscript' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/jps' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/jmap' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/jinfo' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/jstat' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/jstack' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/jsadebugd' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/javap' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/javah' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/javadoc' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/javac' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/jhat' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/jdb' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/jconsole' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/jcmd' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/appletviewer' # bad symlink pointing nowhere
+handle_bad_symlink '/usr/bin/policytool' # bad symlink pointing nowhere
+handle_emptydir '/usr/bin/site_perl' # empty folder
+echo 'Keeping: ' '/usr/bin/extract_dts' # original
+remove_cmd '/usr/bin/dtsdec' '/usr/bin/extract_dts' # duplicate
+echo 'Keeping: ' '/usr/bin/scons-2.4.1' # original
+remove_cmd '/usr/bin/scons' '/usr/bin/scons-2.4.1' # duplicate
+echo 'Keeping: ' '/usr/bin/sconsign-2.4.1' # original
+remove_cmd '/usr/bin/sconsign' '/usr/bin/sconsign-2.4.1' # duplicate
+echo 'Keeping: ' '/usr/bin/pkill' # original
+remove_cmd '/usr/bin/pgrep' '/usr/bin/pkill' # duplicate
+echo 'Keeping: ' '/usr/bin/roff2dvi' # original
+remove_cmd '/usr/bin/roff2html' '/usr/bin/roff2dvi' # duplicate
+remove_cmd '/usr/bin/roff2ps' '/usr/bin/roff2dvi' # duplicate
+remove_cmd '/usr/bin/roff2x' '/usr/bin/roff2dvi' # duplicate
+remove_cmd '/usr/bin/roff2pdf' '/usr/bin/roff2dvi' # duplicate
+remove_cmd '/usr/bin/roff2text' '/usr/bin/roff2dvi' # duplicate
+echo 'Keeping: ' '/usr/bin/envvars' # original
+remove_cmd '/usr/bin/envvars-std' '/usr/bin/envvars' # duplicate
+echo 'Keeping: ' '/usr/bin/precat' # original
+remove_cmd '/usr/bin/prezip' '/usr/bin/precat' # duplicate
+remove_cmd '/usr/bin/preunzip' '/usr/bin/precat' # duplicate
+echo 'Keeping: ' '/usr/bin/iptest3' # original
+remove_cmd '/usr/bin/iptest' '/usr/bin/iptest3' # duplicate
+echo 'Keeping: ' '/usr/bin/ipython3' # original
+remove_cmd '/usr/bin/ipython' '/usr/bin/ipython3' # duplicate
+echo 'Keeping: ' '/usr/bin/gunzip' # original
+remove_cmd '/usr/bin/uncompress' '/usr/bin/gunzip' # duplicate
+echo 'Keeping: ' '/usr/bin/isc-config.sh' # original
+remove_cmd '/usr/bin/bind9-config' '/usr/bin/isc-config.sh' # duplicate
+echo 'Keeping: ' '/usr/bin/gcc-ar' # original
+remove_cmd '/usr/bin/x86_64-pc-linux-gnu-gcc-ar' '/usr/bin/gcc-ar' # duplicate
+echo 'Keeping: ' '/usr/bin/gcc-ranlib' # original
+remove_cmd '/usr/bin/x86_64-pc-linux-gnu-gcc-ranlib' '/usr/bin/gcc-ranlib' # duplicate
+echo 'Keeping: ' '/usr/bin/gcc-nm' # original
+remove_cmd '/usr/bin/x86_64-pc-linux-gnu-gcc-nm' '/usr/bin/gcc-nm' # duplicate
+echo 'Keeping: ' '/usr/bin/python3.5m' # original
+remove_cmd '/usr/bin/python3.5' '/usr/bin/python3.5m' # duplicate
+echo 'Keeping: ' '/usr/bin/ide' # original
+remove_cmd '/usr/bin/gnome-builder-worker' '/usr/bin/ide' # duplicate
+remove_cmd '/usr/bin/gnome-builder' '/usr/bin/ide' # duplicate
+echo 'Keeping: ' '/usr/bin/jack_disconnect' # original
+remove_cmd '/usr/bin/jack_connect' '/usr/bin/jack_disconnect' # duplicate
+echo 'Keeping: ' '/usr/bin/aclocal' # original
+remove_cmd '/usr/bin/aclocal-1.15' '/usr/bin/aclocal' # duplicate
+echo 'Keeping: ' '/usr/bin/gst-launch-0.10' # original
+remove_cmd '/usr/bin/gst-xmllaunch-0.10' '/usr/bin/gst-launch-0.10' # duplicate
+echo 'Keeping: ' '/usr/bin/scons-time-2.4.1' # original
+remove_cmd '/usr/bin/scons-time' '/usr/bin/scons-time-2.4.1' # duplicate
+echo 'Keeping: ' '/usr/bin/jfs_mkfs' # original
+remove_cmd '/usr/bin/mkfs.jfs' '/usr/bin/jfs_mkfs' # duplicate
+echo 'Keeping: ' '/usr/bin/tune2fs' # original
+remove_cmd '/usr/bin/e2label' '/usr/bin/tune2fs' # duplicate
+echo 'Keeping: ' '/usr/bin/mkfs.ext3' # original
+remove_cmd '/usr/bin/mke2fs' '/usr/bin/mkfs.ext3' # duplicate
+remove_cmd '/usr/bin/mkfs.ext4' '/usr/bin/mkfs.ext3' # duplicate
+remove_cmd '/usr/bin/mkfs.ext2' '/usr/bin/mkfs.ext3' # duplicate
+remove_cmd '/usr/bin/mkfs.ext4dev' '/usr/bin/mkfs.ext3' # duplicate
+echo 'Keeping: ' '/usr/bin/pkg-config' # original
+remove_cmd '/usr/bin/x86_64-unknown-linux-gnu-pkg-config' '/usr/bin/pkg-config' # duplicate
+echo 'Keeping: ' '/usr/bin/unzip' # original
+remove_cmd '/usr/bin/zipinfo' '/usr/bin/unzip' # duplicate
+echo 'Keeping: ' '/usr/bin/jfs_fsck' # original
+remove_cmd '/usr/bin/fsck.jfs' '/usr/bin/jfs_fsck' # duplicate
+echo 'Keeping: ' '/usr/bin/core_perl/perlbug' # original
+remove_cmd '/usr/bin/core_perl/perlthanks' '/usr/bin/core_perl/perlbug' # duplicate
+echo 'Keeping: ' '/usr/bin/automake-1.15' # original
+remove_cmd '/usr/bin/automake' '/usr/bin/automake-1.15' # duplicate
+echo 'Keeping: ' '/usr/bin/fsck.ext2' # original
+remove_cmd '/usr/bin/fsck.ext4dev' '/usr/bin/fsck.ext2' # duplicate
+remove_cmd '/usr/bin/fsck.ext3' '/usr/bin/fsck.ext2' # duplicate
+remove_cmd '/usr/bin/e2fsck' '/usr/bin/fsck.ext2' # duplicate
+remove_cmd '/usr/bin/fsck.ext4' '/usr/bin/fsck.ext2' # duplicate
+echo 'Keeping: ' '/usr/bin/sha1deep' # original
+remove_cmd '/usr/bin/md5deep' '/usr/bin/sha1deep' # duplicate
+remove_cmd '/usr/bin/sha256deep' '/usr/bin/sha1deep' # duplicate
+remove_cmd '/usr/bin/tigerdeep' '/usr/bin/sha1deep' # duplicate
+remove_cmd '/usr/bin/whirlpooldeep' '/usr/bin/sha1deep' # duplicate
+remove_cmd '/usr/bin/hashdeep' '/usr/bin/sha1deep' # duplicate
+echo 'Keeping: ' '/usr/bin/g++' # original
+remove_cmd '/usr/bin/c++' '/usr/bin/g++' # duplicate
+remove_cmd '/usr/bin/x86_64-pc-linux-gnu-g++' '/usr/bin/g++' # duplicate
+remove_cmd '/usr/bin/x86_64-pc-linux-gnu-c++' '/usr/bin/g++' # duplicate
+echo 'Keeping: ' '/usr/bin/ld.bfd' # original
+remove_cmd '/usr/bin/ld' '/usr/bin/ld.bfd' # duplicate
+echo 'Keeping: ' '/usr/bin/zsh' # original
+remove_cmd '/usr/bin/zsh-5.2' '/usr/bin/zsh' # duplicate
+echo 'Keeping: ' '/usr/bin/gawk-4.1.3' # original
+remove_cmd '/usr/bin/gawk' '/usr/bin/gawk-4.1.3' # duplicate
+echo 'Keeping: ' '/usr/bin/git' # original
+remove_cmd '/usr/bin/git-receive-pack' '/usr/bin/git' # duplicate
+remove_cmd '/usr/bin/git-upload-archive' '/usr/bin/git' # duplicate
+echo 'Keeping: ' '/usr/bin/gcc' # original
+remove_cmd '/usr/bin/x86_64-pc-linux-gnu-gcc-6.1.1' '/usr/bin/gcc' # duplicate
+remove_cmd '/usr/bin/x86_64-pc-linux-gnu-gcc' '/usr/bin/gcc' # duplicate
+                                               
+######### END OF AUTOGENERATED OUTPUT #########
+                                               
+if [ -z $DO_REMOVE ] && [ -z $DO_DRY_RUN ]     
+then                                           
+  echo "Deleting script " "$0"             
+  rm -f '/home/sahib/dev/rmlint/gui/rmlint.sh';                                     
+fi                                             
