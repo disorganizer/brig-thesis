@@ -13,9 +13,13 @@ unterschiedliche Probleme. Bei E--Mails kann oft nur eine maximale Dateigröße
 übermittelt werden, die Übertragung von Dateien mittels ``ssh`` ist für die
 meisten Nutzer zu kompliziert und zentrale Dienste rufen einerseits
 Sicherheitsbedenken hervor, andererseits sind sie meist nur bedingt kostenlos
-und können unvermittelt ausfallen. Für jeden neuen Kontakt muss also stets erst
-aufwendig der Tauschweg ausgehandelt werden.
+und können unvermittelt ausfallen. Wie in [@fig:xkcd-sync] gezeigt, muss also
+für jeden neuen Kontakt stets erst aufwendig der kleinste gemeinsame Nenner
+ausgehandelt werden.
 
+![Humorvolle Darstellung der dargestellten Problematik.[^SOURCE_XKCD]](images/xkcd/file_transfer.png){#fig:xkcd-sync width=50%}
+
+[^SOURCE_XKCD]: Quelle: xkcd (<https://xkcd.com/949>)
 [^ownCloud]: Eine Filehosting--Software für den Heimgebrauch; siehe auch <https://owncloud.org>
 
 Zahlreiche Ansätze haben versucht diese Probleme in der Praxis abzumildern oder
@@ -91,7 +95,7 @@ unserer Sicht hierbei einige grundlegende Vorteile:
 
 [^AGPL]: Lizenztext: <http://www.gnu.org/licenses/agpl-3.0.de.html>
 
-## Inhalt der Arbeit
+## Gliederung der Arbeit
 
 Diese Arbeit wird einen Überblick über die aktuelle Implementierung und die
 Designentscheidungen dahinter geben, sowie die notwendigen Techniken

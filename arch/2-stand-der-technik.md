@@ -468,7 +468,7 @@ $ ipfs pin rm QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
 
 [^IPFS_MANUAL_GC]: Der Garbage--Collector kann auch manuell mittels ``ipfs repo gc`` von der Kommandozeile aufgerufen werden.
 
-**Service Discovery:** In den Anforderungen in [@sec:einleitung] wird eine menschenlesbare Identität
+**Service Discovery:** In den Anforderungen in [@sec:eigenschaften] wird eine menschenlesbare Identität
 gefordert, mit der *Peers* einfach erkennbar sind. Der von *IPFS* verwendete Identitätsbezeichner ist
 allerdings eine tendenziell schwer zu merkende Prüfsumme. Um dieses Dilemma zu lösen, wendet 
 ``brig`` einen »Trick« an. Jeder ``brig``--Knoten legt eine Datensatz in das *IPFS* Netzwerk mit dem Inhalt

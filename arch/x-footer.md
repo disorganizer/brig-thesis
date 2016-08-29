@@ -1,3 +1,1 @@
-# Anhänge
-
-# Literaturverzeichnis
+\appendix

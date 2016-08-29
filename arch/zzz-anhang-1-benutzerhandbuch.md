@@ -1,12 +1,12 @@
-# Benutzerhandbuch {#sec:benutzerhandbuch}
+# Anhang: Benutzerhandbuch {#sec:benutzerhandbuch}
 
 Die Funktionalität des ``brig``--Prototypen ist im momentanen Zustand nur über
 eine Kommandozeilenanwendung erreichbar. Die Hilfe dieser Anwendung wird unten
 gezeigt. Im Folgenden werden die einzelnen zur Verfügung stehenden Optionen und
 Kommandos erklärt. Daneben wird auch eine Anleitung zur Installation gegeben
 und es werden Ratschläge zur optimalen Nutzung erteilt. Vorausgesetzt wird
-dabei nur die Lektüre von [@sec:motivation] und [@sec:einleitung], damit dieses Kapitel auch als Tutorial
-gelesen werden kann.
+dabei nur die Lektüre von [@sec:motivation] und [@sec:eigenschaften], damit
+dieses Kapitel auch als Tutorial gelesen werden kann.
 
 ```{#lst:brig-help .bash .numberLines}
 NAME:

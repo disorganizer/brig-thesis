@@ -1,4 +1,4 @@
-# Einleitung {#sec:einleitung}
+# Eigenschaften von »brig« {#sec:eigenschaften}
 
 In diesem Kapitel wird zuerst das Projektziel formuliert und anschließend die
 Anforderungen definiert, die wir an eine ideale und moderne
