@@ -125,10 +125,11 @@ Lösungen gehören:
 * Resilio (ehem. BitTorrent-Sync, proprietär)
 * Infinit (proprietär, [@quintard2012towards])
 * Syncthing (Open--Source)
+* Librevault (Open--Source)
 
 Bei den bekannten Vertretern wie dem BitTorrent--Client werden die Daten in der
 Regel unverschlüsselt übertragen und gespeichert. Eine Authentifizierung finden
-in der Regel nicht statt. Alternativen wie Syncthing, Resilio oder Infinit
+in der Regel nicht statt. Alternativen wie Syncthing, Resilio, Librevault oder Infinit
 ermöglichen Benutzern auf Basis von dezentralen Netzwerken Dateien zu tauschen.
 Ob die Daten verschlüsselt gespeichert und übertragen werden ist je nach
 Projekt unterschiedlich und unterliegt Änderungen in der aktuellen
@@ -189,3 +190,6 @@ Notfall rechtlich gezwungen werden können personenbezogene Daten rauszugeben.
 * Gesellschaftliche Aspekte: Ich habe nichts zu verbergen
 * politische Lage und Probleme
 
+>> *Arguing that you don’t care about the right to privacy because you have
+>> nothing to hide is no different than saying you don’t care about free speech
+>> because you have nothing to say.* -- Edward Snowden
