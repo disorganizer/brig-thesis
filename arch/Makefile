@@ -6,7 +6,7 @@ all:
 		--smart \
 		--number-sections \
 		--bibliography thesis.bib \
-		--csl tex/ieee.csl \
+		--csl tex/acm.csl \
 		-H tex/vars.tex \
 		-H tex/header.tex \
 		-B tex/title.tex \
@@ -30,7 +30,7 @@ html:
 		--filter pandoc-crossref \
 		--smart \
 		--bibliography thesis.bib \
-		--csl tex/ieee.csl \
+		--csl tex/acm.csl \
 		-B  ../common/html/template.html \
 		-N \
 		-S \
