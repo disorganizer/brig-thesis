@@ -16,7 +16,7 @@ Speicherallokation und Bereinigung.
 **Hohe Grundperformanz:** Zwar erreicht diese nicht die Performanz von C, liegt
 aber zumindest in der selben Größenordnung (vgl. [@pike2009go], S. 37).
 
-**Weitläufige Standardbibliothek:** Es sind wenige externe Bibliotheken nötig.
+**Weitläufige Standardbibliothek:** Es sind wenig externe Bibliotheken nötig.
 Insbesondere für die Entwicklung von Netzwerk- und Systemdiensten gibt es eine
 breite Auswahl von gut durchdachten Angeboten. Insbesondere das Angebot an
 gut ausgewählten und dokumentierten kryptografischen Primitiven war für uns
