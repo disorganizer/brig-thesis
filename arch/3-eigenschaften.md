@@ -4,7 +4,11 @@ In diesem Kapitel wird zuerst das Projektziel formuliert und anschließend die
 Anforderungen definiert, die wir an eine ideale und moderne
 Dateisynchronisationslösung stellen würden. Abschließend wird ein kurzer Blick
 auf die Zielgruppen der Lösung geworfen und für welche Einsatzzwecke sie sich
-eignet.
+eignet. (TODO: überarbeiten)
+
+## Wissenschaftliche Lücke
+
+TODO: Hier kurz und prägnant sagen was die Neuerung von brig ist.
 
 ## Projektziel
 
@@ -12,14 +16,13 @@ Ziel des Projektes ist die Entwicklung einer sicheren und dezentralen
 Alternative zu Cloud--Storage Lösungen wie Dropbox, die sowohl für Unternehmen,
 als auch für Heimanwender nutzbar ist. Trotz der Prämisse, einfache Nutzbarkeit
 zu gewährleisten, wird auf Sicherheit sehr großen Wert gelegt.  Aus Gründen der
-Transparenz wird die Software dabei quelloffen unter der »``AGPLv3``« Lizenz
+Transparenz wird die Software dabei quelloffen unter der »``AGPLv3``«--Lizenz
 entwickelt.
 
 Nutzbar soll das resultierende Produkt, neben dem Standardanwendungsfall der
 Dateisynchronisation, auch als Backup- bzw. Archivierungs--Lösung sein. Des
 Weiteren kann es auch als verschlüsselter Daten--Safe oder als »Werkzeugkasten« für
-andere, verteilte Anwendungen dienen -- wie beispielsweise aus dem Industrie 4.0
-Umfeld.
+andere, verteilte Anwendungen dienen -- wie beispielsweise aus dem Industrie--4.0--Umfeld.
 
 Als weiteres Abgrenzungsmerkmal setzt ``brig`` nicht auf möglichst hohe
 Effizienz (wie es typischerweise verteilte Dateisysteme tun) sondern versucht
@@ -149,7 +152,7 @@ schwierig. Eine mögliche Lösung wäre die Einrichtung eines automatsierten Kno
 der ständig verfügbar ist. Statt Dateien direkt miteinander zu teilen, könnte Nutzer
 diesen Knoten als Zwischenlager benutzen, wie in [@fig:temp-datahold]
 
-![Temporäre Datenhalde](images/temp-datahold.png){#fig:temp-datahold width=50%}
+![Temporäre Datenhalde](images/3/temp-datahold.png){#fig:temp-datahold width=50%}
 
 **Integrität:** Es muss sichergestellt werden, dass absichtliche oder
 unabsichtliche Veränderungen an den Daten festgestellt werden können.

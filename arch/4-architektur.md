@@ -12,6 +12,8 @@ mit dem Nutzer werden ebenfalls diskutiert.
 Da ``brig`` eine Art »Frontend« für das »Backend« ``IPFS`` ist, wird dessen
 Architektur hier kurz schematisch erklärt.
 
+![Übersicht über die Architektur von ``brig``](images/4/architecture-overview.pdf){#fig:arch-overview}
+
 - Bitswap
 - For the swarm!
 
@@ -179,7 +181,7 @@ Schlüsseln zugeordnet werden. Die Werte können wieder *Buckets* sein,
 wodurch die Bildung einer verschachtelten Hierarchie möglich ist.
 Die verwendete Hierarchie ist dabei schematisch in [@fig:brig-store-layout] abgebildet.
 
-![Hierarchie innerhalb der Key--Value--Datenbank](images/tree-store-layout.pdf){#fig:brig-store-layout width=100%}
+![Hierarchie innerhalb der Key--Value--Datenbank](images/4/tree-store-layout.pdf){#fig:brig-store-layout width=100%}
 
 Anmerkung: Die Struktur ist momentan auf Einfachheit und nicht auf Speichereffizienz ausgelegt.
 Es wäre beispielsweise leicht möglich im ``index``--Bucket einen Präfixbaum (TODO: ref) zu speichern.
@@ -199,9 +201,13 @@ Schaubild mit den relevanten io.Reader/io.Writer
 
 #### Verschlüsselung
 
+![Aufbau des Verschlüsselungs--Dateiformats](images/4/format-encryption.pdf){#fig:format-encryption}
+
 TODO: NaCL Secretbox erwähnen, Unterschiede
 
 #### Kompression
+
+![Aufgbau des Kompressions--Dateiformat](images/4/format-compression.pdf){#fig:format-compression}
 
 ### Dateisystemordner
 
@@ -212,6 +218,10 @@ FUSE
 ### Versionsverwaltung
 
 Commit/Checkpoint erklären!
+
+### Benutzermanagement
+
+![Überprüfung eines Benutzernamens](images/4/id-resolving.pdf){#fig:arch-overview}
 
 ### Synchronisation
 

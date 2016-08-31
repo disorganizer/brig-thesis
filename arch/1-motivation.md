@@ -4,9 +4,9 @@ Einfache und sichere Dateisynchronisation ist trotz vieler Lösungsansätze noch
 immer ein unvollständig gelöstes Problem. Versucht man beispielsweise eine
 Datei zwischen zwei Personen zu teilen (oder noch schwieriger: synchron zu
 halten), so kann man unter anderen zwischen den folgenden Möglichkeiten wählen:
-Übertragung mittels USB--Stick, Speicherkarte oder Ähnlichem, Übertragung über
+Übertragung mittels USB--Stick, Speicherkarte oder ähnlichem, Übertragung über
 einen zentralen Dienst, entweder im lokalen Netz (wie *ownCloud*[^ownCloud]) oder entfernt im
-Internet (z.B. Dropbox), direkte Übertragung im Netzwerk mittels Protokollen
+Internet (wie beispielsweise Dropbox), direkte Übertragung im Netzwerk mittels Protokollen
 wie ``ssh`` oder sehr häufig auch einfach via E--Mail. Jede dieser Ansätze
 funktioniert auf seine Weise, doch ergeben sich in der Praxis meist sehr
 unterschiedliche Probleme. Bei E--Mails kann oft nur eine maximale Dateigröße
@@ -17,7 +17,7 @@ und können unvermittelt ausfallen. Wie in [@fig:xkcd-sync] gezeigt, muss also
 für jeden neuen Kontakt stets erst aufwendig der kleinste gemeinsame Nenner
 ausgehandelt werden.
 
-![Humorvolle Darstellung der dargestellten Problematik.[^SOURCE_XKCD]](images/xkcd/file_transfer.png){#fig:xkcd-sync width=50%}
+![Humorvolle Darstellung der dargestellten Problematik.[^SOURCE_XKCD]](images/1/xkcd-file-transfer.png){#fig:xkcd-sync width=50%}
 
 [^SOURCE_XKCD]: Quelle: xkcd (<https://xkcd.com/949>)
 [^ownCloud]: Eine Filehosting--Software für den Heimgebrauch; siehe auch <https://owncloud.org>
@@ -117,7 +117,7 @@ Die vorliegende Arbeit ist in vier größere logische Blöcke gegliedert:
 Die Autoren sind zwei Master--Studenten an der Hochschule Augsburg, die von
 Freier Software begeistert sind und mit ihr die Welt ein bisschen besser machen
 wollen. Momentan entwickeln wir ``brig`` im Rahmen unserer Masterarbeiten bei
-Prof. Dr.-Ing. Honorary Doctor of ONPU Thorsten Schöler in der
+Prof. Dr.-Ing. Thorsten Schöler in der
 Distributed--Systems--Group[^DSG] und wollen auch nach unserem Abschluss daran
 weiter arbeiten. Beide Autoren haben Erfahrung und Spaß darin
 Open--Source--Software zu entwickeln und zu betreuen, was neben dem Eigennutzen

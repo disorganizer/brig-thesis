@@ -32,6 +32,8 @@ Momentan wird ``brig`` vollkommen separat von ``IPFS`` entwickelt. Bleibt das so
 
 Was würde man anders machen: Prototypischere Entwicklung, vlt. sogar einfach in bash oder python.
 
+![Ist »brig« letztlich nur ein weiterer Standard?](images/8/xkcd-standards.png){#fig:xkcd-standards width=50%}
+
 ### Zukunft der Autoren
 
 Weiterentwicklung gewährleistet?

@@ -198,7 +198,7 @@ nachgeschlagen\ werden.
 Nach wiederholter, erfolgreicher Eingabe der Passphrase wird ein Schlüsselpaar generiert,
 und die in [@fig:brig-repo-tree] gezeigte Verzeichnisstruktur angelegt.
 
-![Test](images/tree-brig-repo.pdf){#fig:brig-repo-tree width=50%}
+![Test](images/anhang-1/tree-brig-repo.pdf){#fig:brig-repo-tree width=50%}
 
 ### Dateien hinzufügen, löschen und verschieben
 

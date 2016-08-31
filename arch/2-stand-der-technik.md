@@ -38,9 +38,10 @@ ein Rechner einen Teil der Datei hat. Diesen Teil kann er im lokalen Netz
 anderen Teilnehmern wieder anbieten und sich Teile der Datei besorgen, die er
 selbst noch nicht hat. So muss in der Theorie die Datei nur maximal einmal über
 das WLAN übertragen werden. In diesem etwas konstruierten Beispiel hätte man
-also ein Speedup--Faktor von ca. 50.
+also ein Speedup--Faktor von ca. 50. [@fig:speedup] veranschaulicht diesen Zusammenhang noch einmal.
 
-(TODO: veranschaulichungsgrafik)
+![Exemplarische Veranschaulichung der Netzwerklast bei zentralen und dezentralen Systemen.](images/2/zentral-dezentral-speedup.pdf){#fig:speedup}
+
 
 ### Aufbau eines P2P Netzwerks
 
@@ -283,12 +284,14 @@ Eigenschaften.
 | *BitTorrent Sync*    | \xmark              | \cmark              | \cmark                     |  \cmark             | \xmark          |
 | ``git-annex``        | \cmark              | \xmark              | \xmark                     |  \xmark             | \xmark          |
 | ``brig`` (Prototyp)  | \cmark              | \xmark              | \textcolor{YellowOrange}{Auf Linux} |  \cmark             | \cmark          |
-| ``brig`` (Ziel)      | \cmark              | \cmark              | \cmark                     |  \cmark             | \cmark          | 
+| ``brig`` (Ziel)      | \cmark              | \cmark              | \cmark                     |  \cmark             | \cmark          |
 
 
 : Übersicht über praktische Aspekte {#tbl:table-practical-overview}
 
 TODO: Infinit eintragen?
+
+TODO: librevault betrachten?
 
 ## IPFS: Das Interplanetary Filesystem
 
@@ -369,9 +372,21 @@ wählen, falls ihr Netzwerk komplett von der Außenwelt abgeschottet ist. Wie in
 Sicherheitsgründen notwendig.
 
 **Operation auf Hashes:** *IPFS* arbeitet nicht mit herkömmlichen Dateipfaden,
-sondern nur mit der Prüfsumme[^IPFS_HASH] einer Datei. Im folgenden Beispiel
+sondern nur mit der Prüfsumme einer Datei. Im folgenden Beispiel
 wird eine Photo--Datei mittels der ``ipfs``--Kommandozeile in das Netzwerk
 gelegt:[^IPFS_DAEMON]
+
+*IPFS* nutzt dabei ein spezielles Format um Prüfsummen zu
+repräsentieren[^IPFS_HASH]. Die ersten zwei Bytes einer Prüfsumme repräsentieren dabei den
+verwendeten Algorithmus und die Länge der darauf folgenden, eigentlichen
+Prüfsumme. Die entstandene Byte--Sequenz wird dann mittels ``base58``
+enkodiert, um sie menschenlesbar zu machen. Da der momentane
+Standardalgorithmus ``sha256`` ist, beginnt eine von *IPFS* generierte
+Prüfsumme stets mit »``Qm``«. Abbildung [@fig:ipfs-hash-format] zeigt dafür ein Beispiel.
+
+![Layout des IPFS hashes](images/2/ipfs-hash-layout.pdf){#fig:ipfs-hash-format}
+
+TODO: grafik: kleines bild um Hashformat visuell zu erklären?
 
 ```bash
 $ ipfs add my-photo.png
@@ -381,16 +396,7 @@ QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
 [^IPFS_DAEMON]: Voraussetzung hierfür ist allerdings, dass der ``ipfs``--Daemon
 vorher gestartet wurde und ein Repository mittels ``ipfs init`` erzeugt wurde.
 
-[^IPFS_HASH]: *Anmerkung:* *IPFS* nutzt ein spezielles Format um Hashes zu
-repräsentieren. Die ersten zwei Bytes einer Prüfsumme repräsentieren dabei den
-verwendeten Algorithmus und die Länge der darauf folgenden, eigentlichen
-Prüfsumme. Die entstandene Byte--Sequenz wird dann mittels ``base58``
-enkodiert, um sie menschenlesbar zu machen. Da der momentane
-Standardalgorithmus ``sha256`` ist, beginnt eine von *IPFS* generierte
-Prüfsumme stets mit »``Qm``«. Mehr Informationen unter:
-<https://github.com/multiformats/multihash>
-
-TODO: grafik: kleines bild um Hashformat visuell zu erklären?
+[^IPFS_HASH]: Mehr Informationen unter: <https://github.com/multiformats/multihash>
 
 Auf einem anderen Computer, mit laufenden ``ipfs``--Daemon, ist das Empfangen
 der Datei möglich, indem der Hash an ``ipfs cat`` gegeben wird. Dabei wird für
@@ -417,8 +423,9 @@ Kindknoten. Der Einsatz dieser Datenstruktur hat mehrere Vorteile:
 
 Auch ganze Verzeichnisse können in einem *Merkle--DAG* gespeichert werden,
 intern werden diese ähnlich wie bei ``tar`` in eine große Datei zusammengeführt.
+TODO: Siehe Abbildung [@fig:merke-tree]
 
-(TODO: Grafik)
+![Beispiel für einen Merkle--Tree, welcher versionierte Verzeichnisse abbildet.](images/2/merkle-tree.pdf){#fig:merkle-tree}
 
 **Public--Key Infrastructure:** Jeder Knoten im *IPFS*--Netzwerk besitzt ein
 RSA--Schlüsselpaar, welches beim Anlegen des Repositories erzeugt wird. Mittels
