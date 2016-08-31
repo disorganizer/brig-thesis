@@ -215,6 +215,87 @@ Commit/Checkpoint erklären!
 
 ### Synchronisation
 
+**Synchronisation einzelner Dateien:** In seiner einfachsten Form nimmt ein Synchronisationsalgorithmus als Eingabe
+die Metadaten zweier Dateien von zwei Synchronisationspartnern und trifft als
+auf dieser Basis als Ausgabe eine der folgenden Entscheidungen:
+
+1) Die Datei existiert nur bei Partner A.
+2) Die Datei existiert nur bei Partner B.
+3) Die Datei existiert bei beiden und ist gleich.
+4) Die Datei existiert bei beiden und ist verschieden.
+
+
+Je nach Entscheidung kann für diese Datei eine entsprechende Aktion ausgeführt werden:
+
+1) Die Datei muss zu Partner B übertragen werden.
+2) Die Datei muss zu Partner A übertragen werden.
+3) Es muss nichts weiter gemacht werden.
+4) Konfliktsituation: Eventuell Eingabe vom Nutzer erforderlich.
+
+Bis auf den vierten Schritt ist die Implementierung trivial und kann leicht von
+einem Computer erledigt werden. Das Kriterium, ob die Datei gleich ist, kann
+entweder durch einen direkten Vergleich gelöst werden (aufwendig) oder durch
+den Vergleich der Prüfsummen beider Dateien (schnell, aber vernachlässigbares
+Restrisiko durch Kollision TODO: ref). Manche Werkzeuge wie ``rsync`` setzen
+sogar auf probabilistische Ansätze, indem sie in der Standardkonfiguration aus Geschwindigkeitsgründen nur
+ein Teil des Dateipfades, eventuell das Änderungsdatum und die Dateigröße vergleichen.
+
+Für die Konfliktsituation hingegen kann es keine perfekte, allumfassende Lösung
+geben, da die optimale Lösung von der jeweiligen Datei und der Absicht des
+Nutzers abhängt. Bei Quelltext--Dateien möchte der Anwender vermutlich, dass
+beide Stände automatisch zusammengeführt werden, bei großen Videodateien ist
+das vermutlich nicht seine Absicht. Selbst wenn die Dateien nicht automatisch zusammengeführt werden sollen
+(englisch >>to merge<<), ist fraglich was mit der Konfliktdatei des Partners geschehen soll.
+Soll die eigene oder die fremde Version behalten werden? Dazwischen sind auch weitere Lösungen denkbar,
+wie das Anlegen einer Konfliktdatei (``photo.png:conflict-by-bob-2015-10-04_14:45``), so wie es beispielsweise
+Dropbox macht.[^DROPBOX_CONFLICT_FILE]
+Alternativ könnte der Nutzer auch bei jedem Konflikt befragt werden. Dies wäre
+allerdings im Falle von ``brig`` nach Meinung des Autors der Benutzbarkeit
+stark abträglich.
+
+Im Falle von ``brig`` müssen nur die Änderung von ganzen Dateien betrachtet werden, aber keine partiellen Änderungen
+darin. Eine Änderung der ganzen Datei kann dabei durch folgende Aktionen des Nutzers entstehen:
+
+1) Der Dateinhalt wurde modifiziert, ergo muss sich die Prüfsumme geändert haben (``MODIFY``).
+2) Die Datei wurde verschoben (``MOVE``).
+3) Die Datei wurde gelöscht (``REMOVE``).
+4) Die Datei wurde (initial oder erneut) hinzugefügt (``ADD``).
+
+Der vierte Zustand (``ADD``) ist dabei der Initialisierungszustand. Nicht alle dieser
+Zustände führen dabei automatisch zu Konflikten. So sollte ein guter
+Algorithmus kein Problem, erkennen, wenn ein Partner die Datei modifiziert und
+der andere sie lediglich umbenennt. Eine Synchronisation der entsprechenden
+Datei sollte den neuen Inhalt mit dem neuen Dateipfad zusammenführen.
+[@tbl:sync-conflicts] zeigt welche Operationen zu Konflikten führen und welche
+verträglich sind.
+
+
+|     A/B    | ``ADD`` | ``REMOVE`` | ``MOVE`` | ``MODIFY`` |
+|:----------:|---------|------------|----------|------------|
+|   ``ADD``  | ?       | ?          | ?        | ?          |
+| ``REMOVE`` | ?       | \cmark     | \xmark   | \xmark     |
+|  ``MOVE``  | ?       | \xmark     | ?        | \xmark     |
+| ``MODIFY`` | ?       | \xmark     | \cmark   | \xmark     |
+
+: Verträglichkeit {#tbl:sync-conflicts}
+
+TODO: Fragezeichen in Tabelle erklären.
+
+[^RSYNC]: <https://de.wikipedia.org/wiki/Rsync>
+[^DROPBOX_CONFLICT_FILE]: Siehe <https://www.dropbox.com/help/36>
+
+**Synchronisation von Verzeichnissen:** Prinzipiell lässt sich die Synchronisation einer Datei auf Verzeichnisse übertragen,
+indem einfach obiger Algorithmus auf jede darin befindliche Datei angewandt wird. In der Fachliteratur (TODO: ref vector time pair) findet sich
+zudem die Unterscheidung zwischen *informierter* und *uninformierter* Synchronisation. Der Hauptunterschied ist, dass
+bei ersterer die Änderungshistorie als zusätzliche Eingabe zur Verfügung steht.
+
+
+Die Synchronisation von Verzeichnishierarchien zweier Parteien kann grob in zwei Kategorien unterteilt werden:
+*Uninformierte* und *informierte* Synchroniastion.
+Bei der *uninformierten* Synchronisation steht dem Algorithmus lediglich der aktuelle Stand beider Verzeichnisse
+zur Verfügung. Basierend darauf 
+
+
 Das Synchronisationsmodell von ``brig`` basiert auf einer stark vereinfachter Variante von ``git``.
 
 Unterschied:
@@ -230,8 +311,6 @@ Merge-Commit = Tüte mit allen Checkpoints des Gegenübers
 
 Problem: Metadaten wachsen schnell, Angreifer könnte sehr viele kleine änderungen sehr schnell machen.
 Mögliche Lösung : Delayed Checkpoints, Directory Checkpoints.
-
-Kompatible änderungen: A modifiziert, B moved.
 
 ### Gateway
 
