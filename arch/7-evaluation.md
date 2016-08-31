@@ -1,6 +1,5 @@
 # Evaluation {#sec:evaluation}
 
-
 ## Was ``brig`` *nicht* ist
 
 TODO: Siehe auch: https://bazil.org/doc/antigoals/?
@@ -9,6 +8,8 @@ TODO: Siehe auch: https://bazil.org/doc/antigoals/?
 Software kann die sprichwörtliche »eierlegende Wollmilchsau« sein und sollte
 auch nicht als solche benutzt werden. Insgesamt ist es für folgende Bereiche
 weniger geeignet:
+
+TODO: Schöler: Sauberer Vergleich der Implementierung/Lösung anhang von Anforderungen.
 
 **High Performance:** Besonders im Bereich Effizienz kann es nicht mit hochperformanten
 Cluster--Dateisystemen wie Ceph[^CEPH] oder GlusterFS[^GLUSTER] mithalten.  Das

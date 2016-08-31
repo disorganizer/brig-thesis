@@ -1,12 +1,12 @@
-# Benutzerhandbuch {#sec:benutzerhandbuch}
+# Anhang: Benutzerhandbuch {#sec:benutzerhandbuch}
 
 Die Funktionalität des ``brig``--Prototypen ist im momentanen Zustand nur über
 eine Kommandozeilenanwendung erreichbar. Die Hilfe dieser Anwendung wird unten
 gezeigt. Im Folgenden werden die einzelnen zur Verfügung stehenden Optionen und
 Kommandos erklärt. Daneben wird auch eine Anleitung zur Installation gegeben
 und es werden Ratschläge zur optimalen Nutzung erteilt. Vorausgesetzt wird
-dabei nur die Lektüre von [@sec:motivation] und [@sec:einleitung], damit dieses Kapitel auch als Tutorial
-gelesen werden kann.
+dabei nur die Lektüre von [@sec:motivation] und [@sec:eigenschaften], damit
+dieses Kapitel auch als Tutorial gelesen werden kann.
 
 ```{#lst:brig-help .bash .numberLines}
 NAME:
@@ -198,7 +198,7 @@ nachgeschlagen\ werden.
 Nach wiederholter, erfolgreicher Eingabe der Passphrase wird ein Schlüsselpaar generiert,
 und die in [@fig:brig-repo-tree] gezeigte Verzeichnisstruktur angelegt.
 
-![Test](images/tree-brig-repo.pdf){#fig:brig-repo-tree width=50%}
+![Test](images/anhang-1/tree-brig-repo.pdf){#fig:brig-repo-tree width=50%}
 
 ### Dateien hinzufügen, löschen und verschieben
 

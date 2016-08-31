@@ -1,5 +1,7 @@
 # Implementierung {#sec:implementierung}
 
+![Übersicht über alle Pakete in ``brig``](images/5/package-diagram.pdf){#fig:package-diagram}
+
 Dieses Kapitel... hat Pocken. TODO.
 
 ## Wahl der Sprache
@@ -118,6 +120,8 @@ Konzeptueller überblick über die Go-Pakete (TODO: Paketdiagramm).
 ### Algorithmik
 
 (Flaschenhälse)
+
+![Übersicht über alle Pakete in ``brig``](images/5/write-overlay.pdf){#fig:package-diagram}
 
 ### Historisches
 
