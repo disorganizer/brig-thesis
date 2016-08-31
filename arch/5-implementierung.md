@@ -18,7 +18,11 @@ aber zumindest in der selben Größenordnung (vgl. [@pike2009go], S. 37).
 
 **Weitläufige Standardbibliothek:** Es sind wenige externe Bibliotheken nötig.
 Insbesondere für die Entwicklung von Netzwerk- und Systemdiensten gibt es eine
-breite Auswahl von gut durchdachten Angeboten.
+breite Auswahl von gut durchdachten Angeboten. Insbesondere das Angebot an
+gut ausgewählten und dokumentierten kryptografischen Primitiven war für uns
+wichtig.[^ECB_MODE]
+
+[^ECB_MODE]: So wurde beispielsweise der unsichere ECB--Betriebsmodus für Blockchiffren absichtlich weggelassen: <https://github.com/golang/go/issues/5597>
 
 **Schneller Kompiliervorgang:** Selbst große Anwendungen werden in wenigen
 Sekunden in eine statische Binärdatei ohne Abhängigkeiten übersetzt. Kleinere
@@ -64,6 +68,7 @@ sehr einfach zu lesen ist.
 
 [^MOBILE]: Siehe dazu: <https://golang.org/wiki/Mobile>
 
+Weiterführende Argumente finden sich beispielsweise unter (TODO: ref https://talks.golang.org/2012/splash.article.)
 Natürlich ist auch *Go* keine Lösung für alles. Daher werden untenstehend
 einige kleinere Nachteile (sowie unsere Lösung) angeführt, die aber in Summe
 nicht gegen die Vorteile aufzuwiegen sind:
