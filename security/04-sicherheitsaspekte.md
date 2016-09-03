@@ -2,18 +2,34 @@
 
 ## Einleitung
 
-Entwickler sind in der Regel keine Sicherheitsexperten, Sicherheitsprobleme entstehen
-oft weil Implementierung fehlerhaft...
+Software--Entwickler sind in der Regel keine Sicherheitsexperten. Nicht nur
+Fehler in der Software gefährden ganze Systeme und Benutzerdaten, sondern auch
+der immer wieder fehlerhafte Einsatz von Kryptographie ist immer wieder für
+katastrophale Sicherheitsprobleme verantwortlich. Es ist *sehr schwer*
+Kryptographie *korrekt* zu Implementieren. Sogar der früher weit verbreitete
+Standard *WEP (Wired Equivalent Privacy)*, zur Verschlüsselten drahtlosen
+Kommunikation, weist gleich mehrere Designschwächen auf (vgl.
+[@martin2012everyday], S. 430).
+
+Sogar bei Unternehmen welche explizit mit *starker
+Kryptographie* werben und auch für welche Kryptographie zum Tagesgeschäft
+gehört, machen immer wieder fatale Fehler bei der Implementierung ihrer
+Produkte. 
+
+Verschlüssehttp://www.heise.de/security/artikel/Verschusselt-statt-verschluesselt-270058.html
+
+
 Selektiv gewählte Sicherheitsprinzipien werden betrachtet um zu sensibilisieren jedoch
-viel mehr um eine ,,sinnvollen'' Einsatz für brig definieren zu können.
+viel mehr um eine »sinnvollen« Einsatz für »brig« definieren zu können.
 
 ## Verschlüsselung
 
 ### Symmetrische Verschlüsselung
 
-#### Funktionsweise
+#### Generelle Funktionsweise
 
 [@fig:img-symmetric] zeigt die Verschlüsselung von Daten mittels symmetrischer Kryptographie. Bei symmetrischer Kryptographie wird der gleich Schlüssel um ver-- und entschlüsseln der Daten verwendet. 
+
 
 Beim Datenaustausch über unsichere Netze, muss der Schlüssel zuerst zwischen
 den Kommunikationspartnern ausgetauscht werden. In [@fig:img-symmetric]
@@ -23,15 +39,33 @@ Schlüssel* verwendet um die Daten wieder zu entschlüsseln.
 
 Symmetrische Verfahren sind im Vergleich zu asymmetrischen Verfahren sehr effizient.
 
-![Austausch von Daten über einen unsicheren Kommunikationsweg.](images/symmetric.png){#fig:img-symmetric width=100%}
+![Konzept beim Austausch von Daten über einen unsicheren Kommunikationsweg unter Verwendung symmetrischer Kryptographie. *Alice* und *Bob* teilen einen *gemeinsamen Schlüssel* um die Daten zu ver-- und entschlüsseln.](images/symmetric.png){#fig:img-symmetric width=85%}
 
-#### Betriebsarten
+#### Unterschied zwischen Block-- und Stromverschlüsselung
 
+Das symmetrische Verschlüsseln unterteilt sich in die beiden Verschlüsselungsverfahren Stromverschlüsselung und Blockverschlüsselung. Bei der Stromverschlüsselung wird direkt jedes Zeichen (Bit) des Klartextes mittels eines kryptografischen Schlüssels direkt (XOR) in ein Geheimtext Zeichen umgewandelt. 
 
+Bei der Blockverschlüsselung hingegen sind die Daten in Blöcke einer bestimmten Größe unterteilt. Die Verschlüsselung funktioniert auf Blockebene. Wie oder ob die Daten--Blöcke untereinander abhängig sind und welche Informationen bei der Verschlüsselung neben dem Schlüssel mit in die Verschlüsselung einfließen, bestimmt die sogenannte Betriebsart. [@fig:img-streamblock] zeigt exemplarisch den Unterschied zwischen Strom-- und Blockverschlüsselung.
 
-	* AES
-	* DES
-	* Twofish
+![Unterschied in der Arbeitsweise zwischen Block-- und Stromchiffre.](images/streamblock.png){#fig:img-streamblock width=80%}
+
+#### Betriebsarten der Blockverschlüsselung
+
+Die Betriebsart beschreibt auf welche Art und Weise die Blöcke verschlüsselt
+werden. Dies ist insofern wichtig, da sich durch die Betriebsart die
+Eigenschaften und somit der Einsatzzweck ändern kann.
+
+Folgend zwei Betriebsarten zum besserem Verständnis:
+
+**Electronic Code Book Mode (ECB):** Diese Betriebsart werden die Klartextblöcke unabhängig von einander verschlüsselt. Dies hat den Nachteil, dass gleiche Klartextblöcke immer in gleiche Geheimtextblock, bei Verwendung des gleichen Schlüssels, ergeben.
+
+**Cipher Feedback Mode (CFB):** Beim *CFB*--Modus fließt, neben dem Schlüssel, der Geheimtextblock vom Vorgänger ein. Durch diese Arbeitsweise haben im Gegensatz zum *ECB*--Modus gleiche Klartextblöcke unterschiedliche Geheimtextblöcke. Weiterhin wird bei dieser Arbeitsweise aus der Blockverschlüsselung eine Stromverschlüsselung.
+
+![ECB--Modus (links): Datenblöcke werden unabhängig von einander verschlüsselt. CFB--Modus (rechts): Datenblöcke hängen beim Verschlüsseln von einander ab.](images/ciphermode.png){#fig:img-streamblock width=100%}
+
+#### Gängige Algorithmen und Blockgrößen
+
+### Asymmetrische Verschlüsselung
 
 	* Grundlagen und Einsatzzwecke Asym. Verschlüsselung
 

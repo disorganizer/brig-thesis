@@ -16,14 +16,16 @@ sind unter [@cpahl] zu finden.
 Betrachten man die »Sicherheit« von Dateiverteilungssystemen, so müssen
 verschiedene Teilaspekte betrachten werden. Leider ist das Umfeld der
 Sicherheit sehr groß und die Begrifflichkeiten nicht immer eindeutig definiert.
-In der Fachliteratur (vgl. [@pauly2004netzwerk]) spricht man oft von
-»IT--Sicherheit«. Zu den fünf Hauptaspekten dieser gehören in der Regel:
+In der Fachliteratur (vgl. [@pauly2004netzwerk]) spricht man bei »Sicherheit«
+oft von den folgenden fünf Sicherheitsaspekten:
 
 * Vertraulichkeit: Schutz der Daten vor Zugriff durch Dritte.
 * Integrität: Schutz der Daten vor Manipulation.
 * Authentifizierung: Eindeutige Identifikation von Benutzern.
 * Autorisierung: Definiert die Zugangs-- und Zugriffssteuerung auf Dienste.
 * Verfügbarkeit: Dienste stehen legitimen Benutzern tatsächlich zur Verfügung.
+
+Um diese zu auf technischer Ebene realisieren, müssen neben unterschiedliche Kryptographische Komponenten verwendet werden.
 
 ### Angriffe und Bedrohungen
 
@@ -54,6 +56,8 @@ von »Social Engineering«. [@fig:img-security] zeigt scherzhaft eine weitere
 Variante für welche Menschen anfällig sind.
 
 ### Datenaustausch über zentrale Lösungen
+
+#### Funktionsweise zentraler Dienste 
 
 Zentrale Dienste klassifizieren sich im Kontext dieser Arbeit durch die
 Eigenschaft, dass es eine zentrale Instanz gibt, welche zum Austausch der Daten
