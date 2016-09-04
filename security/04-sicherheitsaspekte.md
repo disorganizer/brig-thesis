@@ -49,6 +49,7 @@ Bei der Blockverschlüsselung hingegen sind die Daten in Blöcke einer bestimmte
 
 ![Unterschied in der Arbeitsweise zwischen Block-- und Stromchiffre.](images/streamblock.png){#fig:img-streamblock width=80%}
 
+
 #### Betriebsarten der Blockverschlüsselung
 
 Die Betriebsart beschreibt auf welche Art und Weise die Blöcke verschlüsselt
@@ -57,11 +58,35 @@ Eigenschaften und somit der Einsatzzweck ändern kann.
 
 Folgend zwei Betriebsarten zum besserem Verständnis:
 
-**Electronic Code Book Mode (ECB):** Diese Betriebsart werden die Klartextblöcke unabhängig von einander verschlüsselt. Dies hat den Nachteil, dass gleiche Klartextblöcke immer in gleiche Geheimtextblock, bei Verwendung des gleichen Schlüssels, ergeben.
+**Electronic Code Book Mode (ECB):** Diese Betriebsart werden die Klartextblöcke unabhängig von einander verschlüsselt. Dies hat den Nachteil, dass gleiche Klartextblöcke immer in gleiche Geheimtextblock, bei Verwendung des gleichen Schlüssels, ergeben. [@fig:img-ecbvschaining] zeigt eine »Schwäche« dieses Verfahrens.
+
+![Bild zur graphischen Verdeutlichung des ECB--Modus im Vergleich zu einem
+block chaining cipher.[^tux]](images/ecbvschaining.png){#fig:img-ecbvschaining
+width=80%}
+
+[^tux]:Bildquelle: <https://de.wikipedia.org/wiki/Electronic_Code_Book_Mode>
 
 **Cipher Feedback Mode (CFB):** Beim *CFB*--Modus fließt, neben dem Schlüssel, der Geheimtextblock vom Vorgänger ein. Durch diese Arbeitsweise haben im Gegensatz zum *ECB*--Modus gleiche Klartextblöcke unterschiedliche Geheimtextblöcke. Weiterhin wird bei dieser Arbeitsweise aus der Blockverschlüsselung eine Stromverschlüsselung.
 
 ![ECB--Modus (links): Datenblöcke werden unabhängig von einander verschlüsselt. CFB--Modus (rechts): Datenblöcke hängen beim Verschlüsseln von einander ab.](images/ciphermode.png){#fig:img-streamblock width=100%}
+
+Neben den genannten Betriebsarten gibt es noch weitere die sich in der
+Funktionsweise unterscheide beziehungsweise für bestimmte Anwendungen
+konzipiert sind. Je nach Betriebsart ist ein paralleles Ver-- und Entschlüsseln
+oder auch Wahlfreier Zugriff möglich.  Weiterhin variiert auch die
+Fehleranfälligkeit und Sicherheit.
+
+----------------------------------------------------------
+                                   ECB  CBC  CFB  CTR OFB
+--------------------------------   ---  ---- ---- --- ----
+*Verschlüsseln parallelisierbar*   ja   nein nein ja  nein
+
+*Entschlüsseln parallelisierbar*   ja   ja   ja   ja  nein
+
+*Wahlfreier Zugriff möglich*       ja   ja   ja   ja  nein
+----------------------------------------------------------
+
+Table: Laut ISO 10116 Standard definierte Betriebsarten für blockorientierte Verschlüsselungsalgorithmen. {#tbl:t-betriebsarten} 
 
 #### Gängige Algorithmen und Blockgrößen
 
