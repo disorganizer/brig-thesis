@@ -183,7 +183,10 @@ gehören die RSA--Signatur und *DSA (ElGamal--Signatur)*.
 Weiterhin gibt es eine Variante des *DSA*--Verfahrens welche
 Elliptische--Kurven--Kryptographie verwendet, das *ECDSA (elliptic curve DSA)*.
 Die Verfahren auf elliptischen Kurven haben den Vorteil, dass die
-Schlüssellängen um Faktor 6--30 kleiner sind, was Ressourcen spart.
+Schlüssellängen um Faktor 6--30 kleiner sind, was vergleichbaren
+Sicherheitsniveau Ressourcen sparen kann, obwohl die Operationen auf
+Elliptischen Kurven aufwendiger zu berechnen sind als Operationen in
+Vergleichbar großen endlichen Körpern.
 
 Heutzutage typische Schlüssellängen bei asymmetrischer Verschlüsselung sind 1024
 Bit, 2048 Bit und 4096 Bit. Die Schlüssellängen sind nicht direkt mit den der
