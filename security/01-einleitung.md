@@ -56,7 +56,10 @@ Will man persönlichen Bedenken auf den Einsatz von Cloud--Storage--Anbietern
 verzichten, bleibt einem immer noch die Möglichkeit Dateien über E--Mail zu
 versenden. Hier erschließt sich aber bei näherer Betrachtung ein ähnliches
 Problem wie bei den Cloud--Storage--Anbietern, die Privatsphäre beziehungswiese
-der Schutz der Daten vorm Zugriff durch Dritte, sind mangelhaft. Es gibt die Möglichkeit E-Mails beispielsweise mittels *Pretty Good Privacy* zu verschlüsseln, jedoch ist der Einsatz und Aufwand für den Otto Normalverbraucher schlichtweg zu kompliziert und wird daher kaum genutzt.
+der Schutz der Daten vorm Zugriff durch Dritte, sind mangelhaft. Es gibt die
+Möglichkeit E-Mails beispielsweise mittels *Pretty Good Privacy* zu
+verschlüsseln, jedoch ist der Einsatz und Aufwand für den Otto
+Normalverbraucher schlichtweg zu kompliziert und wird daher kaum genutzt.
 
 Der Austausch über Cloud--Storage--Service oder E-Mail ist nichtsdestotrotz der
 Quasi--Standard. Es gibt zwar technisch gesehen weitere Möglichkeiten Daten,

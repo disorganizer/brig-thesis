@@ -17,7 +17,8 @@ Wie bereits unter [@sec:sicherheit] erwähnt, ist »Sicherheit« ein sehr
 weitläufiger Begriff und immer von einem bestimmten »Angriffsszenario«
 abhängig.
 
-Eine Software zur dezentralen Dateiverteilung benötigt Sicherheitskonzepte welche folgende Punkte gewährleisten:
+Eine Software zur dezentralen Dateiverteilung benötigt Sicherheitskonzepte
+welche folgende Punkte gewährleisten:
 
 * Vertraulichkeit: Kein Zugriff auf Daten durch unbefugte Personen.
 * Integrität: Manipulation von Daten erkennen.
