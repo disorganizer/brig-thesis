@@ -245,15 +245,15 @@ einen *gemeinsamen* Schlüssel zu bestimmen, ohne diesen über den potentiell
 unsicheren Kommunikationskanal austauschen zu müssen.
 
 ![Grafische Darstellung, Ablauf des
-Diffie--Hellman--Schlüsseltausch.](images/dh.png){#fig:img-dh width=85%}
+Diffie--Hellman--Schlüsseltausch.](images/dh.png){#fig:img-dh width=75%}
 
 [@fig:img-dh] zeigt Ablauf des *DH*--Protokolls:
 
 1) *Alice* und *Bob* einigen sich auf große Primzahl $p$ und natürliche Zahl $g$, die kleiner ist als $p$.
 2) *Alice* und *Bob* generieren jeweils eine »geheime Zufallszahl« $a$ und $b$.
 3) *Alice* berechnet $A=g^{a} (\mod p)$  und schickt $A$ an *Bob* (dies
-   entspricht im Grunde einem temporärem *ElGamal* Schlüsselpaar: $a = privater
-   Schlüssel, g^a = öffentlicher Schlüssel$)
+   entspricht im Grunde einem temporärem *ElGamal* Schlüsselpaar: $a$ = privater
+   Schlüssel, $g^a$ = öffentlicher Schlüssel)
 4) *Bob* berechnet $B=g^{b}(\mod p)$ und schickt  $B$ an *Alice*.
 5) *Alice* erhält $B$ von *Bob* und berechnet mit $a$ die Zahl $K_{1}=B^{a} (\mod p)$. 
 6) *Bob* berechnet analog $K_{2}=A^{b}(\mod p)$. 
@@ -262,14 +262,39 @@ Beide haben den gleichen Schlüssel berechnet, da gilt:
 
 $$ K_{1} = B^{a} = (g^{b})^{a} = (g^{a})^{b} = A^{b} = K_{2} $$
 
-## Hash--Funktionen
+## Hashfunktionen
 
-## Datenintegrität
-	* HMACs
-	* CRC
-	* ... (unterschiede bzw Vor- und Nachteile)
+### Kryptographische Hashfunktionen
 
-## Authentifizierung
+Hashfunktionen werden in der Informatik verwendet um eine beliebige endliche
+Eingabemenge auf einer Prüfsumme (Hashwert) einer bestimmten Länge abzubilden.
+Prüfsummen können verwendet werden um beispielsweise die Integrität von Daten zu
+validieren. Ein Praxisbeispiel wäre die Korrektheit von übertragenen Daten zu
+validieren, beispielsweise nach dem Download eine *Linux*--Images.
+
+Kryptographische Hashfunktionen sind spezielle Formen von Hashfunktionen welche
+folgende Eigenschaften bieten:
+
+* Einwegfunktion
+* schwache Kollisionsresistenz: praktisch unmöglich zu gegebenen Wert $x$ ein
+  weiteres $x'$ zu finden, welches den selben Hashwert besitzt: $h(x) = h(x), x \ne x'$
+* starke Kollisionsresistenz: praktisch unmöglich, zwei verschiedene
+  Eingabewerte $x$ und $x'$ mit dem gleichen Hashwert zu finden $h(x) = h(x'), x
+  \ne x'$ zu finden.
+
+
+
+### Message Authentification Codes
+
+Um nicht nur die Integrität der von Daten, sondern auch deren Quelle zu
+validieren werden so genannten Message Authentification Codes (kurz MAC)
+verwendet. *MACs* sind schlüsselabhängige Hashfunktionen. Neben Hashfunktionen
+werden auch Blockchiffren verwendet. [@fig:img-hmac] zeigt die Übertragung von
+Daten mit einer *HMAC*.
+
+![Messageübertragung mit HMAC.](images/hmac.png){#fig:img-hmac width=85%}
+
+## Authentifizierungsverfahren
 
 	* Mechanismen zur Authentifizierung
 		* Passwort
