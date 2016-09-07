@@ -1,4 +1,4 @@
-# Betrachtung grundlegender Sicherheitskonzepte
+# Kryptographische Primitiven und Protokolle
 
 ## Einleitung
 
@@ -29,7 +29,7 @@ jedoch viel mehr um eine »sinnvollen« Einsatz für »brig« definieren zu kön
 
 [@fig:img-symmetric] zeigt die Verschlüsselung von Daten mittels symmetrischer
 Kryptographie. Bei symmetrischer Kryptographie wird der gleich Schlüssel um
-ver-- und entschlüsseln der Daten verwendet. 
+ver-- und entschlüsseln der Daten verwendet.
 
 Beim Datenaustausch über unsichere Netze, muss der Schlüssel zuerst zwischen den
 Kommunikationspartnern ausgetauscht werden. In [@fig:img-symmetric]
@@ -244,7 +244,10 @@ Schlüsselaustauschprotokoll, welches es zwei Kommunikationspartnern ermöglicht
 einen *gemeinsamen* Schlüssel zu bestimmen, ohne diesen über den potentiell
 unsicheren Kommunikationskanal austauschen zu müssen.
 
-Ablauf des *DH*--Protokolls:
+![Grafische Darstellung, Ablauf des
+Diffie--Hellman--Schlüsseltausch.](images/dh.png){#fig:img-dh width=85%}
+
+[@fig:img-dh] zeigt Ablauf des *DH*--Protokolls:
 
 1) *Alice* und *Bob* einigen sich auf große Primzahl $p$ und natürliche Zahl $g$, die kleiner ist als $p$.
 2) *Alice* und *Bob* generieren jeweils eine »geheime Zufallszahl« $a$ und $b$.
@@ -257,9 +260,7 @@ Ablauf des *DH*--Protokolls:
 
 Beide haben den gleichen Schlüssel berechnet, da gilt:
 
-$$K_{1} = B^{a} = (g^{b})^{a} = (g^{a})^{b} = A^{b} = K_{2}$$
-
-
+$$ K_{1} = B^{a} = (g^{b})^{a} = (g^{a})^{b} = A^{b} = K_{2} $$
 
 ## Hash--Funktionen
 
