@@ -296,16 +296,44 @@ Daten mit einer *HMAC*.
 
 ## Authentifizierungsverfahren
 
-	* Mechanismen zur Authentifizierung
-		* Passwort
-		* Mehrfaktor
-		* Zero Knowledge
+Bei den praktischen Authentifizierungsverfahren ist das Passwort immer noch ein
+sehr weit verbreitete Möglichkeit der Authentifizierung. Passwörter sind eine
+sehr problematische Möglichkeit der Authentifizierung weil sie auf gute
+»Entropie« angewiesen sind. Das heißt, dass Passwörter nach Möglichkeit so gut
+wie nur möglich, »zufällig« sein müssen. Passwörter die leicht zu erraten sind,
+sind *de facto* schlechte Authentifizierungsmechanismen.
 
-## Keymanagement
+Die Problematik mit den Passwörtern kennt heutzutage jedes Unternehmen. Sind die
+Passwort--Richtlinien zu kompliziert, werden die Passwörter oft von Benutzern
+aufgeschrieben, gibt es keine Passwort--Richtlinien, dann verwenden Mensch oft
+schwache Passwörter, oft auch das gleiche »einfache« Passwort für mehrere
+Anwendungen.
 
-	* Hauptprobleme 'sichere' Verwahrung von Schlüsseln
-	* Key Seperation
-	* Key--Handling
+Die Situation lässt sich jedoch auf recht einfache Art und Weise durch den
+Einsatz seines zusätzlichen *Faktors* verbessern. Diese Art der
+Authentifizierung wird Zwei--Faktor-- oder auch Mehr--Faktor--Authentifizierung
+genannt. Als zweiter *Faktor* kann beispielsweise ein biometrisches Merkmal
+verwendet werden. Eine weitere Form der Zwei--Faktor--Authentifizierung wäre
+beispielsweise die Chipkarte der Bank. Hierbei wird einerseits die *PIN* (etwas
+das man weiss) und die Chipkarte (etwas das man hat) benötigt. Eine erfolgreiche
+Authentifizierung findet in dem Fall nur bei korrekter *PIN* unter Verwendung
+der Chipkarte der Bank statt.
+
+
+## Keymanagement 
+
+### Sichere Speicherung von Schlüsseln
+
+Das Keymanagement (Schlüsselverweltung) ist eine der größten sensibelsten
+Bereiche bei der Implementierung eines System. Sind die Schlüssel unzureichend
+geschützt oder die Einsatzweise der Schlüssel fraglich, so kann ein System
+meist einfach kompromittiert werden.
+
+
+### Key--Seperation
+
+Neben sicherer Verwaltung der Schlüssel, ist auch die Beschränkung auf einen
+bestimmten Einsatzzweck essentiell.
 
 ## Softwareentwicklungmodel
 
