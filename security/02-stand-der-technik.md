@@ -55,18 +55,40 @@ weiterzugeben. Auch der Einsatz von »Phishing« (TODO: Ref), ist eine Variante
 von »Social Engineering«. [@fig:img-security] zeigt scherzhaft eine weitere
 Variante für welche Menschen anfällig sind.
 
+Um »Sicherheit« zu gewährleisten, ist es wichtig ein System im »Ganzen« zu
+betrachten. Die Implementierung bestimmter Sicherheitsfeatures ist nur die
+technische Maßnahme. Der Benutzer eines System erwartet in erster Linie
+Funktionalität und möchte sich in den wenigsten Fällen mit dem System oder der
+Sicherheit des Systems auseinander Setzen. Benutzer sind oft nicht genug
+sensibilisiert was den Datenschutz oder auch die Gefahren und Konsequenzen bei
+einem Sicherheitsproblem sind.
+
+Weiterhin sollte bedacht werden, dass die Definition eins »sicheren« System in
+der Regel ein Kompromiss aus den folgenden Punkten ist:
+
+* Finanzieller Aufwand 
+* Sicherheit
+* Benutzbarkeit/Benutzerfreundlichkeit
+
+
 ### Datenaustausch über zentrale Lösungen
 
-#### Funktionsweise zentraler Dienste 
+#### Funktionsweise zentraler Dienste
 
 Zentrale Dienste klassifizieren sich im Kontext dieser Arbeit durch die
 Eigenschaft, dass es eine zentrale Instanz gibt, welche zum Austausch der Daten
 benötigt wird. Dies sind in den meisten Fällen die Storage--Server der
 Cloud--Service--Anbieter, welche für die Kommunikation und Speicherung der
 Daten verantwortlich sind. [@fig:img-cloud] zeigt schematisch das Konzept
-beim Austausch von Daten über einen Cloud--Dienst. Hierbei werden die Daten
-verschlüsselt zum Cloud--Dienst übertragen.
+beim Austausch von Daten über einen Cloud--Dienst. 
 
+Es ist schwer einen Überblick über die verschiedenen Cloud--Storage--Dienste zu
+geben, da ständig neue d
+
+#### Software
+
+
+Hierbei werden die Daten verschlüsselt zum Cloud--Dienst übertragen.
 Beim Einsatz zentraler Dienste hängt die Sicherheit der Daten in erster Linie
 vom Dienstanbieter ab. Beim »iCloud«--Dienst von Apple beispielsweise werden
 die Daten verschlüsselt bei Drittanbietern wie der »Amazon S3«-- oder »Windows
@@ -250,7 +272,7 @@ Es gibt Alternativen, diese haben jedoch Probleme:
 
 Tabelle: ...
 
-## Gesellschaftliche und Politische Aspekte
+## Gesellschaftliche und Politische Aspekte 
 
 Seit den Snowden--Enthüllungen[^nsa-leak] ist offiziell bekannt, dass Unternehmen im
 Notfall rechtlich gezwungen werden können personenbezogene Daten rauszugeben.
