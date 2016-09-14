@@ -77,16 +77,26 @@ der Regel ein Kompromiss aus den folgenden Punkten ist:
 
 Zentrale Dienste klassifizieren sich im Kontext dieser Arbeit durch die
 Eigenschaft, dass es eine zentrale Instanz gibt, welche zum Austausch der Daten
-benötigt wird. Dies sind in den meisten Fällen die Storage--Server der
-Cloud--Service--Anbieter, welche für die Kommunikation und Speicherung der
-Daten verantwortlich sind. [@fig:img-cloud] zeigt schematisch das Konzept
-beim Austausch von Daten über einen Cloud--Dienst. 
+benötigt wird. Dies sind in den meisten Fällen die Server der der
+Cloud--Service--Anbieter, welche für die Kommunikation und Speicherung der Daten
+verantwortlich sind. [@fig:img-cloud] zeigt schematisch das Konzept beim
+Austausch von Daten über einen Cloud--Dienst. Da der Cloud--Speicher--Mark sehr
+dynamisch und fragmentiert ist, ist es schwierig hier zuverlässige Daten zu
+finden. Laut einem Online--Beitrag der »Wirtschafts Woche«[^cloudstorage]
+gehören folgende Anbieter zu »den größten« Cloud--Speicher--Anbietern:
 
-Es ist schwer einen Überblick über die verschiedenen Cloud--Storage--Dienste zu
-geben, da ständig neue d
+* Dropbox
+* Apples iCloud
+* Microsoft OneDrive
+* Google Drive
+
+[^cloudstorage]: Größten Cloud--Speicher Anbieter: <http://www.wiwo.de/unternehmen/it/cloud-wer-sind-die-groessten-cloud-anbieter-und-was-kosten-sie/11975400-7.html>
+
+In Deutschland gehört höchstwahrscheinlich *Dropbox* zu den am meisten
+verbreiteten Anbietern. Apple--Benutzer hingegen 
+Anbieter.
 
 #### Software
-
 
 Hierbei werden die Daten verschlüsselt zum Cloud--Dienst übertragen.
 Beim Einsatz zentraler Dienste hängt die Sicherheit der Daten in erster Linie
@@ -101,13 +111,13 @@ Infrastruktur migriert[^dropbox-s3-own].
 [^ios-secguide]: Apple iOS Security: <http://www.apple.com/business/docs/iOS_Security_Guide.pdf>
 
 Das Problem hierbei ist die Umsetzung der Daten--Verschlüsselung der gängigen
-Cloud--Storage--Anbieter. Anbieter wie Dropbox verschlüsseln laut eigener
+Cloud--Speicher--Anbieter. Anbieter wie Dropbox verschlüsseln laut eigener
 Aussage die Daten in der Cloud nach aktuellen Sicherheitsstandards. Das Problem
 hierbei ist jedoch, dass beispielsweise Dropbox und nicht der Endbenutzer der
 Schlüsselinhaber ist. Es ist also, auch wenn es laut internen
 Dropbox--Richtlinien verboten ist, möglich dass Mitarbeiter beziehungsweise
 dritte Parteien die Daten des Nutzers einsehen können (vgl. [@ko2015cloud] S.
-103 ff.). 
+103 ff.).
 
 Ein weiteres Problem ist, dass der Cloud--Anbieter an sich ein zentrales
 Angriffsziel bildet. Erst kürzlich wurde bekannt, dass Angreifer im Jahr 2012
@@ -129,15 +139,15 @@ kompliziert, aufgrund Fehlern in der Implementierung nicht optimal geeignet
 [^boxcryptor]: Boxcryptor: <https://de.wikipedia.org/wiki/Boxcryptor>
 
 Den meisten Anbietern kann man allerhöchstens Vertrauen, dass diese mit den
-Daten und Schlüsseln sorgsam umgehen. Auch wenn sich viele Anbieter wie beispielsweise Dropbox
-bemühen, aus den Fehlern der Vergangenheit zu lernen und verbesserte
-Sicherheitsmechanismen wie beispielsweise Zwei--Faktor--Authentifizierung in
-ihre Software zu integrieren, bleibt jedoch die Krux der proprietären Software.
-Laut Meinung der Autoren von »brig«, sowie auch vieler Sicherheitsexperten,
-wird den Einsatz proprietärer Software die Sicherheit untergraben, da bei
-proprietärer Software explizit eingebaute Hintertüren nicht ausgeschlossen
-werden können und es auch keine Möglichkeit der Prüfung auf solche durch den
-Endbenutzer gibt.
+Daten und Schlüsseln sorgsam umgehen. Auch wenn sich viele Anbieter wie
+beispielsweise Dropbox bemühen, aus den Fehlern der Vergangenheit zu lernen und
+verbesserte Sicherheitsmechanismen wie beispielsweise
+Zwei--Faktor--Authentifizierung in ihre Software zu integrieren, bleibt jedoch
+die Krux der proprietären Software. Laut Meinung der Autoren von »brig«, sowie
+auch vieler Sicherheitsexperten, wird den Einsatz proprietärer Software die
+Sicherheit untergraben, da bei proprietärer Software explizit eingebaute
+Hintertüren nicht ausgeschlossen werden können und es auch keine Möglichkeit der
+Prüfung auf solche durch den Endbenutzer gibt.
 
 ![Datenaustausch über zentrale Cloud--Dienste](images/cloud.png){#fig:img-cloud width=80%}
 
@@ -150,8 +160,8 @@ Systemkomponenten erfolgreiche Angriffe nicht unterbunden werden können (vgl.
 
 [^css]: Cryptanalysis of Contents Scrambling System: <http://www.cs.cmu.edu/~dst/DeCSS/FrankStevenson/analysis.html>
 
-Weiterhin gibt es bei der Cloud--Storage--Lösung auch die Möglichkeit einen
-eigenen Cloud--Storage--Dienst aufzusetzen. Hierfür wird oft die
+Weiterhin gibt es bei der Cloud--Speicher--Lösung auch die Möglichkeit einen
+eigenen Cloud--Speicher--Dienst aufzusetzen. Hierfür wird oft die
 Open--Source--Lösung *Owncloud* genommen. Der Nachteil hierbei ist, dass der
 Benutzer selbst für die Bereitstellung der Infrastruktur verantwortlich ist.
 Eine weitere Hürde stellt für den Verbraucher das fehlende Know--How dar,
