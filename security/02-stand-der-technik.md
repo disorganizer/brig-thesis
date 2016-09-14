@@ -25,7 +25,10 @@ oft von den folgenden fünf Sicherheitsaspekten:
 * Autorisierung: Definiert die Zugangs-- und Zugriffssteuerung auf Dienste.
 * Verfügbarkeit: Dienste stehen legitimen Benutzern tatsächlich zur Verfügung.
 
-Um diese zu auf technischer Ebene realisieren, müssen neben unterschiedliche Kryptographische Komponenten verwendet werden.
+Dies sind auch die Sicherheitsaspekte die bei der Verwendung von
+Cloud--Speicher--Anbietern zu tragen kommen. Um diese zu auf technischer Ebene
+realisieren, müssen neben unterschiedliche Kryptographische Komponenten
+verwendet werden.
 
 ### Angriffe und Bedrohungen
 
@@ -77,43 +80,65 @@ der Regel ein Kompromiss aus den folgenden Punkten ist:
 
 Zentrale Dienste klassifizieren sich im Kontext dieser Arbeit durch die
 Eigenschaft, dass es eine zentrale Instanz gibt, welche zum Austausch der Daten
-benötigt wird. Dies sind in den meisten Fällen die Server der der
-Cloud--Service--Anbieter, welche für die Kommunikation und Speicherung der Daten
-verantwortlich sind. [@fig:img-cloud] zeigt schematisch das Konzept beim
-Austausch von Daten über einen Cloud--Dienst. Da der Cloud--Speicher--Mark sehr
-dynamisch und fragmentiert ist, ist es schwierig hier zuverlässige Daten zu
-finden. Laut einem Online--Beitrag der »Wirtschafts Woche«[^cloudstorage]
-gehören folgende Anbieter zu »den größten« Cloud--Speicher--Anbietern:
+benötigt wird. Dies sind in den meisten Fällen die Server des
+Cloud--Speicher--Anbieter, welche für die Kommunikation und Speicherung der
+Daten verantwortlich sind.
 
-* Dropbox
-* Apples iCloud
-* Microsoft OneDrive
-* Google Drive
+![Datenaustausch über zentrale Cloud--Dienste](images/cloud.png){#fig:img-cloud width=80%}
 
-[^cloudstorage]: Größten Cloud--Speicher Anbieter: <http://www.wiwo.de/unternehmen/it/cloud-wer-sind-die-groessten-cloud-anbieter-und-was-kosten-sie/11975400-7.html>
+[@fig:img-cloud] zeigt schematisch das Konzept beim Austausch von Daten über
+einen Cloud--Speicher--Dienst. Die Daten, des Benutzers , werden hierbei mit
+einer »zentrale« Stelle synchronisiert. In der Regel hat der Benutzer bei
+bekannten Anbietern einen »Ordner«, welcher nach Installation und Erstellung
+eines Accounts bei dem jeweiligen Anbieter, welcher sich dann mit dem
+Cloud--Speicher synchronisiert. Dieser »Ordner« lässt sich dann beispielsweise
+auf weitere Geräte des Benutzer synchronisieren. Weiterhin gibt es in der Regel
+die Möglichkeit Dateien mit anderen Benutzern zu teilen. Welche genauen
+Einstellungen sich vornehmen lassen und wie feingranular die die
+Benutzerverwaltung und Möglichkeiten beim Synchronisieren sind, ist von dem
+jeweiligen Cloud--Speicher--Anbieter abhängig. 
 
-In Deutschland gehört höchstwahrscheinlich *Dropbox* zu den am meisten
-verbreiteten Anbietern. Apple--Benutzer hingegen 
-Anbieter.
+Mittlerweile werben auch die meisten Anbieter damit, dass sich Verschlüsselung
+verwenden und die Daten »sicher« in der »Cloud« sind. Spätestens seit den
+Snowden--Enthüllungen ist es jedoch klar, dass die Anbieter dazu gezwungen
+werden können die Daten herauszugeben.
 
-#### Software
+#### Synchronisations--Software
 
-Hierbei werden die Daten verschlüsselt zum Cloud--Dienst übertragen.
-Beim Einsatz zentraler Dienste hängt die Sicherheit der Daten in erster Linie
-vom Dienstanbieter ab. Beim »iCloud«--Dienst von Apple beispielsweise werden
-die Daten verschlüsselt bei Drittanbietern wie der »Amazon S3«-- oder »Windows
-Azure«--Cloud gespeichert[^ios-secguide]. Die Metadaten und kryptographische
-Schlüssel verwaltet Apple auf seinen eigenen Servern. Dropbox hat laut
-Medienberichten mittlerweile von der »Amazon«--Cloud auf eine eigene
+Die verwendete Software zum Synchronisation ist wieder vom jeweiligen Anbieter
+abhängig. Das Problem hierbei ist, dass die Software in der Regel proprietär und
+der Benutzer weder die genau Funktionalität noch das Vorhandensein von
+Hintertüren ausschließen kann. Die Software liegt in dem meisten Fälle für
+verschiedene Plattformen bereit. Weiterhin ermöglichen Anbieter auch die Daten
+mittels Webbrowser--Interface zu synchronisieren.
+
+### Sicherheit von Cloud--Speicher--Anbietern
+
+Es ist sehr schwierig die »Sicherheit« der Cloud--Speicher--Anbieter realistisch
+zu bewerten, da sowohl die Infrastruktur als auch die verwendete Software
+intransparent und proprietär ist.
+
+Die Daten werden laut Aussagen der Hersteller[^applesec][^dropboxsec]
+verschlüsselt übertragen und mittlerweile auch verschlüsselt gespeichert.
+
+[^applesec]: Apple iCloud Security: <https://support.apple.com/en-us/HT202303>
+[^dropboxsec]:Dropbox Security: <https://www.dropbox.com/security>
+
+Beim Einsatz der Cloud--Speicher--Dienste hängt die Sicherheit der Daten somit
+in erster Linie vom Dienstanbieter ab. Beim *iCloud*--Dienst von Apple
+beispielsweise werden die Daten verschlüsselt bei Drittanbietern wie der *Amazon
+S3*-- oder *Windows Azure*--Cloud gespeichert[^ios-secguide]. Die Metadaten und
+kryptographische Schlüssel verwaltet Apple auf seinen eigenen Servern. Dropbox
+hat laut Medienberichten mittlerweile von der *Amazon*--Cloud auf eine eigene
 Infrastruktur migriert[^dropbox-s3-own].
 
 [^dropbox-s3-own]:Dropbox Exodus Amazon Cloud Empire: <http://www.wired.com/2016/03/epic-story-dropboxs-exodus-amazon-cloud-empire/>
 [^ios-secguide]: Apple iOS Security: <http://www.apple.com/business/docs/iOS_Security_Guide.pdf>
 
 Das Problem hierbei ist die Umsetzung der Daten--Verschlüsselung der gängigen
-Cloud--Speicher--Anbieter. Anbieter wie Dropbox verschlüsseln laut eigener
+Cloud--Speicher--Anbieter. Anbieter wie *Dropbox* verschlüsseln laut eigener
 Aussage die Daten in der Cloud nach aktuellen Sicherheitsstandards. Das Problem
-hierbei ist jedoch, dass beispielsweise Dropbox und nicht der Endbenutzer der
+im Fall von *Dropbox* ist jedoch, dass *Dropbox* und nicht der Endbenutzer der
 Schlüsselinhaber ist. Es ist also, auch wenn es laut internen
 Dropbox--Richtlinien verboten ist, möglich dass Mitarbeiter beziehungsweise
 dritte Parteien die Daten des Nutzers einsehen können (vgl. [@ko2015cloud] S.
@@ -125,8 +150,8 @@ ungefähr 70 Millionen Zugangsdaten[^db-dataleak] entwendet haben. Hat ein
 Angreifer also die Zugangsdaten erbeutet, bringt die Verschlüsselung die der
 Cloud--Dienst betreibt in diesem Fall nichts. Die gestohlenen Passwörter waren
 nicht im Klartext einsehbar, moderne Angriffsmöglichkeiten auf Passwörter
-zeigen jedoch, dass das nichtsdestotrotz ein großes Problem ist, siehe hierzu
-TODO: Sicherheit von Passwörtern.
+zeigen jedoch, dass das nichtsdestotrotz ein großes Problem ist. (siehe hierzu
+TODO: Sicherheit von Passwörtern)
 
 [^db-dataleak]: Dropbox <http://www.telegraph.co.uk/technology/2016/08/31/dropbox-hackers-stole-70-million-passwords-and-email-addresses/>
 
@@ -140,41 +165,69 @@ kompliziert, aufgrund Fehlern in der Implementierung nicht optimal geeignet
 
 Den meisten Anbietern kann man allerhöchstens Vertrauen, dass diese mit den
 Daten und Schlüsseln sorgsam umgehen. Auch wenn sich viele Anbieter wie
-beispielsweise Dropbox bemühen, aus den Fehlern der Vergangenheit zu lernen und
-verbesserte Sicherheitsmechanismen wie beispielsweise
+beispielsweise *Dropbox* bemühen, aus den Fehlern der Vergangenheit zu lernen
+und verbesserte Sicherheitsmechanismen wie beispielsweise
 Zwei--Faktor--Authentifizierung in ihre Software zu integrieren, bleibt jedoch
-die Krux der proprietären Software. Laut Meinung der Autoren von »brig«, sowie
-auch vieler Sicherheitsexperten, wird den Einsatz proprietärer Software die
-Sicherheit untergraben, da bei proprietärer Software explizit eingebaute
-Hintertüren nicht ausgeschlossen werden können und es auch keine Möglichkeit der
-Prüfung auf solche durch den Endbenutzer gibt.
+die Krux der Intransparenz und der proprietären Software. Laut Meinung der
+Autoren von »brig«, sowie auch vieler Sicherheitsexperten, wird beim Einsatz
+proprietärer Software die Sicherheit untergraben, da bei proprietärer Software
+explizit eingebaute Hintertüren nicht ausgeschlossen werden können und es auch
+keine Möglichkeit der Prüfung auf solche durch den Endbenutzer gibt. 
 
-![Datenaustausch über zentrale Cloud--Dienste](images/cloud.png){#fig:img-cloud width=80%}
+Insbesondere hat die Freilegung der Snowden--Dokumente weiterhin zu der
+Schlussfolgerung geführt, dass der Einsatz von »Freier Software«
+empfehlenswerter ist. Bekannte Sicherheitsexperten wie *Bruce
+Schneier*[^bruce1][^bruce2] oder auch *Rüdiger Weis* sehen »Freie Software« als
+eine der wenigen Möglichkeiten dem Überwachungswahn von Geheimdiensten (oder
+auch anderen Institutionen) entgegen zu wirken. Weiterhin kann Kryptographie
+dank »Freier Software« von unabhängigen Sicherheitsforschern bewertet werden.
 
-Die Sicherheit des Systems hängt in diesem Fall nicht alleine vom Schlüssel ab.
-Nach Kerckhoffs' Prinzip sollte die »Sicherheit« nur von der Geheimhaltung des
-Schlüssel abhängen. Die Vergangenheit hat beispielsweise beim GSM--Standard
-oder DVD--Kopierschutz »CSS«[^css] gezeigt, dass durch die Geheimhaltung von
-Systemkomponenten erfolgreiche Angriffe nicht unterbunden werden können (vgl.
-[@spitz2011kryptographie], [@ertel2012angewandte, S. 23]). 
+Auch wenn für viele Benutzer die Geheimhaltung der Software und Infrastruktur
+auf den ersten Blick als »sicherer« erscheinen mag, widerspricht Sie
+dem Kerckhoffs’sche Prinzip, bei welchem die Sicherheit eines System nur von der
+Geheimhaltung des Schlüssels, jedoch nicht von der Geheimhaltung weiterer
+Systemelemente abhängen sollte. Die Vergangenheit hat beispielsweise beim
+GSM--Standard oder DVD--Kopierschutz »CSS«[^css] gezeigt, dass durch die
+Geheimhaltung von Systemkomponenten erfolgreiche Angriffe nicht unterbunden
+werden können (vgl. [@spitz2011kryptographie], [@ertel2012angewandte, S. 23]). 
 
 [^css]: Cryptanalysis of Contents Scrambling System: <http://www.cs.cmu.edu/~dst/DeCSS/FrankStevenson/analysis.html>
+
+[^bruce1]: Defending Against Crypto Backdoors: <https://www.schneier.com/blog/archives/2013/09/how_to_remain_s.html>
+[^bruce2]: How to Remain Secure Against the NSA: <https://www.schneier.com/blog/archives/2013/10/defending_again_1.html>
+[^weis]: Krypto nach Snowden | 19. Netzpolitischer Abend: <https://www.youtube.com/watch?v=T_ojwHReMkM>
+
+Abgesehen von den Snowden--Enthüllungen, gibt es für den Endverbraucher viel
+näherliegender Gefahren, welche die Daten und Privatsphäre gefährden. Neben den
+soeben genannten *Dropbox* Datenleck, das über fast vier Jahre unentdeckt war,
+gibt es immer wieder Probleme mit zentralen Diensten:
+
+* Dropbox Client greift auf Daten außerhalb des Sync--Ordners zu[^dropboxschnueffel].
+
+[^dropboxschnueffel]: Dropbox unter Schnüffelverdacht: <http://www.heise.de/security/meldung/Dropbox-unter-Schnueffelverdacht-2565990.html>
+
+### Private Cloud
 
 Weiterhin gibt es bei der Cloud--Speicher--Lösung auch die Möglichkeit einen
 eigenen Cloud--Speicher--Dienst aufzusetzen. Hierfür wird oft die
 Open--Source--Lösung *Owncloud* genommen. Der Nachteil hierbei ist, dass der
-Benutzer selbst für die Bereitstellung der Infrastruktur verantwortlich ist.
-Eine weitere Hürde stellt für den Verbraucher das fehlende Know--How dar,
-welches essentiell für das Betreiben eines Cloud--Dienstes ist.
+Benutzer selbst für die Bereitstellung der Infrastruktur verantwortlich ist. Für
+Unternehmen mag die *Owncloud* durchaus interessant sein. Für die meisten
+Privatanwender ist der Aufwand höchstwahrscheinlich zu hoch, weiterhin  haben
+diese in der Regel nicht das nötige Know--How, welches essentiell für das
+Betreiben eines Cloud--Speicher--Dienstes ist.
+
 
 ### Datenaustausch über dezentrale Lösungen
 
-Der dezentrale Bereich klassifiziert sich durch den Dateiaustausch, welcher
-in der Regel *ohne* eine zentrale Instanz auskommt. In der Regel handelt es sich
-hierbei um Systeme aus dem Bereich des Peer-to-Peer--Models. Eins der
-bekanntesten Vertreter der P2P--Protkolle ist BitTorrent[^bittorrent]. Das
-Protokoll kommt beispielsweise bei der Verbreitung von Linux--Distributionen
-oder der Verteilung von Updates bei diversen Spieleherstellern zum Einsatz.
+Der dezentrale Bereich klassifiziert sich durch den Dateiaustausch, welcher in
+der Regel *ohne* eine zentrale Instanz auskommt. Es handelt es sich hierbei um
+Systeme aus dem Bereich des Peer-to-Peer--Models. Ein der bekannter Vertreter
+der P2P--Protkolle ist beispielsweise BitTorrent[^bittorrent]. Das Protokoll
+kommt beispielsweise bei der Verbreitung von Linux--Distributionen oder der
+Verteilung von Updates bei diversen Spieleherstellern zum Einsatz.
+
+#### Funktionsweise dezentraler Dienste
 
 [@fig:img-p2p] zeigt schematisch den Austausch von Daten in einem dezentralen
 Netzwerk. Die dezentralen Systeme unterliegen in der Regel keiner Regulierung
@@ -265,6 +318,21 @@ verfolgen jedoch unterschiedliche Ziele:
 [^bazil]: Projektseite: <https://bazil.org/>
 
 ## Markt und Wettbewerber
+
+Da der Cloud--Speicher--Mark sehr dynamisch und fragmentiert ist, ist es
+schwierig hier zuverlässige Daten zu finden. Laut einem Online--Beitrag der
+»Wirtschafts Woche«[^cloudstorage] gehören folgende Anbieter zu »den größten«
+Cloud--Speicher--Anbietern:
+
+* Dropbox
+* Apples iCloud
+* Microsoft OneDrive
+* Google Drive
+
+[^cloudstorage]: Größten Cloud--Speicher Anbieter: <http://www.wiwo.de/unternehmen/it/cloud-wer-sind-die-groessten-cloud-anbieter-und-was-kosten-sie/11975400-7.html>
+
+In Deutschland gehört *Dropbox* zu den bekannten Anbietern, Apples *iCloud* ist
+in erster Linie für M
 
 * Google Drive/Dropbox mit »EncFS« oder »Boxcryptor«
 * Syncthing
