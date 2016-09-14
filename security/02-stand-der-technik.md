@@ -203,8 +203,19 @@ soeben genannten *Dropbox* Datenleck, das über fast vier Jahre unentdeckt war,
 gibt es immer wieder Probleme mit zentralen Diensten:
 
 * Dropbox Client greift auf Daten außerhalb des Sync--Ordners zu[^dropboxschnueffel].
+* 7 Millionen Zugangsdaten im Umlauf (unbestätigt)[^zugangsdaten]
+* Ausfallzeit über zwei Stunden[^dropboxausfall]
+* Datenleck bei Dropbox[^dropboxdatenleck]
+* Google Drive Datenleck[^gdrive]
+* Microsoft OneDrive Datenleck[^msleck]
 
+[^msleck]: Microsoft OneDrive Datenleck:
+<https://www.heise.de/security/meldung/Microsoft-dichtet-OneDrive-Links-ab-2227485.html>
+[^gdrive]: Google Drive Datenleck: <https://www.heise.de/security/meldung/Auch-Google-schliesst-Datenleck-im-Cloud-Speicher-2243366.html>
+[^dropboxdatenleck]: Datenleck bei Dropbox: <https://www.heise.de/security/meldung/Dropbox-bestaetigt-Datenleck-1656798.html>
+[^zugangsdaten]: 7 Mio. Zugangsdaten im Umlauf: <https://www.heise.de/security/meldung/Angeblich-7-Millionen-Dropbox-Passwoerter-im-Umlauf-2423684.html>
 [^dropboxschnueffel]: Dropbox unter Schnüffelverdacht: <http://www.heise.de/security/meldung/Dropbox-unter-Schnueffelverdacht-2565990.html>
+[^dropboxausfall]: Dropbox Ausfall: <https://www.heise.de/security/meldung/Dropbox-Ausfall-war-kein-Angriff-2083688.html>
 
 ### Private Cloud
 
