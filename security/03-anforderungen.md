@@ -1,14 +1,13 @@
 # Anforderungen
 
 Die Betrachtung des aktuellen wissenschaftlichen und technischen Standes zeigt,
-dass die Thematik im Detail recht kompliziert ist. Nichtsdestotrotz ergeben
+dass die Thematik im Detail komplex und kompliziert ist. Nichtsdestotrotz ergeben
 sich gewissen Mindestanforderungen, die für die Entwicklung einer »sicheren«
 und dezentralen Dateisynchronisationslösung nötig sind. Um eine möglichst gute
 Sicherheit und Usability zu gewährleisten, muss die Software und der
 Softwareentwicklungsprozess gewissen Mindestanforderungen genügen. Da die
 Anforderungen von der Zielgruppe abhängig sind, werden folgend grundsätzliche
-Anforderungen definiert, welche sich in der Umsetzung in Details unterscheiden
-können.
+Anforderungen definiert, welche Zielgruppen--übergreifend sind.
 
 ## Anforderungen an die Software
 
@@ -18,12 +17,12 @@ Wie bereits unter [@sec:sicherheit] erwähnt, ist »Sicherheit« ein sehr
 weitläufiger Begriff und immer von einem bestimmten »Angriffsszenario«
 abhängig.
 
-Eine Software zur dezentralen Dateiverteilung benötigt Konzepte welche folgende
-Punkte gewährleisten:
+Eine Software zur dezentralen Dateiverteilung benötigt Sicherheitskonzepte
+welche folgende Punkte gewährleisten:
 
 * Vertraulichkeit: Kein Zugriff auf Daten durch unbefugte Personen.
 * Integrität: Manipulation von Daten erkennen.
-* Authentizität: Kommunikationspartner lässt sich eindeutig Identifizieren.
+* Authentizität: Kommunikationspartner eindeutig identifizierbar.
 
 Weiterhin sollen sich die Anforderungen an die Sicherheit an den aktuell
 vorherrschenden und bewährten »Sicherheitsstandards« orientieren.
@@ -43,7 +42,7 @@ Konzept nicht durchgesetzt. Über die genauen Gründe, warum sich PGP nicht
 durchgesetzt hat, kann man sich streiten. Laut Meinung des Autors, liegt es
 einerseits an der hohen Komplexität beziehungsweise Einstiegshürde,
 andererseits zeigen Umfragen, dass eine gewisse Gleichgültigkeit gegenüber dem
-Schutz der eigenen Privatsphäre vorherrscht[^umfrage]. 
+Schutz der eigenen Privatsphäre vorherrscht[^umfrage].
 
 [^umfrage]: Umfrage DIVSI: <https://www.divsi.de/abhoeren-egal-ich-habe-nichts-zu-verbergen/>
 
@@ -70,4 +69,3 @@ Daten bei der Übertragung und Speicherung verschlüsselt sein.
 * Transparentes Entwicklungsmodell
 * »Sichere« Softwareentwicklung
 * Signatur von Software--Releases
-* Audits?

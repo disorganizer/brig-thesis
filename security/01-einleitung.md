@@ -36,11 +36,11 @@ geduldeten oder rechtlich erzwungenen Zugriff durch Drittparteien, haben
 Cloud--Storage--Anbieter wie beispielsweise »Dropbox« in der Vergangenheit
 immer wieder für Schlagzeilen gesorgt. 
 
-Durch diverse Bugs war beispielsweise der Zugriff über mehrere Stunden mit
-beliebigen Passwörtern möglich[^dbox-passbug]. Ein Andere Bug hat bei der
-Aktivierung bestimmter Features Daten unwiderruflich gelöscht[^dbox-rm].
-Daneben wird die Sicherheit von Cloud--Storage--Services immer wieder in
-Studien bemängelt[@bibfisitcloudsec].
+Durch diverse Softwarefehler war beispielsweise der Zugriff über mehrere Stunden mit
+beliebigen Passwörtern möglich[^dbox-passbug]. Ein weiterer Softwarefehler hat
+bei der Aktivierung bestimmter Features Daten unwiderruflich
+gelöscht[^dbox-rm]. Daneben wird die Sicherheit von Cloud--Storage--Services
+in Studien bemängelt[@bibfisitcloudsec].
 
 [^dbox-passbug]: Authentifizierungs--Bug: <https://blogs.dropbox.com/dropbox/2011/06/yesterdays-authentication-bug/>
 [^dbox-rm]: Selective--Sync--Bug: <https://plus.google.com/+MichaelArmogan/posts/E9sVnrLTB5C>
@@ -56,10 +56,10 @@ Will man persönlichen Bedenken auf den Einsatz von Cloud--Storage--Anbietern
 verzichten, bleibt einem immer noch die Möglichkeit Dateien über E--Mail zu
 versenden. Hier erschließt sich aber bei näherer Betrachtung ein ähnliches
 Problem wie bei den Cloud--Storage--Anbietern, die Privatsphäre beziehungswiese
-Datenschutz sind mangelhaft. Es gibt die Möglichkeit E-Mails beispielsweise
-mittels *Pretty Good Privacy* zu verschlüsseln, jedoch ist der Einsatz und
-Aufwand für den Otto Normalverbraucher schlichtweg zu kompliziert und wird
-daher kaum genutzt.
+der Schutz der Daten vorm Zugriff durch Dritte, sind mangelhaft. Es gibt die
+Möglichkeit E-Mails beispielsweise mittels *Pretty Good Privacy* zu
+verschlüsseln, jedoch ist der Einsatz und Aufwand für den Otto
+Normalverbraucher schlichtweg zu kompliziert und wird daher kaum genutzt.
 
 Der Austausch über Cloud--Storage--Service oder E-Mail ist nichtsdestotrotz der
 Quasi--Standard. Es gibt zwar technisch gesehen weitere Möglichkeiten Daten,
