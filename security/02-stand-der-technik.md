@@ -84,33 +84,35 @@ benötigt wird. Dies sind in den meisten Fällen die Server des
 Cloud--Speicher--Anbieter, welche für die Kommunikation und Speicherung der
 Daten verantwortlich sind.
 
-![Datenaustausch über zentrale Cloud--Dienste](images/cloud.png){#fig:img-cloud width=80%}
+![Datensynchronisation über zentrale Cloud--Speicher--Dienste, wie beispielsweise
+*Dropbox*.](images/cloud.png){#fig:img-cloud width=80%}
 
 [@fig:img-cloud] zeigt schematisch das Konzept beim Austausch von Daten über
-einen Cloud--Speicher--Dienst. Die Daten, des Benutzers , werden hierbei mit
-einer »zentrale« Stelle synchronisiert. In der Regel hat der Benutzer bei
-bekannten Anbietern einen »Ordner«, welcher nach Installation und Erstellung
-eines Accounts bei dem jeweiligen Anbieter, welcher sich dann mit dem
-Cloud--Speicher synchronisiert. Dieser »Ordner« lässt sich dann beispielsweise
-auf weitere Geräte des Benutzer synchronisieren. Weiterhin gibt es in der Regel
-die Möglichkeit Dateien mit anderen Benutzern zu teilen. Welche genauen
-Einstellungen sich vornehmen lassen und wie feingranular die die
-Benutzerverwaltung und Möglichkeiten beim Synchronisieren sind, ist von dem
-jeweiligen Cloud--Speicher--Anbieter abhängig. 
+einen Cloud--Speicher--Dienst. Die Daten,des Benutzers, werden hierbei mit einer
+»zentrale« Stelle synchronisiert. In der Regel legt der Benutzer »Ordner« fest,
+welcher nach Installation einer Client--Software (des jeweiligen Anbieters) und
+der Erstellung eines Accounts mit dem Cloud--Speicher des Anbieters
+synchronisiert wird.
 
-Mittlerweile werben auch die meisten Anbieter damit, dass sich Verschlüsselung
+Dieser »Ordner« lässt sich dann beispielsweise auf weitere Geräte des Benutzer
+synchronisieren. Weiterhin gibt es in der Regel die Möglichkeit Dateien mit
+anderen Benutzern zu teilen. Welche genauen Einstellungen sich vornehmen lassen
+und wie feingranular die die Benutzerverwaltung und Möglichkeiten beim
+Synchronisieren sind, ist von dem jeweiligen Cloud--Speicher--Anbieter abhängig.
+
+Mittlerweile werben die Anbieter damit, dass sie »starke Verschlüsselung«
 verwenden und die Daten »sicher« in der »Cloud« sind. Spätestens seit den
 Snowden--Enthüllungen ist es jedoch klar, dass die Anbieter dazu gezwungen
-werden können die Daten herauszugeben.
+werden können die Daten eines Benutzers herauszugeben.
 
 #### Synchronisations--Software
 
 Die verwendete Software zum Synchronisation ist wieder vom jeweiligen Anbieter
-abhängig. Das Problem hierbei ist, dass die Software in der Regel proprietär und
-der Benutzer weder die genau Funktionalität noch das Vorhandensein von
+abhängig. Das Problem hierbei ist, dass die Software in der Regel proprietär ist
+und der Benutzer weder die genaue Funktionalität noch das Vorhandensein von
 Hintertüren ausschließen kann. Die Software liegt in dem meisten Fälle für
-verschiedene Plattformen bereit. Weiterhin ermöglichen Anbieter auch die Daten
-mittels Webbrowser--Interface zu synchronisieren.
+verschiedene Plattformen bereit. Weiterhin ermöglichen Anbieter auch Zugriff auf
+die Daten mittels Webbrowser--Interface.
 
 ### Sicherheit von Cloud--Speicher--Anbietern
 
@@ -121,7 +123,7 @@ intransparent und proprietär ist.
 Die Daten werden laut Aussagen der Hersteller[^applesec][^dropboxsec]
 verschlüsselt übertragen und mittlerweile auch verschlüsselt gespeichert.
 
-[^applesec]: Apple iCloud Security: <https://support.apple.com/en-us/HT202303>
+[^applesec]:Apple iCloud Security: <https://support.apple.com/en-us/HT202303>
 [^dropboxsec]:Dropbox Security: <https://www.dropbox.com/security>
 
 Beim Einsatz der Cloud--Speicher--Dienste hängt die Sicherheit der Daten somit
@@ -144,18 +146,18 @@ Dropbox--Richtlinien verboten ist, möglich dass Mitarbeiter beziehungsweise
 dritte Parteien die Daten des Nutzers einsehen können (vgl. [@ko2015cloud] S.
 103 ff.).
 
-Ein weiteres Problem ist, dass der Cloud--Anbieter an sich ein zentrales
-Angriffsziel bildet. Erst kürzlich wurde bekannt, dass Angreifer im Jahr 2012
-ungefähr 70 Millionen Zugangsdaten[^db-dataleak] entwendet haben. Hat ein
-Angreifer also die Zugangsdaten erbeutet, bringt die Verschlüsselung die der
-Cloud--Dienst betreibt in diesem Fall nichts. Die gestohlenen Passwörter waren
-nicht im Klartext einsehbar, moderne Angriffsmöglichkeiten auf Passwörter
-zeigen jedoch, dass das nichtsdestotrotz ein großes Problem ist. (siehe hierzu
-TODO: Sicherheit von Passwörtern)
+Ein weiteres Problem ist, dass ein Cloud--Speicher--Anbieter aufgrund seiner
+»zentralen Lage« ein gutes Angriffsziel bildet. Erst kürzlich wurde bekannt,
+dass Angreifer im Jahr 2012 ungefähr 70 Millionen Zugangsdaten[^db-dataleak]
+entwendet haben. Hat ein Angreifer also die Zugangsdaten erbeutet, bringt die
+Verschlüsselung die der Cloud--Dienst betreibt in diesem Fall nichts. Die
+gestohlenen Passwörter waren nicht im Klartext einsehbar, moderne
+Angriffsmöglichkeiten auf Passwörter zeigen jedoch, dass das nichtsdestotrotz
+ein großes Problem ist. (siehe hierzu TODO: Sicherheit von Passwörtern)
 
 [^db-dataleak]: Dropbox <http://www.telegraph.co.uk/technology/2016/08/31/dropbox-hackers-stole-70-million-passwords-and-email-addresses/>
 
-Abhilfe würde in diesem Fall eine zusätzliche Verschlüsselung auf Seiten des
+Abhilfe könnte in diesem Fall eine zusätzliche Verschlüsselung auf Seiten des
 Nutzers helfen, jedoch ist die Software hier für den Endverbraucher oft zu
 kompliziert, aufgrund Fehlern in der Implementierung nicht optimal geeignet
 (EncFS Audit[^encfsaudit]) oder proprietär (Boxcryptor[^boxcryptor]).
@@ -163,16 +165,31 @@ kompliziert, aufgrund Fehlern in der Implementierung nicht optimal geeignet
 [^encfsaudit]:  EncFS Audit: <https://defuse.ca/audits/encfs.htm>
 [^boxcryptor]: Boxcryptor: <https://de.wikipedia.org/wiki/Boxcryptor>
 
-Den meisten Anbietern kann man allerhöchstens Vertrauen, dass diese mit den
-Daten und Schlüsseln sorgsam umgehen. Auch wenn sich viele Anbieter wie
-beispielsweise *Dropbox* bemühen, aus den Fehlern der Vergangenheit zu lernen
-und verbesserte Sicherheitsmechanismen wie beispielsweise
-Zwei--Faktor--Authentifizierung in ihre Software zu integrieren, bleibt jedoch
-die Krux der Intransparenz und der proprietären Software. Laut Meinung der
-Autoren von »brig«, sowie auch vieler Sicherheitsexperten, wird beim Einsatz
-proprietärer Software die Sicherheit untergraben, da bei proprietärer Software
-explizit eingebaute Hintertüren nicht ausgeschlossen werden können und es auch
-keine Möglichkeit der Prüfung auf solche durch den Endbenutzer gibt. 
+Den meisten Anbietern muss man Vertrauen, dass diese mit den Daten und
+Schlüsseln sorgsam umgehen. Auch wenn sich viele Anbieter wie beispielsweise
+*Dropbox* bemühen, aus den Fehlern der Vergangenheit zu lernen und verbesserte
+Sicherheitsmechanismen wie beispielsweise Zwei--Faktor--Authentifizierung[^2fa] in
+ihre Software zu integrieren, bleibt jedoch die Krux der Intransparenz und der
+proprietären Software. Es ist nicht ohne weiteres Möglich die »Sicherheit« der
+Client--Software zu validieren.
+
+[^2fa]: Zwei--Faktor--Authentifizierung: <https://de.wikipedia.org/wiki/Zwei-Faktor-Authentifizierung>
+
+Sicherheitsforscher haben es geschafft den *Dropbox--Client* mittels *Reverse
+Engineering* zu analysieren. Hierbei wurden Schwächen und neue
+Angriffsszenarios aufgedeckt.
+
+Die 2F--Authentifizierung, wie sie von *Dropbox* implementiert ist, kann
+umgangen werden, da diese lediglich beim Zugriff über die Webseite verwendet
+wird. Die Client--API unterstützt laut Analyse keine 2F--Authentifizierung. Es
+wird anscheinend lediglich nur eine *Host--ID* für den Zugriff auf die Daten
+eines potentiellen Opfers benötigt (vgl. [@kholia2013looking]).
+
+Laut Meinung der Autoren von »brig«, sowie auch vieler Sicherheitsexperten, wird
+beim Einsatz proprietärer Software die Sicherheit untergraben, da bei
+proprietärer Software explizit eingebaute Hintertüren nicht ausgeschlossen
+werden können und es auch keine einfache Möglichkeit der Prüfung auf solche
+durch den Endbenutzer gibt.
 
 Insbesondere hat die Freilegung der Snowden--Dokumente weiterhin zu der
 Schlussfolgerung geführt, dass der Einsatz von »Freier Software«
@@ -184,12 +201,13 @@ dank »Freier Software« von unabhängigen Sicherheitsforschern bewertet werden.
 
 Auch wenn für viele Benutzer die Geheimhaltung der Software und Infrastruktur
 auf den ersten Blick als »sicherer« erscheinen mag, widerspricht Sie
-dem Kerckhoffs’sche Prinzip, bei welchem die Sicherheit eines System nur von der
+dem Kerckhoffs’schen Prinzip, bei welchem die Sicherheit eines System nur von der
 Geheimhaltung des Schlüssels, jedoch nicht von der Geheimhaltung weiterer
-Systemelemente abhängen sollte. Die Vergangenheit hat beispielsweise beim
+Systemelementen abhängen sollte. Die Vergangenheit hat beispielsweise beim
 GSM--Standard oder DVD--Kopierschutz »CSS«[^css] gezeigt, dass durch die
-Geheimhaltung von Systemkomponenten erfolgreiche Angriffe nicht unterbunden
-werden können (vgl. [@spitz2011kryptographie], [@ertel2012angewandte, S. 23]). 
+Geheimhaltung von Systemkomponenten erfolgreiche Angriffe, höchstens erschwert,
+jedoch nicht unterbunden werden können (vgl. [@spitz2011kryptographie],
+[@ertel2012angewandte, S. 23]).
 
 [^css]: Cryptanalysis of Contents Scrambling System: <http://www.cs.cmu.edu/~dst/DeCSS/FrankStevenson/analysis.html>
 
@@ -199,35 +217,62 @@ werden können (vgl. [@spitz2011kryptographie], [@ertel2012angewandte, S. 23]).
 
 Abgesehen von den Snowden--Enthüllungen, gibt es für den Endverbraucher viel
 näherliegender Gefahren, welche die Daten und Privatsphäre gefährden. Neben den
-soeben genannten *Dropbox* Datenleck, das über fast vier Jahre unentdeckt war,
-gibt es immer wieder Probleme mit zentralen Diensten:
+soeben genannten *Dropbox* Datenleck, welches rund 70 Millionen Benutzerdaten
+betraf und über fast vier Jahre unentdeckt war, gibt es immer wieder Probleme
+mit zentralen Diensten. Ein Ausschnitt von bekannt gewordenen Vorfällen in
+letzter Zeit:
 
-* Dropbox Client greift auf Daten außerhalb des Sync--Ordners zu[^dropboxschnueffel].
-* 7 Millionen Zugangsdaten im Umlauf (unbestätigt)[^zugangsdaten]
-* Ausfallzeit über zwei Stunden[^dropboxausfall]
+**Datenlecks:**
+
 * Datenleck bei Dropbox[^dropboxdatenleck]
 * Google Drive Datenleck[^gdrive]
 * Microsoft OneDrive Datenleck[^msleck]
+* 7 Millionen Zugangsdaten im Umlauf (unbestätigt)[^zugangsdaten]
+* *iCloud*--Hack auf private Fotos von Prominenten[^fappening]
 
-[^msleck]: Microsoft OneDrive Datenleck:
-<https://www.heise.de/security/meldung/Microsoft-dichtet-OneDrive-Links-ab-2227485.html>
+**Weitere Probleme:**
+
+* Dropbox Client greift auf Daten außerhalb des Sync--Ordners zu[^dropboxschnueffel].
+* Microsoft synchronisiert Bitlocker--Schlüssel (Festplattenverschlüsselung) standardmäßig in die Cloud[^bitlockercloud]
+* Dropbox akzeptiert beliebige Passwörter über mehrere Stunden[^droppass]
+* Ausfallzeit über zwei Stunden[^dropboxausfall]
+
+
+[^fappening]: iCloud--Hack: <https://de.wikipedia.org/wiki/Hackerangriff_auf_private_Fotos_von_Prominenten_2014> 
+[^bitlockercloud]: Bitlocker Cloud--Sync:  <http://arstechnica.com/information-technology/2015/12/microsoft-may-have-your-encryption-key-heres-how-to-take-it-back/>
+[^droppass]: Dropbox--Auth--Bug: <https://www.heise.de/security/meldung/Dropbox-akzeptierte-vier-Stunden-lang-beliebige-Passwoerter-1264100.html>
+[^msleck]: OneDrive Datenleck: <https://www.heise.de/security/meldung/Microsoft-dichtet-OneDrive-Links-ab-2227485.html>
 [^gdrive]: Google Drive Datenleck: <https://www.heise.de/security/meldung/Auch-Google-schliesst-Datenleck-im-Cloud-Speicher-2243366.html>
-[^dropboxdatenleck]: Datenleck bei Dropbox: <https://www.heise.de/security/meldung/Dropbox-bestaetigt-Datenleck-1656798.html>
+[^dropboxdatenleck]: Dropbox Datenleck: <https://www.heise.de/security/meldung/Dropbox-bestaetigt-Datenleck-1656798.html>
 [^zugangsdaten]: 7 Mio. Zugangsdaten im Umlauf: <https://www.heise.de/security/meldung/Angeblich-7-Millionen-Dropbox-Passwoerter-im-Umlauf-2423684.html>
-[^dropboxschnueffel]: Dropbox unter Schnüffelverdacht: <http://www.heise.de/security/meldung/Dropbox-unter-Schnueffelverdacht-2565990.html>
-[^dropboxausfall]: Dropbox Ausfall: <https://www.heise.de/security/meldung/Dropbox-Ausfall-war-kein-Angriff-2083688.html>
+[^dropboxschnueffel]: Dropbox--Schnüffelverdacht: <http://www.heise.de/security/meldung/Dropbox-unter-Schnueffelverdacht-2565990.html>
+[^dropboxausfall]: Dropbox--Ausfall: <https://www.heise.de/security/meldung/Dropbox-Ausfall-war-kein-Angriff-2083688.html>
+
+Auch wenn viele Unternehmen ihre Priorität nicht in der Sicherung ihrer Daten
+sehen mögen, sollten die Folgekosten von Datenlecks nicht unterschätzt werden.
+Laut einer jährlich durchgeführten Studie vom *Ponemon Institute* belaufen sich
+die Kosten im Zusammenhang mit Datenlecks auf mehrere Millionen Dollar (vgl.
+[@ponemon]), die Tendenz ist von Jahr zu Jahr steigend wenn man die Berichte aus
+dem jeweiligem Vorjahr zuzieht.
+
+Abgesehen von den Datenlecks verschiedener Cloud--Speicher--Anbieter, haben
+zentrale Dienste immer wieder Probleme mit größeren Datenlecks. Welcher Dienst
+und Daten betroffen sind, sammelt der der Sicherheitsforscher *Troy Hunt* auf
+seiner Webseite[^haveibeenpwned].
+
+[^haveibeenpwned]: Gesammelte Informationen zu Datenlecks: <https://haveibeenpwned.com/>
 
 ### Private Cloud
 
 Weiterhin gibt es bei der Cloud--Speicher--Lösung auch die Möglichkeit einen
-eigenen Cloud--Speicher--Dienst aufzusetzen. Hierfür wird oft die
-Open--Source--Lösung *Owncloud* genommen. Der Nachteil hierbei ist, dass der
-Benutzer selbst für die Bereitstellung der Infrastruktur verantwortlich ist. Für
-Unternehmen mag die *Owncloud* durchaus interessant sein. Für die meisten
-Privatanwender ist der Aufwand höchstwahrscheinlich zu hoch, weiterhin  haben
-diese in der Regel nicht das nötige Know--How, welches essentiell für das
-Betreiben eines Cloud--Speicher--Dienstes ist.
-
+eigenen »Cloud--Speicher« aufzusetzen. Hierfür wird oft die Open--Source--Lösung
+*Owncloud* genommen. Der Nachteil hierbei ist, dass der Benutzer selbst für die
+Bereitstellung der Infrastruktur verantwortlich ist. Für Unternehmen mag die
+*Owncloud* durchaus interessant sein, für die meisten Privatanwender ist der
+Aufwand höchstwahrscheinlich zu hoch. Weiterhin haben Endanwender in der Regel
+nicht das nötige Know--How, welches für das Betreiben eines
+Cloud--Speicher--Dienstes essentiell ist.
+TODO: Man--In--The--Cloud.
 
 ### Datenaustausch über dezentrale Lösungen
 
@@ -235,23 +280,39 @@ Der dezentrale Bereich klassifiziert sich durch den Dateiaustausch, welcher in
 der Regel *ohne* eine zentrale Instanz auskommt. Es handelt es sich hierbei um
 Systeme aus dem Bereich des Peer-to-Peer--Models. Ein der bekannter Vertreter
 der P2P--Protkolle ist beispielsweise BitTorrent[^bittorrent]. Das Protokoll
-kommt beispielsweise bei der Verbreitung von Linux--Distributionen oder der
+kommt beispielsweise bei der Verbreitung von Software, Computerspielen
+(HumblieIndieBundle.com), dem Blender Movie--Projekten, Linux--Distributionen oder der
 Verteilung von Updates bei diversen Spieleherstellern zum Einsatz.
 
 #### Funktionsweise dezentraler Dienste
 
 [@fig:img-p2p] zeigt schematisch den Austausch von Daten in einem dezentralen
-Netzwerk. Die dezentralen Systeme unterliegen in der Regel keiner Regulierung
-durch eine zentrale Instanz. Je nach verwendeter Technologie zum
-Datenaustausch, existieren beispielsweise bei »IPFS« sogenannten
-»Bootstrap--Nodes«, welche einen Einstiegspunkt für die jeweiligen Teilnehmer
-darstellen. Für weitere Details zu dezentralen Architekturen siehe TODO: Ref Elch?
+Netzwerk. Bei einem dezentralem System liegen die Daten in der Regel nur auf den
+Rechnern der Benutzer. Die Speicherung auf zentralen Speicher--Servern wie bei
+den zentralen Diensten ist nicht vorgesehen, jedoch aufgrund der Architektur
+realisierbar. 
 
-![Dezentraler Datenaustausch über Peer--to-Peer--Kommunikation](images/p2p.png){#fig:img-p2p width=80%}
+Bei der Nutzung eines dezentralen Netzwerks zum Austausch beziehungswiese zur
+Synchronisation von Daten musst der Benutzer in der Regel eine spezielle
+Software installieren und einen »Ordner«, wie bei den zentralen Diensten,
+definieren welcher dem Netzwerk »bekannt« gemacht werden soll. Je nach
+eingesetztem Protokoll, variiert die Funktionsweise und Sicherheit.
+
+
+
+
+Die dezentralen Systeme unterliegen in der Regel keiner Regulierung
+durch eine zentrale Instanz. Je nach verwendeter Technologie zum Datenaustausch,
+existieren beispielsweise bei »IPFS« (TODO: Ref IPFS Kapitel) sogenannten
+»Bootstrap--Nodes«, welche einen Einstiegspunkt für die jeweiligen Teilnehmer
+darstellen. Für weitere Details zu dezentralen Architekturen siehe TODO: Ref
+Elch?
+
+![Dezentraler Datenaustausch über Peer--to-Peer--Kommunikation. Es existiert
+keine zetrale Instanz, jeder Peer im Netzwerk ist »gleichberechtigt«.](images/p2p.png){#fig:img-p2p width=80%}
 
 Zu den Vertretern der etablierten dezentralen Systeme gibt es vergleichsweise
-zu den Cloud--Diensten nur wenige Produkte, welche für die Synchronisation von
-Daten beziehungsweise den Austausch von Dokumenten eingesetzt werden können. Zu
+zu den Cloud--Speicher--Anbeitern nur wenige Produkte, welche für die Synchronisation von Daten beziehungsweise den Austausch von Dokumenten eingesetzt werden können. Zu
 den bekannten Lösungen gehören:
 
 
@@ -262,8 +323,14 @@ den bekannten Lösungen gehören:
 * Librevault (Open--Source)
 
 Bei den bekannten Vertretern wie dem BitTorrent--Client werden die Daten in der
-Regel unverschlüsselt übertragen und gespeichert. Eine Authentifizierung finden
-in der Regel nicht statt. Alternativen wie Syncthing, Resilio, Librevault oder
+Regel unverschlüsselt übertragen und gespeichert. Die dezentralen Systeme geben
+dem Benutzer 
+
+Eine Authentifizierung findet
+in der Regel nicht statt. 
+
+
+Alternativen wie Syncthing, Resilio, Librevault oder
 Infinit ermöglichen Benutzern auf Basis von dezentralen Netzwerken Dateien zu
 tauschen. Ob die Daten verschlüsselt gespeichert und übertragen werden ist je
 nach Projekt unterschiedlich und unterliegt Änderungen in der aktuellen
@@ -343,7 +410,7 @@ Cloud--Speicher--Anbietern:
 [^cloudstorage]: Größten Cloud--Speicher Anbieter: <http://www.wiwo.de/unternehmen/it/cloud-wer-sind-die-groessten-cloud-anbieter-und-was-kosten-sie/11975400-7.html>
 
 In Deutschland gehört *Dropbox* zu den bekannten Anbietern, Apples *iCloud* ist
-in erster Linie für M
+in erster Linie für Mac--Benutzer interessant.
 
 * Google Drive/Dropbox mit »EncFS« oder »Boxcryptor«
 * Syncthing
