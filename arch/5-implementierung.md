@@ -105,7 +105,11 @@ zwar oft, aber merken tut man nicht viel von. Immer diese Ruby Hipster)
 
 Travis, git, nvim, glide
 
+``brig`` wurde komplett in go geschrieben. Keine C-Abhängigkeiten nötig.
+
 ## Überbick über die Software
+
+Jeder Knotentyp des Merkle DAG hat eigenen In-Memory Wrapper.
 
 godoc
 
@@ -116,6 +120,8 @@ Konzeptueller überblick über die Go-Pakete (TODO: Paketdiagramm).
 ### Portbelegung
 
 ### FUSE Layer
+
+### Verwendete Bibliotheken
 
 ### Algorithmik
 
@@ -133,6 +139,8 @@ Konzeptueller überblick über die Go-Pakete (TODO: Paketdiagramm).
 Hürden bei entwicklung
 
 vendoring problematik
+
+Kernstück: store. Kurze Implementierungsveranschaulichung.
 
 ## Beiträge zu anderen Projekten
 

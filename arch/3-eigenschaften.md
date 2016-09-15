@@ -10,6 +10,8 @@ eignet. (TODO: überarbeiten)
 
 TODO: Hier kurz und prägnant sagen was die Neuerung von brig ist.
 
+TODO: Venn-Diagramm: Brig als Berührungspunkte der Bereiche 'usability', 'security', 'version control', 'peer to peer', 'filesystem'
+
 ## Projektziel
 
 Ziel des Projektes ist die Entwicklung einer sicheren und dezentralen

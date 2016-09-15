@@ -27,9 +27,13 @@ zu lösen. Viele dieser Ansätze basieren nicht mehr auf einer zentralen
 Infrastruktur, sondern benutzen als Gegenentwurf einen dezentralen Ansatz.
 Dabei werden nicht alle Dateien an einem zentralen Punkt gespeichert, sondern
 können verteilt (ganz oder nur einzelne Blöcke einer Datei) im Netzwerk
-vorhanden sein. Dass dabei Dokumente auch durchaus doppelt gespeichert werden
+vorhanden sein. Dass dabei Dokumente auch durchaus doppelt oder öfters gespeichert werden
 dürfen, erhöht die Ausfallsicherheit und vermeidet den Flaschenhals zentraler
 Dienste, da der Ausfall einzelner Netzwerkknoten durch andere abgefangen werden kann.
+Anwender sind auch oft davon betroffen, dass viele Filehoster nur für einen bestimmten Zeitraum
+speichern. Ist dieser Zeitraum vorbei oder wird der Dienst eingestellt, entstehen vielfach
+tote Links. Hier könnte eine Lösung ansetzen, bei denen die Dateien von jedem Interessenten
+gespiegelt werden und auch von diesen beziehbar sind.
 
 Abseits der Dateisynchronisation konnte sich in anderen Bereichen sichere
 Open--Source--Software erfolgreich etablieren. Ein gutes Beispiel hierfür ist
@@ -104,6 +108,8 @@ erwähnt, schildert Herr Piechula in seiner Arbeit »*Sicherheitskonzepte und
 Evaluation dezentraler Dateisynchronisationssysteme am Beispiel
 brig*«[@cpiechula] die Sicherheitskonzepte im Detail, weshalb diese hier nur
 oberflächlich angeschnitten werden.
+
+TODO: Hier 1-2 Sätze pro block verlieren.
 
 Die vorliegende Arbeit ist in vier größere logische Blöcke gegliedert:
 
