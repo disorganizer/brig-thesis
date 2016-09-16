@@ -32,6 +32,9 @@ Momentan wird ``brig`` vollkommen separat von ``IPFS`` entwickelt. Bleibt das so
 
 Was würde man anders machen: Prototypischere Entwicklung, vlt. sogar einfach in bash oder python.
 
+Aufteilung von brig in kleinere Teilprogramme, wie die plumbing commands bei git,
+um Robustheit und Fehlertoleranz zu erhöhen.
+
 ![Ist »brig« letztlich nur ein weiterer Standard?](images/8/xkcd-standards.png){#fig:xkcd-standards width=50%}
 
 ### Zukunft der Autoren
@@ -39,3 +42,11 @@ Was würde man anders machen: Prototypischere Entwicklung, vlt. sogar einfach in
 Weiterentwicklung gewährleistet?
 
 Finanzierung
+
+### Veröffentlichung und Bekanntmachung
+
+Wie man das angeht. reddit?
+
+Veröffentlichung als beta -> Problem: Internas können sich noch ändern,
+Inkompatiblitäten können entstehen.
+Testing mit verschiedenen Prüfsummen.

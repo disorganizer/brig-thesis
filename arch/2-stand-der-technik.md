@@ -554,7 +554,7 @@ Heimnetzwerk mit mehren Computern angenommen, welche typischerweise hinter einem
 Diese sollen sich mit anderen Computern in einem separaten Heimnetzwerk
 austauschen können.
 
-**Durchscnittlicher Arbeitsrechner:** Das Design wurde nicht auf minimale
+**Durchschnittlicher Arbeitsrechner:** Das Design wurde nicht auf minimale
 Hardware ausgerichtet. Wir gehen vom Vorhandensein eines »normalen«
 Arbeitsrechners mit normalen Prozessor und mindestens 2GB Arbeitsspeicher aus.
 
@@ -568,3 +568,16 @@ folgenden Kapiteln vorgestellten Sicherheitsalgorithmen auch auf absehbare Zeit
 sicher gelten. Insbesondere Erfindungen wie Quantencomputer können diese
 Annahmen gefährden. Daher sollten Algorithmen auch mit Bedacht auf diesen
 Aspekt ausgewählt werden.
+
+TODO: Datei wird öfters gelesen als geschrieben.
+
+**Keine Kollision der Prüfsummen:** ``brig`` kann (genau wie *IPFS*) Dateien nicht auseinander halten,
+die einen unterschiedlichen Inhalt besitzen, aber die selbe Prüfsumme erzeugen.
+Auch wenn dieser Fall in der Theorie eintreten mag, so ist er extrem schwer absichtlich oder unabsichtlich
+zu erreichen. Der von *IPFS* standardmäßig verwendete Algorithmus ist *sha256*, welcher ein Ausgabe
+von 256 Bit. Wie in [@eq:hash-collision] gezeigt, müssten aufgrund des Geburtstagsparadoxons unpraktikabel
+viele Prüfsummen erzeugt werden, um eine Kollisionswahrscheinlichkeit von $0.1\%$ zu erreichen.
+
+$$2^{\frac{256}{2}} \simeq 10^{38.5}$$
+
+TODO: Weiter erklären.

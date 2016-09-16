@@ -104,6 +104,8 @@ Durch Anforderungen in Kapite 2 gehen und nachschauen ob alles jut ist. (Hint: N
 
 ## Zukünftige Erweiterungen
 
+Permissions: momentan gar keine.
+
 *Semantisch durchsuchbares* Tag-basiertes Dateisystem[^TAG].
 
 Integritätsprüfung
@@ -114,12 +116,18 @@ Docker erwähnen, weil's so hipp ist?
 
 Update Mechanismus?
 
+Hooking Mechanismus (i.e. API nach außen, notify on file change)
+
 Virtual file system interface für repositories
 (macht möglich, das gesamte repo im speicher zu halten, oder per ssh zu streamen)
 
 https://github.com/attic-labs/noms
 
 * Möglich machen, dass man einen existierenden OpenPGP nehmen kann.
+
+* Garbagecollector um alte Referenzen zu entfernen.
+
+Repair-Funktionalität und saubere Transaktionen um Verlässlichkeit zu erhöhen (wenn metadata index kaputt -> daten nur schwer besorgbar)
 
 [^TAG]: Mit einem ähnlichen Ansatz wie <https://en.wikipedia.org/wiki/Tagsistant>
 

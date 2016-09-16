@@ -18,7 +18,7 @@ Speicherallokation und Bereinigung.
 **Hohe Grundperformanz:** Zwar erreicht diese nicht die Performanz von C, liegt
 aber zumindest in der selben Größenordnung (vgl. [@pike2009go], S. 37).
 
-**Weitläufige Standardbibliothek:** Es sind wenige externe Bibliotheken nötig.
+**Weitläufige Standardbibliothek:** Es sind wenig externe Bibliotheken nötig.
 Insbesondere für die Entwicklung von Netzwerk- und Systemdiensten gibt es eine
 breite Auswahl von gut durchdachten Angeboten. Insbesondere das Angebot an
 gut ausgewählten und dokumentierten kryptografischen Primitiven war für uns
@@ -103,9 +103,15 @@ zwar oft, aber merken tut man nicht viel von. Immer diese Ruby Hipster)
 
 ## Entwicklungsumgebung
 
+Repository Struktur
+
 Travis, git, nvim, glide
 
+``brig`` wurde komplett in go geschrieben. Keine C-Abhängigkeiten nötig.
+
 ## Überbick über die Software
+
+Jeder Knotentyp des Merkle DAG hat eigenen In-Memory Wrapper.
 
 godoc
 
@@ -116,6 +122,8 @@ Konzeptueller überblick über die Go-Pakete (TODO: Paketdiagramm).
 ### Portbelegung
 
 ### FUSE Layer
+
+### Verwendete Bibliotheken
 
 ### Algorithmik
 
@@ -134,11 +142,15 @@ Hürden bei entwicklung
 
 vendoring problematik
 
+Kernstück: store. Kurze Implementierungsveranschaulichung.
+
 ## Beiträge zu anderen Projekten
 
 - Pull requests bei ipfs projekt und andere
 
 https://github.com/bazil/fuse/pull/152
+https://github.com/ipfs/go-ipfs/issues/2567
+https://github.com/ipfs/go-ipfs/pull/1981
 
 (DefaultHash und Help fix)
 

@@ -35,6 +35,8 @@ Configurability is the root of all evil
 
 ## Kommandozeile
 
+Problem: Noch werden keine short hashes erkannt. (Also Qm123 statt Qm123235AFWFDWEFFWF)
+
 ## Grafische oberflächhe
 
 Bereich, die die GUI abdecken muss:
@@ -51,6 +53,20 @@ TODO: Mockups mit Glade/GTK machen.
 (nicht implementiert, aber wie könnte sie aussehen?)
 
 Idee: Kontakte mit wieder erkennbaren Farben einfärben, wie bei Signal. -> Farbe von ID-Hash ableiten?
+
+
+![A](images/6/view-file-browser.png){#fig:mockup-file-browser}
+
+![B](images/6/view-remotes.png){#fig:mockup-remotes}
+
+![C](images/6/view-repo.png){#fig:mockup-repo}
+
+![D](images/6/view-settings.png){#fig:mockup-settings}
+
+![E](images/6/view-vcs.png){#fig:mockup-vcs}
+
+![F](images/6/menu.png){#fig:mockup-menu}
+
 
 ## Verhalten bei Fehlern
 
