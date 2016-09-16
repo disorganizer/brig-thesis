@@ -6,12 +6,6 @@ Dateisynchronisationslösung stellen würden. Abschließend wird ein kurzer Blic
 auf die Zielgruppen der Lösung geworfen und für welche Einsatzzwecke sie sich
 eignet. (TODO: überarbeiten)
 
-## Wissenschaftliche Lücke
-
-TODO: Hier kurz und prägnant sagen was die Neuerung von brig ist.
-
-TODO: Venn-Diagramm: Brig als Berührungspunkte der Bereiche 'usability', 'security', 'version control', 'peer to peer', 'filesystem'
-
 ## Projektziel
 
 Ziel des Projektes ist die Entwicklung einer sicheren und dezentralen
@@ -35,6 +29,29 @@ Anwender einigen können.
 Um ein detaillierten Eindruck von ``brig`` und seinen (angestrebten)
 Fähigkeiten in der Praxis zu bekommen, ist an dieser Stelle die Lektüre des
 *Benutzerhandbuch* in [@sec:benutzerhandbuch] empfohlen.
+
+## Wissenschaftliche Lücke
+
+![Die Neuerung von ``brig`` liegt in der Zusammenführung vieler wissenschaftlichen Teildisziplinen](images/2/science-hole.pdf){#fig:science-hole width=66%}
+
+Die wissenschaftliche Neuerung der vorliegenden Arbeit ist die Zusammenführung
+vieler wissenschaftlicher Teildisziplinen, die es nach Wissen des Autors vorher
+noch nicht in dieser Form gab. Dabei werden viele bestehende Ideen und
+Konzepte genommen, um sie in einer Software zu vereinen, die ein versioniertes
+und verteiltes Dateisystem implementiert. Dieses soll nicht nur »sicher« (TODO: ref
+kitteh) sein, sondern auch für ein Großteil der Anwender benutzbar sein.
+
+In diesem Kontext werden einige konkrete Neuerungen in der vorliegenden Arbeit vorgestellt.
+Diese bestehen hauptsächlich aus den folgenden Punkten:
+
+* Eine Erweiterung des Datenmodells von ``git``, welches Metadaten von den eigentlichen Daten trennt,
+  leere Verzeichnisse sowie umbenannte Pfade nativ unterstützt und eine eigene Historie pro Datei mit sich bringt.
+- Ein Verschlüsselungsformat (ähnlich dem Secretbox der freien NaCl[^NACL] Bibliothek), welches effizienten wahlfreien Zugriff erlaubt.
+- Ein Kompressionsformat, welches blockbasierten wahlfreien Zugriff erlaubt und den Einsatz verschiedener Algorithmen erlaubt.
+- Ein Konzept und Implementierung zur dezentralen Benutzerverwaltung, ohne dass man sich dabei registrieren muss.
+- Verschiedene Ansätze um die Benutzbarkeit zu verbessern ohne den Sicherheitsaspekt abzuschwächen.
+
+[^NACL]: https://nacl.cr.yp.to/secretbox.html
 
 ## Eigenschaften und Anforderungen
 

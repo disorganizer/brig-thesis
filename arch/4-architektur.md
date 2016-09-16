@@ -11,13 +11,25 @@ aktuellen Prototypen ausgegangen. Mögliche Erweiterungen werden in Kapitel
 jeweiligen Komponenten hingegen wird in [@sec:implementierung]
 (*Implementierung*) besprochen.
 
+Eine berechtigte Frage soll vorher geklärt werden: ``ipfs`` hat bereits ein
+Datenmodell (siehe ``ipfs`` Whitepaper, [@benet2014ipfs], S.7 ff.), welches Verzeichnisse abbilden kann. Warum wurde also nicht dieses
+als Basis verwendet? Der Grund dafür liegt in der bereits erwähnten Entkopplung
+von Daten und Metadaten. Würden die Dateien und Verzeichnisse direkt in
+``ipfs`` gespeichert, so wäre diese Teilung nicht mehr gegeben. Dies hätte zur
+Folge, dass ein Angreifer zwar nicht die verschlüsselten Daten lesen könnte,
+aber problemlos die Verzeichnisstruktur betrachten könnte, sobald er die
+Prüfsumme des Wurzelknotens hat. Dies würde den Sicherheitsversprechen von
+``brig`` widersprechen. Abgesehen davon wurde ein eigenes Datenmodell
+entwickelt, um mehr Freiheiten beim Design zu haben.
+
 ## Architektur von git
 
 Der interne Aufbau von ``brig`` ist relativ stark von ``git`` inspiriert.
 Deshalb werden im Folgenden immer wieder Parallelen zwischen den beiden
 Systemen gezogen, um die jeweiligen Unterschiede aufzuzeigen und zu erklären
 warum ``brig`` letztlich einige wichtige Differenzen aus architektonischer
-Sicht aufweist.
+Sicht aufweist. Was die Benutzbarkeit angeht, soll allerdings aufgrund der
+relativ unterschiedlichen Ziele kein Vergleich gezogen werden.
 
 Kurz beschrieben sind beide Projekte »*stupid content
 tracker*«[^TORVALDS_ZITAT], die Änderungen an tatsächlichen Dateien auf
@@ -33,9 +45,9 @@ berechnet und nicht separat abgespeichert (daher die Bezeichnung »stupid«).
 Abgespeichert werden, wie in [@fig:git-data-model] gezeigt, nur vier
 verschiedene *Objekte*:
 
-![Vereinfachte Darstellung des Datenmodell von ``git``.](images/4/git-data-model.pdf){#fig:git-data-model}
+![Vereinfachte Darstellung des Datenmodell von ``git``.](images/4/git-data-model.pdf){#fig:git-data-model width=80%}
 
-[^TORVALDS_ZITAT]: Originalzitat von Linus Torvalds. Siehe auch: <https://git-scm.com/docs/git.html>
+[^TORVALDS_ZITAT]: Zitat von Linus Torvalds. Siehe auch: <https://git-scm.com/docs/git.html>
 
 - **Blob:** Speichert Daten einer bestimmten Größe (möglicherweise) komprimiert
   ab und assoziiert diese mit einer ``sha1``--Prüfsumme des (unkomprimierten)
@@ -53,6 +65,8 @@ verschiedene *Objekte*:
   Commit--Nachricht.[^COMMIT_HASH]
 - **Ref:** Eine Referenz auf einen bestimmten *Commit*. Er speichert lediglich dessen
   Prüfsumme und wird von ``git`` separat zu den eigentlichen Objekten gespeichert.
+  In [@fig:git-data-model] verweist beispielsweise die Referenz ``HEAD`` stets
+  auf den aktuellsten *Commit*.
 
 [^COMMIT_HASH]: Mehr Details unter: <https://gist.github.com/masak/2415865>
 
@@ -123,7 +137,8 @@ Aus Sicht des Autors hat ``git`` einige, kleinere Schwächen aus architektonisch
    ist unhandlicher für den Benutzer) und der Kollisionsresistenz der Prüfsumme. Tritt trotzdem eine Kollision auf,
    so können Daten überschrieben werden.[^VERSION_CONTROL_BY_EXAMPLE] Solche Kollisionen sind zwar heutzutage noch
    sehr unwahrscheinlicher, werden mit steigender Rechenleistungen aber wahrscheinlicher. Leider kann ``git``
-   den genutzten Prüfsummenalgorithmus (``sha1``) nicht mehr ohne hohen Aufwand ändern[^LWM_HASH].
+   den genutzten Prüfsummenalgorithmus (``sha1``) nicht mehr ohne hohen Aufwand ändern[^LWM_HASH]. Bei ``brig`` ist dies möglich,
+   da das Prüfsummenformat von *IPFS* die Länge und Art des Algorithmus in der Prüfsumme selbst abspeichert.
 2) **Keine nativen Renames:** ``git`` behandelt das Verschieben einer Datei als eine Sequenz aus dem Löschen und anschließendem
    Hinzufügen der Datei[^GIT_FAQ_RENAME]. Der Nachteil dabei ist, dass ``git`` dem Nutzer die Umbenennung nicht mehr als solche präsentiert,
    was für diesen verwirrend sein kann wenn er nicht sieht, dass die Datei anderswo neu hinzugefügt wurde.
@@ -158,47 +173,137 @@ Aus Sicht des Autors hat ``git`` einige, kleinere Schwächen aus architektonisch
 [^GIT_FAQ_SLOW_LOG]: <https://git.wiki.kernel.org/index.php/GitFaq#Why_is_.22git_log_.3Cfilename.3E.22_slow.3F>
 [^GIT_ANNEX]: <https://git-annex.branchable.com/direct_mode>
 
-Zusammengefasst lässt sich sagen, dass ``git`` ein extrem flexibles und schnelles Werkzeug für die Verwaltung von Quelltext und kleinen Dateien ist,
-aber weniger geeignet für eine allgemeine Dateisynchronisationssoftware ist, die auch große Dokumente effizient behandeln muss.
+Zusammengefasst lässt sich sagen, dass ``git`` ein extrem flexibles und
+schnelles Werkzeug für die Verwaltung von Quelltext und kleinen Dateien ist,
+aber weniger geeignet für eine allgemeine Dateisynchronisationssoftware ist,
+die auch große Dokumente effizient behandeln können muss.
 
 ## Datenmodell von ``brig``
 
-änderungen:
+``git`` ist primär ein Werkzeug das von Entwicklern und technisch versierten
+Nutzern eingesetzt wird. ``brig`` hingegen soll möglichst generell von allen
+Anwendern als Synchronisationslösung eingesetzt werden, weswegen die Funktionsweise der Software
+zugrundeliegenden Konzepte möglichst einfach nachvollziehbar sein sollen.
+Die Einsatzziele unterscheiden sich also: ``git`` ist primär eine
+Versionsverwaltugssoftware, mit der man auch synchronisieren kann. ``brig``
+hingegen ist eine Synchronisationssoftware, die auch Versionierung beherrscht.
+Aus diesem Grund wurde das Datenmodell von ``git`` für den Einsatz in ``brig``
+angepasst und teilweise vereinfacht. Die Hauptunterschiede sind dabei wie
+folgt:
 
-- checkpoints/inodes (uid)
-* 3 statt 2 Möglichkeiten einen Knoten zu referenzieren: per hash (zustand zu bestimmten zeitpunkt); per pfad (lokation zu bestimmten zeitpunkt)
-  per inode (neueste lokation *und* neuester zustand)
+- **Strikte Trennung zwischen Daten und Metadaten:** Metadaten werden von ``brig``'s
+  Datenmodell verwaltet, während die eigentlichen Daten werden lediglich per Prüfsumme
+  referenziert und von einem Backend (aktuell *IPFS*) gespeichert werden.
+  So gesehen ist  ``brig`` ein Versionierungsaufsatz für ``ipfs``.
+* **Lineare Versionshistorie:** Jeder *Commit* hat maximal einen Vorgänger und
+  exakt einen Nachfolger. Dies macht die Benutzung von *Branches*[^BRANCH_EXPL]
+  unmöglich, bei der ein *Commit* zwei Nachfolger haben kann, beziehungsweise
+  sind auch keine Merge--Commits möglich, die zwei Vorgänger besitzen. Diese
+  Vereinfachung ist nicht von der Architektur vorgegeben und könnte nachgerüstet
+  werden. Allerdings hat die Benutzung dieses Features potenzielles
+  »Verwirrungspotenzial«[^DETACHED_HEAD] für gewöhnliche Nutzer, die gedanklich
+  von einer linearen Historie ihrer Dokumente ausgehen.
+* **Synchronisationspartner müssen keine gemeinsame Historie haben:[^DOUBLE_ROOT]**
+  Es würde bei ``brig`` davon ausgegangen, dass unterschiedliche
+  Dokumentensammlung miteinander synchronisiert werden sollen, während bei
+  ``git`` davon ausgegangen wird, dass eine einzelne Dokumentensammlung immer
+  wieder modifiziert und zusammengeführt wird. Haben die Partner keine gemeinsame
+  Historie, wird einfach angenommen, dass alle Dokumente synchronisiert werden müssen.
+  Aus diesen Grund kennt ``brig`` auch keine ``clone`` und ``pull``--Operation.
+  Diese werden durch ``brig sync <with>`` ersetzt.
+
+[^BRANCH_EXPL]: *Branches* dienen bei ``git`` um einzelne Features oder Fixes separat entwickeln zu können. (TODO: Schaubild eher?)
+[^DETACHED_HEAD]: So ist es bei ``git`` relativ einfach möglich in den sogenannten *Detached HEAD* Modus zu kommen, in dem durchaus Daten verloren gehen können.
+[^DOUBLE_ROOT]: Streng genommen ist dies bei ``git`` auch nicht nötig, allerdings eher unüblich und braucht spezielle Kenntnisse. (TODO: ref)
 
 
-TODO: Vereinfachung: keine partiellen diffs, nur ganze änderungen.
+![Das Datenmodell von ``brig``](images/4/brig-data-model.pdf){#fig:brig-data-model}
 
-**Aufbau der Historie:** ``brig`` nutzt ein Modell zur Abbildung der
-Dateihistorie, welches insbesondere ``git`` Nutzern vertraut vorkommen sollte.
-Das Modell von ``git`` basiert auf einem Merkle-DAG und ähnelt anschaulich dem
-in [@fig:merkle-tree] gezeigten Beispiel. Dabei übernimmt ``brig`` den Begriff
-des *Commits* und erweitert und vereinfacht das Modell von ``git``
-folgendermaßen:
+[@fig:brig-data-model] zeigt das oben verwendete Beispiel in ``brig``'s
+Datenmodell. Es werden die selben Objekttypen verwendet, die auch ``git``
+verwendet:
 
-1) Rigorose Trennung zwischen Daten und Metadaten. Metadaten werden von ``brig``'s Datenmodell
-   verwaltet. Die eigentlichen Daten werden lediglich per Prüfsumme referenziert und
-   von einem Backend (aktuell *IPFS*) gespeichert. So gesehen ist ``brig`` ein ``git``--Aufsatz
-   auf ``ipfs``.
-1) Es ist sind keine *Branches* möglich. Jeder *Commit* hat exakt einen
-   Vorgänger. Die einzige Ausnahme bildet der leere *Commit*, welcher beim Anlegen
-   eines Repositories erstellt wird. Mit anderen Worten: Die Commit--Historie ist
-   immer linear.
-2) Synchronisationspartner müssen **keine gemeinsame Vergangenheit** haben.
-   In diesem Fall werden einfach alle Dateien als Änderungen erkannt.
-   Ein separates Klonen eines Repositories ist daher nicht nötig. Es kann einfach
-   ein neues, leeres Repository angelegt werden, in das dann alle Daten des gewünschten
-   Partners synchronisiert werden.
-3) Es werden keine partiellen Änderungen gespeichert, sondern lediglich die oben
-   erklärten Änderungszustände ``ADD``, ``MODIFY``, ``REMOVE`` und ``MOVE``.
-   Eine solche atomare Änderung wird *Checkpoint* genannt. Jeder *Checkpoint*
-   kennt den Zustand der Datei zum Zeitpunkt der Modifikation, sowie einige Metadaten
-   wie ein Zeitstempel, der Dateigröße, dem Änderungstyp, dem Urheber der Änderung
-   und seinem Vorgänger. Kurz gesagt hat jede Datei also eine eigene, unabhängige Änderungshistorie,
-   ohne, dass diese aus den Commits extrahiert werden muss.
+* **File:** Speichert die Metadaten einer einzelnen, regulären Datei. Zu den Metadaten gehört die aktuelle Prüfsumme,
+  die Dateigröße, der letzte Änderungszeitpunkt und der kryptografische Schlüssel mit dem die Datei verschlüsselt ist.
+  Anders als ein *Blob* speichert ein *File* die Daten nicht selbst, sondern referenziert diese nur im *ipfs*--Backend.
+* **Directory:**  Speichert wie ein *Tree* einzelne *Files* und weitere *Directories*. Die Prüfsumme des Verzeichnisses $H_{directory}$ ergibt sich auch hier
+  aus der XOR--Verknüpfung ($\oplus$) der Prüfsumme des Pfades $H_{path}$ mit den den Prüfsummen der direkten Nachfahren $x$: $$
+	H_{directory}(x) = \begin{cases}
+			H_{path} & \text{für } x = () \\
+			x_1 \oplus f(x_{(x_2, \ldots, x_n)}) & \text{sonst}
+		   \end{cases}
+  $$
+
+    Die Verwendung der XOR--Verknüpfung hat dabei den Vorteil, dass sie selbstinvers und kommutativ ist. Wendet man sie also zweimal an,
+    so erhält man das neutrale Element $0$. Analog dazu führt die Anwendung auf ein vorheriges Ergebnis wieder zur ursprünglichen Eingabe:
+
+    $$x \oplus x = 0 \text{  (Auslöschung)}$$
+    $$y = y \oplus x \oplus x = x \oplus y \oplus x = x \oplus x \oplus y$$
+
+    Diese Eigenschaft kann man sich beim Löschen einer Datei zunutze machen,
+    indem die Prüfsumme jedes darüber liegenden Verzeichnisses mit der Prüfsumme
+    der zu löschenden Datei XOR--genommen wird. Der resultierende Graph hat die gleichen Prüfsumme wie vor
+    dem Einfügen der Datei.
+
+* **Commits:** Analog zu ``git``, dienen aber bei ``brig`` nicht nur der logischen Kapselung von mehreren Änderungen, sondern
+  werden auch automatisiert von der Software nach einen bestimmten Zeitintervall erstellt. Daher ist ihr Zweck eher
+  mit den *Snapshots* vieler Backup--Programme vergleichbar, welche dem Nutzer
+  einen Sicherungspunkt zu einem bestimmten Zeitpunkt in der Vergangenheit
+  bietet.
+* **Refs:** Exakt analog zu ``git``. Es gibt zwei vordefinierte Referenzen,
+  welche von ``brig`` gepflegt werden: ``HEAD``, welche auf den letzten
+  vollständigen *Commit* zeigt und ``CURR``, welche auf den aktuellen *Commit*
+  zeigt (meist dem *Staging Commit*, dazu später mehr).
+
+![Jeder Knoten muss von aktuellen Wurzelverzeichnis neu aufgelöst werden, selbst wenn nur der Elternknoten gesucht wird.](images/4/path-resolution.pdf){#fig:path-resolution width=90%}
+
+*Directories* und *Files* speichern zudem zwei weitere gemeinsame Attribute:
+
+* Ihren eigenen Namen und den vollen Pfad des darüber liegenden Knoten. Zusammen ergibt dieser den vollen
+  Pfad der Datei oder des Verzeichnisses. Dieser Pfad ist nötig, um den jeweiligen Elternknoten zu erreichen.
+  In einem gerichteten, azyklischen Graphen darf es keine Rückkanten nach »oben« geben, deswegen scheidet
+  die direkte Referenzierung des Elternknotens mittels seiner Prüfsumme aus. Wie in [@fig:path-resolution] gezeigt
+  ist es daher beispielsweise den Elternknoten eines beliebigen Knotens vom aktuellen Wurzelknoten neu aufzulösen.
+* Eine eindeutige Nummer (``UID``), welche die Datei oder das Verzeichnis
+  eindeutig kennzeichnet. Diese Nummer bleibt auch bei Modifikation und
+  Verschieben der Datei gleich und kann daher genutzt werden, Neben der Prüfsumme
+  (referenziert einen bestimmten Inhalt) und dem Pfad (referenziert eine
+  bestimmte Lokation) ist die Nummer ein weiterer Weg eine Datei zu referenzieren
+  (referenziert ein veränderliches »Dokument«) und ist grob mit dem Konzept einer
+  INode--Nummer bei Dateisystemen[^INODE] vergleichbar.
+
+[^INODE]: Siehe auch: https://de.wikipedia.org/wiki/Inode
+
+Davon abgesehen fällt auf dass zwei zusätzliche Strukturen eingeführt wurden:
+
+* **Checkpoints:** Jeder Datei ist über ihre ``UID`` ein Historie von sogenannten *Checkpoints* zugeordnet.
+  Jeder einzelne dieser Checkpoints beschreiben eine atomare Änderung an der Datei. Da keine
+  partiellen Änderungen möglich sind (wie ``git diff``), müssen nur vier verschiedene Operation
+  unterschieden werden: ``ADD`` (Datei wurde initial oder erneut hinzugefügt), ``MODIFY`` (Prüfsumme hat sich verändert),
+  ``MOVE`` (Pfad hat sich geändert) und ``REMOVE`` (Datei wurde entfernt). 
+  Jeder Checkpoint kennt den Zustand der Datei zum Zeitpunkt der Modifikation,
+  sowie einige Metadaten wie ein Zeitstempel, der Dateigröße, dem Änderungstyp,
+  dem Urheber der Änderung und seinem Vorgänger. Der Vorteil einer dokumentabhängigen Historie
+  ist die Möglichkeit umbenannte Dateien zu erkennen, sowie Dateien zu erkennen, die gelöscht und dann
+  wieder hinzugefügt worden sind. Ein weiterer Vorteil ist, dass zur Ausgabe der Historie einer Datei,
+  nur die *Checkpoints* betrachtet werden. Es muss nicht wie bei ``git`` jeder *Commit* betrachtet werden, um
+  nachzusehen ob eine Änderung an einer bestimmten Datei stattgefunden hat.
+
+- TODO: Stage Commit (Stage/Index existiert auch schon bei git)
+
+[^CHATTR_NOTE]: In Zukunft ist ein weiterer Zustand ``CHATTR`` möglich, welche die Änderung eines Dateiattributes abbildet.
+
+![Der Staging Bereich im Vergleich zwischen ``git`` und ``brig``](images/4/staging-area.pdf){#fig:staging-area}
+
+Die Gesamtheit aller *Files*, *Directories*, *Commits*, *Checkpoints* und *Refs* wird
+im Folgenden als *Store* bezeichnet. Er kapselt die Objekte und kümmert sich um deren
+Verwaltung. Basierend darauf implementiert er einige dateisystemtypische Operationen:
+
+
+----------
+
+TODO: Noch folgende Punkte verarzten:
+
 4) Da ein *Commit* nur ein Vorgänger haben kann, musste ein anderer Mechanismus eingeführt werden,
    um die Synchronisation zwischen zwei Partnern festzuhalten. Bei ``git`` wird
    dies mittels eines Merge--Commit gelöst, welcher aus den Änderungen der
@@ -206,10 +311,6 @@ folgendermaßen:
    Innerhalb eines *Commit* ist das ein spezieller Marker, der festhält mit wem synchronisiert wurde
    und mit welchen Stand er zu diesem Zeitpunkt hatte. Bei einer späteren Synchronisation muss
    daher lediglich der Stand zwischen dem aktuellen *Commit* (nach ``git``--Terminologie ``HEAD`` genannt),
-5) Ein *Commit* muss bei ``brig`` nicht zwangsweise ein logisches Paket mit zusammengehörigen Änderungen sein.
-   Die Funktionalität gleich eher einem *Snapshot* (bekannt aus vielen Backup--Programmen), welche
-   eher einen Sicherungspunkt zu einem gewissen Zeitpunkt bieten. Entsprechend werden in der Praxis viele
-   *Commits* bei ``brig`` automatisch gemacht, nachdem einige Zeit lang keine Änderung mehr stattfand.
 6) Anders als bei ``git`` kennt jedes ``brig``--Repository den Stand aller
    Teilnehmer (beziehungsweise den zuletzt verfügbaren), die ein Nutzer in seiner
    Remote--Liste gespeichert hat. Da es sich dabei nur um Metadaten handelt, wird
@@ -222,19 +323,21 @@ Problem: Metadaten wachsen schnell, Angreifer könnte sehr viele kleine änderun
 Mögliche Lösung : Delayed Checkpoints, Directory Checkpoints.
 
 TODO: Internas von Checkpoint/Commit erklären, was die Hashes bedeuten
-TODO: Auflistung aller internen Typen (refs, commit, checkpoints, directories, files)
 
-
-TODO: Volle Trennung zwischen Daten (IPFS) und Metadaten (Datenmodell)
-
-TODO: Staging area
-
-TODO: Merkle DAG erlaubt keine rückreferenzen.
 
 TODO: Checkpoint Squashing (nicht implementiert, sähe aber so aus)
 
+### Operationen auf dem Datenmodell
+
 TODO: Herstellung von coreutils um dieses Datenmodell herum
 	  coreutils beschreiben und auflisten
+
+mv
+ls/tree
+rm
+add/modify
+mkdir
+cat
 
 ## Architektur von IPFS
 
@@ -254,6 +357,191 @@ Aufbau der Software aus funktionaler Sicht.
 Eher blackbox, was kommt rein was kommt raus.
 
 - Berührungspunkte mit Nutzer.
+
+## Synchronisation
+
+Ähnlich wie ``git`` speichert ``brig`` für jeden Nutzer seinen zuletzt bekannten *Store*
+ab. Mithilfe dieser Informationen können dann Synchronisationsentscheidungen
+größtenteils automatisiert getroffen werden. Welcher *Store* dabei lokal
+zwischengespeichert wird, entscheiden die Einträge in die sogenannte *Remote List* (TODO)
+
+TODO: Grafik mit verschiedenen Stores und Remote listen sowie Sync-Richtungen.
+
+### Synchronisation einzelner Dateien
+
+In seiner einfachsten Form nimmt ein Synchronisationsalgorithmus als Eingabe
+die Metadaten zweier Dateien von zwei Synchronisationspartnern und trifft als
+auf dieser Basis als Ausgabe eine der folgenden Entscheidungen:
+
+1) Die Datei existiert nur bei Partner A.
+2) Die Datei existiert nur bei Partner B.
+3) Die Datei existiert bei beiden und ist gleich.
+4) Die Datei existiert bei beiden und ist verschieden.
+
+Je nach Entscheidung kann für diese Datei eine entsprechende Aktion ausgeführt werden:
+
+1) Die Datei muss zu Partner B übertragen werden.
+2) Die Datei muss zu Partner A übertragen werden.
+3) Es muss nichts weiter gemacht werden.
+4) Konfliktsituation: Eventuell Eingabe vom Nutzer erforderlich.
+
+Bis auf den vierten Schritt ist die Implementierung trivial und kann leicht von
+einem Computer erledigt werden. Das Kriterium, ob die Datei gleich ist, kann
+entweder durch einen direkten Vergleich gelöst werden (aufwendig) oder durch
+den Vergleich der Prüfsummen beider Dateien (schnell, aber vernachlässigbares
+Restrisiko durch Kollision TODO: ref). Manche Werkzeuge wie ``rsync`` setzen
+sogar auf probabilistische Ansätze, indem sie in der Standardkonfiguration aus Geschwindigkeitsgründen nur
+ein Teil des Dateipfades, eventuell das Änderungsdatum und die Dateigröße vergleichen.
+
+Für die Konfliktsituation hingegen kann es keine perfekte, allumfassende Lösung
+geben, da die optimale Lösung von der jeweiligen Datei und der Absicht des
+Nutzers abhängt. Bei Quelltext--Dateien möchte der Anwender vermutlich, dass
+beide Stände automatisch zusammengeführt werden, bei großen Videodateien ist
+das vermutlich nicht seine Absicht. Selbst wenn die Dateien nicht automatisch zusammengeführt werden sollen
+(englisch >>to merge<<), ist fraglich was mit der Konfliktdatei des Partners geschehen soll.
+Soll die eigene oder die fremde Version behalten werden? Dazwischen sind auch weitere Lösungen denkbar,
+wie das Anlegen einer Konfliktdatei (``photo.png:conflict-by-bob-2015-10-04_14:45``), so wie es beispielsweise
+Dropbox macht.[^DROPBOX_CONFLICT_FILE]
+Alternativ könnte der Nutzer auch bei jedem Konflikt befragt werden. Dies wäre
+allerdings im Falle von ``brig`` nach Meinung des Autors der Benutzbarkeit
+stark abträglich.
+
+Im Falle von ``brig`` müssen nur die Änderung von ganzen Dateien betrachtet werden, aber keine partiellen Änderungen
+darin. Eine Änderung der ganzen Datei kann dabei durch folgende Aktionen des Nutzers entstehen:
+
+1) Der Dateinhalt wurde modifiziert, ergo muss sich die Prüfsumme geändert haben (``MODIFY``).
+2) Die Datei wurde verschoben (``MOVE``).
+3) Die Datei wurde gelöscht (``REMOVE``).
+4) Die Datei wurde (initial oder erneut) hinzugefügt (``ADD``).
+
+Der vierte Zustand (``ADD``) ist dabei der Initialisierungszustand. Nicht alle dieser
+Zustände führen dabei automatisch zu Konflikten. So sollte ein guter
+Algorithmus kein Problem, erkennen, wenn ein Partner die Datei modifiziert und
+der andere sie lediglich umbenennt. Eine Synchronisation der entsprechenden
+Datei sollte den neuen Inhalt mit dem neuen Dateipfad zusammenführen.
+[@tbl:sync-conflicts] zeigt welche Operationen zu Konflikten führen und welche
+verträglich sind.
+
+
+|     A/B    | ``ADD`` | ``REMOVE`` | ``MOVE`` | ``MODIFY`` |
+|:----------:|---------|------------|----------|------------|
+|   ``ADD``  | ?       | ?          | ?        | ?          |
+| ``REMOVE`` | ?       | \cmark     | \xmark   | \xmark     |
+|  ``MOVE``  | ?       | \xmark     | ?        | \xmark     |
+| ``MODIFY`` | ?       | \xmark     | \cmark   | \xmark     |
+
+: Verträglichkeit {#tbl:sync-conflicts}
+
+TODO: Fragezeichen in Tabelle erklären.
+
+[^RSYNC]: <https://de.wikipedia.org/wiki/Rsync>
+[^DROPBOX_CONFLICT_FILE]: Siehe <https://www.dropbox.com/help/36>
+
+### Synchronisation von Verzeichnissen
+
+Prinzipiell lässt sich die
+Synchronisation einer Datei auf Verzeichnisse übertragen, indem einfach obiger
+Algorithmus auf jede darin befindliche Datei angewandt wird. In der
+Fachliteratur (vergleiche unter anderem [@cox2005file]) findet sich zudem die
+Unterscheidung zwischen *informierter* und *uninformierter* Synchronisation.
+Der Hauptunterschied ist, dass bei ersterer die Änderungshistorie jeder Datei
+als zusätzliche Eingabe zur Verfügung steht. Auf dieser Basis können dann
+intelligentere Entscheidungen bezüglich der Konflikterkennung getroffen werden.
+Insbesondere können dadurch aber leichter die Differenzen zwischen den
+einzelnen Ständen ausgemacht werden: Für jede Datei muss dabei lediglich die in
+[@lst:file-sync] gezeigte Sequenz abgelaufen werden, die von beiden
+Synchronisationspartnern unabhängig ausgeführt werden muss. Unten stehender
+Go--Pseudocode ist eine modifizierte Version aus Russ Cox' Arbeit »File
+Synchronization with Vector Time Pairs«[@cox2005file], welcher für ``brig``
+angepasst wurde.
+
+```{#lst:file-sync .go caption="Synchronisationsalgorithmus für eine einzelne Datei"}
+// historyA ist die Historie der eigenen Datei A.
+// historyB ist die Historie der fremden Datei B mit gleichem Pfad.
+func sync(historyA, historyB History) Result {
+	if historyA.Equal(historyB) {
+		// Keine weitere Aktion nötig.
+		return NoConflict
+	}
+
+	if historyA.IsPrefix(historyB) {
+		// B hängt A hinterher.
+		return NoConflict
+	}
+
+	if historyB.IsPrefix(historyA) {
+		// A hängt B hinterher. Kopiere B zu A.
+		copy(B, A)
+		return NoConflict
+	}
+
+	if root := historyA.FindCommonRoot(historyB); root != nil {
+		// A und B haben trotzdem eine gemeinsame Historie,
+		// haben sich aber auseinanderentwickelt.
+		if !historyA.HasConflictingChanges(historyB, root) {
+			// Die Änderungen sind verträglich und
+			/  können automatisch aufgelöst werden.
+			ResolveConflict(historyA, historyB, root)
+			return NoConflict
+		}
+	}
+
+	// Keine gemeinsame Historie.
+	// -> Nicht automatisch zusammenführbar.
+	// -> Konfliktstrategie muss angewandt werden.
+	return Conflict
+}
+```
+
+Werkzeuge wie ``rsync`` betreiben eher eine *uninformierte Synchronisation*.
+Sie müssen bei jedem Programmlauf Metadaten über beide Verzeichnisse sammeln
+und darauf arbeiten. TODO: mehr worte verlieren
+Im Gegensatz zu Timed Vector Pair Sync, informierter Austausch, daher muss nicht jedesmal
+der gesamte Metadatenindex übertragen werden.
+
+**Synchronisation über das Netzwerk:** Um die Metadaten nun tatsächlich
+austauschen zu können, muss ein Protokoll etabliert werden, mit dem diese
+zwischen zwei Partnern übertragen werden. Aus Zeitgründen ist dieses Protokoll
+im Moment sehr einfach und wird bei größeren Datenmengen nicht optimal
+funktionieren. Für einen Proof--of--Concept reicht es aber aus. Wie in Grafik TODO gezeigt besteht das Protokoll
+aus drei Teilen.
+
+* encode
+- fetch.
+- decode
+
+Nachteilig ist dabei natürlich, dass momentan der gesamte Metadatenindex
+übertragen werden muss. Mit etwas mehr Aufwand könnte vorher der eigentlichen
+Übertragung der letzte gemeinsame Stand ausgehandelt werden, um nur die
+Änderungen seit diesem Stand zu übertragen zu müssen.
+
+Auch sind zum momentanen Stand noch keine *Live*--Updates möglich. Hierfür müssten sich die
+einzelnen Knoten bei jeder Änderung kleine *Update*--Pakete schicken, welche prinzipiell
+einen einzelnen *Checkpoint* beeinhalten würden. Dies ist technisch bereits möglich,
+wurde aus Zeitgründen aber noch nicht umgesetzt.
+
+TODO: Erkennung von renames?
+
+TODO: Garbage collector
+
+File_hash = hash aus inhalt
+Directory_hash = hash(path) XOR FILE_HASH_1 XOR FILE_HASH_2 ...
+COMMIT_HASH = hash(root_hash) XOR hash(parent) XOR Author XOR message
+
+### Versionsverwaltung
+
+Die Historiedaten sind natürlich nicht nur zum Synchronisieren nützlich. Sie können auch verwendet werden,
+um die häufigsten Funktionalitäten von Versionsverwaltungssystemen umzusetzen.
+
+- checkout
+* commit
+- Staging Bereich (status)
+
+Zukunft:
+
+- tag
+
+
 
 ## Architekturübersicht
 
@@ -430,179 +718,6 @@ FUSE
 ### Benutzermanagement
 
 ![Überprüfung eines Benutzernamens](images/4/id-resolving.pdf){#fig:arch-overview}
-
-### Synchronisation
-
-**Synchronisation einzelner Dateien:** In seiner einfachsten Form nimmt ein Synchronisationsalgorithmus als Eingabe
-die Metadaten zweier Dateien von zwei Synchronisationspartnern und trifft als
-auf dieser Basis als Ausgabe eine der folgenden Entscheidungen:
-
-1) Die Datei existiert nur bei Partner A.
-2) Die Datei existiert nur bei Partner B.
-3) Die Datei existiert bei beiden und ist gleich.
-4) Die Datei existiert bei beiden und ist verschieden.
-
-
-Je nach Entscheidung kann für diese Datei eine entsprechende Aktion ausgeführt werden:
-
-1) Die Datei muss zu Partner B übertragen werden.
-2) Die Datei muss zu Partner A übertragen werden.
-3) Es muss nichts weiter gemacht werden.
-4) Konfliktsituation: Eventuell Eingabe vom Nutzer erforderlich.
-
-Bis auf den vierten Schritt ist die Implementierung trivial und kann leicht von
-einem Computer erledigt werden. Das Kriterium, ob die Datei gleich ist, kann
-entweder durch einen direkten Vergleich gelöst werden (aufwendig) oder durch
-den Vergleich der Prüfsummen beider Dateien (schnell, aber vernachlässigbares
-Restrisiko durch Kollision TODO: ref). Manche Werkzeuge wie ``rsync`` setzen
-sogar auf probabilistische Ansätze, indem sie in der Standardkonfiguration aus Geschwindigkeitsgründen nur
-ein Teil des Dateipfades, eventuell das Änderungsdatum und die Dateigröße vergleichen.
-
-Für die Konfliktsituation hingegen kann es keine perfekte, allumfassende Lösung
-geben, da die optimale Lösung von der jeweiligen Datei und der Absicht des
-Nutzers abhängt. Bei Quelltext--Dateien möchte der Anwender vermutlich, dass
-beide Stände automatisch zusammengeführt werden, bei großen Videodateien ist
-das vermutlich nicht seine Absicht. Selbst wenn die Dateien nicht automatisch zusammengeführt werden sollen
-(englisch >>to merge<<), ist fraglich was mit der Konfliktdatei des Partners geschehen soll.
-Soll die eigene oder die fremde Version behalten werden? Dazwischen sind auch weitere Lösungen denkbar,
-wie das Anlegen einer Konfliktdatei (``photo.png:conflict-by-bob-2015-10-04_14:45``), so wie es beispielsweise
-Dropbox macht.[^DROPBOX_CONFLICT_FILE]
-Alternativ könnte der Nutzer auch bei jedem Konflikt befragt werden. Dies wäre
-allerdings im Falle von ``brig`` nach Meinung des Autors der Benutzbarkeit
-stark abträglich.
-
-Im Falle von ``brig`` müssen nur die Änderung von ganzen Dateien betrachtet werden, aber keine partiellen Änderungen
-darin. Eine Änderung der ganzen Datei kann dabei durch folgende Aktionen des Nutzers entstehen:
-
-1) Der Dateinhalt wurde modifiziert, ergo muss sich die Prüfsumme geändert haben (``MODIFY``).
-2) Die Datei wurde verschoben (``MOVE``).
-3) Die Datei wurde gelöscht (``REMOVE``).
-4) Die Datei wurde (initial oder erneut) hinzugefügt (``ADD``).
-
-Der vierte Zustand (``ADD``) ist dabei der Initialisierungszustand. Nicht alle dieser
-Zustände führen dabei automatisch zu Konflikten. So sollte ein guter
-Algorithmus kein Problem, erkennen, wenn ein Partner die Datei modifiziert und
-der andere sie lediglich umbenennt. Eine Synchronisation der entsprechenden
-Datei sollte den neuen Inhalt mit dem neuen Dateipfad zusammenführen.
-[@tbl:sync-conflicts] zeigt welche Operationen zu Konflikten führen und welche
-verträglich sind.
-
-
-|     A/B    | ``ADD`` | ``REMOVE`` | ``MOVE`` | ``MODIFY`` |
-|:----------:|---------|------------|----------|------------|
-|   ``ADD``  | ?       | ?          | ?        | ?          |
-| ``REMOVE`` | ?       | \cmark     | \xmark   | \xmark     |
-|  ``MOVE``  | ?       | \xmark     | ?        | \xmark     |
-| ``MODIFY`` | ?       | \xmark     | \cmark   | \xmark     |
-
-: Verträglichkeit {#tbl:sync-conflicts}
-
-TODO: Fragezeichen in Tabelle erklären.
-
-[^RSYNC]: <https://de.wikipedia.org/wiki/Rsync>
-[^DROPBOX_CONFLICT_FILE]: Siehe <https://www.dropbox.com/help/36>
-
-**Synchronisation von Verzeichnissen:** Prinzipiell lässt sich die
-Synchronisation einer Datei auf Verzeichnisse übertragen, indem einfach obiger
-Algorithmus auf jede darin befindliche Datei angewandt wird. In der
-Fachliteratur (vergleiche unter anderem [@cox2005file]) findet sich zudem die
-Unterscheidung zwischen *informierter* und *uninformierter* Synchronisation.
-Der Hauptunterschied ist, dass bei ersterer die Änderungshistorie jeder Datei
-als zusätzliche Eingabe zur Verfügung steht. Auf dieser Basis können dann
-intelligentere Entscheidungen bezüglich der Konflikterkennung getroffen werden.
-Insbesondere können dadurch aber leichter die Differenzen zwischen den
-einzelnen Ständen ausgemacht werden: Für jede Datei muss dabei lediglich die in
-[@lst:file-sync] gezeigte Sequenz abgelaufen werden, die von beiden
-Synchronisationspartnern unabhängig ausgeführt werden muss. Unten stehender
-Go--Pseudocode ist eine modifizierte Version aus Russ Cox' Arbeit »File
-Synchronization with Vector Time Pairs«[@cox2005file], welcher für ``brig``
-angepasst wurde.
-
-```{#lst:file-sync .go caption="Synchronisationsalgorithmus für eine einzelne Datei"}
-// historyA ist die Historie der eigenen Datei A.
-// historyB ist die Historie der fremden Datei B mit gleichem Pfad.
-func sync(historyA, historyB History) Result {
-	if historyA.Equal(historyB) {
-		// Keine weitere Aktion nötig.
-		return NoConflict
-	}
-
-	if historyA.IsPrefix(historyB) {
-		// B hängt A hinterher.
-		return NoConflict
-	}
-
-	if historyB.IsPrefix(historyA) {
-		// A hängt B hinterher. Kopiere B zu A.
-		copy(B, A)
-		return NoConflict
-	}
-
-	if root := historyA.FindCommonRoot(historyB); root != nil {
-		// A und B haben trotzdem eine gemeinsame Historie,
-		// haben sich aber auseinanderentwickelt.
-		if !historyA.HasConflictingChanges(historyB, root) {
-			// Die Änderungen sind verträglich und
-			/  können automatisch aufgelöst werden.
-			ResolveConflict(historyA, historyB, root)
-			return NoConflict
-		}
-	}
-
-	// Keine gemeinsame Historie.
-	// -> Nicht automatisch zusammenführbar.
-	// -> Konfliktstrategie muss angewandt werden.
-	return Conflict
-}
-```
-
-Werkzeuge wie ``rsync`` betreiben eher eine *uninformierte Synchronisation*.
-Sie müssen bei jedem Programmlauf Metadaten über beide Verzeichnisse sammeln
-und darauf arbeiten. TODO: mehr worte verlieren
-Im Gegensatz zu Timed Vector Pair Sync, informierter Austausch, daher muss nicht jedesmal
-der gesamte Metadatenindex übertragen werden.
-
-**Synchronisation über das Netzwerk:** Um die Metadaten nun tatsächlich
-austauschen zu können, muss ein Protokoll etabliert werden, mit dem diese
-zwischen zwei Partnern übertragen werden. Aus Zeitgründen ist dieses Protokoll
-im Moment sehr einfach und wird bei größeren Datenmengen nicht optimal
-funktionieren. Für einen Proof--of--Concept reicht es aber aus. Wie in Grafik TODO gezeigt besteht das Protokoll
-aus drei Teilen.
-
-* encode
-- fetch.
-- decode
-
-Nachteilig ist dabei natürlich, dass momentan der gesamte Metadatenindex
-übertragen werden muss. Mit etwas mehr Aufwand könnte vorher der eigentlichen
-Übertragung der letzte gemeinsame Stand ausgehandelt werden, um nur die
-Änderungen seit diesem Stand zu übertragen zu müssen.
-
-Auch sind zum momentanen Stand noch keine *Live*--Updates möglich. Hierfür müssten sich die
-einzelnen Knoten bei jeder Änderung kleine *Update*--Pakete schicken, welche prinzipiell
-einen einzelnen *Checkpoint* beeinhalten würden. Dies ist technisch bereits möglich,
-wurde aus Zeitgründen aber noch nicht umgesetzt.
-
-TODO: Erkennung von renames?
-
-TODO: Garbage collector
-
-File_hash = hash aus inhalt
-Directory_hash = hash(path) XOR FILE_HASH_1 XOR FILE_HASH_2 ...
-COMMIT_HASH = hash(root_hash) XOR hash(parent) XOR Author XOR message
-
-### Versionsverwaltung
-
-Die Historiedaten sind natürlich nicht nur zum Synchronisieren nützlich. Sie können auch verwendet werden,
-um die häufigsten Funktionalitäten von Versionsverwaltungssystemen umzusetzen.
-
-- checkout
-* commit
-- Staging Bereich (status)
-
-Zukunft:
-
-- tag
 
 ### Gateway
 

@@ -103,6 +103,8 @@ zwar oft, aber merken tut man nicht viel von. Immer diese Ruby Hipster)
 
 ## Entwicklungsumgebung
 
+Repository Struktur
+
 Travis, git, nvim, glide
 
 ``brig`` wurde komplett in go geschrieben. Keine C-Abhängigkeiten nötig.
@@ -147,6 +149,8 @@ Kernstück: store. Kurze Implementierungsveranschaulichung.
 - Pull requests bei ipfs projekt und andere
 
 https://github.com/bazil/fuse/pull/152
+https://github.com/ipfs/go-ipfs/issues/2567
+https://github.com/ipfs/go-ipfs/pull/1981
 
 (DefaultHash und Help fix)
 
