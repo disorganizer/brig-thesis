@@ -191,15 +191,15 @@ anscheinend auch nach Änderung der Zugangsdaten weiterhin bestehen.
 
 [^dereknewton]: Dropbox authentication: »insecure by design«: <http://dereknewton.com/2011/04/dropbox-authentication-static-host-ids/>
 
+Ein weitere Arbeit aus dem Jahr 2011 beschreibt verschiedene Angriffsszenarien und Probleme welche die Datensicherheit und Privatsphäre von Cloud--Speicher--Benutzern in Frage stellen (vgl. [@mulazzani2011dark]). 
+
 2013 haben weitere Sicherheitsforscher den Dropbox--Client mittels *Reverse
 Engineering* analysiert. Ab der Version 1.2.48 wird die *HOST_ID* in einer
 verschlüsselten *sqlite3*--Datenbank abgespeichert. Diese »Nachbesserung«
 seitens *Dropbox* war nicht besonders effektiv, da sich die Schlüssel zum
-entschlüsseln weiterhin auf dem Client--PC befinden.
-
-Zusätzlich wird für die Authentifizierung in neueren *Dropbox*--Versionen ein
-*HOST_INT*--Wert benötigt, welcher ebenfalls vom Client--PC »extrahiert« werden
-kann.
+entschlüsseln weiterhin auf dem Client--PC befinden. Zusätzlich wird für die
+Authentifizierung in »neueren« *Dropbox*--Versionen ein *HOST_INT*--Wert
+benötigt, welcher ebenfalls vom Client--PC »extrahiert« werden kann.
 
 Mittels dieser beiden Werte kann die die 2F--Authentifizierung, wie sie von
 *Dropbox* implementiert ist, umgangen werden. Die Client--API verwendet
@@ -212,13 +212,15 @@ Access Content*[^usenix].
 [^usenix]: USENIX Vortrag »Looking Inside the (Drop) Box«:<https://www.usenix.org/conference/woot13/workshop-program/presentation/kholia>
 
 2015 wurde bekannt, dass die vorherrschenden Cloud--Speicher--Anbieter für
-sogenannte »Man--In--The--Cloud«--Angriffe anfällig sind. Um die
-Client--Software gegenüber dem Cloud--Speicher--Dienst zu authentifizieren,
+sogenannte »Man--In--The--Cloud«--Angriffe anfällig sind. Die bereits im Jahr
+2011 entdeckten »Schwächen« bei der Authentifizierung von *Dropbox* sind
+weiterhin present und auch auf andere Cloud--Speicher--Anbieter übertragbar. Um
+die Client--Software gegenüber dem Cloud--Speicher--Dienst zu authentifizieren,
 werden wie auch bei *Dropbox*, Authentifizierungs--Token verwendet. Für den
 Angriff haben die Forscher ein sogenanntes »Switcher«--Programm entwickelt,
 welches in der Lage ist ein Authentifizierungs--Token auf dem Computer des
-potentiellen Opfers auszutauschen. XXX zeigt den Ablauf eines möglichen
-»Man--In--The--Cloud«--Angriffs.
+potentiellen Opfers auszutauschen. [@fig:img-mitc] zeigt den Ablauf eines
+möglichen »Man--In--The--Cloud«--Angriffs.
 
 ![»Quick Double Switch Attack Flow«--Man in the Cloud--Angriff.](images/mitc.png){#fig:img-mitc width=90%}
 
@@ -240,16 +242,16 @@ potentiellen Opfers auszutauschen. XXX zeigt den Ablauf eines möglichen
 5. Anschließend wird der ,,Switcher'' noch einmal ausgeführt um beim Opfer
    wieder den ursprünglichen Synchronisationszustand herzustellen (second switch).
 
-Der Ablauf in XXX zeigt den »Quick Double Switch Attack Flow«. 
-Im Bericht der *IMPERVA -- Hacker Intelligence Initiative* werden noch
-weitere Angriffe auf Basis dieses Verfahrens aufgezeigt (vgl. YYYY). 
+Der Ablauf in [@fig:img-mitc] zeigt den »Quick Double Switch Attack Flow«. Im
+Bericht der *IMPERVA -- Hacker Intelligence Initiative* werden noch weitere
+Angriffe auf Basis dieses Verfahrens aufgezeigt (vgl. [@mitcref]). 
 
-Neben dem *Dropbox*--Client auch die Synchronisationsapplikationen
-Microsoft OneDrive, Box und Google Drive untersucht. Diese verwenden zum
-authentifizieren den offenen OAuth 2.0 Standard, *Dropbox* hingegen ein
+Neben dem *Dropbox*--Client auch die Synchronisationsapplikationen Microsoft
+OneDrive, Box und Google Drive untersucht. Diese verwenden zum authentifizieren
+den offenen *OAuth 2.0* Authentifizierung--Standard, *Dropbox* hingegen ein
 proprietäres Verfahren. Das problematisch bei *Dropbox* ist, dass die »gesamte
-Sicherheit« von der *HOST_ID* (und *HOST_INT*) abhängt. Hat ein Angreifer dieser
-erbeutet, so kann er auch über den *Dropbox*--Webzugang sämtliche
+Sicherheit« von der *HOST_ID* (und *HOST_INT*) abhängt. Hat ein Angreifer
+dieser erbeutet, so kann er auch über den *Dropbox*--Webzugang sämtliche
 administrativen Aufgaben durchführen.
 
 Laut Meinung der Autoren von »brig«, sowie auch vieler Sicherheitsexperten, wird
