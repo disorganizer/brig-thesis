@@ -114,7 +114,7 @@ Hintertüren ausschließen kann. Die Software liegt in dem meisten Fälle für
 verschiedene Plattformen bereit. Weiterhin ermöglichen Anbieter auch Zugriff auf
 die Daten mittels Webbrowser--Interface.
 
-### Sicherheit von Cloud--Speicher--Anbietern
+#### Sicherheit von Cloud--Speicher--Anbietern
 
 Es ist sehr schwierig die »Sicherheit« der Cloud--Speicher--Anbieter realistisch
 zu bewerten, da sowohl die Infrastruktur als auch die verwendete Software
@@ -341,7 +341,8 @@ Bereitstellung der Infrastruktur verantwortlich ist. Für Unternehmen mag die
 Aufwand höchstwahrscheinlich zu hoch. Weiterhin haben Endanwender in der Regel
 nicht das nötige Know--How, welches für das Betreiben eines
 Cloud--Speicher--Dienstes essentiell ist.
-TODO: Man--In--The--Cloud.
+
+\newpage
 
 ### Datenaustausch über dezentrale Lösungen
 
@@ -363,25 +364,38 @@ realisierbar.
 
 Bei der Nutzung eines dezentralen Netzwerks zum Austausch beziehungswiese zur
 Synchronisation von Daten musst der Benutzer in der Regel eine spezielle
-Software installieren und einen »Ordner«, wie bei den zentralen Diensten,
-definieren welcher dem Netzwerk »bekannt« gemacht werden soll. Je nach
-eingesetztem Protokoll, variiert die Funktionsweise und Sicherheit.
-
-
-
-
-Die dezentralen Systeme unterliegen in der Regel keiner Regulierung
-durch eine zentrale Instanz. Je nach verwendeter Technologie zum Datenaustausch,
-existieren beispielsweise bei »IPFS« (TODO: Ref IPFS Kapitel) sogenannten
-»Bootstrap--Nodes«, welche einen Einstiegspunkt für die jeweiligen Teilnehmer
-darstellen. Für weitere Details zu dezentralen Architekturen siehe TODO: Ref
-Elch?
+Software installieren und einen »Synchronisationsordner«, wie bei den zentralen
+Diensten, definieren welcher dem Netzwerk »bekannt« gemacht werden soll. Je
+nach eingesetztem Protokoll, variiert die Funktionsweise und Sicherheit.
 
 ![Dezentraler Datenaustausch über Peer--to-Peer--Kommunikation. Es existiert
 keine zetrale Instanz, jeder Peer im Netzwerk ist »gleichberechtigt«.](images/p2p.png){#fig:img-p2p width=80%}
 
+
+Die dezentralen Systeme unterliegen in der Regel keiner Regulierung durch eine
+zentrale Instanz. Je nach verwendeter Technologie zum Datenaustausch,
+existieren sogenannte »rendezvous hosts« in einem dezentralen Netzwerk, welcher
+für die initiale Konfiguration und als »Einstiegspunkt« benötigt werden. Hier
+unterscheiden sich die verschiedenen Protokolle und Netzwerke voneinander, eine
+genauere Erläuterung der einzelnen »peer--to--peer«--Technologien finde sich
+unter TODO Elch Ref. 
+
+Ein Vorteil bei den dezentralen System ist, dass es im Vergleich zu zentralen
+Architekturen keinen »Single--Point--Of--Failure« gibt. Ein weiterer
+Unterschied zu zentralen Lösung ist ist bei dezentralen Netzwerken der
+»Datenfluss«. Die Daten werden nicht von einer zentralen Instanz »besorgt«,
+sondern liegen im jeweiligen Netzwerk, verteilt auf die Netzwerkteilnehmer
+(peers). Jeder Teilnehmer des Netzwerks fungiert in der Regel als Client und
+als Server. Daten werden beim Austausch nicht zwangsläufig von einem
+»einzelnen« Teilnehmer geladen, sondern von einer Gruppe aus Teilnehmern welche
+die gleiche Datei besitzen, siehe [@fig:img-swarm]
+
+![Zeigt einen »Swarm«. *Alice* lädt die Datei »image.iso« von mehreren Teilnehmern gleichzeitig, die Datei »mydog.png« jedoch nur von *Dan*.](images/distsync.png){#fig:img-swarm width=80%}
+
+#### Synchronisations--Software
+
 Zu den Vertretern der etablierten dezentralen Systeme gibt es vergleichsweise
-zu den Cloud--Speicher--Anbeitern nur wenige Produkte, welche für die Synchronisation von Daten beziehungsweise den Austausch von Dokumenten eingesetzt werden können. Zu
+zu den Cloud--Speicher--Anbietern nur wenige Produkte, welche für die Synchronisation von Daten beziehungsweise den Austausch von Dokumenten eingesetzt werden können. Zu
 den bekannten Lösungen gehören:
 
 
@@ -391,8 +405,15 @@ den bekannten Lösungen gehören:
 * Syncthing (Open--Source)
 * Librevault (Open--Source)
 
+#### Sicherheit von Cloud--Speicher--Anbietern
+
 Bei den bekannten Vertretern wie dem BitTorrent--Client werden die Daten in der
-Regel unverschlüsselt übertragen und gespeichert. Die dezentralen Systeme geben
+Regel unverschlüsselt übertragen und gespeichert. 
+
+
+
+Anwendungen wie *Resilio* (ehemals Bittorrent--Sync), haben hier zum Standard--BitTorrent--Protokoll Abhilfe geschaffen und verschlüsseln die Daten[^btsync]. 
+Die dezentralen Systeme geben
 dem Benutzer 
 
 Eine Authentifizierung findet
