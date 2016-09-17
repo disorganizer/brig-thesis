@@ -114,7 +114,7 @@ Hintertüren ausschließen kann. Die Software liegt in dem meisten Fälle für
 verschiedene Plattformen bereit. Weiterhin ermöglichen Anbieter auch Zugriff auf
 die Daten mittels Webbrowser--Interface.
 
-### Sicherheit von Cloud--Speicher--Anbietern
+#### Sicherheit von Cloud--Speicher--Anbietern
 
 Es ist sehr schwierig die »Sicherheit« der Cloud--Speicher--Anbieter realistisch
 zu bewerten, da sowohl die Infrastruktur als auch die verwendete Software
@@ -175,15 +175,84 @@ Client--Software zu validieren.
 
 [^2fa]: Zwei--Faktor--Authentifizierung: <https://de.wikipedia.org/wiki/Zwei-Faktor-Authentifizierung>
 
-Sicherheitsforscher haben es geschafft den *Dropbox--Client* mittels *Reverse
-Engineering* zu analysieren. Hierbei wurden Schwächen und neue
-Angriffsszenarios aufgedeckt.
+2011 hat der Sicherheitsforscher *Derek Newton* den
+Authentifizierungsmechanismus von *Dropbox* kritisiert. Nach einmaligem
+»Registrieren« und Einrichten des *Dropbox*--Client, werden für die
+Synchronisation keine weiteren Zugangsdaten mehr benötigt. Der
+Authentifizierungsmechanismus benötigt nur ein sogenanntes
+»Authentifizierungs--Token« (diese wird dem Client nach der Registrierung vom
+Server zugewiesen), die sogenannte *HOST_ID*. Mit dieser authentifiziert sich
+der *Dropbox*--Client bei zukünftigen Synchronisationsvorgängen gegenüber dem
+Dropbox--Service.
 
-Die 2F--Authentifizierung, wie sie von *Dropbox* implementiert ist, kann
-umgangen werden, da diese lediglich beim Zugriff über die Webseite verwendet
-wird. Die Client--API unterstützt laut Analyse keine 2F--Authentifizierung. Es
-wird anscheinend lediglich nur eine *Host--ID* für den Zugriff auf die Daten
-eines potentiellen Opfers benötigt (vgl. [@kholia2013looking]).
+Ein großes Problem war hierbei auch, dass die *HOST_ID* unverschlüsselt in
+einer Konfigurationsdatei (sqlite3--Datenkbank) abgelegt war. Diese *ID* bleibt
+anscheinend auch nach Änderung der Zugangsdaten weiterhin bestehen.
+
+[^dereknewton]: Dropbox authentication: »insecure by design«: <http://dereknewton.com/2011/04/dropbox-authentication-static-host-ids/>
+
+Ein weitere Arbeit aus dem Jahr 2011 beschreibt verschiedene Angriffsszenarien und Probleme welche die Datensicherheit und Privatsphäre von Cloud--Speicher--Benutzern in Frage stellen (vgl. [@mulazzani2011dark]). 
+
+2013 haben weitere Sicherheitsforscher den Dropbox--Client mittels *Reverse
+Engineering* analysiert. Ab der Version 1.2.48 wird die *HOST_ID* in einer
+verschlüsselten *sqlite3*--Datenbank abgespeichert. Diese »Nachbesserung«
+seitens *Dropbox* war nicht besonders effektiv, da sich die Schlüssel zum
+entschlüsseln weiterhin auf dem Client--PC befinden. Zusätzlich wird für die
+Authentifizierung in »neueren« *Dropbox*--Versionen ein *HOST_INT*--Wert
+benötigt, welcher ebenfalls vom Client--PC »extrahiert« werden kann.
+
+Mittels dieser beiden Werte kann die die 2F--Authentifizierung, wie sie von
+*Dropbox* implementiert ist, umgangen werden. Die Client--API verwendet
+anscheinend keine 2F--Authentifizierung. Darüber hinaus lassen sich auf Basis
+der beiden  Parameter sogenannte »Autologin--URLs« generieren. Den Forschen ist
+es auch gelungen einen Open--Source--Prototypen zu entwickeln, für weitere
+Details vgl. [@kholia2013looking] beziehungsweise siehe Vortag *USENIX Open
+Access Content*[^usenix].
+
+[^usenix]: USENIX Vortrag »Looking Inside the (Drop) Box«:<https://www.usenix.org/conference/woot13/workshop-program/presentation/kholia>
+
+2015 wurde bekannt, dass die vorherrschenden Cloud--Speicher--Anbieter für
+sogenannte »Man--In--The--Cloud«--Angriffe anfällig sind. Die bereits im Jahr
+2011 entdeckten »Schwächen« bei der Authentifizierung von *Dropbox* sind
+weiterhin present und auch auf andere Cloud--Speicher--Anbieter übertragbar. Um
+die Client--Software gegenüber dem Cloud--Speicher--Dienst zu authentifizieren,
+werden wie auch bei *Dropbox*, Authentifizierungs--Token verwendet. Für den
+Angriff haben die Forscher ein sogenanntes »Switcher«--Programm entwickelt,
+welches in der Lage ist ein Authentifizierungs--Token auf dem Computer des
+potentiellen Opfers auszutauschen. [@fig:img-mitc] zeigt den Ablauf eines
+möglichen »Man--In--The--Cloud«--Angriffs.
+
+![»Quick Double Switch Attack Flow«--Man in the Cloud--Angriff.](images/mitc.png){#fig:img-mitc width=90%}
+
+1. Der Angreifer platziert den »Switcher« auf dem Rechner des Opfers
+   (beispielsweise mittels Social Engeneering oder Phishing--Methoden)
+
+2. Der ,,Switcher'' ändert den Token vom Benutzers. Hierbei wird der
+   Synchronisationssoftware der Token vom Angreifer »injiziert« (first switch)
+   und anschließend das Orignal--Token vom Opfer in den nun vom Angreifer
+   kontrollierten Synchronisationsordner kopiert.  (a) wird inaktiv, (b) wird
+   aktiv.
+
+3. Die Synchronisationssoftware synchronisiert nun den Token des Opfers zum
+   Angreifer (b).
+
+4. Der Angreifer kann sich nun mittels des »gestohlenen« Tokens mit dem Account
+   des Opfers synchronisieren (c).
+
+5. Anschließend wird der ,,Switcher'' noch einmal ausgeführt um beim Opfer
+   wieder den ursprünglichen Synchronisationszustand herzustellen (second switch).
+
+Der Ablauf in [@fig:img-mitc] zeigt den »Quick Double Switch Attack Flow«. Im
+Bericht der *IMPERVA -- Hacker Intelligence Initiative* werden noch weitere
+Angriffe auf Basis dieses Verfahrens aufgezeigt (vgl. [@mitcref]). 
+
+Neben dem *Dropbox*--Client auch die Synchronisationsapplikationen Microsoft
+OneDrive, Box und Google Drive untersucht. Diese verwenden zum authentifizieren
+den offenen *OAuth 2.0* Authentifizierung--Standard, *Dropbox* hingegen ein
+proprietäres Verfahren. Das problematisch bei *Dropbox* ist, dass die »gesamte
+Sicherheit« von der *HOST_ID* (und *HOST_INT*) abhängt. Hat ein Angreifer
+dieser erbeutet, so kann er auch über den *Dropbox*--Webzugang sämtliche
+administrativen Aufgaben durchführen.
 
 Laut Meinung der Autoren von »brig«, sowie auch vieler Sicherheitsexperten, wird
 beim Einsatz proprietärer Software die Sicherheit untergraben, da bei
@@ -272,7 +341,8 @@ Bereitstellung der Infrastruktur verantwortlich ist. Für Unternehmen mag die
 Aufwand höchstwahrscheinlich zu hoch. Weiterhin haben Endanwender in der Regel
 nicht das nötige Know--How, welches für das Betreiben eines
 Cloud--Speicher--Dienstes essentiell ist.
-TODO: Man--In--The--Cloud.
+
+\newpage
 
 ### Datenaustausch über dezentrale Lösungen
 
@@ -294,25 +364,38 @@ realisierbar.
 
 Bei der Nutzung eines dezentralen Netzwerks zum Austausch beziehungswiese zur
 Synchronisation von Daten musst der Benutzer in der Regel eine spezielle
-Software installieren und einen »Ordner«, wie bei den zentralen Diensten,
-definieren welcher dem Netzwerk »bekannt« gemacht werden soll. Je nach
-eingesetztem Protokoll, variiert die Funktionsweise und Sicherheit.
-
-
-
-
-Die dezentralen Systeme unterliegen in der Regel keiner Regulierung
-durch eine zentrale Instanz. Je nach verwendeter Technologie zum Datenaustausch,
-existieren beispielsweise bei »IPFS« (TODO: Ref IPFS Kapitel) sogenannten
-»Bootstrap--Nodes«, welche einen Einstiegspunkt für die jeweiligen Teilnehmer
-darstellen. Für weitere Details zu dezentralen Architekturen siehe TODO: Ref
-Elch?
+Software installieren und einen »Synchronisationsordner«, wie bei den zentralen
+Diensten, definieren welcher dem Netzwerk »bekannt« gemacht werden soll. Je
+nach eingesetztem Protokoll, variiert die Funktionsweise und Sicherheit.
 
 ![Dezentraler Datenaustausch über Peer--to-Peer--Kommunikation. Es existiert
 keine zetrale Instanz, jeder Peer im Netzwerk ist »gleichberechtigt«.](images/p2p.png){#fig:img-p2p width=80%}
 
+
+Die dezentralen Systeme unterliegen in der Regel keiner Regulierung durch eine
+zentrale Instanz. Je nach verwendeter Technologie zum Datenaustausch,
+existieren sogenannte »rendezvous hosts« in einem dezentralen Netzwerk, welcher
+für die initiale Konfiguration und als »Einstiegspunkt« benötigt werden. Hier
+unterscheiden sich die verschiedenen Protokolle und Netzwerke voneinander, eine
+genauere Erläuterung der einzelnen »peer--to--peer«--Technologien finde sich
+unter TODO Elch Ref. 
+
+Ein Vorteil bei den dezentralen System ist, dass es im Vergleich zu zentralen
+Architekturen keinen »Single--Point--Of--Failure« gibt. Ein weiterer
+Unterschied zu zentralen Lösung ist ist bei dezentralen Netzwerken der
+»Datenfluss«. Die Daten werden nicht von einer zentralen Instanz »besorgt«,
+sondern liegen im jeweiligen Netzwerk, verteilt auf die Netzwerkteilnehmer
+(peers). Jeder Teilnehmer des Netzwerks fungiert in der Regel als Client und
+als Server. Daten werden beim Austausch nicht zwangsläufig von einem
+»einzelnen« Teilnehmer geladen, sondern von einer Gruppe aus Teilnehmern welche
+die gleiche Datei besitzen, siehe [@fig:img-swarm]
+
+![Zeigt einen »Swarm«. *Alice* lädt die Datei »image.iso« von mehreren Teilnehmern gleichzeitig, die Datei »mydog.png« jedoch nur von *Dan*.](images/distsync.png){#fig:img-swarm width=80%}
+
+#### Synchronisations--Software
+
 Zu den Vertretern der etablierten dezentralen Systeme gibt es vergleichsweise
-zu den Cloud--Speicher--Anbeitern nur wenige Produkte, welche für die Synchronisation von Daten beziehungsweise den Austausch von Dokumenten eingesetzt werden können. Zu
+zu den Cloud--Speicher--Anbietern nur wenige Produkte, welche für die Synchronisation von Daten beziehungsweise den Austausch von Dokumenten eingesetzt werden können. Zu
 den bekannten Lösungen gehören:
 
 
@@ -322,8 +405,15 @@ den bekannten Lösungen gehören:
 * Syncthing (Open--Source)
 * Librevault (Open--Source)
 
+#### Sicherheit von Cloud--Speicher--Anbietern
+
 Bei den bekannten Vertretern wie dem BitTorrent--Client werden die Daten in der
-Regel unverschlüsselt übertragen und gespeichert. Die dezentralen Systeme geben
+Regel unverschlüsselt übertragen und gespeichert. 
+
+
+
+Anwendungen wie *Resilio* (ehemals Bittorrent--Sync), haben hier zum Standard--BitTorrent--Protokoll Abhilfe geschaffen und verschlüsseln die Daten[^btsync]. 
+Die dezentralen Systeme geben
 dem Benutzer 
 
 Eine Authentifizierung findet
