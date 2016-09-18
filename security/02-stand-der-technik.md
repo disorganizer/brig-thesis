@@ -226,19 +226,15 @@ möglichen »Man--In--The--Cloud«--Angriffs.
 
 1. Der Angreifer platziert den »Switcher« auf dem Rechner des Opfers
    (beispielsweise mittels Social Engeneering oder Phishing--Methoden)
-
 2. Der ,,Switcher'' ändert den Token vom Benutzers. Hierbei wird der
    Synchronisationssoftware der Token vom Angreifer »injiziert« (first switch)
    und anschließend das Orignal--Token vom Opfer in den nun vom Angreifer
    kontrollierten Synchronisationsordner kopiert.  (a) wird inaktiv, (b) wird
    aktiv.
-
 3. Die Synchronisationssoftware synchronisiert nun den Token des Opfers zum
    Angreifer (b).
-
 4. Der Angreifer kann sich nun mittels des »gestohlenen« Tokens mit dem Account
    des Opfers synchronisieren (c).
-
 5. Anschließend wird der ,,Switcher'' noch einmal ausgeführt um beim Opfer
    wieder den ursprünglichen Synchronisationszustand herzustellen (second switch).
 
@@ -346,21 +342,21 @@ Cloud--Speicher--Dienstes essentiell ist.
 
 ### Datenaustausch über dezentrale Lösungen
 
+#### Funktionsweise dezentraler Dienste
+
 Der dezentrale Bereich klassifiziert sich durch den Dateiaustausch, welcher in
 der Regel *ohne* eine zentrale Instanz auskommt. Es handelt es sich hierbei um
-Systeme aus dem Bereich des Peer-to-Peer--Models. Ein der bekannter Vertreter
-der P2P--Protkolle ist beispielsweise BitTorrent[^bittorrent]. Das Protokoll
-kommt beispielsweise bei der Verbreitung von Software, Computerspielen
-(HumblieIndieBundle.com), dem Blender Movie--Projekten, Linux--Distributionen oder der
-Verteilung von Updates bei diversen Spieleherstellern zum Einsatz.
-
-#### Funktionsweise dezentraler Dienste
+Systeme aus dem Bereich des Peer-to-Peer--Models. Eins der frühen Peer--to--peer
+Protokolle ist das *Napster*--Protokoll der gleichnamigen Anwendung *Napster*,
+welche Ende der 90' Jahre für den Tausch von Musik verwendet wurde. Später sind
+weitere Peer--to--peer--Protokolle wie das Multisource File Transfer Protocol
+oderdas BitTorrent--Protokoll .
 
 [@fig:img-p2p] zeigt schematisch den Austausch von Daten in einem dezentralen
 Netzwerk. Bei einem dezentralem System liegen die Daten in der Regel nur auf den
 Rechnern der Benutzer. Die Speicherung auf zentralen Speicher--Servern wie bei
 den zentralen Diensten ist nicht vorgesehen, jedoch aufgrund der Architektur
-realisierbar. 
+realisierbar.
 
 Bei der Nutzung eines dezentralen Netzwerks zum Austausch beziehungswiese zur
 Synchronisation von Daten musst der Benutzer in der Regel eine spezielle
@@ -369,35 +365,58 @@ Diensten, definieren welcher dem Netzwerk »bekannt« gemacht werden soll. Je
 nach eingesetztem Protokoll, variiert die Funktionsweise und Sicherheit.
 
 ![Dezentraler Datenaustausch über Peer--to-Peer--Kommunikation. Es existiert
-keine zetrale Instanz, jeder Peer im Netzwerk ist »gleichberechtigt«.](images/p2p.png){#fig:img-p2p width=80%}
-
+keine zetrale Instanz, jeder Peer im Netzwerk ist
+»gleichberechtigt«.](images/p2p.png){#fig:img-p2p width=80%}
 
 Die dezentralen Systeme unterliegen in der Regel keiner Regulierung durch eine
-zentrale Instanz. Je nach verwendeter Technologie zum Datenaustausch,
-existieren sogenannte »rendezvous hosts« in einem dezentralen Netzwerk, welcher
-für die initiale Konfiguration und als »Einstiegspunkt« benötigt werden. Hier
-unterscheiden sich die verschiedenen Protokolle und Netzwerke voneinander, eine
-genauere Erläuterung der einzelnen »peer--to--peer«--Technologien finde sich
-unter TODO Elch Ref. 
+zentrale Instanz. Je nach verwendeter Technologie zum Datenaustausch, existieren
+sogenannte »rendezvous hosts« in einem dezentralen Netzwerk, welche für die
+initiale Konfiguration und als »Einstiegspunkt« benötigt werden. Hier
+unterscheiden sich die verschiedenen Protokolle und Netzwerke voneinander. 
+
+Ein der bekannter Vertreter der P2P--Protkolle ist BitTorrent[^bittorrent]. Das
+Protokoll kommt beispielsweise bei der Verbreitung von Software, Computerspielen
+(HumblieIndieBundle.com), dem Blender Movie--Projekten, Linux--Distributionen
+,der Verteilung von Updates (Windows 10), bei diversen
+Spieleherstellern und auch anderen Anwendungen zum Einsatz[^btusage]. 
+
+[^btusage]: BitTorrent Einsatzgebiete: <https://en.wikipedia.org/wiki/BitTorrent#Adoption>
 
 Ein Vorteil bei den dezentralen System ist, dass es im Vergleich zu zentralen
-Architekturen keinen »Single--Point--Of--Failure« gibt. Ein weiterer
-Unterschied zu zentralen Lösung ist ist bei dezentralen Netzwerken der
-»Datenfluss«. Die Daten werden nicht von einer zentralen Instanz »besorgt«,
-sondern liegen im jeweiligen Netzwerk, verteilt auf die Netzwerkteilnehmer
-(peers). Jeder Teilnehmer des Netzwerks fungiert in der Regel als Client und
-als Server. Daten werden beim Austausch nicht zwangsläufig von einem
-»einzelnen« Teilnehmer geladen, sondern von einer Gruppe aus Teilnehmern welche
-die gleiche Datei besitzen, siehe [@fig:img-swarm]
+Architekturen keinen »Single--Point--Of--Failure« gibt. Ein weiterer Unterschied
+zu zentralen Lösung ist ist bei dezentralen Netzwerken der »Datenfluss«. Die
+Daten werden nicht von einer zentralen Instanz »besorgt«, sondern liegen im
+jeweiligen Netzwerk, verteilt auf die Netzwerkteilnehmer (peers). Jeder
+Teilnehmer des Netzwerks fungiert in der Regel als Client und als Server. Daten
+werden beim Austausch nicht zwangsläufig von einem »einzelnen« Teilnehmer
+geladen, sondern von einer Gruppe aus Teilnehmern welche die gleiche Datei
+besitzen, siehe [@fig:img-swarm]
 
-![Zeigt einen »Swarm«. *Alice* lädt die Datei »image.iso« von mehreren Teilnehmern gleichzeitig, die Datei »mydog.png« jedoch nur von *Dan*.](images/distsync.png){#fig:img-swarm width=80%}
+![Zeigt einen »Swarm«. *Alice* lädt die Datei »image.iso« von mehreren
+Teilnehmern gleichzeitig, die Datei »mydog.png« jedoch nur von
+*Dan*.](images/distsync.png){#fig:img-swarm width=80%}
+
+
+Aktuell verbreitete Peer--to--peer Protokolle:
+
+* Bittorrent (Filesharing allgemein)
+* Skype Protokol (VOIP--Telephonie)
+
+Früher eingesetzte Peer--to--peer Filesharing--Protokolle:
+
+* Direct Connect
+* Multisource File Transfer Protocol (Einsatz: eDonkey2000, Overnet)
+* Fasttrack (Einsatz: Kazaa, Grokster, IMesh, Morpheus file sharing)
+* Gnutella Protokoll (Einsatz: Gnutella Client)
+* Napster--Protokoll
+
 
 #### Synchronisations--Software
 
-Zu den Vertretern der etablierten dezentralen Systeme gibt es vergleichsweise
-zu den Cloud--Speicher--Anbietern nur wenige Produkte, welche für die Synchronisation von Daten beziehungsweise den Austausch von Dokumenten eingesetzt werden können. Zu
-den bekannten Lösungen gehören:
-
+Zu den Vertretern der etablierten dezentralen Systeme gibt es vergleichsweise zu
+den Cloud--Speicher--Anbietern nur wenige Produkte, welche für die
+Synchronisation von Daten beziehungsweise den Austausch von Dokumenten
+eingesetzt werden können. Bekannten Lösungen sind:
 
 * Resilio (ehem. BitTorrent-Sync, proprietär)
 * Infinit (proprietär, [@quintard2012towards])
@@ -405,19 +424,36 @@ den bekannten Lösungen gehören:
 * Syncthing (Open--Source)
 * Librevault (Open--Source)
 
-#### Sicherheit von Cloud--Speicher--Anbietern
+#### Sicherheit von Peer--to--peer Synchronisationsanwendungen
 
-Bei den bekannten Vertretern wie dem BitTorrent--Client werden die Daten in der
-Regel unverschlüsselt übertragen und gespeichert. 
+Bei den bekannten Vertretern des BitTorrent--Netzwerks wie dem
+BitTorrent--Client werden die Daten in der Regel unverschlüsselt übertragen und
+gespeichert. Auch eine Authentifizierung finden in der Regel nicht statt. Die
+Benutzer geben die Daten mit ihrem »Synchronisationsordner« automatisch für alle
+Teilnehmer des Netzwerks frei zum teilen.
 
+Wie bei zentralen Diensten, ist es auch bei dezentralen Netzwerken schwierig die
+»Sicherheit« zu beurteilen. Diesen hängt in der Regel nicht direkt von einem
+Dienst--Anbieter ab, sondern vielmehr von der Umsetzung, der Infrastruktur des
+Netzwerks, der »Sicherung der Daten« und den Möglichkeiten, welche es
+ermöglichen einen Kommunikationspartner zu identifizieren.
 
+**Resilio--Sync** (ehemals Bittorrent--Sync), verwendete eine modifizierte
+Variante des BitTorrent--Protokolls. Alle Daten werden zusätzlich symmetrisch
+mit AES--128 verschlüsselt übertragen. Die Authentifizierung der Benutzer?
 
-Anwendungen wie *Resilio* (ehemals Bittorrent--Sync), haben hier zum Standard--BitTorrent--Protokoll Abhilfe geschaffen und verschlüsseln die Daten[^btsync]. 
-Die dezentralen Systeme geben
-dem Benutzer 
-
-Eine Authentifizierung findet
-in der Regel nicht statt. 
+**Infinit** ist eine weitere proprietäre Lösung welche es ermöglicht Dateien
+zwischen verschiedenen Benutzern, ohne Server--Instanz, auszutauschen. Die Basis
+für Infinit stellt [@quintard2012towards] dar. Bei Infinit findet bei der
+Installation der Anwendung eine »Registrierung« statt. Diese Daten
+(Benutzername/E--Mail--Addresse) können anschließen verwendet werden um mit der
+Anwendung andere Infinit--Partner zu finden oder von diesen gefunden zu werden.
+Anschließend kann eine Datei über ein *Drag & Drop*--Menü an den gefundenen
+Partner gesendet werden. Es ist unklar ob Daten/Metadaten ans die
+Infinit--Plattform übertragen werden. Infinit wirbt mit »point--to--point
+encryption« und »bank-level encryption algorithms such as AES-256 and RSA 2048«.
+Eine Authentifizierung des Kommunikationspartners findet rudimentär anhand vom
+Benutzernamen/E--Mail statt. Daten werden lokal nicht verschlüsselt.
 
 
 Alternativen wie Syncthing, Resilio, Librevault oder
@@ -453,9 +489,6 @@ Table: Demonstration of a simple table. {#tbl:1}
 
 -->
 
-
-
-
 Einen bisher nicht genannter, relativ neuen dezentraler Ansatz bietet das
 InterPlanetary--File--System, als Teil seiner Funktionalität. Dieses ist in der
 aktuellen Implementierung jedoch eher als ein fortgeschrittener Prototyp
@@ -463,9 +496,6 @@ anzusehen. Der Ansatz des IPFS--Protokolls ist vielversprechend. IPFS
 kombiniert dabei viele bereits bekannte Technologien zu einem einzigen Projekt.
 Hierdurch lassen sich schwächen aktuell genutzter Systeme abmildern oder gar
 vermeiden. 
-
-
-
 
 Datenintegrität behandeln.
 
