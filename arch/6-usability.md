@@ -14,6 +14,8 @@ Vertrautheit: Vertraute Unix--Kommandos für Poweruser.
 
 Internationalisierung? Gettext von error messages?
 
+Fallstudie: Syncthing-GUI (kompliziert, viel unnötige infos)
+
 Größte Probleme: 
 
 - Starten des Hintergrunddienstes ``brigd``.

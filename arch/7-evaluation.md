@@ -98,6 +98,7 @@ bis zu einen gewissen, konfigurierbaren *Beschädigungsgrad* erlaubt. Siehe auch
 Filesystem anforderunge (transactions?)
 Journal-log für atomic operations
 
+
 ## Fehlende Anforderungen
 
 Durch Anforderungen in Kapite 2 gehen und nachschauen ob alles jut ist. (Hint: Nö.)
@@ -108,7 +109,7 @@ Permissions: momentan gar keine.
 
 *Semantisch durchsuchbares* Tag-basiertes Dateisystem[^TAG].
 
-Integritätsprüfung
+Integritätsprüfung (git fsck ähnlich)
 
 Auto-Discovery anderer Nutzer / Gruppenbildung.
 
