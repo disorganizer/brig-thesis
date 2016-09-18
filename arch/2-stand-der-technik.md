@@ -537,13 +537,17 @@ dem *IPFS* Netzwerk mittels HTTP vermitteln. Die Datei ``my-photo.png`` aus dem 
 von von anderen Nutzern bequem über den Browser heruntergeladen werden:
 
 ```bash
-$ export PHOTO_HASH=QmPtoEEMMnbTSmzr28UEJFvmsD2dW88nbbCyyTrQgA9JR9 
+$ export PHOTO_HASH=QmPtoEEMMnbTSmzr28UEJFvmsD2dW88nbbCyyTrQgA9JR9
 $ curl https://gateway.ipfs.io/ipfs/$PHOTO_HASH > my-photo.png
 ```
 
 Auf dem *Gateway* läuft dabei ein Webserver, der dasselbe tut wie ``ipfs cat``, aber statt auf der Kommandozeile
 die Daten auf eine HTTP--Verbindung ausgibt. Standardmäßig wird mit jedem Aufruf von ``ipfs daemon``
 ein Gateway auf der Adresse ``http://localhost:8080`` gestartet.
+
+### Datenmodell von *IPFS*
+
+TODO: Grafik mit Merkle DAG, Unterteilung einer Datei in Chunks
 
 ## Annahmen
 

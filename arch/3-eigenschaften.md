@@ -51,7 +51,7 @@ Diese bestehen hauptsächlich aus den folgenden Punkten:
 - Ein Konzept und Implementierung zur dezentralen Benutzerverwaltung, ohne dass man sich dabei registrieren muss.
 - Verschiedene Ansätze um die Benutzbarkeit zu verbessern ohne den Sicherheitsaspekt abzuschwächen.
 
-[^NACL]: https://nacl.cr.yp.to/secretbox.html
+[^NACL]: Mehr Informationen unter <https://nacl.cr.yp.to/secretbox.html>
 
 ## Eigenschaften und Anforderungen
 

@@ -31,6 +31,14 @@ warum ``brig`` letztlich einige wichtige Differenzen aus architektonischer
 Sicht aufweist. Was die Benutzbarkeit angeht, soll allerdings aufgrund der
 relativ unterschiedlichen Ziele kein Vergleich gezogen werden.
 
+Im Folgenden ist ein gewisses Grundwissen über ``git`` nützlich. Es wird bei
+Unklarheiten die Lektüre des Buches *Git --- Verteile Versionsverwaltung für Code
+und Dokumente*[@git] empfohlen. Alternativ bietet auch die offizielle
+Projektdokumentation[^GITBOOK] einen sehr guten Überblick. Aus Platzgründen
+wird an dieser Stelle über eine gesonderte Einführung verzichtet.
+
+[^GITBOOK]: Offizielle Projektdokumentation von ``git``: <https://git-scm.com/doc>
+
 Kurz beschrieben sind beide Projekte »*stupid content
 tracker*«[^TORVALDS_ZITAT], die Änderungen an tatsächlichen Dateien auf
 Metadaten abbilden, welche in einer dafür geeigneten Datenbank ablegen. Die
@@ -249,11 +257,14 @@ verwendet:
   werden auch automatisiert von der Software nach einen bestimmten Zeitintervall erstellt. Daher ist ihr Zweck eher
   mit den *Snapshots* vieler Backup--Programme vergleichbar, welche dem Nutzer
   einen Sicherungspunkt zu einem bestimmten Zeitpunkt in der Vergangenheit
-  bietet.
-* **Refs:** Exakt analog zu ``git``. Es gibt zwei vordefinierte Referenzen,
-  welche von ``brig`` gepflegt werden: ``HEAD``, welche auf den letzten
-  vollständigen *Commit* zeigt und ``CURR``, welche auf den aktuellen *Commit*
-  zeigt (meist dem *Staging Commit*, dazu später mehr).
+  bietet. Ein *Commit* kapselt eine Prüfsumme, die sich aus der Prüfsumme seines Vorgängers, der Commit--Nachricht,
+  der Autoren--ID berechnet. Er speichert einen 
+* **Refs:** Analog zu ``git`` dienen sie dazu bestimmten *Commits* einen Namen
+  zu geben. Es gibt zwei vordefinierte Referenzen, welche von ``brig``
+  aktualisiert werden: ``HEAD``, welche auf den letzten vollständigen *Commit*
+  zeigt und ``CURR``, welche auf den aktuellen *Commit* zeigt (meist dem *Staging
+  Commit*, dazu später mehr). Da es keine Branches gibt, ist eine Unterscheidung zwischen
+  *Refs* und *Tags* wie bei ``git`` nicht mehr nötig.
 
 ![Jeder Knoten muss von aktuellen Wurzelverzeichnis neu aufgelöst werden, selbst wenn nur der Elternknoten gesucht wird.](images/4/path-resolution.pdf){#fig:path-resolution width=90%}
 
@@ -280,7 +291,7 @@ Davon abgesehen fällt auf dass zwei zusätzliche Strukturen eingeführt wurden:
   Jeder einzelne dieser Checkpoints beschreiben eine atomare Änderung an der Datei. Da keine
   partiellen Änderungen möglich sind (wie ``git diff``), müssen nur vier verschiedene Operation
   unterschieden werden: ``ADD`` (Datei wurde initial oder erneut hinzugefügt), ``MODIFY`` (Prüfsumme hat sich verändert),
-  ``MOVE`` (Pfad hat sich geändert) und ``REMOVE`` (Datei wurde entfernt). 
+  ``MOVE`` (Pfad hat sich geändert) und ``REMOVE`` (Datei wurde entfernt).
   Jeder Checkpoint kennt den Zustand der Datei zum Zeitpunkt der Modifikation,
   sowie einige Metadaten wie ein Zeitstempel, der Dateigröße, dem Änderungstyp,
   dem Urheber der Änderung und seinem Vorgänger. Der Vorteil einer dokumentabhängigen Historie
@@ -289,69 +300,147 @@ Davon abgesehen fällt auf dass zwei zusätzliche Strukturen eingeführt wurden:
   nur die *Checkpoints* betrachtet werden. Es muss nicht wie bei ``git`` jeder *Commit* betrachtet werden, um
   nachzusehen ob eine Änderung an einer bestimmten Datei stattgefunden hat.
 
-- TODO: Stage Commit (Stage/Index existiert auch schon bei git)
+* **Stage Commit:** Es existiert immer ein sogenannter *Staging Commit*. Dieser beinhaltet alle Knoten im Graph,
+  die seit dem letzten »vollwertigen« Commit modifiziert worden sind.
+  [@fig:staging-area] zeigt den Staging--Bereich von ``git`` und ``brig`` im Vergleich. Im Falle von ``git`` handelt
+  es sich um eine eigene, vom eigentlichen Graphen unabhängige, Datenstruktur, in die der Nutzer mittels ``git add``
+  explizit Dokumente aus dem Arbeitsverzeichnis hinzufügt. Bei ``brig`` hingegen gibt es kein Arbeitsverzeichnis.
+  Die Daten kommen entweder von einer externen Datei, welche mit ``brig add <filename>``{.bash} dem Staging--Bereich hinzugefügt wurde,
+  oder die Datei wurde direkt im FUSE--Layer (TODO: später mehr oder vorher erklären?) von ``brig`` modifiziert.
+  In beiden Fällen wird die neue oder modifizierte Datei in den *Staging--Commit* eingegliedert, welcher
+  aus diesem Grund eine veränderliche Prüfsumme besitzt und nach jeder Modifikation auf einen anderes Wurzelverzeichnis verweist.
 
 [^CHATTR_NOTE]: In Zukunft ist ein weiterer Zustand ``CHATTR`` möglich, welche die Änderung eines Dateiattributes abbildet.
 
 ![Der Staging Bereich im Vergleich zwischen ``git`` und ``brig``](images/4/staging-area.pdf){#fig:staging-area}
 
-Die Gesamtheit aller *Files*, *Directories*, *Commits*, *Checkpoints* und *Refs* wird
-im Folgenden als *Store* bezeichnet. Er kapselt die Objekte und kümmert sich um deren
-Verwaltung. Basierend darauf implementiert er einige dateisystemtypische Operationen:
-
-
-----------
-
 TODO: Noch folgende Punkte verarzten:
 
-4) Da ein *Commit* nur ein Vorgänger haben kann, musste ein anderer Mechanismus eingeführt werden,
-   um die Synchronisation zwischen zwei Partnern festzuhalten. Bei ``git`` wird
-   dies mittels eines Merge--Commit gelöst, welcher aus den Änderungen der
-   Gegenseite besteht. Hier wird das Konzept eines *Merge--Points* eingeführt.
-   Innerhalb eines *Commit* ist das ein spezieller Marker, der festhält mit wem synchronisiert wurde
-   und mit welchen Stand er zu diesem Zeitpunkt hatte. Bei einer späteren Synchronisation muss
-   daher lediglich der Stand zwischen dem aktuellen *Commit* (nach ``git``--Terminologie ``HEAD`` genannt),
-6) Anders als bei ``git`` kennt jedes ``brig``--Repository den Stand aller
-   Teilnehmer (beziehungsweise den zuletzt verfügbaren), die ein Nutzer in seiner
-   Remote--Liste gespeichert hat. Da es sich dabei nur um Metadaten handelt, wird
-   dabei nicht viel Speicherplatz in Anspruch genommen.
-
-
-Merge-Commit = Tüte mit allen Checkpoints des Gegenübers
-
 Problem: Metadaten wachsen schnell, Angreifer könnte sehr viele kleine änderungen sehr schnell machen.
-Mögliche Lösung : Delayed Checkpoints, Directory Checkpoints.
-
-TODO: Internas von Checkpoint/Commit erklären, was die Hashes bedeuten
-
-
-TODO: Checkpoint Squashing (nicht implementiert, sähe aber so aus)
+Mögliche Lösung : Delayed Checkpoints, Checkpoint Squashing, Directory Checkpoints?
 
 ### Operationen auf dem Datenmodell
 
-TODO: Herstellung von coreutils um dieses Datenmodell herum
-	  coreutils beschreiben und auflisten
+Die Gesamtheit aller *Files*, *Directories*, *Commits*, *Checkpoints* und
+*Refs* wird im Folgenden als *Store* bezeichnet. Da ein *Store* nur aus
+Metadaten besteht, ist er selbst leicht übertragbar. Er kapselt den Objektgraph
+und kümmert sich, um die Verwaltung auf der Objekte. Basierend auf dem *Store*
+werden insgesamt 10 verschiedene atomare Operationen implementiert, die jeweils
+den aktuellen Graphen nehmen und einen neuen und (mit Ausnahme von ``LIST``, ``CAT``,
+``LOG`` und ``HISTORY``) veränderten Graphen erzeugen.
 
-mv
-ls/tree
-rm
-add/modify
-mkdir
-cat
+Es gibt sechs Operationen, die die Benutzung des Graphen als gewöhnliches Dateisystem ermöglichen:
+
+[^SYSCALL_NOTE]: Von der Funktionsweise sind diese angelehnt an die entsprechenden »Syscall« im POSIX--Standard.
+               Dies sollte im späteren Verlauf die Implementierung des FUSE--Layers erleichtern.
+
+``ADD``: Fügt ein Dokument dem Staging--Bereich hinzu oder aktualisiert die
+Version eines vorhandenen Dokuments. Der Pfad entscheidet dabei wo das Dokument
+eingefügt wird, bzw. welches existierendes Dokument modifiziert wird.
+[@fig:op-add] zeigt die Operationen, die zum Einfügen einer Datei notwendig
+sind. Als Vorarbeit muss allerdings erst die gesamte Datei gelesen werden und
+in das ``ipfs``--Backend eingefügt werden. Die Datei wird zudem gepinnt. Als
+Ergebnis dieses Teilprozesses wird die Größe und Prüfsumme der
+unverschlüsselten und unkomprimierten Datei zurückgeliefert.
+Handelt es sich bei dem hinzuzufügenden Objekt um ein Verzeichnis, wird der gezeigte Prozess
+für jede darin enthaltene Datei wiederholt.
+
+![Die Abfolge der ``ADD``-Operation im Detail](images/4/staging-area.pdf){#fig:staging-area}
+
+TODO: wurde pin schon erklärt?
+
+``REMOVE:`` Entfernt eine vorhandene Datei aus dem Staging--Bereich. Der Pin
+der Datei oder des Verzeichnisses und all seiner Kinder werden entfernt.
+Wie in [@fig:op-remove] gezeigt wird, wird die Prüfsumme der entfernten Datei
+aus den darüber liegenden Verzeichnissen herausgerechnet. Handelt es sich dabei
+um ein Verzeichnis, wird der Prozess *nicht* rekursiv für jedes Unterobjekt
+ausgeführt. Es genügt die Prüfsumme des zu löschenden Verzeichnisses aus den
+Eltern herauszurechnen und die Kante zu dem Elternknoten zu kappen.
+
+TODO: Grafik für remove (rekursiv für teilbaum)
+
+``LIST:`` Entspricht konzeptuell dem Unix--Werkzeug ``ls``. Besucht alle Knoten unter einem bestimmten Pfad
+rekursiv (breadth-first) und gibt diese aus.
+
+``MKDIR:`` Erstellt ein neues, leeres Verzeichnis. Die Prüfsumme des neuen
+Verzeichnisses (ergibt sich aus dem Pfad des neuen Verzeichnisses) wird in die
+Elternknoten eingerechnet. Eventuell müssen noch dazwischen liegende
+Verzeichnisse erstellt werden. Diese werden von oben nach unten, Stück für
+Stück mit den eben beschriebenen Prozess erstellt.
+
+TODO: Grafik für mkdir falls nötig ist?
+
+``MOVE:`` Verschiebt eine Datei oder ein Verzeichnis zu einem neuen Pfad. Diese
+Operation entspricht technisch einem ``REMOVE`` und einem ``ADD``. Im
+Unterschied dazu ist sie im Ganzen atomar und erstellt einen Checkpoint für
+alle verschobenen Knoten einen Checkpoint mit dem Typen ``MOVED``.
+
+``CAT:`` Gibt ein Dokument auf einen Stream aus. Der Name lehnt sich dabei an
+das Unix Tool ``cat`` an, welches ebenfalls Dateien ausgibt. Es wird lediglich
+wie in [@fig:path-resolution] gezeigt der gesuchte Knoten per Pfad aufgelöst
+und der darin enthaltene Hash wird vom ``ipfs``--Backend aufgelöst. Die
+ankommenden Daten werden noch entschlüsselt und dekomprimiert bevor sie dem
+Nutzer präsentiert werden.
+
+Neben den obenstehenden Operationen, gibt es noch vier Operationen, die zur Versionskontrolle dienen:
+
+``COMMIT:`` Erstellt einen neuen Commit, basierend auf den Inhalt des
+*Staging--Commits*. Dazu werden die Prüfsummen des aktuellen und des
+Wurzelverzeichnisses im letzten Commit (``HEAD``) verglichen. Unterscheiden sie
+sich nicht, wird abgebrochen, da keine Veränderung vorliegt. Im Anschluss wird
+der *Staging--Commit* finalisiert, indem die angegebene *Commit--Message* und
+der Autor in den Metadaten des Commits gesetzt werden. Basierend darauf wird
+die finale Prüfsumme berechnet und der entstandene Commit abgespeichert. Ein
+neuer *Staging-Commit* wird erstellt, welcher im unveränderten Zustand auf das
+selbe Wurzelverzeichnis zeigt wie der vorige. Zuletzt werden die Referenzen von
+``HEAD`` und ``CURR`` jeweils um ein Platz nach vorne verschoben.
+
+TODO: Grafik für Commit.
+
+``CHECKOUT:`` Stellt einen alten Stand wieder her. Dabei kann die Operation
+eine alte Datei oder ein altes Verzeichnis wiederherstellen (basierend auf der
+alten Prüfsumme) oder den Stand eines gesamten, in der Vergangenheit liegenden
+Commits wiederherstellen.
+Im Gegensatz zu ``git`` ist es allerdings nicht vorgesehen in der Versionshistorie »herumzuspringen«.
+Soll ein alter *Commit* wiederhergestellt werden, so wird ein neuer *Commit* erzeugt, welcher
+den aktuellen Stand so verändert, dass er dem gewünschten, alten Stand entspricht.
+Das Verhalten von ``brig`` entspricht an dieser Stelle also nicht ``git checkout`` sondern eher
+dem wiederholten Anwenden von ``git revert`` zwischen dem aktuellen und dem Nachfolger
+des gewünschten Commits.
+Begründet ist dieses Verhalten darin, dass kein sogenannter »Detached HEAD«--Zustand
+entstehen soll, da dieser für den Nutzer verwirrend sein kann. Dieser Zustand
+kann in ``git`` erreicht werden, indem man in einen alten *Commit* springt ohne
+einen neuen *Branch* davon abzuzweigen.
+Macht man in diesem Zustand Änderungen ist es prinzipiell
+möglich die geänderten Daten zu verlieren. (TODO: ref)
+Um das zu vermeiden, setzt ``brig`` darauf die Historie stets linear und
+unveränderlich zu halten, auch wenn das keine Einschränkung der Architektur an
+sich darstellt.
+
+
+TODO: Grafik für CHECKOUT
+
+``LOG/HISTORY:`` Zeigt alle Commits, bis auf den Staging Commits. Begonnen wird
+die Ausgabe mit ``HEAD`` und beendet wird sie mit dem initial Commit.
+Alternativ kann auch die Historie eines einzelnen Verzeichnisses oder einer
+Datei angezeigt werden. Dabei werden statt Commits alle Checkpoints dieser
+Datei, beginnend mit dem aktuellsten ausgegeben.
+
+``STATUS:`` Zeigt den Inhalt des aktuellen Staging--Commits (analog zu ``git
+status``) und damit aller geänderten Dateien und Verzeichnisse im Vergleich zu
+``HEAD``.
 
 ## Architektur von IPFS
 
-TODO: Weiter nach hinten verschieben
+TODO: Weiter nach hinten verschieben oder in das kapitel mit dem rest von ipfs packen?
 
-Da ``brig`` eine Art »Frontend« für das »Backend« ``IPFS`` ist, wird dessen
+ Da ``brig`` eine Art »Frontend« für das »Backend« ``IPFS`` ist, wird dessen
 Architektur hier kurz schematisch erklärt.
 
 - Bitswap
 - For the swarm!
 
 TODO: Komponentendiagramm
-
------
 
 Aufbau der Software aus funktionaler Sicht.
 Eher blackbox, was kommt rein was kommt raus.
@@ -365,7 +454,28 @@ ab. Mithilfe dieser Informationen können dann Synchronisationsentscheidungen
 größtenteils automatisiert getroffen werden. Welcher *Store* dabei lokal
 zwischengespeichert wird, entscheiden die Einträge in die sogenannte *Remote List* (TODO)
 
+### Die Remote Liste
+
 TODO: Grafik mit verschiedenen Stores und Remote listen sowie Sync-Richtungen.
+
+Anders als bei ``git`` kennt jedes ``brig``--Repository den Stand aller
+Teilnehmer (beziehungsweise den zuletzt verfügbaren), die ein Nutzer in seiner
+Remote--Liste gespeichert hat. Da es sich dabei nur um Metadaten handelt, wird
+dabei nicht viel Speicherplatz in Anspruch genommen.
+
+TODO: Absatz okay, aber fehl am platz.
+
+Da ein *Commit* nur ein Vorgänger haben kann, musste ein anderer Mechanismus eingeführt werden,
+um die Synchronisation zwischen zwei Partnern festzuhalten. Bei ``git`` wird
+dies mittels eines sogenannten Merge--Commit gelöst, welcher aus den Änderungen der
+Gegenseite besteht. Hier wird das Konzept eines *Merge--Points* eingeführt.
+Innerhalb eines *Commit* ist das ein spezieller Marker, der festhält mit wem synchronisiert wurde
+und mit welchen Stand er zu diesem Zeitpunkt hatte. Bei einer späteren Synchronisation muss
+daher lediglich der Stand zwischen dem aktuellen *Commit* (»``CURR``«) und dem letzten Merge--Point
+verglichen werden. Basierend auf diesen Vergleich wird ein neuer *Commit* (der
+*Merge--Commit*) erstellt, der alle (möglicherweise nach der Konfliktauflösung zusammengeführten)
+Änderungen des Gegenübers enthält und als neuer *Merge--Point* dient.
+
 
 ### Synchronisation einzelner Dateien
 
@@ -383,7 +493,7 @@ Je nach Entscheidung kann für diese Datei eine entsprechende Aktion ausgeführt
 1) Die Datei muss zu Partner B übertragen werden.
 2) Die Datei muss zu Partner A übertragen werden.
 3) Es muss nichts weiter gemacht werden.
-4) Konfliktsituation: Eventuell Eingabe vom Nutzer erforderlich.
+4) Konfliktsituation: Auflösung nötig; eventuell Eingabe vom Nutzer erforderlich.
 
 Bis auf den vierten Schritt ist die Implementierung trivial und kann leicht von
 einem Computer erledigt werden. Das Kriterium, ob die Datei gleich ist, kann
@@ -423,16 +533,19 @@ Datei sollte den neuen Inhalt mit dem neuen Dateipfad zusammenführen.
 verträglich sind.
 
 
-|     A/B    | ``ADD`` | ``REMOVE`` | ``MOVE`` | ``MODIFY`` |
-|:----------:|---------|------------|----------|------------|
-|   ``ADD``  | ?       | ?          | ?        | ?          |
-| ``REMOVE`` | ?       | \cmark     | \xmark   | \xmark     |
-|  ``MOVE``  | ?       | \xmark     | ?        | \xmark     |
-| ``MODIFY`` | ?       | \xmark     | \cmark   | \xmark     |
+| A/B          | ``ADD``          | ``REMOVE``       | ``MODIFY``       | ``MOVE``         |
+| :----------: | -----------------| -----------------| -----------------|------------------|
+| ``ADD``      | ?                | \cmark[^DEPENDS] | ?                | ?                |
+| ``REMOVE``   | \cmark[^DEPENDS] | \cmark           | \cmark[^DEPENDS] | \cmark[^DEPENDS] |
+| ``MODIFY``   | ?                | \cmark           | ?                | ?                |
+| ``MOVE``     | ?                | \cmark[^DEPENDS] | ?                | ?                |
 
 : Verträglichkeit {#tbl:sync-conflicts}
 
 TODO: Fragezeichen in Tabelle erklären.
+
+[^DEPENDS]: Die Aktion hängt von der Konfiguration ab. Entweder wird die Löschung propagiert oder
+          die eigene Datei wird behalten.
 
 [^RSYNC]: <https://de.wikipedia.org/wiki/Rsync>
 [^DROPBOX_CONFLICT_FILE]: Siehe <https://www.dropbox.com/help/36>
@@ -523,25 +636,6 @@ wurde aus Zeitgründen aber noch nicht umgesetzt.
 TODO: Erkennung von renames?
 
 TODO: Garbage collector
-
-File_hash = hash aus inhalt
-Directory_hash = hash(path) XOR FILE_HASH_1 XOR FILE_HASH_2 ...
-COMMIT_HASH = hash(root_hash) XOR hash(parent) XOR Author XOR message
-
-### Versionsverwaltung
-
-Die Historiedaten sind natürlich nicht nur zum Synchronisieren nützlich. Sie können auch verwendet werden,
-um die häufigsten Funktionalitäten von Versionsverwaltungssystemen umzusetzen.
-
-- checkout
-* commit
-- Staging Bereich (status)
-
-Zukunft:
-
-- tag
-
-
 
 ## Architekturübersicht
 
