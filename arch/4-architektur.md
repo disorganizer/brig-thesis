@@ -1,28 +1,97 @@
 # Architektur {#sec:architektur}
 
-In diesem Kapitel wird die grundlegende Architektur von ``brig`` erklärt.
-Dabei wird vor allem das »Kernstück« beleuchtet: Das zugrundeliegende Datenmodell
-in dem alle Metadaten abgespeichert und in Relation gesetzt werden. Basierend
-darauf werden die umgebenden Komponenten beschrieben, die um diesen Kern
-gelagert sind. Am Ende des Kapitels werden zudem noch einmal alle
+In diesem Kapitel wird die grundlegende Architektur von ``brig`` erklärt. Dabei
+wird vor allem das »Kernstück« beleuchtet: Das zugrundeliegende Datenmodell in
+dem alle Metadaten abgespeichert und in Relation gesetzt werden. Dazu ist
+zuerst ein Exkurs zu den Internas von ``ipfs`` nötig und später ein Exkurs zur
+Funktionsweise des freien Versionsverwaltungssystem ``git``.
+
+Basierend darauf werden die umgebenden Komponenten beschrieben, die um den
+Kern von ``brig`` gelagert sind. Am Ende des Kapitels werden zudem noch einmal alle
 Einzelkomponenten in einer Übersicht gezeigt. Es wird dabei stets vom Stand des
 aktuellen Prototypen ausgegangen. Mögliche Erweiterungen werden in Kapitel
 [@sec:evaluation] (*Evaluation*) diskutiert. Die technische Umsetzung der
 jeweiligen Komponenten hingegen wird in [@sec:implementierung]
 (*Implementierung*) besprochen.
 
-Eine berechtigte Frage soll vorher geklärt werden: ``ipfs`` hat bereits ein
-Datenmodell (siehe ``ipfs`` Whitepaper, [@benet2014ipfs], S.7 ff.), welches Verzeichnisse abbilden kann. Warum wurde also nicht dieses
-als Basis verwendet? Der Grund dafür liegt in der bereits erwähnten Entkopplung
-von Daten und Metadaten. Würden die Dateien und Verzeichnisse direkt in
-``ipfs`` gespeichert, so wäre diese Teilung nicht mehr gegeben. Dies hätte zur
-Folge, dass ein Angreifer zwar nicht die verschlüsselten Daten lesen könnte,
-aber problemlos die Verzeichnisstruktur betrachten könnte, sobald er die
-Prüfsumme des Wurzelknotens hat. Dies würde den Sicherheitsversprechen von
-``brig`` widersprechen. Abgesehen davon wurde ein eigenes Datenmodell
-entwickelt, um mehr Freiheiten beim Design zu haben.
+## Datenmodell von IPFS
 
-## Architektur von git
+Wie bereits beschrieben ist ``brig`` ein »Frontend«, welches ``ipfs`` zum
+Speichern und Teilen von Dokumenten nutzt. Die Dokumente werden dabei einzig
+und allein über ihre Prüfsumme (``QmXYZ...``) referenziert. Aus
+architektonischer Sicht kann man ``ipfs`` als eine verteilte Datenbank sehen, die fünf simple Operationen
+beherrscht:
+
+- $Put(\text{Stream}) \rightarrow \text{Hash}$: Speichert einen endlichen Datenstrom in der Datenbank und liefert die Prüfsumme als Ergebnis zurück.
+* $Get(\text{Hash}) \rightarrow \text{Stream}$: Holt einen endlichen Datenstrom aus der Datenbank der durch seine Prüfsumme referenziert wurde und gibt ihn aus.
+* $Pin(\text{Hash})$: Pinnt einen Datenstrom.
+* $Unpin(\text{Hash})$: Entfernt den Pin eines Datenstroms.
+* $Cleanup$: Lässt einen »Garbage--Collector«[^GC_WIKI] laufen, der Datenströme aus dem lokalen Speicher löscht, die nicht gepinned wurden.
+
+[^GC_WIKI]: Siehe auch <https://de.wikipedia.org/wiki/Garbage_Collection>
+
+Das besondere ist, dass die ``GET`` Operation von jedem verbundenen Knoten
+ausgeführt werden, wodurch die Nutzung von ``ipfs`` als verteilte Datenbank
+möglich wird. Die oben geschilderte Sicht ist rein die Art und Weise in der
+``ipfs`` von ``brig`` benutzt wird. Die Möglichkeiten, die ``ipfs`` bietet,
+sind tatsächlich sehr viel weitreichender als »nur« eine Datenbank
+bereitzustellen. Intern hat es ein mächtiges Datenmodell, das viele Relationen
+wie eine Verzeichnisstruktur, Versionsverwaltung, ein alternatives World--Wide--Web oder gar eine
+Blockchain[^BLOCKCHAIN_NOTE] gut abbilden kann: Der *Merkle--DAG* (Direkter
+azyklischer Graph), im Folgenden kurz *MDAG* oder *Graph* genannt.
+Diese Struktur ist eine Erweiterung des Merkle--Trees[@wiki:merkle], bei der ein Knoten
+mehr als einen Elternknoten haben kann.
+
+![Beispiel MDAG aus dem ](images/4/ipfs-merkledag.pdf){#fig:ipfs-merkledag}
+
+In [@fig:ipfs-merkledag] ist eine beispielhafter Graph gezeigt, der eine
+Verzeichnishierarchie modelliert. Gerichtet ist der Graph deswegen, weil es
+keine Schleifen und keine Rückkanten zu den Elternknoten geben darf. Jeder
+Knoten wird durch eine Prüfsumme referenziert und kann wiederum mehrere andere
+Knoten über dieselbe referenzieren. Im Beispiel sieht man zwei
+Wurzelverzeichnisse, bei dem das erste ein Unterverzeichnis ``/photos``
+enthält, welches wiederum drei einzelne Dateien (``cat.png``, ``me.png`` und
+``small.mkv``) enthält. Das zweite Wurzelverzeichnis beinhaltet ebenfalls
+dieses, referenziert als zusätzliche Datei aber noch eine größere Datei namens
+``big.mkv``. Die Besonderheit ist dabei, dass die Dateien jeweils in einzelne Blöcke
+(``blobs``) zerlegt werden, die automatisch dedupliziert abgespeichert werden.
+In der Grafik sieht man das dadurch, dass ``big.mkv`` bereits aus zwei Blöcken
+von ``small.mkv`` besteht und der zweite Wurzelknoten auf ``/photos`` referenziert,
+ohne dessen Inhalt zu kopieren.
+
+Im Datenmodell von ``ipfs`` ([@benet2014ipfs, S.7 ff.] gibt es drei
+unterschiedliche Strukturen:
+
+- ``blob:`` Ein Datensatz mit definierter Größe und Prüfsumme.  Wird teilweise auch *Chunk* genannt.
+- ``list:`` Eine geordnete Liste von ``blobs`` oder weiteren ``lists``. Wird benutzt um große Dateien
+        in kleine, deduplizierbare Teile herunterzubrechen.
+* ``tree:`` Ein Abbildung von Dateinamen zu Prüfsummen.
+        Modelliert ein Verzeichnis, das ``blobs``, ``lists`` oder andere ``trees`` beinhalten kann.
+		Die Prüfsumme ergibt sich aus den Kindern.
+* ``commit:`` Ein Snapshot eines der drei obigen Strukturen. In der Grafik nicht gezeigt.
+
+[^BLOCKCHAIN_NOTE]: Siehe auch die Erklärung hier: <https://medium.com/@ConsenSys/an-introduction-to-ipfs-9bba4860abd0#.t6mcryb1r>
+
+Wenn ``ipfs`` bereits ein Datenmodell hat, welches  Verzeichnisse abbilden
+kann, ist es eine berechtigte Frage, warum ``brig`` ein eigenes Datenmodell
+implementiert und nicht das vorhandene als Basis verwendet. Der Grund dafür
+liegt in der bereits erwähnten Entkopplung von Daten und Metadaten. Würden die
+Dateien und Verzeichnisse direkt in ``ipfs`` gespeichert, so wäre diese Teilung
+nicht mehr gegeben, da trotzdem alle Daten in einem gemeinsamen Speicher
+liegen. Dies hätte zur Folge, dass ein Angreifer zwar nicht die verschlüsselten
+Daten lesen könnte, aber problemlos die Verzeichnisstruktur betrachten könnte,
+sobald er die Prüfsumme des Wurzelknotens hat. Dies würde den
+Sicherheitsversprechen von ``brig`` widersprechen. Abgesehen davon wurde ein
+eigenes Datenmodell entwickelt, um mehr Freiheiten beim Design zu haben.
+
+Zusammengefasst lässt sich also sagen, dass ``ipfs`` in dieser Arbeit als
+Content--Adressed--Storage Datenbank verwendet wird, die sich im Hintergrund
+um die Speicherung von Datenströmen und deren Unterteilung in kleine Blöcke
+mittels *Chunking* kümmert. Die Aufteilung geschieht dabei entweder simpel,
+indem die Datei in gleichgröße Blöcke unterteilt wird, oder indem ein intelligenter
+Algorithmus wie Rabin--Karp--Chunking[@wiki:rabin-karp] angewandt wird.
+
+## Datenmodell von git
 
 Der interne Aufbau von ``brig`` ist relativ stark von ``git`` inspiriert.
 Deshalb werden im Folgenden immer wieder Parallelen zwischen den beiden
@@ -78,8 +147,8 @@ verschiedene *Objekte*:
 
 [^COMMIT_HASH]: Mehr Details unter: <https://gist.github.com/masak/2415865>
 
-Die ersten drei Objekte werden in einem gerichteten, azyklischen Graphen
-(Merkle--DAG) (TODO: prüfen ob das vorher erklärt wurde) untereinander in
+Die ersten drei Objekte werden in einem MDAG
+untereinander in
 Relation gesetzt. Diese Struktur ergibt sich dadurch, dass bei Änderung einer
 Datei in ``git`` sich sämtliche Prüfsummen der Verzeichnisse darüber ändern. In
 Abbildung [@fig:git-data-model] wurde im zweiten Commit die Datei ``big.mkv``
@@ -140,7 +209,7 @@ Zusammengefasst hat ``git`` also aus architektonischer Sicht einige positive Eig
 
 Aus Sicht des Autors hat ``git`` einige, kleinere Schwächen aus architektonischer Sicht:
 
-1) **Prüfsummenalgorithmus nicht veränderbar:** Ein auf einem Merkle--DAG basierenden Versionsverwaltungssystem muss
+1) **Prüfsummenalgorithmus nicht veränderbar:** Ein auf einem MDAG basierenden Versionsverwaltungssystem muss
    eine Abwägung zwischen der Prüfsummenlänge (länger ist typischerweise rechenaufwendiger, braucht mehr Speicher und
    ist unhandlicher für den Benutzer) und der Kollisionsresistenz der Prüfsumme. Tritt trotzdem eine Kollision auf,
    so können Daten überschrieben werden.[^VERSION_CONTROL_BY_EXAMPLE] Solche Kollisionen sind zwar heutzutage noch
@@ -253,12 +322,18 @@ verwendet:
     der zu löschenden Datei XOR--genommen wird. Der resultierende Graph hat die gleichen Prüfsumme wie vor
     dem Einfügen der Datei.
 
-* **Commits:** Analog zu ``git``, dienen aber bei ``brig`` nicht nur der logischen Kapselung von mehreren Änderungen, sondern
-  werden auch automatisiert von der Software nach einen bestimmten Zeitintervall erstellt. Daher ist ihr Zweck eher
-  mit den *Snapshots* vieler Backup--Programme vergleichbar, welche dem Nutzer
-  einen Sicherungspunkt zu einem bestimmten Zeitpunkt in der Vergangenheit
-  bietet. Ein *Commit* kapselt eine Prüfsumme, die sich aus der Prüfsumme seines Vorgängers, der Commit--Nachricht,
-  der Autoren--ID berechnet. Er speichert einen 
+* **Commits:** Analog zu ``git``, dienen aber bei ``brig`` nicht nur der
+  logischen Kapselung von mehreren Änderungen, sondern werden auch automatisiert
+  von der Software nach einen bestimmten Zeitintervall erstellt. Daher ist ihr
+  Zweck eher mit den *Snapshots* vieler Backup--Programme vergleichbar, welche
+  dem Nutzer einen Sicherungspunkt zu einem bestimmten Zeitpunkt in der
+  Vergangenheit bietet. Als Metadaten speichert er als Referenz die Prüfsumme des
+  Wurzelverzeichnisses, eine Commit--Nachricht sowie dessen Autor und eine
+  Referenz auf seinen Vorgänger. Aus diesen Metadaten wird durch Konkatenation
+  derselben eine weitere Prüfsumme errechnet, die den Commit selbst eindeutig
+  referenziert. In diese Prüfsumme ist nicht nur die Integrität des aktuellen
+  Standes gesichert, sondern
+  auch aller Vorgänger.
 * **Refs:** Analog zu ``git`` dienen sie dazu bestimmten *Commits* einen Namen
   zu geben. Es gibt zwei vordefinierte Referenzen, welche von ``brig``
   aktualisiert werden: ``HEAD``, welche auf den letzten vollständigen *Commit*
@@ -345,7 +420,7 @@ unverschlüsselten und unkomprimierten Datei zurückgeliefert.
 Handelt es sich bei dem hinzuzufügenden Objekt um ein Verzeichnis, wird der gezeigte Prozess
 für jede darin enthaltene Datei wiederholt.
 
-![Die Abfolge der ``ADD``-Operation im Detail](images/4/staging-area.pdf){#fig:staging-area}
+![Die Abfolge der ``ADD``-Operation im Detail](images/4/op-add){#fig:op-add}
 
 TODO: wurde pin schon erklärt?
 
@@ -364,18 +439,29 @@ rekursiv (breadth-first) und gibt diese aus.
 
 ``MKDIR:`` Erstellt ein neues, leeres Verzeichnis. Die Prüfsumme des neuen
 Verzeichnisses (ergibt sich aus dem Pfad des neuen Verzeichnisses) wird in die
-Elternknoten eingerechnet. Eventuell müssen noch dazwischen liegende
+Elternknoten eingerechnet. Die Referenz auf das Wurzelverzeichnis wird im
+Staging--Commit angepasst.
+
+Eventuell müssen noch dazwischen liegende
 Verzeichnisse erstellt werden. Diese werden von oben nach unten, Stück für
 Stück mit den eben beschriebenen Prozess erstellt.
 
 TODO: Grafik für mkdir falls nötig ist?
 
-``MOVE:`` Verschiebt eine Datei oder ein Verzeichnis zu einem neuen Pfad. Diese
-Operation entspricht technisch einem ``REMOVE`` und einem ``ADD``. Im
-Unterschied dazu ist sie im Ganzen atomar und erstellt einen Checkpoint für
-alle verschobenen Knoten einen Checkpoint mit dem Typen ``MOVED``.
+``MOVE:`` Verschiebt eine Quelldatei oder Verzeichnis zu einem
+Zielpfad. Es muss eine Fallunterscheidung getroffen wird, je nachdem ob
+und welcher Knoten im Zielpfad vorhanden ist:
 
-``CAT:`` Gibt ein Dokument auf einen Stream aus. Der Name lehnt sich dabei an
+1) Ziel existiert noch nicht: Quelldaten werden zu neuen Pfad verschoben.
+2) Ziel existiert und ist eine Datei: Vorgang wird abgebrochen, es sei denn die Aktion wird »forciert«.
+3) Ziel existiert und ist ein Verzeichnis: Quelldaten werden direkt unter das Zielverzeichnis verschoben.
+
+In jedem Fall entspricht diese Operation technisch dem sequentiellen Ausführen der
+Operationen ``REMOVE`` und ``ADD``. Im Unterschied dazu ist sie im Ganzen
+atomar und erstellt einen Checkpoint für alle verschobenen Knoten einen
+Checkpoint mit dem Typen ``MOVED``.
+
+``CAT:`` Gibt ein Dokument auf einen Datenstrom aus. Der Name lehnt sich dabei an
 das Unix Tool ``cat`` an, welches ebenfalls Dateien ausgibt. Es wird lediglich
 wie in [@fig:path-resolution] gezeigt der gesuchte Knoten per Pfad aufgelöst
 und der darin enthaltene Hash wird vom ``ipfs``--Backend aufgelöst. Die
@@ -401,22 +487,25 @@ TODO: Grafik für Commit.
 eine alte Datei oder ein altes Verzeichnis wiederherstellen (basierend auf der
 alten Prüfsumme) oder den Stand eines gesamten, in der Vergangenheit liegenden
 Commits wiederherstellen.
+
 Im Gegensatz zu ``git`` ist es allerdings nicht vorgesehen in der Versionshistorie »herumzuspringen«.
 Soll ein alter *Commit* wiederhergestellt werden, so wird ein neuer *Commit* erzeugt, welcher
 den aktuellen Stand so verändert, dass er dem gewünschten, alten Stand entspricht.
 Das Verhalten von ``brig`` entspricht an dieser Stelle also nicht ``git checkout`` sondern eher
 dem wiederholten Anwenden von ``git revert`` zwischen dem aktuellen und dem Nachfolger
 des gewünschten Commits.
+
 Begründet ist dieses Verhalten darin, dass kein sogenannter »Detached HEAD«--Zustand
 entstehen soll, da dieser für den Nutzer verwirrend sein kann. Dieser Zustand
-kann in ``git`` erreicht werden, indem man in einen alten *Commit* springt ohne
-einen neuen *Branch* davon abzuzweigen.
+kann in ``git`` erreicht werden, indem man in einen früheren *Commit* springt ohne
+einen neuen *Branch* davon abzuzweigen. Der ``HEAD`` zeigt dann nicht mehr auf einen benannten Branch,
+sondern auf die Prüfsumme des neuen Commits, der vom Nutzer nur noch durch die Kenntnis derselben
+erreichbar ist.
 Macht man in diesem Zustand Änderungen ist es prinzipiell
 möglich die geänderten Daten zu verlieren. (TODO: ref)
 Um das zu vermeiden, setzt ``brig`` darauf die Historie stets linear und
 unveränderlich zu halten, auch wenn das keine Einschränkung der Architektur an
 sich darstellt.
-
 
 TODO: Grafik für CHECKOUT
 
@@ -429,23 +518,6 @@ Datei, beginnend mit dem aktuellsten ausgegeben.
 ``STATUS:`` Zeigt den Inhalt des aktuellen Staging--Commits (analog zu ``git
 status``) und damit aller geänderten Dateien und Verzeichnisse im Vergleich zu
 ``HEAD``.
-
-## Architektur von IPFS
-
-TODO: Weiter nach hinten verschieben oder in das kapitel mit dem rest von ipfs packen?
-
- Da ``brig`` eine Art »Frontend« für das »Backend« ``IPFS`` ist, wird dessen
-Architektur hier kurz schematisch erklärt.
-
-- Bitswap
-- For the swarm!
-
-TODO: Komponentendiagramm
-
-Aufbau der Software aus funktionaler Sicht.
-Eher blackbox, was kommt rein was kommt raus.
-
-- Berührungspunkte mit Nutzer.
 
 ## Synchronisation
 
@@ -475,7 +547,6 @@ daher lediglich der Stand zwischen dem aktuellen *Commit* (»``CURR``«) und dem
 verglichen werden. Basierend auf diesen Vergleich wird ein neuer *Commit* (der
 *Merge--Commit*) erstellt, der alle (möglicherweise nach der Konfliktauflösung zusammengeführten)
 Änderungen des Gegenübers enthält und als neuer *Merge--Point* dient.
-
 
 ### Synchronisation einzelner Dateien
 

@@ -19,6 +19,8 @@ all:
 		*.md
 
 	cd pdf && latexmk -pdf thesis.tex
+
+final: all
 	gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH -sOutputFile=thesis.pdf pdf/thesis.pdf
 
 

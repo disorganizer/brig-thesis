@@ -12,6 +12,8 @@ warum es unserer Ansicht nach eine geeignete technische Basis bildet.
 An dieser Stelle wird eine kurze Zusammenfassung der nötigen Grundlagen
 gegeben, welche zum Verständnis der folgenden Kapitel notwendig sind.
 
+TODO: Das ist keine richtige Einführung. Wegmachen letzlich.
+
 (TODO: https://github.com/ipfs/specs/blob/master/libp2p/2-state-of-the-art.md irgendwo verlinken?)
 
 ### Einführung
@@ -475,14 +477,18 @@ $ ipfs pin rm QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
 
 [^IPFS_MANUAL_GC]: Der Garbage--Collector kann auch manuell mittels ``ipfs repo gc`` von der Kommandozeile aufgerufen werden.
 
-**Service Discovery:** In den Anforderungen in [@sec:eigenschaften] wird eine menschenlesbare Identität
-gefordert, mit der *Peers* einfach erkennbar sind. Der von *IPFS* verwendete Identitätsbezeichner ist
-allerdings eine tendenziell schwer zu merkende Prüfsumme. Um dieses Dilemma zu lösen, wendet 
-``brig`` einen »Trick« an. Jeder ``brig``--Knoten legt eine Datensatz in das *IPFS* Netzwerk mit dem Inhalt
-``brig:<username>``. Ein Nutzer der nun einen solchen menschenlesbaren  Namen zu einem Netzwerkadresse  auflösen
-möchte, kann den Inhalt des obigen Datensatzes generieren und daraus eine Prüfsumme bilden.
-Mit der entstandenen Prüfsumme kann mittels folgenden Befehls herausgefunden werden, welche Knoten
-diesen Datensatz anbieten:
+TODO: Diesen Abschnitt in Architektur verschieben. das ist ja 'eigenleistung'
+
+**Service Discovery:** In den Anforderungen in [@sec:eigenschaften] wird eine
+menschenlesbare Identität gefordert, mit der *Peers* einfach erkennbar sind.
+Der von *IPFS* verwendete Identitätsbezeichner ist allerdings eine tendenziell
+schwer zu merkende Prüfsumme. Um dieses Dilemma zu lösen, wendet ``brig`` einen
+»Trick« an. Jeder ``brig``--Knoten legt eine Datensatz in das *IPFS* Netzwerk
+mit dem Inhalt ``brig:<username>``. Ein Nutzer der nun einen solchen
+menschenlesbaren  Namen zu einem Netzwerkadresse  auflösen möchte, kann den
+Inhalt des obigen Datensatzes generieren und daraus eine Prüfsumme bilden. Mit
+der entstandenen Prüfsumme kann mittels folgenden Befehls herausgefunden
+werden, welche Knoten diesen Datensatz anbieten:
 
 ```bash
 $ ipfs dht findprovs <HASH_OF_BOBS_ID>
@@ -544,10 +550,6 @@ $ curl https://gateway.ipfs.io/ipfs/$PHOTO_HASH > my-photo.png
 Auf dem *Gateway* läuft dabei ein Webserver, der dasselbe tut wie ``ipfs cat``, aber statt auf der Kommandozeile
 die Daten auf eine HTTP--Verbindung ausgibt. Standardmäßig wird mit jedem Aufruf von ``ipfs daemon``
 ein Gateway auf der Adresse ``http://localhost:8080`` gestartet.
-
-### Datenmodell von *IPFS*
-
-TODO: Grafik mit Merkle DAG, Unterteilung einer Datei in Chunks
 
 ## Annahmen
 
