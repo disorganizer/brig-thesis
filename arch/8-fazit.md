@@ -5,7 +5,16 @@
 Ambitioniertes Projekt,
 trotzdem positive Resultate trotz Zeitmangels.
 
-Relativ interdisplizinär: 
+Größte Usability Probleme:
+
+- Initiale Authentifizierung
+- Partner muss online sein.
+* Noch keine automatische Synchronisation.
+
+Aber: Hoffentlich leichter verständlich als viele andere Tools,
+da es nach außen nur wenige primitiven gibt.
+
+Relativ interdisplizinär:
 
 - Sicherheit
 - P2P
@@ -23,6 +32,7 @@ mitarbeiten.
 
 `tree` vom source
 
+Noch Fraglich wie gut das System in der Praxis funktioniert.
 
 ### Abgrenzung von IPFS
 

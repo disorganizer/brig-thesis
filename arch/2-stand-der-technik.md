@@ -553,7 +553,7 @@ ein Gateway auf der Adresse ``http://localhost:8080`` gestartet.
 
 ## Annahmen
 
-Das Design von ``brig`` basiert auf einigen Annahmen, die wir im Voraus treffen mussten:
+Das Design von ``brig`` basiert auf einigen Annahmen, die im Voraus getroffen werden mussten:
 
 **Durchschnittlicher Netzwerksetup:** Für den Prototypen wird ein »normales«
 Heimnetzwerk mit mehren Computern angenommen, welche typischerweise hinter einem NAT liegen.

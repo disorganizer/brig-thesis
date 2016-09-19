@@ -42,7 +42,7 @@ azyklischer Graph), im Folgenden kurz *MDAG* oder *Graph* genannt.
 Diese Struktur ist eine Erweiterung des Merkle--Trees[@wiki:merkle], bei der ein Knoten
 mehr als einen Elternknoten haben kann.
 
-![Beispiel MDAG aus dem ](images/4/ipfs-merkledag.pdf){#fig:ipfs-merkledag}
+![Beispielhafter MDAG der eine Verzeichnisstruktur abbildet. Die Attribute entsprechen den ipfs Internas.](images/4/ipfs-merkledag.pdf){#fig:ipfs-merkledag}
 
 In [@fig:ipfs-merkledag] ist eine beispielhafter Graph gezeigt, der eine
 Verzeichnishierarchie modelliert. Gerichtet ist der Graph deswegen, weil es
@@ -68,9 +68,11 @@ unterschiedliche Strukturen:
 * ``tree:`` Ein Abbildung von Dateinamen zu Prüfsummen.
         Modelliert ein Verzeichnis, das ``blobs``, ``lists`` oder andere ``trees`` beinhalten kann.
 		Die Prüfsumme ergibt sich aus den Kindern.
-* ``commit:`` Ein Snapshot eines der drei obigen Strukturen. In der Grafik nicht gezeigt.
+* ``commit:`` Ein Snapshot eines der drei obigen Strukturen. In der Grafik nicht gezeigt, da
+        diese Datenstrukutur noch nicht finalisiert ist.[^COMMIT_DISCUSS]
 
 [^BLOCKCHAIN_NOTE]: Siehe auch die Erklärung hier: <https://medium.com/@ConsenSys/an-introduction-to-ipfs-9bba4860abd0#.t6mcryb1r>
+[^COMMIT_DISCUSS]: Diskussion der Entwickler hier: <https://github.com/ipfs/notes/issues/23>
 
 Wenn ``ipfs`` bereits ein Datenmodell hat, welches  Verzeichnisse abbilden
 kann, ist es eine berechtigte Frage, warum ``brig`` ein eigenes Datenmodell
@@ -104,7 +106,8 @@ Im Folgenden ist ein gewisses Grundwissen über ``git`` nützlich. Es wird bei
 Unklarheiten die Lektüre des Buches *Git --- Verteile Versionsverwaltung für Code
 und Dokumente*[@git] empfohlen. Alternativ bietet auch die offizielle
 Projektdokumentation[^GITBOOK] einen sehr guten Überblick. Aus Platzgründen
-wird an dieser Stelle über eine gesonderte Einführung verzichtet.
+wird an dieser Stelle über eine gesonderte Einführung verzichtet, da es
+diese in ausreichender Menge frei verfügbar gibt.
 
 [^GITBOOK]: Offizielle Projektdokumentation von ``git``: <https://git-scm.com/doc>
 
@@ -389,6 +392,19 @@ Davon abgesehen fällt auf dass zwei zusätzliche Strukturen eingeführt wurden:
 
 ![Der Staging Bereich im Vergleich zwischen ``git`` und ``brig``](images/4/staging-area.pdf){#fig:staging-area}
 
+Da ein *Commit* nur ein Vorgänger haben kann, muss ein anderer Mechanismus
+eingeführt werden, um die Synchronisation zwischen zwei Partnern festzuhalten.
+Bei ``git`` wird dies mittels eines sogenannten Merge--Commit gelöst, welcher
+aus den Änderungen der Gegenseite besteht. Hier wird das Konzept eines
+*Merge--Points* eingeführt. Innerhalb eines *Commit* ist das ein spezieller
+Marker, der festhält mit wem synchronisiert wurde und mit welchen Stand er zu
+diesem Zeitpunkt hatte. Bei einer späteren Synchronisation muss daher lediglich
+der Stand zwischen dem aktuellen *Commit* (»``CURR``«) und dem letzten
+Merge--Point verglichen werden. Basierend auf diesen Vergleich wird ein neuer
+*Commit* (der *Merge--Commit*) erstellt, der alle (möglicherweise nach der
+Konfliktauflösung zusammengeführten) Änderungen des Gegenübers enthält und als
+neuer *Merge--Point* dient.
+
 TODO: Noch folgende Punkte verarzten:
 
 Problem: Metadaten wachsen schnell, Angreifer könnte sehr viele kleine änderungen sehr schnell machen.
@@ -452,7 +468,7 @@ TODO: Grafik für mkdir falls nötig ist?
 Zielpfad. Es muss eine Fallunterscheidung getroffen wird, je nachdem ob
 und welcher Knoten im Zielpfad vorhanden ist:
 
-1) Ziel existiert noch nicht: Quelldaten werden zu neuen Pfad verschoben.
+1) Ziel existiert noch nicht: Quelldaten werden zum neuen Pfad verschoben.
 2) Ziel existiert und ist eine Datei: Vorgang wird abgebrochen, es sei denn die Aktion wird »forciert«.
 3) Ziel existiert und ist ein Verzeichnis: Quelldaten werden direkt unter das Zielverzeichnis verschoben.
 
@@ -521,32 +537,42 @@ status``) und damit aller geänderten Dateien und Verzeichnisse im Vergleich zu
 
 ## Synchronisation
 
-Ähnlich wie ``git`` speichert ``brig`` für jeden Nutzer seinen zuletzt bekannten *Store*
-ab. Mithilfe dieser Informationen können dann Synchronisationsentscheidungen
-größtenteils automatisiert getroffen werden. Welcher *Store* dabei lokal
-zwischengespeichert wird, entscheiden die Einträge in die sogenannte *Remote List* (TODO)
+Ähnlich wie ``git`` speichert ``brig`` für jeden Nutzer seinen zuletzt
+bekannten *Store* ab. Mithilfe dieser Informationen können dann
+Synchronisationsentscheidungen größtenteils automatisiert getroffen werden.
+Welcher *Store* dabei lokal zwischengespeichert wird, entscheiden die Einträge
+in die sogenannte *Remote--Liste*.
 
-### Die Remote Liste
+### Die Remote--Liste
 
-TODO: Grafik mit verschiedenen Stores und Remote listen sowie Sync-Richtungen.
+Jeder Teilnehmer mit dem synchronisiert werden soll, muss zuerst in eine
+spezielle Liste von ``brig`` eingetragen werden, damit dieser dem System
+bekannt wird. Dies ist vergleichbar mit der Liste die ``git remote -v``
+erzeugt: Eine Zuordnung eines menschenlesbarem Namen zu einer eindeutigen
+Referenz zum Synchronisationspartner (Im Falle von ``git`` eine URL, bei
+``brig`` eine Prüfsumme). Wie später gezeigt wird, ist dieses explizite
+Hinzufügen des Partners eine Authentifizierungsmaßnahme die bewusst eingefügt
+wurde und durch die automatische Entdeckung von Synchronisationspartnern zwar
+unterstützt, aber nicht ersetzt werden kann[@sec:user-management].
 
-Anders als bei ``git`` kennt jedes ``brig``--Repository den Stand aller
-Teilnehmer (beziehungsweise den zuletzt verfügbaren), die ein Nutzer in seiner
-Remote--Liste gespeichert hat. Da es sich dabei nur um Metadaten handelt, wird
-dabei nicht viel Speicherplatz in Anspruch genommen.
+![Beispielhafte Remote Liste mit vier Repositories und verschienden Synchronisationsrichtungen.](images/4/multiple-repos.pdf){#fig:multiple-repos}
 
-TODO: Absatz okay, aber fehl am platz.
+Wie in [@fig:multiple-repos] gezeigt, kann jeder Knoten mit einem anderen
+Knoten synchronisieren, der in der Liste steht, da von diesen jeweils der
+zuletzt bekannte Store übertragen wurde. Die Synchronisation ist dabei, wie ein
+``git pull``, nicht bidirektional. Lediglich die eigenen Daten werden mit den
+Fremddaten zusammengeführt. Es gibt prinzipbedingt keine direkte Analogie zu
+``git push``, da jedes Repository aus Sicherheitsgründen die Hoheit über den
+Zustand seiner Daten behält. In der Grafik wird zudem ein spezieller Anwendungsfall
+gezeigt: Das Repository ``rabbithole@wonderland`` ist eine gemeinsame Datenablage für
+beide Parteien, die stets online verfügbar ist[^HOST]. Dieses kann durch ein Skript
+automatisiert stets die Änderungen aller bekannten Teilnehmer synchronisieren und
+auch weitergeben, wenn der eigentliche Nutzer gerade nicht online ist.
+Dieses Vorgehen bietet sich vor allem dann an, wenn aufgrund der Zeitverschiebung
+zwei Nutzer selten zur selben Zeit online sind.
 
-Da ein *Commit* nur ein Vorgänger haben kann, musste ein anderer Mechanismus eingeführt werden,
-um die Synchronisation zwischen zwei Partnern festzuhalten. Bei ``git`` wird
-dies mittels eines sogenannten Merge--Commit gelöst, welcher aus den Änderungen der
-Gegenseite besteht. Hier wird das Konzept eines *Merge--Points* eingeführt.
-Innerhalb eines *Commit* ist das ein spezieller Marker, der festhält mit wem synchronisiert wurde
-und mit welchen Stand er zu diesem Zeitpunkt hatte. Bei einer späteren Synchronisation muss
-daher lediglich der Stand zwischen dem aktuellen *Commit* (»``CURR``«) und dem letzten Merge--Point
-verglichen werden. Basierend auf diesen Vergleich wird ein neuer *Commit* (der
-*Merge--Commit*) erstellt, der alle (möglicherweise nach der Konfliktauflösung zusammengeführten)
-Änderungen des Gegenübers enthält und als neuer *Merge--Point* dient.
+[^HOST]: Typischerweise würde ein solches Repository in einem Rechenzentrum liegen,
+       oder auf einem privaten Server.
 
 ### Synchronisation einzelner Dateien
 
@@ -579,7 +605,7 @@ geben, da die optimale Lösung von der jeweiligen Datei und der Absicht des
 Nutzers abhängt. Bei Quelltext--Dateien möchte der Anwender vermutlich, dass
 beide Stände automatisch zusammengeführt werden, bei großen Videodateien ist
 das vermutlich nicht seine Absicht. Selbst wenn die Dateien nicht automatisch zusammengeführt werden sollen
-(englisch >>to merge<<), ist fraglich was mit der Konfliktdatei des Partners geschehen soll.
+(englisch »to merge«), ist fraglich was mit der Konfliktdatei des Partners geschehen soll.
 Soll die eigene oder die fremde Version behalten werden? Dazwischen sind auch weitere Lösungen denkbar,
 wie das Anlegen einer Konfliktdatei (``photo.png:conflict-by-bob-2015-10-04_14:45``), so wie es beispielsweise
 Dropbox macht.[^DROPBOX_CONFLICT_FILE]
@@ -621,23 +647,12 @@ TODO: Fragezeichen in Tabelle erklären.
 [^RSYNC]: <https://de.wikipedia.org/wiki/Rsync>
 [^DROPBOX_CONFLICT_FILE]: Siehe <https://www.dropbox.com/help/36>
 
-### Synchronisation von Verzeichnissen
-
-Prinzipiell lässt sich die
-Synchronisation einer Datei auf Verzeichnisse übertragen, indem einfach obiger
-Algorithmus auf jede darin befindliche Datei angewandt wird. In der
-Fachliteratur (vergleiche unter anderem [@cox2005file]) findet sich zudem die
-Unterscheidung zwischen *informierter* und *uninformierter* Synchronisation.
-Der Hauptunterschied ist, dass bei ersterer die Änderungshistorie jeder Datei
-als zusätzliche Eingabe zur Verfügung steht. Auf dieser Basis können dann
-intelligentere Entscheidungen bezüglich der Konflikterkennung getroffen werden.
-Insbesondere können dadurch aber leichter die Differenzen zwischen den
-einzelnen Ständen ausgemacht werden: Für jede Datei muss dabei lediglich die in
-[@lst:file-sync] gezeigte Sequenz abgelaufen werden, die von beiden
-Synchronisationspartnern unabhängig ausgeführt werden muss. Unten stehender
+Zusammenfassend wird der in [@lst:file-sync] gezeigte Pseudo--Code von beiden
+Teilenehmern ausgeführt, um zwei Dateien synchron zu halten. Unten stehender
 Go--Pseudocode ist eine modifizierte Version aus Russ Cox' Arbeit »File
 Synchronization with Vector Time Pairs«[@cox2005file], welcher für ``brig``
 angepasst wurde.
+
 
 ```{#lst:file-sync .go caption="Synchronisationsalgorithmus für eine einzelne Datei"}
 // historyA ist die Historie der eigenen Datei A.
@@ -677,44 +692,102 @@ func sync(historyA, historyB History) Result {
 }
 ```
 
+### Synchronisation von Verzeichnissen
+
+Die naive Herangehensweise wäre den obigen Algorithmus für jede Datei im Verzeichnis
+zu wiederholen. [@fig:tree-sync] zeigt allerdings bereits ein Problem dabei:
+Die Menge an Pfaden, die Alice besitzt wird sich selten mit denen decken, die Bob besitzt.
+So kann natürlich Alice Pfade besitzen, die Bob nicht hat und umgekehrt.
+
+Es muss also die Menge der  zu synchronisierenden Pfade in drei Mengen unterteilt werden, die jeweils eine unterschiedliche Semantik besitzen:
+
+- Pfade die beide haben ($Paths_{A} \bigcap Paths_{B}$): Konfliktpotenzial. Führe obigen Algorithmus für jede Datei aus.
+- Pfade die nur Alice hat ($Paths_{A} \setminus Paths_{B}$): Brauchen keine weitere Behandlung.
+- Pfade die nur Bob hat ($Paths_{B} \setminus Paths_{A}$): Müssen nur hinzugefügt werden.
+
+
+TODO: Hmm, nochmal überlegen
+
+Diese Aufteilung funktioniert bereits, schlägt aber fehl wenn man umbenannte Pfade berücksichtigen möchte.
+In diesem Fall können sich alle drei Mengen vermischen, da ... weil? TODO
+
+Eine Datei, die beispielsweise nur Bob hatte könnte er zu einem Pfad
+verschoben haben, den nur Alice hatte. 
+
+
+![Unterteilung der zu synchronisierenden Pfade in drei Gruppen.](images/4/tree-sync.pdf){#fig:tree-sync}
+
+TODO: Ist das wichtig?
+
+Prinzipiell lässt sich die Synchronisation einer Datei auf Verzeichnisse
+übertragen, indem einfach obiger Algorithmus auf jede darin befindliche Datei
+angewandt wird. In der Fachliteratur (vergleiche unter anderem [@cox2005file])
+findet sich zudem die Unterscheidung zwischen *informierter* und
+*uninformierter* Synchronisation. Der Hauptunterschied ist, dass bei ersterer
+die Änderungshistorie jeder Datei als zusätzliche Eingabe zur Verfügung steht.
+Auf dieser Basis können dann intelligentere Entscheidungen bezüglich der
+Konflikterkennung getroffen werden. Insbesondere können dadurch aber leichter
+die Differenzen zwischen den einzelnen Ständen ausgemacht werden: Für jede
+Datei muss dabei lediglich die in [@lst:file-sync] gezeigte Sequenz abgelaufen
+werden, die von beiden Synchronisationspartnern unabhängig ausgeführt werden
+muss.
+
 Werkzeuge wie ``rsync`` betreiben eher eine *uninformierte Synchronisation*.
 Sie müssen bei jedem Programmlauf Metadaten über beide Verzeichnisse sammeln
-und darauf arbeiten. TODO: mehr worte verlieren
-Im Gegensatz zu Timed Vector Pair Sync, informierter Austausch, daher muss nicht jedesmal
-der gesamte Metadatenindex übertragen werden.
+und darauf arbeiten. TODO: mehr worte verlieren Im Gegensatz zu Timed Vector
+Pair Sync, informierter Austausch, daher muss nicht jedesmal der gesamte
+Metadatenindex übertragen werden.
 
-**Synchronisation über das Netzwerk:** Um die Metadaten nun tatsächlich
-austauschen zu können, muss ein Protokoll etabliert werden, mit dem diese
-zwischen zwei Partnern übertragen werden. Aus Zeitgründen ist dieses Protokoll
-im Moment sehr einfach und wird bei größeren Datenmengen nicht optimal
-funktionieren. Für einen Proof--of--Concept reicht es aber aus. Wie in Grafik TODO gezeigt besteht das Protokoll
-aus drei Teilen.
+### Austausch der Metadaten
 
-* encode
-- fetch.
-- decode
+Um die Metadaten nun tatsächlich synchronisieren zu können, muss ein Protokoll
+etabliert werden, mit dem zwei Partner ihren Store über Netzwerk austauschen können.
+Im Folgenden wird diese Operation, analog zum gleichnamigen ``git``--Kommando[^TRANSFER_PROTOCOL], ``fetch`` genannt.
 
-Nachteilig ist dabei natürlich, dass momentan der gesamte Metadatenindex
-übertragen werden muss. Mit etwas mehr Aufwand könnte vorher der eigentlichen
-Übertragung der letzte gemeinsame Stand ausgehandelt werden, um nur die
-Änderungen seit diesem Stand zu übertragen zu müssen.
+[^TRANSFER_PROTOCOL]: <https://git-scm.com/book/be/v2/Git-Internals-Transfer-Protocols>
 
-Auch sind zum momentanen Stand noch keine *Live*--Updates möglich. Hierfür müssten sich die
-einzelnen Knoten bei jeder Änderung kleine *Update*--Pakete schicken, welche prinzipiell
-einen einzelnen *Checkpoint* beeinhalten würden. Dies ist technisch bereits möglich,
-wurde aus Zeitgründen aber noch nicht umgesetzt.
+![Das Protokoll das bei der ``FETCH`` Operation ausgeführt wird.](images/4/fetch-protokoll.pdf){#fig:fetch-protocol}
 
-TODO: Erkennung von renames?
+Wie in [@fig:fetch-protocol] gezeigt, besteht das Protokoll aus drei Teilen:
 
-TODO: Garbage collector
+* Alice schickt eine ``FETCH``--Anfrage zu Bob, der den Namen des zu holenden Stores enthält.
+  Im Beispiel ist dies Bob's eigener Store, ``bob@realworld.org``.
+* Falls Alice in Bob's Remote--Liste steht, wandelt Bob seinen eigenen Store in eine
+  exportierbare Form um, die aus einer großen Protobuf--Message[^EXPORT] besteht, die alle
+  notwendigen Daten enthält.
+- Die serialisierte Form des Stores wird über den Transfer--Layer von ``brig`` (siehe [@sec:transfer-layer])
+  zurück an ``alice@wonderland.lit`` geschickt.
+- Alice importiert die serialisierte Form in einen leeren Store und speichert
+  das Ergebnis in der Liste ihrer Stores. Eine Synchronisation der beiden
+  Datensätze kann nun lokal bei Alice erfolgen.
+
+[^EXPORT]: Die Form des serialisierten Export--Formattes ist nicht weiter interessant und kann im Anhang [@sec:data-model]
+         eingesehen werden (Message: *Store*).
+
+Aus Zeitgründen ist dieses Protokoll momentan noch sehr einfach gehalten und
+beherrscht keine differentiellen Übertragungen. Da hier nur Metadaten
+übertragen werden sollte das nur bedingt ein Problem sein. In der Tat müssten
+aber nur die Commits seit dem letzten gemeinsamen Merge--Point übertragen
+werden.
+
+Auch sind zum momentanen Stand noch keine *Live*--Updates möglich. Hierfür
+müssten sich die einzelnen Knoten bei jeder Änderung kleine *Update*--Pakete
+schicken, welche prinzipiell einen einzelnen *Checkpoint* beeinhalten würden.
+Diese Checkpoints müssten dann jeweils in den aktuellen Staging--Bereich eingepflegt
+werden. Dadurch wären Änderungen in »Echtzeit« auf anderen Knoten verfügbar.
+Aus Zeitgründen wird an dieser Stelle aber nur auf diese Möglichkeit verwiesen;
+eine konzeptuelle Implementierung steht noch aus.
 
 ## Architekturübersicht
 
+Um den eigentlichen Kern des Store sind alle anderen Funktionalitäten gelagert.
+[@fig:rch-overview] zeigt diese in einer Übersicht.
+
 ![Übersicht über die Architektur von ``brig``](images/4/architecture-overview.pdf){#fig:arch-overview}
 
-TODO: Komponentendiagramm
-
 TODO: Repository begriff irgendwo einführen?
+
+### Lokale Aufteilung in Client und Daemon
 
 ``brig`` ist architektonisch in einem langlebigen Daemon--Prozess und einem
 kurzlebigen Kontroll--Prozess aufgeteilt, welche im Folgenden jeweils ``brigd``
@@ -848,6 +921,7 @@ Global config zur Bestimmung des Ports.
 
 ## Einzelkomponenten {#sec:einzelkomponenten}
 
+### Transfer--Layer {#sec:transfer-layer}
 
 ### Dateiströme
 
@@ -875,12 +949,7 @@ TODO: NaCL Secretbox erwähnen, Unterschiede
 
 FUSE
 
-### Deduplizierung
-
-- Miller Rabin Chunking
-- Rolling Hash
-
-### Benutzermanagement
+### Benutzermanagement {#sec:user-management}
 
 ![Überprüfung eines Benutzernamens](images/4/id-resolving.pdf){#fig:arch-overview}
 

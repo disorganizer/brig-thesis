@@ -8,6 +8,33 @@ in Zukunft notwendigen Schritte beschrieben werden, um die Anforderungen
 umzusetzen. Dazu gehört unter anderem die Konzeption einer grafischen
 Oberfläche.
 
+## Einführung
+
+Ob eine Bedienoberfläche verständlich ist oder ästhetisch auf den Benutzer wirkt,
+ist leider sehr subjektiver Natur. Es können nur empirisch Daten gesammelt werden,
+ob ein gewisser Prozentanteil der Nutzer die Software verständlich und ästhetisch fanden.
+Aus diesem Grund ist der unten gezeigte Vorschlag für eine Bedienoberfläche lediglich
+ein Konzept unter vielen möglichen. Dieses spezielle Konzept wurde auf die folgenden
+Merkmale optimiert:
+
+TODO: welche merkmale?
+
+- Minimalismus
+- a
+- Die Software muss im Hintergrund bleiben.
+
+https://en.wikipedia.org/wiki/Zooko%27s_triangle
+
+Aus unserer Sicht ist eine wichtige Eigenschaft für die Akzeptanz einer
+Oberfläche, dass sie dem Benutzer vertraute Konzepte bietet. Daher wird ein
+großer Teil der Benutzung durch einen normalen Dateisystemordner abgewickelt,
+der sich kaum von anderen Ordner unterscheidet. Lediglich die initiale Konfiguration
+die Versionsverwaltung und die Administration benötigt eine grafische Oberfläche, die
+den Nutzer durch die jeweiligen Schritt begleitet.
+
+
+
+
 Idee: Bei ID nur Username anzeigen, und Ressource nur wenn doppeldeutig
 
 Vertrautheit: Vertraute Unix--Kommandos für Poweruser.
@@ -25,7 +52,6 @@ Größte Probleme:
 
 http://www.usabilitynet.org/trump/methods/recommended/requirements.htm
 
-https://en.wikipedia.org/wiki/Zooko%27s_triangle
 
 Understandability
 Learnability
