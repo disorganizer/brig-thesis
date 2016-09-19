@@ -433,14 +433,42 @@ Benutzer geben die Daten mit ihrem »Synchronisationsordner« automatisch für a
 Teilnehmer des Netzwerks frei zum teilen.
 
 Wie bei zentralen Diensten, ist es auch bei dezentralen Netzwerken schwierig die
-»Sicherheit« zu beurteilen. Diesen hängt in der Regel nicht direkt von einem
-Dienst--Anbieter ab, sondern vielmehr von der Umsetzung, der Infrastruktur des
-Netzwerks, der »Sicherung der Daten« und den Möglichkeiten, welche es
-ermöglichen einen Kommunikationspartner zu identifizieren.
+»Sicherheit« zu beurteilen. Diesen hängt in diesem Fall nicht zwangsläufig von
+einem Dienst--Anbieter ab, sondern vielmehr von der Umsetzung der Software, der
+Infrastruktur des Netzwerks, der »Sicherung der Daten« (verschlüsselte
+Speicherung, verschlüsselte Übertragung) und den Möglichkeiten, welche es
+ermöglichen einen Kommunikationspartner zu authentifizieren.
 
 **Resilio--Sync** (ehemals Bittorrent--Sync), verwendete eine modifizierte
-Variante des BitTorrent--Protokolls. Alle Daten werden zusätzlich symmetrisch
-mit AES--128 verschlüsselt übertragen. Die Authentifizierung der Benutzer?
+Variante des BitTorrent--Protokolls[^btsyncprotocol]. Alle Daten werden laut
+Hersteller zusätzlich symmetrisch mit AES--128 verschlüsselt übertragen. Die
+getestete Version entspricht der Standardversion welche kostenfrei benutzbar
+ist, jedoch nur einen eingeschränkten Funktionsumfang bietet. Weiterhin gibt es
+eine »Pro«--Version welche »selektive und kollaborative Synchronisation«
+ermöglicht. 
+
+[^btsyncprotocol]:Inoffizielle Protokoll Spezifikation <https://forum.resilio.com/topic/21338-inofficial-protocol-specification/>
+
+Bei Resilio (Webbasierte GUI) werden Daten werden hier mittels verschiedenen
+»Schlüsseln« synchronisiert. Beim Anlegen eines Synchronisationsordners werden
+dem Benutzer erscheinen dem Benutzer folgende »Schlüssel«, über welche er den
+Synchronisationsordner mit anderen Synchronisationsordnern teilen kann: 
+
+Schlüssel für: 
+
+* Nur Leserechte
+* Lese-- und Schreibrechte
+* Verschlüsselte Speicherung
+
+Mittels dieser »Schlüssel« lässt sich die »Synchronisation« mit anderen
+Peers/Synchronisationsordnern steuern. Neue Peers können über das Teilen eines
+Schlüssels hinzugefügt werden. Die Anwendung macht einen undurchsichtigen
+Eindruck. Eine 2014 durchgeführte Analyse von *BitTorrent*--Sync auf der
+*Hackito* kommt aufgrund mehrere Sicherheits-- und Designprobleme zum
+Einschätzung[^hackito] das *BitTorrent*--Sync nicht für sensitive Daten
+verwendet werden sollte.
+
+[^hackito]: Security analysis of BTsync: <http://2014.hackitoergosum.org/bittorrentsync-security-privacy-analysis-hackito-session-results/>
 
 **Infinit** ist eine weitere proprietäre Lösung welche es ermöglicht Dateien
 zwischen verschiedenen Benutzern, ohne Server--Instanz, auszutauschen. Die Basis
@@ -454,6 +482,60 @@ Infinit--Plattform übertragen werden. Infinit wirbt mit »point--to--point
 encryption« und »bank-level encryption algorithms such as AES-256 and RSA 2048«.
 Eine Authentifizierung des Kommunikationspartners findet rudimentär anhand vom
 Benutzernamen/E--Mail statt. Daten werden lokal nicht verschlüsselt.
+
+
+**Syncthing** basiert auf einem eigens entwickeltem Protokol, dem *Block Exchange
+Protocol*[^bep]. Der Syncthing--Client (Web--GUI Variante) ermöglicht das
+Hinzufügen von »Synchronisationsordner« und »Remote Device«. Diese GUI ist
+Standardmäßig von außen nicht zugreifbar, da sie auf »localhost only« läuft. 
+
+[^bep]: Block exchange protocol: <https://docs.syncthing.net/specs/bep-v1.html>
+
+Die Peers werden durch eine eindeutige *Device ID* identifiziert. Diese leitet
+sich aus einen asymmetrischen Schlüsselpaar (3072 bit RSA) ab, welches beim
+ersten Start der Anwendung erstellt wird. Abgelegt wird ein privater Schlüssel
+und ein selbst signiertes Zertifikat. Der private Schlüssel scheint nicht weiter
+geschützt zu sein:
+
+~~~sh
+freya :: ~/.config/syncthing » cat key.pem 
+	-----BEGIN EC PRIVATE KEY-----
+	MIGkAgEBBDCQIMwVr730vKzoyHCbIqDoxNxAjKvdFYL+XnKk65GurCc9q2qiZJEU
+	zMNWSD+N/eCgBwYFK4EEACKhZANiAASJ0YZUMQVAuW8tT7DvuLFkanCw2gpgD1DE
+	P69XHqMS0MFg6ZwMqzvlV65WXQMOHfsNw/xKMagSGlyTh17W/Up0y2PPygUlj6H1
+	d0vMI1OguPD9heeqYjU67R4GxlHMj54=
+	-----END EC PRIVATE KEY-----
+~~~
+
+Das selbst signierte Zertifikat bringt keine zusätzliche Sicherheit, ermöglicht
+jedoch die Nutzung von Transport Layer Security (TLS). Diese *ID* ist für jeden
+Teilnehmer eindeutig (aufgrund der asymmetrischen Kryptographie). Sie besteht
+aus einer kryptographischen Prüfsumme (SHA--256) eines eindeutigen
+kryptographischen Zertifikates, welches für die verschlüsselte Kommunikation und
+Authentifizierung zwischen den einzelnen Peers verwendet wird. 
+
+Weiterhin ist das aktuell Design für *Discovery Spoofing* anfällig. Das heißt,
+dass ein Angreifer der im Netzwerk mitliest, *Device IDs* mitlesen kann und sich
+somit als eine bestimmter Peer ausgeben kann. Das würde einem Angreifer die
+Information liefern, mit welchem Peers sich eine bestimmte *Device ID*
+synchronisiert. Mehr zu *Device IDs* sowie möglichen damit in Verbindung
+stehenden Problemen findet sich in der offiziellen
+Syncthing--Dokumentation[^stsec].
+
+[^stsec]: Understanding Device--IDs:  <https://docs.syncthing.net/dev/device-ids.html>
+
+Eine lokale Verschlüsselung der Daten finden nicht statt. 
+
+*Librevault* ist ein sich noch im Frühstadion befindlicher Prototyp. Die aktuell
+getestete alpha Version ist beim hinzufügen eines »Synchronisationsordners«
+reproduzierbar abgestürzt. Laut Projekt--Beschreibung scheint sich Librevault
+an Resilio/Syncthing zu orientieren. Weitere Details zur Spezifikation und
+Projektzielen sind auf dem Blog des Entwicklers[^librevault] zu finden.
+
+[^librevault]: Librevault Entwicklerblog: <https://librevault.com/blog/>
+
+*git--annex* ist ein sehr stark am *git* Versionsverwaltungssystem orientiertes
+Synchronisationswerkzeug. Es verwaltet die Metadaten in *git*.
 
 
 Alternativen wie Syncthing, Resilio, Librevault oder
