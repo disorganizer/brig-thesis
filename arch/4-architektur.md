@@ -14,18 +14,18 @@ aktuellen Prototypen ausgegangen. Mögliche Erweiterungen werden in Kapitel
 jeweiligen Komponenten hingegen wird in [@sec:implementierung]
 (*Implementierung*) besprochen.
 
-## Datenmodell von IPFS
+## Datenmodell von ``ipfs``
 
 Wie bereits beschrieben ist ``brig`` ein »Frontend«, welches ``ipfs`` zum
 Speichern und Teilen von Dokumenten nutzt. Die Dokumente werden dabei einzig
 und allein über ihre Prüfsumme (``QmXYZ...``) referenziert. Aus
-architektonischer Sicht kann man ``ipfs`` als eine verteilte Datenbank sehen, die fünf simple Operationen
+architektonischer Sicht kann man ``ipfs`` als eine verteilte Datenbank sehen, die vier simple Operationen
 beherrscht:
 
 - $Put(\text{Stream}) \rightarrow \text{Hash}$: Speichert einen endlichen Datenstrom in der Datenbank und liefert die Prüfsumme als Ergebnis zurück.
 * $Get(\text{Hash}) \rightarrow \text{Stream}$: Holt einen endlichen Datenstrom aus der Datenbank der durch seine Prüfsumme referenziert wurde und gibt ihn aus.
-* $Pin(\text{Hash})$: Pinnt einen Datenstrom.
-* $Unpin(\text{Hash})$: Entfernt den Pin eines Datenstroms.
+* $Pin(\text{Hash}, \text{COUNT})$: Pinnt einen Datenstrom wenn $\text{COUNT}$ größer $0$ ist oder unpinnt ihn wenn er negativ ist.
+                                  Im Falle von $0$ wird nichts getan. In jedem Fall wird der neue Status zurückgeliefert.
 * $Cleanup$: Lässt einen »Garbage--Collector«[^GC_WIKI] laufen, der Datenströme aus dem lokalen Speicher löscht, die nicht gepinned wurden.
 
 [^GC_WIKI]: Siehe auch <https://de.wikipedia.org/wiki/Garbage_Collection>
@@ -42,9 +42,9 @@ azyklischer Graph), im Folgenden kurz *MDAG* oder *Graph* genannt.
 Diese Struktur ist eine Erweiterung des Merkle--Trees[@wiki:merkle], bei der ein Knoten
 mehr als einen Elternknoten haben kann.
 
-![Beispiel MDAG aus dem ](images/4/ipfs-merkledag.pdf){#fig:ipfs-merkledag}
+![Beispielhafter MDAG der eine Verzeichnisstruktur abbildet. Die Attribute entsprechen den ``ipfs`` Internas.](images/4/ipfs-merkledag.pdf){#fig:ipfs-merkledag}
 
-In [@fig:ipfs-merkledag] ist eine beispielhafter Graph gezeigt, der eine
+In [@fig:ipfs-merkledag] ist ein beispielhafter Graph gezeigt, der eine
 Verzeichnishierarchie modelliert. Gerichtet ist der Graph deswegen, weil es
 keine Schleifen und keine Rückkanten zu den Elternknoten geben darf. Jeder
 Knoten wird durch eine Prüfsumme referenziert und kann wiederum mehrere andere
@@ -68,9 +68,11 @@ unterschiedliche Strukturen:
 * ``tree:`` Ein Abbildung von Dateinamen zu Prüfsummen.
         Modelliert ein Verzeichnis, das ``blobs``, ``lists`` oder andere ``trees`` beinhalten kann.
 		Die Prüfsumme ergibt sich aus den Kindern.
-* ``commit:`` Ein Snapshot eines der drei obigen Strukturen. In der Grafik nicht gezeigt.
+* ``commit:`` Ein Snapshot eines der drei obigen Strukturen. In der Grafik nicht gezeigt, da
+        diese Datenstrukutur noch nicht finalisiert ist.[^COMMIT_DISCUSS]
 
 [^BLOCKCHAIN_NOTE]: Siehe auch die Erklärung hier: <https://medium.com/@ConsenSys/an-introduction-to-ipfs-9bba4860abd0#.t6mcryb1r>
+[^COMMIT_DISCUSS]: Diskussion der Entwickler hier: <https://github.com/ipfs/notes/issues/23>
 
 Wenn ``ipfs`` bereits ein Datenmodell hat, welches  Verzeichnisse abbilden
 kann, ist es eine berechtigte Frage, warum ``brig`` ein eigenes Datenmodell
@@ -91,7 +93,7 @@ mittels *Chunking* kümmert. Die Aufteilung geschieht dabei entweder simpel,
 indem die Datei in gleichgröße Blöcke unterteilt wird, oder indem ein intelligenter
 Algorithmus wie Rabin--Karp--Chunking[@wiki:rabin-karp] angewandt wird.
 
-## Datenmodell von git
+## Datenmodell von ``git``
 
 Der interne Aufbau von ``brig`` ist relativ stark von ``git`` inspiriert.
 Deshalb werden im Folgenden immer wieder Parallelen zwischen den beiden
@@ -104,7 +106,8 @@ Im Folgenden ist ein gewisses Grundwissen über ``git`` nützlich. Es wird bei
 Unklarheiten die Lektüre des Buches *Git --- Verteile Versionsverwaltung für Code
 und Dokumente*[@git] empfohlen. Alternativ bietet auch die offizielle
 Projektdokumentation[^GITBOOK] einen sehr guten Überblick. Aus Platzgründen
-wird an dieser Stelle über eine gesonderte Einführung verzichtet.
+wird an dieser Stelle über eine gesonderte Einführung verzichtet, da es
+diese in ausreichender Menge frei verfügbar gibt.
 
 [^GITBOOK]: Offizielle Projektdokumentation von ``git``: <https://git-scm.com/doc>
 
@@ -360,13 +363,16 @@ verwendet:
 
 [^INODE]: Siehe auch: https://de.wikipedia.org/wiki/Inode
 
+![Jede Datei und Verzeichnis besitzt eine Liste von Checkpoints](images/4/file-history.pdf){#fig:file-history}
+
 Davon abgesehen fällt auf dass zwei zusätzliche Strukturen eingeführt wurden:
 
 * **Checkpoints:** Jeder Datei ist über ihre ``UID`` ein Historie von sogenannten *Checkpoints* zugeordnet.
   Jeder einzelne dieser Checkpoints beschreiben eine atomare Änderung an der Datei. Da keine
   partiellen Änderungen möglich sind (wie ``git diff``), müssen nur vier verschiedene Operation
   unterschieden werden: ``ADD`` (Datei wurde initial oder erneut hinzugefügt), ``MODIFY`` (Prüfsumme hat sich verändert),
-  ``MOVE`` (Pfad hat sich geändert) und ``REMOVE`` (Datei wurde entfernt).
+  ``MOVE`` (Pfad hat sich geändert) und ``REMOVE`` (Datei wurde entfernt). Ein beispielhafte Historie findet sich
+  in [@fig:file-history].
   Jeder Checkpoint kennt den Zustand der Datei zum Zeitpunkt der Modifikation,
   sowie einige Metadaten wie ein Zeitstempel, der Dateigröße, dem Änderungstyp,
   dem Urheber der Änderung und seinem Vorgänger. Der Vorteil einer dokumentabhängigen Historie
@@ -389,6 +395,19 @@ Davon abgesehen fällt auf dass zwei zusätzliche Strukturen eingeführt wurden:
 
 ![Der Staging Bereich im Vergleich zwischen ``git`` und ``brig``](images/4/staging-area.pdf){#fig:staging-area}
 
+Da ein *Commit* nur ein Vorgänger haben kann, muss ein anderer Mechanismus
+eingeführt werden, um die Synchronisation zwischen zwei Partnern festzuhalten.
+Bei ``git`` wird dies mittels eines sogenannten Merge--Commit gelöst, welcher
+aus den Änderungen der Gegenseite besteht. Hier wird das Konzept eines
+*Merge--Points* eingeführt. Innerhalb eines *Commit* ist das ein spezieller
+Marker, der festhält mit wem synchronisiert wurde und mit welchen Stand er zu
+diesem Zeitpunkt hatte. Bei einer späteren Synchronisation muss daher lediglich
+der Stand zwischen dem aktuellen *Commit* (»``CURR``«) und dem letzten
+Merge--Point verglichen werden. Basierend auf diesen Vergleich wird ein neuer
+*Commit* (der *Merge--Commit*) erstellt, der alle (möglicherweise nach der
+Konfliktauflösung zusammengeführten) Änderungen des Gegenübers enthält und als
+neuer *Merge--Point* dient.
+
 TODO: Noch folgende Punkte verarzten:
 
 Problem: Metadaten wachsen schnell, Angreifer könnte sehr viele kleine änderungen sehr schnell machen.
@@ -400,7 +419,7 @@ Die Gesamtheit aller *Files*, *Directories*, *Commits*, *Checkpoints* und
 *Refs* wird im Folgenden als *Store* bezeichnet. Da ein *Store* nur aus
 Metadaten besteht, ist er selbst leicht übertragbar. Er kapselt den Objektgraph
 und kümmert sich, um die Verwaltung auf der Objekte. Basierend auf dem *Store*
-werden insgesamt 10 verschiedene atomare Operationen implementiert, die jeweils
+werden insgesamt 11 verschiedene atomare Operationen implementiert, die jeweils
 den aktuellen Graphen nehmen und einen neuen und (mit Ausnahme von ``LIST``, ``CAT``,
 ``LOG`` und ``HISTORY``) veränderten Graphen erzeugen.
 
@@ -409,7 +428,7 @@ Es gibt sechs Operationen, die die Benutzung des Graphen als gewöhnliches Datei
 [^SYSCALL_NOTE]: Von der Funktionsweise sind diese angelehnt an die entsprechenden »Syscall« im POSIX--Standard.
                Dies sollte im späteren Verlauf die Implementierung des FUSE--Layers erleichtern.
 
-``ADD``: Fügt ein Dokument dem Staging--Bereich hinzu oder aktualisiert die
+``STAGE``: Fügt ein Dokument dem Staging--Bereich hinzu oder aktualisiert die
 Version eines vorhandenen Dokuments. Der Pfad entscheidet dabei wo das Dokument
 eingefügt wird, bzw. welches existierendes Dokument modifiziert wird.
 [@fig:op-add] zeigt die Operationen, die zum Einfügen einer Datei notwendig
@@ -420,12 +439,14 @@ unverschlüsselten und unkomprimierten Datei zurückgeliefert.
 Handelt es sich bei dem hinzuzufügenden Objekt um ein Verzeichnis, wird der gezeigte Prozess
 für jede darin enthaltene Datei wiederholt.
 
-![Die Abfolge der ``ADD``-Operation im Detail](images/4/op-add){#fig:op-add}
+![Die Abfolge der ``STAGE``-Operation im Detail](images/4/op-add){#fig:op-add}
 
 TODO: wurde pin schon erklärt?
 
 ``REMOVE:`` Entfernt eine vorhandene Datei aus dem Staging--Bereich. Der Pin
-der Datei oder des Verzeichnisses und all seiner Kinder werden entfernt.
+der Datei oder des Verzeichnisses und all seiner Kinder werden entfernt. Die
+gelöschten Daten werden möglicherweise beim nächsten Durchgang der ``CLEANUP`` Operation aus
+dem lokalen Speicher entfernt.
 Wie in [@fig:op-remove] gezeigt wird, wird die Prüfsumme der entfernten Datei
 aus den darüber liegenden Verzeichnissen herausgerechnet. Handelt es sich dabei
 um ein Verzeichnis, wird der Prozess *nicht* rekursiv für jedes Unterobjekt
@@ -452,7 +473,7 @@ TODO: Grafik für mkdir falls nötig ist?
 Zielpfad. Es muss eine Fallunterscheidung getroffen wird, je nachdem ob
 und welcher Knoten im Zielpfad vorhanden ist:
 
-1) Ziel existiert noch nicht: Quelldaten werden zu neuen Pfad verschoben.
+1) Ziel existiert noch nicht: Quelldaten werden zum neuen Pfad verschoben.
 2) Ziel existiert und ist eine Datei: Vorgang wird abgebrochen, es sei denn die Aktion wird »forciert«.
 3) Ziel existiert und ist ein Verzeichnis: Quelldaten werden direkt unter das Zielverzeichnis verschoben.
 
@@ -468,44 +489,61 @@ und der darin enthaltene Hash wird vom ``ipfs``--Backend aufgelöst. Die
 ankommenden Daten werden noch entschlüsselt und dekomprimiert bevor sie dem
 Nutzer präsentiert werden.
 
-Neben den obenstehenden Operationen, gibt es noch vier Operationen, die zur Versionskontrolle dienen:
+Neben den obenstehenden Operationen, gibt es noch fünf weitere Operationen, die
+zur Versionskontrolle dienen und in dieser Form normalerweise nicht von
+Dateisystemen implementiert werden:
+
+``UNSTAGE:`` Entfernt ein Dokument aus dem Staging--Bereich und setzt den Stand
+auf den zuletzt bekannten Wert zurück (der Stand innerhalb von ``HEAD``). Die
+Prüfsumme des entfernten Dokumentes wird aus den Elternknoten herausgerechnet
+und dafür die die alte Prüfsumme wieder eingerechnet.
+
+*Anmerkung:* Die Benennung der Operationen ``STAGE``, ``UNSTAGE`` und
+``REMOVE`` ist anders als bei semantisch gleichen ``git``--Werkzeugen  ``add``,
+``reset`` und ``rm``. Die Benennung nach dem ``git``--Schema ist verwirrend, da
+``git add`` auch modifizierte Dateien »hinzufügt« (als auch neue Dateien) und
+nicht das Gegenteil von ``git rm`` ist.[^GIT_FAQ_RM].
+
+[^GIT_FAQ_RM]: Selbstkritik des ``git``--Projekts: <https://git.wiki.kernel.org/index.php/GitFaq#Why_is_.22git_rm.22_not_the_inverse_of_.22git_add.22.3F>
 
 ``COMMIT:`` Erstellt einen neuen Commit, basierend auf den Inhalt des
-*Staging--Commits*. Dazu werden die Prüfsummen des aktuellen und des
-Wurzelverzeichnisses im letzten Commit (``HEAD``) verglichen. Unterscheiden sie
-sich nicht, wird abgebrochen, da keine Veränderung vorliegt. Im Anschluss wird
-der *Staging--Commit* finalisiert, indem die angegebene *Commit--Message* und
-der Autor in den Metadaten des Commits gesetzt werden. Basierend darauf wird
-die finale Prüfsumme berechnet und der entstandene Commit abgespeichert. Ein
-neuer *Staging-Commit* wird erstellt, welcher im unveränderten Zustand auf das
-selbe Wurzelverzeichnis zeigt wie der vorige. Zuletzt werden die Referenzen von
+*Staging--Commits* (siehe auch [@fig:op-commit] für eine Veranschaulichung).
+Dazu werden die Prüfsummen des aktuellen und des Wurzelverzeichnisses im
+letzten Commit (``HEAD``) verglichen. Unterscheiden sie sich nicht, wird
+abgebrochen, da keine Veränderung vorliegt. Im Anschluss wird der
+*Staging--Commit* finalisiert, indem die angegebene *Commit--Message* und der
+Autor in den Metadaten des Commits gesetzt werden. Basierend darauf wird die
+finale Prüfsumme berechnet und der entstandene Commit abgespeichert. Ein neuer
+*Staging-Commit* wird erstellt, welcher im unveränderten Zustand auf das selbe
+Wurzelverzeichnis zeigt wie der vorige. Zuletzt werden die Referenzen von
 ``HEAD`` und ``CURR`` jeweils um ein Platz nach vorne verschoben.
 
-TODO: Grafik für Commit.
+![Die Abfolge der ``COMMIT``-Operation im Detail](images/4/op-commit.pdf){#fig:op-commit}
 
 ``CHECKOUT:`` Stellt einen alten Stand wieder her. Dabei kann die Operation
 eine alte Datei oder ein altes Verzeichnis wiederherstellen (basierend auf der
 alten Prüfsumme) oder den Stand eines gesamten, in der Vergangenheit liegenden
 Commits wiederherstellen.
 
-Im Gegensatz zu ``git`` ist es allerdings nicht vorgesehen in der Versionshistorie »herumzuspringen«.
-Soll ein alter *Commit* wiederhergestellt werden, so wird ein neuer *Commit* erzeugt, welcher
-den aktuellen Stand so verändert, dass er dem gewünschten, alten Stand entspricht.
-Das Verhalten von ``brig`` entspricht an dieser Stelle also nicht ``git checkout`` sondern eher
-dem wiederholten Anwenden von ``git revert`` zwischen dem aktuellen und dem Nachfolger
-des gewünschten Commits.
+Im Gegensatz zu ``git`` ist es allerdings nicht vorgesehen in der
+Versionshistorie »herumzuspringen«. Soll ein alter *Commit* wiederhergestellt
+werden, so wird ein neuer *Commit* erzeugt, welcher den aktuellen Stand so
+verändert, dass er dem gewünschten, alten Stand entspricht. Das Verhalten von
+``brig`` entspricht an dieser Stelle also nicht dem Namensvetter ``git
+checkout`` sondern eher dem wiederholten Anwenden von ``git revert`` zwischen
+dem aktuellen und dem Nachfolger des gewünschten Commits.
 
-Begründet ist dieses Verhalten darin, dass kein sogenannter »Detached HEAD«--Zustand
-entstehen soll, da dieser für den Nutzer verwirrend sein kann. Dieser Zustand
-kann in ``git`` erreicht werden, indem man in einen früheren *Commit* springt ohne
-einen neuen *Branch* davon abzuzweigen. Der ``HEAD`` zeigt dann nicht mehr auf einen benannten Branch,
-sondern auf die Prüfsumme des neuen Commits, der vom Nutzer nur noch durch die Kenntnis derselben
-erreichbar ist.
-Macht man in diesem Zustand Änderungen ist es prinzipiell
-möglich die geänderten Daten zu verlieren. (TODO: ref)
-Um das zu vermeiden, setzt ``brig`` darauf die Historie stets linear und
-unveränderlich zu halten, auch wenn das keine Einschränkung der Architektur an
-sich darstellt.
+Begründet ist dieses Verhalten darin, dass kein sogenannter »Detached
+HEAD«--Zustand entstehen soll, da dieser für den Nutzer verwirrend sein kann.
+Dieser Zustand kann in ``git`` erreicht werden, indem man in einen früheren
+*Commit* springt ohne einen neuen *Branch* davon abzuzweigen. Der ``HEAD``
+zeigt dann nicht mehr auf einen benannten Branch, sondern auf die Prüfsumme des
+neuen Commits, der vom Nutzer nur noch durch die Kenntnis derselben erreichbar
+ist.
+Macht man in diesem Zustand Änderungen ist es prinzipiell möglich die
+geänderten Daten zu verlieren. (TODO: ref) Um das zu vermeiden, setzt ``brig``
+darauf die Historie stets linear und unveränderlich zu halten, auch wenn das
+keine Einschränkung der Architektur an sich darstellt.
 
 TODO: Grafik für CHECKOUT
 
@@ -517,38 +555,50 @@ Datei, beginnend mit dem aktuellsten ausgegeben.
 
 ``STATUS:`` Zeigt den Inhalt des aktuellen Staging--Commits (analog zu ``git
 status``) und damit aller geänderten Dateien und Verzeichnisse im Vergleich zu
-``HEAD``.
+``HEAD``. Anmerkung: Es gibt keine eigene ``DIFF``--Operationen, da es keine
+partiellen Diffs gibt. Diese kann durch ``STATUS`` und ``HISTORY`` ersetzt
+werden.
 
 ## Synchronisation
 
-Ähnlich wie ``git`` speichert ``brig`` für jeden Nutzer seinen zuletzt bekannten *Store*
-ab. Mithilfe dieser Informationen können dann Synchronisationsentscheidungen
-größtenteils automatisiert getroffen werden. Welcher *Store* dabei lokal
-zwischengespeichert wird, entscheiden die Einträge in die sogenannte *Remote List* (TODO)
+Ähnlich wie ``git`` speichert ``brig`` für jeden Nutzer seinen zuletzt
+bekannten *Store* ab. Mithilfe dieser Informationen können dann
+Synchronisationsentscheidungen größtenteils automatisiert getroffen werden.
+Welcher *Store* dabei lokal zwischengespeichert wird, entscheiden die Einträge
+in die sogenannte *Remote--Liste*.
 
-### Die Remote Liste
+### Die Remote--Liste
 
-TODO: Grafik mit verschiedenen Stores und Remote listen sowie Sync-Richtungen.
+Jeder Teilnehmer mit dem synchronisiert werden soll, muss zuerst in eine
+spezielle Liste von ``brig`` eingetragen werden, damit dieser dem System
+bekannt wird. Dies ist vergleichbar mit der Liste die ``git remote -v``
+erzeugt: Eine Zuordnung eines menschenlesbarem Namen zu einer eindeutigen
+Referenz zum Synchronisationspartner (Im Falle von ``git`` eine URL, bei
+``brig`` eine Prüfsumme). Wie später gezeigt wird, ist dieses explizite
+Hinzufügen des Partners eine Authentifizierungsmaßnahme die bewusst eingefügt
+wurde und durch die automatische Entdeckung von Synchronisationspartnern zwar
+unterstützt, aber nicht ersetzt werden kann[@sec:user-management].
 
-Anders als bei ``git`` kennt jedes ``brig``--Repository den Stand aller
-Teilnehmer (beziehungsweise den zuletzt verfügbaren), die ein Nutzer in seiner
-Remote--Liste gespeichert hat. Da es sich dabei nur um Metadaten handelt, wird
-dabei nicht viel Speicherplatz in Anspruch genommen.
+![Beispielhafte Remote Liste mit vier Repositories und verschienden Synchronisationsrichtungen.](images/4/multiple-repos.pdf){#fig:multiple-repos}
 
-TODO: Absatz okay, aber fehl am platz.
+Wie in [@fig:multiple-repos] gezeigt, kann jeder Knoten mit einem anderen
+Knoten synchronisieren, der in der Liste steht, da von diesen jeweils der
+zuletzt bekannte Store übertragen wurde. Die Synchronisation ist dabei, wie ein
+``git pull``, nicht bidirektional. Lediglich die eigenen Daten werden mit den
+Fremddaten zusammengeführt. Es gibt prinzipbedingt keine direkte Analogie zu
+``git push``, da jedes Repository aus Sicherheitsgründen die Hoheit über den
+Zustand seiner Daten behält. In der Grafik wird zudem ein spezieller Anwendungsfall
+gezeigt: Das Repository ``rabbithole@wonderland`` ist eine gemeinsame Datenablage für
+beide Parteien, die stets online verfügbar ist[^HOST]. Dieses kann durch ein Skript
+automatisiert stets die Änderungen aller bekannten Teilnehmer synchronisieren und
+auch weitergeben, wenn der eigentliche Nutzer gerade nicht online ist.
+Dieses Vorgehen bietet sich vor allem dann an, wenn aufgrund der Zeitverschiebung
+zwei Nutzer selten zur selben Zeit online sind.
 
-Da ein *Commit* nur ein Vorgänger haben kann, musste ein anderer Mechanismus eingeführt werden,
-um die Synchronisation zwischen zwei Partnern festzuhalten. Bei ``git`` wird
-dies mittels eines sogenannten Merge--Commit gelöst, welcher aus den Änderungen der
-Gegenseite besteht. Hier wird das Konzept eines *Merge--Points* eingeführt.
-Innerhalb eines *Commit* ist das ein spezieller Marker, der festhält mit wem synchronisiert wurde
-und mit welchen Stand er zu diesem Zeitpunkt hatte. Bei einer späteren Synchronisation muss
-daher lediglich der Stand zwischen dem aktuellen *Commit* (»``CURR``«) und dem letzten Merge--Point
-verglichen werden. Basierend auf diesen Vergleich wird ein neuer *Commit* (der
-*Merge--Commit*) erstellt, der alle (möglicherweise nach der Konfliktauflösung zusammengeführten)
-Änderungen des Gegenübers enthält und als neuer *Merge--Point* dient.
+[^HOST]: Typischerweise würde ein solches Repository in einem Rechenzentrum liegen,
+       oder auf einem privaten Server.
 
-### Synchronisation einzelner Dateien
+### Synchronisation einzelner Dateien {#sec:sync-single-file}
 
 In seiner einfachsten Form nimmt ein Synchronisationsalgorithmus als Eingabe
 die Metadaten zweier Dateien von zwei Synchronisationspartnern und trifft als
@@ -579,7 +629,7 @@ geben, da die optimale Lösung von der jeweiligen Datei und der Absicht des
 Nutzers abhängt. Bei Quelltext--Dateien möchte der Anwender vermutlich, dass
 beide Stände automatisch zusammengeführt werden, bei großen Videodateien ist
 das vermutlich nicht seine Absicht. Selbst wenn die Dateien nicht automatisch zusammengeführt werden sollen
-(englisch >>to merge<<), ist fraglich was mit der Konfliktdatei des Partners geschehen soll.
+(englisch »to merge«), ist fraglich was mit der Konfliktdatei des Partners geschehen soll.
 Soll die eigene oder die fremde Version behalten werden? Dazwischen sind auch weitere Lösungen denkbar,
 wie das Anlegen einer Konfliktdatei (``photo.png:conflict-by-bob-2015-10-04_14:45``), so wie es beispielsweise
 Dropbox macht.[^DROPBOX_CONFLICT_FILE]
@@ -591,29 +641,32 @@ Im Falle von ``brig`` müssen nur die Änderung von ganzen Dateien betrachtet we
 darin. Eine Änderung der ganzen Datei kann dabei durch folgende Aktionen des Nutzers entstehen:
 
 1) Der Dateinhalt wurde modifiziert, ergo muss sich die Prüfsumme geändert haben (``MODIFY``).
-2) Die Datei wurde verschoben (``MOVE``).
-3) Die Datei wurde gelöscht (``REMOVE``).
-4) Die Datei wurde (initial oder erneut) hinzugefügt (``ADD``).
+2) Die Datei wurde verschoben, ergo muss sich der Pfad geändert haben. (``MOVE``).
+3) Die Datei wurde gelöscht, ergo sie ist im *Staging--Commit* nicht mehr vorhanden. (``REMOVE``).
+4) Die Datei wurde (initial oder erneut nach einem ``REMOVE``) hinzugefügt (``ADD``).
 
 Der vierte Zustand (``ADD``) ist dabei der Initialisierungszustand. Nicht alle dieser
-Zustände führen dabei automatisch zu Konflikten. So sollte ein guter
+Zustände führen dabei automatisch zu Konflikten. So sollte beispielsweise ein guter
 Algorithmus kein Problem, erkennen, wenn ein Partner die Datei modifiziert und
 der andere sie lediglich umbenennt. Eine Synchronisation der entsprechenden
 Datei sollte den neuen Inhalt mit dem neuen Dateipfad zusammenführen.
 [@tbl:sync-conflicts] zeigt welche Operationen zu Konflikten führen und welche
-verträglich sind.
+verträglich sind. Die einzelnen Möglichkeiten sind dabei wie folgt:
+
+* »\xmark«: Die beiden Aktionen sind nicht miteinander verträglich, es sei denn ihre Prüfsummen sind gleich.
+* »\qmark«: Die Aktion ist prinzipiell verträglich, hängt aber von der Konfiguration ab.
+            Entweder wird die Löschung vom Gegenüber propagiert oder die eigene Datei wird behalten (Standard).
+* »\cmark«: Die beiden Aktionen sind verträglich (nur wenn beide Dateien gelöscht wurden).
 
 
-| A/B          | ``ADD``          | ``REMOVE``       | ``MODIFY``       | ``MOVE``         |
-| :----------: | -----------------| -----------------| -----------------|------------------|
-| ``ADD``      | ?                | \cmark[^DEPENDS] | ?                | ?                |
-| ``REMOVE``   | \cmark[^DEPENDS] | \cmark           | \cmark[^DEPENDS] | \cmark[^DEPENDS] |
-| ``MODIFY``   | ?                | \cmark           | ?                | ?                |
-| ``MOVE``     | ?                | \cmark[^DEPENDS] | ?                | ?                |
+| A/B          | ``ADD``           | ``REMOVE``        | ``MODIFY``        | ``MOVE``           |
+| :----------: | ----------------- | ----------------- | ----------------- | ------------------ |
+| ``ADD``      | \xmark            | \qmark            | \xmark            | \xmark             |
+| ``REMOVE``   | \qmark            | \cmark            | \qmark            | \qmark             |
+| ``MODIFY``   | \xmark            | \qmark            | \xmark            | \xmark             |
+| ``MOVE``     | \xmark            | \qmark            | \xmark            | \xmark             |
 
 : Verträglichkeit {#tbl:sync-conflicts}
-
-TODO: Fragezeichen in Tabelle erklären.
 
 [^DEPENDS]: Die Aktion hängt von der Konfiguration ab. Entweder wird die Löschung propagiert oder
           die eigene Datei wird behalten.
@@ -621,23 +674,12 @@ TODO: Fragezeichen in Tabelle erklären.
 [^RSYNC]: <https://de.wikipedia.org/wiki/Rsync>
 [^DROPBOX_CONFLICT_FILE]: Siehe <https://www.dropbox.com/help/36>
 
-### Synchronisation von Verzeichnissen
-
-Prinzipiell lässt sich die
-Synchronisation einer Datei auf Verzeichnisse übertragen, indem einfach obiger
-Algorithmus auf jede darin befindliche Datei angewandt wird. In der
-Fachliteratur (vergleiche unter anderem [@cox2005file]) findet sich zudem die
-Unterscheidung zwischen *informierter* und *uninformierter* Synchronisation.
-Der Hauptunterschied ist, dass bei ersterer die Änderungshistorie jeder Datei
-als zusätzliche Eingabe zur Verfügung steht. Auf dieser Basis können dann
-intelligentere Entscheidungen bezüglich der Konflikterkennung getroffen werden.
-Insbesondere können dadurch aber leichter die Differenzen zwischen den
-einzelnen Ständen ausgemacht werden: Für jede Datei muss dabei lediglich die in
-[@lst:file-sync] gezeigte Sequenz abgelaufen werden, die von beiden
-Synchronisationspartnern unabhängig ausgeführt werden muss. Unten stehender
+Zusammenfassend wird der in [@lst:file-sync] gezeigte Pseudo--Code von beiden
+Teilenehmern ausgeführt, um zwei Dateien synchron zu halten. Unten stehender
 Go--Pseudocode ist eine modifizierte Version aus Russ Cox' Arbeit »File
 Synchronization with Vector Time Pairs«[@cox2005file], welcher für ``brig``
-angepasst wurde.
+angepasst wurde. Die Funktionen ``HasConflictingChanges()`` und ``ResolveConflict()``
+prüfen dabei die Verträglichkeit mithilfe von [@tbl:sync-conflicts].
 
 ```{#lst:file-sync .go caption="Synchronisationsalgorithmus für eine einzelne Datei"}
 // historyA ist die Historie der eigenen Datei A.
@@ -672,49 +714,196 @@ func sync(historyA, historyB History) Result {
 
 	// Keine gemeinsame Historie.
 	// -> Nicht automatisch zusammenführbar.
-	// -> Konfliktstrategie muss angewandt werden.
+	// -> Eine Konfliktstrategie muss angewandt werden.
 	return Conflict
 }
 ```
 
+### Synchronisation von Verzeichnissen
+
+Die naive Herangehensweise wäre den obigen Algorithmus für jede Datei im Verzeichnis
+zu wiederholen. Der beispielhafte Verzeichnisbaum in [@fig:tree-sync] zeigt allerdings bereits ein Problem dabei:
+Die Menge an Pfaden, die Alice besitzt wird sich selten mit denen decken, die Bob besitzt.
+So kann natürlich Alice Pfade besitzen, die Bob nicht hat und umgekehrt.
+
+![Unterteilung der zu synchronisierenden Pfade in drei Gruppen.](images/4/tree-sync.pdf){#fig:tree-sync}
+
+Man könnte also das »naive« Konzept weiterführen und die Menge der zu
+synchronisierenden Pfade in drei Untermengen unterteilten. Jede dieser
+Untermengen hätten dann  eine unterschiedliche Semantik:
+
+- Pfade die beide haben ($X = Paths_{A} \bigcap Paths_{B}$): Konfliktpotenzial. Führe obigen Algorithmus für jede Datei aus.
+- Pfade die nur Alice hat ($Y = Paths_{A} \setminus Paths_{B}$): Brauchen keine weitere Behandlung.
+- Pfade die nur Bob hat ($Z = Paths_{B} \setminus Paths_{A}$): Müssen nur hinzugefügt werden.
+
+Wie in [@fig:tree-sync] angedeutet, sind diese Mengen allerdings schwerer zu
+bestimmen als durch eine simple Vereinigung, beziehungsweise Differenz.
+Zwei Beispiele verdeutlichen dies:
+
+* Löscht Bob eine Datei, während Alice sie nicht verändert würde der Pfad trotzdem in der Menge $Y$ landen.
+  Dies hätte zur Folge, dass die Löschung nicht zu Alice propagiert wird.
+* Verschiebt Alice eine Datei zu einem neuen Pfad, muss dieser neue Pfad
+  trotzdem mit dem alten Pfad von Bob verglichen werden.
+
+Es muss also eine Abbildung gebildet werden, die jedem Pfad von Alice einen
+Pfad von Bob zuordnet. Die Wertemenge dieser Funktion entspricht der Menge $X$,
+also aller Pfade die einer speziellen Konfliktauflösung bedürfen. Die Menge $Z$
+(also alle Pfade die Bob hat, aber Alice nicht) ergibt sich dann einfach durch
+$Z = Paths_{B} \ X$. Für die Abbildung von Alice' Pfaden zu Bob's Pfaden
+funktioniert die Abbildungsfunktion folgendermaßen:
+
+1) Auf beiden Seiten werden alle Knoten gesammelt, die sich seit dem letzten gemeinsamen Merge--Point verändert haben.
+   Falls es noch keinen Merge--Point gab, werden alle Knoten angenommen.
+2) Auf beiden Seiten wird für jeden Knoten die Historie ($=$ Liste aller Checkpoints) seit dem letzten Merge--Point gesammelt, oder
+   die gesamte Historie ($=$ alle Checkpoints) falls es noch keinen Merge--Point gab.
+3) Es wird auf beiden Seiten ein Hashtabelle erstellt, die alle bekannten Pfade der Historie zuordnen, in dem der Pfad vorkommt.
+   Im Normalfall ist das nur ein Pfad. Bei verschobenen Pfaden können allerdings mehrere Einträge für die selbe Historie entstehen.
+   Gelöschte Dateien sind in der Hashtabelle unter ihrem zuletzt bekannten Pfad zu finden.
+4) Für alle Pfade, die Alice momentan besitzt (Alle Pfade unter ``HEAD``), wird der Algorithmus in [@lst:sync-map] ausgeführt.
+   Dieser ordnet jedem Pfad von Alice, einem Pfad von Bob zu oder meldet dass er kein Mapping herstellen konnte.
+
+```{#lst:sync-map .go}
+// Eine Hashtable mit dem Pfad zu der Historie seit dem letzten gemeinsamen Merge-Point.
+type PathToHistory map[string]*History
+
+// BobMapping enthält alle Pfade, auch Pfade die entfernt wurden.
+// Wurden Pfade verschoben, so enthält das Mapping auch alle Zwischenschritte.
+func MapPath(HistA, BobMapping PathToLastHistory) (string, error) {
+	// Iteriere über alle Zwischenstationen, die `HistA` hatte.
+	// (in den meisten Fällen ohne Verschiebungen nur ein einziger)
+	for _, path := range NodeA.AllPaths() {
+		HistB, ok := Bob[path]
+
+		// Diesen Pfad hatte Bob nicht.
+		if !ok {
+			continue
+		}
+
+		// Erfolg! Gebe den aktuellsten Pfad von Bob zurück.
+		// (also der Pfad an dem die Datei zuletzt bei Bob war)
+		return HistB.MostCurrentPath(), nil
+	}
+
+	// Bob hat diesen Pfad nirgends.
+	return "", ErrNoMappingFound
+}
+```
+
+Das Ergebnis dieses Vorgehens ist eine Abbildung aller Pfade von Alice zu den Pfaden von Bob.
+Damit wurde eine eindeutige Zuordnung erreicht und die einzelnen Dateien können mit dem Algorithmus
+unter [@sec:sync-single-file] synchronisiert werden. Die Dateien, die Bob
+zusätzlich hat (aber Alice nicht) können nun leicht ermittelt werden, indem geprüft wird
+welche von Bob's Pfaden noch nicht in der errechneten Hashtabelle vorkommen.
+Diese Pfade können dann in einem zweiten Schritt dem Stand von Alice hinzugefügt werden.
+
+TODO: Ist das wichtig?
+
+Prinzipiell lässt sich die Synchronisation einer Datei auf Verzeichnisse
+übertragen, indem einfach obiger Algorithmus auf jede darin befindliche Datei
+angewandt wird. In der Fachliteratur (vergleiche unter anderem [@cox2005file])
+findet sich zudem die Unterscheidung zwischen *informierter* und
+*uninformierter* Synchronisation. Der Hauptunterschied ist, dass bei ersterer
+die Änderungshistorie jeder Datei als zusätzliche Eingabe zur Verfügung steht.
+Auf dieser Basis können dann intelligentere Entscheidungen bezüglich der
+Konflikterkennung getroffen werden. Insbesondere können dadurch aber leichter
+die Differenzen zwischen den einzelnen Ständen ausgemacht werden: Für jede
+Datei muss dabei lediglich die in [@lst:file-sync] gezeigte Sequenz abgelaufen
+werden, die von beiden Synchronisationspartnern unabhängig ausgeführt werden
+muss.
+
 Werkzeuge wie ``rsync`` betreiben eher eine *uninformierte Synchronisation*.
 Sie müssen bei jedem Programmlauf Metadaten über beide Verzeichnisse sammeln
-und darauf arbeiten. TODO: mehr worte verlieren
-Im Gegensatz zu Timed Vector Pair Sync, informierter Austausch, daher muss nicht jedesmal
-der gesamte Metadatenindex übertragen werden.
+und darauf arbeiten. TODO: mehr worte verlieren Im Gegensatz zu Timed Vector
+Pair Sync, informierter Austausch, daher muss nicht jedesmal der gesamte
+Metadatenindex übertragen werden.
 
-**Synchronisation über das Netzwerk:** Um die Metadaten nun tatsächlich
-austauschen zu können, muss ein Protokoll etabliert werden, mit dem diese
-zwischen zwei Partnern übertragen werden. Aus Zeitgründen ist dieses Protokoll
-im Moment sehr einfach und wird bei größeren Datenmengen nicht optimal
-funktionieren. Für einen Proof--of--Concept reicht es aber aus. Wie in Grafik TODO gezeigt besteht das Protokoll
-aus drei Teilen.
+### Austausch der Metadaten
 
-* encode
-- fetch.
-- decode
+Um die Metadaten nun tatsächlich synchronisieren zu können, muss ein Protokoll
+etabliert werden, mit dem zwei Partner ihren Store über Netzwerk austauschen können.
+Im Folgenden wird diese Operation, analog zum gleichnamigen ``git``--Kommando[^TRANSFER_PROTOCOL], ``fetch`` genannt.
 
-Nachteilig ist dabei natürlich, dass momentan der gesamte Metadatenindex
-übertragen werden muss. Mit etwas mehr Aufwand könnte vorher der eigentlichen
-Übertragung der letzte gemeinsame Stand ausgehandelt werden, um nur die
-Änderungen seit diesem Stand zu übertragen zu müssen.
+[^TRANSFER_PROTOCOL]: <https://git-scm.com/book/be/v2/Git-Internals-Transfer-Protocols>
 
-Auch sind zum momentanen Stand noch keine *Live*--Updates möglich. Hierfür müssten sich die
-einzelnen Knoten bei jeder Änderung kleine *Update*--Pakete schicken, welche prinzipiell
-einen einzelnen *Checkpoint* beeinhalten würden. Dies ist technisch bereits möglich,
-wurde aus Zeitgründen aber noch nicht umgesetzt.
+![Das Protokoll das bei der ``FETCH`` Operation ausgeführt wird.](images/4/fetch-protokoll.pdf){#fig:fetch-protocol}
 
-TODO: Erkennung von renames?
+Wie in [@fig:fetch-protocol] gezeigt, besteht das Protokoll aus drei Teilen:
 
-TODO: Garbage collector
+* Alice schickt eine ``FETCH``--Anfrage zu Bob, der den Namen des zu holenden Stores enthält.
+  Im Beispiel ist dies Bob's eigener Store, ``bob@realworld.org``.
+* Falls Alice in Bob's Remote--Liste steht, wandelt Bob seinen eigenen Store in eine
+  exportierbare Form um, die aus einer großen Protobuf--Message[^EXPORT] besteht, die alle
+  notwendigen Daten enthält.
+- Die serialisierte Form des Stores wird über den Transfer--Layer von ``brig`` (siehe [@sec:transfer-layer])
+  zurück an ``alice@wonderland.lit`` geschickt.
+- Alice importiert die serialisierte Form in einen leeren Store und speichert
+  das Ergebnis in der Liste ihrer Stores. Eine Synchronisation der beiden
+  Datensätze kann nun lokal bei Alice erfolgen.
+
+[^EXPORT]: Die Form des serialisierten Export--Formattes ist nicht weiter interessant und kann im Anhang [@sec:data-model]
+         eingesehen werden (Message: *Store*).
+
+Aus Zeitgründen ist dieses Protokoll momentan noch sehr einfach gehalten und
+beherrscht keine differentiellen Übertragungen. Da hier nur Metadaten
+übertragen werden sollte das nur bedingt ein Problem sein. In der Tat müssten
+aber nur die Commits seit dem letzten gemeinsamen Merge--Point übertragen
+werden.
+
+Auch sind zum momentanen Stand noch keine *Live*--Updates möglich. Hierfür
+müssten sich die einzelnen Knoten bei jeder Änderung kleine *Update*--Pakete
+schicken, welche prinzipiell einen einzelnen *Checkpoint* beeinhalten würden.
+Diese Checkpoints müssten dann jeweils in den aktuellen Staging--Bereich eingepflegt
+werden. Dadurch wären Änderungen in »Echtzeit« auf anderen Knoten verfügbar.
+Aus Zeitgründen wird an dieser Stelle aber nur auf diese Möglichkeit verwiesen;
+eine konzeptuelle Implementierung steht noch aus.
+
+### Speicherquoten
+
+Werden immer mehr Modifikationen gespeichert, so steigt der Speicherplatz immer
+weiter an, da jede Datei pro Version einmal voll abgespeichert werden muss. Die
+Anzahl der Objekte die dabei gespeichert werden können, hängt von dem
+verfügbaren Speicherplatz ab. Sehr alte Versionen werden dabei typischerweise
+nicht mehr benötigt und können gelöscht werden. Diese Aufgabe wird derzeit
+nicht von ``brig`` selbst übernommen, sondern vom ``ipfs``--Backend. Dieses
+unterstützt mit dem Befehl ``ipfs gc`` eine Bereinigung von Objekten, die
+keinen Pin mehr haben. Zudem kann ``brig`` den Konfigurationswert
+``Datastore.StorageMax`` von ``ipfs`` auf eine maximale Höhe (minus einen
+kleinen Puffer für ``brig``--eigene Dateien) setzen. Wird dieser überschritten,
+geht der Garbage--Collector aggressiver vor und löscht auch Objekte aus dem
+Cache. (TODO: Eigentlich schauen was ipfs da macht.)
+
+In der momentanen Architektur und Implementierung wird noch nicht zwischen
+harten und weichen Speicherquoten unterschieden. (TODO: ref zu anforderung)
+Auch wird die maximale Grenze wird zwangsweise eingehalten, wenn mehr Dateien
+gepinnt werden als Speicher verfügbar ist. 
+
+TODO: Sinnvollere Herangehensweise: Dateien erst ab einer bestimmten Revision unpinnen?
+
+TODO: In Evaluation packen: ?
+
+Eine Möglichkeit Speicher zu reduzieren, wäre die Einführung von
+*Packfiles*, wie ``git`` sie implementiert[^PACKFILES_GIT]. Diese komprimieren nicht eine
+einzelne Datei, sondern packen mehrere Objekte in ein zusammengehöriges Archiv.
+Dies kann die Kompressionsrate stark erhöhen wenn viele ähnliche Dateien
+(beispielsweise viele subtil verschiedene Versionen der gleichen Datei)
+zusammen gepackt werden. Nachteilig sind die etwas langsameren Zugriffsraten.
+Eine Implementierung dieser Lösung müsste zwischen eigentlichem Datenmodell
+und dem ``ipfs``--Backend eine weitere Schicht einschieben, welche
+transparent und intelligent passende Dateien in ein Archiv verpackt und umgekehrt
+auch wieder entpacken kann.
+
+[^PACKFILES_GIT]: Mehr Details zur ``git``--Implementierung hier: <https://git-scm.com/book/uz/v2/Git-Internals-Packfiles>
 
 ## Architekturübersicht
 
+Um den eigentlichen Kern des Store sind alle anderen Funktionalitäten gelagert.
+[@fig:rch-overview] zeigt diese in einer Übersicht.
+
 ![Übersicht über die Architektur von ``brig``](images/4/architecture-overview.pdf){#fig:arch-overview}
 
-TODO: Komponentendiagramm
-
 TODO: Repository begriff irgendwo einführen?
+
+### Lokale Aufteilung in Client und Daemon
 
 ``brig`` ist architektonisch in einem langlebigen Daemon--Prozess und einem
 kurzlebigen Kontroll--Prozess aufgeteilt, welche im Folgenden jeweils ``brigd``
@@ -730,7 +919,7 @@ speichereffiziente, binäre Repräsentation der Daten zur Verfügung, oder eine
 menschenlesbare Darstellung als JSON--Dokument.
 
 Die Aufteilung in zwei Programmteile ist dabei inspiriert von ``MPD`` und
-``IPFS``. (TODO) Nötig ist die Aufteilung vor allem, da ``brigd`` im
+``ipfs``. (TODO) Nötig ist die Aufteilung vor allem, da ``brigd`` im
 Hintergrund als Netzwerkdienst laufen muss, um Anfragen von außen verarbeiten
 zu können. Abgesehen davon ist es aus Effizienz--Gründen förderlich, wenn nicht
 bei jedem eingetippten Kommando das gesamte Repository geladen werden muss.
@@ -848,6 +1037,7 @@ Global config zur Bestimmung des Ports.
 
 ## Einzelkomponenten {#sec:einzelkomponenten}
 
+### Transfer--Layer {#sec:transfer-layer}
 
 ### Dateiströme
 
@@ -875,12 +1065,7 @@ TODO: NaCL Secretbox erwähnen, Unterschiede
 
 FUSE
 
-### Deduplizierung
-
-- Miller Rabin Chunking
-- Rolling Hash
-
-### Benutzermanagement
+### Benutzermanagement {#sec:user-management}
 
 ![Überprüfung eines Benutzernamens](images/4/id-resolving.pdf){#fig:arch-overview}
 

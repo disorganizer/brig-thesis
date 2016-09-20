@@ -41,11 +41,13 @@ Konzepte genommen, um sie in einer Software zu vereinen, die ein versioniertes
 und verteiltes Dateisystem implementiert. Dieses soll nicht nur »sicher« (TODO: ref
 kitteh) sein, sondern auch für ein Großteil der Anwender benutzbar sein.
 
-In diesem Kontext werden einige konkrete Neuerungen in der vorliegenden Arbeit vorgestellt.
-Diese bestehen hauptsächlich aus den folgenden Punkten:
+In diesem Kontext werden einige konkrete Neuerungen in der vorliegenden Arbeit
+vorgestellt. Diese bestehen hauptsächlich aus den folgenden Punkten:
 
 * Eine Erweiterung des Datenmodells von ``git``, welches Metadaten von den eigentlichen Daten trennt,
   leere Verzeichnisse sowie umbenannte Pfade nativ unterstützt und eine eigene Historie pro Datei mit sich bringt.
+* Die Möglichkeit nur die Metadaten zu synchronisieren und die eigentlichen Daten dynamisch
+  nachzuladen und nach Anwendungsfall zu »pinnen«.
 - Ein Verschlüsselungsformat (ähnlich dem Secretbox der freien NaCl[^NACL] Bibliothek), welches effizienten wahlfreien Zugriff erlaubt.
 - Ein Kompressionsformat, welches blockbasierten wahlfreien Zugriff erlaubt und den Einsatz verschiedener Algorithmen erlaubt.
 - Ein Konzept und Implementierung zur dezentralen Benutzerverwaltung, ohne dass man sich dabei registrieren muss.

@@ -144,6 +144,8 @@ vendoring problematik
 
 Kernstück: store. Kurze Implementierungsveranschaulichung.
 
+Problem: Keine Garantie, dass Dateien aufgelöst werden sollen.
+
 ## Beiträge zu anderen Projekten
 
 - Pull requests bei ipfs projekt und andere

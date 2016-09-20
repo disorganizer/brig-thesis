@@ -358,6 +358,8 @@ keine praktische Bedeutung haben:
 zusammenhängenden, weltweiten Netzwerk teil. (TODO: Screenshot von Weltkugel
 machen?)
 
+TODO: p2p schaugrafik wie kitteh?
+
 Um sich zum Netzwerk zu verbinden, müssen erst einmal passende Knoten »in der
 Nähe« des neuen Knotens gefunden werden. Dazu verbindet sich *IPFS* beim Start
 des ``ipfs daemon`` mit einigen, wohlbekannten *Bootstrap--Nodes*, dessen
@@ -553,7 +555,7 @@ ein Gateway auf der Adresse ``http://localhost:8080`` gestartet.
 
 ## Annahmen
 
-Das Design von ``brig`` basiert auf einigen Annahmen, die wir im Voraus treffen mussten:
+Das Design von ``brig`` basiert auf einigen Annahmen, die im Voraus getroffen werden mussten:
 
 **Durchschnittlicher Netzwerksetup:** Für den Prototypen wird ein »normales«
 Heimnetzwerk mit mehren Computern angenommen, welche typischerweise hinter einem NAT liegen.

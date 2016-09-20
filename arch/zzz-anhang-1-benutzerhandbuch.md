@@ -135,6 +135,9 @@ done
 
 ## Grundlegende Benutzung
 
+TODO: Umbenennen: brig add -> brig stage
+TODO: Implementieren: brig unstage
+
 Die Bedienung von ``brig`` ist an das Versionsverwaltungssystem ``git``
 angelehnt. Genau wie dieses, bietet ``brig`` für jede Unterfunktionalität ein
 einzelnes Subkommando an. Damit ``git``--Nutzer die Bedienung leichter fällt,
@@ -392,7 +395,7 @@ Die *Checkpoints* einer einzelnen Datei zeigt der ``history`` Befehl:
 TODO:
 
 brig checkout implementieren...
-brig diff auch.
+brig unstage
 
 TODO: Fügt das eigentlich einen neuen punkt in der historie hinzu oder löscht es diesen?
 Da die History linear ist, wohl ersteres.

@@ -1,23 +1,26 @@
 # Motivation {#sec:motivation}
 
-Einfache und sichere Dateisynchronisation ist trotz vieler Lösungsansätze noch
-immer ein unvollständig gelöstes Problem. Versucht man beispielsweise eine
-Datei zwischen zwei Personen zu teilen (oder noch schwieriger: synchron zu
-halten), so kann man unter anderen zwischen den folgenden Möglichkeiten wählen:
-Übertragung mittels USB--Stick, Speicherkarte oder ähnlichem, Übertragung über
-einen zentralen Dienst, entweder im lokalen Netz (wie *ownCloud*[^ownCloud]) oder entfernt im
-Internet (wie beispielsweise Dropbox), direkte Übertragung im Netzwerk mittels Protokollen
-wie ``ssh`` oder sehr häufig auch einfach via E--Mail. Jede dieser Ansätze
-funktioniert auf seine Weise, doch ergeben sich in der Praxis meist sehr
-unterschiedliche Probleme. Bei E--Mails kann oft nur eine maximale Dateigröße
-übermittelt werden, die Übertragung von Dateien mittels ``ssh`` ist für die
-meisten Nutzer zu kompliziert und zentrale Dienste rufen einerseits
-Sicherheitsbedenken hervor, andererseits sind sie meist nur bedingt kostenlos
-und können unvermittelt ausfallen. Wie in [@fig:xkcd-sync] gezeigt, muss also
-für jeden neuen Kontakt stets erst aufwendig der kleinste gemeinsame Nenner
-ausgehandelt werden.
+Einfache und sichere Dateisynchronisation ist trotz vieler Lösungsansätze im
+Jahre 2016 noch immer kein Standard. Versucht man beispielsweise eine Datei
+zwischen zwei Personen zu teilen (oder noch schwieriger: synchron zu halten),
+so kann man unter anderem zwischen den folgenden Möglichkeiten wählen:
 
-![Humorvolle Darstellung der dargestellten Problematik.[^SOURCE_XKCD]](images/1/xkcd-file-transfer.png){#fig:xkcd-sync width=50%}
+- Übertragung mittels USB--Stick, Speicherkarte oder Ähnlichem
+- Übertragung über einen zentralen Dienst, entweder im lokalen Netz (wie FTP oder *ownCloud*[^ownCloud]) 
+* Übertragung über das Internet mit zentralen Diensten wie Dropbox.
+- Direkte Übertragung im Netzwerk mittels Protokollen wie ``ssh``.
+- ...oder sehr häufig auch einfach via E--Mail.
+
+Jede dieser Ansätze »funktioniert« auf seine Weise, doch ergeben sich in der
+Praxis meist sehr unterschiedliche Probleme. Bei E--Mails kann oft nur eine
+maximale Dateigröße übermittelt werden, die Übertragung von Dateien mittels
+``ssh`` ist für die meisten Nutzer zu kompliziert und zentrale Dienste rufen
+einerseits Sicherheitsbedenken hervor, andererseits sind sie meist nur bedingt
+kostenlos und können unvermittelt ausfallen. Wie in [@fig:xkcd-sync] gezeigt,
+muss also für jeden neuen Kontakt stets erst aufwendig der kleinste gemeinsame
+Nenner ausgehandelt werden.
+
+![Humorvolle Darstellung der Suche nach dem »kleinsten gemeinsamen Nenner«.[^SOURCE_XKCD]](images/1/xkcd-file-transfer.png){#fig:xkcd-sync width=50%}
 
 [^SOURCE_XKCD]: Quelle: xkcd (<https://xkcd.com/949>)
 [^ownCloud]: Eine Filehosting--Software für den Heimgebrauch; siehe auch <https://owncloud.org>
@@ -57,11 +60,8 @@ Praxis entweder an der Benutzbarkeit oder an den Sicherheitsanforderungen
 kranken, die insbesondere Unternehmen an eine solche Lösung stellen. Die vorliegende
 Arbeit versucht einen dezentralen Ansatz zur Dateisynchronisation vorzustellen,
 der eine Balance zwischen Sicherheit und Benutzbarkeit herstellt. Die hier
-vorgestellte und quelloffene Lösung trägt den Namen »``brig``«. Entwickelt wird
-die Lösung dabei vom Autor dieser Arbeit und seinen Kommilitonen Christoph
-Piechula, welcher in seiner Arbeit[@cpiechula] die Sicherheitsaspekte der
-Software detailliert beleuchtet. Der aktuelle Quelltext findet sich auf
-Code--Hosting--Plattform GitHub[^GITHUB].
+vorgestellte und quelloffene Lösung trägt den Namen »``brig``«.
+Der jeweils aktuelle Quelltext findet sich auf der Code--Hosting--Plattform *GitHub*[^GITHUB].
 
 [^GITHUB]: Offizielles GitHub Repository: <http://github.com/disorganizer/brig>
 
@@ -97,31 +97,36 @@ unserer Sicht hierbei einige grundlegende Vorteile:
 - Transparenz in puncto Sicherheit (keine offensichtlichen Backdoors möglich).
 - Fehlerkorrekturen, Weiterentwicklung und Testing aus der Community.
 
-[^AGPL]: Lizenztext: <http://www.gnu.org/licenses/agpl-3.0.de.html>
+[^AGPL]: Voller Lizenztext unter: <http://www.gnu.org/licenses/agpl-3.0.de.html>
 
 ## Gliederung der Arbeit
 
-Diese Arbeit wird einen Überblick über die aktuelle Implementierung und die
-Designentscheidungen dahinter geben, sowie die notwendigen Techniken
-beleuchten, um sie anschließend kritisch zu reflektieren. Wie oben bereits
-erwähnt, schildert Herr Piechula in seiner Arbeit »*Sicherheitskonzepte und
+Diese Arbeit wird einen Überblick über die aktuelle Implementierung sowie die
+Techniken und Designentscheidungen dahinter geben, um sie anschließend kritisch
+zu reflektieren. Sicherheitsaspekte werden in dieser Arbeit nur oberflächlich
+angeschnitten, da Herr Piechula in seiner Arbeit »*Sicherheitskonzepte und
 Evaluation dezentraler Dateisynchronisationssysteme am Beispiel
-brig*«[@cpiechula] die Sicherheitskonzepte im Detail, weshalb diese hier nur
-oberflächlich angeschnitten werden.
+brig*«[@cpiechula] die Sicherheitskonzepte der Software im Detail beleuchtet. 
 
-TODO: Hier 1-2 Sätze pro block verlieren.
+Die vorliegende Arbeit ist in drei größere logische Blöcke gegliedert:
 
-Die vorliegende Arbeit ist in vier größere logische Blöcke gegliedert:
+- [@sec:motivation] -- [@sec:eigenschaften] *(Motivation, Einleitung, Stand der Technik):* Eine **Hinführung zum Thema**
+  wird gegeben. Neben einer Analyse der Wettbewerber und Einsatzmöglichkeiten wird auch das nötige Grundlagenwissen vermittelt,
+  um die nächsten Kapitel zu verstehen.
+- [@sec:architektur] -- [@sec:benutzbarkeit] *(Architektur, Implementierung):* In diesen beiden Kapiteln wird das
+  **technisches Design des Prototypen** erläutert und Begründen zu den Designentscheidungen gegeben. Zuletzt wird noch ein Konzept
+  für eine grafische Benutzeroberfläche vorgestellt.
+- [@sec:evaluation] -- [@sec:fazit] *(Evaluation, Fazit):* Der **aktuelle Prototyp wird auf Schwächen untersucht** und mögliche
+  Lösungen werden diskutiert. Zudem werden Möglichkeiten zur weiteren Entwicklung aufgezeigt.
 
-- [@sec:motivation] - [@sec:stand-der-technik] *(Motivation, Einleitung, Stand der Technik):* **Hinführung zum Thema.**
-- [@sec:architektur] - [@sec:implementierung] *(Architektur, Implementierung):* **Technisches Design des Prototypen.**
-- [@sec:benutzerhandbuch] - [@sec:benutzbarkeit] *(Benutzerhandbuch, Benutzbarkeit):* **Dokumentation des Prototypen.**
-- [@sec:evaluation] - [@sec:fazit] *(Evaluation, Fazit):* **Ausblick in die Zukunft.**
+Im [@sec:benutzerhandbuch] findet sich zudem ein Benutzerhandbuch, das
+losgekoppelt vom Rest gelesen werden und dazu dienen soll ein Eindruck von der
+Implementierung zu bekommen.
 
 ## Über die Autoren
 
 Die Autoren sind zwei Master--Studenten an der Hochschule Augsburg, die von
-Freier Software begeistert sind und mit ihr die Welt ein bisschen besser machen
+Freier Software begeistert sind und mit ihr die Welt ein klein bisschen besser machen
 wollen. Momentan entwickeln wir ``brig`` im Rahmen unserer Masterarbeiten bei
 Prof. Dr.-Ing. Thorsten Schöler in der
 Distributed--Systems--Group[^DSG] und wollen auch nach unserem Abschluss daran
