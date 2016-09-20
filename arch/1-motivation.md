@@ -77,8 +77,8 @@ Zufall. Das Versionsverwaltungssystem hat durch seine sehr flexible und
 dezentrale Arbeitsweise bestehende zentrale Alternativen wie ``svn`` oder
 ``cvs`` fast vollständig abgelöst. Zusätzlich ist der Gesamteinsatz von
 Versionsverwaltungssystemen durch die verhältnismäßige einfache Anwendung
-gestiegen. Wir hoffen mit ``brig`` eine ähnlich flexible Lösung für große
-Dateien etablieren zu können. 
+gestiegen. Wir hoffen mit ``brig`` eine ähnlich flexible Lösung für »große«
+Dateien etablieren zu können.
 
 [^GIT_REF]: Ein dezentrales Versionsverwaltungssystem; siehe auch: <https://git-scm.com>
 

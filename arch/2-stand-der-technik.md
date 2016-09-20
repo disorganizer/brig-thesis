@@ -4,8 +4,32 @@ In diesem Kapiteln wird ein kurzer Überblick über die wissenschaftlichen
 Arbeiten und Begrifflichkeiten zum Thema Peer--to--Peer--Dateisysteme und
 Dateisynchronisation gegeben. Im Anschluss werden einige der derzeit
 verfügbaren und populären Softwarelösungen zur Dateisynchronisation untersucht.
-Schließlich wird *IPFS* als Grundlage von ``brig`` vorgestellt und beleuchtet
+Schließlich wird ``ipfs`` als Grundlage von ``brig`` vorgestellt und beleuchtet
 warum es unserer Ansicht nach eine geeignete technische Basis bildet.
+
+## Projektziel
+
+Ziel des Projektes ist die Entwicklung einer sicheren und dezentralen
+Alternative zu Cloud--Storage Lösungen wie Dropbox, die sowohl für Unternehmen,
+als auch für Heimanwender nutzbar ist. Trotz der Prämisse, einfache Nutzbarkeit
+zu gewährleisten, wird auf Sicherheit sehr großen Wert gelegt.  Aus Gründen der
+Transparenz wird die Software dabei quelloffen unter der »``AGPLv3``«--Lizenz
+entwickelt.
+
+Nutzbar soll das resultierende Produkt, neben dem Standardanwendungsfall der
+Dateisynchronisation, auch als Backup- bzw. Archivierungs--Lösung sein. Des
+Weiteren kann es auch als verschlüsselter Daten--Safe oder als »Werkzeugkasten« für
+andere, verteilte Anwendungen dienen -- wie beispielsweise aus dem Industrie--4.0--Umfeld.
+
+Als weiteres Abgrenzungsmerkmal setzt ``brig`` nicht auf möglichst hohe
+Effizienz (wie es typischerweise verteilte Dateisysteme tun) sondern versucht
+möglichst generell anwendbar sein und über Netzwerkgrenzen hinweg funktionieren.
+Dadurch soll es zu einer Art »Standard« werden, auf denen sich möglichst viele
+Anwender einigen können.
+
+Um einen ersten Eindruck von ``brig`` und seinen (angestrebten)
+Fähigkeiten in der Praxis zu bekommen, ist an dieser Stelle die Lektüre des
+*Benutzerhandbuch* in [@sec:benutzerhandbuch] empfohlen.
 
 ## Grundlagen
 
@@ -113,8 +137,6 @@ auch noch eine reine Datei--Transfer--Lösung namens *Infinit Transfer*. Dazu gi
 
 TODO: [@cox2004optimistic] beschreiben.
 
-### Projekte mit ähnlichen Ansätzen
-
 Es gibt eine Reihe nicht--kommerzieller Projekte, die teilweise eine ähnliche
 Ausrichtung wie ``brig`` haben und daher mindestens eine Erwähnung verdient
 haben. Im Folgenden werden die Ähnlichkeiten zu ``brig`` genannt:
@@ -148,6 +170,31 @@ TODO: https://librevault.com anschauen, was kann das?
 [^LIZARDFS]: Siehe auch: <https://lizardfs.com/>
 [^XTREEMFS]: Siehe auch:  <http://www.xtreemfs.org>
 [^MOOSEFS]: Siehe auch: <http://moosefs.org/>
+
+## Wissenschaftliche Lücke
+
+![Die Neuerung von ``brig`` liegt in der Zusammenführung vieler wissenschaftlichen Teildisziplinen](images/2/science-hole.pdf){#fig:science-hole width=66%}
+
+Die wissenschaftliche Neuerung der vorliegenden Arbeit ist die Zusammenführung
+vieler wissenschaftlicher Teildisziplinen, die es nach Wissen des Autors vorher
+noch nicht in dieser Form gab. Dabei werden viele bestehende Ideen und
+Konzepte genommen, um sie in einer Software zu vereinen, die ein versioniertes
+und verteiltes Dateisystem implementiert. Dieses soll nicht nur »sicher« (TODO: ref
+kitteh) sein, sondern auch für ein Großteil der Anwender benutzbar sein.
+
+In diesem Kontext werden einige konkrete Neuerungen in der vorliegenden Arbeit
+vorgestellt. Diese bestehen hauptsächlich aus den folgenden Punkten:
+
+* Eine Erweiterung des Datenmodells von ``git``, welches Metadaten von den eigentlichen Daten trennt,
+  leere Verzeichnisse sowie umbenannte Pfade nativ unterstützt und eine eigene Historie pro Datei mit sich bringt.
+* Die Möglichkeit nur die Metadaten zu synchronisieren und die eigentlichen Daten dynamisch
+  nachzuladen und nach Anwendungsfall zu »pinnen«.
+- Ein Verschlüsselungsformat (ähnlich dem Secretbox der freien NaCl[^NACL] Bibliothek), welches effizienten wahlfreien Zugriff erlaubt.
+- Ein Kompressionsformat, welches blockbasierten wahlfreien Zugriff erlaubt und den Einsatz verschiedener Algorithmen erlaubt.
+- Ein Konzept und Implementierung zur dezentralen Benutzerverwaltung, ohne dass man sich dabei registrieren muss.
+- Verschiedene Ansätze um die Benutzbarkeit zu verbessern ohne den Sicherheitsaspekt abzuschwächen.
+
+[^NACL]: Mehr Informationen unter <https://nacl.cr.yp.to/secretbox.html>
 
 ## Markt und Wettbewerber
 
@@ -293,269 +340,130 @@ TODO: Infinit eintragen?
 
 TODO: librevault betrachten?
 
-## IPFS: Das Interplanetary Filesystem
+## Zielgruppen
 
-Anstatt das Rad neu zu erfinden, setzt ``brig`` auf das relativ junge
-*Interplanetary Filesystem* (kurz ``IPFS``), welches von Juan Benet und seinen
-Mitentwicklern unter der MIT--Lizenz in der Programmiersprache Go entwickelt
-wird (siehe auch das Original--Paper[@benet2014ipfs]). Im Gegensatz zu den
-meisten anderen verfügbaren Peer--to-Peer Netzwerken kann ``IPFS`` als  
-Software--Bibliothek genutzt werden. Dies ermöglicht es ``brig`` als,
-vergleichsweise dünne Schicht, zwischen Benutzer und ``IPFS`` zu fungieren.
+Auch wenn ``brig`` extrem flexibel einsetzbar ist, sind die primären
+Zielgruppen Unternehmen und Heimanwender.  Aufgrund der starken Ende-zu-Ende
+Verschlüsselung ist ``brig`` allerdings auch insbesondre für Berufsgruppen
+attraktiv, bei denen eine hohe Diskretion bezüglich Datenschutz gewahrt werden
+muss. Hier wären in erster Linie Journalisten, Anwälte, Ärzte mit
+Schweigepflicht auch Aktivisten und politisch verfolgte Minderheiten, zu
+nennen.
 
-``IPFS`` stellt dabei ein *Content Addressed Network* (kurz *CAN*, [^CAN]) dar.
-Dabei wird eine Datei, die in das Netzwerk gelegt wird nicht mittels eines
-Dateinamen angesprochen, sondern mittels einer Prüfsumme, die durch eine vorher
-festgelegte Hashfunktion berechnet wird. Andere Teilnehmer im Netzwerk können
-mittels dieser Prüfsumme die Datei lokalisieren und empfangen. Anders als bei
-einer HTTP--URL (*Unified Resource Locator*) steckt im Pfad einer Datei (also
-der Prüfsumme) also nicht nur die Lokation der Datei, sondern sie dient auch
-als eindeutiges Identifikationsmerkmal und gleicht daher eher einem Magnet
-Link[^MAGNET_LINK] als einer URL. Vereinfacht gesagt ist es nun die
-Hauptaufgabe von ``brig`` dem Nutzer die gewohnte Abstraktionsschicht eines
-Dateisystem zu geben, während im Hintergrund jede Datei zu einer Prüfsumme
-aufgelöst wird.
+Im Folgenden werden die verschiedenen Zielgruppen und Plattformen genauer
+besprochen und wie diese von ``brig`` profitieren können.
 
-[^MAGNET_LINK]: Mehr Informationen unter <https://de.wikipedia.org/wiki/Magnet-Link>
+### Unternehmen
 
-Im Vergleich zu zentralen Ansätzen (bei dem der zentrale Server einen *Single
-Point of Failure* darstellt) können Dateien intelligent geroutet werden und
-müssen nicht physikalisch auf allen Geräten verfügbar sein. Wird beispielsweise
-ein großes Festplattenimage (~8GB) in einem Vorlesungssaal von jedem Teilnehmer
-heruntergeladen, so muss bei zentralen Diensten die Datei vielmals über das
-vermutlich bereits ausgelastete Netzwerk der Hochschule gezogen werden. In einem
-*CAN*, kann die Datei in Blöcke unterteilt werden, die von jedem Teilnehmer
-gleich wieder verteilt werden können, sobald sie heruntergeladen wurden. Der
-Nutzer sieht dabei ganz normal die gesamte Datei, ``brig``, bzw. das *CAN* erledigt
-dabei das Routing transparent im Hintergrund.
+Unternehmen können ``brig`` nutzen, um ihre Daten und Dokumente intern zu
+verwalten. Besonders sicherheitskritische Dateien entgehen so der Lagerung in
+Cloud--Services oder der Gefahr von Kopien auf unsicheren
+Mitarbeiter--Endgeräten. Größere Unternehmen verwalten dabei meist ein
+Rechenzentrum in dem firmeninterne Dokumente gespeichert werden. Von den
+Nutzern werden diese dann meist mittels Diensten wie *ownCloud*[^NEXTCLOUD] oder *Samba*
+»händisch« heruntergeladen.
 
-Technisch basiert ``IPFS`` auf der verteilten Hashtabelle
-*Kademlia*[@maymounkov2002kademlia], welches mit den Erkenntnissen auf den
-Arbeiten *CoralDHST*[@freedman2004democratizing] (Ansatz um das Routing zu
-optimieren) und *S/Kademlia*[@baumgart2007s] (Ansatz um das Netzwerk gegen
-Angriffe zu schützen) erweitert und abgesichert wurde. *S/Kademlia* verlangt
-dabei, dass jeder Knoten im Netzwerk über ein Paar von öffentlichen und
-privaten Schlüssel verfügt. Die Prüfsumme des öffentlichen Schlüssels dient
-dabei als einzigartige Identifikation des Knotens und der private Schlüssel
-dient als Geheimnis mit dem ein Knoten seine Identität nachweisen kann. Diese
-Kernfunktionalitäten sind bei ``IPFS`` in einer separaten Bibliothek namens
-``libp2p``[^LIBP2P] untergebracht, welche auch von anderen Programmen genutzt
-werden kann.
+[^NEXTCLOUD]: Siehe auch <https://owncloud.org}, bzw. dessen Fork *Nextcloud* <https://nextcloud.com>
 
-[^CAN]: Siehe auch: <https://en.wikipedia.org/wiki/Content_addressable_network> (TODO: eigenes buch referenzieren)
-[^LIBP2P]: Mehr Informationen in der Dokumentation unter: <https://github.com/ipfs/specs/tree/master/libp2p>
+In diesem Fall könnte man ``brig`` im Rechenzentrum und auf allen Endgeräten
+installieren. Das Rechenzentrum würde die Datei mit tiefer Versionierung
+vorhalten. Endanwender würden alle Daten sehen, aber auf ihrem Gerät nur die
+Daten tatsächlich speichern, die sie auch benötigen. Hat beispielsweise ein
+Kollege im selben Büro die Datei bereits vorliegen, kann ``brig`` diese dann
+direkt transparent vom Endgerät des Kollegen holen. Das »intelligente Routing«
+erlaubt den Einsatz von ``brig`` auf Smartphones, Tablets und anderen
+speicherplatz-limitierten Geräten. Nutzer, die eine physikalische Kopie der Datei
+auf ihrem Gerät haben wollen, können das entsprechende Dokument »pinnen«. Ist
+ein Außendienstmitarbeiter beispielsweise im Zug unterwegs, kann er vorher eine
+benötigtes Dokument pinnen, damit ``brig`` die Datei persistent verfügbar macht.
 
-### Eigenschaften von ``ipfs``
+Indirekt sorgt auch die einfache Benutzbarkeit von ``brig`` für höhere
+Sicherheit, da Mitarbeiter sich weniger durch die Sicherheitsrichtlinien ihres
+Unternehmens gegängelt fühlen und nicht die Notwenigkeit sehen, wichtige
+Dokumente auf private Geräte oder Speicher zu kopieren. Dies wirkt ebenfalls
+Gefahren wie Industriespionage entgegen.
 
-TODO: Noch verarzten:
-
-Weltweites Netzwerk limitieren auf lokales Netzwerk.
-Cool: Downloads are "resuamble" dank block-basiertes ipfs.
+Da ``brig`` auch das Teilen von Dateien mittels Hyperlinks über ein »Gateway«
+erlaubt, ist beispielsweise ein Kunde eines Ingenieurbüros nicht genötigt
+``brig`` ebenso installieren zu müssen.
 
 
-Im Folgenden werden die Eigenschaften von ``IPFS`` kurz vorgestellt, welche von
-``brig`` genutzt werden. Einige interessante Features wie das *Naming System* (IPNS),
-und der *Record Store* (IPLD) werden dabei ausgelassen, da sie für ``brig`` (noch)
-keine praktische Bedeutung haben:
+### Privatpersonen / Heimanwender
 
-**Weltweites Netzwerk:** Standardmäßig nehmen alle *IPFS* Knoten an einem
-zusammenhängenden, weltweiten Netzwerk teil. (TODO: Screenshot von Weltkugel
-machen?)
+Heimanwender können ``brig`` für ihren Datenbestand aus Fotos, Filmen, Musik und
+sonstigen Dokumenten nutzen. Ein typischer Anwendungsfall wäre dabei ein
+NAS--Server, der alle Dateien mit niedriger Versionierung speichert. Endgeräte,
+wie Laptops und Smartphones, würden dann ebenfalls ``brig`` nutzen, aber mit
+deutlich geringeren Speicherquotas (maximales Speicherlimit), so dass nur die
+aktuell benötigten Dateien physikalisch auf dem Gerät vorhanden sind. Die
+anderen Dateien lagern »im Netz« und können transparent von ``brig`` von anderen
+verfügbaren Knoten geholt werden.
 
-TODO: p2p schaugrafik wie kitteh?
+### Plattform für industrielle Anwendungen
 
-Um sich zum Netzwerk zu verbinden, müssen erst einmal passende Knoten »in der
-Nähe« des neuen Knotens gefunden werden. Dazu verbindet sich *IPFS* beim Start
-des ``ipfs daemon`` mit einigen, wohlbekannten *Bootstrap--Nodes*, dessen
-Adressen bei der Software mitgeliefert werden. Diese können dann wiederum den
-neuen Knoten an ihnen bekannte, passendere Knoten vermitteln. Die Menge der so
-entstandenen verbundenen Knoten nennt *IPFS* den *Swarm* (dt. Schwarm). Ein
-Nachbarknoten wird auch *Peer* genannt.
+Da ``brig`` auch komplett automatisiert und ohne Interaktion nutzbar sein soll,
+kann es auch als Plattform für jede andere Anwendung genutzt werden, die Dateien
+sicher austauschen und synchronisieren müssen. Eine Anwendung in der Industrie 4.0
+wäre beispielsweise die Synchronisierung von Konfigurationsdateien im gesamten Netzwerk.
 
-Falls gewünscht, kann allerdings auch ein abgeschottetes Subnetz erstellt
-werden. Dazu ist es lediglich nötig, die *Bootstrap*--Nodes durch Knoten
-auszutauschen, die man selbst kontrolliert. Unternehmen könnten diesen Ansatz
-wählen, falls ihr Netzwerk komplett von der Außenwelt abgeschottet ist. Wie in
-[@sec:architektur] beleuchtet wird, ist dieses Vorgehen nicht direkt aus
-Sicherheitsgründen notwendig.
+### Einsatz im öffentlichen Bereich
 
-**Operation auf Hashes:** *IPFS* arbeitet nicht mit herkömmlichen Dateipfaden,
-sondern nur mit der Prüfsumme einer Datei. Im folgenden Beispiel
-wird eine Photo--Datei mittels der ``ipfs``--Kommandozeile in das Netzwerk
-gelegt:[^IPFS_DAEMON]
+Aufgrund der Ende-zu-Ende Verschlüsselung und einfachen Benutzbarkeit ist eine
+Nutzung an Schulen, Universitäten sowie auch in Behörden zum Dokumentenaustausch
+denkbar. Vorteilhaft wäre für die jeweiligen Institutionen hierbei vor allem,
+dass man sich aufgrund des Open--Source Modells an keinen Hersteller bindet
+(Stichwort: *Vendor Lock--In*) und keine behördlichen Daten in der »Cloud«
+landen. Eine praktische Anwendung im universitären Bereich wäre die Verteilung
+von Studienunterlagen an die Studenten. Mangels einer »Standardlösung« ist es
+heutzutage schwierig Dokumente sicher mit Behörden auszutauschen. ``brig``
+könnte hier einen »Standard« etablieren und in Zukunft als eine »Plattform«
+dienen, um beispielsweise medizinische Unterlagen mit dem Hospital auszutauschen.
 
-*IPFS* nutzt dabei ein spezielles Format um Prüfsummen zu
-repräsentieren[^IPFS_HASH]. Die ersten zwei Bytes einer Prüfsumme repräsentieren dabei den
-verwendeten Algorithmus und die Länge der darauf folgenden, eigentlichen
-Prüfsumme. Die entstandene Byte--Sequenz wird dann mittels ``base58``
-enkodiert, um sie menschenlesbar zu machen. Da der momentane
-Standardalgorithmus ``sha256`` ist, beginnt eine von *IPFS* generierte
-Prüfsumme stets mit »``Qm``«. Abbildung [@fig:ipfs-hash-format] zeigt dafür ein Beispiel.
+### Berufsgruppen mit hohen Sicherheitsanforderungen
 
-![Layout des IPFS hashes](images/2/ipfs-hash-layout.pdf){#fig:ipfs-hash-format}
+Hier wären in erster Linie Berufsgruppen mit Schweigepflicht zu nennen wie Ärzte,
+Notare und Anwälte aber auch Journalisten und politisch verfolgte Aktivisten.
+Leider ist zum jetzigen Zeitpunkt keine zusätzliche Anonymisierung vorgesehen,
+die es erlauben würde auch die Quelle der Daten unkenntlich zu machen. Dies
+könnte allerdings später mit Hilfe des Tor Netzwerks (Tor Onion Routing Projekt)
+realisiert werden.
 
-TODO: grafik: kleines bild um Hashformat visuell zu erklären?
+## Einsatszenarien
 
-```bash
-$ ipfs add my-photo.png
-QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
-```
+Zusammengefasst soll ``brig`` also in folgenden Einsatszenarien praktikabel nutzbar sein:
 
-[^IPFS_DAEMON]: Voraussetzung hierfür ist allerdings, dass der ``ipfs``--Daemon
-vorher gestartet wurde und ein Repository mittels ``ipfs init`` erzeugt wurde.
+**Synchronisationslösung:** Spiegelung von zwei oder mehr Ordnern und das
+Teilen desselben zwischen ein oder mehreren Nutzern. Ein häufiger
+Anwendungsfall ist dabei die Synchronisation zwischen mehreren Geräten eines
+einzigen Nutzers. Eine selektive Synchronisation bestimmter Ordner ist vorerst
+nicht vorgesehen.
 
-[^IPFS_HASH]: Mehr Informationen unter: <https://github.com/multiformats/multihash>
+**Transferlösung:** »Veröffentlichen« von Dateien nach Außen mittels *Gateways* über den Browser.
+Eine beliebige Anzahl an bekannten und unbekannten Teilnehmern können die Datei herunterladen.
 
-Auf einem anderen Computer, mit laufenden ``ipfs``--Daemon, ist das Empfangen
-der Datei möglich, indem der Hash an ``ipfs cat`` gegeben wird. Dabei wird für
-den Nutzer transparent über die DHT ein Peer ausfindig gemacht, der die Datei
-anbieten kann:
+**Versionsverwaltung:** Alle Modifikationen an den bekannten Dateien werden aufgezeichnet.
+Bis zu einer gewissen Mindestiefe können Dateien wiederhergestellt werden. Die Tiefe hängt
+dabei von der *Quota* ab und ob andere Teilnehmer die Datei noch speichern.
 
-```bash
-$ ipfs cat QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG > my-photo.png
-```
+**Backup- und Archivierungslösung:** Es ist möglich Knoten so zu konfigurieren, dass
+(nach Möglichkeit) alle Dateien gepinned werden. Ein solcher Knoten kann dann
+anderen Teilnehmern automatisch als Archiv für alte Dateien dienen.
 
-Im Hintergrund wird die Datei dabei in kleinere Blöcke zerlegt. Von jedem Block
-wird ein Hashwert erstellt und alle Hashwerte in einem sogenannten *Merkle-DAG*
-(*Directed Acyclic Graph*). Diese Struktur ist ähnlich zu einem Merkle--Tree
-(TODO: ref), erlaubt aber zusätzlich beliebige Verlinkungen zwischen den
-Kindknoten. Der Einsatz dieser Datenstruktur hat mehrere Vorteile:
+**Verschlüsselter Safe:** Da alle Dateien verschlüsselt sind, müssen sie beim Start
+der Software erst »aufgeschlossen« werden. Da die entschlüsselten Daten nur
+im Hauptspeicher vorgehalten werden, ist nach Beenden der Software kein
+Zugriff mehr möglich.
 
-* Der Wurzelknoten hat eine Prüfsumme, die aus den Unterprüfsummen erstellt wird.
-* *Authentifizierung:* Eine Änderung der Blöcke unten resultiert zwangsweise
-  in eine Änderung der Prüfsumme oben.
-* *Deduplizierung:* Doppelte Blöcke müssen nur einmal gespeichert werden und
-  können durch Verlinkung repräsentiert werden. Das reduziert sowohl
-  Speicherkosten, als auch Übertragungsaufwand. Wie wir später sehen werden (TODO: ref) ist 
-  dieses Konzept aber nur bedingt bei ``brig`` übertragbar.
+**Plattform:** Die momentane Implementierung ist als Werkzeugkasten für
+Dateisynchronisation ausgelegt. Sofern keine Echtzeitbedingungen benötigt
+werden, kann ``brig`` beispielsweise zum Synchronisieren von Log--Dateien im
+Industrie--4.0 Umfeld oder zum Verteilen von Konfigurations--Dateien eingesetzt
+werden.
 
-Auch ganze Verzeichnisse können in einem *Merkle--DAG* gespeichert werden,
-intern werden diese ähnlich wie bei ``tar`` in eine große Datei zusammengeführt.
-TODO: Siehe Abbildung [@fig:merke-tree]
-
-![Beispiel für einen Merkle--Tree, welcher versionierte Verzeichnisse abbildet.](images/2/merkle-tree.pdf){#fig:merkle-tree}
-
-**Public--Key Infrastructure:** Jeder Knoten im *IPFS*--Netzwerk besitzt ein
-RSA--Schlüsselpaar, welches beim Anlegen des Repositories erzeugt wird. Mittels
-einer Prüfsumme  wird aus dem öffentlichen Schlüssel eine Identität berechnet
-($ID = H_{sha256}(K_{Public})$). Diese kann dann dazu genutzt wird einen Knoten
-eindeutig zu identifizieren und andere Nutzer im Netzwerk nachzuschlagen und
-deren öffentlichen Schlüssel zu empfangen:
-
-```bash
-# Nachschlagen des öffentlichen Schlüssels eines zufälligen Bootstrap-Nodes:
-$ ipfs id QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ
-{
-  "ID": "Qmdx8h9589Gk3ApQr35S4K8P8Q6cGmsioGBvHRGVzB3b7G",
-  "PublicKey": "CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK[...]",
-  ...
-}
-```
-
-Der öffentliche Schlüssel kann dazu genutzt werden, mit seinem Peer
-mittels asymmetrischer Verschlüsselung eine verschlüsselte Verbindung
-aufzubauen. Von ``brig`` wird dieses Konzept weiterhin genutzt, um eine Liste
-vertrauenswürdiger Knoten zu verwalten. Jeder Peer muss bei Verbindungsaufbau
-nachweisen, dass er den zum öffentlichen passenden privaten Schlüssel besitzt.
-Der genaue Ablauf dieser Authentifikation kann in [TODO ref christoph] nachgelesen werden.
-
-**Pinning und Caching:** Das Konzept von *IPFS* basiert darauf, dass Knoten nur
-das speichern, worin sie auch interessiert sind. Daten, die von außen zum
-eigenen Knoten übertragen worden sind werden nur kurzzeitig zwischengelagert.
-Nach einiger Zeit bereinigt der eingebaute Garbage--Collector die Daten im
-*Cache*.[^IPFS_MANUAL_GC]
-
-Werden Daten allerdings über den Knoten selbst hinzugefügt, so bekommen sie
-automatisch einen *Pin* (dt. Stecknadel). *Gepinnte* Daten werden automatisch
-vom *Garbage-Collector* ignoriert und beliebig lange vorgehalten, bis sie
-wieder *unpinned* werden. Möchte ein Nutzer sicher sein, dass die Datei im
-lokalen Speicher bleibt, so kann er sie manuell pinnen:
-
-```bash
-$ ipfs pin add QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
-```
-
-Wenn die Dateien nicht mehr lokal benötigt werden, können sie *unpinned* werden:
-
-```bash
-$ ipfs pin rm QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
-```
-
-[^IPFS_MANUAL_GC]: Der Garbage--Collector kann auch manuell mittels ``ipfs repo gc`` von der Kommandozeile aufgerufen werden.
-
-TODO: Diesen Abschnitt in Architektur verschieben. das ist ja 'eigenleistung'
-
-**Service Discovery:** In den Anforderungen in [@sec:eigenschaften] wird eine
-menschenlesbare Identität gefordert, mit der *Peers* einfach erkennbar sind.
-Der von *IPFS* verwendete Identitätsbezeichner ist allerdings eine tendenziell
-schwer zu merkende Prüfsumme. Um dieses Dilemma zu lösen, wendet ``brig`` einen
-»Trick« an. Jeder ``brig``--Knoten legt eine Datensatz in das *IPFS* Netzwerk
-mit dem Inhalt ``brig:<username>``. Ein Nutzer der nun einen solchen
-menschenlesbaren  Namen zu einem Netzwerkadresse  auflösen möchte, kann den
-Inhalt des obigen Datensatzes generieren und daraus eine Prüfsumme bilden. Mit
-der entstandenen Prüfsumme kann mittels folgenden Befehls herausgefunden
-werden, welche Knoten diesen Datensatz anbieten:
-
-```bash
-$ ipfs dht findprovs <HASH_OF_BOBS_ID>
-<PEER_ID_BOB_1>
-<PEER_ID_BOB_2>
-...
-```
-
-Da prinzipiell jeder Knoten sich als *Bob* ausgeben kann, wird aus den
-möglichen Peers, derjenige ausgewählt, dessen *IPFS*--Identitätsbezeichner (bei
-``brig`` wird dieser als *Fingerprint* bezeichnet) als vertrauenswürdig
-eingestuft wurde. Dies setzt im Umkehrschluss voraus, dass eine erstmalige
-Authentifikation stattgefunden haben muss.
-
-TODO: Grafik?
-
-**Flexibles Networking:** Einer der größten Vorteile von *IPFS* ist, dass es
-auch NAT--Grenzen hinweg funktioniert. NAT steht dabei für *Network Adress
-Resolution* (dt. Netzwerkadressübersetzung) und ist eine Technik, um zwischen
-einer öffentlichen und mehreren lokalen IP--Adressen zu vermitteln. Es wird
-aufgrund der Knappheit von IPv4 sehr häufig eingesetzt, um einen Heim- oder
-Unternehmensnetzwerk eine einzige IP-Adresse nach außen zu geben, die über
-bestimmte Ports dann den Verkehr auf die jeweiligen lokalen Adressen übersetzt.
-Der Nachteil in Bezug auf P2P--Netzwerken ist dabei, dass die Rechner hinter
-einem *NAT* nicht direkt erreichbar sind. Client/Server Anwendungen haben damit
-kein Problem, da der Client die Verbindung zum Server selbstständig aufbaut.
-Bei einer P2P--Kommunikation hingegen, muss eine Verbindung in beide Richtungen
-möglich sein --- und das möglicherweise sogar über mehrere *NATs*.
-
-Die Umgehung dieser Grenzen ist in der Literatur als *NAT Traversal* bekannt
-(TODO: ref). Eine populäre Technik ist dabei das UDP--Hole--Punching (TODO:
-ref). Dabei wird grob erklärt ein beiden Parteien bekannter Mittelmann (oft ein
-*Bootstrap*--Knoten) herangezogen, über den die eigentliche, direkte Verbindung
-aufgebaut wird. Mehr Details finden sich in TODO: ref. Eine Notwendigkeit dabei
-ist die Verwendung von *UDP* anstatt *TCP*. Um die Garantien, die *TCP*
-bezüglich der Paketzustellung gibt, zu erhalten nutzt *IPFS* das
-Anwendungs--Protokoll *UDT*. Insgesamt implementiert *IPFS* also einige
-Techniken, um, im Gegensatz zu den meisten theoretischen Ansätzen, eine leichte
-Benutzbarkeit zu gewährleisten. Speziell wäre hier zu vermeiden, dass ein
-Anwender die Einstellungen seines Routers ändern muss, um ``brig`` zu nutzen.
-
-[^UDT]: http://udt.sourceforge.net/
-
-In Einzelfällen kann es natürlich trotzdem dazu kommen, dass die von *IPFS* verwendeten Ports
-durch eine (besonders in Unternehmen übliche) Firewall blockiert werden. Dies kann nötigenfalls
-aber vom zuständigen Administrator geändert werden. Allerdings werden Unternehmen eh dazu
-tendieren nur ein abgeschottetes ``brig``--Netzwerk in der Firma einzusetzen.
-
-**Übermittlung zwischen Internet und IPFS:** Ein Client/Server--Betrieb lässt sich mithilfe der *IPFS Gateways*
-emulieren. *Gateways* sind zentrale, wohlbekannte Dienste, die zwischen dem »normalen Internet« und
-dem *IPFS* Netzwerk mittels HTTP vermitteln. Die Datei ``my-photo.png`` aus dem obigen Beispiel kann
-von von anderen Nutzern bequem über den Browser heruntergeladen werden:
-
-```bash
-$ export PHOTO_HASH=QmPtoEEMMnbTSmzr28UEJFvmsD2dW88nbbCyyTrQgA9JR9
-$ curl https://gateway.ipfs.io/ipfs/$PHOTO_HASH > my-photo.png
-```
-
-Auf dem *Gateway* läuft dabei ein Webserver, der dasselbe tut wie ``ipfs cat``, aber statt auf der Kommandozeile
-die Daten auf eine HTTP--Verbindung ausgibt. Standardmäßig wird mit jedem Aufruf von ``ipfs daemon``
-ein Gateway auf der Adresse ``http://localhost:8080`` gestartet.
+Es gibt natürlich auch einige Einsattzzwecke, für die ``brig`` eher bis gar
+nicht geeignet ist. Diese werden im [@sec:evaluation] beleuchtet, da die
+dortige Argumentation teilweise ein Verständnis von der internen Architektur
+benötigen.
 
 ## Annahmen
 
@@ -570,7 +478,7 @@ austauschen können.
 Hardware ausgerichtet. Wir gehen vom Vorhandensein eines »normalen«
 Arbeitsrechners mit normalen Prozessor und mindestens 2GB Arbeitsspeicher aus.
 
-**Stabilität von IPFS:** Wir nehmen an, dass *IPFS* stetig weiterentwickelt
+**Stabilität von ``ipfs:``** Wir nehmen an, dass ``ipfs`` stetig weiterentwickelt
 wird und im momentanen Zustand keine gravierenden Sicherheitsmängel und
 sonstige Fehler hat. Zudem nehmen wir an, dass es für unsere Zwecke ausreichend
 hohe Performanz bietet.
@@ -583,10 +491,10 @@ Aspekt ausgewählt werden.
 
 TODO: Datei wird öfters gelesen als geschrieben.
 
-**Keine Kollision der Prüfsummen:** ``brig`` kann (genau wie *IPFS*) Dateien nicht auseinander halten,
+**Keine Kollision der Prüfsummen:** ``brig`` kann (genau wie ``ipfs``) Dateien nicht auseinander halten,
 die einen unterschiedlichen Inhalt besitzen, aber die selbe Prüfsumme erzeugen.
 Auch wenn dieser Fall in der Theorie eintreten mag, so ist er extrem schwer absichtlich oder unabsichtlich
-zu erreichen. Der von *IPFS* standardmäßig verwendete Algorithmus ist *sha256*, welcher ein Ausgabe
+zu erreichen. Der von ``ipfs`` standardmäßig verwendete Algorithmus ist *sha256*, welcher ein Ausgabe
 von 256 Bit. Wie in [@eq:hash-collision] gezeigt, müssten aufgrund des Geburtstagsparadoxons unpraktikabel
 viele Prüfsummen erzeugt werden, um eine Kollisionswahrscheinlichkeit von $0.1\%$ zu erreichen.
 
