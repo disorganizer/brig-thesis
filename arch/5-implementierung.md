@@ -58,7 +58,7 @@ Plattformen wie *GitHub* zu installieren. Gleichzeitig ist es sehr simpel
 möglich dort eigene Bibliotheken und Anwendungen einzustellen.
 (TODO: online-build websites?)
 
-**Einheitliche Formattierung:** Durch das ``go fmt`` Werkzeug und strikte
+**Einheitliche Formatierung:** Durch das ``go fmt`` Werkzeug und strikte
 Stilrichtlinien sieht jeder *Go*--Quelltext ähnlich und damit vertraut aus.
 Dies ermöglicht externen Entwicklern den Einstieg.
 
@@ -101,52 +101,73 @@ zwar oft, aber merken tut man nicht viel von. Immer diese Ruby Hipster)
 
 [^UPX]: Ein Packprogramm Mehr Informationen unter <http://upx.sourceforge.net>
 
-## Entwicklungsumgebung
+## Status der Implementierung
 
-Repository Struktur
+Exakte Beschreibung aller Klassen würde zu weit füren,
+schau in die godoc: godoc TODO
 
-Travis, git, nvim, glide
+cloc-statistiken
 
-``brig`` wurde komplett in go geschrieben. Keine C-Abhängigkeiten nötig.
-
-## Überbick über die Software
+### Aufbau des Metadatenindex
 
 Jeder Knotentyp des Merkle DAG hat eigenen In-Memory Wrapper.
 
-godoc
+BoltDb/Bucketlayout
 
-Konzeptueller überblick über die Go-Pakete (TODO: Paketdiagramm).
+Protobuf serialisierung
 
-### Umgebungsvariablen
+### On--Disk Format
 
-### Portbelegung
+Repository Struktur
 
-### FUSE Layer
+### Paketaufteilung
 
-### Verwendete Bibliotheken
-
-### Algorithmik
-
-(Flaschenhälse)
+Konzeptueller überblick über die Go-Pakete
 
 ![Übersicht über alle Pakete in ``brig``](images/5/write-overlay.pdf){#fig:package-diagram}
 
-### Historisches
+`tree` vom source
+
+### FUSE Filesystem
+
+TODO: Ist das architektur oder implementierung?
+
+### Abstraktionen
+
+- Layer zwischen brig und ipfs
+- Layer zwischen bolt und brig
+
+### Nennenswerte Bibliotheken
+
+### Probleme
+
+- Algorithmik: Overlay is in memory
+* Portbelegung: global brig config
+* mehrere repositories
+* vendoring problematik
+* Problem: Keine Garantie, dass Dateien aufgelöst werden sollen.
+
+## Entwicklungsumgebung
+
+Travis, git, nvim, glide, gometalinter
+
+## Historisches
+
+Dauer und Historie der Entwicklung
+
+Zeigen wieviel Zeit jeweils draufging
+
+### Sackgassen
 
 - XMPP
+
 - MQTT
 
-## Problemstellungen
+* Altes Datenmodell
 
-Hürden bei entwicklung
+* Hürden bei entwicklung
 
-vendoring problematik
-
-Kernstück: store. Kurze Implementierungsveranschaulichung.
-
-Problem: Keine Garantie, dass Dateien aufgelöst werden sollen.
-
-## Beiträge zu anderen Projekten
+### Beiträge zu anderen Projekten
 
 - Pull requests bei ipfs projekt und andere
 
@@ -156,6 +177,4 @@ https://github.com/ipfs/go-ipfs/pull/1981
 
 (DefaultHash und Help fix)
 
-## Benchmarks
-
-## Testsuite
+## Stand der Testsuite

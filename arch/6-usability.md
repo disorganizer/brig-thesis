@@ -20,7 +20,7 @@ Merkmale optimiert:
 TODO: welche merkmale?
 
 - Minimalismus
-- a
+- a!
 - Die Software muss im Hintergrund bleiben.
 
 https://en.wikipedia.org/wiki/Zooko%27s_triangle
@@ -43,7 +43,7 @@ Internationalisierung? Gettext von error messages?
 
 Fallstudie: Syncthing-GUI (kompliziert, viel unnötige infos)
 
-Größte Probleme: 
+Größte Probleme:
 
 - Starten des Hintergrunddienstes ``brigd``.
 - Authentifizieren anderer Nutzer (QR-Codes!)
@@ -52,20 +52,26 @@ Größte Probleme:
 
 http://www.usabilitynet.org/trump/methods/recommended/requirements.htm
 
-
 Understandability
 Learnability
 Operability
 Attractiveness
 Configurability is the root of all evil
 
-### Installation
+Einfache Installation
 
 ## Kommandozeile
 
+Ansatzweise ergonomische gestaltung der cmdline
+
+Poweruser
+
+Initiale Passworteingabe (screenshot?)
+
+
 Problem: Noch werden keine short hashes erkannt. (Also Qm123 statt Qm123235AFWFDWEFFWF)
 
-## Grafische oberflächhe
+## Grafische Oberfläche
 
 Bereich, die die GUI abdecken muss:
 
@@ -93,10 +99,12 @@ Idee: Kontakte mit wieder erkennbaren Farben einfärben, wie bei Signal. -> Farb
 
 ![E](images/6/view-vcs.png){#fig:mockup-vcs}
 
-![F](images/6/menu.png){#fig:mockup-menu}
+![F](images/6/menu.png){#fig:mockup-menu width=25%}
 
 
 ## Verhalten bei Fehlern
+
+Wie werden Fehler dem Nutzer mitgeteilt?
 
 (Netzwerkfehler zB)
 

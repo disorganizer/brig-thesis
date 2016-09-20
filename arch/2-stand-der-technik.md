@@ -158,8 +158,6 @@ an Dateisynchronisationssoftware (im weitesten Sinne) sehr unübersichtlich ist.
 Ein näherer Blick zeigt, dass die Softwareprojekte dort oft nur in Teilaspekten
 gut funktionieren oder mit anderen unlösbaren Problemen behaftet sind.
 
-## Verschiedene Alternativen
-
 Im Folgenden geben wir eine unvollständige Übersicht über bekannte
 Dateisynchronisations--Programme. Davon stehen nicht alle in Konkurrenz zu
 ``brig``, sind aber zumindest aus Anwendersicht ähnlich. ``brig`` hat sich zum
@@ -347,7 +345,13 @@ werden kann.
 [^CAN]: Siehe auch: <https://en.wikipedia.org/wiki/Content_addressable_network> (TODO: eigenes buch referenzieren)
 [^LIBP2P]: Mehr Informationen in der Dokumentation unter: <https://github.com/ipfs/specs/tree/master/libp2p>
 
-### Eigenschaften von *IPFS*
+### Eigenschaften von ``ipfs``
+
+TODO: Noch verarzten:
+
+Weltweites Netzwerk limitieren auf lokales Netzwerk.
+Cool: Downloads are "resuamble" dank block-basiertes ipfs.
+
 
 Im Folgenden werden die Eigenschaften von ``IPFS`` kurz vorgestellt, welche von
 ``brig`` genutzt werden. Einige interessante Features wie das *Naming System* (IPNS),

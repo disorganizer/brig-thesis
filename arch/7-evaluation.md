@@ -1,5 +1,11 @@
 # Evaluation {#sec:evaluation}
 
+In diesem Kapitel wird die Implementierung und die dahinter stehende
+Architektur auf Schwächen untersucht. Es wird gezeigt, was die Software nicht
+zu leisten vermag und welche eingangs definierten Anforderungen sie (noch)
+nicht erfüllen kann. Abgeschlossen wird das Kapitel mit verschiedenen
+Geschwindigkeitsmessungen, sowie einigen Konzepten zur weiteren Entwicklung.
+
 ## Was ``brig`` *nicht* ist
 
 TODO: Siehe auch: https://bazil.org/doc/antigoals/?
@@ -85,7 +91,20 @@ bis zu einen gewissen, konfigurierbaren *Beschädigungsgrad* erlaubt. Siehe auch
 [^GLUSTER]: Webpräsenz: <https://www.gluster.org>
 [^ABSTREIT]: Siehe auch: <https://de.wikipedia.org/wiki/VeraCrypt\#Glaubhafte_Abstreitbarkeit>
 
-## Defizite der aktuellen Implementierung
+## Fehlende Anforderungen
+
+Durch Anforderungen in Kapite 2 gehen und nachschauen ob alles jut ist. (Hint: Nö.)
+
+Storage Quotas
+
+Simpler Sync algorithmus
+
+kein checkpoint squashing
+
+
+## Andere Defizite
+
+Defizite der aktuellen Implementierung
 
 ### Beschränkte Synchronisationsfähgikeiten
 
@@ -98,17 +117,7 @@ bis zu einen gewissen, konfigurierbaren *Beschädigungsgrad* erlaubt. Siehe auch
 Filesystem anforderunge (transactions?)
 Journal-log für atomic operations
 
-
-## Fehlende Anforderungen
-
-Durch Anforderungen in Kapite 2 gehen und nachschauen ob alles jut ist. (Hint: Nö.)
-
-Storage Quotas
-
-Simpler Sync algorithmus
-
-kein checkpoint squashing
-
+## Benchmarks
 
 ## Zukünftige Erweiterungen
 
@@ -139,7 +148,8 @@ Repair-Funktionalität und saubere Transaktionen um Verlässlichkeit zu erhöhen
 
 [^TAG]: Mit einem ähnlichen Ansatz wie <https://en.wikipedia.org/wiki/Tagsistant>
 
-## Portierbarkeit
+
+Portierbarkeit zu:
 
 Android, Windows.
 

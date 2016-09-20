@@ -1,5 +1,9 @@
 # Anhang: Benutzerhandbuch {#sec:benutzerhandbuch}
 
+TODO: rename brig add -> brig stage
+             brig unstage einführen
+			 brig status/checkout/log?
+
 Die Funktionalität des ``brig``--Prototypen ist im momentanen Zustand nur über
 eine Kommandozeilenanwendung erreichbar. Die Hilfe dieser Anwendung wird unten
 gezeigt. Im Folgenden werden die einzelnen zur Verfügung stehenden Optionen und

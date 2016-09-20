@@ -78,7 +78,7 @@ dezentrale Arbeitsweise bestehende zentrale Alternativen wie ``svn`` oder
 ``cvs`` fast vollständig abgelöst. Zusätzlich ist der Gesamteinsatz von
 Versionsverwaltungssystemen durch die verhältnismäßige einfache Anwendung
 gestiegen. Wir hoffen mit ``brig`` eine ähnlich flexible Lösung für große
-Dateien etablieren zu können.
+Dateien etablieren zu können. 
 
 [^GIT_REF]: Ein dezentrales Versionsverwaltungssystem; siehe auch: <https://git-scm.com>
 
@@ -106,7 +106,7 @@ Techniken und Designentscheidungen dahinter geben, um sie anschließend kritisch
 zu reflektieren. Sicherheitsaspekte werden in dieser Arbeit nur oberflächlich
 angeschnitten, da Herr Piechula in seiner Arbeit »*Sicherheitskonzepte und
 Evaluation dezentraler Dateisynchronisationssysteme am Beispiel
-brig*«[@cpiechula] die Sicherheitskonzepte der Software im Detail beleuchtet. 
+brig*«[@cpiechula] die Sicherheitskonzepte der Software im Detail beleuchtet.
 
 Die vorliegende Arbeit ist in drei größere logische Blöcke gegliedert:
 
@@ -141,3 +141,14 @@ Unsere sonstigen Projekte finden sich der Vollständigkeit halber auf GitHub:
 * <https://github.com/studentkittens> (gemeinsame Projekte und Studienarbeiten)
 
 [^DSG]: Siehe auch: <http://dsg.hs-augsburg.de>
+
+## Typografische Konventionen
+
+TODO: Angebracht?
+
+- ``Monospaced``: Programmnamen.
+* *Hervorgehoben*
+* **Absatz:**
+
+Diagramme nutzen monospaced als font.
+

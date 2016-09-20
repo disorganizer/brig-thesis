@@ -745,34 +745,40 @@ Zwei Beispiele verdeutlichen dies:
 * Verschiebt Alice eine Datei zu einem neuen Pfad, muss dieser neue Pfad
   trotzdem mit dem alten Pfad von Bob verglichen werden.
 
-Es muss also eine Abbildung gebildet werden, die jedem Pfad von Alice einen
+Es muss also eine Abbildungsfunktion gefunden werden, die jedem Pfad von Alice einen
 Pfad von Bob zuordnet. Die Wertemenge dieser Funktion entspricht der Menge $X$,
 also aller Pfade die einer speziellen Konfliktauflösung bedürfen. Die Menge $Z$
 (also alle Pfade die Bob hat, aber Alice nicht) ergibt sich dann einfach durch
 $Z = Paths_{B} \ X$. Für die Abbildung von Alice' Pfaden zu Bob's Pfaden
 funktioniert die Abbildungsfunktion folgendermaßen:
 
-1) Auf beiden Seiten werden alle Knoten gesammelt, die sich seit dem letzten gemeinsamen Merge--Point verändert haben.
-   Falls es noch keinen Merge--Point gab, werden alle Knoten angenommen.
-2) Auf beiden Seiten wird für jeden Knoten die Historie ($=$ Liste aller Checkpoints) seit dem letzten Merge--Point gesammelt, oder
+1) Auf Bob's Store werden alle Knoten gesammelt, die sich seit dem letzten gemeinsamen Merge--Point verändert haben.
+   Falls es noch keinen gemeinsamen Merge--Point gab, werden alle Knoten angenommen.
+2) Auf Bob's Store wird für jeden Knoten die Historie ($=$ Liste aller Checkpoints) seit dem letzten Merge--Point gesammelt, oder
    die gesamte Historie ($=$ alle Checkpoints) falls es noch keinen Merge--Point gab.
-3) Es wird auf beiden Seiten ein Hashtabelle erstellt, die alle bekannten Pfade der Historie zuordnen, in dem der Pfad vorkommt.
-   Im Normalfall ist das nur ein Pfad. Bei verschobenen Pfaden können allerdings mehrere Einträge für die selbe Historie entstehen.
-   Gelöschte Dateien sind in der Hashtabelle unter ihrem zuletzt bekannten Pfad zu finden.
-4) Für alle Pfade, die Alice momentan besitzt (Alle Pfade unter ``HEAD``), wird der Algorithmus in [@lst:sync-map] ausgeführt.
-   Dieser ordnet jedem Pfad von Alice, einem Pfad von Bob zu oder meldet dass er kein Mapping herstellen konnte.
+3) Es wird eine Abbildung (als assoziatives Array) erstellt, die alle bekannten
+   Pfade von Bob der jeweiligen Historie zuordnen, in dem der Pfad vorkommt. Mehr
+   als ein Pfad kann dabei auf die gleiche Historie zeigen, wenn Verschiebungen
+   vorkamen. Gelöschte Dateien sind in der Abbildung unter ihrem zuletzt bekannten
+   Pfad zu finden.
+4) Für alle Pfade, die Alice momentan besitzt (Alle Pfade unter ``HEAD``), wird
+   der Algorithmus in [@lst:sync-map] ausgeführt. Dieser ordnet jedem Pfad von
+   Alice, einem Pfad von Bob zu oder meldet dass er kein passendes Gegenstück
+   gefunden werden konnte.
 
 ```{#lst:sync-map .go}
-// Eine Hashtable mit dem Pfad zu der Historie seit dem letzten gemeinsamen Merge-Point.
+// Ein assoziatives Array mit dem Pfad zu der Historie
+// seit dem letzten gemeinsamen Merge-Point.
 type PathToHistory map[string]*History
 
-// BobMapping enthält alle Pfade, auch Pfade die entfernt wurden.
+// BobMapping enthält alle Pfade;
+// also auch Pfade die entfernt wurden (unter ihrem letzten Namen)
 // Wurden Pfade verschoben, so enthält das Mapping auch alle Zwischenschritte.
 func MapPath(HistA, BobMapping PathToLastHistory) (string, error) {
-	// Iteriere über alle Zwischenstationen, die `HistA` hatte.
-	// (in den meisten Fällen ohne Verschiebungen nur ein einziger)
+	// Iteriere über alle Zwischenpfade, die `HistA` hatte.
+	// In den meisten Fällen (ohne Verschiebungen) also nur ein einziger.
 	for _, path := range NodeA.AllPaths() {
-		HistB, ok := Bob[path]
+		HistB, ok := BobMapping[path]
 
 		// Diesen Pfad hatte Bob nicht.
 		if !ok {
@@ -780,11 +786,13 @@ func MapPath(HistA, BobMapping PathToLastHistory) (string, error) {
 		}
 
 		// Erfolg! Gebe den aktuellsten Pfad von Bob zurück.
-		// (also der Pfad an dem die Datei zuletzt bei Bob war)
+		// Also der Pfad an dem die Datei zuletzt bei Bob war,
+		// beziehungsweise der Pfad des aktuellsten Checkpoints.
 		return HistB.MostCurrentPath(), nil
 	}
 
 	// Bob hat diesen Pfad nirgends.
+	// -> Es muss ein Pfad sein, den nur Alice hat.
 	return "", ErrNoMappingFound
 }
 ```
@@ -795,27 +803,6 @@ unter [@sec:sync-single-file] synchronisiert werden. Die Dateien, die Bob
 zusätzlich hat (aber Alice nicht) können nun leicht ermittelt werden, indem geprüft wird
 welche von Bob's Pfaden noch nicht in der errechneten Hashtabelle vorkommen.
 Diese Pfade können dann in einem zweiten Schritt dem Stand von Alice hinzugefügt werden.
-
-TODO: Ist das wichtig?
-
-Prinzipiell lässt sich die Synchronisation einer Datei auf Verzeichnisse
-übertragen, indem einfach obiger Algorithmus auf jede darin befindliche Datei
-angewandt wird. In der Fachliteratur (vergleiche unter anderem [@cox2005file])
-findet sich zudem die Unterscheidung zwischen *informierter* und
-*uninformierter* Synchronisation. Der Hauptunterschied ist, dass bei ersterer
-die Änderungshistorie jeder Datei als zusätzliche Eingabe zur Verfügung steht.
-Auf dieser Basis können dann intelligentere Entscheidungen bezüglich der
-Konflikterkennung getroffen werden. Insbesondere können dadurch aber leichter
-die Differenzen zwischen den einzelnen Ständen ausgemacht werden: Für jede
-Datei muss dabei lediglich die in [@lst:file-sync] gezeigte Sequenz abgelaufen
-werden, die von beiden Synchronisationspartnern unabhängig ausgeführt werden
-muss.
-
-Werkzeuge wie ``rsync`` betreiben eher eine *uninformierte Synchronisation*.
-Sie müssen bei jedem Programmlauf Metadaten über beide Verzeichnisse sammeln
-und darauf arbeiten. TODO: mehr worte verlieren Im Gegensatz zu Timed Vector
-Pair Sync, informierter Austausch, daher muss nicht jedesmal der gesamte
-Metadatenindex übertragen werden.
 
 ### Austausch der Metadaten
 
@@ -857,6 +844,30 @@ werden. Dadurch wären Änderungen in »Echtzeit« auf anderen Knoten verfügbar
 Aus Zeitgründen wird an dieser Stelle aber nur auf diese Möglichkeit verwiesen;
 eine konzeptuelle Implementierung steht noch aus.
 
+
+### Abgrenzung zu anderen Synchronisationswerkzeugen
+
+TODO: Ist das wichtig?
+
+In der Fachliteratur (vergleiche unter anderem [@cox2005file])
+findet sich zudem die Unterscheidung zwischen *informierter* und
+*uninformierter* Synchronisation. Der Hauptunterschied ist, dass bei ersterer
+die Änderungshistorie jeder Datei als zusätzliche Eingabe zur Verfügung steht.
+Auf dieser Basis können dann intelligentere Entscheidungen bezüglich der
+Konflikterkennung getroffen werden. Insbesondere können dadurch aber leichter
+die Differenzen zwischen den einzelnen Ständen ausgemacht werden: Für jede
+Datei muss dabei lediglich die in [@lst:file-sync] gezeigte Sequenz abgelaufen
+werden, die von beiden Synchronisationspartnern unabhängig ausgeführt werden
+muss.
+
+Werkzeuge wie ``rsync`` oder ``unison`` betreiben eher eine *uninformierte
+Synchronisation*. Sie müssen bei jedem Programmlauf Metadaten über beide
+Verzeichnisse sammeln und darauf arbeiten. TODO: mehr worte verlieren Im
+Gegensatz zu Timed Vector Pair Sync, informierter Austausch, daher muss nicht
+jedesmal der gesamte Metadatenindex übertragen werden.
+
+-> Nicht besser oder schlechter. Aber anders.
+
 ### Speicherquoten
 
 Werden immer mehr Modifikationen gespeichert, so steigt der Speicherplatz immer
@@ -897,7 +908,7 @@ auch wieder entpacken kann.
 ## Architekturübersicht
 
 Um den eigentlichen Kern des Store sind alle anderen Funktionalitäten gelagert.
-[@fig:rch-overview] zeigt diese in einer Übersicht.
+[@fig:arch-overview] zeigt diese in einer Übersicht.
 
 ![Übersicht über die Architektur von ``brig``](images/4/architecture-overview.pdf){#fig:arch-overview}
 
@@ -1037,8 +1048,6 @@ Global config zur Bestimmung des Ports.
 
 ## Einzelkomponenten {#sec:einzelkomponenten}
 
-### Transfer--Layer {#sec:transfer-layer}
-
 ### Dateiströme
 
 https://en.wikipedia.org/wiki/Convergent_encryption
@@ -1061,6 +1070,10 @@ TODO: NaCL Secretbox erwähnen, Unterschiede
 
 ![Aufgbau des Kompressions--Dateiformat](images/4/format-compression.pdf){#fig:format-compression}
 
+### Transfer--Layer {#sec:transfer-layer}
+
+Encrypted RPC
+
 ### Dateisystemordner
 
 FUSE
@@ -1071,8 +1084,12 @@ FUSE
 
 ### Gateway
 
+Nicht implementiert, aber wie könnte das so aussehen?
+
 ### Sonstiges
 
 Logging
 
 Konfiguration
+
+Umgebungsvariablen
