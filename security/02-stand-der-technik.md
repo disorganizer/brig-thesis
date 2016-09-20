@@ -361,8 +361,8 @@ realisierbar.
 Bei der Nutzung eines dezentralen Netzwerks zum Austausch beziehungswiese zur
 Synchronisation von Daten musst der Benutzer in der Regel eine spezielle
 Software installieren und einen »Synchronisationsordner«, wie bei den zentralen
-Diensten, definieren welcher dem Netzwerk »bekannt« gemacht werden soll. Je
-nach eingesetztem Protokoll, variiert die Funktionsweise und Sicherheit.
+Diensten, definieren welcher dem Netzwerk »bekannt« gemacht werden soll. Je nach
+eingesetztem Protokoll, variiert die Funktionsweise und Sicherheit.
 
 ![Dezentraler Datenaustausch über Peer--to-Peer--Kommunikation. Es existiert
 keine zetrale Instanz, jeder Peer im Netzwerk ist
@@ -437,7 +437,7 @@ Wie bei zentralen Diensten, ist es auch bei dezentralen Netzwerken schwierig die
 einem Dienst--Anbieter ab, sondern vielmehr von der Umsetzung der Software, der
 Infrastruktur des Netzwerks, der »Sicherung der Daten« (verschlüsselte
 Speicherung, verschlüsselte Übertragung) und den Möglichkeiten, welche es
-ermöglichen einen Kommunikationspartner zu authentifizieren.
+ermöglichen einen Kommunikationspartner zu authentifizieren. 
 
 **Resilio--Sync** (ehemals Bittorrent--Sync), verwendete eine modifizierte
 Variante des BitTorrent--Protokolls[^btsyncprotocol]. Alle Daten werden laut
@@ -497,7 +497,7 @@ ersten Start der Anwendung erstellt wird. Abgelegt wird ein privater Schlüssel
 und ein selbst signiertes Zertifikat. Der private Schlüssel scheint nicht weiter
 geschützt zu sein:
 
-~~~sh
+~~~bash
 freya :: ~/.config/syncthing » cat key.pem 
 	-----BEGIN EC PRIVATE KEY-----
 	MIGkAgEBBDCQIMwVr730vKzoyHCbIqDoxNxAjKvdFYL+XnKk65GurCc9q2qiZJEU
@@ -512,7 +512,7 @@ jedoch die Nutzung von Transport Layer Security (TLS). Diese *ID* ist für jeden
 Teilnehmer eindeutig (aufgrund der asymmetrischen Kryptographie). Sie besteht
 aus einer kryptographischen Prüfsumme (SHA--256) eines eindeutigen
 kryptographischen Zertifikates, welches für die verschlüsselte Kommunikation und
-Authentifizierung zwischen den einzelnen Peers verwendet wird. 
+Authentifizierung zwischen den einzelnen Peers verwendet wird.
 
 Weiterhin ist das aktuell Design für *Discovery Spoofing* anfällig. Das heißt,
 dass ein Angreifer der im Netzwerk mitliest, *Device IDs* mitlesen kann und sich
@@ -524,7 +524,8 @@ Syncthing--Dokumentation[^stsec].
 
 [^stsec]: Understanding Device--IDs:  <https://docs.syncthing.net/dev/device-ids.html>
 
-Eine lokale Verschlüsselung der Daten finden nicht statt. 
+Eine lokale Verschlüsselung der Daten finden nicht statt. Schlüssel, welche die
+*Device ID* eindeutig identifizieren sind nicht weiter gesichert.
 
 *Librevault* ist ein sich noch im Frühstadion befindlicher Prototyp. Die aktuell
 getestete alpha Version ist beim hinzufügen eines »Synchronisationsordners«
@@ -535,55 +536,30 @@ Projektzielen sind auf dem Blog des Entwicklers[^librevault] zu finden.
 [^librevault]: Librevault Entwicklerblog: <https://librevault.com/blog/>
 
 *git--annex* ist ein sehr stark am *git* Versionsverwaltungssystem orientiertes
-Synchronisationswerkzeug. Es verwaltet die Metadaten in *git*.
+Synchronisationswerkzeug. Es verwaltet nur die Metadaten in *git*. Es funktioniert
+als *git*--Aufsatz, welcher es dem Benutzer ermöglicht auch große Binäre Dateien
+mittels *git* zu verwalten beziehungsweise zu synchronisieren.  Zum
+synchronisieren der Metadaten wird *git* verwendet, zum synchronisieren der
+eigentlichen Daten wird *git--annex* genutzt. Es überträgt die Daten mit rsync
+über ssh.
 
+Neben »normalen« *git*--Repositories werden sogenannten »Special Remotes«
+unterstützt. Diese werden verwendet um Daten auf ein System, auf welchem *git*
+nicht vorliegt, zu synchronisieren.
 
-Alternativen wie Syncthing, Resilio, Librevault oder
-Infinit ermöglichen Benutzern auf Basis von dezentralen Netzwerken Dateien zu
-tauschen. Ob die Daten verschlüsselt gespeichert und übertragen werden ist je
-nach Projekt unterschiedlich und unterliegt Änderungen in der aktuellen
-Entwicklungshase. @tbl:1 zeigt den aktuellen Stand bestimmter Features.
+Es ermöglicht eine Dateisynchronisation über verschiedene Protokolle
 
+#### Weiteres
 
-<!--
-|                      | **Dezentral**       | **Verschlüsselung (Client)**     | **Versionierung**                      |  **Quotas**       | **N-Kopien**    |
-| -------------------- | ------------------- | -------------------------------- | -------------------------------------- | ------------------|------------------|
-| *Dropbox/Boxcryptor* | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |  \xmark           | \xmark          |
-| *ownCloud*           | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |  \xmark           | \xmark          |
-| *Syncthing*          | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |  \xmark           | \xmark          |
-| *BitTorrent Sync*    | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |  \xmark           | \xmark          |
-| ``git-annex``        | \cmark              | \cmark                           | \cmark                                 |  \xmark           |  \cmark         |
-| ``brig``             | \cmark              | \cmark                           | \cmark                                 |  \cmark           |  \cmark         |
-
-
-**Praktische Aspekte:**
-
-|                      | **FOSS**            | **Einfach nutzbar** | **Einfache Installation**  | **Intelligentes Routing** | **Kompression** |
-| -------------------- | ------------------- | ------------------- |--------------------------  | ------------------------- |-----------------|
-| *Dropbox/Boxcryptor* | \xmark              | \cmark              | \cmark                     |  \xmark                   | \xmark          |
-| *ownCloud*           | \cmark              | \cmark              | \xmark                     |  \xmark                   | \xmark          |
-| *Syncthing*          | \cmark              | \cmark              | \cmark                     |  \cmark                   | \xmark          |
-| *BitTorrent Sync*    | \xmark              | \cmark              | \cmark                     |  \cmark                   | \xmark          |
-| ``git-annex``        | \cmark              | \xmark              | \xmark                     |  \xmark                   | \xmark          |
-| ``brig``             | \cmark              | \cmark              | \cmark                     |  \cmark                   | \cmark          |
-
-Table: Demonstration of a simple table. {#tbl:1}
-
--->
-
-Einen bisher nicht genannter, relativ neuen dezentraler Ansatz bietet das
-InterPlanetary--File--System, als Teil seiner Funktionalität. Dieses ist in der
+Einen bisher nicht genannten, relativ neuen dezentraler Ansatz bietet das
+InterPlanetary--File--System[^ipfs], als Teil seiner Funktionalität. Dieses ist in der
 aktuellen Implementierung jedoch eher als ein fortgeschrittener Prototyp
 anzusehen. Der Ansatz des IPFS--Protokolls ist vielversprechend. IPFS
 kombiniert dabei viele bereits bekannte Technologien zu einem einzigen Projekt.
 Hierdurch lassen sich schwächen aktuell genutzter Systeme abmildern oder gar
-vermeiden. 
+vermeiden.
 
-Datenintegrität behandeln.
-
-* Datensicherheit
-* Ausfallsicherheit
-
+[^ipfs]: InterPlanetary--File System: <https://en.wikipedia.org/wiki/InterPlanetary_File_System>
 
 ### Ähnliche Arbeiten
 
@@ -593,7 +569,7 @@ verfolgen jedoch unterschiedliche Ziele:
 * Infinit
 * Resilio
 * Syncthing
-* Bazil[^bazil] 
+* Bazil[^bazil]
 
 [^bazil]: Projektseite: <https://bazil.org/>
 
