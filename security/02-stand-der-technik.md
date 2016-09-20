@@ -39,9 +39,9 @@ muss auch genau definiert werden, gegen welches »Angriffsszenario« ein System
 betrachten wäre, kann im einfachsten Fall, durch die Weitergabe von Zugangsdaten
 an Dritte, kompromittiert werden.
 
-![Scherzhafte Darstellung eines möglichen Angriff auf eine Festplattenverschlüsselung mit optimalem Kosten/Nutzen--Verhältnis.[^src-xkcd]](images/security.png){#fig:img-security width=70%}
+![Scherzhafte Darstellung eines möglichen Angriff auf eine Festplattenverschlüsselung mit optimalem Kosten/Nutzen--Verhältnis.[^FN_XKCD_ENC_COMIC]](images/security.png){#fig:img-security width=70%}
 
-[^src-xkcd]:Quelle: <http://imgs.xkcd.com/comics/security.png>
+[^FN_XKCD_ENC_COMIC]:Quelle: <http://imgs.xkcd.com/comics/security.png>
 
 Neben dem technischen Ansatz beim »Angriff« auf ein System, gib es auch die
 psychologische Komponente, den Menschen, welcher wahrscheinlich die größte
@@ -120,22 +120,23 @@ Es ist sehr schwierig die »Sicherheit« der Cloud--Speicher--Anbieter realistis
 zu bewerten, da sowohl die Infrastruktur als auch die verwendete Software
 intransparent und proprietär ist.
 
-Die Daten werden laut Aussagen der Hersteller[^applesec][^dropboxsec]
+Die Daten werden laut Aussagen der
+Hersteller[^FN_APPLE_SECURITY][^FN_DROPBOX_SECURITY]
 verschlüsselt übertragen und mittlerweile auch verschlüsselt gespeichert.
 
-[^applesec]:Apple iCloud Security: <https://support.apple.com/en-us/HT202303>
-[^dropboxsec]:Dropbox Security: <https://www.dropbox.com/security>
+[^FN_APPLE_SECURITY]:Apple iCloud Security: <https://support.apple.com/en-us/HT202303>
+[^FN_DROPBOX_SECURITY]:Dropbox Security: <https://www.dropbox.com/security>
 
 Beim Einsatz der Cloud--Speicher--Dienste hängt die Sicherheit der Daten somit
 in erster Linie vom Dienstanbieter ab. Beim *iCloud*--Dienst von Apple
 beispielsweise werden die Daten verschlüsselt bei Drittanbietern wie der *Amazon
-S3*-- oder *Windows Azure*--Cloud gespeichert[^ios-secguide]. Die Metadaten und
+S3*-- oder *Windows Azure*--Cloud gespeichert[^FN_IOS_SECGUIDE]. Die Metadaten und
 kryptographische Schlüssel verwaltet Apple auf seinen eigenen Servern. Dropbox
 hat laut Medienberichten mittlerweile von der *Amazon*--Cloud auf eine eigene
-Infrastruktur migriert[^dropbox-s3-own].
+Infrastruktur migriert[^FN_DROPBOX_S3_OWN].
 
-[^dropbox-s3-own]:Dropbox Exodus Amazon Cloud Empire: <http://www.wired.com/2016/03/epic-story-dropboxs-exodus-amazon-cloud-empire/>
-[^ios-secguide]: Apple iOS Security: <http://www.apple.com/business/docs/iOS_Security_Guide.pdf>
+[^FN_DROPBOX_S3_OWN]:Dropbox Exodus Amazon Cloud Empire: <http://www.wired.com/2016/03/epic-story-dropboxs-exodus-amazon-cloud-empire/>
+[^FN_IOS_SECGUIDE]: Apple iOS Security: <http://www.apple.com/business/docs/iOS_Security_Guide.pdf>
 
 Das Problem hierbei ist die Umsetzung der Daten--Verschlüsselung der gängigen
 Cloud--Speicher--Anbieter. Anbieter wie *Dropbox* verschlüsseln laut eigener
@@ -148,32 +149,34 @@ dritte Parteien die Daten des Nutzers einsehen können (vgl. [@ko2015cloud] S.
 
 Ein weiteres Problem ist, dass ein Cloud--Speicher--Anbieter aufgrund seiner
 »zentralen Lage« ein gutes Angriffsziel bildet. Erst kürzlich wurde bekannt,
-dass Angreifer im Jahr 2012 ungefähr 70 Millionen Zugangsdaten[^db-dataleak]
+dass Angreifer im Jahr 2012 ungefähr 70 Millionen
+Zugangsdaten[^FN_DROPBOX_DATALEAK]
 entwendet haben. Hat ein Angreifer also die Zugangsdaten erbeutet, bringt die
 Verschlüsselung die der Cloud--Dienst betreibt in diesem Fall nichts. Die
 gestohlenen Passwörter waren nicht im Klartext einsehbar, moderne
 Angriffsmöglichkeiten auf Passwörter zeigen jedoch, dass das nichtsdestotrotz
 ein großes Problem ist. (siehe hierzu TODO: Sicherheit von Passwörtern)
 
-[^db-dataleak]: Dropbox <http://www.telegraph.co.uk/technology/2016/08/31/dropbox-hackers-stole-70-million-passwords-and-email-addresses/>
+[^FN_DROPBOX_DATALEAK]: Dropbox <http://www.telegraph.co.uk/technology/2016/08/31/dropbox-hackers-stole-70-million-passwords-and-email-addresses/>
 
 Abhilfe könnte in diesem Fall eine zusätzliche Verschlüsselung auf Seiten des
 Nutzers helfen, jedoch ist die Software hier für den Endverbraucher oft zu
 kompliziert, aufgrund Fehlern in der Implementierung nicht optimal geeignet
-(EncFS Audit[^encfsaudit]) oder proprietär (Boxcryptor[^boxcryptor]).
+(EncFS Audit[^FN_ENCFS_AUDIT]) oder proprietär (Boxcryptor[^FN_BOXCRYPTOR]).
 
-[^encfsaudit]:  EncFS Audit: <https://defuse.ca/audits/encfs.htm>
-[^boxcryptor]: Boxcryptor: <https://de.wikipedia.org/wiki/Boxcryptor>
+[^FN_ENCFS_AUDIT]:  EncFS Audit: <https://defuse.ca/audits/encfs.htm>
+[^FN_BOXCRYPTOR]: Boxcryptor: <https://de.wikipedia.org/wiki/Boxcryptor>
 
 Den meisten Anbietern muss man Vertrauen, dass diese mit den Daten und
 Schlüsseln sorgsam umgehen. Auch wenn sich viele Anbieter wie beispielsweise
 *Dropbox* bemühen, aus den Fehlern der Vergangenheit zu lernen und verbesserte
-Sicherheitsmechanismen wie beispielsweise Zwei--Faktor--Authentifizierung[^2fa] in
+Sicherheitsmechanismen wie beispielsweise
+Zwei--Faktor--Authentifizierung[^FN_TWO_FACTOR_AUTH] in
 ihre Software zu integrieren, bleibt jedoch die Krux der Intransparenz und der
 proprietären Software. Es ist nicht ohne weiteres Möglich die »Sicherheit« der
 Client--Software zu validieren.
 
-[^2fa]: Zwei--Faktor--Authentifizierung: <https://de.wikipedia.org/wiki/Zwei-Faktor-Authentifizierung>
+[^FN_TWO_FACTOR_AUTH]: Zwei--Faktor--Authentifizierung: <https://de.wikipedia.org/wiki/Zwei-Faktor-Authentifizierung>
 
 2011 hat der Sicherheitsforscher *Derek Newton* den
 Authentifizierungsmechanismus von *Dropbox* kritisiert. Nach einmaligem
@@ -189,7 +192,7 @@ Ein großes Problem war hierbei auch, dass die *HOST_ID* unverschlüsselt in
 einer Konfigurationsdatei (sqlite3--Datenkbank) abgelegt war. Diese *ID* bleibt
 anscheinend auch nach Änderung der Zugangsdaten weiterhin bestehen.
 
-[^dereknewton]: Dropbox authentication: »insecure by design«: <http://dereknewton.com/2011/04/dropbox-authentication-static-host-ids/>
+[^FN_DROPBOX_INSECURE_BY_DESIGN]: Dropbox authentication: »insecure by design«: <http://dereknewton.com/2011/04/dropbox-authentication-static-host-ids/>
 
 Ein weitere Arbeit aus dem Jahr 2011 beschreibt verschiedene Angriffsszenarien und Probleme welche die Datensicherheit und Privatsphäre von Cloud--Speicher--Benutzern in Frage stellen (vgl. [@mulazzani2011dark]). 
 
@@ -207,9 +210,9 @@ anscheinend keine 2F--Authentifizierung. Darüber hinaus lassen sich auf Basis
 der beiden  Parameter sogenannte »Autologin--URLs« generieren. Den Forschen ist
 es auch gelungen einen Open--Source--Prototypen zu entwickeln, für weitere
 Details vgl. [@kholia2013looking] beziehungsweise siehe Vortag *USENIX Open
-Access Content*[^usenix].
+Access Content*[^FN_USENIX].
 
-[^usenix]: USENIX Vortrag »Looking Inside the (Drop) Box«:<https://www.usenix.org/conference/woot13/workshop-program/presentation/kholia>
+[^FN_USENIX]: USENIX Vortrag »Looking Inside the (Drop) Box«:<https://www.usenix.org/conference/woot13/workshop-program/presentation/kholia>
 
 2015 wurde bekannt, dass die vorherrschenden Cloud--Speicher--Anbieter für
 sogenannte »Man--In--The--Cloud«--Angriffe anfällig sind. Die bereits im Jahr
@@ -259,7 +262,7 @@ durch den Endbenutzer gibt.
 Insbesondere hat die Freilegung der Snowden--Dokumente weiterhin zu der
 Schlussfolgerung geführt, dass der Einsatz von »Freier Software«
 empfehlenswerter ist. Bekannte Sicherheitsexperten wie *Bruce
-Schneier*[^bruce1][^bruce2] oder auch *Rüdiger Weis* sehen »Freie Software« als
+Schneier*[^FN_SCHNEIER_1][^FN_SCHNEIER_2] oder auch *Rüdiger Weis* sehen »Freie Software« als
 eine der wenigen Möglichkeiten dem Überwachungswahn von Geheimdiensten (oder
 auch anderen Institutionen) entgegen zu wirken. Weiterhin kann Kryptographie
 dank »Freier Software« von unabhängigen Sicherheitsforschern bewertet werden.
@@ -269,16 +272,16 @@ auf den ersten Blick als »sicherer« erscheinen mag, widerspricht Sie
 dem Kerckhoffs’schen Prinzip, bei welchem die Sicherheit eines System nur von der
 Geheimhaltung des Schlüssels, jedoch nicht von der Geheimhaltung weiterer
 Systemelementen abhängen sollte. Die Vergangenheit hat beispielsweise beim
-GSM--Standard oder DVD--Kopierschutz »CSS«[^css] gezeigt, dass durch die
+GSM--Standard oder DVD--Kopierschutz »CSS«[^FN_CSS] gezeigt, dass durch die
 Geheimhaltung von Systemkomponenten erfolgreiche Angriffe, höchstens erschwert,
 jedoch nicht unterbunden werden können (vgl. [@spitz2011kryptographie],
 [@ertel2012angewandte, S. 23]).
 
-[^css]: Cryptanalysis of Contents Scrambling System: <http://www.cs.cmu.edu/~dst/DeCSS/FrankStevenson/analysis.html>
+[^FN_CSS]: Cryptanalysis of Contents Scrambling System: <http://www.cs.cmu.edu/~dst/DeCSS/FrankStevenson/analysis.html>
 
-[^bruce1]: Defending Against Crypto Backdoors: <https://www.schneier.com/blog/archives/2013/09/how_to_remain_s.html>
-[^bruce2]: How to Remain Secure Against the NSA: <https://www.schneier.com/blog/archives/2013/10/defending_again_1.html>
-[^weis]: Krypto nach Snowden | 19. Netzpolitischer Abend: <https://www.youtube.com/watch?v=T_ojwHReMkM>
+[^FN_SCHNEIER_1]: Defending Against Crypto Backdoors: <https://www.schneier.com/blog/archives/2013/09/how_to_remain_s.html>
+[^FN_SCHNEIER_2]: How to Remain Secure Against the NSA: <https://www.schneier.com/blog/archives/2013/10/defending_again_1.html>
+[^FN_WEIS]: Krypto nach Snowden | 19. Netzpolitischer Abend: <https://www.youtube.com/watch?v=T_ojwHReMkM>
 
 Abgesehen von den Snowden--Enthüllungen, gibt es für den Endverbraucher viel
 näherliegender Gefahren, welche die Daten und Privatsphäre gefährden. Neben den
@@ -289,29 +292,29 @@ letzter Zeit:
 
 **Datenlecks:**
 
-* Datenleck bei Dropbox[^dropboxdatenleck]
-* Google Drive Datenleck[^gdrive]
-* Microsoft OneDrive Datenleck[^msleck]
-* 7 Millionen Zugangsdaten im Umlauf (unbestätigt)[^zugangsdaten]
-* *iCloud*--Hack auf private Fotos von Prominenten[^fappening]
+* Datenleck bei Dropbox[^FN_DROPBOX_DATALEAK_4]
+* Google Drive Datenleck[^FN_GDRIVE_DATALEAK]
+* Microsoft OneDrive Datenleck[^FN_MS_DATALEAK]
+* 7 Millionen Zugangsdaten im Umlauf (unbestätigt)[^FN_DROPBOX_DATALEAK_3]
+* *iCloud*--Hack auf private Fotos von Prominenten[^FN_FAPPENING]
 
 **Weitere Probleme:**
 
-* Dropbox Client greift auf Daten außerhalb des Sync--Ordners zu[^dropboxschnueffel].
-* Microsoft synchronisiert Bitlocker--Schlüssel (Festplattenverschlüsselung) standardmäßig in die Cloud[^bitlockercloud]
-* Dropbox akzeptiert beliebige Passwörter über mehrere Stunden[^droppass]
-* Ausfallzeit über zwei Stunden[^dropboxausfall]
+* Dropbox Client greift auf Daten außerhalb des Sync--Ordners zu[^FN_DROPBOX_SPY].
+* Microsoft synchronisiert Bitlocker--Schlüssel (Festplattenverschlüsselung) standardmäßig in die Cloud[^FN_BITLOCKER_CLOUD]
+* Dropbox akzeptiert beliebige Passwörter über mehrere Stunden[^FN_DROPBOX_ACCESS]
+* Ausfallzeit über zwei Stunden[^FN_DROPBOX_DOS]
 
 
-[^fappening]: iCloud--Hack: <https://de.wikipedia.org/wiki/Hackerangriff_auf_private_Fotos_von_Prominenten_2014> 
-[^bitlockercloud]: Bitlocker Cloud--Sync:  <http://arstechnica.com/information-technology/2015/12/microsoft-may-have-your-encryption-key-heres-how-to-take-it-back/>
-[^droppass]: Dropbox--Auth--Bug: <https://www.heise.de/security/meldung/Dropbox-akzeptierte-vier-Stunden-lang-beliebige-Passwoerter-1264100.html>
-[^msleck]: OneDrive Datenleck: <https://www.heise.de/security/meldung/Microsoft-dichtet-OneDrive-Links-ab-2227485.html>
-[^gdrive]: Google Drive Datenleck: <https://www.heise.de/security/meldung/Auch-Google-schliesst-Datenleck-im-Cloud-Speicher-2243366.html>
-[^dropboxdatenleck]: Dropbox Datenleck: <https://www.heise.de/security/meldung/Dropbox-bestaetigt-Datenleck-1656798.html>
-[^zugangsdaten]: 7 Mio. Zugangsdaten im Umlauf: <https://www.heise.de/security/meldung/Angeblich-7-Millionen-Dropbox-Passwoerter-im-Umlauf-2423684.html>
-[^dropboxschnueffel]: Dropbox--Schnüffelverdacht: <http://www.heise.de/security/meldung/Dropbox-unter-Schnueffelverdacht-2565990.html>
-[^dropboxausfall]: Dropbox--Ausfall: <https://www.heise.de/security/meldung/Dropbox-Ausfall-war-kein-Angriff-2083688.html>
+[^FN_FAPPENING]: iCloud--Hack: <https://de.wikipedia.org/wiki/Hackerangriff_auf_private_Fotos_von_Prominenten_2014> 
+[^FN_BITLOCKER_CLOUD]: Bitlocker Cloud--Sync:  <http://arstechnica.com/information-technology/2015/12/microsoft-may-have-your-encryption-key-heres-how-to-take-it-back/>
+[^FN_DROPBOX_ACCESS]: Dropbox--Auth--Bug: <https://www.heise.de/security/meldung/Dropbox-akzeptierte-vier-Stunden-lang-beliebige-Passwoerter-1264100.html>
+[^FN_MS_DATALEAK]: OneDrive Datenleck: <https://www.heise.de/security/meldung/Microsoft-dichtet-OneDrive-Links-ab-2227485.html>
+[^FN_GDRIVE_DATALEAK]: Google Drive Datenleck: <https://www.heise.de/security/meldung/Auch-Google-schliesst-Datenleck-im-Cloud-Speicher-2243366.html>
+[^FN_DROPBOX_DATALEAK_4]: Dropbox Datenleck: <https://www.heise.de/security/meldung/Dropbox-bestaetigt-Datenleck-1656798.html>
+[^FN_DROPBOX_DATALEAK_3]: 7 Mio. Zugangsdaten im Umlauf: <https://www.heise.de/security/meldung/Angeblich-7-Millionen-Dropbox-Passwoerter-im-Umlauf-2423684.html>
+[^FN_DROPBOX_SPY]: Dropbox--Schnüffelverdacht: <http://www.heise.de/security/meldung/Dropbox-unter-Schnueffelverdacht-2565990.html>
+[^FN_DROPBOX_DOS]: Dropbox--Ausfall: <https://www.heise.de/security/meldung/Dropbox-Ausfall-war-kein-Angriff-2083688.html>
 
 Auch wenn viele Unternehmen ihre Priorität nicht in der Sicherung ihrer Daten
 sehen mögen, sollten die Folgekosten von Datenlecks nicht unterschätzt werden.
@@ -323,9 +326,9 @@ dem jeweiligem Vorjahr zuzieht.
 Abgesehen von den Datenlecks verschiedener Cloud--Speicher--Anbieter, haben
 zentrale Dienste immer wieder Probleme mit größeren Datenlecks. Welcher Dienst
 und Daten betroffen sind, sammelt der der Sicherheitsforscher *Troy Hunt* auf
-seiner Webseite[^haveibeenpwned].
+seiner Webseite[^FN_HAVEIBEENBWNED].
 
-[^haveibeenpwned]: Gesammelte Informationen zu Datenlecks: <https://haveibeenpwned.com/>
+[^FN_HAVEIBEENBWNED]: Gesammelte Informationen zu Datenlecks: <https://haveibeenpwned.com/>
 
 ### Private Cloud
 
@@ -361,8 +364,8 @@ realisierbar.
 Bei der Nutzung eines dezentralen Netzwerks zum Austausch beziehungswiese zur
 Synchronisation von Daten musst der Benutzer in der Regel eine spezielle
 Software installieren und einen »Synchronisationsordner«, wie bei den zentralen
-Diensten, definieren welcher dem Netzwerk »bekannt« gemacht werden soll. Je
-nach eingesetztem Protokoll, variiert die Funktionsweise und Sicherheit.
+Diensten, definieren welcher dem Netzwerk »bekannt« gemacht werden soll. Je nach
+eingesetztem Protokoll, variiert die Funktionsweise und Sicherheit.
 
 ![Dezentraler Datenaustausch über Peer--to-Peer--Kommunikation. Es existiert
 keine zetrale Instanz, jeder Peer im Netzwerk ist
@@ -374,13 +377,13 @@ sogenannte »rendezvous hosts« in einem dezentralen Netzwerk, welche für die
 initiale Konfiguration und als »Einstiegspunkt« benötigt werden. Hier
 unterscheiden sich die verschiedenen Protokolle und Netzwerke voneinander. 
 
-Ein der bekannter Vertreter der P2P--Protkolle ist BitTorrent[^bittorrent]. Das
+Ein der bekannter Vertreter der P2P--Protkolle ist BitTorrent[^FN_BITTORRENT]. Das
 Protokoll kommt beispielsweise bei der Verbreitung von Software, Computerspielen
 (HumblieIndieBundle.com), dem Blender Movie--Projekten, Linux--Distributionen
 ,der Verteilung von Updates (Windows 10), bei diversen
-Spieleherstellern und auch anderen Anwendungen zum Einsatz[^btusage]. 
+Spieleherstellern und auch anderen Anwendungen zum Einsatz[^FN_BTUSAGE]. 
 
-[^btusage]: BitTorrent Einsatzgebiete: <https://en.wikipedia.org/wiki/BitTorrent#Adoption>
+[^FN_BTUSAGE]: BitTorrent Einsatzgebiete: <https://en.wikipedia.org/wiki/BitTorrent#Adoption>
 
 Ein Vorteil bei den dezentralen System ist, dass es im Vergleich zu zentralen
 Architekturen keinen »Single--Point--Of--Failure« gibt. Ein weiterer Unterschied
@@ -437,17 +440,17 @@ Wie bei zentralen Diensten, ist es auch bei dezentralen Netzwerken schwierig die
 einem Dienst--Anbieter ab, sondern vielmehr von der Umsetzung der Software, der
 Infrastruktur des Netzwerks, der »Sicherung der Daten« (verschlüsselte
 Speicherung, verschlüsselte Übertragung) und den Möglichkeiten, welche es
-ermöglichen einen Kommunikationspartner zu authentifizieren.
+ermöglichen einen Kommunikationspartner zu authentifizieren. 
 
 **Resilio--Sync** (ehemals Bittorrent--Sync), verwendete eine modifizierte
-Variante des BitTorrent--Protokolls[^btsyncprotocol]. Alle Daten werden laut
+Variante des BitTorrent--Protokolls[^FN_RESILIO_PROTOCOL]. Alle Daten werden laut
 Hersteller zusätzlich symmetrisch mit AES--128 verschlüsselt übertragen. Die
 getestete Version entspricht der Standardversion welche kostenfrei benutzbar
 ist, jedoch nur einen eingeschränkten Funktionsumfang bietet. Weiterhin gibt es
 eine »Pro«--Version welche »selektive und kollaborative Synchronisation«
 ermöglicht. 
 
-[^btsyncprotocol]:Inoffizielle Protokoll Spezifikation <https://forum.resilio.com/topic/21338-inofficial-protocol-specification/>
+[^FN_RESILIO_PROTOCOL]:Inoffizielle Protokoll Spezifikation <https://forum.resilio.com/topic/21338-inofficial-protocol-specification/>
 
 Bei Resilio (Webbasierte GUI) werden Daten werden hier mittels verschiedenen
 »Schlüsseln« synchronisiert. Beim Anlegen eines Synchronisationsordners werden
@@ -465,10 +468,10 @@ Peers/Synchronisationsordnern steuern. Neue Peers können über das Teilen eines
 Schlüssels hinzugefügt werden. Die Anwendung macht einen undurchsichtigen
 Eindruck. Eine 2014 durchgeführte Analyse von *BitTorrent*--Sync auf der
 *Hackito* kommt aufgrund mehrere Sicherheits-- und Designprobleme zum
-Einschätzung[^hackito] das *BitTorrent*--Sync nicht für sensitive Daten
+Einschätzung[^FN_HACKITO] das *BitTorrent*--Sync nicht für sensitive Daten
 verwendet werden sollte.
 
-[^hackito]: Security analysis of BTsync: <http://2014.hackitoergosum.org/bittorrentsync-security-privacy-analysis-hackito-session-results/>
+[^FN_HACKITO]: Security analysis of BTsync: <http://2014.hackitoergosum.org/bittorrentsync-security-privacy-analysis-hackito-session-results/>
 
 **Infinit** ist eine weitere proprietäre Lösung welche es ermöglicht Dateien
 zwischen verschiedenen Benutzern, ohne Server--Instanz, auszutauschen. Die Basis
@@ -485,11 +488,11 @@ Benutzernamen/E--Mail statt. Daten werden lokal nicht verschlüsselt.
 
 
 **Syncthing** basiert auf einem eigens entwickeltem Protokol, dem *Block Exchange
-Protocol*[^bep]. Der Syncthing--Client (Web--GUI Variante) ermöglicht das
+Protocol*[^FN_BEP]. Der Syncthing--Client (Web--GUI Variante) ermöglicht das
 Hinzufügen von »Synchronisationsordner« und »Remote Device«. Diese GUI ist
 Standardmäßig von außen nicht zugreifbar, da sie auf »localhost only« läuft. 
 
-[^bep]: Block exchange protocol: <https://docs.syncthing.net/specs/bep-v1.html>
+[^FN_BEP]: Block exchange protocol: <https://docs.syncthing.net/specs/bep-v1.html>
 
 Die Peers werden durch eine eindeutige *Device ID* identifiziert. Diese leitet
 sich aus einen asymmetrischen Schlüsselpaar (3072 bit RSA) ab, welches beim
@@ -497,7 +500,7 @@ ersten Start der Anwendung erstellt wird. Abgelegt wird ein privater Schlüssel
 und ein selbst signiertes Zertifikat. Der private Schlüssel scheint nicht weiter
 geschützt zu sein:
 
-~~~sh
+~~~bash
 freya :: ~/.config/syncthing » cat key.pem 
 	-----BEGIN EC PRIVATE KEY-----
 	MIGkAgEBBDCQIMwVr730vKzoyHCbIqDoxNxAjKvdFYL+XnKk65GurCc9q2qiZJEU
@@ -512,7 +515,7 @@ jedoch die Nutzung von Transport Layer Security (TLS). Diese *ID* ist für jeden
 Teilnehmer eindeutig (aufgrund der asymmetrischen Kryptographie). Sie besteht
 aus einer kryptographischen Prüfsumme (SHA--256) eines eindeutigen
 kryptographischen Zertifikates, welches für die verschlüsselte Kommunikation und
-Authentifizierung zwischen den einzelnen Peers verwendet wird. 
+Authentifizierung zwischen den einzelnen Peers verwendet wird.
 
 Weiterhin ist das aktuell Design für *Discovery Spoofing* anfällig. Das heißt,
 dass ein Angreifer der im Netzwerk mitliest, *Device IDs* mitlesen kann und sich
@@ -520,70 +523,63 @@ somit als eine bestimmter Peer ausgeben kann. Das würde einem Angreifer die
 Information liefern, mit welchem Peers sich eine bestimmte *Device ID*
 synchronisiert. Mehr zu *Device IDs* sowie möglichen damit in Verbindung
 stehenden Problemen findet sich in der offiziellen
-Syncthing--Dokumentation[^stsec].
+Syncthing--Dokumentation[^FN_SYNCTHING_DEVID].
 
-[^stsec]: Understanding Device--IDs:  <https://docs.syncthing.net/dev/device-ids.html>
+[^FN_SYNCTHING_DEVID]: Understanding Device--IDs:  <https://docs.syncthing.net/dev/device-ids.html>
 
-Eine lokale Verschlüsselung der Daten finden nicht statt. 
+Eine lokale Verschlüsselung der Daten finden nicht statt. Schlüssel, welche die
+*Device ID* eindeutig identifizieren sind nicht weiter gesichert.
 
 *Librevault* ist ein sich noch im Frühstadion befindlicher Prototyp. Die aktuell
 getestete alpha Version ist beim hinzufügen eines »Synchronisationsordners«
 reproduzierbar abgestürzt. Laut Projekt--Beschreibung scheint sich Librevault
 an Resilio/Syncthing zu orientieren. Weitere Details zur Spezifikation und
-Projektzielen sind auf dem Blog des Entwicklers[^librevault] zu finden.
+Projektzielen sind auf dem Blog des Entwicklers[^FN_LIBREVAULT_BLOG] zu finden.
 
-[^librevault]: Librevault Entwicklerblog: <https://librevault.com/blog/>
+[^FN_LIBREVAULT_BLOG]: Librevault Entwicklerblog: <https://librevault.com/blog/>
 
-*git--annex* ist ein sehr stark am *git* Versionsverwaltungssystem orientiertes
-Synchronisationswerkzeug. Es verwaltet die Metadaten in *git*.
+**git--annex** ist ein sehr stark am *git* Versionsverwaltungssystem orientiertes
+Synchronisationswerkzeug. Prinzipiell ist es für die Kommandozeile entwickelt
+worden, es existiert mittlerweile jedoch ein *Webfrontend* (Webapp).
 
+*git--annex* verwaltet nur die Metadaten in *git*. Es funktioniert als
+*git*--Aufsatz, welcher es dem Benutzer ermöglicht auch große Binäre Dateien
+mittels *git* zu verwalten beziehungsweise zu synchronisieren. Zum
+synchronisieren der Metadaten wird *git* verwendet, zum synchronisieren der
+eigentlichen Daten wird *git--annex* genutzt. Es überträgt die Daten
+verschlüsselt mit *rsync über ssh*. Mittels der *git*--Erweiterung
+*gcrypt*[^FN_GCRYPT] ist es möglich vollständig verschlüsselte *git* »remotes«
+anzulegen.
 
-Alternativen wie Syncthing, Resilio, Librevault oder
-Infinit ermöglichen Benutzern auf Basis von dezentralen Netzwerken Dateien zu
-tauschen. Ob die Daten verschlüsselt gespeichert und übertragen werden ist je
-nach Projekt unterschiedlich und unterliegt Änderungen in der aktuellen
-Entwicklungshase. @tbl:1 zeigt den aktuellen Stand bestimmter Features.
+[^FN_GCRYPT]: *gcrypt* git addon: <https://spwhitton.name/tech/code/git-remote-gcrypt/>
 
+Neben »normalen« *git*--Repositories werden sogenannten »Special
+Remotes«[^FN_GIT_ANNEX_SPECIALREMOTES] unterstützt. Diese werden verwendet um
+Daten auf ein System, auf welchem *git* nicht vorliegt, zu synchronisieren. 
 
-<!--
-|                      | **Dezentral**       | **Verschlüsselung (Client)**     | **Versionierung**                      |  **Quotas**       | **N-Kopien**    |
-| -------------------- | ------------------- | -------------------------------- | -------------------------------------- | ------------------|------------------|
-| *Dropbox/Boxcryptor* | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |  \xmark           | \xmark          |
-| *ownCloud*           | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |  \xmark           | \xmark          |
-| *Syncthing*          | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |  \xmark           | \xmark          |
-| *BitTorrent Sync*    | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |  \xmark           | \xmark          |
-| ``git-annex``        | \cmark              | \cmark                           | \cmark                                 |  \xmark           |  \cmark         |
-| ``brig``             | \cmark              | \cmark                           | \cmark                                 |  \cmark           |  \cmark         |
+Neben der Verschlüsselung von *git remotes* mit *gcrypt* gibt es auch die
+Möglichkeit die Daten auf *special remotes* zu verschlüsseln. Hierfür gibt es
+die drei Verfahren:
 
+* **hybrid encryption:** Gemeinsamer »shared key« wird im mit einen »public key« verschlüsselt im Repository gespeichert
+* **shared encryption:** Gemeinsamer »shared key« wird im Klartext im Repository gespeichert
+* **public key encryption:** Hierbei wird der »public key« verwendet, zum entschlüsseln benötigt man den »private key«
+* **shared public key encryption:** Wie beim »public key«--Verfahren, jedoch mit einem gemeinsam genutztem Schlüsselpaar
 
-**Praktische Aspekte:**
+[^FN_GIT_ANNEX_SPECIALREMOTES]: *git--annex* special remotes: <https://git-annex.branchable.com/special_remotes/>
+[^FN_GIT_ANNEX_ENCRYPTION]: *git--annex* encryption: <http://git-annex.branchable.com/design/encryption/>
 
-|                      | **FOSS**            | **Einfach nutzbar** | **Einfache Installation**  | **Intelligentes Routing** | **Kompression** |
-| -------------------- | ------------------- | ------------------- |--------------------------  | ------------------------- |-----------------|
-| *Dropbox/Boxcryptor* | \xmark              | \cmark              | \cmark                     |  \xmark                   | \xmark          |
-| *ownCloud*           | \cmark              | \cmark              | \xmark                     |  \xmark                   | \xmark          |
-| *Syncthing*          | \cmark              | \cmark              | \cmark                     |  \cmark                   | \xmark          |
-| *BitTorrent Sync*    | \xmark              | \cmark              | \cmark                     |  \cmark                   | \xmark          |
-| ``git-annex``        | \cmark              | \xmark              | \xmark                     |  \xmark                   | \xmark          |
-| ``brig``             | \cmark              | \cmark              | \cmark                     |  \cmark                   | \cmark          |
+#### Weiteres
 
-Table: Demonstration of a simple table. {#tbl:1}
-
--->
-
-Einen bisher nicht genannter, relativ neuen dezentraler Ansatz bietet das
-InterPlanetary--File--System, als Teil seiner Funktionalität. Dieses ist in der
+Einen bisher nicht genannten, relativ neuen dezentraler Ansatz bietet das
+InterPlanetary--File--System[^FN_IPFS], als Teil seiner Funktionalität. Dieses ist in der
 aktuellen Implementierung jedoch eher als ein fortgeschrittener Prototyp
-anzusehen. Der Ansatz des IPFS--Protokolls ist vielversprechend. IPFS
+anzusehen. Der Ansatz des *IPFS*--Protokolls ist vielversprechend. IPFS
 kombiniert dabei viele bereits bekannte Technologien zu einem einzigen Projekt.
 Hierdurch lassen sich schwächen aktuell genutzter Systeme abmildern oder gar
-vermeiden. 
+vermeiden.
 
-Datenintegrität behandeln.
-
-* Datensicherheit
-* Ausfallsicherheit
-
+[^FN_IPFS]: InterPlanetary--File System: <https://en.wikipedia.org/wiki/InterPlanetary_File_System>
 
 ### Ähnliche Arbeiten
 
@@ -593,15 +589,15 @@ verfolgen jedoch unterschiedliche Ziele:
 * Infinit
 * Resilio
 * Syncthing
-* Bazil[^bazil] 
+* Bazil[^FN_BAZIL]
 
-[^bazil]: Projektseite: <https://bazil.org/>
+[^FN_BAZIL]: Projektseite: <https://bazil.org/>
 
 ## Markt und Wettbewerber
 
 Da der Cloud--Speicher--Mark sehr dynamisch und fragmentiert ist, ist es
 schwierig hier zuverlässige Daten zu finden. Laut einem Online--Beitrag der
-»Wirtschafts Woche«[^cloudstorage] gehören folgende Anbieter zu »den größten«
+»Wirtschafts Woche«[^FN_CLOUDSTORAGE] gehören folgende Anbieter zu »den größten«
 Cloud--Speicher--Anbietern:
 
 * Dropbox
@@ -609,7 +605,7 @@ Cloud--Speicher--Anbietern:
 * Microsoft OneDrive
 * Google Drive
 
-[^cloudstorage]: Größten Cloud--Speicher Anbieter: <http://www.wiwo.de/unternehmen/it/cloud-wer-sind-die-groessten-cloud-anbieter-und-was-kosten-sie/11975400-7.html>
+[^FN_CLOUDSTORAGE]: Größten Cloud--Speicher Anbieter: <http://www.wiwo.de/unternehmen/it/cloud-wer-sind-die-groessten-cloud-anbieter-und-was-kosten-sie/11975400-7.html>
 
 In Deutschland gehört *Dropbox* zu den bekannten Anbietern, Apples *iCloud* ist
 in erster Linie für Mac--Benutzer interessant.
@@ -632,10 +628,10 @@ Tabelle: ...
 
 ## Gesellschaftliche und Politische Aspekte 
 
-Seit den Snowden--Enthüllungen[^nsa-leak] ist offiziell bekannt, dass Unternehmen im
+Seit den Snowden--Enthüllungen[^FN_SNOWDEN_LEAK] ist offiziell bekannt, dass Unternehmen im
 Notfall rechtlich gezwungen werden können personenbezogene Daten rauszugeben.
 
-[^nsa-leak]: Globale Überwachungs-- und Spionageaffäre: <https://de.wikipedia.org/wiki/Globale_%C3%9Cberwachungs-_und_Spionageaff%C3%A4re>
+[^FN_SNOWDEN_LEAK]: Globale Überwachungs-- und Spionageaffäre: <https://de.wikipedia.org/wiki/Globale_%C3%9Cberwachungs-_und_Spionageaff%C3%A4re>
 
 * Snowden--Affäre
 * Gesellschaftliche Aspekte: Ich habe nichts zu verbergen
