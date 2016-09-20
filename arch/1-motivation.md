@@ -126,7 +126,7 @@ Implementierung zu bekommen.
 ## Über die Autoren
 
 Die Autoren sind zwei Master--Studenten an der Hochschule Augsburg, die von
-Freier Software begeistert sind und mit ihr die Welt ein bisschen besser machen
+Freier Software begeistert sind und mit ihr die Welt ein klein bisschen besser machen
 wollen. Momentan entwickeln wir ``brig`` im Rahmen unserer Masterarbeiten bei
 Prof. Dr.-Ing. Thorsten Schöler in der
 Distributed--Systems--Group[^DSG] und wollen auch nach unserem Abschluss daran

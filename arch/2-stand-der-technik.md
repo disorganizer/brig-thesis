@@ -358,6 +358,8 @@ keine praktische Bedeutung haben:
 zusammenhängenden, weltweiten Netzwerk teil. (TODO: Screenshot von Weltkugel
 machen?)
 
+TODO: p2p schaugrafik wie kitteh?
+
 Um sich zum Netzwerk zu verbinden, müssen erst einmal passende Knoten »in der
 Nähe« des neuen Knotens gefunden werden. Dazu verbindet sich *IPFS* beim Start
 des ``ipfs daemon`` mit einigen, wohlbekannten *Bootstrap--Nodes*, dessen

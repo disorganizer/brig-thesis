@@ -103,6 +103,13 @@ Journal-log für atomic operations
 
 Durch Anforderungen in Kapite 2 gehen und nachschauen ob alles jut ist. (Hint: Nö.)
 
+Storage Quotas
+
+Simpler Sync algorithmus
+
+kein checkpoint squashing
+
+
 ## Zukünftige Erweiterungen
 
 Permissions: momentan gar keine.
