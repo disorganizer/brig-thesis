@@ -535,31 +535,48 @@ Projektzielen sind auf dem Blog des Entwicklers[^librevault] zu finden.
 
 [^librevault]: Librevault Entwicklerblog: <https://librevault.com/blog/>
 
-*git--annex* ist ein sehr stark am *git* Versionsverwaltungssystem orientiertes
-Synchronisationswerkzeug. Es verwaltet nur die Metadaten in *git*. Es funktioniert
-als *git*--Aufsatz, welcher es dem Benutzer ermöglicht auch große Binäre Dateien
-mittels *git* zu verwalten beziehungsweise zu synchronisieren.  Zum
+**git--annex** ist ein sehr stark am *git* Versionsverwaltungssystem orientiertes
+Synchronisationswerkzeug. Prinzipiell ist es für die Kommandozeile entwickelt
+worden, es existiert mittlerweile jedoch ein *Webfrontend* (Webapp).
+
+*git--annex* verwaltet nur die Metadaten in *git*. Es funktioniert als
+*git*--Aufsatz, welcher es dem Benutzer ermöglicht auch große Binäre Dateien
+mittels *git* zu verwalten beziehungsweise zu synchronisieren. Zum
 synchronisieren der Metadaten wird *git* verwendet, zum synchronisieren der
-eigentlichen Daten wird *git--annex* genutzt. Es überträgt die Daten mit rsync
-über ssh.
+eigentlichen Daten wird *git--annex* genutzt. Es überträgt die Daten
+verschlüsselt mit *rsync über ssh*. Mittels der *git*--Erweiterung
+*gcrypt*[^FN_GCRYPT] ist es möglich vollständig verschlüsselte *git* »remotes«
+anzulegen.
 
-Neben »normalen« *git*--Repositories werden sogenannten »Special Remotes«
-unterstützt. Diese werden verwendet um Daten auf ein System, auf welchem *git*
-nicht vorliegt, zu synchronisieren.
+[^FN_GCRYPT]: *gcrypt* git addon: <https://spwhitton.name/tech/code/git-remote-gcrypt/>
 
-Es ermöglicht eine Dateisynchronisation über verschiedene Protokolle
+Neben »normalen« *git*--Repositories werden sogenannten »Special
+Remotes«[^FN_GIT_ANNEX_SPECIALREMOTES] unterstützt. Diese werden verwendet um
+Daten auf ein System, auf welchem *git* nicht vorliegt, zu synchronisieren. 
+
+Neben der Verschlüsselung von *git remotes* mit *gcrypt* gibt es auch die
+Möglichkeit die Daten auf *special remotes* zu verschlüsseln. Hierfür gibt es
+die drei Verfahren:
+
+* **hybrid encryption:** Gemeinsamer »shared key« wird im mit einen »public key« verschlüsselt im Repository gespeichert
+* **shared encryption:** Gemeinsamer »shared key« wird im Klartext im Repository gespeichert
+* **public key encryption:** Hierbei wird der »public key« verwendet, zum entschlüsseln benötigt man den »private key«
+* **shared public key encryption:** Wie beim »public key«--Verfahren, jedoch mit einem gemeinsam genutztem Schlüsselpaar
+
+[^FN_GIT_ANNEX_SPECIALREMOTES]: *git--annex* special remotes: <https://git-annex.branchable.com/special_remotes/>
+[^FN_GIT_ANNEX_ENCRYPTION]: *git--annex* encryption: <http://git-annex.branchable.com/design/encryption/>
 
 #### Weiteres
 
 Einen bisher nicht genannten, relativ neuen dezentraler Ansatz bietet das
-InterPlanetary--File--System[^ipfs], als Teil seiner Funktionalität. Dieses ist in der
+InterPlanetary--File--System[^FN_IPFS], als Teil seiner Funktionalität. Dieses ist in der
 aktuellen Implementierung jedoch eher als ein fortgeschrittener Prototyp
-anzusehen. Der Ansatz des IPFS--Protokolls ist vielversprechend. IPFS
+anzusehen. Der Ansatz des *IPFS*--Protokolls ist vielversprechend. IPFS
 kombiniert dabei viele bereits bekannte Technologien zu einem einzigen Projekt.
 Hierdurch lassen sich schwächen aktuell genutzter Systeme abmildern oder gar
 vermeiden.
 
-[^ipfs]: InterPlanetary--File System: <https://en.wikipedia.org/wiki/InterPlanetary_File_System>
+[^FN_IPFS]: InterPlanetary--File System: <https://en.wikipedia.org/wiki/InterPlanetary_File_System>
 
 ### Ähnliche Arbeiten
 
