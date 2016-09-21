@@ -42,9 +42,9 @@ Konzept nicht durchgesetzt. Über die genauen Gründe, warum sich PGP nicht
 durchgesetzt hat, kann man sich streiten. Laut Meinung des Autors, liegt es
 einerseits an der hohen Komplexität beziehungsweise Einstiegshürde,
 andererseits zeigen Umfragen, dass eine gewisse Gleichgültigkeit gegenüber dem
-Schutz der eigenen Privatsphäre vorherrscht[^umfrage].
+Schutz der eigenen Privatsphäre vorherrscht[^FN_PRIVACY_SURVEY].
 
-[^umfrage]: Umfrage DIVSI: <https://www.divsi.de/abhoeren-egal-ich-habe-nichts-zu-verbergen/>
+[^FN_PRIVACY_SURVEY]: Umfrage DIVSI: <https://www.divsi.de/abhoeren-egal-ich-habe-nichts-zu-verbergen/>
 
 Um dieser Problematik möglichst aus dem Weg zu gehen, sollen folgende
 Anforderungen umgesetzt werden:
