@@ -12,10 +12,10 @@ Kommunikation, weist gleich mehrere Designschwächen auf (vgl.
 [@martin2012everyday], S. 430).
 
 Sogar bei Unternehmen welche explizit mit *starker Kryptographie* für ihre
-Produkte werben[^hddfail] und auch für welche Kryptographie zum Tagesgeschäft gehört,
+Produkte werben[^FN_HDD_ENCRYPTION_FAIL] und auch für welche Kryptographie zum Tagesgeschäft gehört,
 machen immer wieder fatale Fehler bei der Implementierung ihrer Produkte. 
 
-[^hddfail]: Festplattenverschlüsselung:
+[^FN_HDD_ENCRYPTION_FAIL]: Festplattenverschlüsselung:
 <http://www.heise.de/security/artikel/Verschusselt-statt-verschluesselt-270058.html>
 
 Selektiv gewählte Sicherheitsprinzipien werden betrachtet um zu sensibilisieren
@@ -39,11 +39,12 @@ Schlüssel* verwendet um die Daten wieder zu entschlüsseln.
 
 Symmetrische Verfahren sind im Vergleich zu asymmetrischen Verfahren sehr
 effizient. Die Grundlage für symmetrische Algorithmen, stellen Manipulationen
-(Substitutionen, Permutationen[^subper] oder Feistelrunden[^feistl]) auf
+(Substitutionen, Permutationen[^FN_SUB_PERM_NETWORK] oder
+Feistelrunden[^FN_FEISTEL]) auf
 Bit--Ebene dar, welche umkehrbar sind.
 
-[^feistl]: Feistelchiffre: <https://de.wikipedia.org/wiki/Feistelchiffre>
-[^subper]: Substitutions--Permutations--Netzwerk:
+[^FN_FEISTEL]: Feistelchiffre: <https://de.wikipedia.org/wiki/Feistelchiffre>
+[^FN_SUB_PERM_NETWORK]: Substitutions--Permutations--Netzwerk:
 <https://de.wikipedia.org/wiki/Substitutions-Permutations-Netzwerk>
 
 Das Grundsätzliche Problem, welches bei Anwendung symmetrischer Verschlüsselung
@@ -89,10 +90,10 @@ Schlüssels, ergeben. [@fig:img-ecbvschaining] zeigt eine »Schwäche« dieses
 Verfahrens.
 
 ![Bild zur graphischen Verdeutlichung des ECB--Modus im Vergleich zu einem block
-chaining cipher.[^tux]](images/ecbvschaining.png){#fig:img-ecbvschaining
+chaining cipher.[^FN_TUX_ECB]](images/ecbvschaining.png){#fig:img-ecbvschaining
 width=80%}
 
-[^tux]:Bildquelle *ECB*: <https://de.wikipedia.org/wiki/Electronic_Code_Book_Mode>
+[^FN_TUX_ECB]:Bildquelle *ECB*: <https://de.wikipedia.org/wiki/Electronic_Code_Book_Mode>
 
 **Cipher Feedback Mode (CFB):** Beim *CFB*--Modus fließt, neben dem Schlüssel,
 der Geheimtextblock vom Vorgänger ein. Durch diese Arbeitsweise haben im
@@ -193,7 +194,7 @@ Bit, 2048 Bit und 4096 Bit. Die Schlüssellängen sind nicht direkt mit den der
 symmetrischen Verschlüsselungsverfahren vergleichbar. [@tbl:t-keys] zeigt die
 Schlüssellängen der verschiedenen Verschlüsselungsverfahren im Vergleich zu
 ihren äquivalenten Vertretern der symmetrischen Verfahren. Die Daten entsprechen
-der empfohlenen ECRYPTII--Einschätzung[^ecrypt2].
+der empfohlenen ECRYPTII--Einschätzung[^FN_ECRYPTII].
 
 ---------------------------------------------------------------------------------
 *RSA modulus* 	*ElGamal Gruppengröße* 	*Elliptische Kurve* 	*sym. Äquivalent*
@@ -220,7 +221,7 @@ der empfohlenen ECRYPTII--Einschätzung[^ecrypt2].
 Table: Auf ECRYPTII--Einschätzung basierende effektive Schlüsselgrößen
 asymmetrischer und symmetrischer Verfahren im direkten Vergleich. {#tbl:t-keys}
 
-[^ecrypt2]:ECRYPT II Yearly Report on Algorithms and Key Lengths (2012): <http://www.ecrypt.eu.org/ecrypt2/documents/D.SPA.20.pdf>
+[^FN_ECRYPTII]:ECRYPT II Yearly Report on Algorithms and Key Lengths (2012): <http://www.ecrypt.eu.org/ecrypt2/documents/D.SPA.20.pdf>
 
 ### Hybride Verschlüsselungsverfahren
 
@@ -340,11 +341,11 @@ bestimmten Einsatzzweck essentiell.
 Die Sicherheit des Systems hängt in diesem Fall nicht alleine vom Schlüssel ab.
 Nach Kerckhoffs' Prinzip sollte die »Sicherheit« nur von der Geheimhaltung des
 Schlüssel abhängen. Die Vergangenheit hat beispielsweise beim GSM--Standard
-oder DVD--Kopierschutz »CSS«[^css] gezeigt, dass durch die Geheimhaltung von
+oder DVD--Kopierschutz »CSS«[^FN_CSS] gezeigt, dass durch die Geheimhaltung von
 Systemkomponenten erfolgreiche Angriffe nicht unterbunden werden können (vgl.
 [@spitz2011kryptographie], [@ertel2012angewandte, S. 23]). 
 
-[^css]: Cryptanalysis of Contents Scrambling System: <http://www.cs.cmu.edu/~dst/DeCSS/FrankStevenson/analysis.html>
+[^FN_CSS]: Cryptanalysis of Contents Scrambling System: <http://www.cs.cmu.edu/~dst/DeCSS/FrankStevenson/analysis.html>
 
 ## Softwareentwicklungmodel
 
