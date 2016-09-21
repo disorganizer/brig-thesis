@@ -14,8 +14,8 @@ Benutzer seine Dateien über mehrere Computer hinweg zu synchronisieren und mit
 Freunden --- oder im geschäftlichen Umfeld mit Partnern --- auszutauschen.
 Hierbei ist man in der Regel stets auf die Verfügbarkeit des jeweiligen
 Dienstes angewiesen --- fällt der Dienst aus oder wird beispielsweise
-Strafverfolgungsbehörden geschlossen (Megaupload[^FN_MEGAUPLOAD_TAKEDOWN]), bleibt einem
-der Zugriff auf die eigenen Dateien verwehrt.
+Strafverfolgungsbehörden geschlossen (Megaupload[^FN_MEGAUPLOAD_TAKEDOWN]),
+bleibt einem der Zugriff auf die eigenen Dateien verwehrt.
 
 [^FN_MEGAUPLOAD_TAKEDOWN]: Hinweise zur Schließung: <https://de.wikipedia.org/wiki/Megaupload>
 
@@ -36,19 +36,19 @@ geduldeten oder rechtlich erzwungenen Zugriff durch Drittparteien, haben
 Cloud--Storage--Anbieter wie beispielsweise »Dropbox« in der Vergangenheit
 immer wieder für Schlagzeilen gesorgt. 
 
-Durch diverse Softwarefehler war beispielsweise der Zugriff über mehrere Stunden mit
-beliebigen Passwörtern möglich[^FN_DROPBOX_AUTH_BUG]. Ein weiterer Softwarefehler hat
-bei der Aktivierung bestimmter Features Daten unwiderruflich
-gelöscht[^FN_DROPBOX_DATA_CORRUPTION]. Daneben wird die Sicherheit von Cloud--Storage--Services
-in Studien bemängelt[@bibfisitcloudsec].
+Durch diverse Softwarefehler war beispielsweise der Zugriff über mehrere
+Stunden mit beliebigen Passwörtern möglich[^FN_DROPBOX_AUTH_BUG]. Ein weiterer
+Softwarefehler hat bei der Aktivierung bestimmter Features Daten unwiderruflich
+gelöscht[^FN_DROPBOX_DATA_CORRUPTION]. Daneben wird die Sicherheit von
+Cloud--Storage--Services in Studien bemängelt[@bibfisitcloudsec].
 
 [^FN_DROPBOX_AUTH_BUG]: Authentifizierungs--Bug: <https://blogs.dropbox.com/dropbox/2011/06/yesterdays-authentication-bug/>
 [^FN_DROPBOX_DATA_CORRUPTION]: Selective--Sync--Bug: <https://plus.google.com/+MichaelArmogan/posts/E9sVnrLTB5C>
 
-Will man Daten privat oder geschäftlich austauschen so muss
-man sich in der Regel auf einen Anbieter einigen. Hierbei stellt die
-Fragmentierung[^FN_PROVIDER_FRAGMENTATION] der Cloud--Storage--Anbieter den Benutzer oft vor
-weitere Herausforderungen.
+Will man Daten privat oder geschäftlich austauschen so muss man sich in der
+Regel auf einen Anbieter einigen. Hierbei stellt die
+Fragmentierung[^FN_PROVIDER_FRAGMENTATION] der Cloud--Storage--Anbieter den
+Benutzer oft vor weitere Herausforderungen.
 
 [^FN_PROVIDER_FRAGMENTATION]: Übersicht Online--Backup--Provider: <https://en.wikipedia.org/wiki/Comparison_of_online_backup_services>
 
@@ -73,7 +73,6 @@ den bekanntesten Vertretern gehören hier wahrscheinlich
 [^FN_RESILIO]: Resilio: <https://getsync.com/>
 [^FN_GIT_ANNEX]: git--annex: <https://git-annex.branchable.com/>
 
-
 Diese Ausgangssituation hat letztendlich nicht nur aus persönlichem Interesse
 und mangels Alternativen dazu geführt, sich mit der Thematik näher zu befassen
 und weitere Möglichkeiten zu erschließen. In Zusammenarbeit mit meinem
@@ -81,13 +80,11 @@ Kommilitonen, Christopher Pahl, wurde die Entwicklung an dem dezentralen
 Dateisynchronisationswerkzeug *brig* gestartet, welches aktuelle Situation
 verbessern soll.
 
-
 ## Organisation und Schwerpunkt der Arbeit
 
-**Projektschwerpunkte:**
-
-Ziel ist es eine Software zu entwickeln, welche aktuelle Sicherheitsstandards
-und Usability möglichst gut vereint und dabei ohne zentrale Instanzen auskommt.
+**Projektschwerpunkte:** Ziel ist es eine Software zu entwickeln, welche
+aktuelle Sicherheitsstandards und Usability möglichst gut vereint und dabei
+ohne zentrale Instanzen auskommt.
 
 Aufgegliedert liegen die Schwerpunkte wie folgt:
 
@@ -110,8 +107,10 @@ Die Basis für die Entwicklung der Software, Validierung einzelner Komponenten
 und Prozesse, sowie die Ausarbeitung möglicher zukünftiger Konzepte stellen die
 beiden Arbeiten
 
-1) »brig«: Ein Werkzeug zur sicheren und verteilten Dateisynchronisation, *Christopher Pahl* 
-2) Sicherheitskonzepte und Evaluation dezentraler Dateisynchronisationssysteme am Beispiel »brig«, *Christoph Piechula*
+1) »brig«: Ein Werkzeug zur sicheren und verteilten Dateisynchronisation,
+   *Christopher Pahl*
+2) Sicherheitskonzepte und Evaluation dezentraler Dateisynchronisationssysteme
+   am Beispiel »brig«, *Christoph Piechula*
 
 an der Hochschule Augsburg bei *Prof. Dr.-Ing. Honorary Doctor of ONPU Thorsten
 Schöler* dar.
@@ -121,12 +120,9 @@ Schwerpunkte:
 
 * Betrachtung von Sicherheitskonzepten (hier wird zwischen Datensicherheit und
   Datenintegrität unterschieden) zentraler und dezentraler Lösungen.
-
 * Betrachtung der Vor-- und Nachteile zentraler und dezentraler Lösungen.
-
 * Betrachtung von Sicherheitskonzepten welche für eine »sichere« und
   »vertrauenswürdige« Softwareentwicklung essentiell sind
-
 * Evaluation bisherige Ansätze (Sicherheit, Usability) und Definition möglicher
   Verbesserungen, welche in die Weiterentwicklung und in den
   Entwicklungsprozess einfließen sollen.
@@ -151,8 +147,8 @@ TODO: Ref Elch.
 ## Projektname und Lizenzierung
 
 Der Name brig stellt eine Anlehnung an das zweimastige Handelsschiff
-*brigg*[^FN_BRIGG], welches gegen Ende des 18. Jahrhunderts zum Einsatz kam. Die
-Namensanlehnung soll analog den dezentralen Transport von Daten darstellen.
+*brigg*[^FN_BRIGG], welches gegen Ende des 18. Jahrhunderts zum Einsatz kam.
+Die Namensanlehnung soll analog den dezentralen Transport von Daten darstellen.
 
 [^FN_BRIGG]: Brigg Handelsschiff: <https://de.wikipedia.org/wiki/Brigg>
 

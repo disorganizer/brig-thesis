@@ -1,11 +1,11 @@
 # Anforderungen
 
 Die Betrachtung des aktuellen wissenschaftlichen und technischen Standes zeigt,
-dass die Thematik im Detail komplex und kompliziert ist. Nichtsdestotrotz ergeben
-sich gewissen Mindestanforderungen, die für die Entwicklung einer »sicheren«
-und dezentralen Dateisynchronisationslösung nötig sind. Um eine möglichst gute
-Sicherheit und Usability zu gewährleisten, muss die Software und der
-Softwareentwicklungsprozess gewissen Mindestanforderungen genügen. Da die
+dass die Thematik im Detail komplex und kompliziert ist. Nichtsdestotrotz
+ergeben sich gewissen Mindestanforderungen, die für die Entwicklung einer
+»sicheren« und dezentralen Dateisynchronisationslösung nötig sind. Um eine
+möglichst gute Sicherheit und Usability zu gewährleisten, muss die Software und
+der Softwareentwicklungsprozess gewissen Mindestanforderungen genügen. Da die
 Anforderungen von der Zielgruppe abhängig sind, werden folgend grundsätzliche
 Anforderungen definiert, welche Zielgruppen--übergreifend sind.
 
@@ -26,7 +26,6 @@ welche folgende Punkte gewährleisten:
 
 Weiterhin sollen sich die Anforderungen an die Sicherheit an den aktuell
 vorherrschenden und bewährten »Sicherheitsstandards« orientieren.
-
 
 ### Usability
 
@@ -66,6 +65,5 @@ Daten bei der Übertragung und Speicherung verschlüsselt sein.
 
 ## Anforderungen an die Softwareentwicklung
 
-* Transparentes Entwicklungsmodell
-* »Sichere« Softwareentwicklung
-* Signatur von Software--Releases
+* Transparentes Entwicklungsmodell * »Sichere« Softwareentwicklung * Signatur
+  von Software--Releases
