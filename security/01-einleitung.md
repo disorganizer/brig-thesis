@@ -14,10 +14,10 @@ Benutzer seine Dateien über mehrere Computer hinweg zu synchronisieren und mit
 Freunden --- oder im geschäftlichen Umfeld mit Partnern --- auszutauschen.
 Hierbei ist man in der Regel stets auf die Verfügbarkeit des jeweiligen
 Dienstes angewiesen --- fällt der Dienst aus oder wird beispielsweise
-Strafverfolgungsbehörden geschlossen (Megaupload[^mega-close]), bleibt einem
+Strafverfolgungsbehörden geschlossen (Megaupload[^FN_MEGAUPLOAD_TAKEDOWN]), bleibt einem
 der Zugriff auf die eigenen Dateien verwehrt.
 
-[^mega-close]: Hinweise zur Schließung: <https://de.wikipedia.org/wiki/Megaupload>
+[^FN_MEGAUPLOAD_TAKEDOWN]: Hinweise zur Schließung: <https://de.wikipedia.org/wiki/Megaupload>
 
 Auch wenn das Aufkommen dieser Dienste auf den ersten Blick eine Abhilfe sein
 mag, so werden beim genaueren Hinsehen Risiken und Nachteile --- welche erst
@@ -37,20 +37,20 @@ Cloud--Storage--Anbieter wie beispielsweise »Dropbox« in der Vergangenheit
 immer wieder für Schlagzeilen gesorgt. 
 
 Durch diverse Softwarefehler war beispielsweise der Zugriff über mehrere Stunden mit
-beliebigen Passwörtern möglich[^dbox-passbug]. Ein weiterer Softwarefehler hat
+beliebigen Passwörtern möglich[^FN_DROPBOX_AUTH_BUG]. Ein weiterer Softwarefehler hat
 bei der Aktivierung bestimmter Features Daten unwiderruflich
-gelöscht[^dbox-rm]. Daneben wird die Sicherheit von Cloud--Storage--Services
+gelöscht[^FN_DROPBOX_DATA_CORRUPTION]. Daneben wird die Sicherheit von Cloud--Storage--Services
 in Studien bemängelt[@bibfisitcloudsec].
 
-[^dbox-passbug]: Authentifizierungs--Bug: <https://blogs.dropbox.com/dropbox/2011/06/yesterdays-authentication-bug/>
-[^dbox-rm]: Selective--Sync--Bug: <https://plus.google.com/+MichaelArmogan/posts/E9sVnrLTB5C>
+[^FN_DROPBOX_AUTH_BUG]: Authentifizierungs--Bug: <https://blogs.dropbox.com/dropbox/2011/06/yesterdays-authentication-bug/>
+[^FN_DROPBOX_DATA_CORRUPTION]: Selective--Sync--Bug: <https://plus.google.com/+MichaelArmogan/posts/E9sVnrLTB5C>
 
 Will man Daten privat oder geschäftlich austauschen so muss
 man sich in der Regel auf einen Anbieter einigen. Hierbei stellt die
-Fragmentierung[^prov-frag] der Cloud--Storage--Anbieter den Benutzer oft vor
+Fragmentierung[^FN_PROVIDER_FRAGMENTATION] der Cloud--Storage--Anbieter den Benutzer oft vor
 weitere Herausforderungen.
 
-[^prov-frag]: Übersicht Online--Backup--Provider: <https://en.wikipedia.org/wiki/Comparison_of_online_backup_services>
+[^FN_PROVIDER_FRAGMENTATION]: Übersicht Online--Backup--Provider: <https://en.wikipedia.org/wiki/Comparison_of_online_backup_services>
 
 Will man persönlichen Bedenken auf den Einsatz von Cloud--Storage--Anbietern
 verzichten, bleibt einem immer noch die Möglichkeit Dateien über E--Mail zu
@@ -66,14 +66,12 @@ Quasi--Standard. Es gibt zwar technisch gesehen weitere Möglichkeiten Daten,
 auch ohne eine zentrale Instanz, auszutauschen, jedoch sind diese entweder
 recht unbekannt, für den Otto Normalverbraucher unbenutzbar oder unsicher. Zu
 den bekanntesten Vertretern gehören hier wahrscheinlich
-*Syncthing*[^syncthing], *git--annex*[^git-annex] oder auch *Resilio*[^resilio].
+*Syncthing*[^FN_SYNCTHING], *git--annex*[^FN_GIT_ANNEX] oder auch
+*Resilio*[^FN_RESILIO].
 
-[^syncthing]: Syncthing: <https://syncthing.net/>
-
-
-[^resilio]: Resilio: <https://getsync.com/>
-
-[^git-annex]: git--annex: <https://git-annex.branchable.com/>
+[^FN_SYNCTHING]: Syncthing: <https://syncthing.net/>
+[^FN_RESILIO]: Resilio: <https://getsync.com/>
+[^FN_GIT_ANNEX]: git--annex: <https://git-annex.branchable.com/>
 
 
 Diese Ausgangssituation hat letztendlich nicht nur aus persönlichem Interesse
@@ -153,13 +151,13 @@ TODO: Ref Elch.
 ## Projektname und Lizenzierung
 
 Der Name brig stellt eine Anlehnung an das zweimastige Handelsschiff
-*brigg*[^brigg], welches gegen Ende des 18. Jahrhunderts zum Einsatz kam. Die
+*brigg*[^FN_BRIGG], welches gegen Ende des 18. Jahrhunderts zum Einsatz kam. Die
 Namensanlehnung soll analog den dezentralen Transport von Daten darstellen.
 
-[^brigg]: Brigg Handelsschiff: <https://de.wikipedia.org/wiki/Brigg>
+[^FN_BRIGG]: Brigg Handelsschiff: <https://de.wikipedia.org/wiki/Brigg>
 
 Aufgrund der Projektziele kommt als Lizenzierung die Open--Source--die
-Open--Source--Lizenz *AGPLv3*[^agpl] zum Einsatz. Denkbar wären jedoch im
+Open--Source--Lizenz *AGPLv3*[^FN_AGPL] zum Einsatz. Denkbar wären jedoch im
 späteren Verlauf des Projektes kombinierte Lizenzen für Unternehmen.
 
-[^agpl]: AGPLv3 Lizenz: <https://www.gnu.org/licenses/agpl-3.0.de.html>
+[^FN_AGPL]: AGPLv3 Lizenz: <https://www.gnu.org/licenses/agpl-3.0.de.html>
