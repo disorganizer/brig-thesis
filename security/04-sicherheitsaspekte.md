@@ -12,11 +12,11 @@ Kommunikation, weist gleich mehrere Designschwächen auf (vgl.
 [@martin2012everyday], S. 430).
 
 Sogar bei Unternehmen welche explizit mit *starker Kryptographie* für ihre
-Produkte werben[^hddfail] und auch für welche Kryptographie zum Tagesgeschäft gehört,
-machen immer wieder fatale Fehler bei der Implementierung ihrer Produkte. 
+Produkte werben[^FN_HDD_ENCRYPTION_FAIL] und auch für welche Kryptographie zum
+Tagesgeschäft gehört, machen immer wieder fatale Fehler bei der Implementierung
+ihrer Produkte.
 
-[^hddfail]: Festplattenverschlüsselung:
-<http://www.heise.de/security/artikel/Verschusselt-statt-verschluesselt-270058.html>
+[^FN_HDD_ENCRYPTION_FAIL]: Festplattenverschlüsselung: <http://www.heise.de/security/artikel/Verschusselt-statt-verschluesselt-270058.html>
 
 Selektiv gewählte Sicherheitsprinzipien werden betrachtet um zu sensibilisieren
 jedoch viel mehr um eine »sinnvollen« Einsatz für »brig« definieren zu können.
@@ -31,34 +31,33 @@ jedoch viel mehr um eine »sinnvollen« Einsatz für »brig« definieren zu kön
 Kryptographie. Bei symmetrischer Kryptographie wird der gleich Schlüssel um
 ver-- und entschlüsseln der Daten verwendet.
 
-Beim Datenaustausch über unsichere Netze, muss der Schlüssel zuerst zwischen den
-Kommunikationspartnern ausgetauscht werden. In [@fig:img-symmetric]
+Beim Datenaustausch über unsichere Netze, muss der Schlüssel zuerst zwischen
+den Kommunikationspartnern ausgetauscht werden. In [@fig:img-symmetric]
 verschlüsselt *Alice* die Daten mit dem *gemeinsamen Schlüssel*. Anschließend
 sendet Sie die verschlüsselten Daten an *Bob*, welcher den *gemeinsamen
 Schlüssel* verwendet um die Daten wieder zu entschlüsseln.
 
 Symmetrische Verfahren sind im Vergleich zu asymmetrischen Verfahren sehr
 effizient. Die Grundlage für symmetrische Algorithmen, stellen Manipulationen
-(Substitutionen, Permutationen[^subper] oder Feistelrunden[^feistl]) auf
-Bit--Ebene dar, welche umkehrbar sind.
+(Substitutionen, Permutationen[^FN_SUB_PERM_NETWORK] oder
+Feistelrunden[^FN_FEISTEL]) auf Bit--Ebene dar, welche umkehrbar sind.
 
-[^feistl]: Feistelchiffre: <https://de.wikipedia.org/wiki/Feistelchiffre>
-[^subper]: Substitutions--Permutations--Netzwerk:
-<https://de.wikipedia.org/wiki/Substitutions-Permutations-Netzwerk>
+[^FN_FEISTEL]: Feistelchiffre: <https://de.wikipedia.org/wiki/Feistelchiffre>
+[^FN_SUB_PERM_NETWORK]: Substitutions--Permutations--Netzwerk: <https://de.wikipedia.org/wiki/Substitutions-Permutations-Netzwerk>
 
 Das Grundsätzliche Problem, welches bei Anwendung symmetrischer Verschlüsselung
 besteht, ist der *sichere* Schlüsselaustausch.
 
-![Konzept beim Austausch von Daten über einen unsicheren Kommunikationsweg unter
-Verwendung symmetrischer Kryptographie. *Alice* und *Bob* teilen einen
-*gemeinsamen Schlüssel* um die Daten zu ver-- und
-entschlüsseln.](images/symmetric.png){#fig:img-symmetric width=85%}
+![Konzept beim Austausch von Daten über einen unsicheren Kommunikationsweg
+ unter Verwendung symmetrischer Kryptographie. *Alice* und *Bob* teilen einen
+ *gemeinsamen Schlüssel* um die Daten zu ver-- und
+ entschlüsseln.](images/symmetric.png){#fig:img-symmetric width=85%}
 
 #### Unterschied zwischen Block-- und Stromverschlüsselung
 
 Das symmetrische Verschlüsseln unterteilt sich in die beiden
-Verschlüsselungsverfahren Stromverschlüsselung und Blockverschlüsselung. Bei der
-Stromverschlüsselung wird direkt jedes Zeichen (Bit) des Klartextes mittels
+Verschlüsselungsverfahren Stromverschlüsselung und Blockverschlüsselung. Bei
+der Stromverschlüsselung wird direkt jedes Zeichen (Bit) des Klartextes mittels
 eines kryptografischen Schlüssels direkt (XOR) in ein Geheimtext Zeichen
 umgewandelt.
 
@@ -70,29 +69,26 @@ bestimmt die sogenannte Betriebsart. [@fig:img-streamblock] zeigt exemplarisch
 den Unterschied zwischen Strom-- und Blockverschlüsselung.
 
 ![Unterschied in der Arbeitsweise zwischen Block-- und Stromchiffre. Der
-Blockchiffre verschlüsselt die Daten blockweise, ein Stromchiffre hingegen
-verschlüsselt den Datenstrom
-»on--the--fly«.](images/streamblock.png){#fig:img-streamblock width=80%}
-
+ Blockchiffre verschlüsselt die Daten blockweise, ein Stromchiffre hingegen
+ verschlüsselt den Datenstrom
+ »on--the--fly«.](images/streamblock.png){#fig:img-streamblock width=80%}
 
 #### Betriebsarten der Blockverschlüsselung
 
 Die Betriebsart beschreibt auf welche Art und Weise die Blöcke verschlüsselt
 werden. Dies ist insofern wichtig, da sich durch die Betriebsart die
-Eigenschaften und somit der Einsatzzweck ändern kann. Folgend zwei Betriebsarten
-zum besserem Verständnis:
+Eigenschaften und somit der Einsatzzweck ändern kann. Folgend zwei
+Betriebsarten zum besserem Verständnis:
 
-**Electronic Code Book Mode (ECB):** Diese Betriebsart werden die Klartextblöcke
-unabhängig von einander verschlüsselt. Dies hat den Nachteil, dass gleiche
-Klartextblöcke immer in gleiche Geheimtextblock, bei Verwendung des gleichen
-Schlüssels, ergeben. [@fig:img-ecbvschaining] zeigt eine »Schwäche« dieses
-Verfahrens.
+**Electronic Code Book Mode (ECB):** Diese Betriebsart werden die
+Klartextblöcke unabhängig von einander verschlüsselt. Dies hat den Nachteil,
+dass gleiche Klartextblöcke immer in gleiche Geheimtextblock, bei Verwendung
+des gleichen Schlüssels, ergeben. [@fig:img-ecbvschaining] zeigt eine
+»Schwäche« dieses Verfahrens.
 
-![Bild zur graphischen Verdeutlichung des ECB--Modus im Vergleich zu einem block
-chaining cipher.[^tux]](images/ecbvschaining.png){#fig:img-ecbvschaining
-width=80%}
+![Bild zur graphischen Verdeutlichung des ECB--Modus im Vergleich zu einem block chaining cipher.[^FN_TUX_ECB]](images/ecbvschaining.png){#fig:img-ecbvschaining width=80%}
 
-[^tux]:Bildquelle *ECB*: <https://de.wikipedia.org/wiki/Electronic_Code_Book_Mode>
+[^FN_TUX_ECB]:Bildquelle *ECB*: <https://de.wikipedia.org/wiki/Electronic_Code_Book_Mode>
 
 **Cipher Feedback Mode (CFB):** Beim *CFB*--Modus fließt, neben dem Schlüssel,
 der Geheimtextblock vom Vorgänger ein. Durch diese Arbeitsweise haben im
@@ -100,17 +96,14 @@ Gegensatz zum *ECB*--Modus gleiche Klartextblöcke unterschiedliche
 Geheimtextblöcke. Weiterhin wird bei dieser Arbeitsweise aus der
 Blockverschlüsselung eine Stromverschlüsselung.
 
-![ECB--Modus (links): Datenblöcke werden unabhängig von einander verschlüsselt.
-CFB--Modus (rechts): Datenblöcke hängen beim Verschlüsseln von einander
-ab.](images/ciphermode.png){#fig:img-streamblock width=100%}
+![ECB--Modus (links): Datenblöcke werden unabhängig von einander verschlüsselt. CFB--Modus (rechts): Datenblöcke hängen beim Verschlüsseln von einander ab.](images/ciphermode.png){#fig:img-streamblock width=100%}
 
 Neben den genannten Betriebsarten gibt es noch weitere die sich in der
-Funktionsweise unterscheide beziehungsweise für bestimmte Anwendungen konzipiert
-sind. Je nach Betriebsart ist ein paralleles Ver-- und Entschlüsseln oder auch
-Wahlfreier Zugriff möglich.  Weiterhin variiert auch die Fehleranfälligkeit und
-Sicherheit. [@tbl:t-betriebsarten] zeigt gängige Betriebsarten und ihre
-Eigenschaften.
-
+Funktionsweise unterscheide beziehungsweise für bestimmte Anwendungen
+konzipiert sind. Je nach Betriebsart ist ein paralleles Ver-- und Entschlüsseln
+oder auch Wahlfreier Zugriff möglich.  Weiterhin variiert auch die
+Fehleranfälligkeit und Sicherheit. [@tbl:t-betriebsarten] zeigt gängige
+Betriebsarten und ihre Eigenschaften.
 
 ----------------------------------------------------------
 *Eigenschaft/Betriebsart*          ECB  CBC  CFB  CTR OFB
@@ -129,10 +122,10 @@ Verschlüsselungsalgorithmen. {#tbl:t-betriebsarten}
 
 Der ursprünglich seit Ende der 70er--Jahre verwendete *DES (Data Encryption
 Standard)*, welcher eine effektive Schlüssellänge von 56--Bit hatte, war ende
-der 90er--Jahre nicht mehr ausreichend sicher gegen *Brute--Force*--Angriffe. In
-einer öffentlichen Ausschreibung wurde ein Nachfolger, der Advanced
-Encryption Standard (kurz *AES*) bestimmt. Gewinner des Wettbewerbs sowie der heutige
-»Quasistandard« wurde der Rijndael--Algorithmus.
+der 90er--Jahre nicht mehr ausreichend sicher gegen *Brute--Force*--Angriffe.
+In einer öffentlichen Ausschreibung wurde ein Nachfolger, der Advanced
+Encryption Standard (kurz *AES*) bestimmt. Gewinner des Wettbewerbs sowie der
+heutige »Quasistandard« wurde der Rijndael--Algorithmus.
 
 Neben dem bekanntem *AES (Rijndael)*--Algorithmus, gibt es noch weitere
 Algorithmen die heutzutage Verwendung finden. Zu den *AES*--Finalisten gehören
@@ -159,11 +152,7 @@ tauschen beide Parteien den *öffentlichen* Schlüssel aus. Der *private*
 Schlüssel ist geheim und darf nicht weitergegeben werden. [@fig:img-asymmetric]
 zeigt die Funktionsweise bei asymmetrischer Verschlüsselung.
 
-![Prinzip asymmetrischer Verschlüsselung. Verschlüsselt wird mit dem
-*öffentlichen* Schlüssels des Empfängers. Der Empfänger entschlüsselt mit seinem
-*privaten* Schlüssel die Nachricht. Die Signatur erfolgt mit dem *privaten*
-Schlüssel des Senders, validiert wird diese mit dem *öffentlichen* Schlüssel des
-Empfängers.](images/asymmetric.png){#fig:img-asymmetric width=100%}
+![Prinzip asymmetrischer Verschlüsselung. Verschlüsselt wird mit dem *öffentlichen* Schlüssels des Empfängers. Der Empfänger entschlüsselt mit seinem *privaten* Schlüssel die Nachricht. Die Signatur erfolgt mit dem *privaten* Schlüssel des Senders, validiert wird diese mit dem *öffentlichen* Schlüssel des Empfängers.](images/asymmetric.png){#fig:img-asymmetric width=100%}
 
 Im Unterschied zu symmetrischen Verfahren, beruht die asymmetrische
 Verschlüsselung auf der Basis eines mathematischen Problems, welches eine
@@ -171,14 +160,14 @@ Einwegfunktion ist. Das heißt, dass die Berechnung in die eine Richtung sehr
 leicht ist, die Umkehrfunktion jedoch sehr schwierig zu berechnen ist. Die
 zugrundeliegenden mathematischen Probleme sind das Faktorisierungsproblem
 (*RSA*--Verfahren) großer Primzahlen und das diskreter Logarithmusproblem
-(*ElGamal*--Verfahren). 
+(*ElGamal*--Verfahren).
 
 #### Gängige Algorithmen, Einsatzzwecke und Schlüssellängen 
 
 Zu den gängigen Algorithmen der asymmetrischen Verschlüsselungsverfahrens
 gehören *RSA* und *ElGamal*. Beide Verfahren ermöglichen sowohl die Ver-- und
-Entschlüsselung von Daten sowie das Signieren von Daten. Zu den Signatur--Verfahren
-gehören die RSA--Signatur und *DSA (ElGamal--Signatur)*. 
+Entschlüsselung von Daten sowie das Signieren von Daten. Zu den
+Signatur--Verfahren gehören die RSA--Signatur und *DSA (ElGamal--Signatur)*. 
 
 Weiterhin gibt es eine Variante des *DSA*--Verfahrens welche
 Elliptische--Kurven--Kryptographie verwendet, das *ECDSA (elliptic curve DSA)*.
@@ -188,12 +177,12 @@ Sicherheitsniveau Ressourcen sparen kann, obwohl die Operationen auf
 Elliptischen Kurven aufwendiger zu berechnen sind als Operationen in
 Vergleichbar großen endlichen Körpern.
 
-Heutzutage typische Schlüssellängen bei asymmetrischer Verschlüsselung sind 1024
-Bit, 2048 Bit und 4096 Bit. Die Schlüssellängen sind nicht direkt mit den der
-symmetrischen Verschlüsselungsverfahren vergleichbar. [@tbl:t-keys] zeigt die
-Schlüssellängen der verschiedenen Verschlüsselungsverfahren im Vergleich zu
-ihren äquivalenten Vertretern der symmetrischen Verfahren. Die Daten entsprechen
-der empfohlenen ECRYPTII--Einschätzung[^ecrypt2].
+Heutzutage typische Schlüssellängen bei asymmetrischer Verschlüsselung sind
+1024 Bit, 2048 Bit und 4096 Bit. Die Schlüssellängen sind nicht direkt mit den
+der symmetrischen Verschlüsselungsverfahren vergleichbar. [@tbl:t-keys] zeigt
+die Schlüssellängen der verschiedenen Verschlüsselungsverfahren im Vergleich zu
+ihren äquivalenten Vertretern der symmetrischen Verfahren. Die Daten
+entsprechen der empfohlenen ECRYPTII--Einschätzung[^FN_ECRYPTII].
 
 ---------------------------------------------------------------------------------
 *RSA modulus* 	*ElGamal Gruppengröße* 	*Elliptische Kurve* 	*sym. Äquivalent*
@@ -220,7 +209,7 @@ der empfohlenen ECRYPTII--Einschätzung[^ecrypt2].
 Table: Auf ECRYPTII--Einschätzung basierende effektive Schlüsselgrößen
 asymmetrischer und symmetrischer Verfahren im direkten Vergleich. {#tbl:t-keys}
 
-[^ecrypt2]:ECRYPT II Yearly Report on Algorithms and Key Lengths (2012): <http://www.ecrypt.eu.org/ecrypt2/documents/D.SPA.20.pdf>
+[^FN_ECRYPTII]:ECRYPT II Yearly Report on Algorithms and Key Lengths (2012): <http://www.ecrypt.eu.org/ecrypt2/documents/D.SPA.20.pdf>
 
 ### Hybride Verschlüsselungsverfahren
 
@@ -231,10 +220,10 @@ Symmetrische Verfahren hingegen sind sehr effizient, ein Hauptproblem, welches
 sie jedoch haben ist der Austausch eines gemeinsamen Schlüssels zum Ver-- und
 Entschlüsseln.
 
-Bei den *Hybriden Verschlüsselung* macht man sich die Vorteile beider Systeme zu
-Nutzen. Bevor *Alice* und *Bob* Kommunizieren könne, tauschen Sie mittels
-Public--Key--Kryptographie den *gemeinsamen* Schlüssel, welchen Sie anschließend
-für die symmetrische Verschlüsselung verwenden, aus.
+Bei den *Hybriden Verschlüsselung* macht man sich die Vorteile beider Systeme
+zu Nutzen. Bevor *Alice* und *Bob* Kommunizieren könne, tauschen Sie mittels
+Public--Key--Kryptographie den *gemeinsamen* Schlüssel, welchen Sie
+anschließend für die symmetrische Verschlüsselung verwenden, aus.
 
 ## Diffie--Hellmann--Schlüsseltausch
 
@@ -244,8 +233,7 @@ Schlüsselaustauschprotokoll, welches es zwei Kommunikationspartnern ermöglicht
 einen *gemeinsamen* Schlüssel zu bestimmen, ohne diesen über den potentiell
 unsicheren Kommunikationskanal austauschen zu müssen.
 
-![Grafische Darstellung, Ablauf des
-Diffie--Hellman--Schlüsseltausch.](images/dh.png){#fig:img-dh width=75%}
+![Grafische Darstellung, Ablauf des Diffie--Hellman--Schlüsseltausch.](images/dh.png){#fig:img-dh width=75%}
 
 [@fig:img-dh] zeigt Ablauf des *DH*--Protokolls:
 
@@ -268,9 +256,9 @@ $$ K_{1} = B^{a} = (g^{b})^{a} = (g^{a})^{b} = A^{b} = K_{2} $$
 
 Hashfunktionen werden in der Informatik verwendet um eine beliebige endliche
 Eingabemenge auf einer Prüfsumme (Hashwert) einer bestimmten Länge abzubilden.
-Prüfsummen können verwendet werden um beispielsweise die Integrität von Daten zu
-validieren. Ein Praxisbeispiel wäre die Korrektheit von übertragenen Daten zu
-validieren, beispielsweise nach dem Download eine *Linux*--Images.
+Prüfsummen können verwendet werden um beispielsweise die Integrität von Daten
+zu validieren. Ein Praxisbeispiel wäre die Korrektheit von übertragenen Daten
+zu validieren, beispielsweise nach dem Download eine *Linux*--Images.
 
 Kryptographische Hashfunktionen sind spezielle Formen von Hashfunktionen welche
 folgende Eigenschaften bieten:
@@ -281,8 +269,6 @@ folgende Eigenschaften bieten:
 * starke Kollisionsresistenz: praktisch unmöglich, zwei verschiedene
   Eingabewerte $x$ und $x'$ mit dem gleichen Hashwert zu finden $h(x) = h(x'), x
   \ne x'$ zu finden.
-
-
 
 ### Message Authentification Codes
 
@@ -303,11 +289,11 @@ sehr problematische Möglichkeit der Authentifizierung weil sie auf gute
 wie nur möglich, »zufällig« sein müssen. Passwörter die leicht zu erraten sind,
 sind *de facto* schlechte Authentifizierungsmechanismen.
 
-Die Problematik mit den Passwörtern kennt heutzutage jedes Unternehmen. Sind die
-Passwort--Richtlinien zu kompliziert, werden die Passwörter oft von Benutzern
-aufgeschrieben, gibt es keine Passwort--Richtlinien, dann verwenden Mensch oft
-schwache Passwörter, oft auch das gleiche »einfache« Passwort für mehrere
-Anwendungen.
+Die Problematik mit den Passwörtern kennt heutzutage jedes Unternehmen. Sind
+die Passwort--Richtlinien zu kompliziert, werden die Passwörter oft von
+Benutzern aufgeschrieben, gibt es keine Passwort--Richtlinien, dann verwenden
+Mensch oft schwache Passwörter, oft auch das gleiche »einfache« Passwort für
+mehrere Anwendungen.
 
 Die Situation lässt sich jedoch auf recht einfache Art und Weise durch den
 Einsatz seines zusätzlichen *Faktors* verbessern. Diese Art der
@@ -315,12 +301,11 @@ Authentifizierung wird Zwei--Faktor-- oder auch Mehr--Faktor--Authentifizierung
 genannt. Als zweiter *Faktor* kann beispielsweise ein biometrisches Merkmal
 verwendet werden. Eine weitere Form der Zwei--Faktor--Authentifizierung wäre
 beispielsweise die Chipkarte der Bank. Hierbei wird einerseits die *PIN* (etwas
-das man weiss) und die Chipkarte (etwas das man hat) benötigt. Eine erfolgreiche
-Authentifizierung findet in dem Fall nur bei korrekter *PIN* unter Verwendung
-der Chipkarte der Bank statt.
+das man weiss) und die Chipkarte (etwas das man hat) benötigt. Eine
+erfolgreiche Authentifizierung findet in dem Fall nur bei korrekter *PIN* unter
+Verwendung der Chipkarte der Bank statt.
 
-
-## Keymanagement 
+## Keymanagement
 
 ### Sichere Speicherung von Schlüsseln
 
@@ -328,7 +313,6 @@ Das Keymanagement (Schlüsselverweltung) ist eine der größten sensibelsten
 Bereiche bei der Implementierung eines System. Sind die Schlüssel unzureichend
 geschützt oder die Einsatzweise der Schlüssel fraglich, so kann ein System
 meist einfach kompromittiert werden.
-
 
 ### Key--Seperation
 
@@ -340,29 +324,28 @@ bestimmten Einsatzzweck essentiell.
 Die Sicherheit des Systems hängt in diesem Fall nicht alleine vom Schlüssel ab.
 Nach Kerckhoffs' Prinzip sollte die »Sicherheit« nur von der Geheimhaltung des
 Schlüssel abhängen. Die Vergangenheit hat beispielsweise beim GSM--Standard
-oder DVD--Kopierschutz »CSS«[^css] gezeigt, dass durch die Geheimhaltung von
+oder DVD--Kopierschutz »CSS«[^FN_CSS] gezeigt, dass durch die Geheimhaltung von
 Systemkomponenten erfolgreiche Angriffe nicht unterbunden werden können (vgl.
-[@spitz2011kryptographie], [@ertel2012angewandte, S. 23]). 
+[@spitz2011kryptographie], [@ertel2012angewandte, S. 23]).
 
-[^css]: Cryptanalysis of Contents Scrambling System: <http://www.cs.cmu.edu/~dst/DeCSS/FrankStevenson/analysis.html>
+[^FN_CSS]: Cryptanalysis of Contents Scrambling System: <http://www.cs.cmu.edu/~dst/DeCSS/FrankStevenson/analysis.html>
 
 ## Softwareentwicklungmodel
 
-	* Trusted User
-	* Signierter Code/Downloads
-	* Audits
-
+* Trusted User
+* Signierter Code/Downloads
+* Audits
 
 ## Sicherheit und Angriffsszenarien
 
-	* Welche Sicherhetisprobleme existieren? 
-
+* Welche Sicherhetisprobleme existieren? 
 
 # Evaluation der IPFS--Basis
 
-	* Wie schaut es mit Verschlüsselung aus?
-	* Wie schaut es mit Datenintegrität aus?
-	* Welche Authentifizierungsmechanismen gibt es?
+* Wie schaut es mit Verschlüsselung aus?
+* Wie schaut es mit Datenintegrität aus?
+* Welche Authentifizierungsmechanismen gibt es?
 
 # Evaluation brig Implementierung
 
+* nothing yet

@@ -9,7 +9,7 @@ Informationen. Ob ein System zentral oder dezentral fungiert ist nicht immer
 klar abgrenzbar. Oft kommen auch hybride Systeme zum Einsatz, welche zwar
 dezentral funktionieren, jedoch eine zentrale Instanz benötigen, hier wäre
 beispielsweise das *Torrent*--Konzept zu nennen. Weitere Informationen hierzu
-sind unter [@cpahl] zu finden. 
+sind unter [@cpahl] zu finden.
 
 ### Der »Sicherheitsbegriff« {#sec:sicherheit}
 
@@ -36,10 +36,10 @@ Die Sicherheit eines System lässt sich nicht mit einem einfachen »ja« oder
 »nein« beantworten. Betrachtet man ein System bezüglich seiner Sicherheit, so
 muss auch genau definiert werden, gegen welches »Angriffsszenario« ein System
 »sicher« ist. Auch ein System das aus kryptographischer Sicht als »sicher« zu
-betrachten wäre, kann im einfachsten Fall, durch die Weitergabe von Zugangsdaten
-an Dritte, kompromittiert werden.
+betrachten wäre, kann im einfachsten Fall, durch die Weitergabe von
+Zugangsdaten an Dritte, kompromittiert werden.
 
-![Scherzhafte Darstellung eines möglichen Angriff auf eine Festplattenverschlüsselung mit optimalem Kosten/Nutzen--Verhältnis.[^FN_XKCD_ENC_COMIC]](images/security.png){#fig:img-security width=70%}
+![Scherzhafte Darstellung eines möglichen Angriff auf eine Festplattenverschlüsselung mit optimalem Kosten/Nutzen--Verhältnis.[^FN_XKCD_ENC_COMIC]](images/security.png){#fig:img-security width=70%} 
 
 [^FN_XKCD_ENC_COMIC]:Quelle: <http://imgs.xkcd.com/comics/security.png>
 
@@ -69,10 +69,9 @@ einem Sicherheitsproblem sind.
 Weiterhin sollte bedacht werden, dass die Definition eins »sicheren« System in
 der Regel ein Kompromiss aus den folgenden Punkten ist:
 
-* Finanzieller Aufwand 
+* Finanzieller Aufwand
 * Sicherheit
 * Benutzbarkeit/Benutzerfreundlichkeit
-
 
 ### Datenaustausch über zentrale Lösungen
 
@@ -84,21 +83,21 @@ benötigt wird. Dies sind in den meisten Fällen die Server des
 Cloud--Speicher--Anbieter, welche für die Kommunikation und Speicherung der
 Daten verantwortlich sind.
 
-![Datensynchronisation über zentrale Cloud--Speicher--Dienste, wie beispielsweise
-*Dropbox*.](images/cloud.png){#fig:img-cloud width=80%}
+![Datensynchronisation über zentrale Cloud--Speicher--Dienste, wie beispielsweise *Dropbox*.](images/cloud.png){#fig:img-cloud width=80%}
 
 [@fig:img-cloud] zeigt schematisch das Konzept beim Austausch von Daten über
-einen Cloud--Speicher--Dienst. Die Daten,des Benutzers, werden hierbei mit einer
-»zentrale« Stelle synchronisiert. In der Regel legt der Benutzer »Ordner« fest,
-welcher nach Installation einer Client--Software (des jeweiligen Anbieters) und
-der Erstellung eines Accounts mit dem Cloud--Speicher des Anbieters
-synchronisiert wird.
+einen Cloud--Speicher--Dienst. Die Daten,des Benutzers, werden hierbei mit
+einer »zentrale« Stelle synchronisiert. In der Regel legt der Benutzer »Ordner«
+fest, welcher nach Installation einer Client--Software (des jeweiligen
+Anbieters) und der Erstellung eines Accounts mit dem Cloud--Speicher des
+Anbieters synchronisiert wird.
 
 Dieser »Ordner« lässt sich dann beispielsweise auf weitere Geräte des Benutzer
 synchronisieren. Weiterhin gibt es in der Regel die Möglichkeit Dateien mit
 anderen Benutzern zu teilen. Welche genauen Einstellungen sich vornehmen lassen
 und wie feingranular die die Benutzerverwaltung und Möglichkeiten beim
-Synchronisieren sind, ist von dem jeweiligen Cloud--Speicher--Anbieter abhängig.
+Synchronisieren sind, ist von dem jeweiligen Cloud--Speicher--Anbieter
+abhängig.
 
 Mittlerweile werben die Anbieter damit, dass sie »starke Verschlüsselung«
 verwenden und die Daten »sicher« in der »Cloud« sind. Spätestens seit den
@@ -108,32 +107,32 @@ werden können die Daten eines Benutzers herauszugeben.
 #### Synchronisations--Software
 
 Die verwendete Software zum Synchronisation ist wieder vom jeweiligen Anbieter
-abhängig. Das Problem hierbei ist, dass die Software in der Regel proprietär ist
-und der Benutzer weder die genaue Funktionalität noch das Vorhandensein von
+abhängig. Das Problem hierbei ist, dass die Software in der Regel proprietär
+ist und der Benutzer weder die genaue Funktionalität noch das Vorhandensein von
 Hintertüren ausschließen kann. Die Software liegt in dem meisten Fälle für
-verschiedene Plattformen bereit. Weiterhin ermöglichen Anbieter auch Zugriff auf
-die Daten mittels Webbrowser--Interface.
+verschiedene Plattformen bereit. Weiterhin ermöglichen Anbieter auch Zugriff
+auf die Daten mittels Webbrowser--Interface.
 
 #### Sicherheit von Cloud--Speicher--Anbietern
 
-Es ist sehr schwierig die »Sicherheit« der Cloud--Speicher--Anbieter realistisch
-zu bewerten, da sowohl die Infrastruktur als auch die verwendete Software
-intransparent und proprietär ist.
+Es ist sehr schwierig die »Sicherheit« der Cloud--Speicher--Anbieter
+realistisch zu bewerten, da sowohl die Infrastruktur als auch die verwendete
+Software intransparent und proprietär ist.
 
 Die Daten werden laut Aussagen der
-Hersteller[^FN_APPLE_SECURITY][^FN_DROPBOX_SECURITY]
-verschlüsselt übertragen und mittlerweile auch verschlüsselt gespeichert.
+Hersteller[^FN_APPLE_SECURITY][^FN_DROPBOX_SECURITY] verschlüsselt übertragen
+und mittlerweile auch verschlüsselt gespeichert.
 
 [^FN_APPLE_SECURITY]:Apple iCloud Security: <https://support.apple.com/en-us/HT202303>
 [^FN_DROPBOX_SECURITY]:Dropbox Security: <https://www.dropbox.com/security>
 
 Beim Einsatz der Cloud--Speicher--Dienste hängt die Sicherheit der Daten somit
 in erster Linie vom Dienstanbieter ab. Beim *iCloud*--Dienst von Apple
-beispielsweise werden die Daten verschlüsselt bei Drittanbietern wie der *Amazon
-S3*-- oder *Windows Azure*--Cloud gespeichert[^FN_IOS_SECGUIDE]. Die Metadaten und
-kryptographische Schlüssel verwaltet Apple auf seinen eigenen Servern. Dropbox
-hat laut Medienberichten mittlerweile von der *Amazon*--Cloud auf eine eigene
-Infrastruktur migriert[^FN_DROPBOX_S3_OWN].
+beispielsweise werden die Daten verschlüsselt bei Drittanbietern wie der
+*Amazon S3*-- oder *Windows Azure*--Cloud gespeichert[^FN_IOS_SECGUIDE]. Die
+Metadaten und kryptographische Schlüssel verwaltet Apple auf seinen eigenen
+Servern. Dropbox hat laut Medienberichten mittlerweile von der *Amazon*--Cloud
+auf eine eigene Infrastruktur migriert[^FN_DROPBOX_S3_OWN].
 
 [^FN_DROPBOX_S3_OWN]:Dropbox Exodus Amazon Cloud Empire: <http://www.wired.com/2016/03/epic-story-dropboxs-exodus-amazon-cloud-empire/>
 [^FN_IOS_SECGUIDE]: Apple iOS Security: <http://www.apple.com/business/docs/iOS_Security_Guide.pdf>
@@ -150,12 +149,12 @@ dritte Parteien die Daten des Nutzers einsehen können (vgl. [@ko2015cloud] S.
 Ein weiteres Problem ist, dass ein Cloud--Speicher--Anbieter aufgrund seiner
 »zentralen Lage« ein gutes Angriffsziel bildet. Erst kürzlich wurde bekannt,
 dass Angreifer im Jahr 2012 ungefähr 70 Millionen
-Zugangsdaten[^FN_DROPBOX_DATALEAK]
-entwendet haben. Hat ein Angreifer also die Zugangsdaten erbeutet, bringt die
-Verschlüsselung die der Cloud--Dienst betreibt in diesem Fall nichts. Die
-gestohlenen Passwörter waren nicht im Klartext einsehbar, moderne
-Angriffsmöglichkeiten auf Passwörter zeigen jedoch, dass das nichtsdestotrotz
-ein großes Problem ist. (siehe hierzu TODO: Sicherheit von Passwörtern)
+Zugangsdaten[^FN_DROPBOX_DATALEAK] entwendet haben. Hat ein Angreifer also die
+Zugangsdaten erbeutet, bringt die Verschlüsselung die der Cloud--Dienst
+betreibt in diesem Fall nichts. Die gestohlenen Passwörter waren nicht im
+Klartext einsehbar, moderne Angriffsmöglichkeiten auf Passwörter zeigen jedoch,
+dass das nichtsdestotrotz ein großes Problem ist. (siehe hierzu TODO:
+Sicherheit von Passwörtern)
 
 [^FN_DROPBOX_DATALEAK]: Dropbox <http://www.telegraph.co.uk/technology/2016/08/31/dropbox-hackers-stole-70-million-passwords-and-email-addresses/>
 
@@ -171,9 +170,9 @@ Den meisten Anbietern muss man Vertrauen, dass diese mit den Daten und
 Schlüsseln sorgsam umgehen. Auch wenn sich viele Anbieter wie beispielsweise
 *Dropbox* bemühen, aus den Fehlern der Vergangenheit zu lernen und verbesserte
 Sicherheitsmechanismen wie beispielsweise
-Zwei--Faktor--Authentifizierung[^FN_TWO_FACTOR_AUTH] in
-ihre Software zu integrieren, bleibt jedoch die Krux der Intransparenz und der
-proprietären Software. Es ist nicht ohne weiteres Möglich die »Sicherheit« der
+Zwei--Faktor--Authentifizierung[^FN_TWO_FACTOR_AUTH] in ihre Software zu
+integrieren, bleibt jedoch die Krux der Intransparenz und der proprietären
+Software. Es ist nicht ohne weiteres Möglich die »Sicherheit« der
 Client--Software zu validieren.
 
 [^FN_TWO_FACTOR_AUTH]: Zwei--Faktor--Authentifizierung: <https://de.wikipedia.org/wiki/Zwei-Faktor-Authentifizierung>
@@ -194,7 +193,9 @@ anscheinend auch nach Änderung der Zugangsdaten weiterhin bestehen.
 
 [^FN_DROPBOX_INSECURE_BY_DESIGN]: Dropbox authentication: »insecure by design«: <http://dereknewton.com/2011/04/dropbox-authentication-static-host-ids/>
 
-Ein weitere Arbeit aus dem Jahr 2011 beschreibt verschiedene Angriffsszenarien und Probleme welche die Datensicherheit und Privatsphäre von Cloud--Speicher--Benutzern in Frage stellen (vgl. [@mulazzani2011dark]). 
+Ein weitere Arbeit aus dem Jahr 2011 beschreibt verschiedene Angriffsszenarien
+und Probleme welche die Datensicherheit und Privatsphäre von
+Cloud--Speicher--Benutzern in Frage stellen (vgl. [@mulazzani2011dark]). 
 
 2013 haben weitere Sicherheitsforscher den Dropbox--Client mittels *Reverse
 Engineering* analysiert. Ab der Version 1.2.48 wird die *HOST_ID* in einer
@@ -243,7 +244,7 @@ möglichen »Man--In--The--Cloud«--Angriffs.
 
 Der Ablauf in [@fig:img-mitc] zeigt den »Quick Double Switch Attack Flow«. Im
 Bericht der *IMPERVA -- Hacker Intelligence Initiative* werden noch weitere
-Angriffe auf Basis dieses Verfahrens aufgezeigt (vgl. [@mitcref]). 
+Angriffe auf Basis dieses Verfahrens aufgezeigt (vgl. [@mitcref]).
 
 Neben dem *Dropbox*--Client auch die Synchronisationsapplikationen Microsoft
 OneDrive, Box und Google Drive untersucht. Diese verwenden zum authentifizieren
@@ -262,14 +263,15 @@ durch den Endbenutzer gibt.
 Insbesondere hat die Freilegung der Snowden--Dokumente weiterhin zu der
 Schlussfolgerung geführt, dass der Einsatz von »Freier Software«
 empfehlenswerter ist. Bekannte Sicherheitsexperten wie *Bruce
-Schneier*[^FN_SCHNEIER_1][^FN_SCHNEIER_2] oder auch *Rüdiger Weis* sehen »Freie Software« als
-eine der wenigen Möglichkeiten dem Überwachungswahn von Geheimdiensten (oder
-auch anderen Institutionen) entgegen zu wirken. Weiterhin kann Kryptographie
-dank »Freier Software« von unabhängigen Sicherheitsforschern bewertet werden.
+Schneier*[^FN_SCHNEIER_1][^FN_SCHNEIER_2] oder auch *Rüdiger Weis* sehen »Freie
+Software« als eine der wenigen Möglichkeiten dem Überwachungswahn von
+Geheimdiensten (oder auch anderen Institutionen) entgegen zu wirken. Weiterhin
+kann Kryptographie dank »Freier Software« von unabhängigen Sicherheitsforschern
+bewertet werden.
 
 Auch wenn für viele Benutzer die Geheimhaltung der Software und Infrastruktur
-auf den ersten Blick als »sicherer« erscheinen mag, widerspricht Sie
-dem Kerckhoffs’schen Prinzip, bei welchem die Sicherheit eines System nur von der
+auf den ersten Blick als »sicherer« erscheinen mag, widerspricht Sie dem
+Kerckhoffs’schen Prinzip, bei welchem die Sicherheit eines System nur von der
 Geheimhaltung des Schlüssels, jedoch nicht von der Geheimhaltung weiterer
 Systemelementen abhängen sollte. Die Vergangenheit hat beispielsweise beim
 GSM--Standard oder DVD--Kopierschutz »CSS«[^FN_CSS] gezeigt, dass durch die
@@ -278,7 +280,6 @@ jedoch nicht unterbunden werden können (vgl. [@spitz2011kryptographie],
 [@ertel2012angewandte, S. 23]).
 
 [^FN_CSS]: Cryptanalysis of Contents Scrambling System: <http://www.cs.cmu.edu/~dst/DeCSS/FrankStevenson/analysis.html>
-
 [^FN_SCHNEIER_1]: Defending Against Crypto Backdoors: <https://www.schneier.com/blog/archives/2013/09/how_to_remain_s.html>
 [^FN_SCHNEIER_2]: How to Remain Secure Against the NSA: <https://www.schneier.com/blog/archives/2013/10/defending_again_1.html>
 [^FN_WEIS]: Krypto nach Snowden | 19. Netzpolitischer Abend: <https://www.youtube.com/watch?v=T_ojwHReMkM>
@@ -301,13 +302,13 @@ letzter Zeit:
 **Weitere Probleme:**
 
 * Dropbox Client greift auf Daten außerhalb des Sync--Ordners zu[^FN_DROPBOX_SPY].
-* Microsoft synchronisiert Bitlocker--Schlüssel (Festplattenverschlüsselung) standardmäßig in die Cloud[^FN_BITLOCKER_CLOUD]
+* Microsoft synchronisiert Bitlocker--Schlüssel (Festplattenverschlüsselung)
+  standardmäßig in die Cloud[^FN_BITLOCKER_CLOUD]
 * Dropbox akzeptiert beliebige Passwörter über mehrere Stunden[^FN_DROPBOX_ACCESS]
 * Ausfallzeit über zwei Stunden[^FN_DROPBOX_DOS]
 
-
 [^FN_FAPPENING]: iCloud--Hack: <https://de.wikipedia.org/wiki/Hackerangriff_auf_private_Fotos_von_Prominenten_2014> 
-[^FN_BITLOCKER_CLOUD]: Bitlocker Cloud--Sync:  <http://arstechnica.com/information-technology/2015/12/microsoft-may-have-your-encryption-key-heres-how-to-take-it-back/>
+[^FN_BITLOCKER_CLOUD]: Bitlocker Cloud--Sync: <http://arstechnica.com/information-technology/2015/12/microsoft-may-have-your-encryption-key-heres-how-to-take-it-back/>
 [^FN_DROPBOX_ACCESS]: Dropbox--Auth--Bug: <https://www.heise.de/security/meldung/Dropbox-akzeptierte-vier-Stunden-lang-beliebige-Passwoerter-1264100.html>
 [^FN_MS_DATALEAK]: OneDrive Datenleck: <https://www.heise.de/security/meldung/Microsoft-dichtet-OneDrive-Links-ab-2227485.html>
 [^FN_GDRIVE_DATALEAK]: Google Drive Datenleck: <https://www.heise.de/security/meldung/Auch-Google-schliesst-Datenleck-im-Cloud-Speicher-2243366.html>
@@ -320,8 +321,8 @@ Auch wenn viele Unternehmen ihre Priorität nicht in der Sicherung ihrer Daten
 sehen mögen, sollten die Folgekosten von Datenlecks nicht unterschätzt werden.
 Laut einer jährlich durchgeführten Studie vom *Ponemon Institute* belaufen sich
 die Kosten im Zusammenhang mit Datenlecks auf mehrere Millionen Dollar (vgl.
-[@ponemon]), die Tendenz ist von Jahr zu Jahr steigend wenn man die Berichte aus
-dem jeweiligem Vorjahr zuzieht.
+[@ponemon]), die Tendenz ist von Jahr zu Jahr steigend wenn man die Berichte
+aus dem jeweiligem Vorjahr zuzieht.
 
 Abgesehen von den Datenlecks verschiedener Cloud--Speicher--Anbieter, haben
 zentrale Dienste immer wieder Probleme mit größeren Datenlecks. Welcher Dienst
@@ -333,15 +334,13 @@ seiner Webseite[^FN_HAVEIBEENBWNED].
 ### Private Cloud
 
 Weiterhin gibt es bei der Cloud--Speicher--Lösung auch die Möglichkeit einen
-eigenen »Cloud--Speicher« aufzusetzen. Hierfür wird oft die Open--Source--Lösung
-*Owncloud* genommen. Der Nachteil hierbei ist, dass der Benutzer selbst für die
-Bereitstellung der Infrastruktur verantwortlich ist. Für Unternehmen mag die
-*Owncloud* durchaus interessant sein, für die meisten Privatanwender ist der
-Aufwand höchstwahrscheinlich zu hoch. Weiterhin haben Endanwender in der Regel
-nicht das nötige Know--How, welches für das Betreiben eines
-Cloud--Speicher--Dienstes essentiell ist.
-
-\newpage
+eigenen »Cloud--Speicher« aufzusetzen. Hierfür wird oft die
+Open--Source--Lösung *Owncloud* genommen. Der Nachteil hierbei ist, dass der
+Benutzer selbst für die Bereitstellung der Infrastruktur verantwortlich ist.
+Für Unternehmen mag die *Owncloud* durchaus interessant sein, für die meisten
+Privatanwender ist der Aufwand höchstwahrscheinlich zu hoch. Weiterhin haben
+Endanwender in der Regel nicht das nötige Know--How, welches für das Betreiben
+eines Cloud--Speicher--Dienstes essentiell ist.
 
 ### Datenaustausch über dezentrale Lösungen
 
@@ -349,56 +348,51 @@ Cloud--Speicher--Dienstes essentiell ist.
 
 Der dezentrale Bereich klassifiziert sich durch den Dateiaustausch, welcher in
 der Regel *ohne* eine zentrale Instanz auskommt. Es handelt es sich hierbei um
-Systeme aus dem Bereich des Peer-to-Peer--Models. Eins der frühen Peer--to--peer
-Protokolle ist das *Napster*--Protokoll der gleichnamigen Anwendung *Napster*,
-welche Ende der 90' Jahre für den Tausch von Musik verwendet wurde. Später sind
-weitere Peer--to--peer--Protokolle wie das Multisource File Transfer Protocol
-oderdas BitTorrent--Protokoll .
+Systeme aus dem Bereich des Peer-to-Peer--Models. Eins der frühen
+Peer--to--peer Protokolle ist das *Napster*--Protokoll der gleichnamigen
+Anwendung *Napster*, welche Ende der 90' Jahre für den Tausch von Musik
+verwendet wurde. Später sind weitere Peer--to--peer--Protokolle wie das
+Multisource File Transfer Protocol oderdas BitTorrent--Protokoll .
 
 [@fig:img-p2p] zeigt schematisch den Austausch von Daten in einem dezentralen
-Netzwerk. Bei einem dezentralem System liegen die Daten in der Regel nur auf den
-Rechnern der Benutzer. Die Speicherung auf zentralen Speicher--Servern wie bei
-den zentralen Diensten ist nicht vorgesehen, jedoch aufgrund der Architektur
-realisierbar.
+Netzwerk. Bei einem dezentralem System liegen die Daten in der Regel nur auf
+den Rechnern der Benutzer. Die Speicherung auf zentralen Speicher--Servern wie
+bei den zentralen Diensten ist nicht vorgesehen, jedoch aufgrund der
+Architektur realisierbar.
 
 Bei der Nutzung eines dezentralen Netzwerks zum Austausch beziehungswiese zur
 Synchronisation von Daten musst der Benutzer in der Regel eine spezielle
 Software installieren und einen »Synchronisationsordner«, wie bei den zentralen
-Diensten, definieren welcher dem Netzwerk »bekannt« gemacht werden soll. Je nach
-eingesetztem Protokoll, variiert die Funktionsweise und Sicherheit.
+Diensten, definieren welcher dem Netzwerk »bekannt« gemacht werden soll. Je
+nach eingesetztem Protokoll, variiert die Funktionsweise und Sicherheit.
 
-![Dezentraler Datenaustausch über Peer--to-Peer--Kommunikation. Es existiert
-keine zetrale Instanz, jeder Peer im Netzwerk ist
-»gleichberechtigt«.](images/p2p.png){#fig:img-p2p width=80%}
+![Dezentraler Datenaustausch über Peer--to-Peer--Kommunikation. Es existiert keine zetrale Instanz, jeder Peer im Netzwerk ist »gleichberechtigt«.](images/p2p.png){#fig:img-p2p width=80%}
 
 Die dezentralen Systeme unterliegen in der Regel keiner Regulierung durch eine
-zentrale Instanz. Je nach verwendeter Technologie zum Datenaustausch, existieren
-sogenannte »rendezvous hosts« in einem dezentralen Netzwerk, welche für die
-initiale Konfiguration und als »Einstiegspunkt« benötigt werden. Hier
+zentrale Instanz. Je nach verwendeter Technologie zum Datenaustausch,
+existieren sogenannte »rendezvous hosts« in einem dezentralen Netzwerk, welche
+für die initiale Konfiguration und als »Einstiegspunkt« benötigt werden. Hier
 unterscheiden sich die verschiedenen Protokolle und Netzwerke voneinander. 
 
-Ein der bekannter Vertreter der P2P--Protkolle ist BitTorrent[^FN_BITTORRENT]. Das
-Protokoll kommt beispielsweise bei der Verbreitung von Software, Computerspielen
-(HumblieIndieBundle.com), dem Blender Movie--Projekten, Linux--Distributionen
-,der Verteilung von Updates (Windows 10), bei diversen
+Ein der bekannter Vertreter der P2P--Protkolle ist BitTorrent[^FN_BITTORRENT].
+Das Protokoll kommt beispielsweise bei der Verbreitung von Software,
+Computerspielen (HumblieIndieBundle.com), dem Blender Movie--Projekten,
+Linux--Distributionen ,der Verteilung von Updates (Windows 10), bei diversen
 Spieleherstellern und auch anderen Anwendungen zum Einsatz[^FN_BTUSAGE]. 
 
 [^FN_BTUSAGE]: BitTorrent Einsatzgebiete: <https://en.wikipedia.org/wiki/BitTorrent#Adoption>
 
 Ein Vorteil bei den dezentralen System ist, dass es im Vergleich zu zentralen
-Architekturen keinen »Single--Point--Of--Failure« gibt. Ein weiterer Unterschied
-zu zentralen Lösung ist ist bei dezentralen Netzwerken der »Datenfluss«. Die
-Daten werden nicht von einer zentralen Instanz »besorgt«, sondern liegen im
-jeweiligen Netzwerk, verteilt auf die Netzwerkteilnehmer (peers). Jeder
-Teilnehmer des Netzwerks fungiert in der Regel als Client und als Server. Daten
-werden beim Austausch nicht zwangsläufig von einem »einzelnen« Teilnehmer
-geladen, sondern von einer Gruppe aus Teilnehmern welche die gleiche Datei
-besitzen, siehe [@fig:img-swarm]
+Architekturen keinen »Single--Point--Of--Failure« gibt. Ein weiterer
+Unterschied zu zentralen Lösung ist ist bei dezentralen Netzwerken der
+»Datenfluss«. Die Daten werden nicht von einer zentralen Instanz »besorgt«,
+sondern liegen im jeweiligen Netzwerk, verteilt auf die Netzwerkteilnehmer
+(peers). Jeder Teilnehmer des Netzwerks fungiert in der Regel als Client und
+als Server. Daten werden beim Austausch nicht zwangsläufig von einem
+»einzelnen« Teilnehmer geladen, sondern von einer Gruppe aus Teilnehmern welche
+die gleiche Datei besitzen, siehe [@fig:img-swarm]
 
-![Zeigt einen »Swarm«. *Alice* lädt die Datei »image.iso« von mehreren
-Teilnehmern gleichzeitig, die Datei »mydog.png« jedoch nur von
-*Dan*.](images/distsync.png){#fig:img-swarm width=80%}
-
+![Zeigt einen »Swarm«. *Alice* lädt die Datei »image.iso« von mehreren Teilnehmern gleichzeitig, die Datei »mydog.png« jedoch nur von *Dan*.](images/distsync.png){#fig:img-swarm width=80%}
 
 Aktuell verbreitete Peer--to--peer Protokolle:
 
@@ -413,11 +407,10 @@ Früher eingesetzte Peer--to--peer Filesharing--Protokolle:
 * Gnutella Protokoll (Einsatz: Gnutella Client)
 * Napster--Protokoll
 
-
 #### Synchronisations--Software
 
-Zu den Vertretern der etablierten dezentralen Systeme gibt es vergleichsweise zu
-den Cloud--Speicher--Anbietern nur wenige Produkte, welche für die
+Zu den Vertretern der etablierten dezentralen Systeme gibt es vergleichsweise
+zu den Cloud--Speicher--Anbietern nur wenige Produkte, welche für die
 Synchronisation von Daten beziehungsweise den Austausch von Dokumenten
 eingesetzt werden können. Bekannten Lösungen sind:
 
@@ -432,13 +425,13 @@ eingesetzt werden können. Bekannten Lösungen sind:
 Bei den bekannten Vertretern des BitTorrent--Netzwerks wie dem
 BitTorrent--Client werden die Daten in der Regel unverschlüsselt übertragen und
 gespeichert. Auch eine Authentifizierung finden in der Regel nicht statt. Die
-Benutzer geben die Daten mit ihrem »Synchronisationsordner« automatisch für alle
-Teilnehmer des Netzwerks frei zum teilen.
+Benutzer geben die Daten mit ihrem »Synchronisationsordner« automatisch für
+alle Teilnehmer des Netzwerks frei zum teilen.
 
-Wie bei zentralen Diensten, ist es auch bei dezentralen Netzwerken schwierig die
-»Sicherheit« zu beurteilen. Diesen hängt in diesem Fall nicht zwangsläufig von
-einem Dienst--Anbieter ab, sondern vielmehr von der Umsetzung der Software, der
-Infrastruktur des Netzwerks, der »Sicherung der Daten« (verschlüsselte
+Wie bei zentralen Diensten, ist es auch bei dezentralen Netzwerken schwierig
+die »Sicherheit« zu beurteilen. Diesen hängt in diesem Fall nicht zwangsläufig
+von einem Dienst--Anbieter ab, sondern vielmehr von der Umsetzung der Software,
+der Infrastruktur des Netzwerks, der »Sicherung der Daten« (verschlüsselte
 Speicherung, verschlüsselte Übertragung) und den Möglichkeiten, welche es
 ermöglichen einen Kommunikationspartner zu authentifizieren. 
 
@@ -448,7 +441,7 @@ Hersteller zusätzlich symmetrisch mit AES--128 verschlüsselt übertragen. Die
 getestete Version entspricht der Standardversion welche kostenfrei benutzbar
 ist, jedoch nur einen eingeschränkten Funktionsumfang bietet. Weiterhin gibt es
 eine »Pro«--Version welche »selektive und kollaborative Synchronisation«
-ermöglicht. 
+ermöglicht.
 
 [^FN_RESILIO_PROTOCOL]:Inoffizielle Protokoll Spezifikation <https://forum.resilio.com/topic/21338-inofficial-protocol-specification/>
 
@@ -457,7 +450,7 @@ Bei Resilio (Webbasierte GUI) werden Daten werden hier mittels verschiedenen
 dem Benutzer erscheinen dem Benutzer folgende »Schlüssel«, über welche er den
 Synchronisationsordner mit anderen Synchronisationsordnern teilen kann: 
 
-Schlüssel für: 
+Schlüssel für:
 
 * Nur Leserechte
 * Lese-- und Schreibrechte
@@ -474,31 +467,31 @@ verwendet werden sollte.
 [^FN_HACKITO]: Security analysis of BTsync: <http://2014.hackitoergosum.org/bittorrentsync-security-privacy-analysis-hackito-session-results/>
 
 **Infinit** ist eine weitere proprietäre Lösung welche es ermöglicht Dateien
-zwischen verschiedenen Benutzern, ohne Server--Instanz, auszutauschen. Die Basis
-für Infinit stellt [@quintard2012towards] dar. Bei Infinit findet bei der
+zwischen verschiedenen Benutzern, ohne Server--Instanz, auszutauschen. Die
+Basis für Infinit stellt [@quintard2012towards] dar. Bei Infinit findet bei der
 Installation der Anwendung eine »Registrierung« statt. Diese Daten
 (Benutzername/E--Mail--Addresse) können anschließen verwendet werden um mit der
 Anwendung andere Infinit--Partner zu finden oder von diesen gefunden zu werden.
 Anschließend kann eine Datei über ein *Drag & Drop*--Menü an den gefundenen
 Partner gesendet werden. Es ist unklar ob Daten/Metadaten ans die
 Infinit--Plattform übertragen werden. Infinit wirbt mit »point--to--point
-encryption« und »bank-level encryption algorithms such as AES-256 and RSA 2048«.
-Eine Authentifizierung des Kommunikationspartners findet rudimentär anhand vom
-Benutzernamen/E--Mail statt. Daten werden lokal nicht verschlüsselt.
+encryption« und »bank-level encryption algorithms such as AES-256 and RSA
+2048«. Eine Authentifizierung des Kommunikationspartners findet rudimentär
+anhand vom Benutzernamen/E--Mail statt. Daten werden lokal nicht verschlüsselt.
 
-
-**Syncthing** basiert auf einem eigens entwickeltem Protokol, dem *Block Exchange
-Protocol*[^FN_BEP]. Der Syncthing--Client (Web--GUI Variante) ermöglicht das
-Hinzufügen von »Synchronisationsordner« und »Remote Device«. Diese GUI ist
-Standardmäßig von außen nicht zugreifbar, da sie auf »localhost only« läuft. 
+**Syncthing** basiert auf einem eigens entwickeltem Protokol, dem *Block
+Exchange Protocol*[^FN_BEP]. Der Syncthing--Client (Web--GUI Variante)
+ermöglicht das Hinzufügen von »Synchronisationsordner« und »Remote Device«.
+Diese GUI ist Standardmäßig von außen nicht zugreifbar, da sie auf »localhost
+only« läuft.
 
 [^FN_BEP]: Block exchange protocol: <https://docs.syncthing.net/specs/bep-v1.html>
 
 Die Peers werden durch eine eindeutige *Device ID* identifiziert. Diese leitet
 sich aus einen asymmetrischen Schlüsselpaar (3072 bit RSA) ab, welches beim
 ersten Start der Anwendung erstellt wird. Abgelegt wird ein privater Schlüssel
-und ein selbst signiertes Zertifikat. Der private Schlüssel scheint nicht weiter
-geschützt zu sein:
+und ein selbst signiertes Zertifikat. Der private Schlüssel scheint nicht
+weiter geschützt zu sein:
 
 ~~~bash
 freya :: ~/.config/syncthing » cat key.pem 
@@ -514,33 +507,34 @@ Das selbst signierte Zertifikat bringt keine zusätzliche Sicherheit, ermöglich
 jedoch die Nutzung von Transport Layer Security (TLS). Diese *ID* ist für jeden
 Teilnehmer eindeutig (aufgrund der asymmetrischen Kryptographie). Sie besteht
 aus einer kryptographischen Prüfsumme (SHA--256) eines eindeutigen
-kryptographischen Zertifikates, welches für die verschlüsselte Kommunikation und
-Authentifizierung zwischen den einzelnen Peers verwendet wird.
+kryptographischen Zertifikates, welches für die verschlüsselte Kommunikation
+und Authentifizierung zwischen den einzelnen Peers verwendet wird.
 
 Weiterhin ist das aktuell Design für *Discovery Spoofing* anfällig. Das heißt,
-dass ein Angreifer der im Netzwerk mitliest, *Device IDs* mitlesen kann und sich
-somit als eine bestimmter Peer ausgeben kann. Das würde einem Angreifer die
-Information liefern, mit welchem Peers sich eine bestimmte *Device ID*
+dass ein Angreifer der im Netzwerk mitliest, *Device IDs* mitlesen kann und
+sich somit als eine bestimmter Peer ausgeben kann. Das würde einem Angreifer
+die Information liefern, mit welchem Peers sich eine bestimmte *Device ID*
 synchronisiert. Mehr zu *Device IDs* sowie möglichen damit in Verbindung
 stehenden Problemen findet sich in der offiziellen
 Syncthing--Dokumentation[^FN_SYNCTHING_DEVID].
 
-[^FN_SYNCTHING_DEVID]: Understanding Device--IDs:  <https://docs.syncthing.net/dev/device-ids.html>
+[^FN_SYNCTHING_DEVID]: Understanding Device--IDs: <https://docs.syncthing.net/dev/device-ids.html>
 
 Eine lokale Verschlüsselung der Daten finden nicht statt. Schlüssel, welche die
 *Device ID* eindeutig identifizieren sind nicht weiter gesichert.
 
-*Librevault* ist ein sich noch im Frühstadion befindlicher Prototyp. Die aktuell
-getestete alpha Version ist beim hinzufügen eines »Synchronisationsordners«
-reproduzierbar abgestürzt. Laut Projekt--Beschreibung scheint sich Librevault
-an Resilio/Syncthing zu orientieren. Weitere Details zur Spezifikation und
-Projektzielen sind auf dem Blog des Entwicklers[^FN_LIBREVAULT_BLOG] zu finden.
+*Librevault* ist ein sich noch im Frühstadion befindlicher Prototyp. Die
+aktuell getestete alpha Version ist beim hinzufügen eines
+»Synchronisationsordners« reproduzierbar abgestürzt. Laut Projekt--Beschreibung
+scheint sich Librevault an Resilio/Syncthing zu orientieren. Weitere Details
+zur Spezifikation und Projektzielen sind auf dem Blog des
+Entwicklers[^FN_LIBREVAULT_BLOG] zu finden.
 
 [^FN_LIBREVAULT_BLOG]: Librevault Entwicklerblog: <https://librevault.com/blog/>
 
-**git--annex** ist ein sehr stark am *git* Versionsverwaltungssystem orientiertes
-Synchronisationswerkzeug. Prinzipiell ist es für die Kommandozeile entwickelt
-worden, es existiert mittlerweile jedoch ein *Webfrontend* (Webapp).
+**git--annex** ist ein sehr stark am *git* Versionsverwaltungssystem
+orientiertes Synchronisationswerkzeug. Prinzipiell ist es für die Kommandozeile
+entwickelt worden, es existiert mittlerweile jedoch ein *Webfrontend* (Webapp).
 
 *git--annex* verwaltet nur die Metadaten in *git*. Es funktioniert als
 *git*--Aufsatz, welcher es dem Benutzer ermöglicht auch große Binäre Dateien
@@ -561,10 +555,14 @@ Neben der Verschlüsselung von *git remotes* mit *gcrypt* gibt es auch die
 Möglichkeit die Daten auf *special remotes* zu verschlüsseln. Hierfür gibt es
 die drei Verfahren:
 
-* **hybrid encryption:** Gemeinsamer »shared key« wird im mit einen »public key« verschlüsselt im Repository gespeichert
-* **shared encryption:** Gemeinsamer »shared key« wird im Klartext im Repository gespeichert
-* **public key encryption:** Hierbei wird der »public key« verwendet, zum entschlüsseln benötigt man den »private key«
-* **shared public key encryption:** Wie beim »public key«--Verfahren, jedoch mit einem gemeinsam genutztem Schlüsselpaar
+* **hybrid encryption:** Gemeinsamer »shared key« wird im mit einen »public
+  key«  verschlüsselt im Repository gespeichert
+* **shared encryption:** Gemeinsamer »shared key« wird im Klartext im
+  Repository gespeichert
+* **public key encryption:** Hierbei wird der »public key« verwendet, zum
+  entschlüsseln benötigt man den »private key«
+* **shared public key encryption:** Wie beim »public key«--Verfahren, jedoch
+  mit einem gemeinsam genutztem Schlüsselpaar
 
 [^FN_GIT_ANNEX_SPECIALREMOTES]: *git--annex* special remotes: <https://git-annex.branchable.com/special_remotes/>
 [^FN_GIT_ANNEX_ENCRYPTION]: *git--annex* encryption: <http://git-annex.branchable.com/design/encryption/>
@@ -572,12 +570,12 @@ die drei Verfahren:
 #### Weiteres
 
 Einen bisher nicht genannten, relativ neuen dezentraler Ansatz bietet das
-InterPlanetary--File--System[^FN_IPFS], als Teil seiner Funktionalität. Dieses ist in der
-aktuellen Implementierung jedoch eher als ein fortgeschrittener Prototyp
-anzusehen. Der Ansatz des *IPFS*--Protokolls ist vielversprechend. IPFS
-kombiniert dabei viele bereits bekannte Technologien zu einem einzigen Projekt.
-Hierdurch lassen sich schwächen aktuell genutzter Systeme abmildern oder gar
-vermeiden.
+InterPlanetary--File--System[^FN_IPFS], als Teil seiner Funktionalität. Dieses
+ist in der aktuellen Implementierung jedoch eher als ein fortgeschrittener
+Prototyp anzusehen. Der Ansatz des *IPFS*--Protokolls ist vielversprechend.
+IPFS kombiniert dabei viele bereits bekannte Technologien zu einem einzigen
+Projekt. Hierdurch lassen sich schwächen aktuell genutzter Systeme abmildern
+oder gar vermeiden.
 
 [^FN_IPFS]: InterPlanetary--File System: <https://en.wikipedia.org/wiki/InterPlanetary_File_System>
 
@@ -597,8 +595,8 @@ verfolgen jedoch unterschiedliche Ziele:
 
 Da der Cloud--Speicher--Mark sehr dynamisch und fragmentiert ist, ist es
 schwierig hier zuverlässige Daten zu finden. Laut einem Online--Beitrag der
-»Wirtschafts Woche«[^FN_CLOUDSTORAGE] gehören folgende Anbieter zu »den größten«
-Cloud--Speicher--Anbietern:
+»Wirtschafts Woche«[^FN_CLOUDSTORAGE] gehören folgende Anbieter zu »den
+größten« Cloud--Speicher--Anbietern:
 
 * Dropbox
 * Apples iCloud
@@ -613,7 +611,7 @@ in erster Linie für Mac--Benutzer interessant.
 * Google Drive/Dropbox mit »EncFS« oder »Boxcryptor«
 * Syncthing
 * git--annex
-* Btsync 
+* Btsync
 
 Verschiedene Alternativen
 
@@ -626,17 +624,18 @@ Es gibt Alternativen, diese haben jedoch Probleme:
 
 Tabelle: ...
 
-## Gesellschaftliche und Politische Aspekte 
+## Gesellschaftliche und Politische Aspekte
 
-Seit den Snowden--Enthüllungen[^FN_SNOWDEN_LEAK] ist offiziell bekannt, dass Unternehmen im
-Notfall rechtlich gezwungen werden können personenbezogene Daten rauszugeben.
+Seit den Snowden--Enthüllungen[^FN_SNOWDEN_LEAK] ist offiziell bekannt, dass
+Unternehmen im Notfall rechtlich gezwungen werden können personenbezogene Daten
+rauszugeben.
 
-[^FN_SNOWDEN_LEAK]: Globale Überwachungs-- und Spionageaffäre: <https://de.wikipedia.org/wiki/Globale_%C3%9Cberwachungs-_und_Spionageaff%C3%A4re>
+[^FN_SNOWDEN_LEAK]: Globale Überwachungs-- und Spionageaffäre: <https://de.wikipedia.org/wiki/Globale_Überwachungs-_und_Spionageaffäre> \_
 
-* Snowden--Affäre
-* Gesellschaftliche Aspekte: Ich habe nichts zu verbergen
-* politische Lage und Probleme
+Snowden--Affäre
+Gesellschaftliche Aspekte: Ich habe nichts zu verbergen
+politische Lage und Probleme
 
 >> *Arguing that you don’t care about the right to privacy because you have
->> nothing to hide is no different than saying you don’t care about free speech
->> because you have nothing to say.* -- Edward Snowden
+   nothing to hide is no different than saying you don’t care about free speech
+   because you have nothing to say.* -- Edward Snowden

@@ -1,11 +1,11 @@
 # Anforderungen
 
 Die Betrachtung des aktuellen wissenschaftlichen und technischen Standes zeigt,
-dass die Thematik im Detail komplex und kompliziert ist. Nichtsdestotrotz ergeben
-sich gewissen Mindestanforderungen, die für die Entwicklung einer »sicheren«
-und dezentralen Dateisynchronisationslösung nötig sind. Um eine möglichst gute
-Sicherheit und Usability zu gewährleisten, muss die Software und der
-Softwareentwicklungsprozess gewissen Mindestanforderungen genügen. Da die
+dass die Thematik im Detail komplex und kompliziert ist. Nichtsdestotrotz
+ergeben sich gewissen Mindestanforderungen, die für die Entwicklung einer
+»sicheren« und dezentralen Dateisynchronisationslösung nötig sind. Um eine
+möglichst gute Sicherheit und Usability zu gewährleisten, muss die Software und
+der Softwareentwicklungsprozess gewissen Mindestanforderungen genügen. Da die
 Anforderungen von der Zielgruppe abhängig sind, werden folgend grundsätzliche
 Anforderungen definiert, welche Zielgruppen--übergreifend sind.
 
@@ -27,7 +27,6 @@ welche folgende Punkte gewährleisten:
 Weiterhin sollen sich die Anforderungen an die Sicherheit an den aktuell
 vorherrschenden und bewährten »Sicherheitsstandards« orientieren.
 
-
 ### Usability
 
 Die Usability von Software ist teilweise subjektiv und ist stark von den
@@ -42,9 +41,9 @@ Konzept nicht durchgesetzt. Über die genauen Gründe, warum sich PGP nicht
 durchgesetzt hat, kann man sich streiten. Laut Meinung des Autors, liegt es
 einerseits an der hohen Komplexität beziehungsweise Einstiegshürde,
 andererseits zeigen Umfragen, dass eine gewisse Gleichgültigkeit gegenüber dem
-Schutz der eigenen Privatsphäre vorherrscht[^umfrage].
+Schutz der eigenen Privatsphäre vorherrscht[^FN_PRIVACY_SURVEY].
 
-[^umfrage]: Umfrage DIVSI: <https://www.divsi.de/abhoeren-egal-ich-habe-nichts-zu-verbergen/>
+[^FN_PRIVACY_SURVEY]: Umfrage DIVSI: <https://www.divsi.de/abhoeren-egal-ich-habe-nichts-zu-verbergen/>
 
 Um dieser Problematik möglichst aus dem Weg zu gehen, sollen folgende
 Anforderungen umgesetzt werden:
@@ -66,6 +65,5 @@ Daten bei der Übertragung und Speicherung verschlüsselt sein.
 
 ## Anforderungen an die Softwareentwicklung
 
-* Transparentes Entwicklungsmodell
-* »Sichere« Softwareentwicklung
-* Signatur von Software--Releases
+* Transparentes Entwicklungsmodell * »Sichere« Softwareentwicklung * Signatur
+  von Software--Releases
