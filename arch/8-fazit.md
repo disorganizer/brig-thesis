@@ -2,85 +2,127 @@
 
 ## Zusammenfassung
 
-Kurze Zusammenfassung ähnlich abstract. "Es wurde..."
-Sowie Resultate
+Es wurde ein neuer, interdisplizinärer Ansatz für ein
+Dateisynchronisationssystem vorgestellt, der viele bestehende Ideen in einem
+stimmigen Konzept vereint. Eine entsprechende, quelloffene und für alle
+zugängliche Implementierung wurde vorgestellt und dokumentiert. Die anfangs
+gestellten Anforderungen konnte im Großen und Ganzen umgesetzt werden, auch
+wenn die Implementierung den Konzepten etwas nachsteht. Aus Sicht der Autoren
+ist dies aufgrund der hohen Ambitionen und des geringen Zeitrahmens zumindest
+verständlich. Letztlich ist eine solide Basis für weitere Entwicklungen
+entstanden, die in absehbarer Zeit einem größeren Publikum präsentiert werden
+können.
 
-Ambitioniertes Projekt,
-trotzdem neutrale bis positive Resultate trotz Zeitmangels.
+Eine Abgrenzung zu anderen, existierenden Werkzeugen ergibt sich vor allem
+dadurch, dass die technischen Internas von ``brig`` vergleichsweise leicht
+verständlich sind und auch von fortgeschrittenen Nutzern verstanden werden
+können. Sehr grob zusammengefasst und leicht überspitzt lässt sich zudem sagen,
+dass ``brig``...
 
-Zusammengefasst größte (Usability) Probleme:
+* ...mächtiger ist als ``syncthing``.
+* ...leichter bedienbar ist als ``git-annex``.
+* ...freier und verständlicher ist als ``Resilio``.
+* ...sicherer ist als ``Infinit``.
+* ...und fortgeschrittener in der Entwicklung ist als ``bazil``.
 
-- Initiale Authentifizierung (QR--Code)
-- Partner muss online sein.
-* Noch keine automatische Synchronisation.
+## Selbstkritik
 
-Aber: Hoffentlich leichter verständlich als viele andere Tools,
-da es nach außen nur wenige primitiven gibt.
+Wie in [@sec:evaluation] diskutiert, ist noch einiges Verbesserungspotenzial
+vorhanden. In Retrospektive hätte man sich stärker auf die Kernfunktionalität
+der Software und die zugrunde liegenden Konzepte konzentrieren müssen.
+Zusatzmodule wie Verschlüsselung sind wichtig, hätten aber auch zu späteren
+Zeitpunkten nachgerüstet werden.
 
-* Mächtiger syncthing
-* Leichter bedienbar als git-annex
-* Freier und verständlicher als resilio
-* Fortgeschrittener als bazil
+Des weiteren wäre im Nachhinein eine prototypischere Entwicklung angebracht
+gewesen: Es wurde viel Zeit darauf verwandt, Konzepte in Quelltext zu gießen,
+die letztlich keine Anwendung fanden oder nicht aufgingen. Das lässt sich
+natürlich bei großen Projekten kaum vermeiden, aber das Testen neuer Konzepte
+hätte auch mittels »unsauberer« Lösungen funktioniert. Hätte man die Software
+beispielsweise, nach Unix--Philosophie (wie ``git``), als Sammlung kleiner
+Werkzeuge konzipiert, hätte man diese kurzzeitig mit einer Skriptsprache wie
+``bash`` zusammenschließen können, um Probleme in den eigenen Ideen
+aufzudecken.
 
-Relativ interdisplizinär:
+Obwohl der zeitliche Rahmen aufgrund der Suche nach Investoren, dem
+zeitgleichen Abschließen des Studiums und privaten Problem sehr eng war, ist
+mit ``brig`` eine erstaunliche flexible Idee entstanden, von der wir glauben,
+dass sie wirklich nützlich ist und die Welt etwas verbessern könnte.
 
-- Sicherheit
-- P2P
-- Softwarearchitektur
-- Usability
+![Ist »brig« letztlich nur ein weiterer Standard?[^XKCD_STD_SOURCE]](images/8/xkcd-standards.png){#fig:xkcd-standards width=55%}
 
-Mix aus vielen bestehenden Technologien, Ansätzen und Ideen. (git und co.)
-
-Zeitaufteilung, was hat wie lang gedauert, was waren die größten Zeitfresser
-
-Situation erklären in dem der Prototyp sich befindet.
-
-Noch Fraglich wie gut das System in der Praxis funktioniert.
-
-### Selbstkritik
-
-Was würde man anders machen wenn man jung wäre?
-
-Was würde man anders machen: Prototypischere Entwicklung, vlt. sogar einfach in bash oder python.
-
-Aufteilung von brig in kleinere Teilprogramme, wie die plumbing commands bei git,
-um Robustheit und Fehlertoleranz zu erhöhen.
-
-![Ist »brig« letztlich nur ein weiterer Standard?](images/8/xkcd-standards.png){#fig:xkcd-standards width=66%}
+[^XKCD_STD_SOURCE]: <https://xkcd.com/927>
 
 ## Offene Fragen
 
-Neben den konkreten Fragen aus evaluation, allgemeine fragen das projekt betreffend
+Besonders fraglich ist wie gut das System in der Praxis funktioniert und auf
+größere Nutzermengen skaliert. Da ``brig`` von technisch versierten Nutzern
+entwickelt wurde, ist es auch fraglich ist wie gut verständlich es für neue,
+unerfahrenere Benutzer ist. Aus Sicht der Benutzbarkeit gibt es
+noch einige technische und konzeptuelle Probleme:
 
-Key Management?
+* Keine grafische Oberfläche, nur Kommandozeile.
+- Initiale Authentifizierung von Hand nötig.
+- Partner muss online sein, um ihn synchronisieren zu können.
+* Noch keine automatische »Echtzeit«--Synchronisation.
+
+Unserer Meinung nach lohnt sich eine Veröffentlichung erst, wenn obige Punkte
+ansatzweise gelöst worden sind.
 
 ### Beziehung zum ``ipfs``--Projekt
 
-Momentan wird ``brig`` vollkommen separat von ``ipfs`` entwickelt. Bleibt das so?
+Momentan wird ``brig`` vollkommen separat von ``ipfs`` entwickelt. Das hat vor allem
+den Grund, dass zu Anfang des Projektes die Richtung der Entwicklung noch nicht klar war. Die komplette Separation als eigenes Projekt, macht es deutlich einfacher
+mit verschiedenen Konzepten zu experimentieren.
 
-https://github.com/ipfs/ipfs/issues/120
+In Zukunft spricht jedoch nichts dagegen Teile von ``brig``, sofern sie allgemein nützlich sind, auch dem ``ipfs``--Projekt anzubieten und dort zu integrieren.
+Eine Zusammenarbeit wäre für beide Seite vorteilhaft, da mehr Entwickler sich mit dem
+Quelltext befassen können und die dazugehörigen Konzepte aufeinander abstimmen können.
+Von ``ipfs``--Seite scheint eine Zusammenarbeit gern gesehen zu sein:
 
-Viele Teile von ``brig`` könnten ipfs helfen (encrpytion format/compression)
-sowie anregungen/ideen bei VCS.
+> *[...] we want to get to this too and would love to support your efforts. I'd
+> request that you consider contributing directly to go-ipfs since much of what
+> you want we want too.*
+
+--- *Juan Benet*, Kernentwickler von ``ipfs``[^JUAN_BENET_CIT]
+
+[^JUAN_BENET_CIT]: Quelle: <https://github.com/ipfs/ipfs/issues/120>
+
+Konkret wären folgende Module von ``brig`` für ``ipfs`` interessant:
+
+- Das Verschlüsselungsformat.
+- Das Kompressionsformat.
+* Teile des Datenmodells, insbesondere die ``Commit``--Struktur und Versionsverwaltung.
+* Die Implementierung eines beschreibbaren FUSE--Dateisystems.
 
 ### Zukunft der Autoren
 
-Weiterentwicklung gewährleistet?
-
-Finanzierung
-
-Aufgrund privater Probleme von Herrn Piechula, konnte dieser nicht mit voller Kapazität
-mitarbeiten.
+Fraglich ist auch wie die Zukunft von ``brig`` aussieht, nachdem die
+vorliegende Arbeit abgeschlossen wurde. Leider konnte für die weitere Förderung
+des Projektes kein Sponsor verpflichtet werden. Trotz Motivation der Autoren
+wird ``brig`` daher in der näheren Zukunft als Hobbyprojekt weitergeführt
+werden müssen. Durch die private Situation beider Autoren wird daher die
+Entwicklung sich leider verlangsamen.
 
 ### Veröffentlichung der Software
 
-Wie man das angeht. reddit?
-Website und Dokumentation zur Veröffentlichung nötig.
+Nichtsdestotrotz ist es unser Ziel bis spätestens Mitte des Jahres 2017 ``brig``
+auf einen Stand zu bringen den man der Open--Source--Community präsentieren kann.
+Bevor es so weit ist, ist nicht nur Feinschliff an der bestehenden Software
+nötig, sondern es muss auch leicht zugängliche Dokumentation geschrieben werden und
+die Software für verschiedene Betriebssysteme gepackt werden.
 
-Veröffentlichung als beta -> Problem: Internas können sich noch ändern,
-Inkompatiblitäten können entstehen.
-Testing mit verschiedenen Prüfsummen.
+Folgende Plattformen erscheinen uns für eine Präsenation der Software geeignet:
 
-Hier noch ein monumentaler Schlussatz.
+- Ein »Linux Tag« (Beispielsweise der »Linux Info Tag« in Augsburg).
+  Dort wäre eine detaillierte Präsentation vor Publikum mit direkten Feedback möglich.
+* Kleineres Forum mit technisch versierten Nutzern; beispielsweise ein Forum
+  für fortgeschrittene Linux--User. Dort könnte auch eine Paketierung der Software
+  angesprochen werden.
+* Größere Newsportale wie *reddit*. Diese werden von einem sehr breiten Publikum
+  besucht.
 
-Auch wenn die Arbeit an ``brig`` sehr kräftezehrend war hab ich viel gelernt! Toll!
+Alle drei Möglichkeiten könnten auch zusammen (in dieser Reihenfolge) genutzt werden.
+Bei der Veröffentlichung sollte explizit angemerkt werden, dass sich Internas noch ändern können falls dazu Anlass bestehen sollte.
+
+Auch wenn die Arbeit an ``brig`` sehr kräftezehrend war, haben wir gefühlt mehr
+gelernt als im ganzen Studium. Zum Abschied sag ich leise: Scheiße. TODO.

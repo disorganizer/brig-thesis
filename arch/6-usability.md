@@ -109,3 +109,5 @@ Wie werden Fehler dem Nutzer mitgeteilt?
 (Netzwerkfehler zB)
 
 Aufbau von Fehlermeldungen
+
+Problem: Gtk ist nicht portabel, sowas wie https://github.com/alexflint/gallium nehmen?

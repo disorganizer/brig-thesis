@@ -108,6 +108,8 @@ Nicht implementiert, aber wie könnte das so aussehen?
 
 Defizite der aktuellen Implementierung
 
+Fehlendes Key Management?
+
 ### Beschränkte Synchronisationsfähgikeiten
 
 ### Testsuite zu klein
