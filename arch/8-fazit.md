@@ -52,6 +52,8 @@ um Robustheit und Fehlertoleranz zu erhöhen.
 
 Neben den konkreten Fragen aus evaluation, allgemeine fragen das projekt betreffend
 
+Key Management?
+
 ### Beziehung zum ``ipfs``--Projekt
 
 Momentan wird ``brig`` vollkommen separat von ``ipfs`` entwickelt. Bleibt das so?
@@ -73,9 +75,12 @@ mitarbeiten.
 ### Veröffentlichung der Software
 
 Wie man das angeht. reddit?
+Website und Dokumentation zur Veröffentlichung nötig.
 
 Veröffentlichung als beta -> Problem: Internas können sich noch ändern,
 Inkompatiblitäten können entstehen.
 Testing mit verschiedenen Prüfsummen.
 
 Hier noch ein monumentaler Schlussatz.
+
+Auch wenn die Arbeit an ``brig`` sehr kräftezehrend war hab ich viel gelernt! Toll!

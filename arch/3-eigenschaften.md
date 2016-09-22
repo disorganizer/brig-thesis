@@ -359,7 +359,7 @@ werden kann.
 [^CAN]: Siehe auch: <https://en.wikipedia.org/wiki/Content_addressable_network> (TODO: eigenes buch referenzieren)
 [^LIBP2P]: Mehr Informationen in der Dokumentation unter: <https://github.com/ipfs/specs/tree/master/libp2p>
 
-### Eigenschaften von ``ipfs``
+### Eigenschaften von ``ipfs`` [@sec:ipfs-attrs]
 
 TODO: Noch verarzten:
 
@@ -440,8 +440,7 @@ Kindknoten. Der Einsatz dieser Datenstruktur hat mehrere Vorteile:
   in eine Änderung der Prüfsumme oben.
 * *Deduplizierung:* Doppelte Blöcke müssen nur einmal gespeichert werden und
   können durch Verlinkung repräsentiert werden. Das reduziert sowohl
-  Speicherkosten, als auch Übertragungsaufwand. Wie wir später sehen werden (TODO: ref) ist 
-  dieses Konzept aber nur bedingt bei ``brig`` übertragbar.
+  Speicherkosten, als auch Übertragungsaufwand. Wie wir später sehen werden (TODO: ref) ist dieses Konzept aber nur bedingt auf ``brig`` übertragbar.
 
 Auch ganze Verzeichnisse können in einem *Merkle--DAG* gespeichert werden,
 intern werden diese ähnlich wie bei ``tar`` in eine große Datei zusammengeführt.
@@ -497,34 +496,6 @@ $ ipfs pin rm QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
 
 [^IPFS_MANUAL_GC]: Der Garbage--Collector kann auch manuell mittels ``ipfs repo gc`` von der Kommandozeile aufgerufen werden.
 
-TODO: Diesen Abschnitt in Architektur verschieben. das ist ja 'eigenleistung'
-
-**Service Discovery:** In den Anforderungen in [@sec:eigenschaften] wird eine
-menschenlesbare Identität gefordert, mit der *Peers* einfach erkennbar sind.
-Der von ``ipfs`` verwendete Identitätsbezeichner ist allerdings eine tendenziell
-schwer zu merkende Prüfsumme. Um dieses Dilemma zu lösen, wendet ``brig`` einen
-»Trick« an. Jeder ``brig``--Knoten legt eine Datensatz in das ``ipfs``--Netzwerk
-mit dem Inhalt ``brig:<username>``. Ein Nutzer der nun einen solchen
-menschenlesbaren  Namen zu einem Netzwerkadresse  auflösen möchte, kann den
-Inhalt des obigen Datensatzes generieren und daraus eine Prüfsumme bilden. Mit
-der entstandenen Prüfsumme kann mittels folgenden Befehls herausgefunden
-werden, welche Knoten diesen Datensatz anbieten:
-
-```bash
-$ ipfs dht findprovs <HASH_OF_BOBS_ID>
-<PEER_ID_BOB_1>
-<PEER_ID_BOB_2>
-...
-```
-
-Da prinzipiell jeder Knoten sich als *Bob* ausgeben kann, wird aus den
-möglichen Peers, derjenige ausgewählt, dessen ``ipfs``--Identitätsbezeichner (bei
-``brig`` wird dieser als *Fingerprint* bezeichnet) als vertrauenswürdig
-eingestuft wurde. Dies setzt im Umkehrschluss voraus, dass eine erstmalige
-Authentifikation stattgefunden haben muss.
-
-TODO: Grafik?
-
 **Flexibles Networking:** Einer der größten Vorteile von ``ipfs`` ist, dass es
 auch NAT--Grenzen hinweg funktioniert. NAT steht dabei für *Network Adress
 Resolution* (dt. Netzwerkadressübersetzung) und ist eine Technik, um zwischen
@@ -552,21 +523,25 @@ Anwender die Einstellungen seines Routers ändern muss, um ``brig`` zu nutzen.
 
 [^UDT]: http://udt.sourceforge.net/
 
-In Einzelfällen kann es natürlich trotzdem dazu kommen, dass die von ``ipfs`` verwendeten Ports
-durch eine (besonders in Unternehmen übliche) Firewall blockiert werden. Dies kann nötigenfalls
-aber vom zuständigen Administrator geändert werden. Allerdings werden Unternehmen eh dazu
-tendieren nur ein abgeschottetes ``brig``--Netzwerk in der Firma einzusetzen.
+In Einzelfällen kann es natürlich trotzdem dazu kommen, dass die von ``ipfs``
+verwendeten Ports durch eine (besonders in Unternehmen übliche) Firewall
+blockiert werden. Dies kann nötigenfalls aber vom zuständigen Administrator
+geändert werden. Allerdings werden Unternehmen eh dazu tendieren nur ein
+abgeschottetes ``brig``--Netzwerk in der Firma einzusetzen.
 
-**Übermittlung zwischen Internet und ``ipfs``:** Ein Client/Server--Betrieb lässt sich mithilfe der ``ipfs``--*Gateways*
-emulieren. *Gateways* sind zentrale, wohlbekannte Dienste, die zwischen dem »normalen Internet« und
-dem ``ipfs`` Netzwerk mittels HTTP vermitteln. Die Datei ``my-photo.png`` aus dem obigen Beispiel kann
-von von anderen Nutzern bequem über den Browser heruntergeladen werden:
+**Übermittlung zwischen Internet und ``ipfs``:** Ein Client/Server--Betrieb
+lässt sich mithilfe der ``ipfs``--*Gateways* emulieren. *Gateways* sind
+zentrale, wohlbekannte Dienste, die zwischen dem »normalen Internet« und dem
+``ipfs`` Netzwerk mittels HTTP vermitteln. Die Datei ``my-photo.png`` aus dem
+obigen Beispiel kann von von anderen Nutzern bequem über den Browser
+heruntergeladen werden:
 
 ```bash
 $ export PHOTO_HASH=QmPtoEEMMnbTSmzr28UEJFvmsD2dW88nbbCyyTrQgA9JR9
 $ curl https://gateway.ipfs.io/ipfs/$PHOTO_HASH > my-photo.png
 ```
 
-Auf dem *Gateway* läuft dabei ein Webserver, der dasselbe tut wie ``ipfs cat``, aber statt auf der Kommandozeile
-die Daten auf eine HTTP--Verbindung ausgibt. Standardmäßig wird mit jedem Aufruf von ``ipfs daemon``
-ein Gateway auf der Adresse ``http://localhost:8080`` gestartet.
+Auf dem *Gateway* läuft dabei ein Webserver, der dasselbe tut wie ``ipfs cat``,
+aber statt auf der Kommandozeile die Daten auf eine HTTP--Verbindung ausgibt.
+Standardmäßig wird mit jedem Aufruf von ``ipfs daemon`` ein Gateway auf der
+Adresse ``http://localhost:8080`` gestartet.

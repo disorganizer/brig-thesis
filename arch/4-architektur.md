@@ -363,7 +363,7 @@ verwendet:
 
 [^INODE]: Siehe auch: https://de.wikipedia.org/wiki/Inode
 
-![Jede Datei und Verzeichnis besitzt eine Liste von Checkpoints](images/4/file-history.pdf){#fig:file-history}
+![Jede Datei und Verzeichnis besitzt eine Liste von Checkpoints](images/4/file-history.pdf){#fig:file-history width=50%}
 
 Davon abgesehen fällt auf dass zwei zusätzliche Strukturen eingeführt wurden:
 
@@ -804,7 +804,7 @@ zusätzlich hat (aber Alice nicht) können nun leicht ermittelt werden, indem ge
 welche von Bob's Pfaden noch nicht in der errechneten Hashtabelle vorkommen.
 Diese Pfade können dann in einem zweiten Schritt dem Stand von Alice hinzugefügt werden.
 
-### Austausch der Metadaten
+### Austausch der Metadaten {sec:metadata-exchange}
 
 Um die Metadaten nun tatsächlich synchronisieren zu können, muss ein Protokoll
 etabliert werden, mit dem zwei Partner ihren Store über Netzwerk austauschen können.
@@ -819,8 +819,7 @@ Wie in [@fig:fetch-protocol] gezeigt, besteht das Protokoll aus drei Teilen:
 * Alice schickt eine ``FETCH``--Anfrage zu Bob, der den Namen des zu holenden Stores enthält.
   Im Beispiel ist dies Bob's eigener Store, ``bob@realworld.org``.
 * Falls Alice in Bob's Remote--Liste steht, wandelt Bob seinen eigenen Store in eine
-  exportierbare Form um, die aus einer großen Protobuf--Message[^EXPORT] besteht, die alle
-  notwendigen Daten enthält.
+  exportierbare Form um, die aus einer großen serialisierten Nachricht[^EXPORT] besteht, die alle notwendigen Daten enthält.
 - Die serialisierte Form des Stores wird über den Transfer--Layer von ``brig`` (siehe [@sec:transfer-layer])
   zurück an ``alice@wonderland.lit`` geschickt.
 - Alice importiert die serialisierte Form in einen leeren Store und speichert
@@ -908,7 +907,8 @@ auch wieder entpacken kann.
 ## Architekturübersicht
 
 Um den eigentlichen Kern des Store sind alle anderen Funktionalitäten gelagert.
-[@fig:arch-overview] zeigt diese in einer Übersicht.
+[@fig:arch-overview] zeigt diese in einer Übersicht. Die einzelnen Unterdienste
+werden im Folgenden besprochen.
 
 ![Übersicht über die Architektur von ``brig``](images/4/architecture-overview.pdf){#fig:arch-overview}
 
@@ -921,20 +921,20 @@ kurzlebigen Kontroll--Prozess aufgeteilt, welche im Folgenden jeweils ``brigd``
 und ``brigctl`` genannt werden.[^BRIGCTL_NOTE] Beide Prozesse kommunizieren
 dabei über Netzwerk mit einem speziellen Protokoll, welches auf einen
 Serialisierungsmechanismus  von Google namens *Protobuf*[^PROTOBUF] basiert.
-Dabei wird basierend auf einer textuellen Beschreibung des Protokolls (in einer
-``.proto``--Datei mit eigener Syntax) Quelltext generiert in der gewünschten
+Dabei wird basierend auf einer textuellen Beschreibung des Protokolls (einer
+``.proto``--Datei mit eigener Syntax) Quelltext in der gewünschten
 Zielsprache generiert. Dieser Quelltext ist dann in der Lage Datenstrukturen
 von der Zielsprache in ein serialisiertes Format zu überführen, beziehungsweise
 dieses wieder einzulesen. Als Format steht dabei wahlweise eine
 speichereffiziente, binäre Repräsentation der Daten zur Verfügung, oder eine
 menschenlesbare Darstellung als JSON--Dokument.
 
-Die Aufteilung in zwei Programmteile ist dabei inspiriert von ``MPD`` und
-``ipfs``. (TODO) Nötig ist die Aufteilung vor allem, da ``brigd`` im
-Hintergrund als Netzwerkdienst laufen muss, um Anfragen von außen verarbeiten
-zu können. Abgesehen davon ist es aus Effizienz--Gründen förderlich, wenn nicht
-bei jedem eingetippten Kommando das gesamte Repository geladen werden muss.
-Auch ist es durch die Trennung möglich, dass ``brigd`` auch von anderen
+Nötig ist die Aufteilung vor allem, da ``brigd`` im Hintergrund als
+Netzwerkdienst laufen muss, um Anfragen von außen verarbeiten zu können. Auch
+läuft ``ipfs`` im selben Prozess wie ``brigd`` und muss daher stets erreichbar
+sein. Abgesehen davon ist es aus Effizienz--Gründen förderlich, wenn nicht bei
+jedem eingetippten Kommando das gesamte Repository geladen werden muss. Auch
+ist es durch die Trennung möglich, dass ``brigd`` auch von anderen
 Programmiersprachen und Prozessen auf dem selben Rechner aus gesteuert werden
 kann.
 
@@ -943,16 +943,16 @@ diesen Namen. Die Bezeichnungen ``brigctl`` und ``brigd`` dienen lediglich der
 Veranschaulichung.
 [^PROTOBUF]: Mehr Informationen unter: <https://developers.google.com/protocol-buffers>
 
-### Aufbau von ``brigctl``
+### Aufbau von ``brigctl`` {#sec:client-daemon-proto}
 
-Kurz gesagt ist ``brigctl`` eine »Fernbedienung« für ``brigd``, welche momentan
-exklusiv von der Kommandozeile aus bedient wird. In den meisten Fällen
+Zusammengefasst ist ``brigctl`` eine »Fernbedienung« für ``brigd``, welche im
+Moment exklusiv von der Kommandozeile aus bedient wird. In den meisten Fällen
 verbindet sich der Kommando--Prozess ``brigctl`` sich beim Start zu ``brigd``,
 sendet ein mittels *Protobuf* serialisiertes Kommando und wartet auf die
-dazugehörige Antwort welche er dann deserialisiert. Nachdem die empfangene
-Antwort je nach Art ausgewertet wurde, beendet sich der Prozess wieder.
+dazugehörige Antwort welche dann deserialisiert wird. Nachdem die empfangene
+Antwort, je nach Art, ausgewertet wurde, beendet sich der Prozess wieder.
 
-**Protobuf Protokoll:** Das Protokoll ist dabei so, aufgebaut, dass
+**Protobuf Protokoll:** Das Protokoll ist dabei so aufgebaut, dass
 für jede Aufgabe, die ``brigd`` erledigen soll ein separates Kommando
 existiert. Neben einer allgemeinen Typbezeichnung, können auch vom Kommando
 abhängige optionale und erforderliche Parameter enthalten sein. Ein gekürzter
@@ -1019,77 +1019,379 @@ message Response {
 
 Neben der Kommunikation mit  ``brigd`` muss ``brigctl`` noch drei andere Aufgaben erledigen:
 
-**Initiales Anlegen eines Repositories:** Bevor ``brigd`` gestatertet werden kann,
-muss die in TODO: ref gezeigte Verzeichnisstruktur angelegt werden.
-
-**Bereitstellung des User--Interfaces:** Das zugrundeliegende Protokoll wird so gut
-es geht vom Nutzer versteckt und Fehlermeldungen müssen möglichst gut beschrieben werden.
-
-**Autostart von ``brigd``:** Damit der Nutzer nicht explizit ``brigd`` starten
-muss, sollte der Daemon--Prozess automatisch im Hintergrund gestartet werden,
-falls er noch nicht erreichbar ist. Dies besorgt ``brigctl`` indem es dem
-Nutzer nach dem Passwort zum Entsperren eines Repositories fragt und das
-Passwort beim Start an ``brigd`` weitergibt, damit der Daemon--Prozess das
-Repository entsperren kann.
+* **Initiales Anlegen eines Repositories:** Bevor ``brigd`` gestatertet werden kann,
+  muss die in TODO: ref gezeigte Verzeichnisstruktur angelegt werden.
+* **Bereitstellung des User--Interfaces:** Das zugrundeliegende Protokoll wird so gut
+  es geht vom Nutzer versteckt und Fehlermeldungen müssen möglichst gut beschrieben werden.
+* **Autostart von ``brigd``:** Damit der Nutzer nicht explizit ``brigd`` starten
+  muss, sollte der Daemon--Prozess automatisch im Hintergrund gestartet werden,
+  falls er noch nicht erreichbar ist. Dies besorgt ``brigctl`` indem es dem
+  Nutzer nach dem Passwort zum Entsperren eines Repositories fragt und das
+  Passwort beim Start an ``brigd`` weitergibt, damit der Daemon--Prozess das
+  Repository entsperren kann.
 
 ### Aufbau von ``brigd``
 
-Der Daemon--Prozess implementiert alle sonstigen Funktionalitäten, die nicht
-von ``brigctl`` erfüllt werden. Die einzelnen Komponenten werden in
-[@sec:einzelkomponenten] beschrieben. In diesem Abschnitt werden nur
-die Eigenschaften von ``brigd`` als Hintergrundprozess beschrieben.
+Der Daemon--Prozess implementiert alle Kernfunktionalitäten.
+Die einzelnen Komponenten werden in [@sec:einzelkomponenten] beschrieben.
 
-Ist gleichzeitig IPFS im selben Prozess.
+Als Netzwerkdienst muss ``brigd`` auf einen bestimmten Port (momentan
+standardmäßig Port ``6666``) auf Anfragen warten. Es werden keine Anfragen von
+außen angenommen, da über diese lokale Verbindung fast alle
+sicherheitskritische Informationen ausgelesen werden können.
+Für den Fall, dass ein Angreifer zwar keinen Zugriff auf den lokalen Rechner hat,
+dafür aber Zugriff auf den lokalen Netzwerkverkehr wird der gesamte Netzwerkverkehr
+zwischen ``brigctl`` und ``brigd`` mit AES256 verschlüsselt. Der Schlüssel wird
+beim Verbindungsaufbau mittels Diffie--Hellmann ausgetauscht. Die Details des
+Protokolls werden in (TODO ref kitteh arbeit) erklärt.
 
-Nach Start des Daemons, lauscht dieser als Netzwerkdienst auf einem
-Port  
+Die Anzahl der gleichzeitig offenen Verbindungen wird auf ein Maximum ``50``
+limitiert und Verbindungen werden nach Inaktivität mit einen Timeout von 10
+Sekunden automatisch getrennt. Diese Limitierungen soll verhindern, dass
+fehlerhafte Clients den Hintergrundprozess zu stark auslasten können.
 
-Global config zur Bestimmung des Ports.
+Im selben Prozess wie ``brigd`` läuft auch der ``ipfs``--Daemon und nutzt dabei
+standardmäßig den Port ``4001``, um sich mit dem Netzwerk zu verbinden.
+Nachteilig an diesem Vorgehen ist, dass ein Absturz oder eine Sicherheitslücke
+in ``ipfs`` auch ``brigd`` betreffen kann. Längerfristig sollte beide Prozesse
+möglichst getrennt werden, auch wenn dies aus Effizienzgründen nachteilig ist.
+
+TODO: Global config zur Bestimmung des Ports beschreiben?
 
 ## Einzelkomponenten {#sec:einzelkomponenten}
 
+Im Folgenden werden die einzelnen Komponenten von ``brigd`` aus
+architektonischer Sicht. Genauere Angaben zu Implementierungsdetails,
+insbesondere zum FUSE--Dateisystem, folgen im nächsten Kapitel.
+
 ### Dateiströme
 
-https://en.wikipedia.org/wiki/Convergent_encryption
+Im ``ipfs``--Backend werden nur verschlüsselte und (zuvor) komprimierte
+Datenströme gespeichert. Verschlüsselung ist nicht optional bei ``brig``. Hat
+ein Angreifer die Prüfsumme einer Datei erbeutet, so kann er die Datei aus dem
+``ipfs``--Netzwerk empfangen. Solange die Datei aber verschlüsselt hat, so wird
+der Angreifer alleine mit den verschlüsselten Daten ohne den dazugehörigen
+Schlüssel nichts anfangen können. In der Tat unterstützt er das
+``ipfs``--Netzwerk sogar, da der Knoten des Angreifers auch wieder seine
+Bandbreite zum Upload anbieten muss, da der Knoten sonst ausgebremst wird
+(TODO: ref?).
 
-Schaubild mit den relevanten io.Reader/io.Writer
+Nachteilig an einer »zwangsweisen« Verschlüsselung ist, dass die
+Deduplizierungsfähigkeit von ``ipfs`` ausgeschalten wird. Wird die selbe Datei
+mit zwei unterschiedlichen Schlüsseln verschlüsselt, so werden die
+resultierenden Daten (bis auf ihre Größe) keine Ähnlichkeit besitzen,
+sind also kaum deduplizierbar.
+
+Eine mögliche Lösung wäre ein Verfahren namens *Convergent
+Encryption*[@wiki:convergent-encryption]. Dabei wird der Schlüssel der zu
+verschlüsselten Datei aus der Prüfsumme derselben Datei abgeleitet. Dies hat
+den Vorteil, dass gleiche Dateien auch den gleichen (deduplizierbaren)
+Ciphertext generieren. Der Nachteil ist, dass ein Angreifer feststellen kann,
+ob jemand eine Datei (beispielsweise Inhalte mit urhebergeschützen Inhalten)
+besitzt. Im Protoypen werden die Dateischlüssel daher zufällig generiert,
+was die Deduplizierungsfunktion von ``ipfs`` momentan ausschaltet.
+Die Vor- und Nachteile dieses Verfahrens wird in [@cpiechula], Kapitel TODO diskutiert.
 
 #### Verschlüsselung
 
+Für ``brig`` wurde ein eigenes Containerformat für verschlüsselte Daten
+eingeführt, welches wahlfreien Zugriff auf beliebige Bereiche der
+verschlüsselten Datei erlaubt, ohne die gesamte Datei entschlüsseln zu müssen.
+Dies ist eine wichtige Eigenschaft für die Implementierung des
+FUSE--Dateisystems und ermöglicht zudem aus technischer Sicht das Streaming von
+großen, verschlüsselten Dateien wie Videos. Zudem kann das Format durch den
+Einsatz von *Autenticated Encryption (AE)*[@wiki:aead] die Integrität der verschlüsselten
+Daten sichern.
+
+Es werden lediglich reguläre
+Dateien verschlüsselt. Verzeichnisse existieren nur als Metadaten und werden
+gesondert behandelt. Die Details und Entscheidungen zum Design des Formats
+werden in [@cpiechula], Kapitel TODO dargestellt.
+
 ![Aufbau des Verschlüsselungs--Dateiformats](images/4/format-encryption.pdf){#fig:format-encryption}
 
-Verschlüsselung ist nur für einzelne Dateien. Verzeichnisse sind Metadaten.
+**Enkodierung:** [@fig:format-encryption] zeigt den Aufbau des Formats. Ein
+roher Datenstrom (dessen Länge nicht bekannt sein muss) wird an den Enkodierer 
+gegeben. Als weitere Eingabe muss ein Algorithmus ausgewählt werden und ein
+entsprechend dimensionierter, symmetrischer Schlüssel mitgegeben werden.
+Werden die ersten Daten geschrieben, so schreibt der Kodierer zuerst einen
+36--Byte großen Header. In diesem finden sich folgende Felder:
 
-Auf Schwäbisch: "Metadate is alls wasch nüscht koscht"
+* Eine *Magic--Number*[@wiki:magic-number] (8 Byte, ASCII--Repräsentation von ``moosecat``) zur schnellen Identifikation einer
+  von ``brig`` geschriebenen Datei.
+* Die *Versionsnummer* (2 Byte) des vorliegenden Formats. Standardmäßig »``0x01``«.
+  Sollten Änderungen am Format nötig sein,
+  so muss nur die ersten 10 Byte beibehalten werden und die Versionsnummer inkrementiert
+  werden. Für die jeweilige Version kann dann ein passender Dekodierer genutzt werden.
+* Die verwendete *Blockchiffre* (2 Byte) zur Verschlüsselung. Standardmäßig wird *ChaCha20/Poly1305*[@nir2015chacha20]
+  eingesetzt, aber es kann auch AES (TODO: ref zu crypto buch) mit 256 Bit im Galois--Counter--Modus (GCM) verwendet werden.
+* Die *Länge* (4 Byte) des verwendeten Schlüssels in Bytes.
+* Die *maximale Blockgröße* (4 Byte) der nachfolgenden Blöcke in Bytes.
+* Ein *Message--Authentication--Code (MAC)* (TODO: ref zu crypto buch) (16 Byte)
+  der die Integrität des Headers sicherstellt.
 
-https://bcache.evilpiepirate.org/Encryption
+Nach dem der Header geschrieben wurde, sammelt der Enkodierer in einem internen Puffer ausreichend viele
+Daten, um einen zusammenhängende Block zu schreiben (standardmäßig 64 Kilobyte). Ist diese
+Datenmenge erreicht wird der Inhalt des Puffers verschlüsselt und ein kompletter Block ausgegeben.
+Dieser enthält folgende Felder:
 
-TODO: NaCL Secretbox erwähnen, Unterschiede
+* Eine *Nonce*[@wiki:nonce] (8 Byte). Diese eindeutige Nummer wird bei jedem
+  geschriebenen Block inkrementiert und stellt daher die Blocknummer dar. Sie
+  wird benutzt, um die Reihenfolge des geschriebenen Datenstroms zu validieren
+  und wird zudem als öffentlich bekannte Eingabe für den
+  Verschlüsselungsalgorithmus benutzt.
+* Der eigentliche *Ciphertext*. Er ist maximal so lang wie der Puffer, kann
+  aber im Falle des letzten Blockes kleiner sein.
+* Am Ende kann, je nach Algorithmus, ein gewisser Overhead durch *Padding* entstehen.
+  Zudem wird an jeden Block eine weitere MAC angehängt, welche die Integrität
+  der Nonce und der nachfolgenden Daten sicherstellt.
+
+So wird blockweise weiter verfahren, bis alle Daten des Ursprungsdatenstroms aufgebraucht
+worden sind. Der letzte Block darf als einziger kleiner als die Blockgröße sein.
+Der resultierende Datenstrom ist etwas größer als der Eingabedatenstrom. Seine Größe lässt
+sich wie in [@eq:enc-size] gezeigt mithilfe der Eingabegröße $s$ und der Blockgröße $b$ berechnen:
+
+$$f_{\text{size}}(s) = 36 + s + \left\lceil\frac{s}{b}\right\rceil\times(8 + 16)$$ {#eq:enc-size}
+
+Was den Speicherplatz angeht, hält sich der »Overhead« in Grenzen. Zwar wächst
+eine fast leere Datei von 20 Byte Originalgröße auf 80 Byte nach der
+Verschlüsselung, aber bereits eine 20 Megabyte große Datei wächst nur noch
+um zusätzliche 7.5 Kilobyte ($+0.03\%$).
+
+**Dekodierung:** Beim Lesen der Datei wird zuerst der Header ausgelesen und
+auf Korrektheit geprüft. Korrekt ist er wenn eine Magic--Number vorhanden ist,
+alle restlichen Felder erlaubte Werte haben und die Integrität des Headers
+bis Byte 20 durch die darauffolgende MAC überprüft werden konnte. Konnte die
+Integrität nicht überprüft werden, wurden entweder Daten im Header verändert oder
+ein falscher Schlüssel wurde übergeben.
+
+Jeder zu lesende Block wird im Anschluss komplett in einen Puffer gelesen. Die
+Nonce wird ausgelesen und dem Entschlüsselungsalgorithmus als Eingabge neben
+dem eigentlichen Datenblock mitgegeben. Dieser überprüft ob die Integrität des
+Datenblocks korrekt war und entschlüsselt diesen im Erfolgsfall. Anhand der
+Position im Datenstrom wird zudem überprüft ob die Blocknummer zur Wert in der
+Nonce passt. Stimmen diese nicht überein, wird die Entschlüsselung verweigert,
+da ein Angreifer möglicherweise die Reihenfolge Blöcke hätte vertauschen können.
+
+**Wahlfreier Zugriff:** Wurde der Header bereits gelesen, so kann ein
+beliebiger Block im Datenstrom gelesen werden sofern der unterliegende
+Datenstrom wahlfreien Zugriff (also die Anwendung von ``Seek()``) erlaubt. Die
+Anfangsposition des zu lesenden Blocks kann mit [@eq:seek-off] berechnet
+werden, wobei $o$ der Offset im unverschlüsselten Datenstrom ist.
+
+$$f_{\text{offset}}(o) = 36 + \left\lceil\frac{o}{b}\right\rceil\times(8 + 16 + b)$$ {#eq:seek-off}
+
+Der Block an dieser Stelle muss komplett gelesen und entschlüsselt werden, auch
+wenn nur wenige Bytes innerhalb des Blocks angefragt worden. Da typischerweise
+die Blöcke aber fortlaufend gelesen werden, ist das aus Sicht des Autors ein
+vernachlässigbares Problem.
+
+Das vorgestellte Format ähnelt etwas dem Verschlüsselungsformat[^BCACHEFS_ENC],
+welches das (relativ neue) Dateisystem ``bcachefs`` verwendet und basiert auf
+den Ideen der *Secretbox* der freien NaCL--Bibliothek.[^NACL_LIB] Davon abgesehen
+handelt es sich um eine Neuimplementierung mit eigenen Code, der auch außerhalb
+von ``brig`` eingesetzt werden kann.
+
+[^BCACHEFS_ENC]: Siehe auch: <https://bcache.evilpiepirate.org/Encryption>
+[^NACL_LIB]: Siehe auch: <https://nacl.cr.yp.to/secretbox.html>
 
 #### Kompression
 
+Bevor Datenströme verschlüsselt werden, werden diese von ``brig`` auch
+komprimiert.[^ANDERSRUM] Auch hier wurde ein eigenes Containerformat
+entworfen, welches in [@fig:format-compression] gezeigt wird.
+
+[^ANDERSRUM]: Rein technisch ist es auch andersherum möglich, aber aufgrund der
+            prinzipbedingten, hohen Entropie von verschlüsselten Texten
+			wären in dieser Reihenfolge die Kompressionsraten sehr gering.
+
 ![Aufgbau des Kompressions--Dateiformat](images/4/format-compression.pdf){#fig:format-compression}
+
+Nötig war dieser Schritt auch hier wieder weil kein geeignetes Format gefunden
+werden konnte, welches wahlfreien Zugriff im komprimierten Datenstrom zulässt,
+ohne dass dabei die ganze Datei entkomprimiert werden muss.
+
+**Enkodierung:** Der Eingabedatenstrom wird in gleich größe Blöcke unterteilt
+(maximal 64KB standardmäßig) wobei nur der letzte Block kleiner sein darf.
+Nachdem der Header geschrieben wurde, folgt jeder Eingabeblock als
+komprimierter Block mit variabler Länge. Am Schluss wird ein Index geschrieben,
+der beschreibt welche Eingabeblock mit welchem komprimierten Block
+korrespondiert. Der Index kann nur am Ende geschrieben werden, da die genauen
+Offsets innerhalb dieses Indexes erst nach dem Komprimieren bekannt sind. Für
+eine effiziente Nutzung dieses Formats ist es also nötig, dass der Datenstrom
+einen effizienten, wahlfreien Zugriff am Ende der Datei bietet.
+Glücklicherweise unterstützt dies ``ipfs``. Datenströme wie ``stdin`` unter
+Unix unterstützen allerdings keinen wahlfreien Zugriff, weshalb das
+vorgestellte Format für dieses Anwendungsfälle eher ungeeignet ist.
+
+Der Index besteht aus zwei Teilen: Aus dem eigentlichen Index und einem
+sogenannten »Trailer«, der die Größe des Indexes enthält. Zusätzlich enthält
+dieser Trailer noch die verwendete Blockgröße, in die der unkomprimierte
+Datenstrom unterteilt wurde. Der eigentliche Index besteht aus einer Liste von
+64--Bit Offset--Paaren. Jedes Paar enthält einmal den unkomprimierten und
+einmal den komprimierten Offset eines Blocks als Absolutwert gemessen vom
+Anfang des Stroms. Am Ende wird ein zusätzliches Paar eingefügt (das zu keinen
+realen Block zeigt), welches die Größe des unkomprimierten und komprimierten
+Datenstroms anzeigt.
+
+Der vorangestellte Header enthält alle Daten die definitiv vor der Kompression
+des ersten Blockes vorhanden sind:
+
+- Eine *Magic--Number* (8 Byte, ASCII Repräsentation von ``elchwald``).
+  Wie beim Verschlüsselungsformat dient diese zur schnellen Erkennung dieses Formats.
+- Eine *Formatversion* (2 Byte, momentan »``0x01``«). Kann analog zum Verschlüsselungsformat
+  bei Änderungen inkrementiert werden.
+- Der verwendete *Algorithmustyp* (2 Byte, standardmäßig *Snappy*). Folgende Algorithmen
+  werden momentan unterstützt:
+
+    * Snappy[@wiki:snappy] (sehr schneller Algorithmus mit akzeptabler Kompressionsrate)
+    * LZ4[@wiki:lz4] (etwas langsamer, aber deutlich höhere Kompressionsrate)
+    * None (gar keine Kompression, Index wird trotzdem geschrieben)
+
+    Weitere Algorithmen wie *Brotli*[@wiki:brotli] können problemlos hinzugefügt werden, allerdings
+    gab es zu diesen Zeitpunkten noch keine vernünftig nutzbare Bibliotheken.
+
+**Dekodierung:** Bevor der erste Block dekodiert werden kann muss sowohl der Header
+als auch der Index geladen werden. Dazu müssen die ersten 12 Bytes des
+Datenstroms gelesen werden. Im Anschluss muss fast an das Ende (Ende minus
+12 Byte) des Datenstroms gesprungen werden, um dort den Trailer zu lesen. Mit der
+darin enthaltenen Größe des Indexes kann die Anfangsposition des Indexes
+bestimmt werden (Ende - 12 Byte - Indexgröße). Alle Offset--Werte im Index
+werden in eine sortierte Liste geladen. Die Blockgröße eines
+komprimierten/unkomprimierten Blocks an der Stelle ergibt sich dabei aus der
+Differenz des Offset--Paars an der Stelle $n+1$ und seines Vorgänger an der
+Stelle $n$. Mithilfe der Blockgröße kann ein entsprechendes Stück vom
+komprimierten Datenstrom gelesen und dekomprimiert werden.
+
+**Wahlfreier Zugriff:** Um auf einen Block in der Mitte zugreifen zu können (am
+unkomprimierten Offset $o$), muss mittels binärer Suche im Index der passende, Anfang
+des unkomprimierten Blocks gefunden werden. Wurde der passende Block bestimmt,
+ist auch der Anfangsoffset im komprimierten Datenstrom bekannt. Dadurch kann
+der entsprechende Block ganz geladen und dekomprimiert werden. Innerhalb der
+dekomprimierten Daten kann dann vom Anfangsoffset $a$ noch zum Zieloffset $o-a$
+gesprungen werden.
 
 ### Transfer--Layer {#sec:transfer-layer}
 
-Encrypted RPC
+Damit Metadaten ausgetauscht werden können, ist ein sicherer Seitenkanal nötig,
+der unabhängig vom Kanal ist über den die eigentlichen Daten ausgetauscht
+Über diesen muss ein *Remote--Procedure--Call* (RPC[@wiki:rpc]) ähnliches Protokoll
+implementiert werden, damit ein Teilnehmer Anfragen an einen anderen stellen kann.
 
-### Dateisystemordner
+Dieser sichere Seitenkanal wird von ``ipfs`` gestellt. Dabei wird kein
+zusätzlicher Netzwerkport für den RPC--Dienst in Anspruch genommen, da alle
+Daten über den selben Kanal laufen, wie die eigentliche Datenübertragung. Es
+findet also eine Art »Multiplexing« statt.
 
-FUSE
+Dies wird durch ``ipfs'`` fortgeschrittenes Netzwerkmodell möglich[^LIP2P],
+welche in [@fig:ipfs-net] gezeigt werden. Nutzer des gezeigten Netzwerkstacks
+können eigene Protokolle registrieren, die mittels eines *Muxing--Protokolls*
+namens *Multistream*[^MULTISTREAM] in einer einzigen, gemeinsamen
+physikalischen Verbindung zusammengefasst werden. Der sogenannte *Swarm* hält
+eine Verbindung zu allen zu ihm verbundenen Peers und macht es so möglich jeden
+Netzwerkpartner von der Protokollebene aus über seine Peer--ID anzusprechen.
+Der eigentliche Verbindungsaufbau geschieht dann, wie in [@sec:ipfs-attrs]
+beschrieben auch über NAT--Grenzen hinweg.
+
+![Quelle: IPFS--Projekt[^NET_SOURCE]](images/4/ipfs-network.pdf){#fig:ipfs-net width=66%}
+
+[^MULTISTREAM]: Siehe auch: <https://github.com/multiformats/multistream>
+[^NET_SOURCE]: Diese Grafik ist eine Aufbereitung von: <https://github.com/libp2p/go-libp2p/tree/master/p2p/net>
+[^LIP2P]: Implementiert als eigene Bibliothek »libp2p«: <https://github.com/libp2p/go-libp2p>
+
+Im Falle von ``brig`` wird ein eigenes Protokoll registriert, um mit anderen
+Teilnehmern zu kommunizieren. Dieses ist ähnlich aufgebaut wie das Protokoll
+zwischen Daemon und Client (siehe [@sec:client-daemon-proto]), unterstützt aber
+andere Anfragen und hat erhöhte Sicherheitsanforderungen.
+Eine genauere Beschreibung des Protokolls wird in [@cpiechula], Kapitel TODO gegeben,
+hier werden nur kurz die wichtigsten Eigenschaften genannt:
+
+- Authentifizierung mittels Remote--Liste bei jedem Verbindungsaufbau.
+* Anfragen und Antworten werden als Protobuf--Nachricht. 
+  Die eigentliche Protokolldefinition kann in [@sec:rpc-proto] eingesehen werden.
+* Kompression der gesendeten Nachrichten mittels Snappy.
+- Zusätzliche Verschlüsselung der Verbindung.
+- Senden von »Broadcast«--Nachrichten zu allen bekannten, verbundenen Teilnehmern.
+
+Im momentanen Zustand wird nur eine einzige Anfrage unterstützt.
+Dies die in [@sec:metadata-exchange] beschriebene ``FETCH``--Anfrage. Zukünftig
+ist die Einführung weiterer Anfragen geplant. Um beispielsweise
+Echtzeit--Synchronisation zu unterstützen, müsste zwei weitere Nachrichten eingeführt werden:
+
+- ``UPDATE``: Eine Nachricht die aktiv an alle Teilnehmer in der Remote--Liste
+  geschickt wird. Sie enthält einen einzelnen Checkpoint. Die darin beschrieben
+  atomare Änderung sollte dann auf Empfängerseite direkt in den Staging--Bereich
+  des Empfängers eingegliedert werden.
+* ``DIFF <COMMIT_HASH>:`` Wie ``FETCH``, gibt aber nur die Änderungen seit dem 
+  angegebenen ``COMMIT_HASH`` zurück.
 
 ### Benutzermanagement {#sec:user-management}
 
-![Überprüfung eines Benutzernamens](images/4/id-resolving.pdf){#fig:arch-overview}
+In den Anforderungen in [@sec:eigenschaften] wird eine menschenlesbare
+Identität gefordert, mit der *Peers* einfach erkennbar sind. Der von ``ipfs``
+verwendete Identitätsbezeichner ist allerdings eine für Menschen schwer zu
+merkende Prüfsumme (die »Peer--ID«).
 
-### Gateway
+Um dieses Dilemma zu lösen, wendet ``brig`` einen »Trick« an. Jeder
+``brig``--Knoten veröffentlicht einen einzelnen ``blob`` in das
+``ipfs``--Netzwerk mit dem Inhalt ``brig:<username>``. Ein Nutzer der nun einen
+solchen menschenlesbaren  Namen zu einem Netzwerkadresse  auflösen möchte, kann
+d en Inhalt des obigen Datensatzes generieren und daraus eine Prüfsumme bilden.
+Mit der entstandenen Prüfsumme kann mittels folgenden Verfahrens herausgefunden
+werden, welche Knoten diesen Datensatz anbieten:
 
-Nicht implementiert, aber wie könnte das so aussehen?
+```bash
+$ USER_HASH=$(printf 'brig#user:%s' alice  | multihash -)
+$ echo $USER_HASH
+QmdNdLHqc1ryoCU5LPEMMCrxkLSafgKuHzpVZ5DFdzZ61M
+# Schlage Hash in der Distributed Hash Table nach:
+$ ipfs dht findprovs $USER_HASH
+<PEER_ID_OF_POSSIBLE_ALICE_1>
+<PEER_ID_OF_POSSIBLE_ALICE_2>
+...
+```
 
-### Sonstiges
+![Überprüfung eines Benutzernamens mittels Peer--ID](images/4/id-resolving.pdf){#fig:id-resolving}
 
-Logging
+Da prinzipiell jeder Knoten sich als *Alice* ausgeben kann, wird aus den
+möglichen Peers, derjenige ausgewählt, dessen ``ipfs``--Identitätsbezeichner
+(bei ``brig`` wird dieser als *Fingerprint* bezeichnet) als vertrauenswürdig
+eingestuft wurde. Vertrauenswürdig ist er, wenn der Fingerprint in der
+Remote--Liste in der Kombination von Nutzernamen und Fingerprint auftaucht. In
+diesem Fall muss der Nutzer explizit authentifiziert worden sein.
+[@fig:id-resolving] zeigt dieses Verfahren noch einmal graphisch.
 
-Konfiguration
+Analog kann das Konzept auch übertragen werden, um bestimmte Gruppen von
+Nutzern zu finden. Angenommen, Alice, Bob und Charlie arbeiten im gleichen Unternehmen.
+Das Unternehmen findet sich in auch in ihren Identitäten wieder:
 
-Umgebungsvariablen
+- ``alice@corp.de/server``
+- ``bob@corp.de/laptop``
+- ``charlie@corp.de/desktop``
+
+Neben den gesamten Nutzernamen, können diese drei Nutzer auch nur ihren
+Unternehmensnamen veröffentlichen, beziehungsweise auch ihren Nutzernamen ohne
+den ``resource``--Zusatz. So ist es dann beispielsweise folgenderweise möglich
+alle Unternehmensmitglieder aufzulösen:
+
+```bash
+$ CORP_HASH=$(printf 'brig#domain:%s' corp.de | multihash -)
+$ ipfs dht findprovs $CORP_HASH
+<PEER_ID_OF_POSSIBLE_CORP_MEMBER_1>
+<PEER_ID_OF_POSSIBLE_CORP_MEMBER_2>
+...
+```
+
+Die einzelnen IDs können dann, sofern bekannt, zu den »Klarnamen« aufgelöst
+werden die in der Remote--Liste jedes Teilnehmers stehen. Insgesamt können
+folgende sinnvolle Kombinationen von ``brig`` veröffentlicht werden:
+
+- ``user``
+- domain[.tld]
+- ``user@domain[.tld]``
+- ``user@domain[.tld]/resource``
+
+Das besondere an dieser Vorgehensweise ist, dass kein Nutzer sich an einer zentralen
+Stelle registriert. Trotzdem können sich die Nutzer gegenseitig im Netzwerk finden
+und trauen nicht einer zentralen Instanz sondern entscheiden selbst welchen Knoten
+sie trauen.

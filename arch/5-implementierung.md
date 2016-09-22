@@ -130,6 +130,11 @@ Konzeptueller überblick über die Go-Pakete
 
 ### FUSE Filesystem
 
+TODO: Implementierung als io.Reader/Writer -> daher transparent im Programm.
+
+TODO: Grafik mit den ganzen stream stack
+
+
 TODO: Ist das architektur oder implementierung?
 
 ### Abstraktionen
@@ -138,6 +143,14 @@ TODO: Ist das architektur oder implementierung?
 - Layer zwischen bolt und brig
 
 ### Nennenswerte Bibliotheken
+
+### Sonstiges
+
+Logging
+
+Konfiguration
+
+Umgebungsvariablen
 
 ### Probleme
 
@@ -159,9 +172,9 @@ Zeigen wieviel Zeit jeweils draufging
 
 ### Sackgassen
 
-- XMPP
+- XMPP/OTR (langsam, link zur alten impl)
 
-- MQTT
+- MQTT (kein NAT resolution, vergewaltigung)
 
 * Altes Datenmodell
 

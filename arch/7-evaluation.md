@@ -102,6 +102,8 @@ Simpler Sync algorithmus
 kein checkpoint squashing
 
 
+Nicht implementiert, aber wie könnte das so aussehen?
+
 ## Andere Defizite
 
 Defizite der aktuellen Implementierung

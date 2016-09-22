@@ -130,7 +130,10 @@ seiner momentanen Form:
 
 Der Hauptunterschied ist allerdings die Zielgruppe. Während das bei ``brig``
 der »Otto--Normal--Nutzer« als kleinster Nenner ist, so ist *Infinit* auf
-Entwickler und Adminstratoren ausgelegt und leider nur teilweise quelloffen ist (TODO: ref).
+Entwickler und Administratoren ausgelegt und leider nur teilweise quelloffen ist (TODO: ref).
+
+TODO: Link zu großen infinit vergleich verlinken?
+
 
 [^INFINIT]: Mehr Informationen unter: <https://infinit.sh>  --- *Anmerkung:* Neben dem verteilten Dateisystem bietet das Unternehmen
 auch noch eine reine Datei--Transfer--Lösung namens *Infinit Transfer*. Dazu gibt es hier mehr Informationen: <https://infinit.io>
