@@ -359,13 +359,7 @@ werden kann.
 [^CAN]: Siehe auch: <https://en.wikipedia.org/wiki/Content_addressable_network> (TODO: eigenes buch referenzieren)
 [^LIBP2P]: Mehr Informationen in der Dokumentation unter: <https://github.com/ipfs/specs/tree/master/libp2p>
 
-### Eigenschaften von ``ipfs`` [@sec:ipfs-attrs]
-
-TODO: Noch verarzten:
-
-Weltweites Netzwerk limitieren auf lokales Netzwerk.
-Cool: Downloads are "resuamble" dank block-basiertes ipfs.
-
+### Eigenschaften von ``ipfs`` {#sec:ipfs-attrs}
 
 Im Folgenden werden die Eigenschaften von ``ipfs`` kurz vorgestellt, welche von
 ``brig`` genutzt werden. Einige interessante Features wie das *Naming System* (IPNS),
@@ -376,7 +370,7 @@ keine praktische Bedeutung haben:
 zusammenhängenden, weltweiten Netzwerk teil. (TODO: Screenshot von Weltkugel
 machen?)
 
-TODO: p2p schaugrafik wie kitteh?
+TODO: p2p schaugrafik wie kitteh mit bbotstrap nodes?
 
 Um sich zum Netzwerk zu verbinden, müssen erst einmal passende Knoten »in der
 Nähe« des neuen Knotens gefunden werden. Dazu verbindet sich ``ipfs`` beim Start
@@ -393,27 +387,32 @@ wählen, falls ihr Netzwerk komplett von der Außenwelt abgeschottet ist. Wie in
 [@sec:architektur] beleuchtet wird, ist dieses Vorgehen nicht direkt aus
 Sicherheitsgründen notwendig.
 
-**Operation auf Hashes:** ``ipfs`` arbeitet nicht mit herkömmlichen Dateipfaden,
+**Operation auf Prüfsummen:** ``ipfs`` arbeitet nicht mit herkömmlichen Dateipfaden,
 sondern nur mit der Prüfsumme einer Datei. Im folgenden Beispiel
 wird eine Photo--Datei mittels der ``ipfs``--Kommandozeile in das Netzwerk
 gelegt:[^IPFS_DAEMON]
-
-``ipfs`` nutzt dabei ein spezielles Format um Prüfsummen zu
-repräsentieren[^IPFS_HASH]. Die ersten zwei Bytes einer Prüfsumme repräsentieren dabei den
-verwendeten Algorithmus und die Länge der darauf folgenden, eigentlichen
-Prüfsumme. Die entstandene Byte--Sequenz wird dann mittels ``base58``
-enkodiert, um sie menschenlesbar zu machen. Da der momentane
-Standardalgorithmus ``sha256`` ist, beginnt eine von ``ipfs`` generierte
-Prüfsumme stets mit »``Qm``«. Abbildung [@fig:ipfs-hash-format] zeigt dafür ein Beispiel.
-
-![Layout der ``ipfs`` Prüfsumme](images/2/ipfs-hash-layout.pdf){#fig:ipfs-hash-format}
-
-TODO: grafik: kleines bild um Hashformat visuell zu erklären?
 
 ```bash
 $ ipfs add my-photo.png
 QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
 ```
+
+Im Umkehrschluss bedeutet dies leider auch, dass ``ipfs`` kein Wurzelverzeichnis
+hat unter dem alle hinzugefügten Daten eingesehen werden können.
+Ein Verzeichnis kann nur unter seiner Prüfsumme erreicht werden, die sich
+nach jeder Modifikation (und erneuten ``ipfs add``) ändert.
+
+``ipfs`` nutzt dabei ein spezielles Format um Prüfsummen zu
+repräsentieren[^IPFS_HASH]. Die ersten zwei Bytes einer Prüfsumme
+repräsentieren dabei den verwendeten Algorithmus und die Länge der darauf
+folgenden, eigentlichen Prüfsumme. Die entstandene Byte--Sequenz wird dann
+mittels ``base58`` enkodiert, um sie menschenlesbar zu machen. Da der momentane
+Standardalgorithmus ``sha256`` ist, beginnt eine von ``ipfs`` generierte
+Prüfsumme stets mit »``Qm``«. Abbildung [@fig:ipfs-hash-format] zeigt dafür ein
+Beispiel.
+
+![Layout der ``ipfs`` Prüfsumme](images/2/ipfs-hash-layout.pdf){#fig:ipfs-hash-format}
+
 
 [^IPFS_DAEMON]: Voraussetzung hierfür ist allerdings, dass der ``ipfs``--Daemon
 vorher gestartet wurde und ein Repository mittels ``ipfs init`` erzeugt wurde.
@@ -428,25 +427,6 @@ anbieten kann:
 ```bash
 $ ipfs cat QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG > my-photo.png
 ```
-
-Im Hintergrund wird die Datei dabei in kleinere Blöcke zerlegt. Von jedem Block
-wird ein Hashwert erstellt und alle Hashwerte in einem sogenannten *Merkle-DAG*
-(*Directed Acyclic Graph*). Diese Struktur ist ähnlich zu einem Merkle--Tree
-(TODO: ref), erlaubt aber zusätzlich beliebige Verlinkungen zwischen den
-Kindknoten. Der Einsatz dieser Datenstruktur hat mehrere Vorteile:
-
-* Der Wurzelknoten hat eine Prüfsumme, die aus den Unterprüfsummen erstellt wird.
-* *Authentifizierung:* Eine Änderung der Blöcke unten resultiert zwangsweise
-  in eine Änderung der Prüfsumme oben.
-* *Deduplizierung:* Doppelte Blöcke müssen nur einmal gespeichert werden und
-  können durch Verlinkung repräsentiert werden. Das reduziert sowohl
-  Speicherkosten, als auch Übertragungsaufwand. Wie wir später sehen werden (TODO: ref) ist dieses Konzept aber nur bedingt auf ``brig`` übertragbar.
-
-Auch ganze Verzeichnisse können in einem *Merkle--DAG* gespeichert werden,
-intern werden diese ähnlich wie bei ``tar`` in eine große Datei zusammengeführt.
-TODO: Siehe Abbildung [@fig:merke-tree]
-
-![Beispiel für einen Merkle--Tree, welcher versionierte Verzeichnisse abbildet.](images/2/merkle-tree.pdf){#fig:merkle-tree}
 
 **Public--Key Infrastructure:** Jeder Knoten im ``ipfs``--Netzwerk besitzt ein
 RSA--Schlüsselpaar, welches beim Anlegen des Repositories erzeugt wird. Mittels

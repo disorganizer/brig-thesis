@@ -125,6 +125,8 @@ Journal-log für atomic operations
 
 ## Zukünftige Erweiterungen
 
+brig stash (checkout problematic wenn HEAD != CURR)
+
 Permissions: momentan gar keine.
 
 *Semantisch durchsuchbares* Tag-basiertes Dateisystem[^TAG].

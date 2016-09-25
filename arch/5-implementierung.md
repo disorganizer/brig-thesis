@@ -4,6 +4,9 @@
 
 Dieses Kapitel... hat Pocken. TODO.
 
+Der genaue Umfang der Implementierung kann ich [@sec:benutzerhandbuch] angesehen werden.
+Dort werden nur Funktionen gezeigt, die auch tatsächlich schon existieren. (TODO: prüfen)
+
 ## Wahl der Sprache
 
 Als Sprache zur Implementierung wurde die relativ junge Programmiersprache *Go* ausgewählt.
@@ -143,6 +146,8 @@ TODO: Ist das architektur oder implementierung?
 - Layer zwischen bolt und brig
 
 ### Nennenswerte Bibliotheken
+
+Lizenzen der Bibliotheken müssen mit AGPLv3 kompatibel sein.
 
 ### Sonstiges
 

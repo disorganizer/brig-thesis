@@ -1079,8 +1079,11 @@ Bandbreite zum Upload anbieten muss, da der Knoten sonst ausgebremst wird
 Nachteilig an einer »zwangsweisen« Verschlüsselung ist, dass die
 Deduplizierungsfähigkeit von ``ipfs`` ausgeschalten wird. Wird die selbe Datei
 mit zwei unterschiedlichen Schlüsseln verschlüsselt, so werden die
-resultierenden Daten (bis auf ihre Größe) keine Ähnlichkeit besitzen,
-sind also kaum deduplizierbar.
+resultierenden Daten (bis auf ihre Größe) keine Ähnlichkeit besitzen, sind also
+kaum deduplizierbar. Trotzdem ist die Unterteilung in Blöcke durch ``ipfs``
+sinnvoll, da dadurch bereits heruntergeladene Blöcke nicht ein zweites Mal
+besorgt werden müssen. So lässt sich der Download von großen Dateien
+unterbrechbar und wieder fortsetzbar gestalten.
 
 Eine mögliche Lösung wäre ein Verfahren namens *Convergent
 Encryption*[@wiki:convergent-encryption]. Dabei wird der Schlüssel der zu
@@ -1337,10 +1340,12 @@ Um dieses Dilemma zu lösen, wendet ``brig`` einen »Trick« an. Jeder
 ``ipfs``--Netzwerk mit dem Inhalt ``brig:<username>``. Ein Nutzer der nun einen
 solchen menschenlesbaren  Namen zu einem Netzwerkadresse  auflösen möchte, kann
 d en Inhalt des obigen Datensatzes generieren und daraus eine Prüfsumme bilden.
-Mit der entstandenen Prüfsumme kann mittels folgenden Verfahrens herausgefunden
+Mit der entstandenen Prüfsumme kann wie in [@lst:user-hash] mittels folgenden Verfahrens[^GO_MULTIHASH] herausgefunden
 werden, welche Knoten diesen Datensatz anbieten:
 
-```bash
+[^GO_MULTIHASH]: Benötigt das ``multihash`` Werkzeug: <https://github.com/multiformats/go-multihash/tree/master/multihash>
+
+```{#lst:user-hash .bash}
 $ USER_HASH=$(printf 'brig#user:%s' alice  | multihash -)
 $ echo $USER_HASH
 QmdNdLHqc1ryoCU5LPEMMCrxkLSafgKuHzpVZ5DFdzZ61M
@@ -1371,10 +1376,10 @@ Das Unternehmen findet sich in auch in ihren Identitäten wieder:
 
 Neben den gesamten Nutzernamen, können diese drei Nutzer auch nur ihren
 Unternehmensnamen veröffentlichen, beziehungsweise auch ihren Nutzernamen ohne
-den ``resource``--Zusatz. So ist es dann beispielsweise folgenderweise möglich
+den ``resource``--Zusatz. So ist es beispielsweise wie in [@lst:corp-hash] möglich
 alle Unternehmensmitglieder aufzulösen:
 
-```bash
+```{#lst:corp-hash .bash}
 $ CORP_HASH=$(printf 'brig#domain:%s' corp.de | multihash -)
 $ ipfs dht findprovs $CORP_HASH
 <PEER_ID_OF_POSSIBLE_CORP_MEMBER_1>
@@ -1384,14 +1389,47 @@ $ ipfs dht findprovs $CORP_HASH
 
 Die einzelnen IDs können dann, sofern bekannt, zu den »Klarnamen« aufgelöst
 werden die in der Remote--Liste jedes Teilnehmers stehen. Insgesamt können
-folgende sinnvolle Kombinationen von ``brig`` veröffentlicht werden:
+folgende sinnvolle Kombinationen (falls möglich, da optional) von ``brig``
+veröffentlicht werden, die jeweils eine spezielle Semantik hätten:
 
-- ``user``
-- domain[.tld]
-- ``user@domain[.tld]``
-- ``user@domain[.tld]/resource``
+- ``user``: Finden des Nutzernamens alleine.
+- domain: Finden des Gruppennamen.
+- ``user@domain``: Alle Geräte eines Nutzers.
+- ``user@domain/resource``: Spezifisches Gerät eines Nutzers.
 
-Das besondere an dieser Vorgehensweise ist, dass kein Nutzer sich an einer zentralen
-Stelle registriert. Trotzdem können sich die Nutzer gegenseitig im Netzwerk finden
-und trauen nicht einer zentralen Instanz sondern entscheiden selbst welchen Knoten
-sie trauen.
+Das besondere an dieser Vorgehensweise ist, dass kein Nutzer sich an einer
+zentralen Stelle registriert. Trotzdem können sich die Nutzer gegenseitig im
+Netzwerk gegenseitig mit einem aussagekräftigen Namen finden und trauen nicht
+einer zentralen Instanz, sondern entscheiden selbst welchen Knoten sie trauen.
+Diese Eigenschaften entsprechen den drei Ecken von *Zooko's Dreieck*[@wiki:zooko],
+von denen gesagt wird, dass immer nur zwei Ecken gleichzeitig erfüllbar sind
+(siehe [@fig:zooko]). Allerdings ist die oben gezeigte Technik als Alternative
+für Techniken wie *DNS* kaum einsetzbar und ist daher keine allgemeine Lösung für *Zooko's
+Dilemma*.
+
+![Bildliche Darstellung von Zooko's Dreieck](images/4/zooko.pdf){#fig:zooko width=50%}
+
+Aus Sicht der Benutzbarkeit ist dabei die initiale Authentifizierung ein Problem.
+Diese kann nicht von ``brig`` automatisiert erledigt werden, da ``brig`` nicht wissen
+kann welche Prüfsumme die »Richtige« ist. Es wird im aktuellen Entwurf vom Nutzer
+erwartet, dass er über einen sicheren Seitenkanal (beispielsweise durch ein persönliches Treffen) die angepriesene Prüfsumme überprüft.
+
+Die oben vorgestellte Idee kann aber auch in Richtung eines *Web of
+Trust*[^WEB_OF_TRUST] erweitert werden. Als Anwendungsfall könnte man
+eine geschlossene Gruppe von Nutzern betrachten, die sich nur teilweise bekannt sind.
+Vergrößert sich die Gruppe mit einem neuen Teilnehmer, so muss dieser alle anderen
+Teilnehmer authentifizieren und gegenseitig auch von diesen authentifiziert werden.
+Ab einer bestimmten Gruppengröße wird dies ein sehr aufwendige Aufgabe.
+Eine logische Lösung wäre das Anlegen eines *Blessed Repository*, dem alle Gruppenteilnehmer trauen und von einem respektierten Teilnehmer der Gruppe
+betrieben wird. Möchte man diesen zentralen Ansatz nicht, so kann wie beim *Web
+of Trust*, ein System einführen, das einem neuen Nutzer automatisch traut, wenn
+eine ausreichende Anzahl anderer Gruppenteilnehmer dem Neuling vertraut hat.
+
+[^WEB_OF_TRUST]: <https://de.wikipedia.org/wiki/Web_of_Trust>
+
+Daneben sind noch weitere Strategien denkbar, wie das automatische Akzeptieren
+neuer Teilnehmer (anwendbar, wenn beispielsweise ein Dozent Vorlesungsmaterial
+verteilen will), oder ein Frage--Antwort--Spiel wie bei
+*Off--The--Record--Messaging (OTR)*. Dabei stellen sich beide Teilnehmer eine
+Frage, die sie jeweils korrekt beantworten müssen. Weitere Konzepte zur
+Authentifizierung werden in [@cpiechula], Kapitel TODO beschrieben.
