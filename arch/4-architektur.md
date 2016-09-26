@@ -381,15 +381,20 @@ Davon abgesehen fällt auf dass zwei zusätzliche Strukturen eingeführt wurden:
   nur die *Checkpoints* betrachtet werden. Es muss nicht wie bei ``git`` jeder *Commit* betrachtet werden, um
   nachzusehen ob eine Änderung an einer bestimmten Datei stattgefunden hat.
 
-* **Stage Commit:** Es existiert immer ein sogenannter *Staging Commit*. Dieser beinhaltet alle Knoten im Graph,
-  die seit dem letzten »vollwertigen« Commit modifiziert worden sind.
-  [@fig:staging-area] zeigt den Staging--Bereich von ``git`` und ``brig`` im Vergleich. Im Falle von ``git`` handelt
-  es sich um eine eigene, vom eigentlichen Graphen unabhängige, Datenstruktur, in die der Nutzer mittels ``git add``
-  explizit Dokumente aus dem Arbeitsverzeichnis hinzufügt. Bei ``brig`` hingegen gibt es kein Arbeitsverzeichnis.
-  Die Daten kommen entweder von einer externen Datei, welche mit ``brig add <filename>``{.bash} dem Staging--Bereich hinzugefügt wurde,
-  oder die Datei wurde direkt im FUSE--Layer (TODO: später mehr oder vorher erklären?) von ``brig`` modifiziert.
-  In beiden Fällen wird die neue oder modifizierte Datei in den *Staging--Commit* eingegliedert, welcher
-  aus diesem Grund eine veränderliche Prüfsumme besitzt und nach jeder Modifikation auf einen anderes Wurzelverzeichnis verweist.
+* **Stage Commit:** Es existiert immer ein sogenannter *Staging Commit*. Dieser
+  beinhaltet alle Knoten im Graph, die seit dem letzten »vollwertigen« Commit
+  modifiziert worden sind. [@fig:staging-area] zeigt den Staging--Bereich von
+  ``git`` und ``brig`` im Vergleich. Im Falle von ``git`` handelt es sich um eine
+  eigene, vom eigentlichen Graphen unabhängige, Datenstruktur, in die der Nutzer
+  mittels ``git add`` explizit Dokumente aus dem Arbeitsverzeichnis hinzufügt.
+  Bei ``brig`` hingegen gibt es kein Arbeitsverzeichnis und daher keine
+  Unterscheidung zwischen »Unstaged Files« und »Staged Files«. Die Daten kommen
+  entweder von einer externen Datei, welche mit ``brig add <filename>``{.bash}
+  dem Staging--Bereich hinzugefügt wurde, oder die Datei wurde direkt im
+  FUSE--Layer (TODO: später mehr oder vorher erklären?) von ``brig`` modifiziert.
+  In beiden Fällen wird die neue oder modifizierte Datei in den *Staging--Commit*
+  eingegliedert, welcher aus diesem Grund eine veränderliche Prüfsumme besitzt
+  und nach jeder Modifikation auf einen anderes Wurzelverzeichnis verweist.
 
 [^CHATTR_NOTE]: In Zukunft ist ein weiterer Zustand ``CHATTR`` möglich, welche die Änderung eines Dateiattributes abbildet.
 
@@ -666,7 +671,7 @@ verträglich sind. Die einzelnen Möglichkeiten sind dabei wie folgt:
 | ``MODIFY``   | \xmark            | \qmark            | \xmark            | \xmark             |
 | ``MOVE``     | \xmark            | \qmark            | \xmark            | \xmark             |
 
-: Verträglichkeit {#tbl:sync-conflicts}
+: Verträglichkeit der atomaren Operationen untereinander {#tbl:sync-conflicts}
 
 [^DEPENDS]: Die Aktion hängt von der Konfiguration ab. Entweder wird die Löschung propagiert oder
           die eigene Datei wird behalten.
@@ -958,7 +963,7 @@ existiert. Neben einer allgemeinen Typbezeichnung, können auch vom Kommando
 abhängige optionale und erforderliche Parameter enthalten sein. Ein gekürzter
 Auszug aus der Protokollspezifikation veranschaulicht dies in [@lst:proto-command].
 
-```{#lst:proto-command .protobuf}
+```{#lst:proto-command .c}
 enum MessageType {
 	ADD = 0;
 	// ...
@@ -991,7 +996,7 @@ Analog dazu kann ``brigd`` mit einer *Response* auf ein *Command* antworten. In
 (``OnlineStatusResp``) auf ein ``OnlineStatusCmd``--Kommando gezeigt, welches
 prüft, ob ``brigd`` Verbindungen von Außen annimmt.
 
-```{#lst:proto-response .protobuf}
+```{#lst:proto-response .c}
 message Response {
 	// Type identifier to the response;
 	// matches the associated command.

@@ -85,7 +85,7 @@ Netzwerk angezeigt werden.
 
 [^ERASURE_ENCODING]: Eine Enkodierung, welche die Wiederherstellung der Inhalte
 bis zu einen gewissen, konfigurierbaren *Beschädigungsgrad* erlaubt. Siehe auch
-[@lin2010secure]. 
+[@lin2010secure].
 
 [^CEPH]: Webpräsenz: <http://ceph.com>
 [^GLUSTER]: Webpräsenz: <https://www.gluster.org>
@@ -95,16 +95,19 @@ bis zu einen gewissen, konfigurierbaren *Beschädigungsgrad* erlaubt. Siehe auch
 
 Durch Anforderungen in Kapite 2 gehen und nachschauen ob alles jut ist. (Hint: Nö.)
 
+\xmark \cmark \qmark für nicht, teilweise und erfüllte anforderungen
+
 Storage Quotas
 
 Simpler Sync algorithmus
 
 kein checkpoint squashing
 
-
 Nicht implementiert, aber wie könnte das so aussehen?
 
 ## Andere Defizite
+
+https://de.wikipedia.org/wiki/Fallacies_of_Distributed_Computing ?
 
 Defizite der aktuellen Implementierung
 
