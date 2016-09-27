@@ -1,11 +1,11 @@
 # Implementierung {#sec:implementierung}
 
 Dieses Kapitel dient der Dokumentation der entstandenen Implementierung.
-TODO: eher implementierungsdetails hier.
-Der genaue Umfang der Implementierung kann ich [@sec:benutzerhandbuch] angesehen werden.
-Dort werden nur Funktionen gezeigt, die auch tatsächlich schon existieren. (TODO: prüfen)
-
-TODO: Formulieren, wenn Kapitel fertig ist. +Imple
+Der Status der Implementierung kann in [@sec:benutzerhandbuch] betrachtet werden.
+Dort werden nur Funktionen gezeigt, die auch tatsächlich schon existieren.
+(TODO: prüfen)
+An dieser Stelle werden eher Implementierungsdetails gezeigt, die einen Einstieg in die
+technische Umsetzung von ``brig`` geben sollen.
 
 ## Wahl der Sprache
 
@@ -59,11 +59,12 @@ Static Checker, eine Formattierungshilfe und eine Art Paketmanager.
 get``--Wekzeug ist es möglich direkt Bibliotheken und Anwendungen von
 Plattformen wie *GitHub* zu installieren. Gleichzeitig ist es sehr simpel
 möglich dort eigene Bibliotheken und Anwendungen einzustellen.
-(TODO: online-build websites?)
 
 **Einheitliche Formatierung:** Durch das ``go fmt`` Werkzeug und strikte
-Stilrichtlinien sieht jeder *Go*--Quelltext ähnlich und damit vertraut aus.
+Stilrichtlinien[^STILRICHT] sieht jeder *Go*--Quelltext ähnlich und damit vertraut aus.
 Dies ermöglicht externen Entwicklern den Einstieg.
+
+[^STILRICHT]: Siehe auch: <https://blog.golang.org/go-fmt-your-code>
 
 **Geringe Sprachkomplexität:** Die Sprache verzichtet bewusst auf Konstrukte, die
 die Implementierung des Compilers verlangsamen würden oder das Verständnis des
@@ -84,7 +85,7 @@ rund 8 Megabyte reduzieren, ohne dass der Anwender die Binärdatei entpacken
 muss.
 
 **Vendor:** Der »Paketmanager« von ``go`` namens ``go get`` beherrscht nicht die
-Installation einer bestimmten Paketversion. (TODO: erklären warum?) Stattdessen
+Installation einer bestimmten Paketversion.  Stattdessen
 wird einfach immer die momentan aktuelle Version installiert. Viele Projekte,
 ``brig`` eingeschlossen, brauchen und bevorzugen aber einen definierten
 Versionsstand, der von den Entwicklern getestet werden konnte. Dienste wie
@@ -96,10 +97,6 @@ aber gut funktionierende Lösung verfolgt auch ``brig``[^VENDOR].
 
 [^GOPKG]: <http://labix.org/gopkg.in>
 [^VENDOR]: <https://github.com/disorganizer/brig-vendor>
-
-**Keine modernen Sprachfeatures:**
-Fehlende Generics und ein paar moderne Sprachfeatures (TODO: Wirklich? Sagt man
-zwar oft, aber merken tut man nicht viel von. Immer diese Ruby Hipster)
 
 [^UPX]: Ein Packprogramm Mehr Informationen unter <http://upx.sourceforge.net>
 
@@ -137,10 +134,6 @@ TODO: Update wenn Implementierung  final.
 
 ### Dokumentation
 
-TODO: Coole paradigmen nennen?
-https://de.wikipedia.org/wiki/Datenstromorientierte_Programmierung
-https://de.wikipedia.org/wiki/Graphersetzungssystem
-
 Die Implementierung ist nicht auf ein Paradigma festgelegt. Zwar wird wie bei vielen
 Projekten hauptsächlich auf *objektorientierte Programmierung (OOP)* gesetzt, doch
 erlaubt *Go* auch die Anwendung prozeduraler und funktionaler Programmiertechniken.
@@ -151,11 +144,33 @@ implementierten Typen schlicht den Rahmen dieser Arbeit sprengen.
 
 Einen guten Überblick über die Implementierung und aller benutzten Typen
 erlaubt die API--Dokumentation, die unter *»godoc.org«*[^BRIG_GODOC] einsehbar
-ist.
+ist. Die Software ist möglichst nahe an der Beschreibung von *Effective Go*
+gehalten[^EFFECTIVE_GO], was den Einstieg für andere *Go*--Programmierer erleichtern sollte.
+Eines der meist genutzten Idiome bildet dabei die strikte Fehlerbehandlung, bei der jede
+Funktion die einen Fehler zurückgeben kann, einen zweiten ``error``--Wert zurückgibt.
+Dieser wird innerhalb der Funktion möglichst früh zurückgeben. So entstehen zwei »vertikale Linien«
+im optischen Aussehen des Quelltextes.  Die eine Linie kümmert sich um die Fehlerbehandlung, die
+andere um den Erfolgsfall. [@lst:two-lines] zeigt ein Beispiel für diese Regel.
+
+```{#lst:two-lines .go}
+func someAction(msg string) (int, error) {
+	//  | Fehlerbehandlung ist eingerückt.
+	if len(msg) < 10 {
+		return -1, ErrTooShort
+	}// |
+     // |
+	if len(msg) > 20 {
+	    return -1, ErrTooLong
+	}// |
+     // |
+	// Erfolgsfall ist nicht eingerückt.
+	return len(msg) * len(msg), nil
+}
+```
+
+[^EFFECTIVE_GO]: <https://golang.org/doc/effective_go.html>
 
 [^BRIG_GODOC]: <https://godoc.org/github.com/disorganizer/brig>
-
-TODO: allgemeines? error handling?
 
 ### Paketübersicht
 
@@ -182,11 +197,11 @@ Die umliegenden Pakete bestehen aus:
 
 ## Ausgewählte Themen
 
-Aufgrund des großen Umfangs der Implementierung würde eine detaillierte Beschreibung
-derselben den Rahmen dieser Arbeit sprengen. Stattdessen werden hier einige
-ausgewählte Stellen der Implementierung näher beleuchtet. Besonderer Wert wird
-dabei auf Details gelegt, die in der Besprechung der Architektur noch nicht
-vorkamen.
+Aufgrund des großen Umfangs der Implementierung würde eine detaillierte
+Beschreibung derselben den Rahmen dieser Arbeit sprengen. Stattdessen werden
+hier einige ausgewählte Stellen der Implementierung näher beleuchtet.
+Besonderer Wert wird dabei auf Details gelegt, die in der Besprechung der
+Architektur noch nicht vorkamen.
 
 ### Aufbau des *Store*
 
@@ -235,87 +250,69 @@ Prüfsumme auflösen kann. Diese zentrale Instanz heißt bei ``brig`` *FS* (kurz
 für *Filesystem*, dt. Dateisystem), da ihre Funktionalität dem Kern eines
 Dateisystems ähnelt. Genau wie ein Dateisystem organisiert *FS* den Inhalt der
 *BoltDB* und macht ihn über Pfade und Prüfsummen höheren Programmebenen
-zugreifbar. Um diese Aufgabe zu lösen, forciert *FS* ein Ablagestruktur
-(gezeigt in [@lst:bolt-layout]) innerhalb der BoltDB, die an ``git`` angelehnt
+zugreifbar. Um diese Aufgabe zu lösen, forciert *FS* ein hierarchische Ablagestruktur
+(gezeigt in [@fig:bolt-layout]) innerhalb der BoltDB, die an ``git`` angelehnt
 ist.
 
+![Hierarchisches Aufteilung in der BoltDB mitttels Buckets.](images/5/bolt-layout.pdf){#fig:bolt-layout}
 
-```{#lst:bolt-layout .go}
-// objects/<NODE_HASH>                   => NODE_METADATA
-// tree/<FULL_NODE_PATH>                 => NODE_HASH
-// checkpoints/<HEX_NODE_ID>/<IDX>       => CHECKPOINT_DATA
-//
-// stage/objects/<NODE_HASH>             => NODE_METADATA
-// stage/tree/<FULL_NODE_PATH>           => NODE_HASH
-// stage/STATUS                          => COMMIT_METADATA
-//
-// stats/node-count/<COUNT>              => UINT64
-// refs/<REFNAME>                        => NODE_HASH
-// metadata/                             => BYTES (Caller defined data)
-//
-// Defined by caller:
-// metadata/id      => USER_ID
-// metadata/hash    => USER_HASH
-// metadata/version => DB_FORMAT_VERSION_NUMBER
-//
-// NODE is either a Commit, a Directory or a File.
-// FULL_NODE_PATH may contain slashes and in case of directories,
-// it will contain a trailing slash.
-```
+Basierend auf dieser Struktur kann *FS* die folgenden Funktionen effizient implementieren:
 
-TODO:
-``/`` steht dabei für eine Abstufung in der Hierarchie.
-Statt über einen einzelnen Schlüssel, greift man also über einen Schlüsselpfad auf ein Objekt zu.
-
-(TODO: schön machen:)
-
-Basierend auf dieser Struktur kann *FS* die folgenden Aufgaben effizient lösen:
-
-``func NodeByHash(hash *Hash) (Node, error)``{.go}: Lädt die Metadaten eines Knoten
+**func** ``NodeByHash(hash *Hash) (Node, error)``{.go}: Lädt die Metadaten eines Knoten
 anhand seiner Prüfsumme. Dabei wird zuerst in ``stage/objects/<NODE_HASH``
 nachgesehen und dann in ``objects/<NODE_HASH>`` falls der erste Schlüssel nicht
 existierte.
 
-``ResolveNode(nodePath string) (Node, error)``{.go}: Löst einen Pfad zu einem
-``Node`` auf. Es wird probiert die Prüfsumme des Knotens ``stage/tree/<PFAD>``
-bzw. ``tree/<PFAD>`` nachzuschlagen. Falls das Nachschlagen erfolgreich war,
-wird ``NodeByHash()`` mit der so ermittelten Prüfsumme aufgerufen.
-Im Falle von Verzeichnissen wird dem Pfad vorher ein ».« angehängt.
-Das ist nötig, da sonst der Bucket zu dem Verzeichnisinhalten gefunden
-werden würde und nicht das Verzeichnis an sich.
+**func** ``ResolveNode(nodePath string) (Node, error)``{.go}: Löst einen Pfad zu einem
+``Node`` auf. Es wird probiert die Prüfsumme des Knotens »``stage/tree/<PFAD>``«
+beziehungsweise »``tree/<PFAD>``« nachzuschlagen. Falls das Nachschlagen erfolgreich war,
+wird ``NodeByHash()`` mit der so ermittelten Prüfsumme aufgerufen. Im Falle von
+Verzeichnissen wird dem Pfad vorher ein ».« angehängt. Das ist nötig, da sonst
+der Bucket zu dem Verzeichnisinhalten (»``/photos/``«) gefunden werden würde
+und nicht das Verzeichnis an sich (»``/photos/.``«). Letztere Idee stammt
+dabei aus dem normalen Unix--Dateisystem, wo ein einzelner Punkt ebenfalls
+auf das aktuelle Verzeichnis zeigt. Es gibt allerdings noch kein
+Äquivalent zu »``..``«, welches auf das Elternverzeichnis zeigen würde.
 
-``StageNode(node Node) error``{.go}: Fügt dem Staging--Bereich einem Eintrag
-hinzu. Der Pfad des Knoten und seine Prüfsumme werden unter ``stage/...``
+**func** ``StageNode(node Node) error``{.go}: Fügt dem Staging--Bereich einem Eintrag
+hinzu. Der Pfad des Knoten und seine Prüfsumme werden unter »``stage/...``«
 abgespeichert.
 
-``StageCheckpoint(ckp *Checkpoint) error``{.go}: Fügt einen Checkpoint dem
+**func** ``StageCheckpoint(ckp *Checkpoint) error``{.go}: Fügt einen Checkpoint dem
 Staging--Commit unter ``stage/STATUS`` hinzu und speichert ihn in
-``checkpoints/<UID>/<LAST_IDX+1>`` ab.
+»``checkpoints/<UID>/<LAST_IDX> + 1``« ab.
 
-``MakeCommit(author id.Peer, message string) error``{.go}: Kopiert das
+**func** ``MakeCommit(author id.Peer, message string) error``{.go}: Kopiert das
 Wurzelverzeichnis des Staging--Commits und all seine Kinder in das Archiv
 (``objects/`` und ``tree/``). Der bisherige Staging--Commit wird der neue
 ``HEAD`` und ein neuer, leerer Staging--Commit wird angelegt, auf den ``CURR``
 zeigt. Der Rest des Staging--Bereichs wird geleert.
 
-``ResolveRef(refname string) (Node, error)``{.go} Schlägt die Prüfsumme unter
-``refs/<refname>`` nach und übergibt diese ``NodeByHash()``.
+**func** ``ResolveRef(refname string) (Node, error)``{.go}: Schlägt die Prüfsumme unter
+»``refs/<refname>``« nach und übergibt diese ``NodeByHash()``.
 
-``SaveRef(refname string, nd Node) error``{.go} Setzt den Wert unter
-``refs/<refname>`` auf die Prüfsumme des übergebenen Knoten.
+**func** ``SaveRef(refname string, nd Node) error``{.go}: Setzt den Wert unter
+»``refs/<refname>``« auf die Prüfsumme des übergebenen Knoten.
 
-``History(IDLink uint64) (History, error)``{.go} Lädt alle Checkpoints für ein
+**func** ``History(IDLink uint64) (History, error)``{.go}: Lädt alle Checkpoints für ein
 bestimmtes Dokument anhand der UID des Dokuments. Für jeden neu angelegten
-Knoten wird eine neue UID generiert, indem die in ``stats/node-count``
+Knoten wird eine neue UID generiert, indem die in »``stats/node-count``«
 abgespeicherte Ganzzahl um eins inkrementiert wird.
 
-``LookupNode(repoPath string) (Node, error)``{.go}: Löst das Wurzelverzeichnis
+**func** ``LookupNode(repoPath string) (Node, error)``{.go}: Löst das Wurzelverzeichnis
 des Staging--Commits auf und versucht mittels des übergebenen Pfades von dort
 auf das angeforderte Kind zu kommen, indem die Kinder eines Verzeichnisses mit
 ``NodeByHash()`` nachgeladen werden. Diese Funktion unterscheidet sich von
 ``ResolveNode()`` dadurch, dass gelöschte Pfade berücksichtigt werden.
 ``ResolveNode()`` gibt den letzten Stand eines Knoten zurück, der an dieser
 Stelle gespeichert war.
+
+**func** ``MetadataPut(key string, value []byte) error``{.go}: Erlaubt das Setzen bestimmter
+Schlüsselwertpaare unterhalb des ``metadata``--Bucket. Aufrufender Code kann dies
+nutzen, um spezielle Werte persistent zu hinterlegen.
+
+**func** ``MetadataGet(key string) ([]byte, error)``{.go}: Holt den Wert unter
+»``metadata/<key>``« aus dem BoltDB.
 
 Bei jeder Operation werden also die Daten direkt aus *BoltDB* geladen,
 deserialisiert und in zu einer ``Node``--Struktur umgewandelt. Als
@@ -328,12 +325,10 @@ sich ja auch geändert haben), in den Staging--Bereich eingefügt (durch Aufruf
 von ``StageNode()``). Dieser Bereich fungiert also als Sammelbecken für alle
 Änderungen.
 
-TODO: metadata?
-
-Jede weitere Operation des Stores läuft letztendlich auf eine Sequenz von
-Aufrufen der oben gezeigten Modifikationen heraus. Beim Anzeigen aller Commits
-(``Log()``) wird die Referenz ``HEAD`` aufgelöst. Dessen Eltern--Commit wird
-dann rekursiv aufgelöst, bis kein weiterer Eltern--Commit gefunden werden
+Jede weitere Operation des Stores läuft auf eine Sequenz von
+Aufrufen der oben gezeigten Modifikationen hinaus. Beim Anzeigen aller Commits
+(``Log()``) wird beispielsweise die Referenz ``HEAD`` aufgelöst (``ResolveRef()``). Dessen Eltern--Commit wird
+dann rekursiv aufgelöst (``NodeByHas()``), bis kein weiterer Eltern--Commit gefunden werden
 konnte. Die so gefunden Commits werden dann von ``Log()`` in einem Array
 zurückgegeben.
 
@@ -342,32 +337,19 @@ zurückgegeben.
 
 Beim Abspeichern in der Datenbank wird der sich im Speicher befindliche ``Node``
 wieder in eine Protobuf--Nachricht übertragen (siehe [@lst:node-proto]).
+Diese fasst für alle Knotentypen gemeinsame Attribute zusammen:
 
 ```{#lst:node-proto .c}
 message Node {
-  // Type of this node (see above)
   required NodeType type = 1;
-  // Global identifier of this node, since hash and path
-  // might change sometimes.
   required uint64 ID = 2;
-
-  // Size of the node in bytes:
   required uint64 node_size = 3;
-
-  // Timestamp formated as RFC 3339
   required bytes mod_time = 4;
-
-  // Hash of the node as multihash:
   required bytes hash = 5;
-
-  // Name of this node (i.e. path element)
   required string name = 6;
+  required string path = 7;
 
-  // Path must only be filled when exported to a client.
-  // It may not be used internally and is not saved to the kv-store.
-  optional string path = 7;
-
-  // Individual types:
+  // Unternachrichten für die eigentlichen Knoten:
   optional File file = 8;
   optional Directory directory = 9;
   optional Commit commit = 10;
@@ -449,22 +431,36 @@ zeitintensiv, um akkurat implementiert zu werden.
 
 ![Funktionsweise eines beschreibbaren Overlays.](images/5/write-overlay.pdf){#fig:writer-overlay}
 
-### Abstraktionen
+### Repository Struktur
 
-Nach einigen Rückschlägen und »Sackgassen« in der Entwicklung (siehe [@sec:sackgasse])
+![``tree``--Ausgabe auf das Verzeichnis des Repositories.](images/5/brig-repo-layout.pdf){#fig:brig-repo-tree width=60%}
 
-- Layer zwischen brig und ipfs
-- Layer zwischen bolt und brig
+[@fig:brig-repo-tree] zeigt den Aufbau eines Repositories auf der Festplatte,
+kurz nach dem Anlegen wenn ``brigd`` noch nicht läuft. Alle Daten sind nicht
+direkt im Repository hinterlegt, sondern liegen in einem Unterordner namens »``.brig``«.
+Ursprünglich sollte das FUSE--Dateisystem über das (größtenteils) leere Verzeichnis
+gelegt werden, um es wie einen normalen Ordner aussehen zu lassen. Das ist technisch möglich,
+wenn vor dem Erstellen des FUSE--Dateisystems ein offener Dateideskriptor auf das ``.brig``--Verzeichnis
+vorhanden ist. Leider unterstützt ``ipfs`` dies nicht und stürzt beim versuchten Zugriff auf seine
+Datenbank ab.
 
-Transfer Layer: interface
+Nach dem Anlegen eines Repositories sind einige Dateien noch verschlüsselt
+(Endung mit ``.locked``). Erst durch Eingabe des Passworts beim Starten von
+``brigd`` werden diese Dateien entschlüsselt. Der Schlüssel wird dabei vom
+Passwort mit der Schlüsselableitungsfunktion ``scrypt``[@percival2015scrypt]
+generiert. Das Verschlüsselungsformat entspricht dabei den in [@sec:encryption]
+beschriebenen Verfahren.
 
-### On--Disk Format
+Ansonsten haben die Dateien folgenden Inhalt:
 
-Repository Struktur
-
-TODO: shadow of repo with fuse
-
-`tree` von repo (wie in benutzerhandbuch)
+* ``config:`` Enthält die Konfiguration des ``brig``--Repositories.
+* ``remotes.yml.locked``: Enthält für jedes bekannte Remote seine Prüfsumme
+  und einen Zeitstempel, wann dieser zuletzt online war.
+* ``index/``: Enthält für jeden Benutzer eine BoltDB mit seinen Metadaten.
+* ``ipfs/``: Ein ``ipfs``--Repository. Hier werden die eigentlichen Daten gespeichert.
+  Die Struktur des Verzeichnisses selbst wird von ``ipfs`` bestimmt.
+* ``shadow``: Noch keine Verwendung.
+* ``master.key``: Noch keine Verwendung.
 
 ### Nennenswerte Bibliotheken
 
@@ -472,8 +468,9 @@ Einige Bibliotheken haben bei der Entwicklung von ``brig`` sehr geholfen.
 Bei der Auswahl wurde auf drei Kriterien geachtet:
 
 * Lizenz der Bibliothek muss mit der APGLv3--Lizenz von ``brig`` kompatibel sein.
-* Die Bibliothek sollte möglichst rein in *Go* geschrieben sein.
 * Die Bibliothek sollte plattformübergreifend funktionieren.
+* Die Bibliothek sollte möglichst rein in *Go* geschrieben sein. Dies
+  vereinfacht die Installation, da neben *Go* keine weiteren Abhängigkeiten installiert werden müssen.
 
 Nennenswert sind dabei folgende Bibliotheken:
 
@@ -555,15 +552,6 @@ können.
 * ``BRIG_LOG:`` Schreibt den Log an den Pfad in der Variable.
 * ``BRIG_PORT:`` Überschreibt den konfigurierten Port mit der Ganzzahl in der Variable.
 
-## Aktuelle Problemfelder
-
-TODO: evaluation?
-
-... fertig entwickeln.
-
-* vendoring problematik
-* Problem: Keine Garantie, dass Dateien aufgelöst werden sollen.
-
 ## Entwicklungsumgebung
 
 Die gesamte Implementierung wurde auf einem herkömmlichen Linux--System mit
@@ -583,7 +571,6 @@ versucht ein Großteil der so gefundenen Probleme zu reparieren.
 [^NEOVIM_LINK]: <https://neovim.io>
 [^GLIDE]: <https://github.com/Masterminds/glide>
 [^GOMETALINTER]: <https://github.com/alecthomas/gometalinter>
-
 
 Der gesamte Quelltext wird mit ``git`` verwaltet und zu mindestens drei
 verschiedenen Rechnern synchronisiert. Dazu gehört der bereits genannte
@@ -622,7 +609,7 @@ die Verwendung von ``ssh`` und ``rsync`` als Backend diskutiert. Erst nach der
 Beschäftigung mit ``ipfs`` und seinen Möglichkeiten entstand der Grundgedanke
 der hinter dem heutigen ``brig`` steht.
 
-### Sackgassen {#}
+### Sackgassen {#sec:sackgasse}
 
 Leider wurden auch einige Techniken sehr zeitaufwendig ausprobiert und wieder
 verworfen. Dazu gehört auch der geplante Einsatz von *XMPP*[^XMPP] als sicherer Seitenkanal
@@ -670,21 +657,36 @@ als Bibliothek genutzt, sondern es wurden direkt die Kommandos der
 ``ipfs``--Kommandozeile ausgeführt. Aufgrund von Effizienzproblemen verbot sich
 eine Fortführung dieser Technik.
 
+Als Lehre wurde drei Abstraktionsschichten in ``brig`` eingebaut, die die
+Austauschbarkeit einiger Komponenten erleichtern soll. Diese sind wie folgt:
+
+* Abstraktionsschicht zwischen ``brig`` und ``ipfs``. Jede benötigte
+  ``ipfs``--Funktion erhält eine eigene Funktion im Paket ``ipfsutil``.
+  Sollte sich die Semantik bestimmter Funktionen ändern, so
+  kann dies an zentraler Stelle angepasst werden, auch wenn ``ipfs`` selbst
+  bisher nicht sinnvoll zu ersetzen ist.
+* Abstraktionsschicht zwischen ``brig`` und ``bolt``. Es wird nicht direkt
+  auf die API von BoltDB zugegriffen. Stattdessen kommt auch hier
+  ein »Wrapper« zum Einsatz, hinter dem auch eine andere Key--Value--Datenbank,
+  der Hauptspeicher  oder sogar ein normales Dateisystem stehen kann.
+* Abstraktionsschicht zwischen ``brig`` und Transfer--Schicht. Diese wurde
+  zur selben Zeit eingeführt wie das MQTT--Experiment. Später konnte MQTT dadurch,
+  relativ schnell durch ein eigenes Kommunikationsprotokoll basierend auf ``ipfs``
+  ersetzt werden.
+
 ### Beiträge zu anderen Projekten
 
-Im Laufe der Entwicklung wurden einige kleinere Beiträge zu anderen Projekten gemacht.
-Diese werden hier der Vollständigkeit aufgelistet:
+Im Laufe der Entwicklung wurden einige kleinere Beiträge zu anderen Projekten
+gemacht. Teilweise auch zu Projekten, die zu diesem Zeitpunkt gar nicht mehr
+von ``brig`` genutzt werden.  Diese werden hier der Vollständigkeit in
+umgekehrter chronologischer Reihenfolge aufgelistet:
 
-https://github.com/bazil/fuse/pull/152
-https://github.com/ipfs/go-ipfs/issues/2567
-https://github.com/ipfs/go-ipfs/pull/1981
-
-TODO: mehr. und kurz beschreiben.
-
-(DefaultHash und Help fix)
-
-## Stand der Testsuite
-
-Für manches okay, für manches totaler Krampf
-
-TODO
+* <https://github.com/bazil/fuse/pull/152>: Option für *AllowNonEmpty* hinzugefügt.
+* <https://github.com/ipfs/go-ipfs/issues/2567>: Esoterischer Fehler in einer ``Seek()`` Funktion von ``ipfs``.
+* <https://github.com/ipfs/go-ipfs-util/pull/1>: Konstante für den DefaultHash zur API hinzugefügt.
+* <https://github.com/tang0th/go-ecdh/pull/1>: Änderung kaputter Import--Pfade.
+* <https://github.com/cathalgarvey/go-minilock/issues/8>: Crashreport für *minilock*.
+* <https://github.com/tucnak/climax/pull/3>: Gruppierung mehrerer Subkommandos.
+* <https://github.com/chzyer/readline/pull/18>: Beispiel für ein zuvor angeregten Passwortprompt hinzugefügt.
+* <https://github.com/ipfs/go-ipfs/pull/1981>: Erwähnung von ``IPFS_PATH`` in der Hilfe von ``ipfs help``.
+* <https://github.com/tsuibin/goxmpp2/pull/1>: Flexibleres Nachschlages des SRV--Eintrags für eine Domain.

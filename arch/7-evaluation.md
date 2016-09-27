@@ -113,6 +113,9 @@ Defizite der aktuellen Implementierung
 
 Fehlendes Key Management?
 
+Problem: Keine Garantie, dass Dateien aufgelöst werden sollen.
+
+
 ### Beschränkte Synchronisationsfähgikeiten
 
 ### Testsuite zu klein
@@ -124,9 +127,19 @@ Fehlendes Key Management?
 Filesystem anforderunge (transactions?)
 Journal-log für atomic operations
 
+## Stand der Testsuite
+
+In den meisten der Pakete existieren Unittests.
+
+Noch keine Coverage
+
+Anzahl der Tests
+
 ## Benchmarks
 
 ## Zukünftige Erweiterungen
+
+Keine kompression basierend auf mime-type.
 
 brig stash (checkout problematic wenn HEAD != CURR)
 

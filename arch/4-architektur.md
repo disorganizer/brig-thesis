@@ -246,7 +246,7 @@ Aus Sicht des Autors hat ``git`` einige, kleinere Schwächen aus architektonisch
    in wenigen davon tatsächlich geändert wurde. Eine mögliche Lösung wäre das
    Anlegen einer *History* für einzelne Dateien.
 
-[^VERSION_CONTROL_BY_EXAMPLE]: Siehe auch: http://ericsink.com/vcbe/html/cryptographic_hashes.html
+[^VERSION_CONTROL_BY_EXAMPLE]: Siehe auch: <http://ericsink.com/vcbe/html/cryptographic_hashes.html>
 [^LWM_HASH]: Mehr zum Thema unter: <https://lwn.net/Articles/370907>
 [^GIT_FAQ_RENAME]: <https://git.wiki.kernel.org/index.php/GitFaq#Why_does_Git_not_.22track.22_renames.3F>
 [^GIT_FAQ_EMPTY_DIR]: <https://git.wiki.kernel.org/index.php/GitFaq#Can_I_add_empty_directories.3F>
@@ -275,7 +275,7 @@ folgt:
   Datenmodell verwaltet, während die eigentlichen Daten werden lediglich per Prüfsumme
   referenziert und von einem Backend (aktuell *IPFS*) gespeichert werden.
   So gesehen ist  ``brig`` ein Versionierungsaufsatz für ``ipfs``.
-* **Lineare Versionshistorie:** Jeder *Commit* hat maximal einen Vorgänger und
+?* **Lineare Versionshistorie:** Jeder *Commit* hat maximal einen Vorgänger und
   exakt einen Nachfolger. Dies macht die Benutzung von *Branches*[^BRANCH_EXPL]
   unmöglich, bei der ein *Commit* zwei Nachfolger haben kann, beziehungsweise
   sind auch keine Merge--Commits möglich, die zwei Vorgänger besitzen. Diese
@@ -1100,7 +1100,7 @@ besitzt. Im Protoypen werden die Dateischlüssel daher zufällig generiert,
 was die Deduplizierungsfunktion von ``ipfs`` momentan ausschaltet.
 Die Vor- und Nachteile dieses Verfahrens wird in [@cpiechula], Kapitel TODO diskutiert.
 
-#### Verschlüsselung
+#### Verschlüsselung {sec:encryption}
 
 Für ``brig`` wurde ein eigenes Containerformat für verschlüsselte Daten
 eingeführt, welches wahlfreien Zugriff auf beliebige Bereiche der
