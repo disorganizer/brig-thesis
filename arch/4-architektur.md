@@ -1340,13 +1340,60 @@ Identität gefordert, mit der *Peers* einfach erkennbar sind. Der von ``ipfs``
 verwendete Identitätsbezeichner ist allerdings eine für Menschen schwer zu
 merkende Prüfsumme (die »Peer--ID«).
 
-Um dieses Dilemma zu lösen, wendet ``brig`` einen »Trick« an. Jeder
-``brig``--Knoten veröffentlicht einen einzelnen ``blob`` in das
-``ipfs``--Netzwerk mit dem Inhalt ``brig:<username>``. Ein Nutzer der nun einen
-solchen menschenlesbaren  Namen zu einem Netzwerkadresse  auflösen möchte, kann
-d en Inhalt des obigen Datensatzes generieren und daraus eine Prüfsumme bilden.
-Mit der entstandenen Prüfsumme kann wie in [@lst:user-hash] mittels folgenden Verfahrens[^GO_MULTIHASH] herausgefunden
-werden, welche Knoten diesen Datensatz anbieten:
+Es wurden in dieser Arbeit bereits einige Identifikationsbezeichner
+beispielhaft verwendet. Diese entsprechen einer abgeschwächte Form der
+Jabber--ID[^JID] (*JID*). Diese hat, ähnlich wie eine E--Mail Adresse, die Form
+``user@domain/resource``. Beim Jabber/XMPP Protokoll ist der Teil hinter dem
+``/`` optional, der Rest ist zwingend erforderlich. Als Abschwächung ist bei
+``brig`` auch der Teil hinter dem ``@`` optional. Darüber hinaus sollen
+folgende Regeln gelten:
+
+[^JID]: Mehr Details unter: <https://de.wikipedia.org/wiki/Jabber_Identifier>
+
+- Es sind keine Leerzeichen erlaubt.
+- Ein leerer String ist nicht valide.
+- Der String muss valides UTF8 (TODO: ref) sein.
+- Der String muss der »UTF-8 Shortest Form[^SHORTEST]« entsprechen
+- Der String darf durch die »UTF-8 NKFC Normalisierung[^NORMALIZATION]« nicht verändert werden.
+- Alle Charaktere müssen druckbar und auf dem Bildschirm darstellbar sein.
+
+Insbesondere die letzten vier Punkte dienen der Sicherheit, da ein Angreifer
+versuchen könnte eine Unicode--Sequenz zu generieren, welche visuell genauso
+ausschaut wie die eines anderen Nutzers, aber einer anderen Byte--Reihenfolge
+und somit einer anderen Identität entspricht.
+
+[^SHORTEST]: Siehe auch: <http://unicode.org/versions/corrigendum1.html>
+[^NORMALIZATION]: Siehe auch: <http://www.unicode.org/reports/tr15/\#Norm_Forms>
+
+Valide Identitätsbezeichner wären also beispielsweise:
+
+- ``alice``
+- ``alice@company``
+- ``alice@company.de``
+- ``alice@company.de/laptop``
+- ``böb@subdomain.company.de/desktop``
+
+Die Wahl der JID als Basis hat einige Vorteile:
+
+- Eine E--Mail Adresse  oder eine JID ist gleichzeitig ein valider
+  Identitätsbezeichner.
+- Der Nutzer kann eine fast beliebige Unicode Sequenz als Name verwenden, was
+  beispielsweise für Nutzer des kyrillischen Alphabetes nützlich ist.
+- Unternehmen können die Identifikationsbezeichner hierarchisch gliedern. So
+  kann *Alice* der Bezeichner ``alice@security.google.com`` zugewiesen werden,
+  wenn sie im Sicherheitsteam arbeitet.
+- Der *Ressourcen*--Teil hinter dem ``/`` ermöglicht die Nutzung desselben
+  Nutzernamens auf verschiedenen Geräten, wie ``desktop`` oder ``laptop``.
+
+Um den Identifikationsbezeichner im Netzwerk auffindbar zu machen, wendet
+``brig`` einen »Trick« an. Jeder ``brig``--Knoten veröffentlicht einen
+einzelnen ``blob`` in das ``ipfs``--Netzwerk mit dem Inhalt
+``brig:<username>``. Ein Nutzer der nun einen solchen menschenlesbaren  Namen
+zu einem Netzwerkadresse  auflösen möchte, kann d en Inhalt des obigen
+Datensatzes generieren und daraus eine Prüfsumme bilden. Mit der entstandenen
+Prüfsumme kann wie in [@lst:user-hash] mittels folgenden
+Verfahrens[^GO_MULTIHASH] herausgefunden werden, welche Knoten diesen Datensatz
+anbieten:
 
 [^GO_MULTIHASH]: Benötigt das ``multihash`` Werkzeug: <https://github.com/multiformats/go-multihash/tree/master/multihash>
 

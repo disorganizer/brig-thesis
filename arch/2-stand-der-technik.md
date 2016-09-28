@@ -38,8 +38,6 @@ gegeben, welche zum Verständnis der folgenden Kapitel notwendig sind.
 
 TODO: Das ist keine richtige Einführung. Wegmachen letzlich.
 
-(TODO: https://github.com/ipfs/specs/blob/master/libp2p/2-state-of-the-art.md irgendwo verlinken?)
-
 ### Einführung
 
 Peer-to-Peer (kurz *P2P*) Netzwerke sind gut erforscht, aber bei weitem nicht
@@ -73,7 +71,7 @@ also ein Speedup--Faktor von ca. 50. [@fig:speedup] veranschaulicht diesen Zusam
 
 Eine P2P--Netzwerk wird aus den Rechnern seiner Teilnehmer aufgebaut (oft
 *Knoten* genannt). Bemerkenswert ist dabei, dass keine zentrale Instanz sich um
-die Koordination des Datenflusses im Netzwerk kümmern muss. Die Grundlage für
+die Koordination des Datenflusses im Netzwerk kümmern muss (siehe [@fig:central-distributed]). Die Grundlage für
 die Koordination bildet dabei die *Distributed Hashtable* (dt. verteilte
 Hashtabelle). Diese nutzt eine *Hashfunktion*, um für einen bestimmten
 Datensatz zu entscheiden, welche Knoten (mindestens aber einer) im Netzwerk für
@@ -81,6 +79,8 @@ diesen Datensatz zuständig ist. Jeder Knoten verwaltet dabei einen bestimmten
 Wertebereich der Hashfunktion und ist für diese Hashwerte zuständig. Werden
 neue Knoten hinzugefügt oder andere verlassen das Netz, werden die Wertebereich
 neu verteilt.
+
+![Anschaulicher Unterschied zwischen zentralen und verteilten Systemen.](images/2/central-distributed.pdf){#fig:central-distributed}
 
 Werden ganze Dateien in das Netzwerk »gelegt«, so können diese je nach
 Anwendung in kleine Teilblöcke aufgeteilt werden, für die jeweils unterschiedliche
@@ -217,6 +217,8 @@ einzelnen Alternative zu minimieren.
 
 #### Dropbox + Boxcryptor
 
+![Screenshot eines Dropbox--Accounts](images/2/dropbox.png){#fig:scrn-dropbox}
+
 Der vermutlich bekannteste und am weitesten verbreitete zentrale Dienst zur
 Dateisynchronisation. Verschlüsselung kann man mit Tools wie ``encfs``
 (Open--Source, siehe auch [^ENCFS]) oder dem etwas umfangreicheren, proprietären
@@ -240,6 +242,8 @@ synchronisiert werden muss, nur um schließlich auf dem Arbeitsrechner
 
 #### ownCloud / nextCloud
 
+![Screenshot der ownCloud--Weboberfläche](images/2/owncloud.png){#fig:scrn-owncloud}
+
 Aus dieser Problemstellung heraus entstand die Open--Source Lösung *ownCloud*.
 Nutzer hosten auf ihren Servern selbst eine ownCloud--Instanz und stellen
 ausreichend Speicherplatz bereit. Vorteilhaft ist also, dass die Daten auf den
@@ -250,6 +254,8 @@ eines Serversystems für viele Nutzer eine »große« Hürde und somit zumindest
 den Heimanwender nicht praktikabel.
 
 #### Syncthing
+
+![Screenshot der Syncthing--Weboberfläche](images/2/syncthing.png){#fig:scrn-syncthing}
 
 Das 2013 veröffentliche quelloffene *Syncthing* versucht diese zentrale Instanz
 zu vermeiden, indem die Daten jeweils von Peer zu Peer übertragen werden. Es ist
@@ -264,21 +270,27 @@ entdeckt werden können. Nachteilig hingegen ist die fehlende
 Benutzerverwaltung: Man kann nicht festlegen von welchen Nutzern man Änderungen
 empfangen will und von welchen nicht.
 
-#### BitTorrent Sync
+#### Resilio
 
-In bestimmten Kreisen scheint auch das kommerzielle und proprietäre *BitTorrent
-Sync* beliebt zu sein. Hier wird das bekannte und freie BitTorrent Protokoll zur
+![Screenshot der Resilio--Weboberfläche](images/2/resilio.png){#fig:scrn-resilio}
+
+In bestimmten Kreisen scheint auch das kommerzielle und proprietäre *Resilio* (früher *Bittorrent Sync*)
+beliebt zu sein. Hier wird das bekannte und freie BitTorrent Protokoll zur
 Übertragung genutzt. Vom Feature--Umfang ist es in etwa vergleichbar mit
 *Syncthing*. Die Dateien werden allerdings noch zusätzlich AES--verschlüsselt
 abgespeichert.
 
-Genauere Aussagen kann man leider aufgrund der geschlossenen Natur des Programms
-und der eher vagen Werbeprosa nicht treffen. Ähnlich zu *Syncthing* ist
-allerdings, dass eine Versionsverwaltung nur mittels eines »Archivordners«
-vorhanden ist. Gelöschte Dateien werden schlicht in diesen Ordner verschoben und
-können von dort wiederhergestellt werden.
+Genauere Aussagen über die verwendete Technik kann man leider aufgrund der
+geschlossenen Natur des Programms und der eher vagen Werbeprosa nicht treffen.
+Ähnlich zu *Syncthing* ist allerdings, dass eine Versionsverwaltung nur mittels
+eines »Archivordners« vorhanden ist. Gelöschte Dateien werden schlicht in diesen
+Ordner verschoben und können von dort wiederhergestellt werden.
 
 #### ``git-annex``
+
+![Screenshot des ``git-annex``--Assistenten[^ANNEX_SRC]](images/2/git-annex-assistant.png){#fig:scrn-git-annex}
+
+[^ANNEX_SRC]: Bildquelle: <http://code.178.is/git-annex-is-magic/git-annex-assistant2.png>
 
 Das 2010 erstmals veröffentlichte ``git-annex``[^ANNEX] geht in vielerlei Hinsicht
 einen anderen Weg. Einerseits ist es in der funktionalen Programmiersprache
@@ -480,6 +492,8 @@ austauschen können.
 **Durchschnittlicher Arbeitsrechner:** Das Design wurde nicht auf minimale
 Hardware ausgerichtet. Wir gehen vom Vorhandensein eines »normalen«
 Arbeitsrechners mit normalen Prozessor und mindestens 2GB Arbeitsspeicher aus.
+Auch eine typische Arbeitsweise wird angenommen. Im Konkreten bedeutet das,
+dass eine Datei öfters gelesen als geschrieben wird.
 
 **Stabilität von ``ipfs:``** Wir nehmen an, dass ``ipfs`` stetig weiterentwickelt
 wird und im momentanen Zustand keine gravierenden Sicherheitsmängel und
@@ -491,8 +505,6 @@ folgenden Kapiteln vorgestellten Sicherheitsalgorithmen auch auf absehbare Zeit
 sicher gelten. Insbesondere Erfindungen wie Quantencomputer können diese
 Annahmen gefährden. Daher sollten Algorithmen auch mit Bedacht auf diesen
 Aspekt ausgewählt werden.
-
-TODO: Datei wird öfters gelesen als geschrieben.
 
 **Keine Kollision der Prüfsummen:** ``brig`` kann (genau wie ``ipfs``) Dateien nicht auseinander halten,
 die einen unterschiedlichen Inhalt besitzen, aber die selbe Prüfsumme erzeugen.

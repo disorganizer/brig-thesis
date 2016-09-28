@@ -65,13 +65,13 @@ abgeleitet und ergaben sich teilweise nach Betrachtung der existierenden
 Synchronisationswerkzeuge. Die Liste ist natürlich sehr subjektiv und
 keineswegs komplett. Obwohl beispielsweise ``syncthing`` sich als *»Easy to
 use«*[^EASY_TO_USE] bezeichnet, verletzt es unter anderem die Anforderung *2)*
-und präsentiert dem Nutzer in der Hauptansicht die Systemauslastung und andere
-Informationen, die in diesem Kontext nicht wichtig sind.
+und präsentiert dem Nutzer in der Hauptansicht die Systemauslastung  (siehe
+[@fig:scrn-syncthing]) und andere Informationen, die in diesem Kontext nicht
+wichtig sind.
 
 [^USABILITY]: <http://www.usabilitynet.org/trump/methods/recommended/requirements.htm>
 [^EASY_TO_USE]: <https://syncthing.net>
 
-TODO: ref zu screenshot
 
 ## Die Kommandozeile
 

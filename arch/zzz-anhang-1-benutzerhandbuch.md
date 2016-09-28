@@ -62,7 +62,7 @@ GLOBAL OPTIONS:
    --version, -v		print the version
 ```
 
-## Installation
+## Installation {#sec:installation}
 
 ``brig`` kann momentan nur aus den Quellen installiert werden. Zudem wurde
 der Prototyp nur auf Linux Systemen[^SYSTEM] getestet, sollte aber prinzipiell

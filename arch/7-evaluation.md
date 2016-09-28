@@ -8,26 +8,24 @@ Geschwindigkeitsmessungen, sowie einigen Konzepten zur weiteren Entwicklung.
 
 ## Was ``brig`` *nicht* ist
 
-TODO: Siehe auch: https://bazil.org/doc/antigoals/?
-
 ``brig`` kann nicht die beste Alternative in allen Bereichen sein. Keine
 Software kann die sprichwörtliche »eierlegende Wollmilchsau« sein und sollte
 auch nicht als solche benutzt werden. Insgesamt ist es für folgende Bereiche
 weniger geeignet:
 
-TODO: Schöler: Sauberer Vergleich der Implementierung/Lösung anhang von Anforderungen.
-
 **High Performance:** Besonders im Bereich Effizienz kann es nicht mit hochperformanten
 Cluster--Dateisystemen wie Ceph[^CEPH] oder GlusterFS[^GLUSTER] mithalten.  Das
 liegt besonders an der sicheren Ausrichtung von ``brig``, welche oft
-Rechenleistung zugunsten von Sicherheit eintauscht. 
+Rechenleistung zugunsten von Sicherheit eintauscht.
 
 **Echtzeitanwendungen:** Schreibt ein Nutzer etwas in eine Datei, so ist diese
 Änderung nicht augenblicklich anderen Nutzern zugänglich. Stattdessen kann
 ``brig`` selbst entscheiden, wann die Änderungen synchronisiert
 werden.[^SYNC_NOTE] Insbesondere macht es beispielsweise kaum Sinn,
 SQL--Datenbanken von ``brig`` synchronisieren zu lassen. Hierfür gibt es
-weitaus bessere Alternativen. (TODO: wie was? CockroachDB)
+weitaus bessere Alternativen. (wie *CockroachDB*[^COCKROACH])
+
+[^COCKROACH]: <https://www.cockroachlabs.com>
 
 [^SYNC_NOTE]: In der momentanen Implementierung bei jedem ``fsync()`` und beim Schließen einer Datei.
 
@@ -44,11 +42,11 @@ dem *POSIX*--Fehlercode ``ENOSYS`` (Nicht implementiert) quittiert.
 **Glaubhafte Abstreitbarkeit:** Auch wenn ein ``brig``--Repository in der
 geschlossenen Form als sicherer »Datensafe« einsetzbar ist, so bietet ``brig``
 nicht die Eigenschaft der »glaubhaften Abstreitbarkeit«[^ABSTREIT], die
-Werkzeuge wie Veracrypt (TODO: ref) bieten.
+Werkzeuge wie Veracrypt bieten.
 
 **Zeilenbasierte Differenzen:** Im Gegensatz zu Versionsverwaltungssystemen wie ``git``,
 kann ``brig`` keine zeilenbasierten Differenzen zwischen zwei Dateien anzeigen,
-da es nur auf den Metadaten von Dateien arbeitet. 
+da es nur auf den Metadaten von Dateien arbeitet.
 
 **Reiner Speicherdienst auf der Gegenseite:** Auf der Gegenseite muss ein
 ``brig``--Daemon--Prozess laufen, um mit der Gegenseite zu kommunzieren. Daher
@@ -91,43 +89,148 @@ bis zu einen gewissen, konfigurierbaren *Beschädigungsgrad* erlaubt. Siehe auch
 [^GLUSTER]: Webpräsenz: <https://www.gluster.org>
 [^ABSTREIT]: Siehe auch: <https://de.wikipedia.org/wiki/VeraCrypt\#Glaubhafte_Abstreitbarkeit>
 
-## Fehlende Anforderungen
+## Erfüllung der Anforderungen
 
-Durch Anforderungen in Kapite 2 gehen und nachschauen ob alles jut ist. (Hint: Nö.)
+Im Folgenden wird die Umsetzung der in [@sec:requirements] aufgelisteten
+Anforderungen betrachtet. Auf jede Anforderung wird dabei kurz zusammenfassend
+eingegangen und die Erfüllung wird mit »\cmark« (*Erfüllt*), »\qmark«
+(*Teilweise erfüllt*) und »\xmark« (Überwiegend nicht erfüllt) bewertet.
 
-\xmark \cmark \qmark für nicht, teilweise und erfüllte anforderungen
+### Anforderungen an die Integrität
 
-Storage Quotas
+**Entkopplung von Metadaten und Daten** (\cmark): Daten und Metadaten sind
+vollkommen entkoppelt und werden sowohl getrennt gespeichert (``ipfs`` und
+*BoltDB*) als auch getrennt behandelt. Die Daten können irgendwo im
+``ipfs``--Netzwerk liegen, die Metadaten werden von allen Teilnehmern kopiert.
 
-Simpler Sync algorithmus
+**Pinning** (\qmark): Es ist möglich einen Pin zu Dateien und Verzeichnissen
+hinzuzufügen (``brig pin``) und wieder zu entfernen (``brig pin -u``).
+Allerdings wird dieses Konzept von ``brig`` selbst noch sehr simpel behandelt.
+Neu hinzugefügte Dateien bekommen automatisch einen Pin, die Pins eines
+Synchronisationspartners werden nicht übernommen. Der Pin von gelöschten
+Dateien wird entfernt. Es wird allerdings im momentanen Zustand weder eine
+Speicherquote eingehalten, noch wird der Pin automatisch aber einer bestimmten
+Versionierungstiefe entfernt.
 
-kein checkpoint squashing
+**Langlebigkeit** (\qmark): Redundante Speicherung von Dateien ist manuell möglich,
+aber noch ist keine Anzahl minimaler Kopien einstellbar, die von ``brig``
+überwacht wird. Eine Veränderung der Datei kann durch Neuberechnung der
+Prüfsumme überprüft werden.
 
-Nicht implementiert, aber wie könnte das so aussehen?
+**Verfügbarkeit** (\qmark): Lokale Daten sind stets verfügbar. Daten
+von Synchronisationspartnern sind verfügbar wenn diese online sind.
+Ein Knoten der automatisch alle Metadaten von mehreren Partnern sammelt
+scheint technisch machbar, aber noch nicht implementiert.
+Problematisch für den Nutzer ist der Umgang mit momentan nicht verfügbaren
+Dateien. ``brig`` selbst hat keine Informationen darüber ob die Datei tatsächlich
+verfügbar ist, da diese Aufgabe von ``ipfs`` übernommen wird. Daher wird
+dies für den Benutzer erst ersichtlich wenn er versuch die Datei auszulesen.
+Sollte die Datei nicht verfügbar sein, so wird das Öffnen der Datei eine lange
+Zeit benötigen und schließlich mit einem Zeitüberschreitungsfehler enden.
+Hier müsste ``brig`` mehr Aufwand betreiben, um den Nutzer dabei zu helfen
+nicht zugreifbare Dateien frühzeitig zu erkennen.
 
-## Andere Defizite
+**Integrität** (\cmark): Jede Datei ist in Blöcke aufgeteilt, von denen jede
+eine MAC speichert. Mithilfe dieser können absichtliche und unabsichtliche
+Modifikationen erkannt werden. Eine Integritätsprüfung für Metadaten
+(beispielsweise eine MAC die den Store--Inhalt vor der Übertragung absichert)
+ist allerdings noch nicht implementiert.
 
-https://de.wikipedia.org/wiki/Fallacies_of_Distributed_Computing ?
+### Anforderungen an die Sicherheit
 
-Defizite der aktuellen Implementierung
+**Verschlüsselte Speicherung:** (\cmark) Jede Datei wird in einem
+verschlüsselten Container (siehe [@sec:encryption]) abgelegt.
+Der Schlüssel wird momentan zufällig generiert und wird direkt
+zum Synchronisationspartner übertragen.
 
-Fehlendes Key Management?
+**Verschlüsselte Übertragung:** (\cmark) Nicht nur ``ipfs``--Verbindungen an
+sich werden verschlüsselt, auch ``brig's`` Transferprotokoll welches darauf
+aufsetzt verschlüsselt die Daten zusätzlich um gegen eventuelle Lücken in
+``ipfs`` abzusichern.
 
-Problem: Keine Garantie, dass Dateien aufgelöst werden sollen.
+**Authentifizierung:** (\cmark) Bevor eine Synchronisation stattfinden kann,
+müssen die Teilnehmer auf beiden Seite ihr Gegenüber initial authentifizieren.
+Das geschieht indem sie den Nutzernamen mit der dazugehörigen
+Identitäts--Prüfsumme über einen sicheren Seitenkanal vergleichen. Da die
+Prüfsumme fälschungssicher ist, muss es sich um den gewünschten Partner
+handeln. Nach erfolgreicher initialer Authentifizierung wird der Partner in die
+Remote--Liste aufgenommen unter seinem Nutzernamen aufgenommen. Bei jedem
+erneuten Verbindungsaufbau zum Kommunikationspartner wird dieser basierend auf
+den Informationen in der Remote--Liste authentifiziert.
 
+**Identität:** (\cmark) Als menschenlesbarer Identifikationsbezeichner wird
+eine modifizierte Form der Jabber--ID eingesetzt. Dieses Format ist gut lesbar
+und schränkt den Nutzer bei der Namenswahl nicht ein. Wie in [@sec:user-management]
+beschrieben, wird keine zentrale Instanz zur Registrierung benötigt.
 
-### Beschränkte Synchronisationsfähgikeiten
+**Transparenz:** (\cmark) Die Implementierung steht unter der freien
+``APGLv3``--Lizenz. Diese stellt rückwirkend die Freiheit des Quelltextes
+sicher. Zukünftige Versionen könnten prinzipiell proprietär werden, falls der
+Autor sich dazu entscheiden sollte. Auch wenn das nicht die Absicht des Autors
+ist, könnte ``brig`` in diesem Fall von der Open--Source--Community
+weiterentwickelnd werden. Eine Einsicht in den Quelltet oder Beteiligung am
+Projekt ist durch die Code--Hosting--Plattform *GitHub* leicht möglich.
 
-### Testsuite zu klein
+### Anforderungen an die Benutzbarkeit
 
-### Zu geringe Ausfallsicherheit
+**Automatische Versionierung:** (\cmark) Eine Versionierung von Dateien von
+gegeben, die vergleichbar mit ``git`` ist und umfangreicher als die, der
+meisten existierenden Werkzeuge. Momentan wird (hardkodiert) alle 15 Minuten
+ein automatisierter Commit gemacht (falls änderungen vorlagen). Wie bereits
+oben beschrieben, wurde allerdings noch keine Quota implementiert, weshalb
+viele Änderungen an großen Dateien schnell sehr viel Speicherplatz benötigen
+wird.
 
-### Atomizität
+**Portabilität:** (\qmark) Bei der Entwicklung wurde bei der Auswahl der
+Bibliotheken auf leichte Portierbarkeit zu anderen Systemen geachtet. Getestet
+und eingesetzt wurde die Software bisher nur auf einem Linux--System.
+Prinzipiell sollte sie auf anderen unixoiden Systemen lauffähig sein. Die volle
+Portierung auf Windows ist problematischer, da dort keine direkte Alternative
+zu FUSE existiert. Dabei gäbe es entweder die Möglichkeit eine Implementierung
+für das ähnliche, rein Windows--komaptible *Dokany*[^DOKANY] zu liefern oder
+einen WebDAV[^WEBDAV] Server zu implementieren. Bei letzterer Option
+würde ``brigd`` als WebDAV--Server fungieren, der von Windows und anderen
+Betriebssystemen als Dateisystem eingehängt werden kann.
+Noch schwieriger wird der Einsatz von ``brig`` auf mobilen Plattformen. Dort
+ist *Go* momentan nur bedingt einsetzbar[^MOBILE]. Sollte es einsetzbar werden,
+müsste eine eigene grafische Oberfläche implementiert werden, um ``brig``
+beispielsweise auf einem Smartphone nutzen zu können.
 
-Filesystem anforderunge (transactions?)
-Journal-log für atomic operations
+[^DOKANY]: <https://github.com/dokan-dev/dokany>
+[^WEBDAV]: <https://de.wikipedia.org/wiki/WebDAV>
 
-## Stand der Testsuite
+**Einfache Installation:** (\cmark) Auf unixoiden Betriebssystemen ist die
+Installation sehr einfach (siehe auch [@sec:installation]). Die einzige
+Abhängigkeit von ``brig`` ist *Go*. Im späteren Projektverlauf können für die
+meistgenutzten Architekturen auch fertige Binärdateien angeboten werden.
+
+**Keine künstlichen Limitierungen:** (\cmark)  Durch den FUSE--Layer wird ein
+ganz normaler Systemordner bereitgestellt. Bis auf den lokalen
+Festplattenspeicher hat dieser keine zusätzlichen Limitierungen. Der einzige
+Unterschied für den Benutzer ist, dass die darin gespeicherten Daten entweder
+gar keinen Speicherplatz brauchen oder leicht mehr als die eigentliche Datei
+groß ist (durch das Verschlüsselungsformat). Durch die Versionierung benötigen
+zudem alte Kopien zusätzlichen Speicherplatz.
+
+**Generalität:** (\qmark) ``brig`` ist mit den im Punkt »Portabilität«
+genannten Einschränkungen auf allen Rechnern lauffähig und macht keine Annahmen
+zum Dateisystem oder zur Hardware auf der es läuft. Momentan sind allerdings
+alle Nutzer, mit denen synchronisiert werden soll, gezwungen ``brig`` zu
+nutzen. Dies betrifft auch Nutzer, mit denen nur eine einzelne geteilt werden
+soll. Ein »HTTP--Gateway«, mit dem einzelne Dateien veröffentlicht werden
+können wurde noch nicht implementiert.
+
+**Stabilität:** (\xmark) Die momentane Implementierung ist vergleichsweise instabil
+und bräuchte mehr Testfälle, um ein gewisses Vertrauen in die Stabilität der
+Software herzustellen. Welchen Umfang die Testsuite momentan hat, kann in
+[@sec:testsuite] nachgelesen werden.
+
+**Effizienz:** (\qmark) ``brig`` ist schnell genug, um eine FULL--HD Filmdatei
+abzuspielen. Details zu der Geschwindigkeit findet sich in [@sec:benchmarks].
+Besonders im FUSE--Dateisystem sind noch einige Optimierungsmöglichkeiten vorhanden,
+welche die Gesamteffizienz steigern können.
+
+## Stand der Testsuite {#sec:testsuite}
 
 In den meisten der Pakete existieren Unittests.
 
@@ -135,44 +238,208 @@ Noch keine Coverage
 
 Anzahl der Tests
 
-## Benchmarks
+Testsuite zu klein
+
+## Benchmarks {#sec:benchmarks}
+
+Globale benchmarks machen noch keinen Sinn
+
+encryption alone
+compression alone
+
+
+Eine Benchmark mit Synchronisation ist schwierig herzustellen.
+
 
 ## Zukünftige Erweiterungen
 
-Keine kompression basierend auf mime-type.
+Abschließend sollen noch einige mögliche Erweiterungsmöglichkeiten der
+momentanen Implementierung besprochen. Diese werden erst angegangen, sobald der
+momentane Prototyp stabilisiert, dokumentiert und veröffentlicht wurde. Die
+folgenden Ideen sind also noch in der Konzeptionsphase. Unterteilt wird die
+Auflistung in Verbesserungen an der existierenden Implementierung (welche
+vergleichsweise einfach umsetzbar sind), sowie konzeptuelle Erweiterungen
+(welche typischerweise weitgehendere Änderungen erfordern).
 
-brig stash (checkout problematic wenn HEAD != CURR)
+### Verbesserungen an der Implementierung
 
-Permissions: momentan gar keine.
+**Kompression basierend auf MIME--Type:** Kompression lohnt sich nicht bei allen
+Dateiformaten. Gut komprimieren lassen sich Dateien mit Textinhalten (wie XML--Dateien)
+oder allgemein Daten mit sich wiederholenden Mustern darin. Schlecht komprimieren
+lassen sich hingegen bereits komprimierte Bilder, Videos und Archivdateien.
+Es wäre sinnvoll, basierend auf dem MIME--Type[@freed1996multipurpose] einen geeigneten
+Kompressionsalgorithmus auszuwählen. Textdateien könnten so beispielsweise mit
+dem gründlichen *lz4* komprimiert werden, größere Dateien mit dem schnelleren
+*Snappy*. Videos könnten von der Kompression ausgenommen werden.
+Der MIME--Type kann dabei in vielen Fällen automatisiert durch das Lesen
+der ersten Bytes einer Datei erkannt werden.
+Entsprechender Code existiert bereits[^MIME_UTIL], wird aber noch nicht eingesetzt.
 
-*Semantisch durchsuchbares* Tag-basiertes Dateisystem[^TAG].
+[^MIME_UTIL]: <https://github.com/disorganizer/brig/blob/master/store/mime-util/main.go>
 
-Integritätsprüfung (git fsck ähnlich)
+**Integritätsprüfung:** Wie in [@sec:requirements] beschrieben, können Daten
+auf der Festplatte sich ohne Zutun des Nutzers verändern. Dieser Datenverlust
+ist nur aus Sicht der fehlenden Information kritisch, sondern führt auch dazu,
+dass die Datei sich nicht mehr synchronisieren lässt, da bei einer Übertragung
+festgestellt werden würde, dass die Datei sich unerwartet verändert hat. An
+dieser Stelle könnte ein »``brig fsck``«--Kommando ansetzen, welche jede
+gespeichert Datei neu von ``ipfs`` liest und die Prüfsumme neu berechnet.
+Treten Diskrepanzen auf, so kann versucht werden, den fehlerhaften Block aus
+alten Versionsständen oder von einem Synchronisationspartner zu beziehen.
+Diese Funktionalität könnte auch direkt in ``ipfs`` eingebaut werden.
+Auch könnte eine solche Reparaturfunktion die BoltDB von ``brig`` auf Konsistenz
+prüfen und nötigenfalls (falls möglich) reparieren. Im Gegensatz zu ``git``
+sollten bei ``brig`` keine unerreichbaren Referenzen mehr im MDAG entstehen.
+Trotzdem könnte ein Programm wie »``brig gc``« einen *Garbagecollector*
+laufen lassen, der solche Referenzen aufspüren und bereinigen kann. Diese würden
+auf Programmfehler hindeuten. Desweiteren könnte dieses Kommando genutzt werden,
+um ``ipfs gc`` zu starten.
 
-Auto-Discovery anderer Nutzer / Gruppenbildung.
+**Nutzung eines existierenden OpenPGP--Schlüssels:** Momentan wird beim Anlegen
+eines Repositories ein neues RSA--Schlüsselpaar generiert. Viele Nutzer haben
+aber bereits einen Schlüsselpaar in Form eines OpenPGP--Schlüsselpaars oder
+eines SSH--Schlüsselpaars. Diese könnten beim Anlegen des Repositories
+importiert werden. Sollte das Repository neu angelegt werden müssen, so kann
+der existierende Schlüssel in einem gängigen Format auch exportiert werden. Es
+muss allerdings darauf geachtet werden, dass keine zwei Repositories dasselbe
+Schlüsselpaar benutzt, da dies von ``ipfs`` nicht vorgesehen ist. Auch hier
+könnte die Funktionalität in ``ipfs`` direkt eingebaut werden.
 
-Docker erwähnen, weil's so hipp ist?
+**Update Mechanismus:** Sicherheitskritische Software wie ``brig`` sollte
+möglichst aktuell gehalten werden, um Sicherheitslücken schnell schließen zu
+können. Wie ein solcher Mechanismus im Detail aussehen könnte, zeigt die
+[@cpiechula], Kapitel TODO.
 
-Update Mechanismus?
+**HTTPS--Gateway:** Wie in [@fig:gateway] gezeigt könnte ``brig`` als Webserver
+fungieren, der eine Schnittstelle zum »normalen« Internet bildet. Dieser könnte
+alle Dateien in einem speziellen Verzeichnis (beispielsweise mit dem Namen
+``/Public``) nach außen über einen Link zugreifbar machen. Dies hätte den
+Vorteil, dass bestimmte Dateien von anonymen Nutzern direkt zugegriffen werden
+kann, ohne dass diese zu einem zentralen Dienst im Internet hochgeladen werden
+müssen. Voraussetzung dazu ist, dass ein Rechner von »außen« (also vom
+Internet) aus zugreifbar ist.
+Möglich wäre auch die Implementierung eines Passwortschutzes, den anonyme
+Benutzer erst überwinden müssen, um an die Datei zu kommen. Die Verbindung kann
+dabei durch HTTPS abgesichert werden. Dies benötigt auf Seite des Webservers
+ein gültiges TLS--Zertifikat. Mittlerweile gibt es dafür automatisierte Dienste
+wie *LetsEncrypt*[^LETS_ENCRYPT]. Der in *Go* geschrieben Webserver ``caddy``[^CADDY]
+beherrscht bereits eine automatische Besorgen des eines *LetsEncrypt*--Zertifikats.
 
-Hooking Mechanismus (i.e. API nach außen, notify on file change)
+[^LETS_ENCRYPT]: <https://letsencrypt.org>
+[^CADDY]: <https://caddyserver.com>
 
-Virtual file system interface für repositories
-(macht möglich, das gesamte repo im speicher zu halten, oder per ssh zu streamen)
+![HTTPS Gateway](images/7/gateway.pdf){#fig:gateway}
 
-https://github.com/attic-labs/noms
+**Hooking Mechanismus:** Um die Erweiterbarkeit von ``brig`` zu gewährleisten,
+könnten ``brigd`` seinen Clients Benachrichtigungen mitgeben, sofern sich diese
+dafür registrieren. Diese würde den jeweiligen Client mitteilen wenn sich eine
+Datei geändert hat, gelöscht wurde und ähnliches. Auch Statistiken (wie die
+aktuelle Speicherplatzauslastung) könnten über diese Schnittstelle realisiert
+werden.
 
-* Möglich machen, dass man einen existierenden OpenPGP nehmen kann.
+**Packfiles:** Mehrere Dateien könnten zu einem gemeinsamen, komprimierten *Pack*
+zusammengeschlossen werden um Speicherplatz zu sparen. Für eine besonders
+effiziente Kompression können einzelne Versionen einer Datei zusammengepackt
+werden. Diese unterscheiden sich oft nur in einzelnen Blöcken und es wäre aus
+Sicht der Speichereffizienz ungünstig, diese redundant zu speichern. Wie in
+[@fig:stride] gezeigt, können immer kleine Blöcke (beispielsweise 8KB) von
+(beispielsweise) vier Dateien genommen werden und zu einem größeren Block (hier
+32KB) zusammengefasst werden. Diese großen Blöcke haben den Vorteil, dass sie
+viel redundante Informationen speichern, wenn sich dieser Block in den
+einzelnen Versionsständen nicht signifikant geändert hat.
+Kompressionsalgorithmen wie *Snappy* arbeiten auf 32 Kilobyte Blöcken, daher
+kann ein solcher Block relativ platzsparend komprimiert werden. Das Prinzip
+lässt sich auch auf mehr als die Versionen einer Datei erweitern. Mittels einer
+Heuristik können Dateien ausgewählt werden, die ähnlich groß sind und auch
+diese gemeinsam gepackt werden.
 
-* Garbagecollector um alte Referenzen zu entfernen.
+Bei kleinen Dateien ($< 32$ KB) ist bereits das Packen zu einer gemeinsamen
+Datei vorteilhaft, da diese mit weniger Overhead und gründlicher Kompression
+gepackt werden können. Die *Packfiles* von ``git`` nutzen einen anderen Ansatz,
+indem nur Deltas in den einzelnen Archiven gespeichert werden. Dies wäre bei
+kleinen Dateien möglicherweise auch für ``brig`` eine valide Herangehensweise.
+Problematischer ist hier, dass binäre Differenzen
 
-Repair-Funktionalität und saubere Transaktionen um Verlässlichkeit zu erhöhen (wenn metadata index kaputt -> daten nur schwer besorgbar)
+Es wäre also möglich Speicherplatz im Tausch gegen Rechenzeit zu sparen, indem
+zwischen ``ipfs`` und ``brig`` noch eine Abstraktionsschicht eingebaut wird,
+die intelligent Dateien in *Packs* verpackt und zugreifbar macht. Die
+Implementierung dieses Konzeptes hätte zu viel Zeit in Anspruch genommen,
+weswegen hier weitere Arbeiten ansetzen könnten.
 
-[^TAG]: Mit einem ähnlichen Ansatz wie <https://en.wikipedia.org/wiki/Tagsistant>
+**Atomarität und Transaktionen:** In der momentanen Implementierung ist bei
+einem Ausfall von ``brigd`` (beispielsweise durch einen Absturz oder Stromausfall)
+nicht sichergestellt, dass eine Aktion (wie ``MakeCommit()``) vollständig, atomar
+abgelaufen ist. Auch wenn die Aktion von der API aus atomar ist (durch Locks),
+wird im momentanen Zustand kein Rollback bei Fehlern ausgeführt.
+BoltDB an sich unterstützt atomare Transaktionen, aber durch die Abstraktion
+von der konkreten Datenbank werden mehrere kleine Transaktionen nicht zu einer
+zusammenhängenden, großen Transaktion zusammengefasst. Da aber die Datenbank
+austauschbar bleiben soll, muss von der Abstraktionsschicht eine Möglichkeit
+implementiert werden, zurück--spulbare Transaktionen zu starten. Dazu dürfen
+Modifikationen an der Datenbank nicht direkt ausgeführt werden, sondern müssen
+in einem »Journal« zusammengefasst werden. Dieses kann dann in einer einzigen, atomaren
+Datenbank--Transaktion zusammengefasst werden.
 
+![Beispielhaftes Packen von vier einzelnen Versionständen](images/7/stride.pdf){#fig:stride}
 
-Portierbarkeit zu:
+### Konzeptuelle Verbesserungen
 
-Android, Windows.
+**Zugriffsrechte:** ``brig`` unterscheidet im jetzigen Konzept nicht zwischen
+lesbaren, schreibbaren oder ausführbaren Dateien. Auch gibt es kein Besitzer
+oder Gruppenzugehörigkeit der Datei. Die einzigen Dateiattribute bilden
+momentan die Größe und der letzte Änderungszeitpunkt. Aus diesem Grund bewirkt
+der Aufruf von »``chmod``« auf eine Datei im FUSE--Dateisystem nichts. Es muss
+nicht das System von Unix übernommen werden, allerdings wären die Informationen
+über den Eigentümer wichtig um selektive Synchronisation zu implementieren.
+Dabei könnte eine Nutzergruppe angelegt werden. Nur die Nutzer, die dieser
+Gruppe angehören, können dann Dateien und Verzeichnisse einsehen, die auch
+dieser Gruppe zugeordnet sind.
 
-WebDav als Alternative zu FUSE.
+**Automatische Synchronisation:** Änderungen müssen explizit synchronisiert
+werden. Um eine Dropbox--ähnliche Funktionalität zu erreichen sollte ein neue
+Option eingeführt werden: »``brig sync --auto bob@wonderland.lit``«. Dabei wird
+zuerst regulär mit *Bob* synchronisiert. Im Anschluss wird der Knoten von *Bob*
+angewiesen, *Alice* alle Änderungen auf seiner Seite sofort zu schicken.
+*Alice* empfängt diese und ändert ihre eigenen Dateien im Staging--Bereich, um
+die Änderung nachzuahmen.
+
+**Schlagwortbasiertes Dateisystem:** ``brig`` arbeitet momentan rein als
+hierarchisches Dateisystem. Einzelne Knoten des MDAG werden also vom Nutzer
+mittels Pfad zugegriffen. Eine Erweiterung dazu könnte die Einführung eines
+schlagwortbasierten Ansatzes (ähnlich zu Tagsistant[^TAG]) sein, welcher es
+möglich macht die Menge aller Dateien semantisch durchsuchbar zu machen.
+Dateien und Verzeichnisse können vom Nutzer mit einem Schlagwort versehen
+werden (``brig tag <path> [<tag>...]``). Im FUSE--Dateisystem könnte das
+Konzept durch die Einführung eines speziellen Ordners (beispielsweise
+``/tags``) eingeführt werden. Dieser würde alle definierten Schlagworte als
+Ordner beinhalten und darunter alle dazugehörigen Dateien.
+
+[^TAG]: <https://en.wikipedia.org/wiki/Tagsistant>
+
+**Auto--Discovery anderer Nutzer:** Momentan kann ``brig`` einen anderen Nutzer
+nur finden, wenn man seinen Nutzernamen kennt. Eine »unscharfe« Suche nach
+Benutzernamen wäre praktisch, ist aber aufgrund der dezentralen Natur von
+``brig`` schwer umzusetzen. Machbar erscheint aber die automatische Erkennung
+von anderen ``brig``--Nutzer »in der Nähe« (also im selben Netzwerk). Für
+diesen Anwendungsfall würde sich das *Zeroconf--Protokoll*[^ZEROCONF] eignen. Auch diese
+Funktionalität ließe sich eventuell direkt in ``ipfs`` integrieren.
+
+[^ZEROCONF]: <https://de.wikipedia.org/wiki/Zeroconf>
+
+**In--Memory Laden des Repositores:** Beim Starten von ``brigd`` werden einige
+sensible Dateien im Repository entschlüsselt. Solange ``brigd`` läuft
+bleiben diese auch in lesbar und werden erst wieder verschlüsselt, wenn
+``brigd`` sich beendet. Dies ist problematisch, wenn ein Angreifer
+in Besitz einzelner Dateien des Repositories kommen kann. Auch werden
+die Dateien nicht verschlüsselt, wenn ``brigd`` unvermittelt abstürzt und
+unsauber beendet wird. Schöner wäre eine reine Entschlüsselung
+der Daten im Hauptspeicher. Änderungen würden direkt in verschlüsselter Form
+wieder zurückgeschrieben werden.
+
+*Intelligenteres Key--Management:* In der momentanen Implementierung werden
+alle Schlüssel in den Metadaten der Dateien gelagert. Diese werden als Ganzes
+zu Synchronisationspartner übertragen. Hier wäre entweder eine Trennung von den
+Metadaten (und damit gesonderte Übertragung) sinnvoll oder eine
+Schlüsselhierarchie, bei denen der eigentliche Schlüssel (beispielsweise) noch
+mit einem Gruppenschlüssel verschlüsselt werden. Ein Konzept zum Aussehen einer
+Schlüsselhierarchie kann in [@cpiechula], Kapitel TODO nachgelesen werden.

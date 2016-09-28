@@ -121,8 +121,14 @@ Folgende Plattformen erscheinen uns für eine Präsenation der Software geeignet
 * Größere Newsportale wie *reddit*. Diese werden von einem sehr breiten Publikum
   besucht.
 
-Alle drei Möglichkeiten könnten auch zusammen (in dieser Reihenfolge) genutzt werden.
-Bei der Veröffentlichung sollte explizit angemerkt werden, dass sich Internas noch ändern können falls dazu Anlass bestehen sollte.
+Alle drei Möglichkeiten könnten auch zusammen (in dieser Reihenfolge) genutzt
+werden. Bei der Veröffentlichung sollte explizit angemerkt werden, dass sich
+Internas noch ändern können falls dazu Anlass bestehen sollte.
 
-Auch wenn die Arbeit an ``brig`` sehr kräftezehrend war, haben wir gefühlt mehr
-gelernt als im ganzen Studium. Zum Abschied sag ich leise: Scheiße. TODO.
+-----
+
+Auch wenn die Arbeit an ``brig`` persönlich sehr kräftezehrend war, haben wir
+gefühlt mehr gelernt als im ganzen Studium. Es stecken eine Menge guter Ideen in
+der Software und aus unserer Sicht ist alleine die Zeit der limitierende Faktor,
+um ``brig`` zu einem Produkt zu machen, dass mehr als eine Option (oder ein
+weiterer Standard wie in [@fig:xkcd-standards]) unter vielen ist.
