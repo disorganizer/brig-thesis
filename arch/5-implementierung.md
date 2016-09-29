@@ -495,7 +495,7 @@ dem Entwickler das Erkennen von verschiedenen Log--Leveln zu erleichtern (siehe
 läuft und auf ``stdout`` ausgibt. Läuft der Daemon im Hintergrund werden die
 Log--Ausgaben in eine Datei geschrieben und die Farbinformationen weggelassen.
 
-![Beispielhafte Ausgabe mit allen verfügbaren Logleveln](images/5/log-levels.png){#fig:log-levels}
+![Beispielhafte Ausgabe mit allen verfügbaren Logleveln](images/5/log-levels.png){#fig:log-levels width=50%}
 
 **Konfiguration:** Einige Parameter von ``brig`` sind konfigurierbar. Diese
 werden in einer menschenlesbaren YAML--Datei[^YAML] gespeichert.

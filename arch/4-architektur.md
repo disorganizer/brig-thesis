@@ -458,10 +458,8 @@ um ein Verzeichnis, wird der Prozess *nicht* rekursiv für jedes Unterobjekt
 ausgeführt. Es genügt die Prüfsumme des zu löschenden Verzeichnisses aus den
 Eltern herauszurechnen und die Kante zu dem Elternknoten zu kappen.
 
-TODO: Grafik für remove (rekursiv für teilbaum)
-
-``LIST:`` Entspricht konzeptuell dem Unix--Werkzeug ``ls``. Besucht alle Knoten unter einem bestimmten Pfad
-rekursiv (breadth-first) und gibt diese aus.
+``LIST:`` Entspricht konzeptuell dem Unix--Werkzeug ``ls``. Besucht alle Knoten
+unter einem bestimmten Pfad rekursiv (breadth-first) und gibt diese aus.
 
 ``MKDIR:`` Erstellt ein neues, leeres Verzeichnis. Die Prüfsumme des neuen
 Verzeichnisses (ergibt sich aus dem Pfad des neuen Verzeichnisses) wird in die
@@ -472,15 +470,15 @@ Eventuell müssen noch dazwischen liegende
 Verzeichnisse erstellt werden. Diese werden von oben nach unten, Stück für
 Stück mit den eben beschriebenen Prozess erstellt.
 
-TODO: Grafik für mkdir falls nötig ist?
-
 ``MOVE:`` Verschiebt eine Quelldatei oder Verzeichnis zu einem
 Zielpfad. Es muss eine Fallunterscheidung getroffen wird, je nachdem ob
 und welcher Knoten im Zielpfad vorhanden ist:
 
 1) Ziel existiert noch nicht: Quelldaten werden zum neuen Pfad verschoben.
-2) Ziel existiert und ist eine Datei: Vorgang wird abgebrochen, es sei denn die Aktion wird »forciert«.
-3) Ziel existiert und ist ein Verzeichnis: Quelldaten werden direkt unter das Zielverzeichnis verschoben.
+2) Ziel existiert und ist eine Datei: Vorgang wird abgebrochen, es sei denn die
+   Aktion wird »forciert«.
+3) Ziel existiert und ist ein Verzeichnis: Quelldaten werden direkt unter das
+   Zielverzeichnis verschoben.
 
 In jedem Fall entspricht diese Operation technisch dem sequentiellen Ausführen der
 Operationen ``REMOVE`` und ``ADD``. Im Unterschied dazu ist sie im Ganzen
@@ -523,7 +521,7 @@ finale Prüfsumme berechnet und der entstandene Commit abgespeichert. Ein neuer
 Wurzelverzeichnis zeigt wie der vorige. Zuletzt werden die Referenzen von
 ``HEAD`` und ``CURR`` jeweils um ein Platz nach vorne verschoben.
 
-![Die Abfolge der ``COMMIT``-Operation im Detail](images/4/op-commit.pdf){#fig:op-commit}
+![Die Abfolge der ``COMMIT``--Operation im Detail](images/4/op-commit.pdf){#fig:op-commit}
 
 ``CHECKOUT:`` Stellt einen alten Stand wieder her. Dabei kann die Operation
 eine alte Datei oder ein altes Verzeichnis wiederherstellen (basierend auf der
@@ -533,10 +531,13 @@ Commits wiederherstellen.
 Im Gegensatz zu ``git`` ist es allerdings nicht vorgesehen in der
 Versionshistorie »herumzuspringen«. Soll ein alter *Commit* wiederhergestellt
 werden, so wird ein neuer *Commit* erzeugt, welcher den aktuellen Stand so
-verändert, dass er dem gewünschten, alten Stand entspricht. Das Verhalten von
-``brig`` entspricht an dieser Stelle also nicht dem Namensvetter ``git
-checkout`` sondern eher dem wiederholten Anwenden von ``git revert`` zwischen
-dem aktuellen und dem Nachfolger des gewünschten Commits.
+verändert, dass er dem gewünschten, alten Stand entspricht (siehe auch
+Abbildung [@fig:op-checkout]). Das Verhalten von ``brig`` entspricht an dieser
+Stelle also nicht dem Namensvetter ``git checkout`` sondern eher dem
+wiederholten Anwenden von ``git revert`` zwischen dem aktuellen und dem
+Nachfolger des gewünschten Commits.
+
+![Die Abolge der ``CHECKOUT``--Operation im Detail](images/4/op-checkout.pdf){#fig:op-checkout}
 
 Begründet ist dieses Verhalten darin, dass kein sogenannter »Detached
 HEAD«--Zustand entstehen soll, da dieser für den Nutzer verwirrend sein kann.
@@ -549,8 +550,6 @@ Macht man in diesem Zustand Änderungen ist es prinzipiell möglich die
 geänderten Daten zu verlieren. (TODO: ref) Um das zu vermeiden, setzt ``brig``
 darauf die Historie stets linear und unveränderlich zu halten, auch wenn das
 keine Einschränkung der Architektur an sich darstellt.
-
-TODO: Grafik für CHECKOUT
 
 ``LOG/HISTORY:`` Zeigt alle Commits, bis auf den Staging Commits. Begonnen wird
 die Ausgabe mit ``HEAD`` und beendet wird sie mit dem initial Commit.
