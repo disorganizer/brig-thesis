@@ -225,31 +225,126 @@ und bräuchte mehr Testfälle, um ein gewisses Vertrauen in die Stabilität der
 Software herzustellen. Welchen Umfang die Testsuite momentan hat, kann in
 [@sec:testsuite] nachgelesen werden.
 
-**Effizienz:** (\qmark) ``brig`` ist schnell genug, um eine FULL--HD Filmdatei
-abzuspielen. Details zu der Geschwindigkeit findet sich in [@sec:benchmarks].
-Besonders im FUSE--Dateisystem sind noch einige Optimierungsmöglichkeiten vorhanden,
-welche die Gesamteffizienz steigern können.
+**Effizienz:** (\qmark) ``brig`` ist schnell genug, um auf einem typischen
+Arbeitsrechner eine lokale Full--HD Filmdatei von FUSE--Dateisystem aus abzuspielen.
+Details zu der Geschwindigkeit findet sich in [@sec:benchmarks]. Besonders im
+FUSE--Dateisystem sind noch einige Optimierungsmöglichkeiten vorhanden, welche
+die Gesamteffizienz steigern können.
 
 ## Stand der Testsuite {#sec:testsuite}
 
-In den meisten der Pakete existieren Unittests.
+Obwohl die Testsuite im momentanen Zustand zu klein ist, existieren für die
+meisten Pakete bereits Unittests. Insgesamt gibt es derzeit 24 Dateien die Tests
+beinhalten, in denen sich 50 einzelne Unittests befinden.
+Diese versuchen immer möglichst kleine Teile der Codebasis anzusprechen,
+um die Fehlersuche zu erleichtern. So wird für viele Tests ein *Mock*--Store
+in einem temporären Verzeichnis angelegt oder es wird ein temporäres ``ipfs``--Repository
+angelegt anstatt diese Arbeit den Quelltext hinter »``brig init``« erledigen zu lassen.
+Diese hilft zusätzlich, um den Quelltext allgemein und austauschbar zu halten.
 
-Noch keine Coverage
-
-Anzahl der Tests
-
-Testsuite zu klein
+Noch existieren keine Zahlen, was die Testabdeckung angeht. Diese machen aus
+Sicht des Autors zum jetzigen Zeitpunkt auch noch keinen Sinn, da sich die
+Implementierung noch stark verändert wird. In Zukunft sollte die »Coverage«
+aber ein wichtiges Instrument werden, um nicht getesteten Quelltext
+aufzuspüren.
 
 ## Benchmarks {#sec:benchmarks}
 
-Globale benchmarks machen noch keinen Sinn
+Die Herstellung von sauberen Benchmarks ist schwierig, da ``brig`` genau wie
+anderen Synchronisationswerkzeuge sehr komplexe Systeme sind, deren Effizienz
+von einer Vielzahl von Faktoren abhängt. Neben den Faktoren des verbauten
+Hauptspeichers und des Prozessors hängt die Gesamteffizienz auch noch vom
+darunter liegenden Speichermedium und der Netzwerklatenz ab.
 
-encryption alone
-compression alone
+### Aufbau
 
+Aus diesem Grund wird im Folgenden rein, die lokale Effizienz beim Hinzufügen
+einer Datei in Megabyte pro Sekunde untersucht. Alle Benchmarks
+werden direkt im Hauptspeicher ausgeführt, es erfolgen keine Festplattenzugriffe.
+Möglich wird das durch den Einsatz eines ``ramfs``[^RAMFS], welches ein temporäres
+Dateisystem bereitstellt, in dem alle Dateien direkt im Hauptspeicher geschrieben
+und gelesen werden. Dadurch ist der Prozessor[^CPU] der ausschlagende Faktor
+bei der Effizienz in diesem Benchmark, da ausreichend Hauptspeicher vorhanden war.
 
-Eine Benchmark mit Synchronisation ist schwierig herzustellen.
+[^RAMFS]: <https://de.wikipedia.org/wiki/Ramfs>
+[^CPU]: In diesem Fall ein *AMD Phenom(tm) II X4 955*.
 
+Als Eingabedateien wurden zwei unterschiedliche Datensätze genommen:
+
+* Eine schlecht komprimierbare Filmdatei[^BBB].
+* Ein gut komprimierbarer Textkorpus in deutscher Sprache[^CORPUS].
+
+[^BBB]: Die 1080p Version von *Big Buck Bunny* von <http://bbb3d.renderfarming.net/download.html>
+[^CORPUS]: <http://corpora2.informatik.uni-leipzig.de/downloads/deu_news_2015_3M.tar.gz>
+
+Aus beiden Dateien werden zehn kleinere Dateien durch Abschneiden hergestellt,
+die jeweils 1, 2, 4, 8, 16, 32, 64, 128, 256 und 512 MB groß sind und in das
+``ramfs`` gelegt. Es entstehen also insgesamt 20 kleinere Dateien. Ebenfalls im
+``ramfs`` wird ein ``brig``--Repository und ein ``ipfs``--Repository angelegt.
+Zudem wird im ``ramfs`` noch ein FUSE--Dateisystem, basierend auf dem
+``brig``--Repository angelegt.
+
+Basierend auf dieser Eingabe werden für beide Datensätze folgende Daten erhoben:
+
+* Lesen mit/ohne Dekompression und mit/ohne Entschlüsselung.
+* Schreiben mit/ohne Kompression und mit/ohne Verschlüsselung.
+* Lesen direkt von ``ipfs`` mit/ohne Entschlüsselung plus Dekompression.
+* Schreiben direkt zu ``ipfs`` mit/ohne Verschlüsselung plus Kompression.
+* Hinzufügen der Datei über ``brig add``.
+* Ausgabe der Datei mit ``brig cat`` und über das FUSE--Dateisystem mit ``cat``.
+
+Als »Baseline« (also Grunddurchsatz) wird zusätzlich gemessen wie lange ein
+direktes Kopieren der Datei im ``ramfs`` dauert. Zur Kompression wurde immer
+der *Snappy*--Algorithmus verwendet. *LZ4* zeigt ähnliche Eigenschaften, ist
+aber stets etwas langsamer. Zur Verschlüsselung wird *ChaCha20* eingesetzt. Das
+ebenfalls unterstützte *AES256* im GCM--Modus war ebenfalls immer etwas
+langsamer.
+
+Die untenstehenden Ergebnisse wurden halbautomisch mit einem Shellskript
+erhoben und in einem Python--Skript, mithilfe ``pygal``[^PYGAL]--Bibliothek,
+in Diagramme verpackt. Beide Skripte finden sich in
+[@sec:appendix-benchmarks].
+
+[^PYGAL]: <http://pygal.org/en/stable>
+
+### Ergebnisse
+
+Die Plots nutzen kubische Interpolation zwischen den einzelnen Messpunkten.
+Die Zeitachse ist zudem logarithmisch aufgetragen, um den linearen Zusammenhang
+zwischen den Achsen zu verdeutlichen. Insgesamt wurden vier Plots erstellt.
+Zwei für jede Eingabedatenmenge (Filmdatei und Textkorpus) und dafür jeweils
+ein Plot für das Schreiben und Lesen dieser Eingabedaten.
+
+![Schreiboperationen auf der Datei ``movie.mp4``](images/7/movie_write.pdf){#fig:plot-movie-write width=95%}
+
+![Leseoperationen auf der Datei ``movie.mp4``](images/7/movie_read.pdf){#fig:plot-movie-read width=95%}
+
+![Schreiboperationen auf der Datei ``archive.tar``](images/7/archive_write.pdf){#fig:plot-archive-write width=95%}
+
+![Leseoperationen auf der Datei ``archive.tar``](images/7/archive_read.pdf){#fig:plot-archive-read width=95%}
+
+Insgesamt können folgende Konklusionen aus den Ergebnissen gezogen werden:
+
+- Der Lese/Schreib--Durchsatz bleibt unabhängig von der Dateigröße größtenteils konstant.
+* »``brig add``« hat gegenüber »``ipfs add``« mit Verschlüsselung und Kompression einen
+  geringen Overhead durch die interne Programmlogik. Dieser steigt aber bei einer
+  größeren Datenmenge nicht weiter an (siehe [@fig:plot-movie-write] und
+  [@fig:plot-archive-write]).
+* Ähnliches lässt sich zu »``brig cat``« und »``ipfs add``« feststellen (siehe
+  [@fig:plot-movie-read] und [@fig:plot-archive-read]).
+* Kompression und Dekompression ist stets weniger ressourcenaufwändig als
+  Verschlüsselung und Entschlüsselung. Ob an der Implementierung etwas verbessert
+  werden kann muss separat untersucht werden.
+* Der Zugriff über das FUSE--Dateisystem (12.8 MB/s) ist verglichen mit ``brig
+  cat`` (85 MB/s) deutlich langsamer. Die Gründe hierfür liegen
+  vermutlich weniger an FUSE an sich, als an der aktuellen, ineffizienten Implementierung.
+* Die Messergebnisse bis 8MB sind noch relativ stark von Messungenauigkeit beeinträchtigt.
+  Erst bei höheren Datenmengen werden die Ergebnisse repräsentativ.
+
+Als Fazit lässt sich sagen, dass viel Optimierungspotenzial vorhanden ist,
+auch wenn die momentanen Durchsatzraten für viele Anwendungsfälle ausreichend ist.
+In vielen Szenarios werden zudem nicht die lokalen Dateioperationen der Flaschenhals sein,
+sondern die Übertragung über Netzwerk.
 
 ## Zukünftige Erweiterungen
 
