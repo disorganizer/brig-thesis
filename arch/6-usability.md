@@ -1,4 +1,4 @@
-# Benutzbarkeit {#sec:benutzbarkeit}
+# Usability {#sec:usability}
 
 In diesem Kapitel werden Anforderungen beleuchtet, die ``brig`` zu einer für
 den »Otto--Normal--Nutzer« benutzbaren Software machen sollen. Zudem sollen die
@@ -13,14 +13,14 @@ ist leider sehr subjektiver Natur. Es können nur empirisch Daten gesammelt werd
 ob ein gewisser Prozentanteil der Nutzer die Software verständlich und ästhetisch fanden.
 Aus diesem Grund ist der unten gezeigte Vorschlag für eine Bedienoberfläche lediglich
 ein Konzept unter vielen möglichen.
-Im Folgenden wird der Begriff »Benutzbarkeit« gleichbedeutend mit dem englischen Begriff
-»Usability« verwendet. Eine gängige Übersetzung ist »Benutzerfreundlichkeit«, dieser stellt
-aber nur einen Teil der englischen »Usability« dar. (TODO: ref?)
+Der Begriff »Usability« wird dabei gleichbedeutend mit dem deutschen Wort
+»Gebrauchstauglichkeit« benutzt. Da es aber keine einheitliche übersetzung des
+Begriffs gibt, wird der englische Originalbegriff verwendet.
 
-## Anforderungen an die Benutzbarkeit
+## Anforderungen an die Usability
 
 Eine besondere Schwierigkeit bei ``brig`` ist, dass Sicherheit, Funktionalität
-und Benutzbarkeit gegeneinander abgewogen werden müssen. Zu viel (und zu
+und Usability gegeneinander abgewogen werden müssen. Zu viel (und zu
 schnell präsentierte) Funktionalität erschwert dem Nutzer den Einstieg in die
 Software. Zu viele sichtbare Sicherheitsmechanismen schrecken den normalen
 Nutzer ohne technischen Hintergrund ab. Hingegen werden Nutzer mit technischen
@@ -38,7 +38,7 @@ Für beide Varianten lassen sich trotzdem gemeinsame Anforderungen finden:
 1)  Die Oberfläche muss möglichst immer im Hintergrund bleiben. Nur wenn sie benötigt
     wird soll der Benutzer sich mir ihr beschäftigen müssen.
 2)  Es sollten nur das Minimum an nötigen Informationen angezeigt werden, um
-    den »Cognitive Load«(TODO: ref wiki oder paper) des Nutzers zu mindern.
+    den »Cognitive Load« (siehe auch [@oviatt2006human]) des Nutzers zu mindern.
 3)  Die Oberfläche soll einfach installierbar sein. Da Nutzer meist einfach »nur
     ein Problem« lösen wollen, greifen sie oft zur schnellst möglich
     installierbaren (und damit nutzbaren) Variante.
@@ -65,7 +65,7 @@ abgeleitet und ergaben sich teilweise nach Betrachtung der existierenden
 Synchronisationswerkzeuge. Die Liste ist natürlich sehr subjektiv und
 keineswegs komplett. Obwohl beispielsweise ``syncthing`` sich als *»Easy to
 use«*[^EASY_TO_USE] bezeichnet, verletzt es unter anderem die Anforderung *2)*
-und präsentiert dem Nutzer in der Hauptansicht die Systemauslastung  (siehe
+und präsentiert dem Nutzer in der Hauptansicht die Systemauslastung (siehe
 [@fig:scrn-syncthing]) und andere Informationen, die in diesem Kontext nicht
 wichtig sind.
 
@@ -123,22 +123,23 @@ aufgerufen wird. Konkret sind die nötigen Aufgabenbereiche wie folgt:
 Bestehende grafische Oberflächen sind aus Portabilitätsgründen meist
 web--basiert und fügen sich daher meist nicht optimal in eine Desktopumgebung
 ein. Daher wurde das nachfolgende Konzept als native Desktopanwendung für den
-GNOME--Desktop (TODO: ref) entworfen. Dabei wurde die Oberflächenbibliothek
-*GTK+* (TODO: ref) benutzt. Neben den obigen Anforderungen wurde versucht
+GNOME--Desktop[^GNOME] entworfen. Dabei wurde die Oberflächenbibliothek
+*GTK+*[^GTK] benutzt. Neben den obigen Anforderungen wurde versucht
 möglichst alle Regeln der *»Gnome Human Interface Guidelines«* (GNOME HIG[^GNOME_HIG])
 umzusetzen. Es handelt sich dabei um einer Anleitung des GNOME--Projekts, um
 den Oberflächenentwurf zu vereinfachen und einheitlich zu gestalten. Offizielle
 GNOME--Anwendung müssen diesen Guidelines folgen.
 
+[^GNOME]: Eine freie Desktopumgebung für Linux (<https://www.gnome.org>)
+[^GTK]: Eine freie GUI--Bibliothek (<http://www.gtk.org>)
+
 *GTK+* wurde benutzt, weil der Autor sich mit dieser Bibliothek auskennt und bereits
 eine im Aussehen »ähnliche« Anwendung geschrieben hat, die als Basis für unten stehende
 Mockups benutzt wurde.
-Leider ist *GTK+* wenig portabel (TODO: ref) und noch gibt es keine gute
-Unterstützung für die Programmiersprache *Go*. Da die Anwendung portabel sein
-sollte, aber sich trotzdem wie eine native Anwendung anfühlen soll, wäre für
-eine tatsächliche Umsetzung eine Bibliothek wie *Gallium*[^GALLIUM] zu
+Leider ist *GTK+* für die Programmiersprache *Go* noch keine native Unterstützung vorhanden.
+Alternativ wäre daher eine Umsetzung, einer Bibliothek wie *Gallium*[^GALLIUM] zu
 evaluieren. Diese zeigt, vereinfacht gesagt, eine Weboberfläche als
-Desktopanwendung.
+Desktopanwendung und integriert auch native Element wie ein Trayicon.
 
 [^SHREDDER]: *Shredder*, eine grafische Deduplizierungslösung: <https://rmlint.readthedocs.io>
 
@@ -147,8 +148,6 @@ Desktopanwendung.
 [^GNOME_HIG]: Siehe auch: <https://developer.gnome.org/hig/stable>
 
 ## Mockups von ``brig-ui``
-
-TODO: shredder erwähnen
 
 In [@fig:ui-overview] findet sich eine Übersicht über alle Bildschirme der
 Oberfläche, wobei jeder Bildschirm für eine andere Aufgabe zuständig ist. Jedem
@@ -186,9 +185,9 @@ Dadurch, dass der Nutzer mithilfe der Oberfläche den Anlegeort für das neue Re
 wird ein fehlerhafter Pfad ausgeschlossen.
 
 In der späteren Entwicklung soll ``brig`` auch mit Geräten zur
-Zweifaktorauthentifizierung (TODO: ref kitteh) wie dem YubiKey[^WIKI_YUBI]
+Zweifaktorauthentifizierung (siehe [@cpiechula], Kapitel TODO) wie dem YubiKey[^WIKI_YUBI]
 zusammen arbeiten. Daher wird am unteren Bildschirmrand eine
-entsprechende Nachricht angezeigt. Ensprechende Schaltflächen zur Konfiguration
+entsprechende Nachricht angezeigt. Entsprechende Schaltflächen zur Konfiguration
 werden erst angezeigt, wenn ein angeschlossener YubiKey erkannt wurde.[^MINIMALISMUS]
 
 [^WIKI_YUBI]: Siehe auch: <https://en.wikipedia.org/wiki/YubiKey>
@@ -200,7 +199,7 @@ Repository«--Aktion blau hervorgehoben, um dem Nutzer anzuzeigen, dass dies die
 naheliegende Aktion ist, die er vermutlich nehmen wird. Drückt man diese
 »empfohlene Aktion«, so wird das Repository angelegt und der Hintergrunddienst
 ``brigd`` gestartet. Im Erfolgsfall wird eine Wischanimation zum
-Remote--Bildschirm angezeigt. (siehe [@sec:ui-remote]).
+Remote--Bildschirm angezeigt. (siehe [@sec:ui-remotes]).
 
 ### Verwalten und Hinzufügen von Remotes {#sec:ui-remotes}
 
@@ -264,9 +263,9 @@ Treffen sich beispielsweise zwei Teilnehmer persönlich, so könnten sie ihre
 Mobiltelefone benutzen, um den QR--Code einzuscannen und zu verifizieren. Auch
 würde sich der QR--Code eignen, um auf Visitenkarten abgedruckt zu werden.
 
-![QR--Code TODO[^QR_CODE_SRC] ](images/6/qrcode.pdf){#fig:qrcode width=20%}
+![Ein typischer QR--Code[^QR_CODE_SRC].](images/6/qrcode.pdf){#fig:qrcode width=20%}
 
-[^QR_CODE_SRC] Quelle: <https://commons.wikimedia.org/wiki/File:QRCodeWikipedia.svg>
+[^QR_CODE_SRC]: Quelle: <https://commons.wikimedia.org/wiki/File:QRCodeWikipedia.svg>
 
 ### Dateibrowser
 

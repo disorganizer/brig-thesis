@@ -2,13 +2,14 @@
 
 Diese Arbeit ist online in einer rudimentären HTML--Version und als PDF verfügbar:
 
-- HTML, eine Seite: TODO: Link
-- PDF:  TODO: Link 
+- HTML, eine Seite: TODO: Link.
+- PDF:  TODO: Link.
 
 Alle Diagramme wurden mit dem Online--Diagrammeditor *Lucidchart* gezeichnet,
 welcher für Studenten freie Lizenzen vergibt. Die eigentliche Arbeit wurde mit
-``neovim``[^NEOVIM] in *Markdown* verfasst und mittels ``pandoc`` in \LaTeX
-kompiliert.
+dem Editor »``neovim``[^NEOVIM]« in *Markdown* verfasst und mittels »``pandoc``« zu \LaTeX
+kompiliert. Dies wurde schließlich mit dem ``pdfTeX``--Backend zum vorliegenden
+Dokument gewandelt.
 
 [^NEOVIM]: <https://neovim.io>
 [^PANDOC]: <http://pandoc.org>

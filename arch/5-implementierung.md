@@ -495,7 +495,7 @@ dem Entwickler das Erkennen von verschiedenen Log--Leveln zu erleichtern (siehe
 läuft und auf ``stdout`` ausgibt. Läuft der Daemon im Hintergrund werden die
 Log--Ausgaben in eine Datei geschrieben und die Farbinformationen weggelassen.
 
-![Beispielhafte Ausgabe mit allen verfügbaren Logleveln](images/5/log-levels.png){#fig:log-levels width=50%}
+![Beispielhafte Ausgabe mit allen verfügbaren Logleveln](images/5/log-levels.png){#fig:log-levels width=75%}
 
 **Konfiguration:** Einige Parameter von ``brig`` sind konfigurierbar. Diese
 werden in einer menschenlesbaren YAML--Datei[^YAML] gespeichert.
@@ -644,7 +644,7 @@ Port für MQTT gebraucht wurde. Als beinahe unlösbar hat sich auch die
 Notwendigkeit herausgestellt, MQTT über NAT--Grenzen hinweg zu betreiben.
 Zusammen haben diese »Sackgassen« zwei bis drei Monate Entwicklungszeit verschlungen.
 
-[^MQTT]: https://de.wikipedia.org/wiki/MQ_Telemetry_Transport
+[^MQTT]: <https://de.wikipedia.org/wiki/MQ_Telemetry_Transport>
 
 Bevor das in [@sec:architektur] beschriebene Datenmodell eingeführt wurde,
 wurde sehr lange Zeit ein simpleres Datenmodell genutzt. Dieses existierte

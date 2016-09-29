@@ -1,4 +1,4 @@
-# Motivation {#sec:motivation}
+# Einleitung {#sec:motivation}
 
 Einfache und sichere Dateisynchronisation ist trotz vieler Lösungsansätze im
 Jahre 2016 noch immer kein Standard. Versucht man beispielsweise eine Datei
@@ -25,6 +25,8 @@ Nenner ausgehandelt werden.
 [^SOURCE_XKCD]: Quelle: xkcd (<https://xkcd.com/949>)
 [^ownCloud]: Eine Filehosting--Software für den Heimgebrauch; siehe auch <https://owncloud.org>
 
+## Motivation
+
 Zahlreiche Ansätze haben versucht diese Probleme in der Praxis abzumildern oder
 zu lösen. Viele dieser Ansätze basieren nicht mehr auf einer zentralen
 Infrastruktur, sondern benutzen als Gegenentwurf einen dezentralen Ansatz.
@@ -48,7 +50,7 @@ leicht benutzbar und zugänglich war, wie die unsichereren Alternativen (wie *SM
 oder frühere Versionen von *WhatsApp*). Letztendlich führte dies sogar dazu,
 dass die von *Signal* genutzte Technik auch im populäreren
 *WhatsApp*--Messenger eingesetzt wurde. Gleichzeitig muss
-fairerweise auch gesagt werden, dass die gute Benutzbarkeit durch einige
+fairerweise auch gesagt werden, dass die gute Usability durch einige
 Vereinfachungen im Sicherheitsmodell erreicht wurden[^SIGNAL_WIKI].
 
 [^SIGNAL]: Mehr Informationen unter: <https://whispersystems.org>
@@ -56,10 +58,10 @@ Vereinfachungen im Sicherheitsmodell erreicht wurden[^SIGNAL_WIKI].
 [^SIGNAL_WIKI]: Mehr Informationen unter: <https://de.wikipedia.org/wiki/Signal_(Software)#Kritik>
 
 Erwähnenswert ist *Signal*, da auch viele Dateisynchronisationsdienste in der
-Praxis entweder an der Benutzbarkeit oder an den Sicherheitsanforderungen
+Praxis entweder an der Usability oder an den Sicherheitsanforderungen
 kranken, die insbesondere Unternehmen an eine solche Lösung stellen. Die vorliegende
 Arbeit versucht einen dezentralen Ansatz zur Dateisynchronisation vorzustellen,
-der eine Balance zwischen Sicherheit und Benutzbarkeit herstellt. Die hier
+der eine Balance zwischen Sicherheit und Usability herstellt. Die hier
 vorgestellte und quelloffene Lösung trägt den Namen »``brig``«.
 Der jeweils aktuelle Quelltext findet sich auf der Code--Hosting--Plattform *GitHub*[^GITHUB].
 
@@ -110,10 +112,10 @@ brig*«[@cpiechula] die Sicherheitskonzepte der Software im Detail beleuchtet.
 
 Die vorliegende Arbeit ist in drei größere logische Blöcke gegliedert:
 
-- [@sec:motivation] -- [@sec:eigenschaften] *(Motivation, Einleitung, Stand der Technik):* Eine **Hinführung zum Thema**
+- [@sec:motivation] -- [@sec:eigenschaften] *(Einleitung, Stand der Technik, Grundlagen):* Eine **Hinführung zum Thema**
   wird gegeben. Neben einer Analyse der Wettbewerber und Einsatzmöglichkeiten wird auch das nötige Grundlagenwissen vermittelt,
   um die nächsten Kapitel zu verstehen.
-- [@sec:architektur] -- [@sec:benutzbarkeit] *(Architektur, Implementierung):* In diesen beiden Kapiteln wird das
+- [@sec:architektur] -- [@sec:usability] *(Architektur, Implementierung):* In diesen beiden Kapiteln wird das
   **technisches Design des Prototypen** erläutert und Begründen zu den Designentscheidungen gegeben. Zuletzt wird noch ein Konzept
   für eine grafische Benutzeroberfläche vorgestellt.
 - [@sec:evaluation] -- [@sec:fazit] *(Evaluation, Fazit):* Der **aktuelle Prototyp wird auf Schwächen untersucht** und mögliche
@@ -144,11 +146,8 @@ Unsere sonstigen Projekte finden sich der Vollständigkeit halber auf GitHub:
 
 ## Typografische Konventionen
 
-TODO: Angebracht?
+Es werden einige wenige Konventionen im Textsatz vereinbart:
 
-- ``Monospaced``: Programmnamen.
-* *Hervorgehoben*
-* **Absatz:**
-
-Diagramme nutzen monospaced als font.
-
+* Programmnamen werden ``monospaced`` geschrieben.
+* Wichtige Aussagen werden *hervorgehoben*.
+* **Absätze** werden fett gekennzeichnet.
