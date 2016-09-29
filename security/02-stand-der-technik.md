@@ -555,6 +555,8 @@ Neben der Verschlüsselung von *git remotes* mit *gcrypt* gibt es auch die
 Möglichkeit die Daten auf *special remotes* zu verschlüsseln. Hierfür gibt es
 die drei Verfahren:
 
+TODO: Validate once more
+
 * **hybrid encryption:** Gemeinsamer »shared key« wird im mit einen »public
   key«  verschlüsselt im Repository gespeichert
 * **shared encryption:** Gemeinsamer »shared key« wird im Klartext im
@@ -567,29 +569,33 @@ die drei Verfahren:
 [^FN_GIT_ANNEX_SPECIALREMOTES]: *git--annex* special remotes: <https://git-annex.branchable.com/special_remotes/>
 [^FN_GIT_ANNEX_ENCRYPTION]: *git--annex* encryption: <http://git-annex.branchable.com/design/encryption/>
 
-#### Weiteres
-
-Einen bisher nicht genannten, relativ neuen dezentraler Ansatz bietet das
-InterPlanetary--File--System[^FN_IPFS], als Teil seiner Funktionalität. Dieses
-ist in der aktuellen Implementierung jedoch eher als ein fortgeschrittener
-Prototyp anzusehen. Der Ansatz des *IPFS*--Protokolls ist vielversprechend.
-IPFS kombiniert dabei viele bereits bekannte Technologien zu einem einzigen
-Projekt. Hierdurch lassen sich schwächen aktuell genutzter Systeme abmildern
-oder gar vermeiden.
-
-[^FN_IPFS]: InterPlanetary--File System: <https://en.wikipedia.org/wiki/InterPlanetary_File_System>
-
 ### Ähnliche Arbeiten
 
-Von den genannten Projekten haben die folgenden Gemeinsamkeiten mit »brig«,
-verfolgen jedoch unterschiedliche Ziele:
+Neben den genannten dezentralen Projekten existieren weitere Ansätze im Bereich
+des dezentralen Datenaustausches.
 
-* Infinit
-* Resilio
-* Syncthing
-* Bazil[^FN_BAZIL]
+**Infinit**: Neben dem Datei--Austauschwerkzeug existiert ein dezentrales
+Dateisystem. Die Arbeit (vgl. [@quintard2012towards]) von *Julien Quintard*
+setzt eine Ebene tiefer als »brig« an und befasst sich mit dem Entwurf eines
+dezentralen Dateisystems.
+
+**Bazil**[^FN_BAZIL]ist ein weiteres Projekt, welches als dezentrales Dateisystem entwickelt
+wird ist. *Bazil* hat ähnliche Ziele wie »brig«. Es
+verschlüsselt die Daten, arbeitet dezentral und hat auch Features wie
+Deduplizierung von Daten oder Snapshots. Weiterhin ist die
+Go--FUSE--Bibliothek[^FN_GOFUSE] aus dem Projekt entstanden.
 
 [^FN_BAZIL]: Projektseite: <https://bazil.org/>
+[^FN_GOFUSE]: Projektseite GO--FUSE: <https://bazil.org/fuse/>
+
+**IPFS** (InterPlanetary--File--System[^FN_IPFS]) ist ein relativ neuer
+dezentraler Ansatz, welcher verschiedene bekannte Technologien kombiniert.
+Dadurch lassen sich schwächen aktuell genutzter Systeme und Protokolle
+abmildern oder gar vermeiden. In der aktuellen Implementierung ist die
+Projekt jedoch eher als fortgeschrittener Prototyp anzusehen. Aufgrund des
+vielversprechenden Ansatzes, ist *IPFS* die Grundlage von »brig«.
+
+[^FN_IPFS]: InterPlanetary--File System: <https://en.wikipedia.org/wiki/InterPlanetary_File_System>
 
 ## Markt und Wettbewerber
 
@@ -608,21 +614,66 @@ größten« Cloud--Speicher--Anbietern:
 In Deutschland gehört *Dropbox* zu den bekannten Anbietern, Apples *iCloud* ist
 in erster Linie für Mac--Benutzer interessant.
 
-* Google Drive/Dropbox mit »EncFS« oder »Boxcryptor«
-* Syncthing
-* git--annex
-* Btsync
+Im Open--Source--Bereich können die Projekte 
 
-Verschiedene Alternativen
+* OwnCloud
+* NextCloud (OwnCloud fork)
 
-Es gibt Alternativen, diese haben jedoch Probleme:
+als zentrale »Konkurrenz--Produkte« angesehen werden.
 
-* kompliziert
-* unsicher
-* propritär
-* ...
+Diese zentralen Systeme stellen in gewisser Weise ein indirektes
+»Konkurrenz--Produkt« dar. Als weitere Wettbewerber können auch die bereits
+genannten dezentralen Synchronisationswerkzeuge
 
-Tabelle: ...
+* *git--annex*
+* *Syncthing*
+* *Resilio*
+* *Librevault*
+
+angesehen werden. 
+
+## Closed--Source vs Open--Source
+
+Es ist schwierig zu beantworten ob Open--Source--Software als »sicherer«
+anzusehen ist. Es spielen hierbei sehr viele Faktoren eine Rolle, weswegen eine
+eindeutige Aussage nicht möglich ist. Oft wird mit »Linus's Law« --- *Given
+enough eyeballs, all bugs are shallow.* --- für die Sicherheit *Freier
+Software* argumentiert. Software--Bugs wie 
+
+* *Debian Random Number Generator Bug*[^FN_DEBIAN_RNG_BUG]
+* *Open--SSL Heartbleed--Bug*[^FN_HEARTBLEED]
+
+[^FN_DEBIAN_RNG_BUG]: Random Number Bug in Debian Linux: <https://www.schneier.com/blog/archives/2008/05/random_number_b.html>
+[^FN_HEARTBLEED]: Heartbleed: <https://www.schneier.com/blog/archives/2014/04/heartbleed.html>
+
+haben jedoch gezeigt, dass auch *Freie Software* vor »Sicherheitskatastrophen«
+nicht sicher ist. Die besagten Bugs wurden erst nach mehreren Jahren entdeckt
+und es ist unbekannt ob und in welchem Ausmaß diese ausgenutzt werden konnten.
+Diese Beispiele zeigen, dass man sich auf das »More eyeballs princile« allein
+nicht verlassen darf. Weiterhin kann das *Open--Source*--Modell auch dazu
+verwendet werden um automatisiert nach Sicherheitslücken im Quelltext auf
+*Github* bei jedem *Commit* zu suchen. Der Google Softwareentwickler *Kees
+Cook* verweist auf diese Problematik auf dem aktuellsten *Linux Security Summit
+2016*[^FN_LINUX_SEC_SUMMIT].
+
+[^FN_LINUX_SEC_SUMMIT]: Status of the Kernel Self Protection Project: <http://events.linuxfoundation.org/sites/events/files/slides/KernelSelfProtectionProject-2016.pdf>
+
+Untersuchungen von Closed-- und Open--Source--Projekten haben gezeigt, dass
+dass es keine signifikanten Unterschiede bezüglich der Sicherheit zwischen den
+beiden Entwicklungsmodellen gibt. Open--Source scheint jedoch ein extrem
+schlechtes Patch--Management seitens des Herstellers zu verhindern (vgl
+[@Schryen]).
+
+Wenn man davon ausgeht, dass schlechte Quellcode--Qualität zu mehr *Bugs*
+führt, kann man auch einen Teil der »Sicherheit« über die Quellcode--Qualität
+bestimmen. Eine Studie, welche die Quellcode--Qualität der vier großen
+Betriebssystemkernel (Linux (open source), FreeBSD (open source), Solaris
+(closed source), Windows (closed source)) mit Hilfe verschiedener Metriken
+vergleicht, kommt zum Ergebnis dass es keine signifikanten Unterschiede
+zwischen dem Closed-- und Open--Source Kerneln gibt (vgl [@Spi08b]). Neuere
+Studien widersprechen hier und attestieren Open--Source--Software--Projekten
+eine tendenziell besser Quellcode--Qualität wie Closed--Source--Projekten (vgl
+[@csr2013] und [@csr2014]).
 
 ## Gesellschaftliche und Politische Aspekte
 
