@@ -1,8 +1,6 @@
 # Anhang: Benutzerhandbuch {#sec:benutzerhandbuch}
 
-TODO: rename brig add -> brig stage
-             brig unstage einführen
-			 brig status/checkout/log?
+TODO brig unstage einführen / brig status/checkout/log?
 
 Die Funktionalität des ``brig``--Prototypen ist im momentanen Zustand nur über
 eine Kommandozeilenanwendung erreichbar. Die Hilfe dieser Anwendung wird unten
@@ -139,17 +137,16 @@ done
 
 ## Grundlegende Benutzung
 
-TODO: Umbenennen: brig add -> brig stage
 TODO: Implementieren: brig unstage
 
 Die Bedienung von ``brig`` ist an das Versionsverwaltungssystem ``git``
 angelehnt. Genau wie dieses, bietet ``brig`` für jede Unterfunktionalität ein
 einzelnes Subkommando an. Damit ``git``--Nutzer die Bedienung leichter fällt,
 wurden viele Subkommandos ähnlich benannt, wenn sie in etwa dasselbe tun. So
-fügen sowohl ``git add``, als auch ``brig add`` Dateien dem Repository hinzu.
+fügen sowohl ``git add``, als auch ``brig stage`` Dateien dem Repository hinzu.
 
 Es wird allerdings empfohlen nicht nur aufgrund des Namens auf die
-Funktionalität zu schließen. So fügt ``brig add`` Dateien von überall aus dem
+Funktionalität zu schließen. So fügt ``brig stage`` Dateien von überall aus dem
 Dateisystem hinzu, bei ``git add`` müssen sie unterhalb des
 Repository--Wurzelverzeichnises liegen. Die Nahmensähnlichkeit soll nur als
 Anknüpfungspunkt für erfahrene Anwender dienen.
@@ -212,9 +209,9 @@ Verzeichnisse hinzugefügt werden:
 
 ```bash
 $ cd $BRIG_PATH
-$ brig add ~/photos/cat.png
+$ brig stage ~/photos/cat.png
 /cat.png
-$ brig add ~/music/knorkator/
+$ brig stage ~/music/knorkator/
 /knorkator
 ```
 
@@ -312,21 +309,18 @@ $ rm /tmp/alice/photos/dog.png
 ```
 
 Der ``mount``--Befehl kann auch ohne Pfad aufgerufen werden. In diesem Fall wird das Dateisystem.
-direkt über dem ``brig``--Repository unter ``$BRIG_PATH`` gelegt:
+direkt unterhalb dem ``brig``--Repository unter ``$BRIG_PATH`` gelegt:
 
 ```bash
-$ brig mount
-$ ls $BRIG_PATH
+$ mkdir -p share
+$ brig mount ./share
+$ ls $BRIG_PATH/share
 photos  movies  knorkator
-$ ls /tmp/alice-mount
-photos  movies  knorkatoor
-$ brig mount -u /tmp/alice-mount
+$ brig mount -u /tmp/alice-mount/share
 ```
 
 Wie man sieht, ist auch der andere Ordner noch weiterhin benutzbar bis er »unmounted« wurde.
 Eine Modifikation in dem einen Ordner wird auch im anderen Ordner angezeigt.
-
-(TODO: Test that.)
 
 ### Versionsverwaltung
 
@@ -367,7 +361,7 @@ passiert ist und taucht später als hilfreiche Beschreibung im ``log`` auf. Mann
 Nachricht auch weglassen, was ``brig`` dazu veranlasst eine automatische *Commit*--Nachricht zu verfassen:
 
 ```bash
-$ brig add ~/garfield-small.png /photos/garfield.png
+$ brig stage ~/garfield-small.png /photos/garfield.png
 $ brig commit
 1 change committed
 ```
@@ -394,13 +388,7 @@ Die *Checkpoints* einer einzelnen Datei zeigt der ``history`` Befehl:
      \_ Date: 2016-08-11 15:24:15.301565687 +0200 CEST
 ```
 
-TODO:
-
-brig checkout implementieren...
-brig unstage
-
-TODO: Fügt das eigentlich einen neuen punkt in der historie hinzu oder löscht es diesen?
-Da die History linear ist, wohl ersteres.
+TODO: brig checkout implementieren... brig unstage
 
 ### Verwalten von Synchronisationspartnern (``brig remote``)
 
@@ -472,9 +460,7 @@ Dateiebene synchronisiert. Mit anderen Worten: Konflikte entstehen nur dann
 wenn mehre Teilnehmern unterschiedliche Checkpoints für einen einzelnen Pfad
 einbringen.
 
-TODO: brig sync
-
-Automatische Synchronisation?
+TODO: brig sync dokumentieren
 
 ### Dateien pinnen (``brig pin``)
 
@@ -488,8 +474,6 @@ $ brig pin /thesis/01-motivation.tex
 Benötigt man später wieder den Speicherplatz, so kann die Datei wieder »unpinned« werden.
 ``brig`` wird diese Datei nach einiger Zeit aus dem lokalen Zwischenspeicher entfernt, sofern
 ein Platzmangel vorherrscht.
-
-TODO: brig automatisch den gc triggern lassen.
 
 ### Konfiguration (``brig config``)
 
@@ -508,7 +492,7 @@ repository:
   id: alice@wonderland.lit/desktop  # Nutzer-ID
 ```
 
-Das verwendete Format zur Speicherung und Anzeige entspricht dem YAML--Format. (TODO: Ref)
+Das verwendete Format zur Speicherung und Anzeige entspricht dem YAML--Format.
 Einzelne Werte können auch direkt angezeigt werden:
 
 ```bash
@@ -520,16 +504,6 @@ Möchte man die Werte editieren, so können diese einzeln gesetzt werden:
 
 ```bash
 $ brig config set daemon.port 7777
-```
-
-TODO: Erklärung für bestimmte Konfigurationswerte liefern?
-
-```bash
-$ brig config doc daemon.port
-Defines the port brigd is listening on locally.
-
-Requires Restart: yes
-Category:         daemon
 ```
 
 ## Fortgeschrittene Nutzung

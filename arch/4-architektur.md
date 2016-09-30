@@ -42,10 +42,11 @@ azyklischer Graph), im Folgenden kurz *MDAG* oder *Graph* genannt.
 Diese Struktur ist eine Erweiterung des Merkle--Trees[@wiki:merkle], bei der ein Knoten
 mehr als einen Elternknoten haben kann.
 
-![Beispielhafter MDAG der eine Verzeichnisstruktur abbildet. Die Attribute entsprechen den ``ipfs`` Internas.](images/4/ipfs-merkledag.pdf){#fig:ipfs-merkledag}
+![Beispielhafter MDAG der eine Verzeichnisstruktur abbildet.](images/4/ipfs-merkledag.pdf){#fig:ipfs-merkledag}
 
 In [@fig:ipfs-merkledag] ist ein beispielhafter Graph gezeigt, der eine
-Verzeichnishierarchie modelliert. Gerichtet ist der Graph deswegen, weil es
+Verzeichnishierarchie modelliert. Die gezeigten Attributnamen entsprechen 
+den ``ipfs``--Internas. Gerichtet ist der Graph deswegen, weil es
 keine Schleifen und keine Rückkanten zu den Elternknoten geben darf. Jeder
 Knoten wird durch eine Prüfsumme referenziert und kann wiederum mehrere andere
 Knoten über dieselbe referenzieren. Im Beispiel sieht man zwei
@@ -99,7 +100,7 @@ Der interne Aufbau von ``brig`` ist relativ stark von ``git`` inspiriert.
 Deshalb werden im Folgenden immer wieder Parallelen zwischen den beiden
 Systemen gezogen, um die jeweiligen Unterschiede aufzuzeigen und zu erklären
 warum ``brig`` letztlich einige wichtige Differenzen aus architektonischer
-Sicht aufweist. Was die Benutzbarkeit angeht, soll allerdings aufgrund der
+Sicht aufweist. Was die Usability angeht, soll allerdings aufgrund der
 relativ unterschiedlichen Ziele kein Vergleich gezogen werden.
 
 Im Folgenden ist ein gewisses Grundwissen über ``git`` nützlich. Es wird bei
@@ -275,7 +276,7 @@ folgt:
   Datenmodell verwaltet, während die eigentlichen Daten werden lediglich per Prüfsumme
   referenziert und von einem Backend (aktuell *IPFS*) gespeichert werden.
   So gesehen ist  ``brig`` ein Versionierungsaufsatz für ``ipfs``.
-?* **Lineare Versionshistorie:** Jeder *Commit* hat maximal einen Vorgänger und
+* **Lineare Versionshistorie:** Jeder *Commit* hat maximal einen Vorgänger und
   exakt einen Nachfolger. Dies macht die Benutzung von *Branches*[^BRANCH_EXPL]
   unmöglich, bei der ein *Commit* zwei Nachfolger haben kann, beziehungsweise
   sind auch keine Merge--Commits möglich, die zwei Vorgänger besitzen. Diese
@@ -290,11 +291,13 @@ folgt:
   wieder modifiziert und zusammengeführt wird. Haben die Partner keine gemeinsame
   Historie, wird einfach angenommen, dass alle Dokumente synchronisiert werden müssen.
   Aus diesen Grund kennt ``brig`` auch keine ``clone`` und ``pull``--Operation.
-  Diese werden durch ``brig sync <with>`` ersetzt.
+  Diese werden durch »``brig sync <with>``« ersetzt.
 
-[^BRANCH_EXPL]: *Branches* dienen bei ``git`` um einzelne Features oder Fixes separat entwickeln zu können. (TODO: Schaubild eher?)
-[^DETACHED_HEAD]: So ist es bei ``git`` relativ einfach möglich in den sogenannten *Detached HEAD* Modus zu kommen, in dem durchaus Daten verloren gehen können.
-[^DOUBLE_ROOT]: Streng genommen ist dies bei ``git`` auch nicht nötig, allerdings eher unüblich und braucht spezielle Kenntnisse. (TODO: ref)
+[^BRANCH_EXPL]: *Branches* dienen bei ``git`` um einzelne Features oder Fixes separat entwickeln zu können.
+[^DETACHED_HEAD]: So ist es bei ``git`` relativ einfach möglich in den
+sogenannten *Detached HEAD* Modus zu kommen, in dem durchaus Daten verloren
+gehen können. Siehe auch: <http://gitfaq.org/articles/what-is-a-detached-head.html>
+[^DOUBLE_ROOT]: Streng genommen ist dies bei ``git`` auch nicht nötig, allerdings sehr unüblich.
 
 
 ![Das Datenmodell von ``brig``](images/4/brig-data-model.pdf){#fig:brig-data-model}
@@ -391,7 +394,7 @@ Davon abgesehen fällt auf dass zwei zusätzliche Strukturen eingeführt wurden:
   Unterscheidung zwischen »Unstaged Files« und »Staged Files«. Die Daten kommen
   entweder von einer externen Datei, welche mit ``brig add <filename>``{.bash}
   dem Staging--Bereich hinzugefügt wurde, oder die Datei wurde direkt im
-  FUSE--Layer (TODO: später mehr oder vorher erklären?) von ``brig`` modifiziert.
+  FUSE--Dateisystem von ``brig`` modifiziert.
   In beiden Fällen wird die neue oder modifizierte Datei in den *Staging--Commit*
   eingegliedert, welcher aus diesem Grund eine veränderliche Prüfsumme besitzt
   und nach jeder Modifikation auf einen anderes Wurzelverzeichnis verweist.
@@ -412,11 +415,6 @@ Merge--Point verglichen werden. Basierend auf diesen Vergleich wird ein neuer
 *Commit* (der *Merge--Commit*) erstellt, der alle (möglicherweise nach der
 Konfliktauflösung zusammengeführten) Änderungen des Gegenübers enthält und als
 neuer *Merge--Point* dient.
-
-TODO: Noch folgende Punkte verarzten:
-
-Problem: Metadaten wachsen schnell, Angreifer könnte sehr viele kleine änderungen sehr schnell machen.
-Mögliche Lösung : Delayed Checkpoints, Checkpoint Squashing, Directory Checkpoints?
 
 ### Operationen auf dem Datenmodell
 
@@ -446,22 +444,18 @@ für jede darin enthaltene Datei wiederholt.
 
 ![Die Abfolge der ``STAGE``-Operation im Detail](images/4/op-add){#fig:op-add}
 
-TODO: wurde pin schon erklärt?
-
 ``REMOVE:`` Entfernt eine vorhandene Datei aus dem Staging--Bereich. Der Pin
 der Datei oder des Verzeichnisses und all seiner Kinder werden entfernt. Die
-gelöschten Daten werden möglicherweise beim nächsten Durchgang der ``CLEANUP`` Operation aus
+gelöschten Daten werden möglicherweise beim nächsten Durchgang der $Cleanup$ Operation aus
 dem lokalen Speicher entfernt.
-Wie in [@fig:op-remove] gezeigt wird, wird die Prüfsumme der entfernten Datei
-aus den darüber liegenden Verzeichnissen herausgerechnet. Handelt es sich dabei
-um ein Verzeichnis, wird der Prozess *nicht* rekursiv für jedes Unterobjekt
-ausgeführt. Es genügt die Prüfsumme des zu löschenden Verzeichnisses aus den
-Eltern herauszurechnen und die Kante zu dem Elternknoten zu kappen.
+Die Prüfsumme der entfernten Datei wird aus den darüber liegenden
+Verzeichnissen herausgerechnet. Handelt es sich dabei um ein Verzeichnis, wird
+der Prozess *nicht* rekursiv für jedes Unterobjekt ausgeführt. Es genügt die
+Prüfsumme des zu löschenden Verzeichnisses aus den Eltern herauszurechnen und
+die Kante zu dem Elternknoten zu kappen.
 
-TODO: Grafik für remove (rekursiv für teilbaum)
-
-``LIST:`` Entspricht konzeptuell dem Unix--Werkzeug ``ls``. Besucht alle Knoten unter einem bestimmten Pfad
-rekursiv (breadth-first) und gibt diese aus.
+``LIST:`` Entspricht konzeptuell dem Unix--Werkzeug ``ls``. Besucht alle Knoten
+unter einem bestimmten Pfad rekursiv (breadth-first) und gibt diese aus.
 
 ``MKDIR:`` Erstellt ein neues, leeres Verzeichnis. Die Prüfsumme des neuen
 Verzeichnisses (ergibt sich aus dem Pfad des neuen Verzeichnisses) wird in die
@@ -472,15 +466,15 @@ Eventuell müssen noch dazwischen liegende
 Verzeichnisse erstellt werden. Diese werden von oben nach unten, Stück für
 Stück mit den eben beschriebenen Prozess erstellt.
 
-TODO: Grafik für mkdir falls nötig ist?
-
 ``MOVE:`` Verschiebt eine Quelldatei oder Verzeichnis zu einem
 Zielpfad. Es muss eine Fallunterscheidung getroffen wird, je nachdem ob
 und welcher Knoten im Zielpfad vorhanden ist:
 
-1) Ziel existiert noch nicht: Quelldaten werden zum neuen Pfad verschoben.
-2) Ziel existiert und ist eine Datei: Vorgang wird abgebrochen, es sei denn die Aktion wird »forciert«.
-3) Ziel existiert und ist ein Verzeichnis: Quelldaten werden direkt unter das Zielverzeichnis verschoben.
+1) *Ziel existiert noch nicht:* Quelldaten werden zum neuen Pfad verschoben.
+2) *Ziel existiert und ist eine Datei:* Vorgang wird abgebrochen, es sei denn die
+   Aktion wird »forciert«.
+3) *Ziel existiert und ist ein Verzeichnis:* Quelldaten werden direkt unter das
+   Zielverzeichnis verschoben.
 
 In jedem Fall entspricht diese Operation technisch dem sequentiellen Ausführen der
 Operationen ``REMOVE`` und ``ADD``. Im Unterschied dazu ist sie im Ganzen
@@ -523,7 +517,7 @@ finale Prüfsumme berechnet und der entstandene Commit abgespeichert. Ein neuer
 Wurzelverzeichnis zeigt wie der vorige. Zuletzt werden die Referenzen von
 ``HEAD`` und ``CURR`` jeweils um ein Platz nach vorne verschoben.
 
-![Die Abfolge der ``COMMIT``-Operation im Detail](images/4/op-commit.pdf){#fig:op-commit}
+![Die Abfolge der ``COMMIT``--Operation im Detail](images/4/op-commit.pdf){#fig:op-commit}
 
 ``CHECKOUT:`` Stellt einen alten Stand wieder her. Dabei kann die Operation
 eine alte Datei oder ein altes Verzeichnis wiederherstellen (basierend auf der
@@ -533,10 +527,13 @@ Commits wiederherstellen.
 Im Gegensatz zu ``git`` ist es allerdings nicht vorgesehen in der
 Versionshistorie »herumzuspringen«. Soll ein alter *Commit* wiederhergestellt
 werden, so wird ein neuer *Commit* erzeugt, welcher den aktuellen Stand so
-verändert, dass er dem gewünschten, alten Stand entspricht. Das Verhalten von
-``brig`` entspricht an dieser Stelle also nicht dem Namensvetter ``git
-checkout`` sondern eher dem wiederholten Anwenden von ``git revert`` zwischen
-dem aktuellen und dem Nachfolger des gewünschten Commits.
+verändert, dass er dem gewünschten, alten Stand entspricht (siehe auch
+Abbildung [@fig:op-checkout]). Das Verhalten von ``brig`` entspricht an dieser
+Stelle also nicht dem Namensvetter ``git checkout`` sondern eher dem
+wiederholten Anwenden von ``git revert`` zwischen dem aktuellen und dem
+Nachfolger des gewünschten Commits.
+
+![Die Abolge der ``CHECKOUT``--Operation im Detail](images/4/op-checkout.pdf){#fig:op-checkout}
 
 Begründet ist dieses Verhalten darin, dass kein sogenannter »Detached
 HEAD«--Zustand entstehen soll, da dieser für den Nutzer verwirrend sein kann.
@@ -546,11 +543,9 @@ zeigt dann nicht mehr auf einen benannten Branch, sondern auf die Prüfsumme des
 neuen Commits, der vom Nutzer nur noch durch die Kenntnis derselben erreichbar
 ist.
 Macht man in diesem Zustand Änderungen ist es prinzipiell möglich die
-geänderten Daten zu verlieren. (TODO: ref) Um das zu vermeiden, setzt ``brig``
+geänderten Daten zu verlieren[^DETACHED_HEAD]. Um das zu vermeiden, setzt ``brig``
 darauf die Historie stets linear und unveränderlich zu halten, auch wenn das
 keine Einschränkung der Architektur an sich darstellt.
-
-TODO: Grafik für CHECKOUT
 
 ``LOG/HISTORY:`` Zeigt alle Commits, bis auf den Staging Commits. Begonnen wird
 die Ausgabe mit ``HEAD`` und beendet wird sie mit dem initial Commit.
@@ -584,7 +579,7 @@ Hinzufügen des Partners eine Authentifizierungsmaßnahme die bewusst eingefügt
 wurde und durch die automatische Entdeckung von Synchronisationspartnern zwar
 unterstützt, aber nicht ersetzt werden kann[@sec:user-management].
 
-![Beispielhafte Remote Liste mit vier Repositories und verschienden Synchronisationsrichtungen.](images/4/multiple-repos.pdf){#fig:multiple-repos}
+![Remote Liste mit vier Repositories und verschienden Synchronisationsrichtungen.](images/4/multiple-repos.pdf){#fig:multiple-repos}
 
 Wie in [@fig:multiple-repos] gezeigt, kann jeder Knoten mit einem anderen
 Knoten synchronisieren, der in der Liste steht, da von diesen jeweils der
@@ -625,7 +620,7 @@ Bis auf den vierten Schritt ist die Implementierung trivial und kann leicht von
 einem Computer erledigt werden. Das Kriterium, ob die Datei gleich ist, kann
 entweder durch einen direkten Vergleich gelöst werden (aufwendig) oder durch
 den Vergleich der Prüfsummen beider Dateien (schnell, aber vernachlässigbares
-Restrisiko durch Kollision TODO: ref). Manche Werkzeuge wie ``rsync`` setzen
+Restrisiko durch Kollision). Manche Werkzeuge wie ``rsync`` setzen
 sogar auf probabilistische Ansätze, indem sie in der Standardkonfiguration aus Geschwindigkeitsgründen nur
 ein Teil des Dateipfades, eventuell das Änderungsdatum und die Dateigröße vergleichen.
 
@@ -639,7 +634,7 @@ Soll die eigene oder die fremde Version behalten werden? Dazwischen sind auch we
 wie das Anlegen einer Konfliktdatei (``photo.png:conflict-by-bob-2015-10-04_14:45``), so wie es beispielsweise
 Dropbox macht.[^DROPBOX_CONFLICT_FILE]
 Alternativ könnte der Nutzer auch bei jedem Konflikt befragt werden. Dies wäre
-allerdings im Falle von ``brig`` nach Meinung des Autors der Benutzbarkeit
+allerdings im Falle von ``brig`` nach Meinung des Autors der Usability
 stark abträglich.
 
 Im Falle von ``brig`` müssen nur die Änderung von ganzen Dateien betrachtet werden, aber keine partiellen Änderungen
@@ -809,7 +804,7 @@ zusätzlich hat (aber Alice nicht) können nun leicht ermittelt werden, indem ge
 welche von Bob's Pfaden noch nicht in der errechneten Hashtabelle vorkommen.
 Diese Pfade können dann in einem zweiten Schritt dem Stand von Alice hinzugefügt werden.
 
-### Austausch der Metadaten {sec:metadata-exchange}
+### Austausch der Metadaten {#sec:metadata-exchange}
 
 Um die Metadaten nun tatsächlich synchronisieren zu können, muss ein Protokoll
 etabliert werden, mit dem zwei Partner ihren Store über Netzwerk austauschen können.
@@ -851,8 +846,6 @@ eine konzeptuelle Implementierung steht noch aus.
 
 ### Abgrenzung zu anderen Synchronisationswerkzeugen
 
-TODO: Ist das wichtig?
-
 In der Fachliteratur (vergleiche unter anderem [@cox2005file])
 findet sich zudem die Unterscheidung zwischen *informierter* und
 *uninformierter* Synchronisation. Der Hauptunterschied ist, dass bei ersterer
@@ -862,15 +855,9 @@ Konflikterkennung getroffen werden. Insbesondere können dadurch aber leichter
 die Differenzen zwischen den einzelnen Ständen ausgemacht werden: Für jede
 Datei muss dabei lediglich die in [@lst:file-sync] gezeigte Sequenz abgelaufen
 werden, die von beiden Synchronisationspartnern unabhängig ausgeführt werden
-muss.
-
-Werkzeuge wie ``rsync`` oder ``unison`` betreiben eher eine *uninformierte
+muss. Werkzeuge wie ``rsync`` oder ``unison`` betreiben eine *uninformierte
 Synchronisation*. Sie müssen bei jedem Programmlauf Metadaten über beide
-Verzeichnisse sammeln und darauf arbeiten. TODO: mehr worte verlieren Im
-Gegensatz zu Timed Vector Pair Sync, informierter Austausch, daher muss nicht
-jedesmal der gesamte Metadatenindex übertragen werden.
-
--> Nicht besser oder schlechter. Aber anders.
+Verzeichnisse sammeln und darauf arbeiten.
 
 ### Speicherquoten
 
@@ -885,16 +872,8 @@ keinen Pin mehr haben. Zudem kann ``brig`` den Konfigurationswert
 ``Datastore.StorageMax`` von ``ipfs`` auf eine maximale Höhe (minus einen
 kleinen Puffer für ``brig``--eigene Dateien) setzen. Wird dieser überschritten,
 geht der Garbage--Collector aggressiver vor und löscht auch Objekte aus dem
-Cache. (TODO: Eigentlich schauen was ipfs da macht.)
-
-In der momentanen Architektur und Implementierung wird noch nicht zwischen
-harten und weichen Speicherquoten unterschieden. (TODO: ref zu anforderung)
-Auch wird die maximale Grenze wird zwangsweise eingehalten, wenn mehr Dateien
-gepinnt werden als Speicher verfügbar ist. 
-
-TODO: Sinnvollere Herangehensweise: Dateien erst ab einer bestimmten Revision unpinnen?
-
-TODO: In Evaluation packen: ?
+Cache. In der momentanen Architektur und Implementierung sind allerdings zu diesem Zeitpunkt
+noch keine Speicherquoten (weder als hartes noch als weiches Limit) vorhanden.
 
 Eine Möglichkeit Speicher zu reduzieren, wäre die Einführung von
 *Packfiles*, wie ``git`` sie implementiert[^PACKFILES_GIT]. Diese komprimieren nicht eine
@@ -916,8 +895,6 @@ Um den eigentlichen Kern des Store sind alle anderen Funktionalitäten gelagert.
 werden im Folgenden besprochen.
 
 ![Übersicht über die Architektur von ``brig``](images/4/architecture-overview.pdf){#fig:arch-overview}
-
-TODO: Repository begriff irgendwo einführen?
 
 ### Lokale Aufteilung in Client und Daemon
 
@@ -1025,7 +1002,7 @@ message Response {
 Neben der Kommunikation mit  ``brigd`` muss ``brigctl`` noch drei andere Aufgaben erledigen:
 
 * **Initiales Anlegen eines Repositories:** Bevor ``brigd`` gestatertet werden kann,
-  muss die in TODO: ref gezeigte Verzeichnisstruktur angelegt werden.
+  muss die in [@fig:brig-repo-tree] gezeigte Verzeichnisstruktur angelegt werden.
 * **Bereitstellung des User--Interfaces:** Das zugrundeliegende Protokoll wird so gut
   es geht vom Nutzer versteckt und Fehlermeldungen müssen möglichst gut beschrieben werden.
 * **Autostart von ``brigd``:** Damit der Nutzer nicht explizit ``brigd`` starten
@@ -1048,7 +1025,7 @@ Für den Fall, dass ein Angreifer zwar keinen Zugriff auf den lokalen Rechner ha
 dafür aber Zugriff auf den lokalen Netzwerkverkehr wird der gesamte Netzwerkverkehr
 zwischen ``brigctl`` und ``brigd`` mit AES256 verschlüsselt. Der Schlüssel wird
 beim Verbindungsaufbau mittels Diffie--Hellmann ausgetauscht. Die Details des
-Protokolls werden in (TODO ref kitteh arbeit) erklärt.
+Protokolls werden in [@cpiechula], Kapitel TODO beschrieben.
 
 Die Anzahl der gleichzeitig offenen Verbindungen wird auf ein Maximum ``50``
 limitiert und Verbindungen werden nach Inaktivität mit einen Timeout von 10
@@ -1060,8 +1037,6 @@ standardmäßig den Port ``4001``, um sich mit dem Netzwerk zu verbinden.
 Nachteilig an diesem Vorgehen ist, dass ein Absturz oder eine Sicherheitslücke
 in ``ipfs`` auch ``brigd`` betreffen kann. Längerfristig sollte beide Prozesse
 möglichst getrennt werden, auch wenn dies aus Effizienzgründen nachteilig ist.
-
-TODO: Global config zur Bestimmung des Ports beschreiben?
 
 ## Einzelkomponenten {#sec:einzelkomponenten}
 
@@ -1079,7 +1054,6 @@ der Angreifer alleine mit den verschlüsselten Daten ohne den dazugehörigen
 Schlüssel nichts anfangen können. In der Tat unterstützt er das
 ``ipfs``--Netzwerk sogar, da der Knoten des Angreifers auch wieder seine
 Bandbreite zum Upload anbieten muss, da der Knoten sonst ausgebremst wird
-(TODO: ref?).
 
 Nachteilig an einer »zwangsweisen« Verschlüsselung ist, dass die
 Deduplizierungsfähigkeit von ``ipfs`` ausgeschalten wird. Wird die selbe Datei
@@ -1100,7 +1074,7 @@ besitzt. Im Protoypen werden die Dateischlüssel daher zufällig generiert,
 was die Deduplizierungsfunktion von ``ipfs`` momentan ausschaltet.
 Die Vor- und Nachteile dieses Verfahrens wird in [@cpiechula], Kapitel TODO diskutiert.
 
-#### Verschlüsselung {sec:encryption}
+#### Verschlüsselung {#sec:encryption}
 
 Für ``brig`` wurde ein eigenes Containerformat für verschlüsselte Daten
 eingeführt, welches wahlfreien Zugriff auf beliebige Bereiche der
@@ -1108,7 +1082,7 @@ verschlüsselten Datei erlaubt, ohne die gesamte Datei entschlüsseln zu müssen
 Dies ist eine wichtige Eigenschaft für die Implementierung des
 FUSE--Dateisystems und ermöglicht zudem aus technischer Sicht das Streaming von
 großen, verschlüsselten Dateien wie Videos. Zudem kann das Format durch den
-Einsatz von *Autenticated Encryption (AE)*[@wiki:aead] die Integrität der verschlüsselten
+Einsatz von *Authenticated Encryption (AE)*[@wiki:aead] die Integrität der verschlüsselten
 Daten sichern.
 
 Es werden lediglich reguläre
@@ -1132,10 +1106,10 @@ Werden die ersten Daten geschrieben, so schreibt der Kodierer zuerst einen
   so muss nur die ersten 10 Byte beibehalten werden und die Versionsnummer inkrementiert
   werden. Für die jeweilige Version kann dann ein passender Dekodierer genutzt werden.
 * Die verwendete *Blockchiffre* (2 Byte) zur Verschlüsselung. Standardmäßig wird *ChaCha20/Poly1305*[@nir2015chacha20]
-  eingesetzt, aber es kann auch AES (TODO: ref zu crypto buch) mit 256 Bit im Galois--Counter--Modus (GCM) verwendet werden.
+  eingesetzt, aber es kann auch AES ([@everyday_crypto], S. 116 ff.) mit 256 Bit im Galois--Counter--Modus (GCM) verwendet werden.
 * Die *Länge* (4 Byte) des verwendeten Schlüssels in Bytes.
 * Die *maximale Blockgröße* (4 Byte) der nachfolgenden Blöcke in Bytes.
-* Ein *Message--Authentication--Code (MAC)* (TODO: ref zu crypto buch) (16 Byte)
+* Ein *Message--Authentication--Code (MAC, siehe auch [@everyday_crypto], S. 205 ff.)* (16 Byte)
   der die Integrität des Headers sicherstellt.
 
 Nach dem der Header geschrieben wurde, sammelt der Enkodierer in einem internen Puffer ausreichend viele
@@ -1143,7 +1117,8 @@ Daten, um einen zusammenhängende Block zu schreiben (standardmäßig 64 Kilobyt
 Datenmenge erreicht wird der Inhalt des Puffers verschlüsselt und ein kompletter Block ausgegeben.
 Dieser enthält folgende Felder:
 
-* Eine *Nonce*[@wiki:nonce] (8 Byte). Diese eindeutige Nummer wird bei jedem
+* Eine *Nonce* (siehe auch [@everyday_crypto], S. 263) (8 Byte). Diese
+  eindeutige Nummer wird bei jedem
   geschriebenen Block inkrementiert und stellt daher die Blocknummer dar. Sie
   wird benutzt, um die Reihenfolge des geschriebenen Datenstroms zu validieren
   und wird zudem als öffentlich bekannte Eingabe für den
@@ -1352,7 +1327,7 @@ folgende Regeln gelten:
 
 - Es sind keine Leerzeichen erlaubt.
 - Ein leerer String ist nicht valide.
-- Der String muss valides UTF8 (TODO: ref) sein.
+- Der String muss valides UTF8[^UTF8] sein.
 - Der String muss der »UTF-8 Shortest Form[^SHORTEST]« entsprechen
 - Der String darf durch die »UTF-8 NKFC Normalisierung[^NORMALIZATION]« nicht verändert werden.
 - Alle Charaktere müssen druckbar und auf dem Bildschirm darstellbar sein.
@@ -1362,6 +1337,7 @@ versuchen könnte eine Unicode--Sequenz zu generieren, welche visuell genauso
 ausschaut wie die eines anderen Nutzers, aber einer anderen Byte--Reihenfolge
 und somit einer anderen Identität entspricht.
 
+[^UTF8]: Siehe auch: <https://de.wikipedia.org/wiki/UTF-8>
 [^SHORTEST]: Siehe auch: <http://unicode.org/versions/corrigendum1.html>
 [^NORMALIZATION]: Siehe auch: <http://www.unicode.org/reports/tr15/\#Norm_Forms>
 
@@ -1461,7 +1437,7 @@ Dilemma*.
 
 ![Bildliche Darstellung von Zooko's Dreieck](images/4/zooko.pdf){#fig:zooko width=50%}
 
-Aus Sicht der Benutzbarkeit ist dabei die initiale Authentifizierung ein Problem.
+Aus Sicht der Usability ist dabei die initiale Authentifizierung ein Problem.
 Diese kann nicht von ``brig`` automatisiert erledigt werden, da ``brig`` nicht wissen
 kann welche Prüfsumme die »Richtige« ist. Es wird im aktuellen Entwurf vom Nutzer
 erwartet, dass er über einen sicheren Seitenkanal (beispielsweise durch ein persönliches Treffen) die angepriesene Prüfsumme überprüft.

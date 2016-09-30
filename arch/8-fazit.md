@@ -57,7 +57,7 @@ dass sie wirklich nützlich ist und die Welt etwas verbessern könnte.
 Besonders fraglich ist wie gut das System in der Praxis funktioniert und auf
 größere Nutzermengen skaliert. Da ``brig`` von technisch versierten Nutzern
 entwickelt wurde, ist es auch fraglich ist wie gut verständlich es für neue,
-unerfahrenere Benutzer ist. Aus Sicht der Benutzbarkeit gibt es
+unerfahrenere Benutzer ist. Aus Sicht der Usability gibt es
 noch einige technische und konzeptuelle Probleme:
 
 * Keine grafische Oberfläche, nur Kommandozeile.

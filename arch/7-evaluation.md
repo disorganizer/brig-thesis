@@ -171,7 +171,7 @@ ist, könnte ``brig`` in diesem Fall von der Open--Source--Community
 weiterentwickelnd werden. Eine Einsicht in den Quelltet oder Beteiligung am
 Projekt ist durch die Code--Hosting--Plattform *GitHub* leicht möglich.
 
-### Anforderungen an die Benutzbarkeit
+### Anforderungen an die Usability
 
 **Automatische Versionierung:** (\cmark) Eine Versionierung von Dateien von
 gegeben, die vergleichbar mit ``git`` ist und umfangreicher als die, der

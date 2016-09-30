@@ -1,14 +1,94 @@
-# Eigenschaften von »brig« {#sec:eigenschaften}
+# Grundlagen {#sec:eigenschaften}
 
-TODO: In diesem Kapitel...?
-TODO: anderer kapitelname
+In diesem Kapitel werden aus dem Stand der Technik die Anforderungen und
+Eigenschaften abgeleitet, die ein modernes Dateisynchronisationssystem haben
+sollte. Im Zuge dessen werden die Grundlagen erklärt,
+die zum Verständnis der folgenden Kapitel notwendig sind.
+
+## Einführung
+
+Trotz einiger populärer Protokolle, wie *BitTorrent* und *Skype* fristen
+P2P--Systeme trotz ihrer Flexibilität eher ein Nischendasein im Vergleich mit
+Client/Server--Architekturen im alltäglichen Gebrauch. Besonders beim
+Datenaustausch scheinen sie noch nicht beim normalen Endnutzer angekommen zu
+sein und rufen bei manchen Nutzern Assoziationen zu illegalen Aktivitäten
+hervor (Stichwort: *Filesharing--Netzwerke*).
+
+Der Vorteil von Client/Server--Anwendung ist, dass die Clients (im Gegensatz zu
+den Knoten eines P2P--Netzwerks) nichts zum Netzwerk beitragen müssen. Die Last
+liegt zum größten Teil auf Seite des Servers. Dieser muss die nötige Bandbreite
+und Prozessorleistung aufbringen, um viele Clients zu bedienen. Dieses Modell
+passt auf viele heterogene Anwendungsbereiche, wo Client und Server
+grundverschiedene Rollen zugeordnet sind. Ein Beispiel wäre ein
+Unternehmen, das seinen Kunden einen Dienst oder eine Webseite anbietet. Zudem
+haben solche »wohlbekannten« Dienste kein Problem mit NAT--Traversal (TODO:
+ref), da sich nur der Client aktiv mit dem Server verbindet und nicht
+umgedreht.
+
+In vielen Fällen skalieren aber Client/Server Anwendungen bei weitem schlechter
+als verteilte Anwendungen. Man stelle sich einen Vorlesungssaal mit 50
+Studenten vor, die ein Festplattenimage (Größe: 5 Gigabyte) aus dem Internet
+herunterladen sollen. Bei einer Client/Server Anwendung werden hier 50
+Verbindungen zu einem zentralen Server geöffnet. Der Flaschenhals dabei ist in
+diesem Fall vermutlich das WLAN im Saal, welches schnell zusammenbrechen würde.
+Anders ist es wenn die Rechner der Studenten ein verteiltes Netzwerk bilden.
+Hier genügt es wenn nur ein Rechner einen Teil der Datei hat. Diesen Teil kann
+er im lokalen Netz anderen Teilnehmern wieder anbieten und sich Teile der Datei
+besorgen, die er selbst noch nicht hat. So muss in der Theorie die Datei nur
+maximal einmal über das WLAN übertragen werden. In diesem etwas konstruierten
+Beispiel hätte man also ein Speedup--Faktor von ca. 50. [@fig:speedup]
+veranschaulicht diesen Zusammenhang noch einmal. Dezentrale Netzwerke können
+also sehr gut funktionieren, wenn die Teilnehmer ähnliche Rollen haben.
+
+![Veranschaulichung der Netzwerklast bei zentralen und dezentralen Systemen.](images/2/zentral-dezentral-speedup.pdf){#fig:speedup}
+
+### Aufbau eines P2P Netzwerks
+
+Eine P2P--Netzwerk wird aus den Rechnern seiner Teilnehmer aufgebaut (oft
+*Knoten* genannt). Bemerkenswert ist dabei, dass keine zentrale Instanz sich um
+die Koordination des Datenflusses im Netzwerk kümmern muss (siehe
+[@fig:central-distributed]). Die Grundlage für die Koordination bildet dabei
+die *Distributed Hashtable* (dt. verteilte Hashtabelle). Diese nutzt eine
+*Hashfunktion*, um für einen bestimmten Datensatz zu entscheiden, welche Knoten
+(mindestens aber einer) im Netzwerk für diesen Datensatz zuständig ist. Jeder
+Knoten verwaltet dabei einen bestimmten Wertebereich der Hashfunktion und ist
+für diese Hashwerte zuständig. Werden neue Knoten hinzugefügt oder andere
+verlassen das Netz, werden die Wertebereich neu verteilt.
+
+![Anschaulicher Unterschied zwischen zentralen und verteilten Systemen.](images/2/central-distributed.pdf){#fig:central-distributed}
+
+Werden ganze Dateien in das Netzwerk »gelegt«, so können diese je nach
+Anwendung in kleine Teilblöcke aufgeteilt werden, für die jeweils
+unterschiedliche Knoten zuständig sind. Wie die einzelnen Blöcke
+zusammenhängen, kann beispielsweise in einer *Torrent*--Datei definiert
+sein.[^BITTORRENT]
+
+[^BITTORRENT]: Anmerkung: Bei Bittorrent kümmert sich ein *Tracker* um das Auffinden von zuständigen Knoten.
+
+### Dateisynchronisation in P2P-Netzwerken
+
+Ein häufiges Problem bei Filesharing--Netzwerken wie *Bittorrent* ist, dass
+viele Dateien nach einiger Zeit nicht mehr erreichbar sind, da es keine Knoten
+mehr gibt, welche die Blöcke der Datei *seeden* (dt. sähen, also verteilen).
+Auch ist es nur problematisch, wenn nur wenige Teilnehmer eine Block *seeden*,
+während viele andere Teilnehmer den Block herunterladen wollen.[^LEECHER] Für
+einen globale und dauerhafte Dateisynchronisation ist das
+*Bittorrent*--Protokoll also nur bedingt geeignet.
+
+Diese Problemen mildern sich deutlich ab wenn man nur eine vergleichsweise
+kleine Anzahl von Knoten verwalten muss, bei dem jeder Knoten den anderen kennt
+--- eine Vorbedingung, die bei sicherer Dateisynchronisation durchaus
+anzunehmen ist, da nur relativ kleine Gruppen Dateien untereinander tauschen
+werden.
+
+[^LEECHER]: Die einseitig herunterladenden Teilnehmern werden dabei häufig als *Leecher* bezeichnet.
 
 ## Eigenschaften und Anforderungen {#sec:requirements}
 
 Im Folgenden werden auf die Anforderungen eingegangen, welche ``brig`` in
-Zukunft erfüllen soll. Diese sind weitreichender als was die aktuelle
-Implementierung leisten kann. Die Anforderungen lassen sich in drei
-Kategorien unterteilen:
+Zukunft erfüllen soll. Diese sind weitreichender als der Umfang der Umfang der
+aktuellen Implementierung. Die Anforderungen lassen sich in drei Kategorien
+unterteilen:
 
 - **Anforderungen an die Integrität:** ``brig`` muss die Daten die es speichert
   versionieren, auf Integrität prüfen können und korrekt wiedergeben können.
@@ -17,7 +97,7 @@ Kategorien unterteilen:
   Übertragung zwischen Partnern verschlüsselt werden. Die Implementierung
   der Sicherheitstechniken sollte transparent von Nutzern und Experten
   nachvollzogen werden können.
-- **Anforderungen an die Benutzbarkeit:** Die Software soll möglichst einfach zu
+- **Anforderungen an die Usability:** Die Software soll möglichst einfach zu
   nutzen und zu installieren sein. Der Nutzer soll ``brig`` auf den populärsten
   Betriebssystemen nutzen können und auch Daten mit Nutzern anderer
   Betriebssysteme austauschen können.
@@ -28,17 +108,19 @@ eigentliche Anforderung formuliert und danach beispielhaft erklärt.
 Ob und wie die Anforderung letztlich erfüllt wurde, wird in [@sec:evaluation]
 betrachtet.
 
+TODO: Reword that.
 Nicht jede Anforderung kann dabei voll umgesetzt werden. Teils überschneiden
 oder widersprechen sich Anforderungen an die Sicherheit und an die Effizienz,
 da beispielsweise verschlüsselte Speicherung mit effizienter Dekodierung
-kollidiert. Auch ist hohe Benutzbarkeit bei gleichzeitig hohen
+kollidiert. Auch ist hohe Usability bei gleichzeitig hohen
 Sicherheitsanforderungen schwierig umzusetzen. Das Neueingeben eines Passworts
 bei jedem Zugriff mag sicherer sein, aber eben leider kaum benutzerfreundlich.
-Die Anforderungen werden daher nach dieser sehr groben Faustregel in [@eq:faustregel] priorisiert:
+Die Anforderungen werden daher nach dieser sehr groben Faustregel in
+[@eq:faustregel] priorisiert:
 
-$$Benutzbarkeit \ge Sicherheit \geq Effizienz$$ {#eq:faustregel}
+$$Usability \ge Sicherheit \geq Effizienz$$ {#eq:faustregel}
 
-Im Zweifel wurde sich also beim Entwurf also für die Benutzbarkeit entschieden,
+Im Zweifel wurde sich also beim Entwurf also für die Usability entschieden,
 da ein sehr sicheres System zwar den Nutzer beschützen kann, er wird es aber
 ungern nutzen wollen und eventuell dazu tendieren um ``brig`` herum zu
 arbeiten. Das heißt allerdings keineswegs dass ``brig`` »per Entwurf« unsicher
@@ -50,11 +132,6 @@ Punkt überspitzt aber prägnant dargestellt:
 	Weak security that's easy to use will help more people than strong
 	security that's hard to use. Door locks are a good example.
 ```
-
-Bei Fragen zwischen Effizienz und Sicherheit wird allerdings eher zugunsten der
-Sicherheit entschieden. Man könnte hier argumentieren, dass die Effizienz durch
-bessere Hardware von alleine steigt, die Sicherheit hingegen nicht.
-(TODO: srsly?)
 
 Die unten stehenden Anforderungen sind teilweise an die Eigenschaften des
 verteilten Dateisystems *Infinit* (beschrieben in [@quintard2012towards], siehe
@@ -146,7 +223,7 @@ auf der Platte abgelegt werden und sonst nur im Hauptspeicher abgelegt werden.
 
 Wie in [@sec:stand-der-technik] beleuchtet wird, speichern die meisten Dienste und
 Anwendungen zum Dateiaustausch ihre Dateien in keiner verschlüsselten Form. Es
-gibt allerdings eine Reihe von Angriffsszenarien (TODO: ref christoph arbeit), die
+gibt allerdings eine Reihe von Angriffsszenarien ([@cpiechula], Kapitel TODO), die
 durch eine Vollverschlüsselung der Daten verhindert werden können.
 
 **Verschlüsselte Übertragung:** Bei der Synchronisation zwischen Teilnehmern
@@ -191,17 +268,17 @@ benötigen.
 **Transparenz:** Die Implementierung aller oben genannten Sicherheitsfeatures
 muss für Anwender und Entwickler nachvollziehbar und verständlich sein. Durch
 die Öffnung des gesamten Quelltextes können Entwickler den Code auf Fehler
-überprüfen. Normale Anwender können die Arbeit von Herrn Piechula (TODO: ref)
+überprüfen. Normale Anwender können die Arbeit von Herrn Piechula[@cpiechula]
 lesen, um einen Überblick über die Funktionsweise und Architektur der
 Sicherheitsfeatures zu bekommen. Desweiteren wird auch die Weiterentwicklung
 der Software offen gehalten[^SECNOTE].
 
-[^SECNOTE]: Allein Sicherheitslücken sollten vertraulich gemeldet werden. (TODO: ref christoph arbeit?)
+[^SECNOTE]: Allein Sicherheitslücken sollten vertraulich gemeldet werden. (Siehe [@cpiechula, Kapitel TODO)
 
-### Anforderung an die Benutzbarkeit
+### Anforderung an die Usability
 
-*Anmerkung:* In [@sec:benutzbarkeit] werden weitere Anforderungen zur
-Benutzbarkeit in Bezug auf eine grafische Oberfläche definiert. Da diese nicht
+*Anmerkung:* In [@sec:usability] werden weitere Anforderungen zur
+Usability in Bezug auf eine grafische Oberfläche definiert. Da diese nicht
 für die Gesamtheit der Software relevant sind, werden sie hier ausgelassen.
 
 **Automatische Versionierung:** Die Dateien die ``brig`` verwaltet, sollen
@@ -218,7 +295,7 @@ werden, falls verfügbar.
 Nutzer tendieren oft dazu mehrere Kopien einer Datei unter verschiedenen Orten
 als Backup anzulegen. Leider artet dies erfahrungsgemäß in der Praxis oft dazu
 aus, dass Dateinamen wie ``FINAL-rev2.pdf`` oder ``FINAL-rev7.comments.pdf``
-entstehen (TODO: ref?). Daher wäre für viele Nutzer eine automatisierte und
+entstehen. Daher wäre für viele Nutzer eine automatisierte und
 robuste Versionierung wünschenswert. Auch wenn ein Vorbild von ``brig`` das
 Versionsverwaltungssystem ``git`` ist, so kann es dessen detaillierte und
 manuelle Herangehensweise an  die Versionierung nicht nachbilden.
@@ -327,7 +404,7 @@ Kernfunktionalitäten sind bei ``ipfs`` in einer separaten Bibliothek namens
 ``libp2p``[^LIBP2P] untergebracht, welche auch von anderen Programmen genutzt
 werden kann.
 
-[^CAN]: Siehe auch: <https://en.wikipedia.org/wiki/Content_addressable_network> (TODO: eigenes buch referenzieren)
+[^CAN]: Siehe auch: <https://en.wikipedia.org/wiki/Content_addressable_network> 
 [^LIBP2P]: Mehr Informationen in der Dokumentation unter: <https://github.com/ipfs/specs/tree/master/libp2p>
 
 ### Eigenschaften von ``ipfs`` {#sec:ipfs-attrs}
@@ -338,10 +415,7 @@ und der *Record Store* (IPLD) werden dabei ausgelassen, da sie für ``brig`` (no
 keine praktische Bedeutung haben:
 
 **Weltweites Netzwerk:** Standardmäßig nehmen alle ``ipfs`` Knoten an einem
-zusammenhängenden, weltweiten Netzwerk teil. (TODO: Screenshot von Weltkugel
-machen?)
-
-TODO: p2p schaugrafik wie kitteh mit bbotstrap nodes?
+zusammenhängenden, weltweiten Netzwerk teil.
 
 Um sich zum Netzwerk zu verbinden, müssen erst einmal passende Knoten »in der
 Nähe« des neuen Knotens gefunden werden. Dazu verbindet sich ``ipfs`` beim Start
@@ -420,8 +494,7 @@ Der öffentliche Schlüssel kann dazu genutzt werden, mit seinem Peer
 mittels asymmetrischer Verschlüsselung eine verschlüsselte Verbindung
 aufzubauen. Von ``brig`` wird dieses Konzept weiterhin genutzt, um eine Liste
 vertrauenswürdiger Knoten zu verwalten. Jeder Peer muss bei Verbindungsaufbau
-nachweisen, dass er den zum öffentlichen passenden privaten Schlüssel besitzt.
-Der genaue Ablauf dieser Authentifikation kann in [TODO ref christoph] nachgelesen werden.
+nachweisen, dass er den zum öffentlichen passenden privaten Schlüssel besitzt (für Details sieh [@cpiechula], Kapitel TODO).
 
 **Pinning und Caching:** Das Konzept von ``ipfs`` basiert darauf, dass Knoten nur
 das speichern, worin sie auch interessiert sind. Daten, die von außen zum
@@ -461,15 +534,15 @@ Bei einer P2P--Kommunikation hingegen, muss eine Verbindung in beide Richtungen
 möglich sein --- und das möglicherweise sogar über mehrere *NATs*.
 
 Die Umgehung dieser Grenzen ist in der Literatur als *NAT Traversal* bekannt
-(TODO: ref). Eine populäre Technik ist dabei das UDP--Hole--Punching (TODO:
-ref). Dabei wird grob erklärt ein beiden Parteien bekannter Mittelmann (oft ein
+(TODO: ref aus buch). Eine populäre Technik ist dabei das UDP--Hole--Punching (TODO:
+ref aus buch). Dabei wird grob erklärt ein beiden Parteien bekannter Mittelmann (oft ein
 *Bootstrap*--Knoten) herangezogen, über den die eigentliche, direkte Verbindung
-aufgebaut wird. Mehr Details finden sich in TODO: ref. Eine Notwendigkeit dabei
+aufgebaut wird. Eine Notwendigkeit dabei
 ist die Verwendung von *UDP* anstatt *TCP*. Um die Garantien, die *TCP*
 bezüglich der Paketzustellung gibt, zu erhalten nutzt ``ipfs`` das
 Anwendungs--Protokoll *UDT*. Insgesamt implementiert ``ipfs`` also einige
 Techniken, um, im Gegensatz zu den meisten theoretischen Ansätzen, eine leichte
-Benutzbarkeit zu gewährleisten. Speziell wäre hier zu vermeiden, dass ein
+Usability zu gewährleisten. Speziell wäre hier zu vermeiden, dass ein
 Anwender die Einstellungen seines Routers ändern muss, um ``brig`` zu nutzen.
 
 [^UDT]: http://udt.sourceforge.net/
@@ -495,4 +568,4 @@ $ curl https://gateway.ipfs.io/ipfs/$PHOTO_HASH > my-photo.png
 Auf dem *Gateway* läuft dabei ein Webserver, der dasselbe tut wie ``ipfs cat``,
 aber statt auf der Kommandozeile die Daten auf eine HTTP--Verbindung ausgibt.
 Standardmäßig wird mit jedem Aufruf von ``ipfs daemon`` ein Gateway auf der
-Adresse ``http://localhost:8080`` gestartet.
+Adresse <http://localhost:8080> gestartet.
