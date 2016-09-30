@@ -34,7 +34,7 @@ offiziell bekannt[@bibgreenwald2013nsa], dass der Zugriff auf persönliche Daten
 durch Drittparteien erfolgt ist beziehungswiese erzwungen wurde. Neben dem
 geduldeten oder rechtlich erzwungenen Zugriff durch Drittparteien, haben
 Cloud--Storage--Anbieter wie beispielsweise »Dropbox« in der Vergangenheit
-immer wieder für Schlagzeilen gesorgt. 
+immer wieder für Schlagzeilen gesorgt.
 
 Durch diverse Softwarefehler war beispielsweise der Zugriff über mehrere
 Stunden mit beliebigen Passwörtern möglich[^FN_DROPBOX_AUTH_BUG]. Ein weiterer
