@@ -2,9 +2,9 @@
 
 ## Zusammenfassung
 
-Es wurde ein neuer, interdisplizinärer Ansatz für ein
+Es wurde ein neuer, interdisziplinärer Ansatz für ein
 Dateisynchronisationssystem vorgestellt, der viele bestehende Ideen in einem
-stimmigen Konzept vereint. Eine entsprechende, quelloffene und für alle
+stimmigen Konzept vereint. Eine funktionierende, quelloffene und für alle
 zugängliche Implementierung wurde vorgestellt und dokumentiert. Die anfangs
 gestellten Anforderungen konnte im Großen und Ganzen umgesetzt werden, auch
 wenn die Implementierung den Konzepten etwas nachsteht. Aus Sicht der Autoren
@@ -16,7 +16,7 @@ können.
 Eine Abgrenzung zu anderen, existierenden Werkzeugen ergibt sich vor allem
 dadurch, dass die technischen Internas von ``brig`` vergleichsweise leicht
 verständlich sind und auch von fortgeschrittenen Nutzern verstanden werden
-können. Sehr grob zusammengefasst und leicht überspitzt lässt sich zudem sagen,
+können. Provokativ zusammengefasst und leicht überspitzt lässt sich zudem sagen,
 dass ``brig``...
 
 * ...mächtiger ist als ``syncthing``.
@@ -73,7 +73,6 @@ ansatzweise gelöst worden sind.
 Momentan wird ``brig`` vollkommen separat von ``ipfs`` entwickelt. Das hat vor allem
 den Grund, dass zu Anfang des Projektes die Richtung der Entwicklung noch nicht klar war. Die komplette Separation als eigenes Projekt, macht es deutlich einfacher
 mit verschiedenen Konzepten zu experimentieren.
-
 In Zukunft spricht jedoch nichts dagegen Teile von ``brig``, sofern sie allgemein nützlich sind, auch dem ``ipfs``--Projekt anzubieten und dort zu integrieren.
 Eine Zusammenarbeit wäre für beide Seite vorteilhaft, da mehr Entwickler sich mit dem
 Quelltext befassen können und die dazugehörigen Konzepte aufeinander abstimmen können.
@@ -99,8 +98,8 @@ Konkret wären folgende Module von ``brig`` für ``ipfs`` interessant:
 Fraglich ist auch wie die Zukunft von ``brig`` aussieht, nachdem die
 vorliegende Arbeit abgeschlossen wurde. Leider konnte für die weitere Förderung
 des Projektes kein Sponsor verpflichtet werden. Trotz Motivation der Autoren
-wird ``brig`` daher in der näheren Zukunft als Hobbyprojekt weitergeführt
-werden müssen. Durch die private Situation beider Autoren wird daher die
+wird ``brig`` daher in der näheren Zukunft als Hobbyprojekt weitergeführt.
+Durch die private Situation beider Autoren wird daher die
 Entwicklung sich leider verlangsamen.
 
 ### Veröffentlichung der Software
@@ -125,10 +124,8 @@ Alle drei Möglichkeiten könnten auch zusammen (in dieser Reihenfolge) genutzt
 werden. Bei der Veröffentlichung sollte explizit angemerkt werden, dass sich
 Internas noch ändern können falls dazu Anlass bestehen sollte.
 
------
-
 Auch wenn die Arbeit an ``brig`` persönlich sehr kräftezehrend war, haben wir
-gefühlt mehr gelernt als im ganzen Studium. Es stecken eine Menge guter Ideen in
-der Software und aus unserer Sicht ist alleine die Zeit der limitierende Faktor,
-um ``brig`` zu einem Produkt zu machen, dass mehr als eine Option (oder ein
-weiterer Standard wie in [@fig:xkcd-standards]) unter vielen ist.
+eine Menge dabei gelernt. Es stecken eine Menge guter Ideen in der Software und
+aus unserer Sicht ist alleine die Zeit der limitierende Faktor, um ``brig`` zu
+einem Produkt zu machen, dass mehr als ein »Standard« (im Sinne von
+[@fig:xkcd-standards]) unter vielen ist.

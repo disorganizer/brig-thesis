@@ -109,7 +109,7 @@ function create_brig_repo() {
 create_brig_repo
 size=1
 for i in `seq 10`; do
-	time_it brig add "data/archive_$size"
+	time_it brig stage "data/archive_$size"
 	time_it brig cat "archive_$size" /dev/null
 	time_it dd if="data/mount/archive_$size" of=/dev/null bs=4M status=none
 	size=$(expr $size \* 2)

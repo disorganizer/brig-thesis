@@ -3,7 +3,7 @@
 In diesem Kapiteln wird ein kurzer Überblick über die wissenschaftlichen
 Arbeiten und Produkte auf den Markt rund um das Thema Dateisynchronisation
 gegeben werden. Darauf aufbauend wird von verschiedenen Perspektiven aus
-überlegt welche Eigenschaften ``brig`` übernehmen kann und in welchen Rahmen
+überlegt welche Eigenschaften ``brig`` übernehmen kann und vom wem und in welchen Rahmen
 die Software eingesetzt werden kann.
 
 ## Projektziel
@@ -30,17 +30,17 @@ Um einen ersten Eindruck von ``brig`` und seinen (angestrebten)
 Fähigkeiten in der Praxis zu bekommen, ist an dieser Stelle die Lektüre des
 *Benutzerhandbuch* in [@sec:benutzerhandbuch] empfohlen.
 
-## Wissenschaftliche Ansätze
+## Ähnliche Arbeiten
 
-Es gibt viele unterschiedliche Arbeiten rund um das Thema der Dateiverteilung
-in P2P--Netzwerken. Viele Arbeiten scheinen sich mehr auf das Thema
-des Dateiaustausches zu konzentrieren und weniger auf das Thema der Dateisynchronisation,
+Es gibt viele unterschiedliche wissenschaftliche Arbeiten rund um das Thema der Dateiverteilung
+in P2P--Netzwerken. Die meisten Arbeiten scheinen sich mehr auf das Thema
+des Dateiaustausches an sich zu konzentrieren und weniger auf das Thema der Dateisynchronisation,
 wo eine Menge von Dateien auf den selben Stand gehalten werden muss.
 Die vorhandenen Arbeiten legen ihren Fokus dabei meist auf die Untersuchung und
 Implementierung verteilter Dateisysteme, die sehr ähnliche Probleme lösen
 müssen, aber mehr auf Effizienz als auf Einfachheit Wert legen.
 
-Stellvertretend für eine solche Arbeit soll hier die Disseration von Julien
+Stellvertretend für eine solche Arbeit soll hier die Dissertation von Julien
 Quintard *»Towards a worldwide storage infrastructure«*[@quintard2012towards]
 genannt werden. In dieser wird die Implementierung und die Konzepte hinter dem
 verteilten Dateisystem *Infinit* vorgestellt. Obwohl der Fokus hier auf
@@ -53,19 +53,19 @@ von ``brig``:
 * Eingebaute Deduplizierung.
 * Eine Versionierung der Dateien ist vorhanden.
 
-[^FUSE_EXPL]: Eine Technik, um ein Dateisystem im Userspace zu implementieren. Dem Nutzer kann dadurch ein normaler Ordner präsentiert werden.
+[^FUSE_EXPL]: Eine Technik, um ein Dateisystem im Userspace zu implementieren. Dem Nutzer kann dadurch ein normaler Ordner mit beliebigen Daten als Dateien präsentiert werden.
 
 Der Hauptunterschied ist allerdings die Zielgruppe. Während das bei ``brig``
 der »Otto--Normal--Nutzer« als kleinster Nenner ist, so ist *Infinit* auf
 Entwickler und Administratoren ausgelegt und leider nur teilweise quelloffen
-ist[^INFINIT_SOURCE].
+ist[^INFINIT_SOURCE], also keine *Free Open Source Software (FOSS)*.
 
 [^INFINIT_SOURCE]: <https://infinit.sh/open-source>
 
 Eine sehr detaillierte Gegenüberstellungen vieler Produkte rund um das Thema
-Dateisynchronisation findet sich in der Dokumentation von ``inifinit.sh``:
+Dateisynchronisation findet sich in der Dokumentation von ``inifinit.sh``[^INF_COMP]
 
-<https://infinit.sh/documentation/comparison/dropbox>
+[^INF_COMP]: Beispielsweise mit Dropbox: <https://infinit.sh/documentation/comparison/dropbox>
 
 [^INFINIT]: Mehr Informationen unter: <https://infinit.sh>  --- *Anmerkung:* Neben dem verteilten Dateisystem bietet das Unternehmen
 auch noch eine reine Datei--Transfer--Lösung namens *Infinit Transfer*. Dazu gibt es hier mehr Informationen: <https://infinit.io>
@@ -77,14 +77,14 @@ haben. Im Folgenden werden die Ähnlichkeiten zu ``brig`` genannt:
 **bazil:**[^BAZIL_ORG]  Ein Werkzeug um Dateien verschlüsselt und dezentral zu
 verteilen. In seinem Zielen ist es also sehr ähnlich zu ``brig``, besonders da
 es ebenfalls ein FUSE--Dateisystem implementiert.[^FUSE_NOTE] Es ist eher an
-fortgeschrittene Heimanwender und Poweruser gerichtet und momentan noch nicht
+technisch versierte Nutzer gerichtet und momentan noch nicht
 für den Produktivbetrieb geeignet. Zu diesem Zeitpunkt funktioniert es zudem
 nur lokal auf einem System ohne mit anderen Knoten kommunizieren zu können.
 
 **Tahoe-LAFS:**[^TAHOE_LAFS] Ein verteiltes Dateisystem, welches Dateien über
 eine Menge an Rechnern möglichst ausfallsicher verteilen kann, selbst wenn
 einzelne Rechner ausfallen. Es richtet sich tendenziell an Administratoren und
-Poweruser, die eine große Menge an Daten sicher lagern wollen.
+technisch versierte Nutzer, die eine große Menge an Daten sicher lagern wollen.
 Ähnliche Produkte in diesem Bereich gibt es mit *XtreemFs*[^XTREEMFS],
 *LizardFs*[^LIZARDFS] und *MooseFs*[^MOOSEFS].
 
@@ -95,8 +95,6 @@ bekannten Dateien in einem *Repository* und gewährleistet mittels eines
 speziellen Dateiformats deren Integrität.
 ``brig`` verwendet analog zu ``restic`` (und ``git``) den Begriff *Repository*
 für den Ordner, in dem es seine Daten ablegt.
-
-TODO: https://librevault.com anschauen, was kann das?
 
 [^BAZIL_ORG]: Mehr Informationen unter: <https://bazil.org>
 [^FUSE_NOTE]: Der Entwickler von ``bazil``  Tommi Virtanen betreut auch dankenswerterweise die FUSE--Bindings für *Go*, die auch ``brig`` nutzt.
@@ -117,9 +115,7 @@ Konzepte genommen, um sie in einer Software zu vereinen, die ein versioniertes
 und verteiltes Dateisystem implementiert. Dieses soll nicht nur »sicher« (im
 weitesten Sinne, siehe [@cpiechula], Kapitel TODO) sein, sondern auch
 für ein Großteil der Anwender benutzbar sein.
-
-In diesem Kontext werden einige konkrete Neuerungen in der vorliegenden Arbeit
-vorgestellt. Diese bestehen hauptsächlich aus den folgenden Punkten:
+Im Konkreten bestehen die Neuerungen hauptsächlich aus den folgenden Punkten:
 
 * Eine Erweiterung des Datenmodells von ``git``, welches Metadaten von den eigentlichen Daten trennt,
   leere Verzeichnisse sowie umbenannte Pfade nativ unterstützt und eine eigene Historie pro Datei mit sich bringt.
@@ -127,9 +123,9 @@ vorgestellt. Diese bestehen hauptsächlich aus den folgenden Punkten:
   nachzuladen und nach Anwendungsfall zu »pinnen«. Dateien mit einem *Pin* werden dabei auf dem lokalen Rechner
   gespeichert, Dateien ohne Pin dürfen falls nötig wieder gelöscht werden.
 - Ein Verschlüsselungsformat (ähnlich dem Secretbox der freien NaCl[^NACL] Bibliothek), welches effizienten wahlfreien Zugriff erlaubt.
-- Ein Kompressionsformat, welches blockbasierten wahlfreien Zugriff erlaubt und den Einsatz verschiedener Algorithmen erlaubt.
+- Ein Kompressionsformat, welches blockbasierten, wahlfreien Zugriff erlaubt und den Einsatz verschiedener Algorithmen erlaubt.
 - Ein Konzept und Implementierung zur dezentralen Benutzerverwaltung, ohne dass man sich dabei registrieren muss.
-- Verschiedene Ansätze um die Usability zu verbessern ohne den Sicherheitsaspekt abzuschwächen.
+- Verschiedene Ansätze um die Usability zu verbessern ohne an Sicherheit zu verlieren.
 
 [^NACL]: Mehr Informationen unter <https://nacl.cr.yp.to/secretbox.html>
 
@@ -159,8 +155,8 @@ Dropbox --- es ist nicht Open--Source.
 
 [^ENCFS]: Mehr Informationen unter <https://de.wikipedia.org/wiki/EncFS>
 
-Die Server von Dropbox stehen in den Vereinigten Staaten, was spätestens seit
-den Snowden--Enthüllungen für ein mulmiges Gefühl sorgen sollte. Wie oben
+Die Server von Dropbox stehen in den Vereinigten Staaten von Amerika, was spätestens seit
+den Snowden--Enthüllungen Besorgnis um die Sicherheit der Daten weckt. Wie oben
 erwähnt, kann diese Problematik durch die Verschlüsselungssoftware *Boxcryptor*
 abgemildert werden. Diese kostet aber zusätzlich und benötigt noch einen
 zusätzlichen zentralen Keyserver[^KEYSERVER]. Ein weiterer Nachteil ist hier die
@@ -203,22 +199,22 @@ Discovery--Servers entdeckt werden können. Nachteilig hingegen ist die fehlende
 Benutzerverwaltung: Man kann nicht festlegen von welchen Nutzern man Änderungen
 empfangen will und von welchen nicht.
 
-#### Resilio
+#### ``resilio``
 
-![Screenshot der Resilio--Weboberfläche](images/2/resilio.png){#fig:scrn-resilio}
+![Screenshot der ``resilio``--Weboberfläche](images/2/resilio.png){#fig:scrn-resilio}
 
-In bestimmten Kreisen scheint auch das kommerzielle und proprietäre *Resilio*
+In bestimmten Kreisen scheint auch das kommerzielle und proprietäre ``resilio``
 (früher *Bittorrent Sync*) beliebt zu sein. Hier wird das bekannte und freie
 BitTorrent Protokoll zur Übertragung genutzt. Vom Feature--Umfang ist es in
 etwa vergleichbar mit *Syncthing*. Die Dateien werden allerdings noch
 zusätzlich AES--verschlüsselt abgespeichert.
 
-Genauere Aussagen über die verwendete Technik kann man leider aufgrund der
+Genauere Aussagen über die verwendete Technik kann man aufgrund der
 geschlossenen Natur des Programms und der eher vagen Werbeprosa nicht treffen.
-Ähnlich zu *Syncthing* ist allerdings, dass eine Versionsverwaltung nur mittels
-eines »Archivordners« vorhanden ist. Gelöschte Dateien werden schlicht in diesen
+Ähnlich zu ``syncthing`` ist allerdings, dass eine Versionsverwaltung nur mittels
+eines »Archivordners« vorhanden ist. Gelöschte Dateien werden in diesen
 Ordner verschoben und können von dort wiederhergestellt werden.
-Mehr Details liefert der Vergleich des *Infinit*--Projekts.[^RESILIO_INFINIT]
+Etwas mehr Details liefert der Vergleich des *Infinit*--Projekts.[^RESILIO_INFINIT]
 
 [^RESILIO_INFINIT]: <https://infinit.sh/documentation/comparison/bsync>
 
@@ -258,40 +254,45 @@ verfolgen und von Heimanwendern kaum genutzt werden. Zudem ist der
 Vollständigkeit halber auch OpenPGP zu nennen, was viele Nutzer zum
 Verschlüsseln von E-Mails benutzen. Aber auch hier ist der größte Nachteil die
 für den Ottonormalbenutzer schwierige Einrichtung und Benutzung.
+Auch das freie Projekt ``librevault``[^LIBREVAULT] wurde im Vergleich
+ausgelassen, da es sich noch im Alpha--Stadium befindet und bei einem Test
+reproduzierbar abstürzte.
+
+[^LIBREVAULT]: Mehr Informationen hier: <https://librevault.com>
 
 In [@tbl:table-technical-overview] und [@tbl:table-practical-overview] findet
 sich zusammenfassend eine Übersicht, mit den aus unserer Sicht wichtigsten
-Eigenschaften.
+Eigenschaften. Die Bewertung ist in Punkten wie *»Einfach nutzbar«* teilweise
+subjektiver Natur.
 
 |                      | **Dezentral**       | **Verschlüsselung (Client)**     | **Versionierung**                      |  **Quotas**       | **N-Kopien**    |
 | -------------------- | ------------------- | -------------------------------- | -------------------------------------- | ------------------|------------------|
 | *Dropbox/Boxcryptor* | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |  \xmark           | \xmark          |
-| *ownCloud*           | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |  \xmark           | \xmark          |
-| *Syncthing*          | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |  \xmark           | \xmark          |
-| *BitTorrent Sync*    | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |  \xmark           | \xmark          |
-| ``git-annex``        | \cmark              | \cmark                           | \cmark                                 |  \xmark           |  \cmark         |
-| ``brig`` (Prototyp)  | \cmark              | \cmark                           | \cmark                                 |  \xmark           |  \xmark         |
-| ``brig`` (Ziel)      | \cmark              | \cmark                           | \cmark                                 |  \xmark           |  \cmark         |
+| ``ownCloud``         | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |  \xmark           | \xmark          |
+| ``syncthing``        | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |  \xmark           | \xmark          |
+| ``resilio``          | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |  \xmark           | \xmark          |
+| ``git-annex``        | \cmark              | \cmark                           | \cmark                                 |  \xmark           | \cmark         |
+| ``infinit``          | \cmark              | \cmark                           | \xmark                                 |  \cmark           | \textcolor{YellowOrange}{Nur kommerziell}|
+| ``brig`` *(Prototyp)*  | \cmark              | \cmark                           | \cmark                               |  \xmark           | \xmark         |
+| ``brig`` *(Ziel)*      | \cmark              | \cmark                           | \cmark                               |  \cmark           | \cmark         |
 
 
 : Vergleich der Software aus technischer Sicht {#tbl:table-technical-overview}
 
-|                      | **FOSS**            | **Einfach nutzbar** | **Einfache Installation**  | **Intell. Routing** | **Kompression** |
+
+|                      | **FOSS**            | **Einfach nutzbar** | **Einfache Installation**  | **Intell. Routing**   | **Kompression** |
 | -------------------- | ------------------- | ------------------- |--------------------------  | ------------------------- |-----------------|
 | *Dropbox/Boxcryptor* | \xmark              | \cmark              | \cmark                     |  \xmark             | \xmark          |
-| *ownCloud*           | \cmark              | \cmark              | \xmark                     |  \xmark             | \xmark          |
-| *Syncthing*          | \cmark              | \cmark              | \cmark                     |  \cmark             | \xmark          |
-| *BitTorrent Sync*    | \xmark              | \cmark              | \cmark                     |  \cmark             | \xmark          |
+| ``ownCloud``         | \cmark              | \cmark              | \xmark                     |  \xmark             | \xmark          |
+| ``syncthing``        | \cmark              | \cmark              | \cmark                     |  \cmark             | \xmark          |
+| ``resilio``          | \xmark              | \cmark              | \cmark                     |  \cmark             | \xmark          |
+| ``infinit``          | \xmark              | \xmark              | \cmark                     |  \cmark             | \xmark          |
 | ``git-annex``        | \cmark              | \xmark              | \xmark                     |  \xmark             | \xmark          |
-| ``brig`` (Prototyp)  | \cmark              | \xmark              | \textcolor{YellowOrange}{Auf Linux} |  \cmark             | \cmark          |
-| ``brig`` (Ziel)      | \cmark              | \cmark              | \cmark                     |  \cmark             | \cmark          |
+| ``brig`` *(Prototyp)*  | \cmark              | \xmark              | \textcolor{YellowOrange}{Auf Linux} |  \cmark             | \cmark          |
+| ``brig`` *(Ziel)*      | \cmark              | \cmark              | \cmark                     |  \cmark             | \cmark          |
 
 
 : Vergleich der Software aus Nutzersicht {#tbl:table-practical-overview}
-
-TODO: Infinit eintragen?
-
-TODO: librevault betrachten?
 
 ## Zielgruppen
 
@@ -449,9 +450,10 @@ nicht auseinander halten, die einen unterschiedlichen Inhalt besitzen, aber die
 selbe Prüfsumme erzeugen. Auch wenn dieser Fall in der Theorie eintreten mag,
 so ist er extrem schwer absichtlich oder unabsichtlich zu erreichen. Der von
 ``ipfs`` standardmäßig verwendete Algorithmus ist *sha256*, welcher ein Ausgabe
-von 256 Bit. Wie in [@eq:hash-collision] gezeigt, müssten aufgrund des
+von 256 Bit liefert. Wie in [@eq:hash-collision] gezeigt, müssten aufgrund des
 Geburtstagsparadoxons[@wiki:geburtstagsparadoxon] unpraktikabel viele
 Prüfsummen erzeugt werden, um eine Kollisionswahrscheinlichkeit von $0.1\%$ zu
-erreichen.
+erreichen, selbst wenn man sehr optimistisch annimmt, dass die Berechnung einer
+einzigen Prüfsumme nur eine Pikosekunde dauert.
 
-$$\frac{1}{1000} \times 2^{\frac{256}{2}} \simeq 10^{35.5}$$ {#eq:hash-collision}
+$$(\frac{1}{1000} \times 2^{\frac{256}{2}}) \times 10^{-12}s \simeq 10^{35.5} \times 10^{-12}s \simeq 10^{15} \text{Jahre}$$ {#eq:hash-collision}

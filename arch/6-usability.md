@@ -277,7 +277,7 @@ die zusätzlichen Optionen im Kontextmenü:
 
 * *Pin file:* Setzt oder entfernt einen Pin für die Datei oder rekursiv für das Verzeichnis.
 * *Show History:* Wechselt zum Versionsverwaltungsbildschirm und zeigt die Historie der Datei (siehe [@sec:ui-vcs]).
-* *Import/Export file:* Speichere Datei auf der Festplatte ab. Entspricht ``brig add`` und ``brig cat``.
+* *Import/Export file:* Speichere Datei auf der Festplatte ab. Entspricht ``brig stage`` und ``brig cat``.
 * *Remove:* Entfernt die Datei im *Staging Bereich*.
 * *New Folder:* Entspricht ``brig mkdir``.
 * *Open in file browser:* Öffnet den Dateibrowser des Systems. Die ist nützlich

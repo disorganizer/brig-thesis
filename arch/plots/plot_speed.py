@@ -28,7 +28,7 @@ PLOT_MOVIE_WRITE = {
         ('encrypt/compress', MOVIE_ENCRYPT_PLUS_COMPRESS),
         ('ipfs add', MOVIE_IPFS_RAW),
         ('ipfs add/encrypt/zip', MOVIE_TILL_IPFS),
-        ('brig add', MOVIE_BRIG_ADD),
+        ('brig stage', MOVIE_BRIG_ADD),
     ]
 }
 
@@ -87,7 +87,7 @@ PLOT_ARCHIVE_WRITE = {
         ('encrypt/compress', ARCHIVE_ENCRYPT_PLUS_COMPRESS),
         ('ipfs add', ARCHIVE_IPFS_RAW),
         ('ipfs add/encrypt/zip', ARCHIVE_TILL_IPFS),
-        ('brig add', ARCHIVE_BRIG_ADD),
+        ('brig stage', ARCHIVE_BRIG_ADD),
     ]
 }
 

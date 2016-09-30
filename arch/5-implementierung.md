@@ -472,20 +472,21 @@ Bei der Auswahl wurde auf drei Kriterien geachtet:
 * Die Bibliothek sollte möglichst rein in *Go* geschrieben sein. Dies
   vereinfacht die Installation, da neben *Go* keine weiteren Abhängigkeiten installiert werden müssen.
 
-Nennenswert sind dabei folgende Bibliotheken:
+Nennenswert sind dabei folgende Bibliotheken, die sich alle auf *GitHub* finden.
+In Klammern wird jeweils die Lizenz der Bibliothek mit angegeben:
 
-* ``github.com/urfave/cli:``  Umfangreiche Bibliothek um Kommandozeilen zu parsen. (*MIT--Lizenz*)
-* ``github.com/golang/snappy:`` Reine Go--Implementierung des Snappy--Kompressionsalgorithmus. (*BSD--3--Clause--Lizenz*)
-* ``github.com/bkaradzic/go-lz4:`` Reine Go--Implementierung des LZ4--Kompressionsalgorithmus. (*BSD--3--Clause--Lizenz*)
-* ``github.com/dustin/go-humanize:`` Enthält nützliche Konvertierungsfunktionen, um beispielsweise Bytes in eine passende, menschenlesbare Form zu formatieren. (*MIT--Lizenz*)
-* ``github.com/jbenet/go-multihash:`` Implementiert die Enkodierung und Dekodierung des *Multihash*--Format. (*MIT--Lizenz*)
-* ``github.com/VividCortex/godaemon:`` Wird benutzt um den Pfad zur eigenen ausführbaren Datei plattformübergreifend zu finden. (*MIT--Lizenz*)
-* ``github.com/gogo/protobuf/proto:`` Schnellere Version des Original--Protobuf--Compilers.  (*BSD--3--Clause--Lizenz*)
-* ``github.com/codahale/chacha20poly1305:`` Nutzt die Streaming--Cipher
+* ``urfave/cli:``  Umfangreiche Bibliothek um Kommandozeilen zu parsen. (*MIT*)
+* ``golang/snappy:`` Go--Implementierung des Snappy--Kompressionsalgorithmus. (*BSD--3--Clause*)
+* ``bkaradzic/go-lz4:`` Go--Implementierung des LZ4--Kompressionsalgorithmus. (*BSD--3--Clause*)
+* ``dustin/go-humanize:`` Enthält nützliche Konvertierungsfunktionen, um beispielsweise Bytes in eine passende, menschenlesbare Form zu formatieren. (*MIT*)
+* ``jbenet/go-multihash:`` Implementiert die Enkodierung und Dekodierung des *Multihash*--Format. (*MIT*)
+* ``VividCortex/godaemon:`` Wird benutzt um den Pfad zur eigenen ausführbaren Datei plattformübergreifend zu finden. (*MIT*)
+* ``gogo/protobuf/proto:`` Schnellere Version des Original--Protobuf--Compilers.  (*BSD--3--Clause*)
+* ``codahale/chacha20poly1305:`` Nutzt die Streaming--Cipher
   *ChaCha20* und die MAC *Poly1305* um authentifizierte Verschlüsselung
-  umzusetzen. (Siehe auch: [@nir2015chacha20], *MIT--Lizenz*).
-* ``github.com/chzyer/readline:`` (*MIT--Lizenz*)
-* ``github.com/nbutton23/zxcvbn-go:`` Prüft eine Passphrase auf ihre Entropie. (*MIT--Lizenz*)
+  umzusetzen. (Siehe auch: [@nir2015chacha20], *MIT*).
+* ``chzyer/readline:`` (*MIT*)
+* ``nbutton23/zxcvbn-go:`` Prüft eine Passphrase auf ihre Entropie. (*MIT*)
 
 ### Sonstiges
 
@@ -526,7 +527,6 @@ befindet sich im Home--Verzeichnis des Nutzers unter ``.brig-config/``. [@lst:gl
 zeigt ein Beispiel mit zwei unterschiedlichen Repositories.
 Die *Global Config* ist zudem dazu gedacht, globale Standardwerte für neue Repositories
 zu definieren (ähnlich wie die globale ``git config``).
-
 
 ```{#lst:global-config .yaml}
 # ~/.brig-config/repos
@@ -630,7 +630,7 @@ geblieben, welcher an die XMPP--ID angelehnt ist.
 [^XMPP_IMPL]: Alte Implementierung: <https://github.com/disorganizer/brig/tree/253208a0651b8649d54b159024b2756319458b94/im>
 
 Als Ersatz für XMPP wurde *MQTT*[^MQTT] erwogen. Dabei handelt es sich um ein
-offenens Machine--to--Machine Nachrichtenprotokoll. Clients registrieren sich
+offenes Machine--to--Machine Nachrichtenprotokoll. Clients registrieren sich
 bei einem (normalerweise zentralen) Broker auf benannte Kanäle (*Topics*
 genannt) und werden benachrichtigt, wenn ein anderer Client eine Nachricht auf
 einem registrieren Topic veröffentlicht. Die Idee war, jeden ``brig``--Knoten
@@ -681,12 +681,12 @@ gemacht. Teilweise auch zu Projekten, die zu diesem Zeitpunkt gar nicht mehr
 von ``brig`` genutzt werden.  Diese werden hier der Vollständigkeit in
 umgekehrter chronologischer Reihenfolge aufgelistet:
 
-* <https://github.com/bazil/fuse/pull/152>: Option für *AllowNonEmpty* hinzugefügt.
-* <https://github.com/ipfs/go-ipfs/issues/2567>: Esoterischer Fehler in einer ``Seek()`` Funktion von ``ipfs``.
-* <https://github.com/ipfs/go-ipfs-util/pull/1>: Konstante für den DefaultHash zur API hinzugefügt.
+* <https://github.com/bazil/fuse/pull/152>: Option für »*AllowNonEmpty*« hinzugefügt.
+* <https://github.com/ipfs/go-ipfs/issues/2567>: Fehler in einer ``Seek()`` Funktion von ``ipfs``.
+* <https://github.com/ipfs/go-ipfs-util/pull/1>: Konstante für den *DefaultHash* hinzugefügt.
 * <https://github.com/tang0th/go-ecdh/pull/1>: Änderung kaputter Import--Pfade.
 * <https://github.com/cathalgarvey/go-minilock/issues/8>: Crashreport für *minilock*.
 * <https://github.com/tucnak/climax/pull/3>: Gruppierung mehrerer Subkommandos.
 * <https://github.com/chzyer/readline/pull/18>: Beispiel für ein zuvor angeregten Passwortprompt hinzugefügt.
-* <https://github.com/ipfs/go-ipfs/pull/1981>: Erwähnung von ``IPFS_PATH`` in der Hilfe von ``ipfs help``.
-* <https://github.com/tsuibin/goxmpp2/pull/1>: Flexibleres Nachschlages des SRV--Eintrags für eine Domain.
+* <https://github.com/ipfs/go-ipfs/pull/1981>: Erwähnung von ``IPFS_PATH`` in der Hilfe.
+* <https://github.com/tsuibin/goxmpp2/pull/1>: Flexibleres Nachschlagens des SRV--Eintrags
