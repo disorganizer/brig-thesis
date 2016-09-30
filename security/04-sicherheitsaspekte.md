@@ -8,9 +8,11 @@ der immer wieder fehlerhafte Einsatz von Kryptographie ist immer wieder für
 katastrophale Sicherheitsprobleme verantwortlich. Es ist *sehr schwer*
 Kryptographie *korrekt* zu Implementieren. Sogar der früher weit verbreitete
 Standard IEEE 802.11, *WEP (Wired Equivalent Privacy)*, zur verschlüsselten
-drahtlosen Kommunikation, weist gleich mehrere Designschwächen[^FN_WEP_ANALYSIS]
-auf, welche darauf schließen lassen, dass Kryptographische Primitiven
-missverstanden und auf ungünstige Art kombiniert wurden (vgl. auch
+drahtlosen Kommunikation, weist gleich mehrere Designschwächen auf. Eine
+Analyse[^FN_WEP_ANALYSIS] kommt zu der Einschätzung , dass Kryptographische
+Primitiven missverstanden und auf ungünstige Art kombiniert wurden. Weiterhin
+ist es ein Hinweis dafür, dass man hätte Experten aus dem Bereich der
+Kryptographie einbeziehen sollen um solche Fehler zu vermeiden (vgl. auch
 [@martin2012everyday], S. 430).
 
 [^FN_WEP_ANALYSIS]: WEP Analysis: <http://www.isaac.cs.berkeley.edu/isaac/wep-faq.html>
