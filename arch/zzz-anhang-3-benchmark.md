@@ -114,7 +114,7 @@ function create_brig_repo() {
 create_brig_repo
 size=1
 for i in `seq 10`; do
-	time_it brig add "data/archive_$size"
+	time_it brig stage "data/archive_$size"
 	time_it brig cat "archive_$size" /dev/null
 	time_it dd if="data/mount/archive_$size" of=/dev/null bs=4M status=none
 	size=$(expr $size \* 2)
@@ -154,7 +154,7 @@ PLOT_MOVIE_WRITE = {
         ('encrypt/compress', MOVIE_ENCRYPT_PLUS_COMPRESS),
         ('ipfs add', MOVIE_IPFS_RAW),
         ('ipfs add/encrypt/zip', MOVIE_TILL_IPFS),
-        ('brig add', MOVIE_BRIG_ADD),
+        ('brig stage', MOVIE_BRIG_ADD),
     ]
 }
 
@@ -213,7 +213,7 @@ PLOT_ARCHIVE_WRITE = {
         ('encrypt/compress', ARCHIVE_ENCRYPT_PLUS_COMPRESS),
         ('ipfs add', ARCHIVE_IPFS_RAW),
         ('ipfs add/encrypt/zip', ARCHIVE_TILL_IPFS),
-        ('brig add', ARCHIVE_BRIG_ADD),
+        ('brig stage', ARCHIVE_BRIG_ADD),
     ]
 }
 

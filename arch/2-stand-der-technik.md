@@ -155,7 +155,7 @@ Dropbox --- es ist nicht Open--Source.
 
 [^ENCFS]: Mehr Informationen unter <https://de.wikipedia.org/wiki/EncFS>
 
-Die Server von Dropbox stehen in den Vereinigten Staaten, was spätestens seit
+Die Server von Dropbox stehen in den Vereinigten Staaten von Amerika, was spätestens seit
 den Snowden--Enthüllungen Besorgnis um die Sicherheit der Daten weckt. Wie oben
 erwähnt, kann diese Problematik durch die Verschlüsselungssoftware *Boxcryptor*
 abgemildert werden. Diese kostet aber zusätzlich und benötigt noch einen

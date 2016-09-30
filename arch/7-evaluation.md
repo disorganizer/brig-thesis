@@ -290,7 +290,7 @@ Basierend auf dieser Eingabe werden für beide Datensätze folgende Daten erhobe
 * Schreiben mit/ohne Kompression und mit/ohne Verschlüsselung.
 * Lesen direkt von ``ipfs`` mit/ohne Entschlüsselung plus Dekompression.
 * Schreiben direkt zu ``ipfs`` mit/ohne Verschlüsselung plus Kompression.
-* Hinzufügen der Datei über ``brig add``.
+* Hinzufügen der Datei über ``brig stage``.
 * Ausgabe der Datei mit ``brig cat`` und über das FUSE--Dateisystem mit ``cat``.
 
 Als »Baseline« (also Grunddurchsatz) wird zusätzlich gemessen wie lange ein
@@ -326,7 +326,7 @@ ein Plot für das Schreiben und Lesen dieser Eingabedaten.
 Insgesamt können folgende Konklusionen aus den Ergebnissen gezogen werden:
 
 - Der Lese/Schreib--Durchsatz bleibt unabhängig von der Dateigröße größtenteils konstant.
-* »``brig add``« hat gegenüber »``ipfs add``« mit Verschlüsselung und Kompression einen
+* »``brig stage``« hat gegenüber »``ipfs add``« mit Verschlüsselung und Kompression einen
   geringen Overhead durch die interne Programmlogik. Dieser steigt aber bei einer
   größeren Datenmenge nicht weiter an (siehe [@fig:plot-movie-write] und
   [@fig:plot-archive-write]).

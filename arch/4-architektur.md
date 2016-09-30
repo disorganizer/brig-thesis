@@ -392,7 +392,7 @@ Davon abgesehen fällt auf dass zwei zusätzliche Strukturen eingeführt wurden:
   mittels ``git add`` explizit Dokumente aus dem Arbeitsverzeichnis hinzufügt.
   Bei ``brig`` hingegen gibt es kein Arbeitsverzeichnis und daher keine
   Unterscheidung zwischen »Unstaged Files« und »Staged Files«. Die Daten kommen
-  entweder von einer externen Datei, welche mit ``brig add <filename>``{.bash}
+  entweder von einer externen Datei, welche mit ``brig stage <filename>``{.bash}
   dem Staging--Bereich hinzugefügt wurde, oder die Datei wurde direkt im
   FUSE--Dateisystem von ``brig`` modifiziert.
   In beiden Fällen wird die neue oder modifizierte Datei in den *Staging--Commit*
