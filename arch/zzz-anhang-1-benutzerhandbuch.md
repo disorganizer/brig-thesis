@@ -76,7 +76,7 @@ golang``. In allen anderen Fällen kann ein Installationspaket von
 Ist *Go* installiert, muss noch der Pfad definiert werden, in dem alle *Go*--Quellen
 landen. Dazu ist das Setzen der Umgebungsvariable ``GOPATH`` nötig:
 
-```bash
+```sh
 $ mkdir ~/go
 $ export GOPATH=~/go
 $ export PATH=$PATH:~/go/bin
@@ -91,7 +91,7 @@ Sitzung erneut gesetzt werden.
 **Übersetzen der Quellen:** Ist *Go* installiert, kann mittels des ``go
 get``--Werkzeugs ``brig`` kompiliert werden:
 
-```bash
+```sh
 $ go get github.com/disorganizer/brig
 ```
 
@@ -112,7 +112,7 @@ erstellen, kann der *Go*--Compiler mittels der Umgebungsvariablen ``GOOS`` und
 der CPU (``arm``, ``386``, ``amd64``). Folgendes Shellskript kann daher genutzt
 werden, um für einen Großteil der Plattformen eine Binärdatei zu erzeugen:
 
-```bash
+```sh
 #!/bin/sh
 PLATFORMS=( linux darwin windows )
 ARCHS=( 386 amd64 arm )
@@ -158,7 +158,7 @@ Dokumentation zu den vorgestellten Kommandos. Die eingebaute Hilfe kann
 entweder allgemein über ``$ brig help``{.bash} aufgerufen werden (produziert
 diesselbe Ausgabe, wie in {#lst:brig-help}) oder für ein spezifisches
 Subkommando mittels ``$ brig help <subcommand>``{.bash}. Beispiel für ``$ brig
-rm``{.bash}:
+rm``{.sh}:
 
 ```bash
 NAME:
@@ -185,7 +185,7 @@ in einer Ordnerhierarchie.
 
 Um ``brig`` zu nutzen, muss daher zuerst ein Repository angelegt werden:
 
-```bash
+```sh
 $ export BRIG_PATH=/tmp/alice
 $ brig init alice@wonderland.lit/desktop
 ```
@@ -207,7 +207,7 @@ und die in [@fig:brig-repo-tree] gezeigte Verzeichnisstruktur angelegt.
 Wurde ein Repository angelegt, können einzelne Dateien oder rekursiv ganze
 Verzeichnisse hinzugefügt werden:
 
-```bash
+```sh
 $ cd $BRIG_PATH
 $ brig stage ~/photos/cat.png
 /cat.png
@@ -223,7 +223,7 @@ Dateien komprimiert, verschlüsselt und gehasht werden.
 *Anmerkung:* Zum Ausführen dieser Kommandos muss man entweder im Ordner des ``brig``--Repositories
 sein oder in einem Unterordner. Andernfalls wird ``brig`` eine Meldung wie diese ausgeben:
 
-```bash
+```sh
 10.08.2016/17:33:11 I: Unable to find repo in path or any parents: "/home/sahib"
 10.08.2016/17:33:11 W: Could not load config: open .brig/config: No such file or directory
 10.08.2016/17:33:11 W: Falling back on config defaults...
@@ -240,7 +240,7 @@ anstatt den vollen Pfad zu erhalten (``~/photos/cat.png``) --- letzterer hätte 
 auf andere Rechner keine sinnvolle Bedeutung mehr. Dieses Prinzip wird auch ersichtlich bei Benutzung
 von ``$ brig ls``{.bash}:
 
-```bash
+```sh
 $ brig ls
 105 MB	4 seconds ago	/
 2.1 MB	4 seconds ago	/photos/
@@ -256,7 +256,7 @@ so übergibt man den Pfad an das ``cat``--Subkommando[^BRIG_CAT_NOTE]:
 
 [^BRIG_CAT_NOTE]: Benannt nach dem traditionellen Unix--Kommando ``cat`` zum Ausgeben und Konkatenieren von Dateien.
 
-```bash
+```sh
 $ brig cat /photos/cat.png > some-cat.png
 $ open ./some-cat.png  # Öffnet die Datei in einem Bildbetrachter.
 ```
@@ -264,14 +264,14 @@ $ open ./some-cat.png  # Öffnet die Datei in einem Bildbetrachter.
 Da ``brig cat``{.bash} die Datei als kontinuierlichen Strom ausgibt, ist es
 möglich größere Dateien (wie Filme) ohne Zwischendatei direkt zu verwerten:
 
-```bash
+```sh
 $ brig cat /movies/big-buck-bunny.mov | mpv -  # Zeige Film mit `mpv`
 ```
 
 Auch die üblichen Unix--Kommandos zum Anlegen von Verzeichnissen, sowie dem
 Löschen und Verschieben von Dateien sind verfügbar:
 
-```bash
+```sh
 # Anmerkung: Der vordere '/' kann auch nach Belieben weggelassen werden.
 $ brig mkdir seen-movies
 $ brig mv movies/big-buck-bunny.mov seen-movies/
@@ -287,7 +287,7 @@ Leichter wäre es für den Benutzer wenn er seine gewohnten Anwendungen einfach
 weiterverwenden könnte. Das ist mit dem *FUSE*--Dateisystem möglich.
 Zur Verwendung muss das Dateisystem »gemounted« werden:
 
-```bash
+```sh
 $ mkdir /tmp/alice-mount
 $ brig mount /tmp/alice-mount
 ```
@@ -295,14 +295,14 @@ $ brig mount /tmp/alice-mount
 Dies erstellt in ``/tmp/alice-mount`` einen speziellen Ordner, mit den bisher hinzugefügten
 Dateien:
 
-```bash
+```sh
 $ ls /tmp/alice-mount
 photos  movies  knorkator
 ```
 
 Es können wie gewohnt Dateien editiert werden, gelöscht und neu angelegt werden:
 
-```bash
+```sh
 $ gimp /tmp/alice-moumt/photos/cat.png
 $ cp ~/dog.png /tmp/alice-mount/photos
 $ rm /tmp/alice/photos/dog.png
@@ -311,7 +311,7 @@ $ rm /tmp/alice/photos/dog.png
 Der ``mount``--Befehl kann auch ohne Pfad aufgerufen werden. In diesem Fall wird das Dateisystem.
 direkt unterhalb dem ``brig``--Repository unter ``$BRIG_PATH`` gelegt:
 
-```bash
+```sh
 $ mkdir -p share
 $ brig mount ./share
 $ ls $BRIG_PATH/share
@@ -337,7 +337,7 @@ Diese dienen dann eher als Sicherungspunkte eines Repositories, beziehungsweise
 *Snapshots* wie in vielen Backup--Programmen und weniger als zusammenhänge
 Einheit logischer Änderungen.
 
-```bash
+```sh
 $ brig status
 Changes by alice@wonderland.lit/desktop:
 
@@ -351,7 +351,7 @@ Changes by alice@wonderland.lit/desktop:
 
 Die gemachten Änderungen können mit dem ``commit``--Unterkommando in einem *Commit* verpackt werden:
 
-```bash
+```sh
 $ brig commit -m 'Moved my cat photos to the right place.'
 3 changes committed
 ```
@@ -360,7 +360,7 @@ Die Nachricht, die man mittels ``-m (--message)`` angegeben hat beschreibt, was 
 passiert ist und taucht später als hilfreiche Beschreibung im ``log`` auf. Mann kann diese
 Nachricht auch weglassen, was ``brig`` dazu veranlasst eine automatische *Commit*--Nachricht zu verfassen:
 
-```bash
+```sh
 $ brig stage ~/garfield-small.png /photos/garfield.png
 $ brig commit
 1 change committed
@@ -368,7 +368,7 @@ $ brig commit
 
 Die gemachten *Commits* lassen sich mittels des ``log``--Unterkommandos anzeigen:
 
-```bash
+```sh
 $ brig log
 QmNLei78zW/QmNLei78zW by alice, Initial commit
 QmPtprCMpd/Qma2Uquo9b by alice, Moved cat photos to the right place.
@@ -377,7 +377,7 @@ QmZNJPSbTE/QmbrpM6sKy by alice, Update on 2016-08-11 15:33:37.651 +0200 CEST
 
 Die *Checkpoints* einer einzelnen Datei zeigt der ``history`` Befehl:
 
-```bash
+```sh
 /photos/cat.png
  +-- Checkpoint #2 (moved by alice@jabber.nullcat.de/laptop)
  |   +- Hash: Qma2Uquo9bMyuRZ7Fw1oQ1v68Vm7hpCYLRsrQXoLFpZVoK
@@ -399,7 +399,7 @@ hat dabei eine eindeutige »Identität«, welches es im Netzwerk eindeutig
 identifiziert. Diese besteht aus einem Hash--Wert, und einem menschenlesbaren
 Nutzernamen. Für das eigene Repository kann er folgendermaßen angezeigt werden:
 
-```bash
+```sh
 $ brig remote self
 QmZyhL3VAAr35a9msSyhW4zfLPnx9Jn4gMSyMQR5VCBFnx online alice@wonderland.lit/desktop
 ```
@@ -410,7 +410,7 @@ Kennt man den Namen seines Kommunikationspartners, so kann ``brig`` alle Teilneh
 im Netzwerk mit diesen Namen abfragen. Im Beispiel möchte ``alice`` nun auch ein ``brig``--Repository
 auf ihren Laptop einrichten und auf ihren Arbeitsrechner dieses als Partner eintragen:
 
-```bash
+```sh
 $ brig remote locate alice@wonderland.lit/laptop
 QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
 QmNwr8kJrnQdjwupCDLs2Fv8JknjWD7esrF81QDKT2Q2g6
@@ -419,7 +419,7 @@ QmNwr8kJrnQdjwupCDLs2Fv8JknjWD7esrF81QDKT2Q2g6
 Falls man nur den Teil hinter dem ``@`` kennt (also die *Domain*), so, können auch alle
 Identitäten mit dieser Domain aufgelistet werden:
 
-```bash
+```sh
 $ brig remote locate alice@wonderland.lit/laptop
 QmZyhL3VAAr35a9msSyhW4zfLPnx9Jn4gMSyMQR5VCBFnx
 QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
@@ -436,7 +436,7 @@ Seitenkanal wäre ein Telefonanruf, E--Mail oder auch ein Instant Messenger. Hat
 man festgestellt was die richtige Identität ist,  kann man sie seiner
 Kontaktliste hinzufügen:
 
-```bash
+```sh
 $ brig remote add alice@wonderland.lit/laptop QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
 ```
 
@@ -444,12 +444,12 @@ TODO: Check einbauen ob der Kontakt verfügbar ist und warnen falls nicht?
 
 Der Unterbefehl ``list`` zeigt alle verfügbaren Kontakte an und ob diese online sind:
 
-```bash
+```sh
 $ brig remote list
 QmZyhL3VAAr35a9msSyhW4zfLPnx9Jn4gMSyMQR5VCBFnx online alice@wonderland.lit/laptop
 ```
 
-Das Löschen eines Kontakts ist mit ``$ brig remove <username>``{.bash} möglich
+Das Löschen eines Kontakts ist mit ``$ brig remove <username>``{.sh} möglich
 und wird nicht weiter demonstriert.
 
 ### Synchronisieren (``brig sync``)
@@ -467,7 +467,7 @@ TODO: brig sync dokumentieren
 Ist man mit dem Zug unterwegs, so kann ein Pfad »gepinnt« werden, um
 sicherzustellen dass sie lokal verfügbar ist:
 
-```bash
+```sh
 $ brig pin /thesis/01-motivation.tex
 ```
 
@@ -481,7 +481,7 @@ ein Platzmangel vorherrscht.
 das Verhalten der Software nach seinen Wünschen einzustellen.
 Ein Überblick über die verfügbaren Optionen liefert das Unterkommando ``list`` von ``brig config list``:
 
-```bash
+```sh
 $ brig config list
 daemon:
   port: 6666                        # Der Port von brigd.
@@ -495,14 +495,14 @@ repository:
 Das verwendete Format zur Speicherung und Anzeige entspricht dem YAML--Format.
 Einzelne Werte können auch direkt angezeigt werden:
 
-```bash
+```sh
 $ brig config get repository.id
 alice@wonderland.lit/desktop
 ```
 
 Möchte man die Werte editieren, so können diese einzeln gesetzt werden:
 
-```bash
+```sh
 $ brig config set daemon.port 7777
 ```
 
@@ -519,7 +519,7 @@ der ``brigd``--Daemon heruntergefahren werden. Danach ist das Repository nur
 mit der erneuten Eingabe eines Passwortes zugreifbar. Das kann nützlich sein,
 um Fremdzugriff auch bei physikalischer Abwesenheit am Rechner zu verhindern.
 
-```bash
+```sh
 $ brig close
 # Nach einiger Zeit ohne Netz:
 $ brig open
@@ -528,7 +528,7 @@ Password: **********
 
 Ein explizites ``brig open`` ist bei normaler Benutzung nicht nötig. Jedes
 Kommando, das von ``brigd`` abhängt, versucht diesen zu starten, wenn der
-Daemon nicht erreichbar ist. Dazu fragt es wie ``brig open``{.bash} auch nach
+Daemon nicht erreichbar ist. Dazu fragt es wie ``brig open``{.sh} auch nach
 dem Passwort. Das ``open``--Unterkommando ist allerdings nützlich für
 Skriptdateien, wenn der Passwort--Prompt an einer erwarteten Stelle auftauchen
 soll.
@@ -539,7 +539,7 @@ Das ``daemon``--Unterkommando bietet einige Optionen, um den Status von
 ``brigd`` zu überprüfen und zu verändern. Um zu überpüfen ob ``brigd`` läuft,
 kann das ``ping``--Unterkommando genutzt werden:
 
-```bash
+```sh
 $ brig daemon ping
 #01 127.0.0.1:33024 => 127.0.0.1:6668: OK (517.310422ms)
 #02 127.0.0.1:33024 => 127.0.0.1:6668: OK (522.751µs)
@@ -550,7 +550,7 @@ Das ``wait``--Unterkommando wartet bis ``brigd`` verfügbar ist und Kommandos en
 Das ist für Skripte nützlich, die darauf warten müssen ohne Passwort--Prompt normale
 ``brig``--Kommandos abzusetzen:
 
-```bash
+```sh
 $ echo 'Waiting for brig to start...'
 $ brig daemon wait
 $ echo 'Available! You can execute brig commands now.'
@@ -558,7 +558,7 @@ $ echo 'Available! You can execute brig commands now.'
 
 Auch das Starten und Beenden von ``brigd`` ist mit diesem Unterkommando direkt möglich:
 
-```bash
+```sh
 $ brig daemon quit    # Momentan selbe Funktion wie `brig close`
 $ brig daemon launch  # Momentan selbe Funktion wie `brig open`
 ```
@@ -568,7 +568,7 @@ $ brig daemon launch  # Momentan selbe Funktion wie `brig open`
 Das ``net``--Unterkommando bietet die Möglichkeit sich vom Netzwerk zu trennen und wieder
 zu verbinden:
 
-```bash
+```sh
 $ brig net status
 true
 $ brig net offline
@@ -606,7 +606,7 @@ Bedeutung haben:
 
 Nach der eigentliche Versionsnummer wird zusätzlich zur Information der Kompilierzeitpunkt angezeigt:
 
-```bash
+```sh
 $ brig -v
 v0.1.0-alpha+cd50f68 [buildtime: 2016-07-28T12:55:29+0000]
 ```

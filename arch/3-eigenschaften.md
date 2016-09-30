@@ -21,8 +21,8 @@ und Prozessorleistung aufbringen, um viele Clients zu bedienen. Dieses Modell
 passt auf viele heterogene Anwendungsbereiche, wo Client und Server
 grundverschiedene Rollen zugeordnet sind. Ein Beispiel wäre ein
 Unternehmen, das seinen Kunden einen Dienst oder eine Webseite anbietet. Zudem
-haben solche »wohlbekannten« Dienste kein Problem mit NAT--Traversal (TODO:
-ref), da sich nur der Client aktiv mit dem Server verbindet und nicht
+haben solche »wohlbekannten« Dienste kein Problem mit NAT--Traversal (siehe [@sec:ipfs-attrs]),
+da sich nur der Client aktiv mit dem Server verbindet und nicht
 umgedreht.
 
 In vielen Fällen skalieren aber Client/Server Anwendungen bei weitem schlechter
@@ -108,30 +108,24 @@ eigentliche Anforderung formuliert und danach beispielhaft erklärt.
 Ob und wie die Anforderung letztlich erfüllt wurde, wird in [@sec:evaluation]
 betrachtet.
 
-TODO: Reword that.
 Nicht jede Anforderung kann dabei voll umgesetzt werden. Teils überschneiden
 oder widersprechen sich Anforderungen an die Sicherheit und an die Effizienz,
 da beispielsweise verschlüsselte Speicherung mit effizienter Dekodierung
-kollidiert. Auch ist hohe Usability bei gleichzeitig hohen
+sich nur schwer kombinieren lässt. Auch ist hohe Usability bei gleichzeitig hohen
 Sicherheitsanforderungen schwierig umzusetzen. Das Neueingeben eines Passworts
-bei jedem Zugriff mag sicherer sein, aber eben leider kaum benutzerfreundlich.
-Die Anforderungen werden daher nach dieser sehr groben Faustregel in
-[@eq:faustregel] priorisiert:
-
-$$Usability \ge Sicherheit \geq Effizienz$$ {#eq:faustregel}
-
-Im Zweifel wurde sich also beim Entwurf also für die Usability entschieden,
+bei jedem Zugriff mag sicherer sein, aber eben kaum benutzerfreundlich.
+Daher muss bei der Erfüllung der Anforderungen eine Priorisierung erfolgen.
+Im Zweifel wurde sich beim Entwurf von ``brig`` für die Usability entschieden,
 da ein sehr sicheres System zwar den Nutzer beschützen kann, er wird es aber
 ungern nutzen wollen und eventuell dazu tendieren um ``brig`` herum zu
-arbeiten. Das heißt allerdings keineswegs dass ``brig`` »per Entwurf« unsicher
+arbeiten --- was weder sicher noch nutzerfreundlich ist.
+Das heißt allerdings keineswegs dass ``brig`` »per Entwurf« unsicher
 ist. Es wurden lediglich auf zu invasive Sicherheitstechniken verzichtet,
-welche den Nutzer stören könnten. Rob Pike[@pike2001security, S.24] hat diesen
-Punkt überspitzt aber prägnant dargestellt:
+welche den Nutzer stören könnten. Rob Pike ([@pike2001security] S.24) hat diesen
+Punkt überspitzt, aber prägnant dargestellt:
 
-```
-	Weak security that's easy to use will help more people than strong
-	security that's hard to use. Door locks are a good example.
-```
+> *Weak security that's easy to use will help more people than strong
+> security that's hard to use. Door locks are a good example.*
 
 Die unten stehenden Anforderungen sind teilweise an die Eigenschaften des
 verteilten Dateisystems *Infinit* (beschrieben in [@quintard2012towards], siehe
@@ -300,10 +294,11 @@ robuste Versionierung wünschenswert. Auch wenn ein Vorbild von ``brig`` das
 Versionsverwaltungssystem ``git`` ist, so kann es dessen detaillierte und
 manuelle Herangehensweise an  die Versionierung nicht nachbilden.
 
-**Portabilität:** ``brig`` sollte in möglichst portabler Weise implementiert werden, um
-die zunehmende Fragmentierung des Betriebssystemmarkts zu berücksichtigen (TODO: ref
-statistiken). Dabei sollten neben den populärsten Betriebssystemen wie Windows, Mac OSX
-und Linux auch auf lange Sicht mobile Plattformen unterstützt werden.
+**Portabilität:** ``brig`` sollte in möglichst portabler Weise implementiert
+werden, um die zunehmende Fragmentierung des
+Betriebssystemmarkts[@statistaFragOS] zu berücksichtigen. Dabei sollten neben
+den populärsten Betriebssystemen wie Windows, Mac OSX und Linux auch auf lange
+Sicht mobile Plattformen unterstützt werden.
 
 **Einfache Installation:** ``brig`` sollte möglichst einfach und ohne
 Vorkenntnisse installierbar sein. Zur Installation gehört dabei nicht nur die
@@ -407,7 +402,7 @@ werden kann.
 [^CAN]: Siehe auch: <https://en.wikipedia.org/wiki/Content_addressable_network> 
 [^LIBP2P]: Mehr Informationen in der Dokumentation unter: <https://github.com/ipfs/specs/tree/master/libp2p>
 
-### Eigenschaften von ``ipfs`` {#sec:ipfs-attrs}
+### Eigenschaften von des *Interplanetary Filesystems* {#sec:ipfs-attrs}
 
 Im Folgenden werden die Eigenschaften von ``ipfs`` kurz vorgestellt, welche von
 ``brig`` genutzt werden. Einige interessante Features wie das *Naming System* (IPNS),
@@ -494,7 +489,8 @@ Der öffentliche Schlüssel kann dazu genutzt werden, mit seinem Peer
 mittels asymmetrischer Verschlüsselung eine verschlüsselte Verbindung
 aufzubauen. Von ``brig`` wird dieses Konzept weiterhin genutzt, um eine Liste
 vertrauenswürdiger Knoten zu verwalten. Jeder Peer muss bei Verbindungsaufbau
-nachweisen, dass er den zum öffentlichen passenden privaten Schlüssel besitzt (für Details sieh [@cpiechula], Kapitel TODO).
+nachweisen, dass er den zum öffentlichen passenden privaten Schlüssel besitzt
+(für Details siehe [@cpiechula], Kapitel TODO).
 
 **Pinning und Caching:** Das Konzept von ``ipfs`` basiert darauf, dass Knoten nur
 das speichern, worin sie auch interessiert sind. Daten, die von außen zum
@@ -534,7 +530,7 @@ Bei einer P2P--Kommunikation hingegen, muss eine Verbindung in beide Richtungen
 möglich sein --- und das möglicherweise sogar über mehrere *NATs*.
 
 Die Umgehung dieser Grenzen ist in der Literatur als *NAT Traversal* bekannt
-(TODO: ref aus buch). Eine populäre Technik ist dabei das UDP--Hole--Punching (TODO:
+(TODO: ref aus p2p/jabber buch). Eine populäre Technik ist dabei das UDP--Hole--Punching (TODO:
 ref aus buch). Dabei wird grob erklärt ein beiden Parteien bekannter Mittelmann (oft ein
 *Bootstrap*--Knoten) herangezogen, über den die eigentliche, direkte Verbindung
 aufgebaut wird. Eine Notwendigkeit dabei

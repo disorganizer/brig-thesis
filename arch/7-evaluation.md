@@ -302,7 +302,7 @@ langsamer.
 
 Die untenstehenden Ergebnisse wurden halbautomisch mit einem Shellskript
 erhoben und in einem Python--Skript, mithilfe ``pygal``[^PYGAL]--Bibliothek,
-in Diagramme verpackt. Beide Skripte finden sich in
+in Plots gerendert. Beide Skripte finden sich in
 [@sec:appendix-benchmarks].
 
 [^PYGAL]: <http://pygal.org/en/stable>

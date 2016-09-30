@@ -533,7 +533,7 @@ Stelle also nicht dem Namensvetter ``git checkout`` sondern eher dem
 wiederholten Anwenden von ``git revert`` zwischen dem aktuellen und dem
 Nachfolger des gewünschten Commits.
 
-![Die Abolge der ``CHECKOUT``--Operation im Detail](images/4/op-checkout.pdf){#fig:op-checkout}
+![Die Abolge der ``CHECKOUT``--Operation im Detail](images/4/op-checkout.pdf){#fig:op-checkout width=75%}
 
 Begründet ist dieses Verhalten darin, dass kein sogenannter »Detached
 HEAD«--Zustand entstehen soll, da dieser für den Nutzer verwirrend sein kann.
@@ -579,7 +579,7 @@ Hinzufügen des Partners eine Authentifizierungsmaßnahme die bewusst eingefügt
 wurde und durch die automatische Entdeckung von Synchronisationspartnern zwar
 unterstützt, aber nicht ersetzt werden kann[@sec:user-management].
 
-![Remote Liste mit vier Repositories und verschienden Synchronisationsrichtungen.](images/4/multiple-repos.pdf){#fig:multiple-repos}
+![Remote Liste von vier Repositories und verschienden Synchronisationsrichtungen.](images/4/multiple-repos.pdf){#fig:multiple-repos}
 
 Wie in [@fig:multiple-repos] gezeigt, kann jeder Knoten mit einem anderen
 Knoten synchronisieren, der in der Liste steht, da von diesen jeweils der
@@ -804,6 +804,14 @@ zusätzlich hat (aber Alice nicht) können nun leicht ermittelt werden, indem ge
 welche von Bob's Pfaden noch nicht in der errechneten Hashtabelle vorkommen.
 Diese Pfade können dann in einem zweiten Schritt dem Stand von Alice hinzugefügt werden.
 
+Darüber hinaus gibt es noch einen Spezialfall der vor der eigentlichen
+Synchronisation abgeprüft werden muss. Hat einer der beiden Partner keine
+Änderungen gemacht und haben beide Partner eine gemeinsame Historie, kann der
+Stand »vorgespult« werden. Das heißt, alle Änderungen der Gegenseite können
+direkt übernommen werden. Dieses Vorgehen ist bei ``git`` auch als
+*Fast--Forward--Merge* bekannt (``git merge --ff``). Anders als bei ``git``
+wird bei ``git`` allerdings immer ein Merge--Point erstellt.
+
 ### Austausch der Metadaten {#sec:metadata-exchange}
 
 Um die Metadaten nun tatsächlich synchronisieren zu können, muss ein Protokoll
@@ -925,7 +933,7 @@ diesen Namen. Die Bezeichnungen ``brigctl`` und ``brigd`` dienen lediglich der
 Veranschaulichung.
 [^PROTOBUF]: Mehr Informationen unter: <https://developers.google.com/protocol-buffers>
 
-### Aufbau von ``brigctl`` {#sec:client-daemon-proto}
+### ``brigctl``: Aufbau und Aufgabe {#sec:client}
 
 Zusammengefasst ist ``brigctl`` eine »Fernbedienung« für ``brigd``, welche im
 Moment exklusiv von der Kommandozeile aus bedient wird. In den meisten Fällen
@@ -1012,7 +1020,7 @@ Neben der Kommunikation mit  ``brigd`` muss ``brigctl`` noch drei andere Aufgabe
   Passwort beim Start an ``brigd`` weitergibt, damit der Daemon--Prozess das
   Repository entsperren kann.
 
-### Aufbau von ``brigd``
+### ``brigd``: Aufbau und Aufgabe
 
 Der Daemon--Prozess implementiert alle Kernfunktionalitäten.
 Die einzelnen Komponenten werden in [@sec:einzelkomponenten] beschrieben.
@@ -1276,7 +1284,7 @@ Netzwerkpartner von der Protokollebene aus über seine Peer--ID anzusprechen.
 Der eigentliche Verbindungsaufbau geschieht dann, wie in [@sec:ipfs-attrs]
 beschrieben auch über NAT--Grenzen hinweg.
 
-![Quelle: IPFS--Projekt[^NET_SOURCE]](images/4/ipfs-network.pdf){#fig:ipfs-net width=66%}
+![Der Netzwerkstack von ``ipfs``[^NET_SOURCE]](images/4/ipfs-network.pdf){#fig:ipfs-net width=60%}
 
 [^MULTISTREAM]: Siehe auch: <https://github.com/multiformats/multistream>
 [^NET_SOURCE]: Diese Grafik ist eine Aufbereitung von: <https://github.com/libp2p/go-libp2p/tree/master/p2p/net>
@@ -1284,7 +1292,7 @@ beschrieben auch über NAT--Grenzen hinweg.
 
 Im Falle von ``brig`` wird ein eigenes Protokoll registriert, um mit anderen
 Teilnehmern zu kommunizieren. Dieses ist ähnlich aufgebaut wie das Protokoll
-zwischen Daemon und Client (siehe [@sec:client-daemon-proto]), unterstützt aber
+zwischen Daemon und Client (siehe [@sec:client]), unterstützt aber
 andere Anfragen und hat erhöhte Sicherheitsanforderungen.
 Eine genauere Beschreibung des Protokolls wird in [@cpiechula], Kapitel TODO gegeben,
 hier werden nur kurz die wichtigsten Eigenschaften genannt:
