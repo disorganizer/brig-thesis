@@ -658,11 +658,10 @@ Cook* verweist auf diese Problematik auf dem aktuellsten *Linux Security Summit
 
 [^FN_LINUX_SEC_SUMMIT]: Status of the Kernel Self Protection Project: <http://events.linuxfoundation.org/sites/events/files/slides/KernelSelfProtectionProject-2016.pdf>
 
-Untersuchungen von Closed-- und Open--Source--Projekten haben gezeigt, dass
-dass es keine signifikanten Unterschiede bezüglich der Sicherheit zwischen den
-beiden Entwicklungsmodellen gibt. Open--Source scheint jedoch ein extrem
-schlechtes Patch--Management seitens des Herstellers zu verhindern (vgl
-[@Schryen]).
+Untersuchungen von Closed-- und Open--Source--Projekten haben gezeigt, dass es
+keine signifikanten Unterschiede bezüglich der Sicherheit zwischen den beiden
+Entwicklungsmodellen gibt. Open--Source scheint jedoch ein extrem schlechtes
+Patch--Management seitens des Herstellers zu verhindern (vgl [@Schryen]).
 
 Wenn man davon ausgeht, dass schlechte Quellcode--Qualität zu mehr *Bugs* und
 somit zu mehr Sicherheitslücken führt, kann man auch einen Teil der
@@ -688,13 +687,9 @@ Volume--Schlüssel aus dem Speicher entfernt, kann man sich den Quelltext auf
 
 ## Gesellschaftliche und Politische Aspekte
 
->> *Arguing that you don’t care about the right to privacy because you have
-   nothing to hide is no different than saying you don’t care about free speech
-   because you have nothing to say.* -- Edward Snowden
-
 Seit den Snowden--Enthüllungen[^FN_SNOWDEN_LEAK] ist offiziell bekannt, dass
-Unternehmen im Notfall rechtlich gezwungen werden können personenbezogene Daten
-rauszugeben.
+Unternehmen rechtlich gezwungen werden können personenbezogene Daten an
+Behörden weiter zu geben.
 
 [^FN_SNOWDEN_LEAK]: Globale Überwachungs-- und Spionageaffäre: <https://de.wikipedia.org/wiki/Globale_Überwachungs-_und_Spionageaffäre> \_
 
@@ -703,21 +698,31 @@ den Anschein, dass viele Menschen für die Thematik der Privatsphäre nicht genu
 sensibilisiert sind. Diskutiert man über sichere Alternativen oder macht
 Personen auf den problematischen Datenschutz von zentralen Diensten wie
 *Facebook*, *Dropbox* und Co. Aufmerksam, bekommt man oft das Argument »Ich
-habe nichts zu verbergen!« zu hören.
+habe nichts zu verbergen!« zu hören. 
 
-Die eigene Privatsphäre aus dieser Perspektive zu betrachten ist ein
-problematischer Ansatz. Es geht bei der Privatsphäre nicht darum irgend etwas
-»illegales« zu verbergen, es geht um die Wahrung der eigenen
-Persönlichkeitsrechte.
+Edward Snowden sagte, dass das der falsche Ansatz ist, weil dadurch das
+Grundprinzip der Demokratie »umdreht« wird. Alle Macht geht vom Volke aus, aber
+wenn das Volk überwacht wird --- kann dann noch Demokratie gewährleistet
+werden? Ist das Recht auf Privatsphäre mit dem Recht auf freie Meinungsäußerung
+vergleichbar?
+
+>> *Arguing that you don’t care about the right to privacy because you have
+   nothing to hide is no different than saying you don’t care about free speech
+   because you have nothing to say.* -- Edward Snowden
+
+Die eigene Privatsphäre aus der »Ich habe nichts zu verbergen«--Perspektive zu
+betrachten ist ein problematischer Ansatz. Es geht bei der Privatsphäre nicht
+darum irgend etwas »illegales« zu verbergen, es geht um den Schutz der eigenen
+Persönlichkeit und um die Wahrung der eigenen Persönlichkeitsrechte.
 
 Ob man etwas zu verbergen hat, wird weiterhin durch den »Beobachter«
 entschieden. In unserem heutigen gesellschaftlichen Kontext heißt das, dass
-sich die politische Lage auch jeder Zeit ändern. Durch eine Änderung auf
+sich die politische Lage auch jeder Zeit ändern kann. Durch eine Änderung auf
 politischer Ebene kann eine vorher als »unschuldig« geglaubte Person plötzlich
-aufgrund ihrer politischen Einstellung, dem Glauben oder der  sexuellen
-Orientierung zu einer politisch verfolgten Minderheit gehören und verfolgt
-werden. Diese Argumentation ist keineswegs an den Haaren herbeigezogen.
+aufgrund ihrer politischen Einstellung, ihrem Glauben oder der sexuellen
+Orientierung zu einer politisch verfolgten Minderheit gehören.
 
+Dass ein Datensatz über Leben und Tod entscheiden kann zeigt die Geschichte.
 Anfang des 19ten Jahrhunderts wurden in Amsterdam alle Bürger bereitwillig in
 einem »Bevölkerungsregister« erfasst. Die dort gespeicherten Informationen
 enthielten Beziehungsstatus, Beruf und Religionszugehörigkeit. Die Bürger der
