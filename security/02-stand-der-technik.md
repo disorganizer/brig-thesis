@@ -195,7 +195,7 @@ anscheinend auch nach Änderung der Zugangsdaten weiterhin bestehen.
 
 Ein weitere Arbeit aus dem Jahr 2011 beschreibt verschiedene Angriffsszenarien
 und Probleme welche die Datensicherheit und Privatsphäre von
-Cloud--Speicher--Benutzern in Frage stellen (vgl. [@mulazzani2011dark]). 
+Cloud--Speicher--Benutzern in Frage stellen (vgl. [@mulazzani2011dark]).
 
 2013 haben weitere Sicherheitsforscher den Dropbox--Client mittels *Reverse
 Engineering* analysiert. Ab der Version 1.2.48 wird die *HOST_ID* in einer
@@ -372,13 +372,13 @@ Die dezentralen Systeme unterliegen in der Regel keiner Regulierung durch eine
 zentrale Instanz. Je nach verwendeter Technologie zum Datenaustausch,
 existieren sogenannte »rendezvous hosts« in einem dezentralen Netzwerk, welche
 für die initiale Konfiguration und als »Einstiegspunkt« benötigt werden. Hier
-unterscheiden sich die verschiedenen Protokolle und Netzwerke voneinander. 
+unterscheiden sich die verschiedenen Protokolle und Netzwerke voneinander.
 
 Ein der bekannter Vertreter der P2P--Protkolle ist BitTorrent[^FN_BITTORRENT].
 Das Protokoll kommt beispielsweise bei der Verbreitung von Software,
 Computerspielen (HumblieIndieBundle.com), dem Blender Movie--Projekten,
 Linux--Distributionen ,der Verteilung von Updates (Windows 10), bei diversen
-Spieleherstellern und auch anderen Anwendungen zum Einsatz[^FN_BTUSAGE]. 
+Spieleherstellern und auch anderen Anwendungen zum Einsatz[^FN_BTUSAGE].
 
 [^FN_BTUSAGE]: BitTorrent Einsatzgebiete: <https://en.wikipedia.org/wiki/BitTorrent#Adoption>
 
@@ -433,7 +433,7 @@ die »Sicherheit« zu beurteilen. Diesen hängt in diesem Fall nicht zwangsläuf
 von einem Dienst--Anbieter ab, sondern vielmehr von der Umsetzung der Software,
 der Infrastruktur des Netzwerks, der »Sicherung der Daten« (verschlüsselte
 Speicherung, verschlüsselte Übertragung) und den Möglichkeiten, welche es
-ermöglichen einen Kommunikationspartner zu authentifizieren. 
+ermöglichen einen Kommunikationspartner zu authentifizieren.
 
 **Resilio--Sync** (ehemals Bittorrent--Sync), verwendete eine modifizierte
 Variante des BitTorrent--Protokolls[^FN_RESILIO_PROTOCOL]. Alle Daten werden laut
@@ -448,7 +448,7 @@ ermöglicht.
 Bei Resilio (Webbasierte GUI) werden Daten werden hier mittels verschiedenen
 »Schlüsseln« synchronisiert. Beim Anlegen eines Synchronisationsordners werden
 dem Benutzer erscheinen dem Benutzer folgende »Schlüssel«, über welche er den
-Synchronisationsordner mit anderen Synchronisationsordnern teilen kann: 
+Synchronisationsordner mit anderen Synchronisationsordnern teilen kann:
 
 Schlüssel für:
 
@@ -494,7 +494,7 @@ und ein selbst signiertes Zertifikat. Der private Schlüssel scheint nicht
 weiter geschützt zu sein:
 
 ~~~bash
-freya :: ~/.config/syncthing » cat key.pem 
+freya :: ~/.config/syncthing » cat key.pem
 	-----BEGIN EC PRIVATE KEY-----
 	MIGkAgEBBDCQIMwVr730vKzoyHCbIqDoxNxAjKvdFYL+XnKk65GurCc9q2qiZJEU
 	zMNWSD+N/eCgBwYFK4EEACKhZANiAASJ0YZUMQVAuW8tT7DvuLFkanCw2gpgD1DE
@@ -549,7 +549,7 @@ anzulegen.
 
 Neben »normalen« *git*--Repositories werden sogenannten »Special
 Remotes«[^FN_GIT_ANNEX_SPECIALREMOTES] unterstützt. Diese werden verwendet um
-Daten auf ein System, auf welchem *git* nicht vorliegt, zu synchronisieren. 
+Daten auf ein System, auf welchem *git* nicht vorliegt, zu synchronisieren.
 
 Neben der Verschlüsselung von *git remotes* mit *gcrypt* gibt es auch die
 Möglichkeit die Daten auf *special remotes* zu verschlüsseln. Hierfür gibt es
@@ -614,7 +614,7 @@ größten« Cloud--Speicher--Anbietern:
 In Deutschland gehört *Dropbox* zu den bekannten Anbietern, Apples *iCloud* ist
 in erster Linie für Mac--Benutzer interessant.
 
-Im Open--Source--Bereich können die Projekte 
+Im Open--Source--Bereich können die Projekte
 
 * OwnCloud
 * NextCloud (OwnCloud fork)
@@ -630,7 +630,7 @@ genannten dezentralen Synchronisationswerkzeuge
 * *Resilio*
 * *Librevault*
 
-angesehen werden. 
+angesehen werden.
 
 ## Closed--Source vs Open--Source
 
@@ -638,7 +638,7 @@ Es ist schwierig zu beantworten ob Open--Source--Software als »sicherer«
 anzusehen ist. Es spielen hierbei sehr viele Faktoren eine Rolle, weswegen eine
 eindeutige Aussage nicht möglich ist. Oft wird mit »Linus's Law« --- *Given
 enough eyeballs, all bugs are shallow.* --- für die Sicherheit *Freier
-Software* argumentiert. Software--Bugs wie 
+Software* argumentiert. Software--Bugs wie
 
 * *Debian Random Number Generator Bug*[^FN_DEBIAN_RNG_BUG]
 * *Open--SSL Heartbleed--Bug*[^FN_HEARTBLEED]
@@ -664,18 +664,33 @@ beiden Entwicklungsmodellen gibt. Open--Source scheint jedoch ein extrem
 schlechtes Patch--Management seitens des Herstellers zu verhindern (vgl
 [@Schryen]).
 
-Wenn man davon ausgeht, dass schlechte Quellcode--Qualität zu mehr *Bugs*
-führt, kann man auch einen Teil der »Sicherheit« über die Quellcode--Qualität
-bestimmen. Eine Studie, welche die Quellcode--Qualität der vier großen
-Betriebssystemkernel (Linux (open source), FreeBSD (open source), Solaris
-(closed source), Windows (closed source)) mit Hilfe verschiedener Metriken
-vergleicht, kommt zum Ergebnis dass es keine signifikanten Unterschiede
-zwischen dem Closed-- und Open--Source Kerneln gibt (vgl [@Spi08b]). Neuere
-Studien widersprechen hier und attestieren Open--Source--Software--Projekten
-eine tendenziell besser Quellcode--Qualität wie Closed--Source--Projekten (vgl
-[@csr2013] und [@csr2014]).
+Wenn man davon ausgeht, dass schlechte Quellcode--Qualität zu mehr *Bugs* und
+somit zu mehr Sicherheitslücken führt, kann man auch einen Teil der
+»Sicherheit« über die Quellcode--Qualität definieren. Eine Studie, welche die
+Quellcode--Qualität von vier großen Betriebssystemkernel (Linux (open source),
+FreeBSD (open source), Solaris (closed source), Windows (closed source)) mit
+Hilfe verschiedener Metriken vergleicht, kommt zum Ergebnis dass es keine
+signifikanten Unterschiede zwischen dem Closed--Source-- und
+Open--Source--Softwareentwicklungmodell bezüglich Quellcode--Qualität gibt (vgl
+[@Spi08b]). Neuere Studien widersprechen hier und attestieren
+Open--Source--Software--Projekten eine tendenziell besser Quellcode--Qualität
+als Closed--Source--Projekten (vgl [@csr2013] und [@csr2014]).
+
+Durch *Freie Software* hat der Verbraucher jedoch immer die Möglichkeit den
+Quelltext zu validieren und auch an die eigenen Sicherheitsbedürfnisse
+anzupassen. Wenn man beispielsweise wissen möchte, ob und wie die verwendete
+Festplattenverschlüsselungssoftware (in diesem Fall *Cryptsetup/LUKS*)  den
+Volume--Schlüssel aus dem Speicher entfernt, kann man sich den Quelltext auf
+*Github* anschauen. Im Fall von *LUKS* wir der Speicherbereich mit Nullen
+überschreiben[^FN_LUKS_VK_MEMSET].
+
+[^FN_LUKS_VK_MEMSET]: Luks Volume--Key Free--Funktion: <https://github.com/mhfan/cryptsetup/blob/ae9c9cf369cb24ac5267376401c80c2c40ada6a2/lib/volumekey.c#L46>
 
 ## Gesellschaftliche und Politische Aspekte
+
+>> *Arguing that you don’t care about the right to privacy because you have
+   nothing to hide is no different than saying you don’t care about free speech
+   because you have nothing to say.* -- Edward Snowden
 
 Seit den Snowden--Enthüllungen[^FN_SNOWDEN_LEAK] ist offiziell bekannt, dass
 Unternehmen im Notfall rechtlich gezwungen werden können personenbezogene Daten
@@ -683,10 +698,40 @@ rauszugeben.
 
 [^FN_SNOWDEN_LEAK]: Globale Überwachungs-- und Spionageaffäre: <https://de.wikipedia.org/wiki/Globale_Überwachungs-_und_Spionageaffäre> \_
 
-Snowden--Affäre
-Gesellschaftliche Aspekte: Ich habe nichts zu verbergen
-politische Lage und Probleme
+Betrachte man die großflächige Verbreitung von *Facebook* und *Whatsapp*, macht es
+den Anschein, dass viele Menschen für die Thematik der Privatsphäre nicht genug
+sensibilisiert sind. Diskutiert man über sichere Alternativen oder macht
+Personen auf den problematischen Datenschutz von zentralen Diensten wie
+*Facebook*, *Dropbox* und Co. Aufmerksam, bekommt man oft das Argument »Ich
+habe nichts zu verbergen!« zu hören.
 
->> *Arguing that you don’t care about the right to privacy because you have
-   nothing to hide is no different than saying you don’t care about free speech
-   because you have nothing to say.* -- Edward Snowden
+Die eigene Privatsphäre aus dieser Perspektive zu betrachten ist ein
+problematischer Ansatz. Es geht bei der Privatsphäre nicht darum irgend etwas
+»illegales« zu verbergen, es geht um die Wahrung der eigenen
+Persönlichkeitsrechte.
+
+Ob man etwas zu verbergen hat, wird weiterhin durch den »Beobachter«
+entschieden. In unserem heutigen gesellschaftlichen Kontext heißt das, dass
+sich die politische Lage auch jeder Zeit ändern. Durch eine Änderung auf
+politischer Ebene kann eine vorher als »unschuldig« geglaubte Person plötzlich
+aufgrund ihrer politischen Einstellung, dem Glauben oder der  sexuellen
+Orientierung zu einer politisch verfolgten Minderheit gehören und verfolgt
+werden. Diese Argumentation ist keineswegs an den Haaren herbeigezogen.
+
+Anfang des 19ten Jahrhunderts wurden in Amsterdam alle Bürger bereitwillig in
+einem »Bevölkerungsregister« erfasst. Die dort gespeicherten Informationen
+enthielten Beziehungsstatus, Beruf und Religionszugehörigkeit. Die Bürger der
+Stadt glaubten sicherlich an ihre »Unschuld« und hatten nichts zu verbergen.
+Als im Mai 1940 die deutschen Besatzer einmarschierten, konnten sie Anhand des
+*Registers* alle jüdischen Bürger in kürzester Zeit identifizieren. Diese
+wurden in Konzentrationslager deportiert --- in diesem Fall hat ein einfacher
+Datensatz über Leben und Tod entschieden (vgl. [@ct-juden]).
+
+Nicht nur Daten die von öffentlichen Einrichtungen erhoben werden sind als
+problematisch anzusehen. Auch Daten die wir jeden Tag unfreiwillig in der
+»digitalen Welt« zurücklassen werden täglich missbraucht --- Personen die sich
+als »unschuldig« Glaubten, geraten plötzlich ins Visier von Ermittlern.
+Ermittlungsfehler, welche unschuldige Menschen hinter Gittern bringen oder zu
+Selbstmord treiben, sind hier leider an der Tagesordnung[^FN_DATENMISSBRAUCH].
+
+[^FN_DATENMISSBRAUCH]: Datenmissbrauch und Irrtümer: <http://www.daten-speicherung.de/index.php/faelle-von-datenmissbrauch-und-irrtuemern/>
