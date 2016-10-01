@@ -2,14 +2,14 @@
 
 In diesem Kapitel wird die grundlegende Architektur von ``brig`` erklärt. Dabei
 wird vor allem das »Kernstück« beleuchtet: Das zugrundeliegende Datenmodell in
-dem alle Metadaten abgespeichert und in Relation gesetzt werden. Dazu ist
-zuerst ein Exkurs zu den Internas von ``ipfs`` nötig und später ein Exkurs zur
-Funktionsweise des freien Versionsverwaltungssystem ``git``.
+dem alle Metadaten abgespeichert und in Relation gesetzt werden. Dazu werden
+einleitend einige Internas von ``ipfs`` und des freien
+Versionsverwaltungssystems ``git``   behandelt.(XXX: Dokument -> DAtei)
 
 Basierend darauf werden die umgebenden Komponenten beschrieben, die um den
 Kern von ``brig`` gelagert sind. Am Ende des Kapitels werden zudem noch einmal alle
 Einzelkomponenten in einer Übersicht gezeigt. Es wird dabei stets vom Stand des
-aktuellen Prototypen ausgegangen. Mögliche Erweiterungen werden in Kapitel
+aktuellen Prototypen ausgegangen. Mögliche Erweiterungen werden in
 [@sec:evaluation] (*Evaluation*) diskutiert. Die technische Umsetzung der
 jeweiligen Komponenten hingegen wird in [@sec:implementierung]
 (*Implementierung*) besprochen.
@@ -24,14 +24,14 @@ beherrscht:
 
 - $Put(\text{Stream}) \rightarrow \text{Hash}$: Speichert einen endlichen Datenstrom in der Datenbank und liefert die Prüfsumme als Ergebnis zurück.
 * $Get(\text{Hash}) \rightarrow \text{Stream}$: Holt einen endlichen Datenstrom aus der Datenbank der durch seine Prüfsumme referenziert wurde und gibt ihn aus.
-* $Pin(\text{Hash}, \text{COUNT})$: Pinnt einen Datenstrom wenn $\text{COUNT}$ größer $0$ ist oder unpinnt ihn wenn er negativ ist.
+* $Pin(\text{Hash}, \text{Count})$: Pinnt einen Datenstrom wenn $\text{Count}$ größer $0$ ist oder unpinnt ihn wenn er negativ ist.
                                   Im Falle von $0$ wird nichts getan. In jedem Fall wird der neue Status zurückgeliefert.
 * $Cleanup$: Lässt einen »Garbage--Collector«[^GC_WIKI] laufen, der Datenströme aus dem lokalen Speicher löscht, die nicht gepinned wurden.
 
 [^GC_WIKI]: Siehe auch <https://de.wikipedia.org/wiki/Garbage_Collection>
 
 Das besondere ist, dass die ``GET`` Operation von jedem verbundenen Knoten
-ausgeführt werden, wodurch die Nutzung von ``ipfs`` als verteilte Datenbank
+ausgeführt werden kann, wodurch die Nutzung von ``ipfs`` als verteilte Datenbank
 möglich wird. Die oben geschilderte Sicht ist rein die Art und Weise in der
 ``ipfs`` von ``brig`` benutzt wird. Die Möglichkeiten, die ``ipfs`` bietet,
 sind tatsächlich sehr viel weitreichender als »nur« eine Datenbank
@@ -49,8 +49,8 @@ Verzeichnishierarchie modelliert. Die gezeigten Attributnamen entsprechen
 den ``ipfs``--Internas. Gerichtet ist der Graph deswegen, weil es
 keine Schleifen und keine Rückkanten zu den Elternknoten geben darf. Jeder
 Knoten wird durch eine Prüfsumme referenziert und kann wiederum mehrere andere
-Knoten über dieselbe referenzieren. Im Beispiel sieht man zwei
-Wurzelverzeichnisse, bei dem das erste ein Unterverzeichnis ``/photos``
+Knoten über weitere Prüfsümmen referenzieren. Im Beispiel sieht man zwei
+Wurzelverzeichnisse, bei denen das erste ein Unterverzeichnis ``/photos``
 enthält, welches wiederum drei einzelne Dateien (``cat.png``, ``me.png`` und
 ``small.mkv``) enthält. Das zweite Wurzelverzeichnis beinhaltet ebenfalls
 dieses, referenziert als zusätzliche Datei aber noch eine größere Datei namens
@@ -66,7 +66,7 @@ unterschiedliche Strukturen:
 - ``blob:`` Ein Datensatz mit definierter Größe und Prüfsumme.  Wird teilweise auch *Chunk* genannt.
 - ``list:`` Eine geordnete Liste von ``blobs`` oder weiteren ``lists``. Wird benutzt um große Dateien
         in kleine, deduplizierbare Teile herunterzubrechen.
-* ``tree:`` Ein Abbildung von Dateinamen zu Prüfsummen.
+* ``tree:`` Eine Abbildung von Dateinamen zu Prüfsummen.
         Modelliert ein Verzeichnis, das ``blobs``, ``lists`` oder andere ``trees`` beinhalten kann.
 		Die Prüfsumme ergibt sich aus den Kindern.
 * ``commit:`` Ein Snapshot eines der drei obigen Strukturen. In der Grafik nicht gezeigt, da
@@ -79,7 +79,7 @@ Wenn ``ipfs`` bereits ein Datenmodell hat, welches  Verzeichnisse abbilden
 kann, ist es eine berechtigte Frage, warum ``brig`` ein eigenes Datenmodell
 implementiert und nicht das vorhandene als Basis verwendet. Der Grund dafür
 liegt in der bereits erwähnten Entkopplung von Daten und Metadaten. Würden die
-Dateien und Verzeichnisse direkt in ``ipfs`` gespeichert, so wäre diese Teilung
+Dateien und Verzeichnisse direkt in ``ipfs`` abgebildet, so wäre diese Teilung
 nicht mehr gegeben, da trotzdem alle Daten in einem gemeinsamen Speicher
 liegen. Dies hätte zur Folge, dass ein Angreifer zwar nicht die verschlüsselten
 Daten lesen könnte, aber problemlos die Verzeichnisstruktur betrachten könnte,
@@ -88,7 +88,7 @@ Sicherheitsversprechen von ``brig`` widersprechen. Abgesehen davon wurde ein
 eigenes Datenmodell entwickelt, um mehr Freiheiten beim Design zu haben.
 
 Zusammengefasst lässt sich also sagen, dass ``ipfs`` in dieser Arbeit als
-Content--Adressed--Storage Datenbank verwendet wird, die sich im Hintergrund
+Content--Adressed--Storage--Datenbank verwendet wird, die sich im Hintergrund
 um die Speicherung von Datenströmen und deren Unterteilung in kleine Blöcke
 mittels *Chunking* kümmert. Die Aufteilung geschieht dabei entweder simpel,
 indem die Datei in gleichgröße Blöcke unterteilt wird, oder indem ein intelligenter
@@ -104,8 +104,8 @@ Sicht aufweist. Was die Usability angeht, soll allerdings aufgrund der
 relativ unterschiedlichen Ziele kein Vergleich gezogen werden.
 
 Im Folgenden ist ein gewisses Grundwissen über ``git`` nützlich. Es wird bei
-Unklarheiten die Lektüre des Buches *Git --- Verteile Versionsverwaltung für Code
-und Dokumente*[@git] empfohlen. Alternativ bietet auch die offizielle
+Unklarheiten das Buch »*Git --- Verteile Versionsverwaltung für Code
+und Dokumente*[@git]« empfohlen. Alternativ bietet auch die offizielle
 Projektdokumentation[^GITBOOK] einen sehr guten Überblick. Aus Platzgründen
 wird an dieser Stelle über eine gesonderte Einführung verzichtet, da es
 diese in ausreichender Menge frei verfügbar gibt.
@@ -114,15 +114,15 @@ diese in ausreichender Menge frei verfügbar gibt.
 
 Kurz beschrieben sind beide Projekte »*stupid content
 tracker*«[^TORVALDS_ZITAT], die Änderungen an tatsächlichen Dateien auf
-Metadaten abbilden, welche in einer dafür geeigneten Datenbank ablegen. Die
+Metadaten abbilden, welche in einer dafür geeigneten Datenbank abgelegt werden. Die
 eigentlichen Daten werden dabei nicht mittels eines Pfades abgespeichert,
 sondern werden durch  eine Prüfsumme referenziert (im Falle von ``git`` mittels
 ``sha1``). Im Kern lösen beide Programme also Pfade in Prüfsummen auf und
-umgekehrt. Um diese Auflösung einfach und effizient möglich zu machen nutzte
-``git`` ein ausgeklügeltes Datenmodell, mit dem sich Änderungen natürlich
+umgekehrt. Um diese Auflösung einfach und effizient möglich zu machen nutzt
+``git`` ein ausgeklügeltes Datenmodell, mit dem sich Änderungen
 abbilden lassen. Dabei werden, anders als bei anderen
 Versionsverwaltungssystemen (wie Subversion), Differenzen »on-the-fly«
-berechnet und nicht separat abgespeichert (daher die Bezeichnung »stupid«).
+berechnet und nicht zusätzlich abgespeichert, daher die Bezeichnung »stupid«.
 Abgespeichert werden, wie in [@fig:git-data-model] gezeigt, nur vier
 verschiedene *Objekte*:
 
@@ -130,8 +130,8 @@ verschiedene *Objekte*:
 
 [^TORVALDS_ZITAT]: Zitat von Linus Torvalds. Siehe auch: <https://git-scm.com/docs/git.html>
 
-- **Blob:** Speichert Daten einer bestimmten Größe (möglicherweise) komprimiert
-  ab und assoziiert diese mit einer ``sha1``--Prüfsumme des (unkomprimierten)
+- **Blob:** Speichert Daten einer bestimmten Größe komprimiert
+  ab und assoziiert diese mit einer ``sha1``--Prüfsumme des unkomprimierten
   Dateiinhaltes.
 - **Tree:** Speichert *Blobs* oder weitere *Trees*, modelliert also eine Art »Verzeichnis«.
   Seine Prüfsumme ergibt sich, indem eine Prüfsumme aus den Prüfsummen der Kinder gebildet wird.
@@ -141,9 +141,9 @@ verschiedene *Objekte*:
   seinen Wurzelknoten referenziert. Zudem hat ein *Commit* mindestens einen
   Vorgänger (meist *Parent* genannt, kann beim initialen *Commit* leer sein) und
   speichert eine vom Nutzer verfasste Änderungszusammenfassung ab, sowie den
-  Namen des Nutzers. Seine Prüfsumme ergibt sich indem eine Konkatenation von
-  Wurzelprüfsumme, Vorgängerprüfsumme, Nutzernamen und
-  Commit--Nachricht.[^COMMIT_HASH]
+  Namen des Nutzers. Seine Prüfsumme ergibt sich indem eine Konkatenation der
+  Wurzelprüfsumme, der Vorgängerprüfsumme, des Nutzernamen und
+  der Commit--Nachricht.[^COMMIT_HASH]
 - **Ref:** Eine Referenz auf einen bestimmten *Commit*. Er speichert lediglich dessen
   Prüfsumme und wird von ``git`` separat zu den eigentlichen Objekten gespeichert.
   In [@fig:git-data-model] verweist beispielsweise die Referenz ``HEAD`` stets
@@ -157,16 +157,16 @@ Relation gesetzt. Diese Struktur ergibt sich dadurch, dass bei Änderung einer
 Datei in ``git`` sich sämtliche Prüfsummen der Verzeichnisse darüber ändern. In
 Abbildung [@fig:git-data-model] wurde im zweiten Commit die Datei ``big.mkv``
 verändert (Prüfsumme ändert sich von *QmR5AWs9* zu  *QmYYLnXi*). Als direkte
-Konsequenz ändert sich die Prüfsumme des darüber liegenden Verzeichnisses (in
-diesem Fall das Wurzelverzeichnis »``/``«). Bemerkenswert ist hier aber, dass auf
-das das neue »``/``«--Verzeichnis trotzdem auf das ``/photos``--Verzeichnis des
+Konsequenz ändert sich die Prüfsumme des darüber liegenden Verzeichnisses, in
+diesem Fall das Wurzelverzeichnis »``/``«. Bemerkenswert ist hier aber, dass auf
+das neue »``/``«--Verzeichnis trotzdem auf das ``/photos``--Verzeichnis des
 vorherigen *Commits* verlinkt, da dieses sich in der Zwischenzeit nicht
 geändert hat.
 
 Jede Änderung bedingt daher eine Veränderung der Prüfsumme des »``/``«--Verzeichnisses.
 Daher sichert dies die Integrität aller darin enthaltenen Dateien ab. Aufgrund dessen
 kann ein darüber liegender *Commit* einfach ein *Wurzelverzeichnis* referenzieren, um
-eine Momentaufnahme der Daten zu erzeugen. Jeder *Commit* lässt in seine eigene
+eine Momentaufnahme aller Dateien zu erzeugen. Jeder *Commit* lässt in seine eigene
 Prüfsumme zudem die Prüfsumme seines Vorgänger einfließen, weshalb jegliche
 (absichtliche oder versehentliche) Modifikation der von ``git`` gespeicherten Daten
 aufgedeckt werden kann.
@@ -180,12 +180,13 @@ verschiedenen Commits anzeigen, so geht es folgendermaßen vor:
 4) Lade beide *Blobs* und wende ein Algorithmus an, der Differenzen findet (z. B. ``diff`` von Unix).
 5) Gebe Differenzen aus.
 
-Dies ist ein signifikanter Unterschied zu Versionsverwaltungssystemen wie ``svn``, die
+Dies ist ein signifikanter Unterschied zu zentralen Versionsverwaltungssystemen wie ``svn``, die
 jeweils die aktuellste Datei ganz und ein oder mehrere »Reverse-Diff« abspeichern. Mithilfe
 des *Reverse-Diff* ist es möglich die alten Stände wiederherzustellen.
 Obwohl das auf den ersten Blick wie ein Vorteil von ``svn`` wirkt, so nutzt dieses
 in der Praxis deutlich mehr Speicherplatz für ein Repository[^MORE_SPACE] und ist signifikant
-langsamer als ``git`` (insbesondere da Netzwerkzugriffe nötig sind, während ``git`` lokal arbeitet).
+langsamer als ``git``, insbesondere da Netzwerkzugriffe nötig sind, während
+``git`` lokal arbeitet.
 Insbesondere beim Erstellen von *Commits* und dem Wiederherstellen alter Stände ist ``git``
 durch sein Datenmodell erstaunlich schnell. Tatsächlich speichert ``git`` auch nicht jeden *Blob*
 einzeln, sondern fasst diese gelegentlich zu sogenannten *Packfiles* zusammen, welche
@@ -202,7 +203,7 @@ Zusammengefasst hat ``git`` also aus architektonischer Sicht einige positive Eig
   was den Startvorgang beschleunigt.
 * Das Bilden einer dezentralen Architektur liegt nahe, da das Datenmodell immer alle Objekte beinhalten muss.
 * Alle Dateien liegen in einem separaten ``.git``--Verzeichnis und alle darin enthaltenen Internas sind
-  durch die gute Dokumentation gut zugänglich und nötigenfalls reparierbar. Zudem ist das Arbeitsverzeichnis
+  durch die gute Dokumentation gut verständlich und nötigenfalls reparierbar. Zudem ist das Arbeitsverzeichnis
   ein ganz normales Verzeichnis, in dem der Benutzer arbeiten kann ohne von ``git`` gestört zu werden.
 * Die gespeicherten Daten sind durch kryptografische Prüfsummen gegen Veränderungen geschützt.
   Ein potentieller Angreifer müsste ein *Blob* generieren, der die von ihm gewünschten Daten enthält *und*
@@ -213,39 +214,37 @@ Zusammengefasst hat ``git`` also aus architektonischer Sicht einige positive Eig
 
 Aus Sicht des Autors hat ``git`` einige, kleinere Schwächen aus architektonischer Sicht:
 
-1) **Prüfsummenalgorithmus nicht veränderbar:** Ein auf einem MDAG basierenden Versionsverwaltungssystem muss
+1) **Prüfsummenalgorithmus nicht veränderbar:** Ein MDAG--basiertes Versionsverwaltungssystem muss
    eine Abwägung zwischen der Prüfsummenlänge (länger ist typischerweise rechenaufwendiger, braucht mehr Speicher und
-   ist unhandlicher für den Benutzer) und der Kollisionsresistenz der Prüfsumme. Tritt trotzdem eine Kollision auf,
-   so können Daten überschrieben werden.[^VERSION_CONTROL_BY_EXAMPLE] Solche Kollisionen sind zwar heutzutage noch
-   sehr unwahrscheinlicher, werden mit steigender Rechenleistungen aber wahrscheinlicher. Leider kann ``git``
+   ist unhandlicher für den Benutzer) und der Kollisionsresistenz der kryptografischen Prüfsumme treffen. Tritt trotzdem eine Kollision auf,
+   so können Daten überschrieben werden[^VERSION_CONTROL_BY_EXAMPLE]. Unabsichtliche Kollisionen sind
+   sehr unwahrscheinlich. Mit steigender Rechenleistungen wird die Berechnung einer absichtlichen Kollision aber denkbar. Leider kann ``git``
    den genutzten Prüfsummenalgorithmus (``sha1``) nicht mehr ohne hohen Aufwand ändern[^LWM_HASH]. Bei ``brig`` ist dies möglich,
-   da das Prüfsummenformat von *IPFS* die Länge und Art des Algorithmus in der Prüfsumme selbst abspeichert.
+   da das Prüfsummenformat von ``ipfs`` die Länge und Art des Algorithmus in der Prüfsumme selbst abspeichert.
 2) **Keine nativen Renames:** ``git`` behandelt das Verschieben einer Datei als eine Sequenz aus dem Löschen und anschließendem
    Hinzufügen der Datei[^GIT_FAQ_RENAME]. Der Nachteil dabei ist, dass ``git`` dem Nutzer die Umbenennung nicht mehr als solche präsentiert,
    was für diesen verwirrend sein kann wenn er nicht sieht, dass die Datei anderswo neu hinzugefügt wurde.
-   Neuere ``git`` Versionen nutzen probabilistische Methoden, um Umbenennungen zu finden (Pfad wurde gelöscht, Prüfsumme der Datei tauchte
+   Neuere ``git`` Versionen nutzen Heuristiken, um Umbenennungen zu finden (Beispiel: Pfad wurde gelöscht, Prüfsumme der Datei tauchte
    aber anderswo auf). Diese können zwar nicht alle Fälle abdecken (umbenannt, dann modifiziert) leisten aber in der Praxis
-   zugegebenermaßen gute Dienste.
+   gute Dienste.
 3) **Probleme mit großen Dateien:** Da ``git`` für die Verwaltung von Quelltextdateien entwickelt wurde, ist es nicht auf die Verwaltung großer Dateien ausgelegt.
-   Jede Datei muss dann einmal im ``.git``--Verzeichnis und einmal im
+   Jede Datei muss einmal im ``.git``--Verzeichnis und einmal im
    Arbeitsverzeichnis gespeichert werden, was den Speicherverbrauch mindestens verdoppelt. Da Differenzen zwischen Binärdateien
    nur wenig Aussagekraft haben (da Differenz--Algorithmen normal zeilenbasiert arbeiten) wird bei jeder Modifikation
    jeweils noch eine Kopie angelegt. Nutzer, die ein solches Repository »*clonen*« (also sich eine eigene Arbeitskopie besorgen wollen),
-   müssen zudem alle Kopien lokal zu sich kopieren. Werkzeuge wie ``git-annex`` versuchen das Problem zu lösen, indem sie statt den Dateien,
-   nur symbolische Links versionieren, die zu den tatsächlichen Dateien zeigen[^GIT_ANNEX]. Symbolische Links sind allerdings wenig portabel,
-   weshalb diese Lösung vom Autor eher als »Hack« angesehen wird.
+   müssen diese Kopien lokal bei sich speichern. Werkzeuge wie ``git-annex`` versuchen das Problem zu lösen, indem sie statt den Dateien,
+   nur symbolische Links versionieren, die zu den tatsächlichen Dateien zeigen[^GIT_ANNEX]. Symbolische Links sind allerdings wenig portabel.
 4) **Kein Tracking von leeren Verzeichnissen:** Es können keine leeren
    Verzeichnisse zu ``git`` hinzugefügt werden. Damit ein Verzeichnis von ``git``
-   verfolgt werden kann, muss sich mindestens eine Datei darin empfinden. Das ist
+   verfolgt werden kann, muss sich mindestens eine Datei darin befinden. Das ist
    weniger eine Einschränkung des Datenmodells von ``git``, als viel mehr ein
-   kleinerer Designfehler[^GIT_FAQ_EMPTY_DIR], der bisher als zu unwichtig galt,
+   kleiner Designfehler[^GIT_FAQ_EMPTY_DIR] in der Implementierung, der bisher als zu unwichtig galt,
    um korrigiert zu werden.
-5) **Keine einzelne History pro Datei:** Es gibt nur eine gesamte *History*,
-   die durch die Verkettung von *Commits* erzeugt wird. Bei einem Befehl wie ``git
-   log <filename>`` (»Zeige alle Commits, in denen ``<filename>`` verändert
-   wurde«) müssen alle *Commits* betrachtet werden, auch wenn ``<filename>`` nur
+5) **Keine einzelne Historie pro Datei:** Es gibt nur eine gesamte *Historie*,
+   die durch die Verkettung von *Commits* erzeugt wird. Bei einem Befehl wie ``git log <filename>``
+   (Zeige alle Commits, in denen ``<filename>`` verändert wurde) müssen alle *Commits* betrachtet werden, auch wenn ``<filename>`` nur
    in wenigen davon tatsächlich geändert wurde. Eine mögliche Lösung wäre das
-   Anlegen einer *History* für einzelne Dateien.
+   Anlegen einer Historie für einzelne Dateien.
 
 [^VERSION_CONTROL_BY_EXAMPLE]: Siehe auch: <http://ericsink.com/vcbe/html/cryptographic_hashes.html>
 [^LWM_HASH]: Mehr zum Thema unter: <https://lwn.net/Articles/370907>
@@ -255,17 +254,13 @@ Aus Sicht des Autors hat ``git`` einige, kleinere Schwächen aus architektonisch
 [^GIT_ANNEX]: <https://git-annex.branchable.com/direct_mode>
 
 Zusammengefasst lässt sich sagen, dass ``git`` ein extrem flexibles und
-schnelles Werkzeug für die Verwaltung von Quelltext und kleinen Dateien ist,
-aber weniger geeignet für eine allgemeine Dateisynchronisationssoftware ist,
+schnelles Werkzeug für die Verwaltung von Quelltext und kleinen Dateien ist.
+Weniger geeignet ist es für eine allgemeine Dateisynchronisationssoftware,
 die auch große Dokumente effizient behandeln können muss.
 
 ## Datenmodell von ``brig``
 
-``git`` ist primär ein Werkzeug das von Entwicklern und technisch versierten
-Nutzern eingesetzt wird. ``brig`` hingegen soll möglichst generell von allen
-Anwendern als Synchronisationslösung eingesetzt werden, weswegen die Funktionsweise der Software
-zugrundeliegenden Konzepte möglichst einfach nachvollziehbar sein sollen.
-Die Einsatzziele unterscheiden sich also: ``git`` ist primär eine
+Die Einsatzziele von ``brig`` und ``git`` unterscheiden sich: ``git`` ist primär eine
 Versionsverwaltugssoftware, mit der man auch synchronisieren kann. ``brig``
 hingegen ist eine Synchronisationssoftware, die auch Versionierung beherrscht.
 Aus diesem Grund wurde das Datenmodell von ``git`` für den Einsatz in ``brig``
@@ -273,20 +268,20 @@ angepasst und teilweise vereinfacht. Die Hauptunterschiede sind dabei wie
 folgt:
 
 - **Strikte Trennung zwischen Daten und Metadaten:** Metadaten werden von ``brig``'s
-  Datenmodell verwaltet, während die eigentlichen Daten werden lediglich per Prüfsumme
-  referenziert und von einem Backend (aktuell *IPFS*) gespeichert werden.
+  Datenmodell verwaltet, während die eigentlichen Daten lediglich per Prüfsumme
+  referenziert und von ``ipfs`` gespeichert werden.
   So gesehen ist  ``brig`` ein Versionierungsaufsatz für ``ipfs``.
 * **Lineare Versionshistorie:** Jeder *Commit* hat maximal einen Vorgänger und
   exakt einen Nachfolger. Dies macht die Benutzung von *Branches*[^BRANCH_EXPL]
   unmöglich, bei der ein *Commit* zwei Nachfolger haben kann, beziehungsweise
   sind auch keine Merge--Commits möglich, die zwei Vorgänger besitzen. Diese
   Vereinfachung ist nicht von der Architektur vorgegeben und könnte nachgerüstet
-  werden. Allerdings hat die Benutzung dieses Features potenzielles
+  werden. Allerdings hat die Benutzung dieses Features
   »Verwirrungspotenzial«[^DETACHED_HEAD] für gewöhnliche Nutzer, die gedanklich
-  von einer linearen Historie ihrer Dokumente ausgehen.
+  eher von einer linearen Historie ihrer Dokumente ausgehen.
 * **Synchronisationspartner müssen keine gemeinsame Historie haben:[^DOUBLE_ROOT]**
-  Es würde bei ``brig`` davon ausgegangen, dass unterschiedliche
-  Dokumentensammlung miteinander synchronisiert werden sollen, während bei
+  Es wird bei ``brig`` davon ausgegangen, dass unterschiedliche
+  Dokumentensammlungen miteinander synchronisiert werden sollen, während bei
   ``git`` davon ausgegangen wird, dass eine einzelne Dokumentensammlung immer
   wieder modifiziert und zusammengeführt wird. Haben die Partner keine gemeinsame
   Historie, wird einfach angenommen, dass alle Dokumente synchronisiert werden müssen.
@@ -308,7 +303,7 @@ verwendet:
 
 * **File:** Speichert die Metadaten einer einzelnen, regulären Datei. Zu den Metadaten gehört die aktuelle Prüfsumme,
   die Dateigröße, der letzte Änderungszeitpunkt und der kryptografische Schlüssel mit dem die Datei verschlüsselt ist.
-  Anders als ein *Blob* speichert ein *File* die Daten nicht selbst, sondern referenziert diese nur im *ipfs*--Backend.
+  Anders als ein *Blob* speichert ein *File* die Daten nicht selbst, sondern referenziert diese nur im ``ipfs``--Backend.
 * **Directory:**  Speichert wie ein *Tree* einzelne *Files* und weitere *Directories*. Die Prüfsumme des Verzeichnisses $H_{directory}$ ergibt sich auch hier
   aus der XOR--Verknüpfung ($\oplus$) der Prüfsumme des Pfades $H_{path}$ mit den den Prüfsummen der direkten Nachfahren $x$: $$
 	H_{directory}(x) = \begin{cases}
@@ -325,12 +320,12 @@ verwendet:
 
     Diese Eigenschaft kann man sich beim Löschen einer Datei zunutze machen,
     indem die Prüfsumme jedes darüber liegenden Verzeichnisses mit der Prüfsumme
-    der zu löschenden Datei XOR--genommen wird. Der resultierende Graph hat die gleichen Prüfsumme wie vor
+    der zu löschenden Datei XOR--genommen wird. Der resultierende Graph hat die gleiche Prüfsumme wie vor
     dem Einfügen der Datei.
 
-* **Commits:** Analog zu ``git``, dienen aber bei ``brig`` nicht nur der
+* **Commits:** Analog zu ``git``; dienen aber bei ``brig`` nicht nur der
   logischen Kapselung von mehreren Änderungen, sondern werden auch automatisiert
-  von der Software nach einen bestimmten Zeitintervall erstellt. Daher ist ihr
+  von der Software nach einem bestimmten Zeitintervall erstellt. Daher ist ihr
   Zweck eher mit den *Snapshots* vieler Backup--Programme vergleichbar, welche
   dem Nutzer einen Sicherungspunkt zu einem bestimmten Zeitpunkt in der
   Vergangenheit bietet. Als Metadaten speichert er als Referenz die Prüfsumme des
@@ -340,7 +335,7 @@ verwendet:
   referenziert. In diese Prüfsumme ist nicht nur die Integrität des aktuellen
   Standes gesichert, sondern
   auch aller Vorgänger.
-* **Refs:** Analog zu ``git`` dienen sie dazu bestimmten *Commits* einen Namen
+* **Refs:** Analog zu ``git`` dienen sie dazu, bestimmten *Commits* einen Namen
   zu geben. Es gibt zwei vordefinierte Referenzen, welche von ``brig``
   aktualisiert werden: ``HEAD``, welche auf den letzten vollständigen *Commit*
   zeigt und ``CURR``, welche auf den aktuellen *Commit* zeigt (meist dem *Staging
