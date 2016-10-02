@@ -6,60 +6,147 @@ gegeben. Darauf aufbauend wird von verschiedenen Perspektiven aus überlegt,
 welche Eigenschaften ``brig`` übernehmen kann und von wem und in welchem Rahmen
 die Software eingesetzt werden kann.
 
-## Begriffe
+XXX: Beschreibung passt noch?
+
+## Peer--to--Peer Netzwerke
+
+Bilden viele Rechner ein dezentrales Netzwerk, bei dem jeder Rechner (ein
+»Peer«) die gleichen Rechte besitzt wie jeder andere, so wird dieses Netz ein
+*Peer--to--Peer--Netzwerk* genannt (kurz *P2P--Netzwerk*). Statt Verbindungen
+über einen Mittelsmann aufzubauen, kommunizieren die einzelnen Peers für
+gewöhnlich direkt miteinander. Jeder Knoten des Netzwerks kann Anfragen an
+andere Knoten richten, trägt aber selbst etwas bei indem er selbst Anfragen
+beantwortet. Im Client--Server--Modell (TODO: ref?) entspricht ein Peer also
+sowohl Server als auch Client (siehe auch [@fig:central-distributed]).
+
+![Anschaulicher Unterschied zwischen zentralen und verteilten Systemen.](images/2/central-distributed.pdf){#fig:central-distributed}
+
+Im alltäglichen Gebrauch der meisten »Otto--Normal--Nutzer« scheinen
+P2P--Netzwerke derzeit eine eher untergeordnete Rolle zu spielen.
+Die bekanntesten und populärsten P2P--Netzwerke sind vermutlich das
+BitTorrent- und Skype--Protokoll. Darüber hinaus gibt es auch viele
+sehr große Filesharing--Netzwerke, wie Gnutella.[^GNUTELLA]
+Gemeinsam ist allen, dass sie als sogenanntes *Overlay--Netzwerk*[^OVERLAY_NETWORK]
+über das Internet gelegt werden.
+
+[^GNUTELLA]: Siehe auch: <https://de.wikipedia.org/wiki/Gnutella>
+[^OVERLAY_NETWORK]: Siehe auch: <https://de.wikipedia.org/wiki/Overlay-Netz>
+
+### Technik
+
+Die meisten Dienste im Internet basieren auf dem Client--Server--Modell, bei
+dem viele anonyme Clients eine Anfragen an einen zentralen Server stellen.
+Dieser muss mit der steigenden Anzahl an Clients skalieren, indem er
+typischerweise mehr Prozessorleistung und Bandbreite zur Verfügung hat. Dieses
+Modell passt auf viele heterogene Anwendungsbereiche, wo Client und Server
+grundverschiedene Rollen zugeordnet sind (Beispiel: Dienstleiter und Kunde).
+Ein weiterer Eigenschaft, ist dass das Client--Server--Modell kein Problem mit
+dem sogenannten *NAT--Traversal* hat.
+
+NAT steht dabei für *Network Address Resolution* (dt.
+Netzwerkadressübersetzung, siehe auch [^NAT]) und ist eine Technik, um zwischen
+einer öffentlichen und mehreren lokalen IP--Adressen zu vermitteln. Es wird
+aufgrund der Knappheit von IPv4 sehr häufig eingesetzt, um einen Heim- oder
+Unternehmensnetzwerk eine einzige IP-Adresse nach außen zu geben, die über
+bestimmte Ports dann den Verkehr auf die jeweiligen lokalen Adressen übersetzt.
+Der Nachteil in Bezug auf P2P--Netzwerke ist dabei, dass die Rechner hinter
+einem *NAT* nicht direkt erreichbar sind. Client--Server--Anwendungen haben
+damit kein Problem, da der »anonyme« Client die Verbindung zum »wohlbekannten«
+Server selbstständig aufbaut. Bei einer P2P--Kommunikation hingegen, muss eine
+Verbindung in beide Richtungen möglich sein --- und das möglicherweise sogar
+über mehrere *NATs* hinweg. Die Umgehung dieser Grenzen ist in der Literatur
+als *NAT Traversal* bekannt (TODO: ref aus p2p/jabber buch). Eine populäre
+Technik ist dabei das UDP--Hole--Punching (TODO: ref aus buch). Dabei wird,
+grob erklärt, ein beiden Parteien bekannter Mittelsmann herangezogen, über den
+die eigentliche, direkte Verbindung aufgebaut wird. Eine technische
+Notwendigkeit dabei ist die Verwendung von *UDP* anstatt *TCP*.
+
+[^NAT]: <https://de.wikipedia.org/wiki/Netzwerkadress%C3%BCbersetzung>
+
+Typischerweise ist der Mittelsmann ein sogenannter *Bootstrap--Knoten*. Dieser
+ist innerhalb eines P2P--Netzwerks ein wohlbekannter Knoten, zu dem sich neue
+Netzwerkteilnehmer verbinden, um von ihm an weitere Teilnehmer vermittelt zu
+werden. Bemerkenswert ist, dass sich keine zentrale Instanz um die Koordination
+des Datenflusses im Netzwerk kümmern muss Die Grundlage für die Koordination
+bildet dabei die *Distributed Hashtable (DHT, mehr Informationen unter TODO
+buch ref)*. Diese Datenstruktur bildet sich durch den Zusammenschluss vieler
+Rechner und nutzt eine *Hashfunktion*[^HASH_FUNCTION], um für
+einen bestimmten Datensatz zu entscheiden, welche Knoten (mindestens aber
+einer) im Netzwerk für diesen Datensatz zuständig ist. Ist ein Teilnehmer an
+einem Datensatz interessiert, so muss er nur die Prüfsumme desselben kennen, um
+zu wissen von welchem Teilnehmer er den Datensatz beziehen kann. Jeder Knoten
+verwaltet dabei einen bestimmten Wertebereich der Prüfsummenfunktion und ist
+für diese Prüfsummen zuständig. Werden neue Knoten hinzugefügt oder andere
+verlassen das Netz, werden die Wertebereiche neu verteilt.
+
+[^HASH_FUNCTION]: Bildet einen Datensatz beliebiger auf eine kurze Prüfsumme mit fixer Länge ab. Eine Rückrechnung von der Prüfsumme zum ursprünglichen Datensatz ist theoretisch möglich, aber extrem rechenaufwendig. Kleine Änderungen der Eingabe, erzeugen eine gänzlich andere Prüfsumme.
+Siehe auch: <https://de.wikipedia.org/wiki/Hashfunktion>
+
+### Dateisynchronisation in P2P--Netzwerken
+
+In diesem Kontext meint der Begriff »Synchronisation« das Zusammenführen der Dateistände
+mehrerer Netzwerkteilnehmer. Typischerweise nutzen viele Nutzer heutzutage
+dafür einen zentralen Dienst. Dieser hält einen Dateistand vor, der von allen
+Teilnehmern als Referenz angesehen wird. Ändert ein Teilnehmer seine Stand, so
+wird die Änderung zum zentralen Server übertragen und erreicht so auch alle
+anderen Teilnehmer.
+
+In vielen Fällen skalieren aber solche Client--Server Anwendungen bei weitem
+schlechter als verteilte Anwendungen. Man stelle sich einen Vorlesungssaal mit
+50 Studenten vor, die ein Festplattenimage (Größe: 5 Gigabyte) aus dem Internet
+herunterladen sollen. Bei einer Client--Server Anwendung werden hier 50
+Verbindungen zu einem zentralen Server (beispielsweise Dropbox) geöffnet. Der
+Server muss nun 50 Verbindungen gleichzeitig bearbeiten und muss eine
+entsprechende Bandbreite zur Verfügung stellen. Bei kleineren Diensten kann
+dies bereits der Flaschenhals sein, teilweise kann aber auch die Bandbreite auf
+Seiten des Empfängers limitiert sein. Fällt der zentrale Server aus (er ist
+ein »Single--Point--of--Failure«), so kann kein neuer Nutzer mehr das Festplattenimage
+empfangen.
+
+XXX: grafik fixen
+
+![Veranschaulichung der Netzwerklast bei zentralen und dezentralen Systemen.](images/2/zentral-dezentral-speedup.pdf){#fig:speedup}
+
+Anders liegt der Fall es wenn die Rechner der Studenten ein verteiltes Netzwerk
+bilden. Hier genügt es wenn nur ein Rechner einen Teil der Datei hat. Diesen
+Teil kann er im lokalen Netz anderen Teilnehmern wieder anbieten und sich Teile
+der Datei besorgen, die er selbst noch nicht hat. So muss in der Theorie die
+Datei nur maximal einmal gesamt vom zentralen Server übertragen werden. In
+diesem etwas konstruierten[^CACHING_PROXY] Beispiel hätte man also ein
+Speedup--Faktor von 50. Fällt der zentrale Server aus nachdem die Datei bereits
+einmal komplett heruntergeladen wurde, so werden die bereits existierenden
+Teile von den jeweiligen Teilnehmern weiter angeboten. [@fig:speedup]
+veranschaulicht diesen Zusammenhang noch einmal.
+
+Dezentrale Netzwerke eignen also sehr gut funktionieren, um Dateien auszutauschen,
+da ganze Dateien in kleine Blöcke unterteilt werden können. Diese können dann von
+interessierten Knoten vorgehalten und weitergegeben werden. Protokolle wie *BitTorrent*
+haben das Problem, dass ein Block nur solange verfügbar ist, solange es Teilnehmer
+gibt, die diesen Block anbieten. Prinzipiell hat auch ``brig`` dieses Problem,
+doch besteht ein ``brig``--Netzwerk nur aus den Teilnehmern besteht, die einen gemeinsamen
+Dateistand synchronisieren wollen. Daher kann angenommen werden, dass alle darin enthaltenen
+Dateien von mindestens einen Teilnehmer angeboten werden können.
+
+[^CACHING_PROXY]: Typischerweise sorgen auch vorgeschaltete *Caching Proxies* wie Squid (<https://de.wikipedia.org/wiki/Squid>) dafür, dass Dateien nicht zigmal heruntergeladen werden.
 
 XXX
 
-synchronisation
-
-nat
-
-nat traversal
-
-prüfsumme
-
-peer to peer
-
-partner oder teilnehmer
-
 gateway
 
-## Projektziel
+versionsverwaltung
 
-XXX: In Einleitung verschieben?
-
-Ziel des Projektes ist die Entwicklung einer sicheren und dezentralen
-Alternative zu Cloud--Storage Lösungen wie Dropbox, die sowohl für Unternehmen,
-als auch für Heimanwender nutzbar sind. Trotz der Prämisse, einfache Nutzbarkeit
-zu gewährleisten, wird auf Sicherheit sehr großen Wert gelegt.  Aus Gründen der
-Transparenz wird die Software dabei quelloffen unter der »``AGPLv3``«--Lizenz
-entwickelt.
-
-Nutzbar soll das resultierende Produkt, neben dem Standardanwendungsfall der
-Dateisynchronisation, auch als Backup- bzw. Archivierungs--Lösung sein.
-Weiterhin kann es auch als verschlüsselter Daten--Safe oder als
-»Werkzeugkasten« für andere, verteilte Anwendungen dienen -- wie beispielsweise
-aus dem Industrie--4.0--Umfeld.
-
-Als weiteres Abgrenzungsmerkmal setzt ``brig`` nicht auf möglichst hohe
-Effizienz (wie es typischerweise verteilte Dateisysteme tun) sondern versucht
-möglichst generell anwendbar zu sein und über Netzwerkgrenzen hinweg zu funktionieren.
-Dadurch soll es zu einer Art »Standard« werden, auf den sich möglichst viele
-Anwender einigen können.
-
-Um einen ersten Eindruck von ``brig`` und seinen Fähigkeiten in der Praxis zu
-bekommen, wird an dieser Stelle das *Benutzerhandbuch* in
-[@sec:benutzerhandbuch] empfohlen.
+partiellen diffs.
 
 ## Ähnliche Arbeiten
 
-Es gibt viele unterschiedliche wissenschaftliche Arbeiten rund um das Thema der Dateiverteilung
-in P2P--Netzwerken. Die meisten Arbeiten scheinen sich mehr auf das Thema
-des Dateiaustausches an sich zu konzentrieren und weniger auf das Thema der Dateisynchronisation,
-wo eine Menge von Dateien auf dem selben Stand gehalten werden muss.
-Die vorhandenen Arbeiten legen ihren Fokus dabei meist auf die Untersuchung und
-Implementierung verteilter Dateisysteme, die sehr ähnliche Probleme lösen
-müssen, aber mehr auf Effizienz als auf Einfachheit Wert legen.
+Es gibt viele unterschiedliche wissenschaftliche Arbeiten rund um das Thema der
+Dateiverteilung in P2P--Netzwerken. Die meisten Arbeiten scheinen sich mehr auf
+das Thema des Dateiaustausches an sich zu konzentrieren und weniger auf das
+Thema der Dateisynchronisation, wo eine Menge von Dateien auf dem selben Stand
+gehalten werden muss. Die vorhandenen Arbeiten legen ihren Fokus dabei meist
+auf die Untersuchung und Implementierung verteilter Dateisysteme, die sehr
+ähnliche Probleme lösen müssen, aber mehr auf Effizienz als auf Einfachheit
+Wert legen.
 
 Stellvertretend für eine solche Arbeit soll hier die Dissertation von Julien
 Quintard *»Towards a worldwide storage infrastructure«*[@quintard2012towards]
@@ -131,33 +218,39 @@ für den Ordner, in dem es seine Daten ablegt.
 
 Die wissenschaftliche Neuerung der vorliegenden Arbeit ist die Zusammenführung
 vieler wissenschaftlicher Teildisziplinen, die es nach Wissen des Autors vorher
-noch nicht in dieser Form gab. Dabei werden viele bestehende Ideen und
+noch nicht in dieser Kombination gab. Dabei werden viele bestehende Ideen und
 Konzepte genommen, um sie in einer Software zu vereinen, die ein versioniertes
 und verteiltes Dateisystem implementiert. Dieses soll nicht nur »sicher« (im
 weitesten Sinne, siehe [@cpiechula], Kapitel TODO) sein, sondern auch
 für ein Großteil der Anwender benutzbar sein.
-Im Konkreten bestehen die Neuerungen hauptsächlich aus den folgenden Punkten:
+Im Konkreten bestehen die Neuerungen hauptsächlich aus der Kombination folgender Punkte:
 
-* Eine Erweiterung des Datenmodells von ``git``, welches Metadaten von den eigentlichen Daten trennt,
-  leere Verzeichnisse sowie umbenannte Pfade nativ unterstützt und eine eigene Historie pro Datei mit sich bringt.
+XXX: Nochmal überlegen.
+
+* Eine Erweiterung des Datenmodells von ``git``, welches Metadaten von den
+  eigentlichen Daten trennt, leere Verzeichnisse sowie umbenannte Pfade nativ
+  unterstützt und eine eigene Historie pro Datei mit sich bringt.
 * Die Möglichkeit nur die Metadaten zu synchronisieren und die eigentlichen Daten dynamisch
   nachzuladen und nach Anwendungsfall zu »pinnen«. Dateien mit einem *Pin* werden dabei auf dem lokalen Rechner
   gespeichert, Dateien ohne Pin dürfen falls nötig wieder gelöscht werden.
-- Ein Verschlüsselungsformat (ähnlich dem Secretbox der freien NaCl[^NACL] Bibliothek), welches effizienten wahlfreien Zugriff erlaubt.
-- Ein Kompressionsformat, welches blockbasierten, wahlfreien Zugriff und den Einsatz verschiedener Algorithmen erlaubt.
-- Ein Konzept und Implementierung zur dezentralen Benutzerverwaltung, ohne dass ein Nutzer dabei registriert werden muss.
+- Ein Verschlüsselungsformat (ähnlich dem Secretbox der freien NaCl[^NACL]
+  Bibliothek), welches   effizienten wahlfreien Zugriff erlaubt.
+- Ein Kompressionsformat, welches blockbasierten, wahlfreien Zugriff und den
+  Einsatz verschiedener Algorithmen erlaubt.
+- Ein Konzept und Implementierung zur dezentralen Benutzerverwaltung, ohne dass
+  ein Nutzer dabei registriert werden muss.
 - Verschiedene Ansätze um die Usability zu verbessern ohne an Sicherheit zu verlieren.
 
 [^NACL]: Mehr Informationen unter <https://nacl.cr.yp.to/secretbox.html>
 
 ## Markt und Wettbewerber
 
-XXX: wiki footnote
-
-Bereits ein Blick auf Wikipedia[@wiki_filesync] zeigt, dass der momentane Markt
+Bereits ein Blick auf Wikipedia[^wiki_filesync] zeigt, dass der momentane Markt
 an Dateisynchronisationssoftware sehr unübersichtlich ist.
 Ein näherer Blick zeigt, dass die Softwareprojekte dort oft nur in Teilaspekten
 gut funktionieren oder mit anderen unlösbaren Problemen behaftet sind.
+
+[^wiki_filesync]: Siehe <https://en.wikipedia.org/wiki/Comparison_of_file_synchronization_software>
 
 Im Folgenden wird eine unvollständige Übersicht über bekannte
 Dateisynchronisationsprogramme gegeben. Davon stehen nicht alle in Konkurrenz zu
@@ -167,7 +260,7 @@ Dateisynchronisationsprogramme gegeben. Davon stehen nicht alle in Konkurrenz zu
 
 ![Screenshot eines Dropbox--Accounts](images/2/dropbox.png){#fig:scrn-dropbox}
 
-Dropbox ist der vermutlich bekannteste und am weitesten verbreitete zentrale Dienst zur
+Dropbox (siehe [@fig:scrn-dropbox]) ist der vermutlich bekannteste und am weitesten verbreitete zentrale Dienst zur
 Dateisynchronisation. Verschlüsselung kann man mit Tools wie ``encfs``
 (Open--Source, siehe auch [^ENCFS]) oder dem etwas umfangreicheren, proprietären
 ``boxcryptor`` nachrüsten. Was das Backend genau tut ist leider das Geheimnis von
@@ -184,11 +277,12 @@ Abhängigkeit von der Verfügbarkeit des Dienstes.
 
 [^KEYSERVER]: Mehr Informationen zum Keyserver unter <https://www.boxcryptor.com/de/technischer-\%C3\%BCberblick\#anc09>
 
-XXX: noch korrekt? https://www.dropbox.com/de/help/137
+Technisch nachteilhaft ist vor allem, dass die Datei bei manchen Diensten »über
+den Pazifik« hinweg synchronisiert werden muss, nur um schließlich auf dem
+Arbeitsrechner »nebenan« anzukommen. Dropbox hat hier nachgerüstet, indem es
+nach Möglichkeit direkt über LAN synchronisiert[^DROPBOX_LAN_SYNC].
 
-Technisch nachteilhaft ist vor allem, dass jede Datei »über den Pazifik« hinweg
-synchronisiert werden muss, nur um schließlich auf dem Arbeitsrechner
-»nebenan« anzukommen.
+[^DROPBOX_LAN_SYNC]: <https://www.dropbox.com/de/help/137>
 
 #### ``ownCloud`` / ``nextCloud``
 
@@ -196,7 +290,7 @@ synchronisiert werden muss, nur um schließlich auf dem Arbeitsrechner
 
 Eine Alternative zu einem von einem Unternehmen bereitgestellten zentralen
 Dienst, ist die Nutzung einer eigenen »Private Cloud« mithilfe der
-Open--Source Lösung ``ownCloud`` (beziehungsweise dessen Fork ``nextCloud``).
+Open--Source Lösung ``ownCloud`` (siehe [@fig:scrn-owncloud], beziehungsweise dessen Fork ``nextCloud``).
 
 Nutzer hosten auf ihren Servern selbst eine ``ownCloud``--Instanz und stellen
 ausreichend Speicherplatz bereit. Vorteilhaft ist also, dass die Daten auf den
@@ -210,17 +304,13 @@ den Heimanwender nicht praktikabel.
 
 ![Screenshot der Syncthing--Weboberfläche](images/2/syncthing.png){#fig:scrn-syncthing}
 
-Das 2013 veröffentlichte quelloffene ``syncthing`` versucht diese zentrale Instanz
-zu vermeiden, indem die Daten jeweils von Peer zu Peer (XXX: Schreibweise?) übertragen werden. Es ist
+Das 2013 veröffentlichte quelloffene ``syncthing`` (siehe
+[@fig:scrn-syncthing]) versucht diese zentrale Instanz zu vermeiden, indem die
+Daten jeweils von Teilnehmer zu Teilnehmer übertragen werden. Es ist
 allerdings kein vollständiges Peer--to--peer--Netzwerk: Geteilte Dateien liegen
 immer als vollständige Kopie bei allen Teilnehmern, welche die Datei haben.
 Alternativ ist nur die selektive Synchronisation bestimmter Dateien möglich.
 
-
-XXX: Referenz?
-
-``Syncthing`` besitzt eine Art »intelligentes Routing«, bei dem Dateien
-vom nahegelegenen Peers mit der höchsten Bandbreite übertragen werden.
 Praktisch ist auch, dass ``syncthing``--Instanzen mittels eines zentralen
 Discovery--Servers entdeckt werden. Nachteilig hingegen ist die fehlende
 Benutzerverwaltung: Man kann nicht festlegen von welchen Nutzern man Änderungen
@@ -260,7 +350,7 @@ automatisch synchronisiert, hier ist die Grundidee die Dateien selbst zu
 
 [^ANNEX]: Webpräsenz: <https://git-annex.branchable.com/>
 
-Dieser »Do-it-yourself« (XXX: schreibweise) Ansatz ist sehr nützlich, um ``git-annex`` als Teil der
+Dieser »Do-it-yourself« Ansatz ist sehr nützlich, um ``git-annex`` als Teil der
 eigenen Anwendung einzusetzen. Für den alltäglichen Gebrauch scheint es aber selbst
 für erfahrene Anwender zu kompliziert, um es praktikabel einzusetzen.
 
@@ -287,42 +377,42 @@ reproduzierbar abstürzte.
 [^LIBREVAULT]: Mehr Informationen hier: <https://librevault.com>
 
 In [@tbl:table-technical-overview] und [@tbl:table-practical-overview] findet
-sich zusammenfassend eine Übersicht, mit den aus Sicht des Autors wichtigsten
-Eigenschaften. Die Bewertung ist in Punkten wie *»Einfach nutzbar«*
+sich zusammenfassend eine Übersicht, mit den wichtigsten
+Unterscheidungsmerkmalen. Die Bewertung ist in Punkten wie *»Einfach nutzbar«*
 subjektiver Natur.
 
-(XXX: überprüfen ob das passt)
-
-|                      | **Dezentral**       | **Verschlüsselung (Client)**     | **Versionierung**                      |  **Quotas**       | **N-Kopien**    |
-| -------------------- | ------------------- | -------------------------------- | -------------------------------------- | ------------------|------------------|
-| *Dropbox/Boxcryptor* | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |  \xmark           | \xmark          |
-| ``ownCloud``         | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |  \xmark           | \xmark          |
-| ``syncthing``        | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |  \xmark           | \xmark          |
-| ``resilio``          | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |  \xmark           | \xmark          |
-| ``git-annex``        | \cmark              | \xmark                           | \cmark                                 |  \xmark           | \cmark         |
-| ``infinit``          | \cmark              | \xmark                           | \xmark                                 |  \cmark           | \textcolor{YellowOrange}{Nur kommerziell}|
-| ``brig`` *(Prototyp)*  | \cmark            | \cmark                           | \cmark                               |  \xmark           | \xmark         |
-| ``brig`` *(Ziel)*      | \cmark            | \cmark                           | \cmark                               |  \cmark           | \cmark         |
+|                      | **Dezentral**       | **Verschlüsselung (Client)**     | **Versionierung**                      |
+| -------------------- | ------------------- | -------------------------------- | -------------------------------------- |
+| *Dropbox/Boxcryptor* | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |
+| ``ownCloud``         | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |
+| ``syncthing``        | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |
+| ``resilio``          | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |
+| ``git-annex``        | \cmark              | \xmark                           | \cmark                                 |
+| ``infinit``          | \cmark              | \xmark                           | \xmark                                 |
+| ``brig`` *(Prototyp)*  | \cmark            | \cmark                           | \cmark                               |
+| ``brig`` *(Ziel)*      | \cmark            | \cmark                           | \cmark                               |
 
 
 : Vergleich der Software aus technischer Sicht {#tbl:table-technical-overview}
 
 
-|                      | **FOSS**            | **Einfach nutzbar** | **Einfache Installation**  | **Intell. Routing**   | **Kompression** |
-| -------------------- | ------------------- | ------------------- |--------------------------  | ------------------------- |-----------------|
-| *Dropbox/Boxcryptor* | \xmark              | \cmark              | \cmark                     |  \textcolor{YellowOrange}{LAN--Sync} | \xmark          |
-| ``ownCloud``         | \cmark              | \cmark              | \xmark                     |  \xmark             | \xmark          |
-| ``syncthing``        | \cmark              | \cmark              | \cmark                     |  \cmark             | \xmark          |
-| ``resilio``          | \xmark              | \cmark              | \cmark                     |  \cmark             | \xmark          |
-| ``infinit``          | \xmark              | \xmark              | \cmark                     |  \cmark             | \xmark          |
-| ``git-annex``        | \cmark              | \xmark              | \xmark                     |  \xmark             | \xmark          |
-| ``brig`` *(Prototyp)*  | \cmark            | \xmark              | \textcolor{YellowOrange}{Auf Linux} |  \cmark             | \cmark          |
-| ``brig`` *(Ziel)*      | \cmark            | \cmark              | \cmark                     |  \cmark             | \cmark          |
+|                      | **FOSS**            | **Einfach nutzbar** | **Einfache Installation**  |
+| -------------------- | ------------------- | ------------------- |--------------------------  |
+| *Dropbox/Boxcryptor* | \xmark              | \cmark              | \cmark                     |
+| ``ownCloud``         | \cmark              | \cmark              | \xmark                     |
+| ``syncthing``        | \cmark              | \cmark              | \cmark                     |
+| ``resilio``          | \xmark              | \cmark              | \cmark                     |
+| ``infinit``          | \xmark              | \xmark              | \cmark                     |
+| ``git-annex``        | \cmark              | \xmark              | \xmark                     |
+| ``brig`` *(Prototyp)*  | \cmark            | \xmark              | \textcolor{YellowOrange}{Auf Linux} |
+| ``brig`` *(Ziel)*      | \cmark            | \cmark              | \cmark                     |
 
 
 : Vergleich der Software aus Nutzersicht {#tbl:table-practical-overview}
 
 ## Zielgruppen
+
+XXX: Stark kürzen.
 
 Die primären Zielgruppen von ``brig`` sind Unternehmen und Heimanwender.
 Aufgrund der starken Ende-zu-Ende Verschlüsselung ist ``brig`` allerdings auch
@@ -446,21 +536,25 @@ Es gibt natürlich auch einige Einsatzzwecke, für die ``brig`` weniger geeignet
 ist. Diese werden im [@sec:evaluation] beleuchtet, da die dortige Argumentation
 teilweise ein Verständnis von der internen Architektur benötigt.
 
-## Annahmen
+## Annahmen {#sec:assumptions}
 
 Das Design von ``brig`` basiert auf einigen Annahmen, die im Voraus getroffen
 werden mussten:
 
 **Durchschnittlicher Netzwerkkonfiguration:** Für den Prototypen wird ein
 normales Heimnetzwerk mit mehren Computern angenommen, welche typischerweise
-hinter einem NAT (XXX: siehe kapitel 3) liegen. Diese sollen sich mit anderen
+hinter einem NAT liegen. Diese sollen sich mit anderen
 Computern in anderen Heimnetzwerken über das Internet austauschen können.
 
-**Durchschnittlicher Arbeitsrechner:** Das Design wurde nicht auf leistungsschwache
-Hardware ausgerichtet. Ausgegangen wird vom Vorhandensein eines normalen
-Arbeitsrechners mit normalen Prozessor und mindestens 2GB Arbeitsspeicher.
-Auch eine typische Arbeitsweise wird angenommen. Im Konkreten bedeutet das,
-dass eine Datei öfters gelesen als geschrieben wird. XXX: drin lassen?
+**Durchschnittlicher Arbeitsrechner:** Das Design wurde nicht auf
+leistungsschwache Hardware ausgerichtet. Ausgegangen wird von einem »normalen«
+Arbeitsrechner. Normal wird hier definiert durch Vorhandensein eines typischen
+Mehrkernprozessors aus dem Jahr 2008 oder später und mindestens 2 Gigabyte
+Arbeitsspeicher. Der Internetanschluss sollte ein Download von mindestens
+4 Mbit/s[^ANSCHLUSS_DURCHSCHNITT] besitzen und ein Upload von 1 Mbit/s.
+
+[^ANSCHLUSS_DURCHSCHNITT]: Der Durchschnitt im Jahr 2016 beträgt bereits etwa
+14 Mbit/s. Quelle: Statista, [@statistaDownload].
 
 **Stabilität von ``ipfs:``** Es wird angenommen, dass ``ipfs`` stetig
 weiterentwickelt wird und im momentanen Zustand keine gravierenden
@@ -471,13 +565,13 @@ ausreichend hohe Performanz bietet.
 nicht auseinander halten, die einen unterschiedlichen Inhalt besitzen, aber die
 selbe Prüfsumme erzeugen. Auch wenn dieser Fall in der Theorie eintreten mag,
 so ist dieser extrem schwer zu erreichen. Der von
-``ipfs`` standardmäßig verwendete Algorithmus ist *sha256* (XXX: ref), welcher eine Prüfsumme
+``ipfs`` standardmäßig verwendete Algorithmus ist *sha256*[^SHA256], welcher eine Prüfsumme
 von 256 Bit Länge liefert. Wie in [@eq:hash-collision] gezeigt, müssten aufgrund des
 Geburtstagsparadoxons[@wiki:geburtstagsparadoxon] unpraktikabel viele
 Prüfsummen erzeugt werden, um eine Kollisionswahrscheinlichkeit von $0.1\%$ zu
 erreichen, selbst wenn man sehr optimistisch annimmt, dass die Berechnung einer
 einzigen Prüfsumme nur eine Pikosekunde dauert.
 
-$$(\frac{1}{1000} \times 2^{\frac{256}{2}}) \times 10^{-12}s \simeq 10^{35.5} \times 10^{-12}s \simeq 10^{15} \text{Jahre}$$ {#eq:hash-collision}
+[^SHA256]: Ein Prüfsummenalgorithmus der SHA-2 Familie. Siehe auch: <https://de.wikipedia.org/wiki/SHA-2>
 
-XXX: formel nötig
+$$(\frac{1}{1000} \times 2^{\frac{256}{2}}) \times 10^{-12}s \simeq 10^{35.5} \times 10^{-12}s \simeq 10^{15} \text{Jahre}$$ {#eq:hash-collision}

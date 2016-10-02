@@ -1,90 +1,13 @@
-# Grundlagen {#sec:eigenschaften}
+# Anforderungen {#sec:eigenschaften}
 
 In diesem Kapitel werden aus dem Stand der Technik die Anforderungen und
 Eigenschaften abgeleitet, die ein modernes Dateisynchronisationssystem haben
 sollte. Im Zuge dessen werden die Grundlagen erklärt,
 die zum Verständnis der folgenden Kapitel notwendig sind.
 
-## Einführung
+XXX: passt noch?
 
-Trotz einiger populärer Protokolle, wie *BitTorrent* und *Skype* fristen
-P2P--Systeme trotz ihrer Flexibilität eher ein Nischendasein im Vergleich mit
-Client/Server--Architekturen im alltäglichen Gebrauch. Besonders beim
-Datenaustausch scheinen sie noch nicht beim normalen Endnutzer angekommen zu
-sein und rufen bei manchen Nutzern Assoziationen zu illegalen Aktivitäten
-hervor (Stichwort: *Filesharing--Netzwerke*).
-
-
-XXX: nicht alle p2p netzwerke müssen auch austauschen
-Der Vorteil von Client/Server--Anwendungen ist, dass die Clients (im Gegensatz zu
-den Knoten der meisten P2P--Netzwerke) nichts zum Netzwerk beitragen müssen. Die Last
-liegt zum größten Teil auf Seite des Servers. Dieser muss die nötige Bandbreite
-und Prozessorleistung aufbringen, um viele Clients zu bedienen. Dieses Modell
-passt auf viele heterogene Anwendungsbereiche, wo Client und Server
-grundverschiedene Rollen zugeordnet sind. Ein Beispiel wäre ein
-Unternehmen, das seinen Kunden einen Dienst oder eine Webseite anbietet. Zudem
-haben solche »wohlbekannten« Dienste kein Problem mit NAT--Traversal (siehe [@sec:ipfs-attrs]),
-da sich nur der Client aktiv mit dem Server verbindet und nicht
-umgedreht.
-
-
-XXX: caching proxies, wlan rausmachen
-In vielen Fällen skalieren aber Client/Server Anwendungen bei weitem schlechter
-als verteilte Anwendungen. Man stelle sich einen Vorlesungssaal mit 50
-Studenten vor, die ein Festplattenimage (Größe: 5 Gigabyte) aus dem Internet
-herunterladen sollen. Bei einer Client/Server Anwendung werden hier 50
-Verbindungen zu einem zentralen Server geöffnet. Der Flaschenhals ist in
-diesem Fall vermutlich der Internetzugang im Saal, welcher schnell überlastet werden würde.
-Anders ist es wenn die Rechner der Studenten ein verteiltes Netzwerk bilden.
-Hier genügt es wenn nur ein Rechner einen Teil der Datei hat. Diesen Teil kann
-er im lokalen Netz anderen Teilnehmern wieder anbieten und sich Teile der Datei
-besorgen, die er selbst noch nicht hat. So muss in der Theorie die Datei nur
-maximal einmal über das WLAN übertragen werden. In diesem etwas konstruierten
-Beispiel hätte man also ein Speedup--Faktor von 50. [@fig:speedup]
-veranschaulicht diesen Zusammenhang noch einmal. Dezentrale Netzwerke können
-also sehr gut funktionieren, wenn die Teilnehmer ähnliche Rollen haben.
-
-![Veranschaulichung der Netzwerklast bei zentralen und dezentralen Systemen.](images/2/zentral-dezentral-speedup.pdf){#fig:speedup}
-
-### Aufbau eines P2P Netzwerks
-
-Eine P2P--Netzwerk wird aus den Rechnern seiner Teilnehmer aufgebaut (oft
-*Knoten* genannt). Bemerkenswert ist dabei, dass keine zentrale Instanz sich um
-die Koordination des Datenflusses im Netzwerk kümmern muss (siehe
-[@fig:central-distributed]). Die Grundlage für die Koordination bildet dabei
-die *Distributed Hashtable (DHT)*. Diese nutzt eine
-*Hashfunktion*, um für einen bestimmten Datensatz zu entscheiden, welche Knoten
-(mindestens aber einer) im Netzwerk für diesen Datensatz zuständig ist.
-(XXX: lage der dht, mehr details, tracker erklären?)
-Knoten verwaltet dabei einen bestimmten Wertebereich der Hashfunktion und ist
-für diese Hashwerte zuständig. Werden neue Knoten hinzugefügt oder andere
-verlassen das Netz, werden die Wertebereiche neu verteilt.
-
-![Anschaulicher Unterschied zwischen zentralen und verteilten Systemen.](images/2/central-distributed.pdf){#fig:central-distributed}
-
-Werden ganze Dateien in das Netzwerk gelegt, so können diese je nach
-Anwendung in kleine Teilblöcke aufgeteilt werden, für die jeweils
-unterschiedliche Knoten zuständig sind. Wie die einzelnen Blöcke
-zusammenhängen, kann beispielsweise in einer *Torrent*--Datei definiert
-sein.[^BITTORRENT]
-
-XXX: unterschied zwischen tracker und dht based
-
-[^BITTORRENT]: Anmerkung: Bei Bittorrent kümmert sich ein *Tracker* um das Auffinden von zuständigen Knoten.
-
-### Dateisynchronisation in P2P--Netzwerken
-
-Ein häufiges Problem bei Filesharing--Netzwerken wie *BitTorrent* ist, dass
-viele Dateien nach einiger Zeit nicht mehr erreichbar sind, da es keine Knoten
-mehr gibt, welche die Blöcke der Datei *seeden* (dt. sähen, also verteilen).
-Auch ist es nur problematisch, wenn nur wenige Teilnehmer einen Block *seeden*,
-während viele andere Teilnehmer den Block herunterladen wollen.[^LEECHER] Für
-einen globale und dauerhafte Dateisynchronisation ist das
-*BitTorrent*--Protokoll also nur bedingt geeignet.
-
-[^LEECHER]: Die einseitig herunterladenden Teilnehmern werden dabei häufig als *Leecher* bezeichnet.
-
-## Eigenschaften und Anforderungen {#sec:requirements}
+## Anforderungen an ``brig`` {#sec:requirements}
 
 Im Folgenden wird auf die Anforderungen eingegangen, welche ``brig`` in
 Zukunft erfüllen soll. Diese sind weitreichender als der Umfang der
@@ -174,13 +97,15 @@ diese Datei benötigt.
 
 Dabei ist zu beachten, dass diese Anforderung nur mit einer gewissen
 Wahrscheinlichkeit erfüllt werden kann, da heutige Hardware nicht die
-Integrität der Daten gewährleisten kann. So können beispielsweise Bitfehler
-(XXX: ref) bei der Verarbeitung im Hauptspeicher oder konventionelle
+Integrität der Daten gewährleisten kann. So können beispielsweise Bitfehler[^BITROT]
+bei der Verarbeitung im Hauptspeicher oder konventionelle
 Festplatten mit beschädigten Platten die geschriebenen Daten verändern. Ist die
 Datei nur einmal gespeichert worden, kann sie von Softwareseite aus nicht mehr
 fehlerfrei hergestellt werden. Um diese Fehlerquelle zu verkleinern sollte eine
 Möglichkeit zur redundanten Speicherung geschaffen werden, bei der eine
 minimale Anzahl von Kopien einer Datei konfiguriert werden kann.
+
+[^BITROT]: Auch *Bitrot* genannt, siehe <https://en.wikipedia.org/wiki/Data_degradation>
 
 **Verfügbarkeit:** Alle Daten die ``brig`` verwaltet sollen stets erreichbar
 sein und bleiben. In der Praxis ist dies natürlich nur möglich, wenn alle
@@ -264,7 +189,10 @@ Eine Registrierung bei einer zentralen Stelle soll nicht benötigt werden.
 muss für Anwender und Entwickler nachvollziehbar und verständlich sein. Durch
 die Öffnung des gesamten Quelltextes können Entwickler den Code auf Fehler
 überprüfen. Normale Anwender können die Arbeit von Herrn Piechula[@cpiechula]
-lesen, um für die Themantik der Sicherheit sensibilisiert zu werden und ein Überblick über die Sicherheit von ``brig`` zu bekommen. XXX: Entwicklungsmodell
+lesen, um für die Themantik der Sicherheit sensibilisiert zu werden und ein
+Überblick über die Sicherheit von ``brig`` zu bekommen. Dort wird auch das
+Entwicklungsmodell besprochen, welches helfen soll sichere Software zu
+entwickeln.
 
 ### Anforderungen an die Usability
 
@@ -342,12 +270,17 @@ XXX: Gateway grafik hierhin verschieben.
 **Stabilität:** Die Software muss bei normaler Benutzung ohne Abstürze und
 offensichtliche Fehler funktionieren. Eine umfangreiche Testsuite soll die
 Fehlerquote der Software minimieren, quantisierbar machen und die
-Weiterentwicklung erleichtern. XXX: regression tests
+Weiterentwicklung erleichtern. Spätestens nach der Veröffentlichung der Software,
+sollten auch Regressionstests[^REGRESSION] das erneute Auftreten von bereits reparierten
+Fehlern vermeiden.
 
-**Effizienz:** Die Geschwindigkeit der Software auf durchschnittlicher Hardware (XXX: definieren)
-schnell genug sein, um den Anwender ein flüssiges Arbeiten ermöglichen zu
-können. Die Geschwindigkeit sollte durch eine Benchmarksuite messbar gemacht
-werden und bei jedem neuen Release mit dem Vorgänger verglichen werden.
+[^REGRESSION]: Siehe auch: <https://de.wikipedia.org/wiki/Regressionstest>
+
+**Effizienz:** Die Geschwindigkeit der Software auf durchschnittlicher Hardware
+(siehe [@sec:assumptions]) schnell genug sein, um den Anwender ein flüssiges
+Arbeiten ermöglichen zu können. Die Geschwindigkeit sollte durch eine
+Benchmarksuite messbar gemacht werden und bei jedem neuen Release mit dem
+Vorgänger verglichen werden.
 
 ## ``ipfs``: Das *Interplanetary Filesystem*
 
@@ -358,8 +291,6 @@ wird (siehe auch das Whitepaper[@benet2014ipfs]). Im Gegensatz zu den meisten
 anderen verfügbaren Peer--to-Peer Netzwerken kann ``ipfs`` als
 Software--Bibliothek genutzt werden. Dies ermöglicht es ``brig`` als,
 vergleichsweise dünne Schicht, zwischen Benutzer und ``ipfs`` zu fungieren (wie in [@fig:fuse-brig-ipfs] dargestellt).
-
-XXX: encryption und compression bei brig und nat traversal bei ipfs
 
 ![Zusammenhang zwischen ``ipfs``, ``brig`` und FUSE.](images/3/fuse-brig-ipfs.pdf){#fig:fuse-brig-ipfs width=30%}
 
@@ -522,24 +453,9 @@ $ ipfs pin rm QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
 [^IPFS_MANUAL_GC]: Der Garbage--Collector kann auch manuell mittels ``ipfs repo gc`` von der Kommandozeile aufgerufen werden.
 
 **Flexibler Netzwerkstack:** Einer der größten Vorteile von ``ipfs`` ist, dass es
-auch über NAT--Grenzen hinweg funktioniert. NAT steht dabei für *Network Address
-Resolution* (dt. Netzwerkadressübersetzung) und ist eine Technik, um zwischen
-einer öffentlichen und mehreren lokalen IP--Adressen zu vermitteln. Es wird
-aufgrund der Knappheit von IPv4 sehr häufig eingesetzt, um einen Heim- oder
-Unternehmensnetzwerk eine einzige IP-Adresse nach außen zu geben, die über
-bestimmte Ports dann den Verkehr auf die jeweiligen lokalen Adressen übersetzt.
-Der Nachteil in Bezug auf P2P--Netzwerke ist dabei, dass die Rechner hinter
-einem *NAT* nicht direkt erreichbar sind. Client/Server Anwendungen haben damit
-kein Problem, da der Client die Verbindung zum Server selbstständig aufbaut.
-Bei einer P2P--Kommunikation hingegen, muss eine Verbindung in beide Richtungen
-möglich sein --- und das möglicherweise sogar über mehrere *NATs* hinweg.
-
-Die Umgehung dieser Grenzen ist in der Literatur als *NAT Traversal* bekannt
-(TODO: ref aus p2p/jabber buch). Eine populäre Technik ist dabei das UDP--Hole--Punching (TODO:
-ref aus buch). Dabei wird, grob erklärt, ein beiden Parteien bekannter Mittelsmann (oft ein
-*Bootstrap*--Knoten) herangezogen, über den die eigentliche, direkte Verbindung
-aufgebaut wird. Eine Notwendigkeit dabei
-ist die Verwendung von *UDP* anstatt *TCP*. Um die Garantien, die *TCP*
+auch über NAT--Grenzen hinweg funktioniert. 
+XXX: Schauen ob das noch passt.
+Um die Garantien, die *TCP*
 bezüglich der Paketzustellung gibt, zu erhalten nutzt ``ipfs`` das
 Anwendungs--Protokoll *UDT*. Insgesamt implementiert ``ipfs`` also einige
 Techniken, um, im Gegensatz zu den meisten theoretischen Ansätzen, eine leichte

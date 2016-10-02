@@ -356,7 +356,7 @@ Auflistung in Verbesserungen an der existierenden Implementierung (welche
 vergleichsweise einfach umsetzbar sind), sowie konzeptuelle Erweiterungen
 (welche typischerweise weitgehendere Änderungen erfordern).
 
-### Verbesserungen an der Implementierung
+### Verbesserungen an der Implementierung {#sec:verbesserungen}
 
 **Kompression basierend auf MIME--Type:** Kompression lohnt sich nicht bei allen
 Dateiformaten. Gut komprimieren lassen sich Dateien mit Textinhalten (wie XML--Dateien)

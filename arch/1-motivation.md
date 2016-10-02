@@ -68,6 +68,31 @@ Der aktuelle Quelltext findet sich auf der Hosting--Plattform *GitHub*[^GITHUB].
 
 [^GITHUB]: Offizielles GitHub Repository: <http://github.com/disorganizer/brig>
 
+## Projektziel
+
+Ziel des Projektes ist die Entwicklung einer sicheren und dezentralen
+Alternative zu Cloud--Storage Lösungen wie Dropbox, die sowohl für Unternehmen,
+als auch für Heimanwender nutzbar sind. Trotz der Prämisse, einfache Nutzbarkeit
+zu gewährleisten, wird auf Sicherheit sehr großen Wert gelegt.  Aus Gründen der
+Transparenz wird die Software dabei quelloffen unter der »``AGPLv3``«--Lizenz
+entwickelt.
+
+Nutzbar soll das resultierende Produkt, neben dem Standardanwendungsfall der
+Dateisynchronisation, auch als Backup- bzw. Archivierungs--Lösung sein.
+Weiterhin kann es auch als verschlüsselter Daten--Safe oder als
+»Werkzeugkasten« für andere, verteilte Anwendungen dienen -- wie beispielsweise
+aus dem Industrie--4.0--Umfeld.
+
+Als weiteres Abgrenzungsmerkmal setzt ``brig`` nicht auf möglichst hohe
+Effizienz (wie es typischerweise verteilte Dateisysteme tun) sondern versucht
+möglichst generell anwendbar zu sein und über Netzwerkgrenzen hinweg zu funktionieren.
+Dadurch soll es zu einer Art »Standard« werden, auf den sich möglichst viele
+Anwender einigen können.
+
+Um einen ersten Eindruck von ``brig`` und seinen Fähigkeiten in der Praxis zu
+bekommen, wird an dieser Stelle das *Benutzerhandbuch* in
+[@sec:benutzerhandbuch] empfohlen.
+
 ## Der Name
 
 Eine »Brigg« (englisch »brig«) ist ein kleines und wendiges
@@ -146,10 +171,15 @@ einen großen Teil der Motivation ausmacht.
 
 [^DSG]: Siehe auch: <http://dsg.hs-augsburg.de>
 
-## Typografische Konventionen
+## Konventionen
 
-Es werden einige wenige Konventionen im Textsatz vereinbart:
+Es werden einige wenige typografische Konventionen im Textsatz vereinbart:
 
 * Programmnamen werden ``monospaced`` geschrieben.
 * Wichtige Aussagen werden *hervorgehoben*.
 * Spezielle Ausdrücke und Eigennamen werden in »Chevrons« gesetzt.
+
+Zudem werden die Namen *Alice*, *Bob* und manchmal *Charlie* verwendet,
+um Testnutzer zu kennzeichnen. Sofern nicht anders angegeben,
+kann angenommen werden, dass Abläufe aus Sicht von *Alice*
+geschildert werden.

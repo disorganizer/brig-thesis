@@ -4,7 +4,7 @@ In diesem Kapitel wird die grundlegende Architektur von ``brig`` erklärt. Dabei
 wird vor allem das »Kernstück« beleuchtet: Das zugrundeliegende Datenmodell in
 dem alle Metadaten abgespeichert und in Relation gesetzt werden. Dazu werden
 einleitend einige Internas von ``ipfs`` und des freien
-Versionsverwaltungssystems ``git``   behandelt.(XXX: Dokument -> DAtei)
+Versionsverwaltungssystems ``git``   behandelt.
 
 Basierend darauf werden die umgebenden Komponenten beschrieben, die um den
 Kern von ``brig`` gelagert sind. Am Ende des Kapitels werden zudem noch einmal alle
@@ -330,15 +330,15 @@ verwendet:
   dem Nutzer einen Sicherungspunkt zu einem bestimmten Zeitpunkt in der
   Vergangenheit bietet. Als Metadaten speichert er als Referenz die Prüfsumme des
   Wurzelverzeichnisses, eine Commit--Nachricht sowie dessen Autor und eine
-  Referenz auf seinen Vorgänger. Aus diesen Metadaten wird durch Konkatenation
+  Referenz auf den Vorgänger. Aus diesen Metadaten wird durch Konkatenation
   derselben eine weitere Prüfsumme errechnet, die den Commit selbst eindeutig
   referenziert. In diese Prüfsumme ist nicht nur die Integrität des aktuellen
   Standes gesichert, sondern
   auch aller Vorgänger.
-* **Refs:** Analog zu ``git`` dienen sie dazu, bestimmten *Commits* einen Namen
+* **Refs:** Analog zu ``git`` dienen sie dazu, bestimmten *Commits einen Namen
   zu geben. Es gibt zwei vordefinierte Referenzen, welche von ``brig``
   aktualisiert werden: ``HEAD``, welche auf den letzten vollständigen *Commit*
-  zeigt und ``CURR``, welche auf den aktuellen *Commit* zeigt (meist dem *Staging
+  zeigt und ``CURR``, welche auf den aktuellen Commit zeigt (meist dem *Staging
   Commit*, dazu später mehr). Da es keine Branches gibt, ist eine Unterscheidung zwischen
   *Refs* und *Tags* wie bei ``git`` nicht mehr nötig.
 
@@ -350,37 +350,37 @@ verwendet:
   Pfad der Datei oder des Verzeichnisses. Dieser Pfad ist nötig, um den jeweiligen Elternknoten zu erreichen.
   In einem gerichteten, azyklischen Graphen darf es keine Rückkanten nach »oben« geben, deswegen scheidet
   die direkte Referenzierung des Elternknotens mittels seiner Prüfsumme aus. Wie in [@fig:path-resolution] gezeigt
-  ist es daher beispielsweise den Elternknoten eines beliebigen Knotens vom aktuellen Wurzelknoten neu aufzulösen.
-* Eine eindeutige Nummer (``UID``), welche die Datei oder das Verzeichnis
+  ist es daher nötig, beispielsweise den Elternknoten eines beliebigen Knotens vom aktuellen Wurzelknoten neu aufzulösen.
+* Eine eindeutige Nummer (*Unique Identifier*, ``UID``), welche die Datei oder das Verzeichnis
   eindeutig kennzeichnet. Diese Nummer bleibt auch bei Modifikation und
-  Verschieben der Datei gleich und kann daher genutzt werden, Neben der Prüfsumme
+  Verschieben der Datei gleich. Neben der Prüfsumme
   (referenziert einen bestimmten Inhalt) und dem Pfad (referenziert eine
   bestimmte Lokation) ist die Nummer ein weiterer Weg eine Datei zu referenzieren
   (referenziert ein veränderliches »Dokument«) und ist grob mit dem Konzept einer
-  INode--Nummer bei Dateisystemen[^INODE] vergleichbar.
+  *Inode--Nummer* bei Dateisystemen[^INODE] vergleichbar.
 
 [^INODE]: Siehe auch: https://de.wikipedia.org/wiki/Inode
 
 ![Jede Datei und Verzeichnis besitzt eine Liste von Checkpoints](images/4/file-history.pdf){#fig:file-history width=50%}
 
-Davon abgesehen fällt auf dass zwei zusätzliche Strukturen eingeführt wurden:
+Davon abgesehen fällt auf, dass zwei zusätzliche Strukturen eingeführt wurden:
 
-* **Checkpoints:** Jeder Datei ist über ihre ``UID`` ein Historie von sogenannten *Checkpoints* zugeordnet.
-  Jeder einzelne dieser Checkpoints beschreiben eine atomare Änderung an der Datei. Da keine
-  partiellen Änderungen möglich sind (wie ``git diff``), müssen nur vier verschiedene Operation
+* **Checkpoints:** Jeder Datei ist über ihre ``UID`` ein Historie von mehreren, sogenannten *Checkpoints* zugeordnet.
+  Jeder einzelne dieser Checkpoints beschreibt eine atomare Änderung an der Datei. Da keine
+  partiellen Änderungen möglich sind, müssen nur vier verschiedene Operation
   unterschieden werden: ``ADD`` (Datei wurde initial oder erneut hinzugefügt), ``MODIFY`` (Prüfsumme hat sich verändert),
-  ``MOVE`` (Pfad hat sich geändert) und ``REMOVE`` (Datei wurde entfernt). Ein beispielhafte Historie findet sich
+  ``MOVE`` (Pfad hat sich verändert) und ``REMOVE`` (Datei wurde entfernt). Eine beispielhafte Historie findet sich
   in [@fig:file-history].
   Jeder Checkpoint kennt den Zustand der Datei zum Zeitpunkt der Modifikation,
-  sowie einige Metadaten wie ein Zeitstempel, der Dateigröße, dem Änderungstyp,
-  dem Urheber der Änderung und seinem Vorgänger. Der Vorteil einer dokumentabhängigen Historie
+  sowie einige Metadaten wie einen Zeitstempel, der Dateigröße, dem Änderungstyp, dem Vorgänger
+  und dem Urheber der Änderung. Der Vorteil einer dateiabhängigen Historie
   ist die Möglichkeit umbenannte Dateien zu erkennen, sowie Dateien zu erkennen, die gelöscht und dann
   wieder hinzugefügt worden sind. Ein weiterer Vorteil ist, dass zur Ausgabe der Historie einer Datei,
-  nur die *Checkpoints* betrachtet werden. Es muss nicht wie bei ``git`` jeder *Commit* betrachtet werden, um
+  nur die *Checkpoints* betrachtet werden müssen. Es muss nicht wie bei ``git`` jeder Commit betrachtet werden, um
   nachzusehen ob eine Änderung an einer bestimmten Datei stattgefunden hat.
 
-* **Stage Commit:** Es existiert immer ein sogenannter *Staging Commit*. Dieser
-  beinhaltet alle Knoten im Graph, die seit dem letzten »vollwertigen« Commit
+* **Staging--Commit:** Es existiert immer ein sogenannter *Staging--Commit*. Dieser
+  beinhaltet alle Knoten im MDAG, die seit dem letzten »vollwertigen« Commit
   modifiziert worden sind. [@fig:staging-area] zeigt den Staging--Bereich von
   ``git`` und ``brig`` im Vergleich. Im Falle von ``git`` handelt es sich um eine
   eigene, vom eigentlichen Graphen unabhängige, Datenstruktur, in die der Nutzer
@@ -391,22 +391,22 @@ Davon abgesehen fällt auf dass zwei zusätzliche Strukturen eingeführt wurden:
   dem Staging--Bereich hinzugefügt wurde, oder die Datei wurde direkt im
   FUSE--Dateisystem von ``brig`` modifiziert.
   In beiden Fällen wird die neue oder modifizierte Datei in den *Staging--Commit*
-  eingegliedert, welcher aus diesem Grund eine veränderliche Prüfsumme besitzt
-  und nach jeder Modifikation auf einen anderes Wurzelverzeichnis verweist.
+  eingegliedert, welcher aus diesem Grund eine veränderliche Prüfsumme aufweist
+  und nach jeder inhaltlichen Modifikation auf ein anderes Wurzelverzeichnis verweist.
 
 [^CHATTR_NOTE]: In Zukunft ist ein weiterer Zustand ``CHATTR`` möglich, welche die Änderung eines Dateiattributes abbildet.
 
 ![Der Staging Bereich im Vergleich zwischen ``git`` und ``brig``](images/4/staging-area.pdf){#fig:staging-area}
 
-Da ein *Commit* nur ein Vorgänger haben kann, muss ein anderer Mechanismus
+Da ein *Commit* nur einen Vorgänger haben kann, muss ein anderer Mechanismus
 eingeführt werden, um die Synchronisation zwischen zwei Partnern festzuhalten.
-Bei ``git`` wird dies mittels eines sogenannten Merge--Commit gelöst, welcher
-aus den Änderungen der Gegenseite besteht. Hier wird das Konzept eines
+Bei ``git`` wird dies mittels eines sogenannten *Merge--Commit* gelöst, welcher
+aus den Änderungen des Synchronisationspartners besteht. Hier wird das Konzept eines
 *Merge--Points* eingeführt. Innerhalb eines *Commit* ist das ein spezieller
-Marker, der festhält mit wem synchronisiert wurde und mit welchen Stand er zu
+Marker, der festhält mit wem synchronisiert wurde und welchen Stand er zu
 diesem Zeitpunkt hatte. Bei einer späteren Synchronisation muss daher lediglich
 der Stand zwischen dem aktuellen *Commit* (»``CURR``«) und dem letzten
-Merge--Point verglichen werden. Basierend auf diesen Vergleich wird ein neuer
+Merge--Point verglichen werden. Basierend auf diesem Vergleich wird ein neuer
 *Commit* (der *Merge--Commit*) erstellt, der alle (möglicherweise nach der
 Konfliktauflösung zusammengeführten) Änderungen des Gegenübers enthält und als
 neuer *Merge--Point* dient.
@@ -415,11 +415,10 @@ neuer *Merge--Point* dient.
 
 Die Gesamtheit aller *Files*, *Directories*, *Commits*, *Checkpoints* und
 *Refs* wird im Folgenden als *Store* bezeichnet. Da ein *Store* nur aus
-Metadaten besteht, ist er selbst leicht übertragbar. Er kapselt den Objektgraph
-und kümmert sich, um die Verwaltung auf der Objekte. Basierend auf dem *Store*
-werden insgesamt 11 verschiedene atomare Operationen implementiert, die jeweils
-den aktuellen Graphen nehmen und einen neuen und (mit Ausnahme von ``LIST``, ``CAT``,
-``LOG`` und ``HISTORY``) veränderten Graphen erzeugen.
+Metadaten besteht, ist er selbst leicht übertragbar. Er kapselt den Objektgraphen
+und kümmert sich um die Verwaltung der Objekte. Basierend auf dem Store
+werden insgesamt elf verschiedene atomare Operationen implementiert, die jeweils
+den aktuellen Graphen nehmen und einen neuen und veränderten Graphen erzeugen.
 
 Es gibt sechs Operationen, die die Benutzung des Graphen als gewöhnliches Dateisystem ermöglichen:
 
@@ -428,21 +427,21 @@ Es gibt sechs Operationen, die die Benutzung des Graphen als gewöhnliches Datei
 
 ``STAGE``: Fügt ein Dokument dem Staging--Bereich hinzu oder aktualisiert die
 Version eines vorhandenen Dokuments. Der Pfad entscheidet dabei wo das Dokument
-eingefügt wird, bzw. welches existierendes Dokument modifiziert wird.
+eingefügt wird, beziehungsweise welches existierende Dokument modifiziert wird.
 [@fig:op-add] zeigt die Operationen, die zum Einfügen einer Datei notwendig
 sind. Als Vorarbeit muss allerdings erst die gesamte Datei gelesen werden und
 in das ``ipfs``--Backend eingefügt werden. Die Datei wird zudem gepinnt. Als
 Ergebnis dieses Teilprozesses wird die Größe und Prüfsumme der
-unverschlüsselten und unkomprimierten Datei zurückgeliefert.
+verschlüsselten und komprimierten Datei zurückgeliefert.
 Handelt es sich bei dem hinzuzufügenden Objekt um ein Verzeichnis, wird der gezeigte Prozess
 für jede darin enthaltene Datei wiederholt.
 
 ![Die Abfolge der ``STAGE``-Operation im Detail](images/4/op-add){#fig:op-add}
 
 ``REMOVE:`` Entfernt eine vorhandene Datei aus dem Staging--Bereich. Der Pin
-der Datei oder des Verzeichnisses und all seiner Kinder werden entfernt. Die
+der Datei oder des Verzeichnisses und all seiner Kinder wird entfernt. Die
 gelöschten Daten werden möglicherweise beim nächsten Durchgang der $Cleanup$ Operation aus
-dem lokalen Speicher entfernt.
+dem lokalen Speicher von ``ipfs`` entfernt.
 Die Prüfsumme der entfernten Datei wird aus den darüber liegenden
 Verzeichnissen herausgerechnet. Handelt es sich dabei um ein Verzeichnis, wird
 der Prozess *nicht* rekursiv für jedes Unterobjekt ausgeführt. Es genügt die
@@ -452,55 +451,53 @@ die Kante zu dem Elternknoten zu kappen.
 ``LIST:`` Entspricht konzeptuell dem Unix--Werkzeug ``ls``. Besucht alle Knoten
 unter einem bestimmten Pfad rekursiv (breadth-first) und gibt diese aus.
 
-``MKDIR:`` Erstellt ein neues, leeres Verzeichnis. Die Prüfsumme des neuen
+``MKDIR:`` Erstellt ein neues, leeres Verzeichnis. Die initiale Prüfsumme des neuen
 Verzeichnisses (ergibt sich aus dem Pfad des neuen Verzeichnisses) wird in die
 Elternknoten eingerechnet. Die Referenz auf das Wurzelverzeichnis wird im
 Staging--Commit angepasst.
-
-Eventuell müssen noch dazwischen liegende
-Verzeichnisse erstellt werden. Diese werden von oben nach unten, Stück für
-Stück mit den eben beschriebenen Prozess erstellt.
+Eventuell müssen noch dazwischen liegende Verzeichnisse erstellt werden. Diese
+werden einzeln von oben nach unten mit den oben beschriebenen Prozess erstellt.
 
 ``MOVE:`` Verschiebt eine Quelldatei oder Verzeichnis zu einem
-Zielpfad. Es muss eine Fallunterscheidung getroffen wird, je nachdem ob
+Zielpfad. Es muss eine Fallunterscheidung getroffen werden, je nachdem ob
 und welcher Knoten im Zielpfad vorhanden ist:
 
 1) *Ziel existiert noch nicht:* Quelldaten werden zum neuen Pfad verschoben.
 2) *Ziel existiert und ist eine Datei:* Vorgang wird abgebrochen, es sei denn die
    Aktion wird »forciert«.
 3) *Ziel existiert und ist ein Verzeichnis:* Quelldaten werden direkt unter das
-   Zielverzeichnis verschoben.
+   Zielverzeichnis verschoben, sofern darunter noch kein Verzeichnis mit diesem Namen
+   existiert. Andernfalls wird die Aktion mit einem Fehler abgebrochen.
 
 In jedem Fall entspricht diese Operation technisch dem sequentiellen Ausführen der
 Operationen ``REMOVE`` und ``ADD``. Im Unterschied dazu ist sie im Ganzen
-atomar und erstellt einen Checkpoint für alle verschobenen Knoten einen
-Checkpoint mit dem Typen ``MOVED``.
+atomar und erstellt einen Checkpoint mit dem Typen ``MOVED`` für alle verschobenen Knoten.
 
-``CAT:`` Gibt ein Dokument auf einen Datenstrom aus. Der Name lehnt sich dabei an
-das Unix Tool ``cat`` an, welches ebenfalls Dateien ausgibt. Es wird lediglich
+``CAT:`` Gibt ein Dokument als einen Datenstrom aus. Der Name lehnt sich dabei an
+das Unix--Tool ``cat`` an, welches ebenfalls Dateien ausgeben kann. Es wird lediglich
 wie in [@fig:path-resolution] gezeigt der gesuchte Knoten per Pfad aufgelöst
-und der darin enthaltene Hash wird vom ``ipfs``--Backend aufgelöst. Die
-ankommenden Daten werden noch entschlüsselt und dekomprimiert bevor sie dem
+und die darin enthaltene Prüfsumme wird vom ``ipfs``--Backend aufgelöst. Die
+ankommenden Daten werden entschlüsselt und dekomprimiert bevor sie dem
 Nutzer präsentiert werden.
 
-Neben den obenstehenden Operationen, gibt es noch fünf weitere Operationen, die
+Neben den oben stehenden Operationen, gibt es noch fünf weitere, die
 zur Versionskontrolle dienen und in dieser Form normalerweise nicht von
 Dateisystemen implementiert werden:
 
 ``UNSTAGE:`` Entfernt ein Dokument aus dem Staging--Bereich und setzt den Stand
-auf den zuletzt bekannten Wert zurück (der Stand innerhalb von ``HEAD``). Die
+auf den zuletzt bekannten Wert zurück (der Stand der in ``HEAD`` präsent war). Die
 Prüfsumme des entfernten Dokumentes wird aus den Elternknoten herausgerechnet
-und dafür die die alte Prüfsumme wieder eingerechnet.
+und dafür die alte Prüfsumme wieder eingerechnet.
 
 *Anmerkung:* Die Benennung der Operationen ``STAGE``, ``UNSTAGE`` und
-``REMOVE`` ist anders als bei semantisch gleichen ``git``--Werkzeugen  ``add``,
-``reset`` und ``rm``. Die Benennung nach dem ``git``--Schema ist verwirrend, da
-``git add`` auch modifizierte Dateien »hinzufügt« (als auch neue Dateien) und
+``REMOVE`` ist anders als bei den semantisch gleichen ``git``--Werkzeugen  ``add``,
+``reset`` und ``rm``. Die Benennung nach dem ``git``--Schema ist irreführend, da
+``git add`` auch modifizierte Dateien hinzufügt (als auch neue Dateien) und
 nicht das Gegenteil von ``git rm`` ist.[^GIT_FAQ_RM].
 
 [^GIT_FAQ_RM]: Selbstkritik des ``git``--Projekts: <https://git.wiki.kernel.org/index.php/GitFaq#Why_is_.22git_rm.22_not_the_inverse_of_.22git_add.22.3F>
 
-``COMMIT:`` Erstellt einen neuen Commit, basierend auf den Inhalt des
+``COMMIT:`` Erstellt einen neuen Commit, basierend auf dem Inhalt des
 *Staging--Commits* (siehe auch [@fig:op-commit] für eine Veranschaulichung).
 Dazu werden die Prüfsummen des aktuellen und des Wurzelverzeichnisses im
 letzten Commit (``HEAD``) verglichen. Unterscheiden sie sich nicht, wird
@@ -509,14 +506,14 @@ abgebrochen, da keine Veränderung vorliegt. Im Anschluss wird der
 Autor in den Metadaten des Commits gesetzt werden. Basierend darauf wird die
 finale Prüfsumme berechnet und der entstandene Commit abgespeichert. Ein neuer
 *Staging-Commit* wird erstellt, welcher im unveränderten Zustand auf das selbe
-Wurzelverzeichnis zeigt wie der vorige. Zuletzt werden die Referenzen von
+Wurzelverzeichnis zeigt wie sein Vorgänger. Zuletzt werden die Referenzen von
 ``HEAD`` und ``CURR`` jeweils um ein Platz nach vorne verschoben.
 
-![Die Abfolge der ``COMMIT``--Operation im Detail](images/4/op-commit.pdf){#fig:op-commit}
+![Die Abfolge der ``COMMIT``--Operation im Detail. Links der vorige Stand, rechts der Stand nach der ``COMMIT``--Operation.](images/4/op-commit.pdf){#fig:op-commit}
 
 ``CHECKOUT:`` Stellt einen alten Stand wieder her. Dabei kann die Operation
-eine alte Datei oder ein altes Verzeichnis wiederherstellen (basierend auf der
-alten Prüfsumme) oder den Stand eines gesamten, in der Vergangenheit liegenden
+eine alte Datei oder ein altes Verzeichnis basierend auf der
+alten Prüfsumme oder den Stand eines gesamten, in der Vergangenheit liegenden
 Commits wiederherstellen.
 
 Im Gegensatz zu ``git`` ist es allerdings nicht vorgesehen in der
@@ -528,39 +525,39 @@ Stelle also nicht dem Namensvetter ``git checkout`` sondern eher dem
 wiederholten Anwenden von ``git revert`` zwischen dem aktuellen und dem
 Nachfolger des gewünschten Commits.
 
-![Die Abolge der ``CHECKOUT``--Operation im Detail](images/4/op-checkout.pdf){#fig:op-checkout width=75%}
+![Die Abfolge der ``CHECKOUT``--Operation im Detail.](images/4/op-checkout.pdf){#fig:op-checkout width=75%}
 
 Begründet ist dieses Verhalten darin, dass kein sogenannter »Detached
-HEAD«--Zustand entstehen soll, da dieser für den Nutzer verwirrend sein kann.
+HEAD«--Zustand entstehen soll, da dieser für den Nutzer irreführend sein kann.
 Dieser Zustand kann in ``git`` erreicht werden, indem man in einen früheren
 *Commit* springt ohne einen neuen *Branch* davon abzuzweigen. Der ``HEAD``
 zeigt dann nicht mehr auf einen benannten Branch, sondern auf die Prüfsumme des
 neuen Commits, der vom Nutzer nur noch durch die Kenntnis derselben erreichbar
 ist.
-Macht man in diesem Zustand Änderungen ist es prinzipiell möglich die
-geänderten Daten zu verlieren[^DETACHED_HEAD]. Um das zu vermeiden, setzt ``brig``
-darauf die Historie stets linear und unveränderlich zu halten, auch wenn das
-keine Einschränkung der Architektur an sich darstellt.
+Macht man in diesem Zustand Änderungen ist es möglich die
+geänderten Daten zu verlieren[^DETACHED_HEAD]. Um das zu vermeiden, hält ``brig``
+die Historie stets linear und unveränderlich.
+Dies stellt keine Einschränkung der Architektur an sich.
 
-``LOG/HISTORY:`` Zeigt alle Commits, bis auf den Staging Commits. Begonnen wird
-die Ausgabe mit ``HEAD`` und beendet wird sie mit dem initial Commit.
+``LOG/HISTORY:`` Zeigt alle Commits, bis auf den Staging--Commit. Begonnen wird
+die Ausgabe mit ``HEAD`` und beendet wird sie mit dem initialen Commit.
 Alternativ kann auch die Historie eines einzelnen Verzeichnisses oder einer
 Datei angezeigt werden. Dabei werden statt Commits alle Checkpoints dieser
 Datei, beginnend mit dem aktuellsten ausgegeben.
 
 ``STATUS:`` Zeigt den Inhalt des aktuellen Staging--Commits (analog zu ``git
 status``) und damit aller geänderten Dateien und Verzeichnisse im Vergleich zu
-``HEAD``. Anmerkung: Es gibt keine eigene ``DIFF``--Operationen, da es keine
-partiellen Diffs gibt. Diese kann durch ``STATUS`` und ``HISTORY`` ersetzt
-werden.
+``HEAD``. Es gibt keine eigene ``DIFF``--Operationen, da es keine
+partiellen Differenzen gibt. Eine übersicht der Änderung erhält man durch
+Anwendung der ``STATUS`` und ``HISTORY``--Operationen.
 
 ## Synchronisation
 
 Ähnlich wie ``git`` speichert ``brig`` für jeden Nutzer seinen zuletzt
 bekannten *Store* ab. Mithilfe dieser Informationen können dann
 Synchronisationsentscheidungen größtenteils automatisiert getroffen werden.
-Welcher *Store* dabei lokal zwischengespeichert wird, entscheiden die Einträge
-in die sogenannte *Remote--Liste*.
+Welche Stores dabei lokal zwischengespeichert wird, entscheiden die Einträge
+der sogenannten *Remote--Liste*.
 
 ### Die Remote--Liste
 
@@ -568,27 +565,33 @@ Jeder Teilnehmer mit dem synchronisiert werden soll, muss zuerst in eine
 spezielle Liste von ``brig`` eingetragen werden, damit dieser dem System
 bekannt wird. Dies ist vergleichbar mit der Liste die ``git remote -v``
 erzeugt: Eine Zuordnung eines menschenlesbarem Namen zu einer eindeutigen
-Referenz zum Synchronisationspartner (Im Falle von ``git`` eine URL, bei
-``brig`` eine Prüfsumme). Wie später gezeigt wird, ist dieses explizite
-Hinzufügen des Partners eine Authentifizierungsmaßnahme die bewusst eingefügt
-wurde und durch die automatische Entdeckung von Synchronisationspartnern zwar
-unterstützt, aber nicht ersetzt werden kann[@sec:user-management].
+Referenz zum Synchronisationspartner. Im Falle von ``git`` ist das eine URL,
+bei ``brig`` handelt es sich um die öffentlichen Identität des Partners, also
+einer Prüfsumme. Wie später gezeigt wird, ist dieses explizite Hinzufügen des
+Partners eine Authentifizierungsmaßnahme, die bewusst eingefügt wurde.
+Unter [@sec:user-management] wird das Konzept genauer erläutert.
+Dadurch, dass nur mit authentifizierten Knoten Verbindungen aufgebaut werden,
+bildet ``brig`` ein *Private-Peer--to--Peer*--Netzwerk[^PP2P] auf Basis von ``ipfs``.
 
-![Remote Liste von vier Repositories und verschienden Synchronisationsrichtungen.](images/4/multiple-repos.pdf){#fig:multiple-repos}
+[^PP2P]: Siehe auch: <https://en.wikipedia.org/wiki/Private_peer-to-peer>
 
-Wie in [@fig:multiple-repos] gezeigt, kann jeder Knoten mit einem anderen
-Knoten synchronisieren, der in der Liste steht, da von diesen jeweils der
-zuletzt bekannte Store übertragen wurde. Die Synchronisation ist dabei, wie ein
-``git pull``, nicht bidirektional. Lediglich die eigenen Daten werden mit den
-Fremddaten zusammengeführt. Es gibt prinzipbedingt keine direkte Analogie zu
-``git push``, da jedes Repository aus Sicherheitsgründen die Hoheit über den
-Zustand seiner Daten behält. In der Grafik wird zudem ein spezieller Anwendungsfall
-gezeigt: Das Repository ``rabbithole@wonderland`` ist eine gemeinsame Datenablage für
-beide Parteien, die stets online verfügbar ist[^HOST]. Dieses kann durch ein Skript
-automatisiert stets die Änderungen aller bekannten Teilnehmer synchronisieren und
-auch weitergeben, wenn der eigentliche Nutzer gerade nicht online ist.
-Dieses Vorgehen bietet sich vor allem dann an, wenn aufgrund der Zeitverschiebung
-zwei Nutzer selten zur selben Zeit online sind.
+![Remote--Liste von vier Repositories und verschienden Synchronisationsrichtungen.](images/4/multiple-repos.pdf){#fig:multiple-repos}
+
+Wie in [@fig:multiple-repos] gezeigt wird, können alle Knoten miteinander
+synchronisieren, die sich gegenseitig in die Liste eingetragen haben, da von
+diesen jeweils der zuletzt bekannte Store übertragen wurde. Die Synchronisation
+ist dabei, wie ein ``git pull``, nicht bidirektional. Lediglich die eigenen
+Daten werden mit den Fremddaten zusammengeführt. Es gibt kein Äquivalent zu
+``git push``, welches die eigenen Daten zu einem Partner überträgt. Jeder
+Partner entscheidet selbst, mit welchen anderen Teilnehmern er synchronisiert,
+ohne dass seine eigenen Daten überschrieben werden können. In der Grafik wird
+zudem ein spezieller Anwendungsfall gezeigt: Das Repository
+``rabbithole@wonderland`` ist eine gemeinsame Datenablage für zwei Parteien,
+die stets online verfügbar ist[^HOST]. Dieses kann durch ein Skript
+automatisiert stets die Änderungen aller bekannten Teilnehmer synchronisieren
+und auch weitergeben, wenn der eigentliche Nutzer gerade offline ist. Dieses
+Vorgehen bietet sich vor allem dann an, wenn aufgrund der Zeitverschiebung zwei
+Nutzer selten zur selben Zeit online sind.
 
 [^HOST]: Typischerweise würde ein solches Repository in einem Rechenzentrum liegen,
        oder auf einem privaten Server.
@@ -596,8 +599,8 @@ zwei Nutzer selten zur selben Zeit online sind.
 ### Synchronisation einzelner Dateien {#sec:sync-single-file}
 
 In seiner einfachsten Form nimmt ein Synchronisationsalgorithmus als Eingabe
-die Metadaten zweier Dateien von zwei Synchronisationspartnern und trifft als
-auf dieser Basis als Ausgabe eine der folgenden Entscheidungen:
+die Metadaten zweier Dateien von zwei Synchronisationspartnern. Als Ausgabe
+trifft der Algorithmus auf dieser Basis einer der folgenden Entscheidungen:
 
 1) Die Datei existiert nur bei Partner A.
 2) Die Datei existiert nur bei Partner B.
@@ -609,15 +612,15 @@ Je nach Entscheidung kann für diese Datei eine entsprechende Aktion ausgeführt
 1) Die Datei muss zu Partner B übertragen werden.
 2) Die Datei muss zu Partner A übertragen werden.
 3) Es muss nichts weiter gemacht werden.
-4) Konfliktsituation: Auflösung nötig; eventuell Eingabe vom Nutzer erforderlich.
+4) Konfliktsituation: Auflösung nötig.
 
-Bis auf den vierten Schritt ist die Implementierung trivial und kann leicht von
+Bis auf den vierten Schritt ist die Implementierung trivial und kann von
 einem Computer erledigt werden. Das Kriterium, ob die Datei gleich ist, kann
-entweder durch einen direkten Vergleich gelöst werden (aufwendig) oder durch
+entweder durch einen direkten Vergleich der Daten gelöst werden (aufwendig) oder durch
 den Vergleich der Prüfsummen beider Dateien (schnell, aber vernachlässigbares
 Restrisiko durch Kollision). Manche Werkzeuge wie ``rsync`` setzen
-sogar auf probabilistische Ansätze, indem sie in der Standardkonfiguration aus Geschwindigkeitsgründen nur
-ein Teil des Dateipfades, eventuell das Änderungsdatum und die Dateigröße vergleichen.
+sogar auf Heuristiken, indem sie in der Standardkonfiguration aus Geschwindigkeitsgründen nur
+das Änderungsdatum und die Dateigröße vergleichen.
 
 Für die Konfliktsituation hingegen kann es keine perfekte, allumfassende Lösung
 geben, da die optimale Lösung von der jeweiligen Datei und der Absicht des
@@ -632,17 +635,17 @@ Alternativ könnte der Nutzer auch bei jedem Konflikt befragt werden. Dies wäre
 allerdings im Falle von ``brig`` nach Meinung des Autors der Usability
 stark abträglich.
 
-Im Falle von ``brig`` müssen nur die Änderung von ganzen Dateien betrachtet werden, aber keine partiellen Änderungen
+Im Falle von ``brig`` müssen nur die Änderungen von ganzen Dateien betrachtet werden, aber keine partiellen Änderungen
 darin. Eine Änderung der ganzen Datei kann dabei durch folgende Aktionen des Nutzers entstehen:
 
 1) Der Dateinhalt wurde modifiziert, ergo muss sich die Prüfsumme geändert haben (``MODIFY``).
-2) Die Datei wurde verschoben, ergo muss sich der Pfad geändert haben. (``MOVE``).
-3) Die Datei wurde gelöscht, ergo sie ist im *Staging--Commit* nicht mehr vorhanden. (``REMOVE``).
+2) Die Datei wurde verschoben, ergo muss sich der Pfad geändert haben (``MOVE``).
+3) Die Datei wurde gelöscht, ergo ist sie im *Staging--Commit* nicht mehr vorhanden (``REMOVE``).
 4) Die Datei wurde (initial oder erneut nach einem ``REMOVE``) hinzugefügt (``ADD``).
 
 Der vierte Zustand (``ADD``) ist dabei der Initialisierungszustand. Nicht alle dieser
 Zustände führen dabei automatisch zu Konflikten. So sollte beispielsweise ein guter
-Algorithmus kein Problem, erkennen, wenn ein Partner die Datei modifiziert und
+Algorithmus kein Problem erkennen, wenn ein Partner die Datei modifiziert und
 der andere sie lediglich umbenennt. Eine Synchronisation der entsprechenden
 Datei sollte den neuen Inhalt mit dem neuen Dateipfad zusammenführen.
 [@tbl:sync-conflicts] zeigt welche Operationen zu Konflikten führen und welche
@@ -651,7 +654,7 @@ verträglich sind. Die einzelnen Möglichkeiten sind dabei wie folgt:
 * »\xmark«: Die beiden Aktionen sind nicht miteinander verträglich, es sei denn ihre Prüfsummen sind gleich.
 * »\qmark«: Die Aktion ist prinzipiell verträglich, hängt aber von der Konfiguration ab.
             Entweder wird die Löschung vom Gegenüber propagiert oder die eigene Datei wird behalten (Standard).
-* »\cmark«: Die beiden Aktionen sind verträglich (nur wenn beide Dateien gelöscht wurden).
+* »\cmark«: Die beiden Aktionen sind verträglich.
 
 
 | A/B          | ``ADD``           | ``REMOVE``        | ``MODIFY``        | ``MOVE``           |
@@ -685,6 +688,7 @@ func sync(historyA, historyB History) Result {
 		return NoConflict
 	}
 
+	// Prüfe, ob historyA mit den Checkpoints von historyB beginnt.
 	if historyA.IsPrefix(historyB) {
 		// B hängt A hinterher.
 		return NoConflict
@@ -701,7 +705,7 @@ func sync(historyA, historyB History) Result {
 		// haben sich aber auseinanderentwickelt.
 		if !historyA.HasConflictingChanges(historyB, root) {
 			// Die Änderungen sind verträglich und
-			/  können automatisch aufgelöst werden.
+			// können automatisch aufgelöst werden.
 			ResolveConflict(historyA, historyB, root)
 			return NoConflict
 		}
@@ -716,16 +720,19 @@ func sync(historyA, historyB History) Result {
 
 ### Synchronisation von Verzeichnissen
 
-Die naive Herangehensweise wäre den obigen Algorithmus für jede Datei im Verzeichnis
-zu wiederholen. Der beispielhafte Verzeichnisbaum in [@fig:tree-sync] zeigt allerdings bereits ein Problem dabei:
-Die Menge an Pfaden, die Alice besitzt wird sich selten mit denen decken, die Bob besitzt.
+Die naive Herangehensweise wäre es, den obigen Algorithmus für jede Datei im
+Verzeichnis zu wiederholen. Der beispielhafte Verzeichnisbaum in
+[@fig:tree-sync] zeigt allerdings bereits ein Problem dabei: Die Menge an
+Pfaden, die Alice besitzt wird sich selten ganz mit denen decken, die Bob besitzt.
 So kann natürlich Alice Pfade besitzen, die Bob nicht hat und umgekehrt.
+Im Beispiel synchronisiert Alice mit Bob. Sprich, Alice möchte die Änderungen von Bob empfangen.
 
 ![Unterteilung der zu synchronisierenden Pfade in drei Gruppen.](images/4/tree-sync.pdf){#fig:tree-sync}
 
 Man könnte also das »naive« Konzept weiterführen und die Menge der zu
-synchronisierenden Pfade in drei Untermengen unterteilten. Jede dieser
-Untermengen hätten dann  eine unterschiedliche Semantik:
+synchronisierenden Pfade in drei Untermengen unterteilten. 
+Jede dieser
+Untermengen hätte dann  eine unterschiedliche Semantik:
 
 - Pfade die beide haben ($X = Paths_{A} \bigcap Paths_{B}$): Konfliktpotenzial. Führe obigen Algorithmus für jede Datei aus.
 - Pfade die nur Alice hat ($Y = Paths_{A} \setminus Paths_{B}$): Brauchen keine weitere Behandlung.
@@ -737,19 +744,21 @@ Zwei Beispiele verdeutlichen dies:
 
 * Löscht Bob eine Datei, während Alice sie nicht verändert würde der Pfad trotzdem in der Menge $Y$ landen.
   Dies hätte zur Folge, dass die Löschung nicht zu Alice propagiert wird.
-* Verschiebt Alice eine Datei zu einem neuen Pfad, muss dieser neue Pfad
-  trotzdem mit dem alten Pfad von Bob verglichen werden.
+* Verschiebt Bob eine Datei zu einem neuen Pfad, muss dieser neue Pfad trotzdem
+  mit dem alten Pfad von Alice verglichen werden, um die Umbenennung
+  zusammenzuführen. In [@fig:tree-sync] sollte also der blaue Knoten mit dem
+  grünen verglichen werden.
 
 Es muss also eine Abbildungsfunktion gefunden werden, die jedem Pfad von Alice einen
 Pfad von Bob zuordnet. Die Wertemenge dieser Funktion entspricht der Menge $X$,
 also aller Pfade die einer speziellen Konfliktauflösung bedürfen. Die Menge $Z$
 (also alle Pfade die Bob hat, aber Alice nicht) ergibt sich dann einfach durch
-$Z = Paths_{B} \ X$. Für die Abbildung von Alice' Pfaden zu Bob's Pfaden
+$Z = Paths_{B} \setminus X$. Für die Abbildung der Pfade von Alice zu Bob's Pfaden
 funktioniert die Abbildungsfunktion folgendermaßen:
 
-1) Auf Bob's Store werden alle Knoten gesammelt, die sich seit dem letzten gemeinsamen Merge--Point verändert haben.
+1) Aus Bob's Store werden alle Knoten gesammelt, die sich seit dem letzten gemeinsamen Merge--Point verändert haben.
    Falls es noch keinen gemeinsamen Merge--Point gab, werden alle Knoten angenommen.
-2) Auf Bob's Store wird für jeden Knoten die Historie ($=$ Liste aller Checkpoints) seit dem letzten Merge--Point gesammelt, oder
+2) Aus Bob's Store wird für jeden Knoten die Historie ($=$ Liste aller Checkpoints) seit dem letzten Merge--Point gesammelt, oder
    die gesamte Historie ($=$ alle Checkpoints) falls es noch keinen Merge--Point gab.
 3) Es wird eine Abbildung (als assoziatives Array) erstellt, die alle bekannten
    Pfade von Bob der jeweiligen Historie zuordnen, in dem der Pfad vorkommt. Mehr
@@ -758,21 +767,21 @@ funktioniert die Abbildungsfunktion folgendermaßen:
    Pfad zu finden.
 4) Für alle Pfade, die Alice momentan besitzt (Alle Pfade unter ``HEAD``), wird
    der Algorithmus in [@lst:sync-map] ausgeführt. Dieser ordnet jedem Pfad von
-   Alice, einem Pfad von Bob zu oder meldet dass er kein passendes Gegenstück
+   Alice, einem Pfad von Bob zu oder meldet, dass er kein passendes Gegenstück
    gefunden werden konnte.
 
 ```{#lst:sync-map .go}
 // Ein assoziatives Array mit dem Pfad zu der Historie
 // seit dem letzten gemeinsamen Merge-Point.
-type PathToHistory map[string]*History
+type PathToHistory map[string]History
 
 // BobMapping enthält alle Pfade;
 // also auch Pfade die entfernt wurden (unter ihrem letzten Namen)
 // Wurden Pfade verschoben, so enthält das Mapping auch alle Zwischenschritte.
-func MapPath(HistA, BobMapping PathToLastHistory) (string, error) {
+func MapPath(HistA History, BobMapping PathToLastHistory) (string, error) {
 	// Iteriere über alle Zwischenpfade, die `HistA` hatte.
 	// In den meisten Fällen (ohne Verschiebungen) also nur ein einziger.
-	for _, path := range NodeA.AllPaths() {
+	for _, path := range HistA.AllPaths() {
 		HistB, ok := BobMapping[path]
 
 		// Diesen Pfad hatte Bob nicht.
@@ -796,10 +805,10 @@ Das Ergebnis dieses Vorgehens ist eine Abbildung aller Pfade von Alice zu den Pf
 Damit wurde eine eindeutige Zuordnung erreicht und die einzelnen Dateien können mit dem Algorithmus
 unter [@sec:sync-single-file] synchronisiert werden. Die Dateien, die Bob
 zusätzlich hat (aber Alice nicht) können nun leicht ermittelt werden, indem geprüft wird
-welche von Bob's Pfaden noch nicht in der errechneten Hashtabelle vorkommen.
+welche von Bob's Pfaden noch nicht in der errechneten Abbildung vorkommen.
 Diese Pfade können dann in einem zweiten Schritt dem Stand von Alice hinzugefügt werden.
 
-Darüber hinaus gibt es noch einen Spezialfall der vor der eigentlichen
+Darüber hinaus gibt es noch einen Spezialfall, der vor der eigentlichen
 Synchronisation abgeprüft werden muss. Hat einer der beiden Partner keine
 Änderungen gemacht und haben beide Partner eine gemeinsame Historie, kann der
 Stand »vorgespult« werden. Das heißt, alle Änderungen der Gegenseite können
@@ -810,12 +819,12 @@ wird bei ``git`` allerdings immer ein Merge--Point erstellt.
 ### Austausch der Metadaten {#sec:metadata-exchange}
 
 Um die Metadaten nun tatsächlich synchronisieren zu können, muss ein Protokoll
-etabliert werden, mit dem zwei Partner ihren Store über Netzwerk austauschen können.
-Im Folgenden wird diese Operation, analog zum gleichnamigen ``git``--Kommando[^TRANSFER_PROTOCOL], ``fetch`` genannt.
+etabliert werden, mit dem zwei Partner ihren Store über das Netzwerk austauschen können.
+Im Folgenden wird diese Operation, analog zum gleichnamigen ``git``--Kommando[^TRANSFER_PROTOCOL], ``git fetch`` genannt.
 
 [^TRANSFER_PROTOCOL]: <https://git-scm.com/book/be/v2/Git-Internals-Transfer-Protocols>
 
-![Das Protokoll das bei der ``FETCH`` Operation ausgeführt wird.](images/4/fetch-protokoll.pdf){#fig:fetch-protocol}
+![Das Protokoll das bei der ``FETCH``--Operation ausgeführt wird.](images/4/fetch-protokoll.pdf){#fig:fetch-protocol}
 
 Wie in [@fig:fetch-protocol] gezeigt, besteht das Protokoll aus drei Teilen:
 
@@ -825,9 +834,9 @@ Wie in [@fig:fetch-protocol] gezeigt, besteht das Protokoll aus drei Teilen:
   exportierbare Form um, die aus einer großen serialisierten Nachricht[^EXPORT] besteht, die alle notwendigen Daten enthält.
 - Die serialisierte Form des Stores wird über den Transfer--Layer von ``brig`` (siehe [@sec:transfer-layer])
   zurück an ``alice@wonderland.lit`` geschickt.
-- Alice importiert die serialisierte Form in einen leeren Store und speichert
-  das Ergebnis in der Liste ihrer Stores. Eine Synchronisation der beiden
-  Datensätze kann nun lokal bei Alice erfolgen.
+- Alice importiert die serialisierte Form in einen neuen, leeren Store und speichert
+  das Ergebnis in der Liste der Stores ihrer Kommunikationspartner.
+  Eine Synchronisation der beiden Metadatensätze kann nun lokal bei Alice erfolgen.
 
 [^EXPORT]: Die Form des serialisierten Export--Formattes ist nicht weiter interessant und kann im Anhang [@sec:data-model]
          eingesehen werden (Message: *Store*).
@@ -838,9 +847,9 @@ beherrscht keine differentiellen Übertragungen. Da hier nur Metadaten
 aber nur die Commits seit dem letzten gemeinsamen Merge--Point übertragen
 werden.
 
-Auch sind zum momentanen Stand noch keine *Live*--Updates möglich. Hierfür
-müssten sich die einzelnen Knoten bei jeder Änderung kleine *Update*--Pakete
-schicken, welche prinzipiell einen einzelnen *Checkpoint* beeinhalten würden.
+Auch sind zum momentanen Stand noch keine *Live--Updates* möglich. Hierfür
+müssten sich die einzelnen Knoten bei jeder Änderung kleine *Update--Pakete*
+schicken, welche einen einzelnen *Checkpoint* beinhalten würden.
 Diese Checkpoints müssten dann jeweils in den aktuellen Staging--Bereich eingepflegt
 werden. Dadurch wären Änderungen in »Echtzeit« auf anderen Knoten verfügbar.
 Aus Zeitgründen wird an dieser Stelle aber nur auf diese Möglichkeit verwiesen;
@@ -865,29 +874,31 @@ Verzeichnisse sammeln und darauf arbeiten.
 ### Speicherquoten
 
 Werden immer mehr Modifikationen gespeichert, so steigt der Speicherplatz immer
-weiter an, da jede Datei pro Version einmal voll abgespeichert werden muss. Die
-Anzahl der Objekte die dabei gespeichert werden können, hängt von dem
-verfügbaren Speicherplatz ab. Sehr alte Versionen werden dabei typischerweise
-nicht mehr benötigt und können gelöscht werden. Diese Aufgabe wird derzeit
-nicht von ``brig`` selbst übernommen, sondern vom ``ipfs``--Backend. Dieses
-unterstützt mit dem Befehl ``ipfs gc`` eine Bereinigung von Objekten, die
-keinen Pin mehr haben. Zudem kann ``brig`` den Konfigurationswert
-``Datastore.StorageMax`` von ``ipfs`` auf eine maximale Höhe (minus einen
-kleinen Puffer für ``brig``--eigene Dateien) setzen. Wird dieser überschritten,
-geht der Garbage--Collector aggressiver vor und löscht auch Objekte aus dem
-Cache. In der momentanen Architektur und Implementierung sind allerdings zu diesem Zeitpunkt
-noch keine Speicherquoten (weder als hartes noch als weiches Limit) vorhanden.
+weiter an, da ohne ein Differenzmechanismus jede Datei pro Version einmal voll
+abgespeichert werden muss. Die Anzahl der Objekte die dabei gespeichert werden
+können, hängt von dem verfügbaren Speicherplatz ab. Sehr alte Versionen werden
+dabei typischerweise nicht mehr benötigt und können bei Platzbedarf gelöscht
+werden. Diese Aufgabe wird derzeit nicht von ``brig`` selbst übernommen,
+sondern vom ``ipfs``--Backend. Dieses unterstützt mit dem Befehl ``ipfs gc``
+eine Bereinigung von Objekten, die keinen Pin mehr haben. Zudem kann ``brig``
+den Konfigurationswert ``Datastore.StorageMax`` von ``ipfs`` auf eine maximale
+Höhe (minus einen kleinen Puffer für ``brig``--eigene Dateien) setzen. Wird
+dieser überschritten, geht der Garbage--Collector aggressiver vor und löscht
+nicht gepinnte Objekte sofort. In der momentanen Architektur und
+Implementierung sind allerdings zu diesem Zeitpunkt noch keine Speicherquoten
+vorhanden.
 
 Eine Möglichkeit Speicher zu reduzieren, wäre die Einführung von
 *Packfiles*, wie ``git`` sie implementiert[^PACKFILES_GIT]. Diese komprimieren nicht eine
 einzelne Datei, sondern packen mehrere Objekte in ein zusammengehöriges Archiv.
 Dies kann die Kompressionsrate stark erhöhen wenn viele ähnliche Dateien
 (beispielsweise viele subtil verschiedene Versionen der gleichen Datei)
-zusammen gepackt werden. Nachteilig sind die etwas langsameren Zugriffsraten.
+zusammen gepackt werden. Nachteilig sind die langsameren Zugriffszeiten.
 Eine Implementierung dieser Lösung müsste zwischen eigentlichem Datenmodell
 und dem ``ipfs``--Backend eine weitere Schicht einschieben, welche
 transparent und intelligent passende Dateien in ein Archiv verpackt und umgekehrt
-auch wieder entpacken kann.
+auch wieder entpacken kann. Diese Idee wird in [@sec:verbesserungen] noch einmal
+aufgegriffen.
 
 [^PACKFILES_GIT]: Mehr Details zur ``git``--Implementierung hier: <https://git-scm.com/book/uz/v2/Git-Internals-Packfiles>
 
@@ -897,14 +908,14 @@ Um den eigentlichen Kern des Store sind alle anderen Funktionalitäten gelagert.
 [@fig:arch-overview] zeigt diese in einer Übersicht. Die einzelnen Unterdienste
 werden im Folgenden besprochen.
 
-![Übersicht über die Architektur von ``brig``](images/4/architecture-overview.pdf){#fig:arch-overview}
+![Übersicht über die Architektur von ``brig``.](images/4/architecture-overview.pdf){#fig:arch-overview}
 
 ### Lokale Aufteilung in Client und Daemon
 
 ``brig`` ist architektonisch in einem langlebigen Daemon--Prozess und einem
 kurzlebigen Kontroll--Prozess aufgeteilt, welche im Folgenden jeweils ``brigd``
-und ``brigctl`` genannt werden.[^BRIGCTL_NOTE] Beide Prozesse kommunizieren
-dabei über Netzwerk mit einem speziellen Protokoll, welches auf einen
+und ``brigctl`` genannt werden[^BRIGCTL_NOTE]. Beide Prozesse kommunizieren
+dabei über das Netzwerk mit einem speziellen Protokoll, welches auf einen
 Serialisierungsmechanismus  von Google namens *Protobuf*[^PROTOBUF] basiert.
 Dabei wird basierend auf einer textuellen Beschreibung des Protokolls (einer
 ``.proto``--Datei mit eigener Syntax) Quelltext in der gewünschten
@@ -917,7 +928,7 @@ menschenlesbare Darstellung als JSON--Dokument.
 Nötig ist die Aufteilung vor allem, da ``brigd`` im Hintergrund als
 Netzwerkdienst laufen muss, um Anfragen von außen verarbeiten zu können. Auch
 läuft ``ipfs`` im selben Prozess wie ``brigd`` und muss daher stets erreichbar
-sein. Abgesehen davon ist es aus Effizienz--Gründen förderlich, wenn nicht bei
+sein. Abgesehen davon ist es aus Effizienzgründen förderlich, wenn nicht bei
 jedem eingetippten Kommando das gesamte Repository geladen werden muss. Auch
 ist es durch die Trennung möglich, dass ``brigd`` auch von anderen
 Programmiersprachen und Prozessen auf dem selben Rechner aus gesteuert werden
@@ -1004,13 +1015,13 @@ message Response {
 
 Neben der Kommunikation mit  ``brigd`` muss ``brigctl`` noch drei andere Aufgaben erledigen:
 
-* **Initiales Anlegen eines Repositories:** Bevor ``brigd`` gestatertet werden kann,
+* **Initiales Anlegen eines Repositories:** Bevor ``brigd`` gestartet werden kann,
   muss die in [@fig:brig-repo-tree] gezeigte Verzeichnisstruktur angelegt werden.
 * **Bereitstellung des User--Interfaces:** Das zugrundeliegende Protokoll wird so gut
   es geht vom Nutzer versteckt und Fehlermeldungen müssen möglichst gut beschrieben werden.
 * **Autostart von ``brigd``:** Damit der Nutzer nicht explizit ``brigd`` starten
   muss, sollte der Daemon--Prozess automatisch im Hintergrund gestartet werden,
-  falls er noch nicht erreichbar ist. Dies besorgt ``brigctl`` indem es dem
+  falls er noch nicht erreichbar ist. Dies setzt ``brigctl`` um, indem es dem
   Nutzer nach dem Passwort zum Entsperren eines Repositories fragt und das
   Passwort beim Start an ``brigd`` weitergibt, damit der Daemon--Prozess das
   Repository entsperren kann.
@@ -1021,45 +1032,50 @@ Der Daemon--Prozess implementiert alle Kernfunktionalitäten.
 Die einzelnen Komponenten werden in [@sec:einzelkomponenten] beschrieben.
 
 Als Netzwerkdienst muss ``brigd`` auf einen bestimmten Port (momentan
-standardmäßig Port ``6666``) auf Anfragen warten. Es werden keine Anfragen von
+standardmäßig Port ``127.0.0.1:6666``) auf Anfragen warten. Es werden keine Anfragen von
 außen angenommen, da über diese lokale Verbindung fast alle
-sicherheitskritische Informationen ausgelesen werden können.
-Für den Fall, dass ein Angreifer zwar keinen Zugriff auf den lokalen Rechner hat,
-dafür aber Zugriff auf den lokalen Netzwerkverkehr wird der gesamte Netzwerkverkehr
-zwischen ``brigctl`` und ``brigd`` mit AES256 verschlüsselt. Der Schlüssel wird
-beim Verbindungsaufbau mittels Diffie--Hellmann ausgetauscht. Die Details des
-Protokolls werden in [@cpiechula], Kapitel TODO beschrieben.
+sicherheitskritischen Informationen ausgelesen werden können.
+Für den Fall, dass ein Angreifer den lokalen Netzwerkverkehr mitlesen kann wird
+der gesamte Netzwerkverkehr zwischen ``brigctl`` und ``brigd`` mit AES256
+verschlüsselt. Der Schlüssel wird beim Verbindungsaufbau mittels
+Diffie--Hellmann ausgetauscht. Die Details des Protokolls werden in
+[@cpiechula], Kapitel TODO beschrieben.
 
-Die Anzahl der gleichzeitig offenen Verbindungen wird auf ein Maximum ``50``
-limitiert und Verbindungen werden nach Inaktivität mit einen Timeout von 10
+Die Anzahl der gleichzeitig offenen Verbindungen wird auf ein Maximum von ``50``
+limitiert und Verbindungen werden nach Inaktivität mit nach einer Zeitüberschreitung von 10
 Sekunden automatisch getrennt. Diese Limitierungen soll verhindern, dass
-fehlerhafte Clients den Hintergrundprozess zu stark auslasten können.
+fehlerhafte Clients den Hintergrundprozess zu stark auslasten.
 
 Im selben Prozess wie ``brigd`` läuft auch der ``ipfs``--Daemon und nutzt dabei
 standardmäßig den Port ``4001``, um sich mit dem Netzwerk zu verbinden.
 Nachteilig an diesem Vorgehen ist, dass ein Absturz oder eine Sicherheitslücke
-in ``ipfs`` auch ``brigd`` betreffen kann. Längerfristig sollte beide Prozesse
+in ``ipfs`` auch ``brigd`` betreffen kann. Längerfristig sollten beide Prozesse
 möglichst getrennt werden, auch wenn dies aus Effizienzgründen nachteilig ist.
 
 ## Einzelkomponenten {#sec:einzelkomponenten}
 
 Im Folgenden werden die einzelnen Komponenten von ``brigd`` aus
-architektonischer Sicht. Genauere Angaben zu Implementierungsdetails,
+architektonischer Sicht erläutert. Genauere Angaben zu Implementierungsdetails,
 insbesondere zum FUSE--Dateisystem, folgen im nächsten Kapitel.
 
 ### Dateiströme
 
-Im ``ipfs``--Backend werden nur verschlüsselte und (zuvor) komprimierte
-Datenströme gespeichert. Verschlüsselung ist nicht optional bei ``brig``. Hat
+Im ``ipfs``--Backend werden nur verschlüsselte und zuvor komprimierte
+Datenströme gespeichert. Verschlüsselung ist bei ``brig`` nicht optional. Hat
 ein Angreifer die Prüfsumme einer Datei erbeutet, so kann er die Datei aus dem
-``ipfs``--Netzwerk empfangen. Solange die Datei aber verschlüsselt hat, so wird
+``ipfs``--Netzwerk empfangen. Solange die Datei aber verschlüsselt ist, so wird
 der Angreifer alleine mit den verschlüsselten Daten ohne den dazugehörigen
-Schlüssel nichts anfangen können. In der Tat unterstützt er das
-``ipfs``--Netzwerk sogar, da der Knoten des Angreifers auch wieder seine
-Bandbreite zum Upload anbieten muss, da der Knoten sonst ausgebremst wird
+Schlüssel nichts anfangen können.
+In der Tat unterstützt er das ``ipfs``--Netzwerk sogar, da der Knoten des
+Angreifers auch wieder seine Bandbreite zum Upload anbieten muss, da der Knoten
+sonst ausgebremst wird
+Aus diesem Grund ist es aus Sicherheitsperspektive keine Notwendigkeit,
+``brig`` in einem abgeschotteten Netzwerk zu betreiben. Standardmäßig verbindet
+sich ``brig`` mit dem weltweiten ``ipfs``--Netzwerk, indem es die standardmäßig
+eingetragenen Bootstrap--Knoten kontaktiert.
 
 Nachteilig an einer »zwangsweisen« Verschlüsselung ist, dass die
-Deduplizierungsfähigkeit von ``ipfs`` ausgeschalten wird. Wird die selbe Datei
+Deduplizierungsfähigkeit von ``ipfs`` ausgeschaltet wird. Wird die selbe Datei
 mit zwei unterschiedlichen Schlüsseln verschlüsselt, so werden die
 resultierenden Daten (bis auf ihre Größe) keine Ähnlichkeit besitzen, sind also
 kaum deduplizierbar. Trotzdem ist die Unterteilung in Blöcke durch ``ipfs``
@@ -1085,7 +1101,7 @@ verschlüsselten Datei erlaubt, ohne die gesamte Datei entschlüsseln zu müssen
 Dies ist eine wichtige Eigenschaft für die Implementierung des
 FUSE--Dateisystems und ermöglicht zudem aus technischer Sicht das Streaming von
 großen, verschlüsselten Dateien wie Videos. Zudem kann das Format durch den
-Einsatz von *Authenticated Encryption (AE)*[@wiki:aead] die Integrität der verschlüsselten
+Einsatz von *Authenticated Encryption (AE*, [@wiki:aead]) die Integrität der verschlüsselten
 Daten sichern.
 
 Es werden lediglich reguläre
@@ -1102,23 +1118,29 @@ entsprechend dimensionierter, symmetrischer Schlüssel mitgegeben werden.
 Werden die ersten Daten geschrieben, so schreibt der Kodierer zuerst einen
 36--Byte großen Header. In diesem finden sich folgende Felder:
 
-* Eine *Magic--Number*[@wiki:magic-number] (8 Byte, ASCII--Repräsentation von ``moosecat``) zur schnellen Identifikation einer
+* Eine *Magic--Number*[^MAGIC_NUMBER] (8 Byte, ASCII--Repräsentation von
+  ``moosecat``) zur schnellen Identifikation einer
   von ``brig`` geschriebenen Datei.
 * Die *Versionsnummer* (2 Byte) des vorliegenden Formats. Standardmäßig »``0x01``«.
   Sollten Änderungen am Format nötig sein,
-  so muss nur die ersten 10 Byte beibehalten werden und die Versionsnummer inkrementiert
+  so müssen nur die ersten 10 Byte beibehalten werden und die Versionsnummer inkrementiert
   werden. Für die jeweilige Version kann dann ein passender Dekodierer genutzt werden.
-* Die verwendete *Blockchiffre* (2 Byte) zur Verschlüsselung. Standardmäßig wird *ChaCha20/Poly1305*[@nir2015chacha20]
-  eingesetzt, aber es kann auch AES ([@everyday_crypto], S. 116 ff.) mit 256 Bit im Galois--Counter--Modus (GCM) verwendet werden.
+* Die verwendete *Blockchiffre* (siehe [@cpiechula], Kapitel TODO) (2 Byte) zur
+  Verschlüsselung. Standardmäßig wird *ChaCha20/Poly1305* (siehe
+  [@nir2015chacha20]) eingesetzt, aber es kann auch AES (siehe [@everyday_crypto], S.
+  116 ff.) mit 256 Bit Schlüssellänge im Galois--Counter--Modus (GCM, siehe [@cpiechula], Kapitel TODO) verwendet werden.
 * Die *Länge* (4 Byte) des verwendeten Schlüssels in Bytes.
 * Die *maximale Blockgröße* (4 Byte) der nachfolgenden Blöcke in Bytes.
 * Ein *Message--Authentication--Code (MAC, siehe auch [@everyday_crypto], S. 205 ff.)* (16 Byte)
   der die Integrität des Headers sicherstellt.
 
-Nach dem der Header geschrieben wurde, sammelt der Enkodierer in einem internen Puffer ausreichend viele
-Daten, um einen zusammenhängende Block zu schreiben (standardmäßig 64 Kilobyte). Ist diese
-Datenmenge erreicht wird der Inhalt des Puffers verschlüsselt und ein kompletter Block ausgegeben.
-Dieser enthält folgende Felder:
+[^MAGIC_NUMBER]: Siehe auch: <https://de.wikipedia.org/wiki/Magische_Zahl_(Informatik)>
+
+Nachdem der Header geschrieben wurde, sammelt der Enkodierer in einem internen
+Puffer ausreichend viele Daten, um einen zusammenhängenden Block zu schreiben
+(standardmäßig 64 Kilobyte). Ist diese Datenmenge erreicht wird der Inhalt des
+Puffers verschlüsselt und ein kompletter Block ausgegeben. Dieser enthält
+folgende Felder:
 
 * Eine *Nonce* (siehe auch [@everyday_crypto], S. 263) (8 Byte). Diese
   eindeutige Nummer wird bei jedem
@@ -1126,16 +1148,16 @@ Dieser enthält folgende Felder:
   wird benutzt, um die Reihenfolge des geschriebenen Datenstroms zu validieren
   und wird zudem als öffentlich bekannte Eingabe für den
   Verschlüsselungsalgorithmus benutzt.
-* Der eigentliche *Ciphertext*. Er ist maximal so lang wie der Puffer, kann
-  aber im Falle des letzten Blockes kleiner sein.
-* Am Ende kann, je nach Algorithmus, ein gewisser Overhead durch *Padding* entstehen.
+* Die eigentlichen, verschlüsselten Daten. Diese sind maximal so lang wie die
+  maximale Blockgröße, können aber im Falle des letzten Blockes kleiner sein.
+* Am Ende kann, je nach Algorithmus, ein gewisse Überlänge durch *Padding* entstehen.
   Zudem wird an jeden Block eine weitere MAC angehängt, welche die Integrität
-  der Nonce und der nachfolgenden Daten sicherstellt.
+  der Nonce und der nachfolgenden, verschlüsselten Daten sicherstellt.
 
 So wird blockweise weiter verfahren, bis alle Daten des Ursprungsdatenstroms aufgebraucht
-worden sind. Der letzte Block darf als einziger kleiner als die Blockgröße sein.
+worden sind. Der letzte Block darf als einziger kleiner als die maximale Blockgröße sein.
 Der resultierende Datenstrom ist etwas größer als der Eingabedatenstrom. Seine Größe lässt
-sich wie in [@eq:enc-size] gezeigt mithilfe der Eingabegröße $s$ und der Blockgröße $b$ berechnen:
+sich wie in [@eq:enc-size] gezeigt mithilfe der Eingabegröße $s$ der Datei in Bytes und der Blockgröße $b$ berechnen:
 
 $$f_{\text{size}}(s) = 36 + s + \left\lceil\frac{s}{b}\right\rceil\times(8 + 16)$$ {#eq:enc-size}
 
@@ -1153,14 +1175,14 @@ ein falscher Schlüssel wurde übergeben.
 
 Jeder zu lesende Block wird im Anschluss komplett in einen Puffer gelesen. Die
 Nonce wird ausgelesen und dem Entschlüsselungsalgorithmus als Eingabge neben
-dem eigentlichen Datenblock mitgegeben. Dieser überprüft ob die Integrität des
-Datenblocks korrekt war und entschlüsselt diesen im Erfolgsfall. Anhand der
-Position im Datenstrom wird zudem überprüft ob die Blocknummer zur Wert in der
+dem eigentlichen Datenblock und dem Schlüssel mitgegeben. Dieser überprüft ob die Integrität des
+Datenblocks korrekt ist und entschlüsselt diesen im Erfolgsfall. Anhand der
+Position im Datenstrom wird zudem überprüft ob die Blocknummer zum Wert in der
 Nonce passt. Stimmen diese nicht überein, wird die Entschlüsselung verweigert,
 da ein Angreifer möglicherweise die Reihenfolge Blöcke hätte vertauschen können.
 
 **Wahlfreier Zugriff:** Wurde der Header bereits gelesen, so kann ein
-beliebiger Block im Datenstrom gelesen werden sofern der unterliegende
+beliebiger Block im Datenstrom gelesen werden, sofern der unterliegende
 Datenstrom wahlfreien Zugriff (also die Anwendung von ``Seek()``) erlaubt. Die
 Anfangsposition des zu lesenden Blocks kann mit [@eq:seek-off] berechnet
 werden, wobei $o$ der Offset im unverschlüsselten Datenstrom ist.
@@ -1168,17 +1190,15 @@ werden, wobei $o$ der Offset im unverschlüsselten Datenstrom ist.
 $$f_{\text{offset}}(o) = 36 + \left\lceil\frac{o}{b}\right\rceil\times(8 + 16 + b)$$ {#eq:seek-off}
 
 Der Block an dieser Stelle muss komplett gelesen und entschlüsselt werden, auch
-wenn nur wenige Bytes innerhalb des Blocks angefragt worden. Da typischerweise
+wenn nur wenige Bytes innerhalb des Blocks angefragt werden. Da typischerweise
 die Blöcke aber fortlaufend gelesen werden, ist das aus Sicht des Autors ein
 vernachlässigbares Problem.
 
-Das vorgestellte Format ähnelt etwas dem Verschlüsselungsformat[^BCACHEFS_ENC],
-welches das (relativ neue) Dateisystem ``bcachefs`` verwendet und basiert auf
-den Ideen der *Secretbox* der freien NaCL--Bibliothek.[^NACL_LIB] Davon abgesehen
-handelt es sich um eine Neuimplementierung mit eigenen Code, der auch außerhalb
-von ``brig`` eingesetzt werden kann.
+Das vorgestellte Format ähnelt der *Secretbox* der freien
+NaCL--Bibliothek.[^NACL_LIB] Diese erlaubt allerdings keinen wahlfreien
+Zugriff. Davon abgesehen handelt es sich um eine Neuimplementierung mit eigenem
+Code, der auch außerhalb von ``brig`` eingesetzt werden kann.
 
-[^BCACHEFS_ENC]: Siehe auch: <https://bcache.evilpiepirate.org/Encryption>
 [^NACL_LIB]: Siehe auch: <https://nacl.cr.yp.to/secretbox.html>
 
 #### Kompression
@@ -1191,24 +1211,24 @@ entworfen, welches in [@fig:format-compression] gezeigt wird.
             prinzipbedingten, hohen Entropie von verschlüsselten Texten
 			wären in dieser Reihenfolge die Kompressionsraten sehr gering.
 
-![Aufgbau des Kompressions--Dateiformat](images/4/format-compression.pdf){#fig:format-compression}
+![Aufbau des Kompressions--Dateiformats.](images/4/format-compression.pdf){#fig:format-compression}
 
 Nötig war dieser Schritt auch hier wieder weil kein geeignetes Format gefunden
 werden konnte, welches wahlfreien Zugriff im komprimierten Datenstrom zulässt,
-ohne dass dabei die ganze Datei entkomprimiert werden muss.
+ohne dass dabei die ganze Datei entpackt werden muss.
 
-**Enkodierung:** Der Eingabedatenstrom wird in gleich größe Blöcke unterteilt
-(maximal 64KB standardmäßig) wobei nur der letzte Block kleiner sein darf.
+**Enkodierung:** Der Eingabedatenstrom wird in gleich große Blöcke unterteilt
+(maximal 64KB standardmäßig), wobei nur der letzte Block kleiner sein darf.
 Nachdem der Header geschrieben wurde, folgt jeder Eingabeblock als
 komprimierter Block mit variabler Länge. Am Schluss wird ein Index geschrieben,
-der beschreibt welche Eingabeblock mit welchem komprimierten Block
+der beschreibt welcher Eingabeblock mit welchem komprimierten Block
 korrespondiert. Der Index kann nur am Ende geschrieben werden, da die genauen
 Offsets innerhalb dieses Indexes erst nach dem Komprimieren bekannt sind. Für
 eine effiziente Nutzung dieses Formats ist es also nötig, dass der Datenstrom
 einen effizienten, wahlfreien Zugriff am Ende der Datei bietet.
 Glücklicherweise unterstützt dies ``ipfs``. Datenströme wie ``stdin`` unter
 Unix unterstützen allerdings keinen wahlfreien Zugriff, weshalb das
-vorgestellte Format für dieses Anwendungsfälle eher ungeeignet ist.
+vorgestellte Format für diese Anwendungsfälle eher ungeeignet ist.
 
 Der Index besteht aus zwei Teilen: Aus dem eigentlichen Index und einem
 sogenannten »Trailer«, der die Größe des Indexes enthält. Zusätzlich enthält
@@ -1216,11 +1236,11 @@ dieser Trailer noch die verwendete Blockgröße, in die der unkomprimierte
 Datenstrom unterteilt wurde. Der eigentliche Index besteht aus einer Liste von
 64--Bit Offset--Paaren. Jedes Paar enthält einmal den unkomprimierten und
 einmal den komprimierten Offset eines Blocks als Absolutwert gemessen vom
-Anfang des Stroms. Am Ende wird ein zusätzliches Paar eingefügt (das zu keinen
-realen Block zeigt), welches die Größe des unkomprimierten und komprimierten
-Datenstroms anzeigt.
+Anfang des Datenstroms. Am Ende wird ein zusätzliches Paar eingefügt, welches
+zu keinen realen Block verweist. Dieses letzte Paar beschreibt die Größe des
+unkomprimierten und komprimierten Datenstroms.
 
-Der vorangestellte Header enthält alle Daten die definitiv vor der Kompression
+Der vorangestellte Header enthält alle Daten, die definitiv vor der Kompression
 des ersten Blockes vorhanden sind:
 
 - Eine *Magic--Number* (8 Byte, ASCII Repräsentation von ``elchwald``).
@@ -1235,18 +1255,18 @@ des ersten Blockes vorhanden sind:
     * None (gar keine Kompression, Index wird trotzdem geschrieben)
 
     Weitere Algorithmen wie *Brotli*[@wiki:brotli] können problemlos hinzugefügt werden, allerdings
-    gab es zu diesen Zeitpunkten noch keine vernünftig nutzbare Bibliotheken.
+    gab es zu diesen Zeitpunkten noch keine vernünftig nutzbaren Bibliotheken.
 
 **Dekodierung:** Bevor der erste Block dekodiert werden kann muss sowohl der Header
 als auch der Index geladen werden. Dazu müssen die ersten 12 Bytes des
 Datenstroms gelesen werden. Im Anschluss muss fast an das Ende (Ende minus
 12 Byte) des Datenstroms gesprungen werden, um dort den Trailer zu lesen. Mit der
 darin enthaltenen Größe des Indexes kann die Anfangsposition des Indexes
-bestimmt werden (Ende - 12 Byte - Indexgröße). Alle Offset--Werte im Index
+bestimmt werden (Ende minus 12 Byte minus Indexgröße). Alle Offset--Paare im Index
 werden in eine sortierte Liste geladen. Die Blockgröße eines
 komprimierten/unkomprimierten Blocks an der Stelle ergibt sich dabei aus der
-Differenz des Offset--Paars an der Stelle $n+1$ und seines Vorgänger an der
-Stelle $n$. Mithilfe der Blockgröße kann ein entsprechendes Stück vom
+Differenz des Offset--Paars an der Stelle $n+1$ und seines Vorgängers an der
+Stelle $n$. Mithilfe der Blockgröße kann ein entsprechend dimensioniertes Stück vom
 komprimierten Datenstrom gelesen und dekomprimiert werden.
 
 **Wahlfreier Zugriff:** Um auf einen Block in der Mitte zugreifen zu können (am
@@ -1259,18 +1279,20 @@ gesprungen werden.
 
 ### Transfer--Layer {#sec:transfer-layer}
 
-Damit Metadaten ausgetauscht werden können, ist ein sicherer Seitenkanal nötig,
-der unabhängig vom Kanal ist über den die eigentlichen Daten ausgetauscht
-Über diesen muss ein *Remote--Procedure--Call* (RPC[@wiki:rpc]) ähnliches Protokoll
+Damit Metadaten ausgetauscht werden können, ist ein sicherer Steuerkanal nötig,
+der unabhängig vom Datenkanal ist, über den die eigentlichen Daten ausgetauscht werden.
+Über diesen muss ein *Remote--Procedure--Call* (RPC[^RPC]) ähnliches Protokoll
 implementiert werden, damit ein Teilnehmer Anfragen an einen anderen stellen kann.
 
-Dieser sichere Seitenkanal wird von ``ipfs`` gestellt. Dabei wird kein
+[^RPC]: Siehe auch: <https://de.wikipedia.org/wiki/Remote_Procedure_Call>
+
+Die Basis dieses sicheren Steuerkanals wird von ``ipfs`` gestellt. Dabei wird kein
 zusätzlicher Netzwerkport für den RPC--Dienst in Anspruch genommen, da alle
-Daten über den selben Kanal laufen, wie die eigentliche Datenübertragung. Es
+Kommunikation über den selben Kanal laufen, wie die eigentliche Datenübertragung. Es
 findet also eine Art »Multiplexing« statt.
 
-Dies wird durch ``ipfs'`` fortgeschrittenes Netzwerkmodell möglich[^LIP2P],
-welche in [@fig:ipfs-net] gezeigt werden. Nutzer des gezeigten Netzwerkstacks
+Dies wird durch das fortgeschrittenes Netzwerkmodell von ``ipfs`` möglich[^LIP2P],
+welches in [@fig:ipfs-net] gezeigt werden. Nutzer des gezeigten Netzwerkstacks
 können eigene Protokolle registrieren, die mittels eines *Muxing--Protokolls*
 namens *Multistream*[^MULTISTREAM] in einer einzigen, gemeinsamen
 physikalischen Verbindung zusammengefasst werden. Der sogenannte *Swarm* hält
@@ -1293,43 +1315,46 @@ Eine genauere Beschreibung des Protokolls wird in [@cpiechula], Kapitel TODO geg
 hier werden nur kurz die wichtigsten Eigenschaften genannt:
 
 - Authentifizierung mittels Remote--Liste bei jedem Verbindungsaufbau.
-* Anfragen und Antworten werden als Protobuf--Nachricht. 
+* Anfragen und Antworten werden als Protobuf--Nachricht enkodiert.
   Die eigentliche Protokolldefinition kann in [@sec:rpc-proto] eingesehen werden.
 * Kompression der gesendeten Nachrichten mittels Snappy.
-- Zusätzliche Verschlüsselung der Verbindung.
+- Zusätzliche Verschlüsselung der Verbindung, mittels *Elliptic Curve Diffie Hellman*.
 - Senden von »Broadcast«--Nachrichten zu allen bekannten, verbundenen Teilnehmern.
+  Es wird keine Antwort auf Broadcast--Nachrichten erwartet. Diese sind daher
+  eher für Status--Updates geeignet.
 
 Im momentanen Zustand wird nur eine einzige Anfrage unterstützt.
-Dies die in [@sec:metadata-exchange] beschriebene ``FETCH``--Anfrage. Zukünftig
+Dies ist die in [@sec:metadata-exchange] beschriebene ``FETCH``--Anfrage. Zukünftig
 ist die Einführung weiterer Anfragen geplant. Um beispielsweise
-Echtzeit--Synchronisation zu unterstützen, müsste zwei weitere Nachrichten eingeführt werden:
+Echtzeit--Synchronisation zu unterstützen, müssten zwei weitere Nachrichten eingeführt werden:
 
 - ``UPDATE``: Eine Nachricht die aktiv an alle Teilnehmer in der Remote--Liste
-  geschickt wird. Sie enthält einen einzelnen Checkpoint. Die darin beschrieben
+  geschickt wird. Sie enthält einen einzelnen Checkpoint. Die darin beschriebene
   atomare Änderung sollte dann auf Empfängerseite direkt in den Staging--Bereich
-  des Empfängers eingegliedert werden.
+  eingegliedert werden.
 * ``DIFF <COMMIT_HASH>:`` Wie ``FETCH``, gibt aber nur die Änderungen seit dem 
   angegebenen ``COMMIT_HASH`` zurück.
 
 ### Benutzermanagement {#sec:user-management}
 
 In den Anforderungen in [@sec:eigenschaften] wird eine menschenlesbare
-Identität gefordert, mit der *Peers* einfach erkennbar sind. Der von ``ipfs``
+Identität gefordert, mit der Kommunikationspartner einfach erkennbar sind. Der von ``ipfs``
 verwendete Identitätsbezeichner ist allerdings eine für Menschen schwer zu
 merkende Prüfsumme (die »Peer--ID«).
 
 Es wurden in dieser Arbeit bereits einige Identifikationsbezeichner
-beispielhaft verwendet. Diese entsprechen einer abgeschwächte Form der
+beispielhaft verwendet. Diese entsprechen einer abgeschwächten Form der
 Jabber--ID[^JID] (*JID*). Diese hat, ähnlich wie eine E--Mail Adresse, die Form
 ``user@domain/resource``. Beim Jabber/XMPP Protokoll ist der Teil hinter dem
-``/`` optional, der Rest ist zwingend erforderlich. Als Abschwächung ist bei
-``brig`` auch der Teil hinter dem ``@`` optional. Darüber hinaus sollen
+»``/``« optional, der Rest ist zwingend erforderlich. Als Abschwächung ist bei
+``brig`` auch der Teil hinter dem »``@``« optional. Darüber hinaus sollen
 folgende Regeln gelten:
 
 [^JID]: Mehr Details unter: <https://de.wikipedia.org/wiki/Jabber_Identifier>
 
 - Es sind keine Leerzeichen erlaubt.
 - Ein leerer String ist nicht valide.
+* Groß- und Kleinschreibung wird nicht unterschieden. Es wird empfohlen den Namen klein zu schreiben.
 - Der String muss valides UTF8[^UTF8] sein.
 - Der String muss der »UTF-8 Shortest Form[^SHORTEST]« entsprechen
 - Der String darf durch die »UTF-8 NKFC Normalisierung[^NORMALIZATION]« nicht verändert werden.
@@ -1337,7 +1362,7 @@ folgende Regeln gelten:
 
 Insbesondere die letzten vier Punkte dienen der Sicherheit, da ein Angreifer
 versuchen könnte eine Unicode--Sequenz zu generieren, welche visuell genauso
-ausschaut wie die eines anderen Nutzers, aber einer anderen Byte--Reihenfolge
+aussieht wie die eines anderen Nutzers, aber einer anderen Byte--Reihenfolge
 und somit einer anderen Identität entspricht.
 
 [^UTF8]: Siehe auch: <https://de.wikipedia.org/wiki/UTF-8>
@@ -1361,17 +1386,17 @@ Die Wahl der JID als Basis hat einige Vorteile:
 - Unternehmen können die Identifikationsbezeichner hierarchisch gliedern. So
   kann *Alice* der Bezeichner ``alice@security.google.com`` zugewiesen werden,
   wenn sie im Sicherheitsteam arbeitet.
-- Der *Ressourcen*--Teil hinter dem ``/`` ermöglicht die Nutzung desselben
-  Nutzernamens auf verschiedenen Geräten, wie ``desktop`` oder ``laptop``.
+- Der *Ressourcen*--Teil hinter dem »``/``« ermöglicht die Nutzung desselben
+  Nutzernamens auf verschiedenen Geräten, wie beispielsweise ``desktop`` oder ``laptop``.
 
 Um den Identifikationsbezeichner im Netzwerk auffindbar zu machen, wendet
 ``brig`` einen »Trick« an. Jeder ``brig``--Knoten veröffentlicht einen
 einzelnen ``blob`` in das ``ipfs``--Netzwerk mit dem Inhalt
-``brig:<username>``. Ein Nutzer der nun einen solchen menschenlesbaren  Namen
-zu einem Netzwerkadresse  auflösen möchte, kann d en Inhalt des obigen
+``brig#user:<username>``. Dieses Verfahren wird *Publishing* genannt. Ein Nutzer der nun einen solchen menschenlesbaren  Namen
+zu einer Netzwerkadresse  auflösen möchte, kann den Inhalt des obigen
 Datensatzes generieren und daraus eine Prüfsumme bilden. Mit der entstandenen
-Prüfsumme kann wie in [@lst:user-hash] mittels folgenden
-Verfahrens[^GO_MULTIHASH] herausgefunden werden, welche Knoten diesen Datensatz
+Prüfsumme kann wie in [@lst:user-hash] mittels dem folgenden
+Verfahren[^GO_MULTIHASH] herausgefunden werden, welche Knoten diesen Datensatz
 anbieten:
 
 [^GO_MULTIHASH]: Benötigt das ``multihash`` Werkzeug: <https://github.com/multiformats/go-multihash/tree/master/multihash>
@@ -1399,14 +1424,14 @@ diesem Fall muss der Nutzer explizit authentifiziert worden sein.
 
 Analog kann das Konzept auch übertragen werden, um bestimmte Gruppen von
 Nutzern zu finden. Angenommen, Alice, Bob und Charlie arbeiten im gleichen Unternehmen.
-Das Unternehmen findet sich in auch in ihren Identitäten wieder:
+Das Unternehmen spiegelt sich in auch in ihren Identitäten wieder:
 
 - ``alice@corp.de/server``
 - ``bob@corp.de/laptop``
 - ``charlie@corp.de/desktop``
 
-Neben den gesamten Nutzernamen, können diese drei Nutzer auch nur ihren
-Unternehmensnamen veröffentlichen, beziehungsweise auch ihren Nutzernamen ohne
+Neben den gesamten Nutzernamen, können diese drei Nutzer auch ihren
+Unternehmensnamen (``corp.de``) *publishen*, beziehungsweise auch ihren Nutzernamen ohne
 den ``resource``--Zusatz. So ist es beispielsweise wie in [@lst:corp-hash] möglich
 alle Unternehmensmitglieder aufzulösen:
 
@@ -1421,7 +1446,7 @@ $ ipfs dht findprovs $CORP_HASH
 Die einzelnen IDs können dann, sofern bekannt, zu den »Klarnamen« aufgelöst
 werden die in der Remote--Liste jedes Teilnehmers stehen. Insgesamt können
 folgende sinnvolle Kombinationen (falls möglich, da optional) von ``brig``
-veröffentlicht werden, die jeweils eine spezielle Semantik hätten:
+*published* werden, die jeweils eine spezielle Semantik hätten:
 
 - ``user``: Finden des Nutzernamens alleine.
 - domain: Finden des Gruppennamen.
@@ -1430,7 +1455,7 @@ veröffentlicht werden, die jeweils eine spezielle Semantik hätten:
 
 Das besondere an dieser Vorgehensweise ist, dass kein Nutzer sich an einer
 zentralen Stelle registriert. Trotzdem können sich die Nutzer gegenseitig im
-Netzwerk gegenseitig mit einem aussagekräftigen Namen finden und trauen nicht
+Netzwerk mit einem aussagekräftigen Namen finden und trauen nicht
 einer zentralen Instanz, sondern entscheiden selbst welchen Knoten sie trauen.
 Diese Eigenschaften entsprechen den drei Ecken von *Zooko's Dreieck*[@wiki:zooko],
 von denen gesagt wird, dass immer nur zwei Ecken gleichzeitig erfüllbar sind
@@ -1442,7 +1467,7 @@ Dilemma*.
 
 Aus Sicht der Usability ist dabei die initiale Authentifizierung ein Problem.
 Diese kann nicht von ``brig`` automatisiert erledigt werden, da ``brig`` nicht wissen
-kann welche Prüfsumme die »Richtige« ist. Es wird im aktuellen Entwurf vom Nutzer
+kann welche Prüfsumme die »richtige« ist. Es wird im aktuellen Entwurf vom Nutzer
 erwartet, dass er über einen sicheren Seitenkanal (beispielsweise durch ein persönliches Treffen) die angepriesene Prüfsumme überprüft.
 
 Die oben vorgestellte Idee kann aber auch in Richtung eines *Web of
@@ -1451,8 +1476,8 @@ eine geschlossene Gruppe von Nutzern betrachten, die sich nur teilweise bekannt 
 Vergrößert sich die Gruppe mit einem neuen Teilnehmer, so muss dieser alle anderen
 Teilnehmer authentifizieren und gegenseitig auch von diesen authentifiziert werden.
 Ab einer bestimmten Gruppengröße wird dies ein sehr aufwendige Aufgabe.
-Eine logische Lösung wäre das Anlegen eines *Blessed Repository*, dem alle Gruppenteilnehmer trauen und von einem respektierten Teilnehmer der Gruppe
-betrieben wird. Möchte man diesen zentralen Ansatz nicht, so kann wie beim *Web
+Eine logische Lösung wäre das Anlegen eines *Blessed Repository*, dem alle Gruppenteilnehmer trauen und das von einem respektierten Teilnehmer der Gruppe
+betrieben wird. Möchte man diesen zentralen Ansatz nicht, so kann man wie beim *Web
 of Trust*, ein System einführen, das einem neuen Nutzer automatisch traut, wenn
 eine ausreichende Anzahl anderer Gruppenteilnehmer dem Neuling vertraut hat.
 
@@ -1460,7 +1485,7 @@ eine ausreichende Anzahl anderer Gruppenteilnehmer dem Neuling vertraut hat.
 
 Daneben sind noch weitere Strategien denkbar, wie das automatische Akzeptieren
 neuer Teilnehmer (anwendbar, wenn beispielsweise ein Dozent Vorlesungsmaterial
-verteilen will), oder ein Frage--Antwort--Spiel wie bei
+verteilen will), oder ein Frage--Antwort--Verfahren wie bei
 *Off--The--Record--Messaging (OTR)*. Dabei stellen sich beide Teilnehmer eine
 Frage, die sie jeweils korrekt beantworten müssen. Weitere Konzepte zur
 Authentifizierung werden in [@cpiechula], Kapitel TODO beschrieben.
