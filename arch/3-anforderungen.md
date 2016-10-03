@@ -1,10 +1,4 @@
-# Anforderungen {#sec:eigenschaften}
-
-In diesem Kapitel werden aus dem Stand der Technik die Anforderungen und
-Eigenschaften abgeleitet, die ein modernes Dateisynchronisationssystem haben
-sollte.
-
-## Anforderungen an ``brig`` {#sec:requirements}
+# Anforderungen {#sec:requirements}
 
 Im Folgenden wird auf die Anforderungen eingegangen, welche ``brig`` in
 Zukunft erfüllen soll. Diese sind weitreichender als der Umfang der
@@ -54,7 +48,7 @@ Die unten stehenden Anforderungen sind teilweise an die Eigenschaften des
 verteilten Dateisystems *Infinit* (beschrieben in [@quintard2012towards], siehe
 S.39) angelehnt und an die Ausrichtung von ``brig`` angepasst worden.
 
-### Anforderungen die Integrität
+## Anforderungen die Integrität
 
 **Entkopplung von Metadaten und Daten:** Statt einem zentralen Dienst, soll
 ``brig`` die Basis eines dezentralen Netzwerkes bilden. Dabei stellt jeder
@@ -129,7 +123,7 @@ Aus diesem Grund sollte das Dateiformat von ``brig`` mittels *Message Authentica
 Codes* (MACs) sicherstellen können, dass die gespeicherten Daten den ursprünglichen
 Daten entsprechen.
 
-### Anforderungen an die Sicherheit
+## Anforderungen an die Sicherheit
 
 **Verschlüsselte Speicherung:** Die Daten sollten verschlüsselt auf der
 Festplatte abgelegt werden und nur bei Bedarf wieder entschlüsselt werden.
@@ -191,7 +185,7 @@ lesen, um für die Themantik der Sicherheit sensibilisiert zu werden und ein
 Entwicklungsmodell besprochen, welches helfen soll sichere Software zu
 entwickeln.
 
-### Anforderungen an die Usability
+## Anforderungen an die Usability
 
 *Anmerkung:* In [@sec:usability] werden weitere Anforderungen zur
 Usability in Bezug auf eine grafische Oberfläche definiert. Da diese nicht
@@ -278,206 +272,3 @@ Fehlern vermeiden.
 Arbeiten ermöglichen zu können. Die Geschwindigkeit sollte durch eine
 Benchmarksuite messbar gemacht werden und bei jedem neuen Release mit dem
 Vorgänger verglichen werden.
-
-## ``ipfs``: Das *Interplanetary Filesystem*
-
-Anstatt das »Rad neu zu erfinden«, setzt ``brig`` auf das relativ junge
-*Interplanetary Filesystem* (kurz ``ipfs``), welches von Juan Benet und seinen
-Mitentwicklern unter der MIT--Lizenz in der Programmiersprache Go entwickelt
-wird (siehe auch das Whitepaper[@benet2014ipfs]). Im Gegensatz zu den meisten
-anderen verfügbaren Peer--to-Peer Netzwerken kann ``ipfs`` als
-Software--Bibliothek genutzt werden. Dies ermöglicht es ``brig`` als,
-vergleichsweise dünne Schicht, zwischen Benutzer und ``ipfs`` zu fungieren (wie in [@fig:fuse-brig-ipfs] dargestellt).
-
-![Zusammenhang zwischen ``ipfs``, ``brig`` und FUSE.](images/3/fuse-brig-ipfs.pdf){#fig:fuse-brig-ipfs width=30%}
-
-``ipfs`` stellt dabei ein *Content Addressed Network* (kurz *CAN*, [^CAN]) dar.
-Dabei wird eine Datei, die in das Netzwerk gelegt wird nicht mittels eines
-Dateinamen angesprochen, sondern mittels einer Prüfsumme, die durch eine vorher
-festgelegte Hashfunktion berechnet wird. Andere Teilnehmer im Netzwerk können
-mittels dieser Prüfsumme die Datei lokalisieren und empfangen. Anders als bei
-einer HTTP--URL (*Unified Resource Locator*) steckt der Prüfsumme einer Datei
-also nicht nur die Lokation der Datei, sondern sie dient auch
-als eindeutiges Identifikationsmerkmal (ähnlich eines Pfads) und gleicht daher
-eher einem Magnet Link[^MAGNET_LINK] als einer URL. Vereinfacht gesagt ist es
-nun die Hauptaufgabe von ``brig`` dem Nutzer die gewohnte Abstraktionsschicht
-eines Dateisystem zu geben, während im Hintergrund jede Datei zu einer
-Prüfsumme aufgelöst wird.
-
-[^MAGNET_LINK]: Mehr Informationen unter <https://de.wikipedia.org/wiki/Magnet-Link>
-
-Im Vergleich zu zentralen Ansätzen (bei dem der zentrale Server einen *Single
-Point of Failure* darstellt) können Dateien intelligent geroutet werden und
-müssen nicht physikalisch auf allen Geräten verfügbar sein. Wird beispielsweise
-ein großes Festplattenimage (~8GB) in einem Vorlesungssaal von jedem Teilnehmer
-heruntergeladen, so muss bei zentralen Diensten die Datei mehrmals über das
-vermutlich bereits ausgelastete Netzwerk der Hochschule gezogen werden. In einem
-*CAN*, kann die Datei in Blöcke unterteilt werden, die von jedem Teilnehmer
-gleich wieder verteilt werden können, sobald sie heruntergeladen wurden. Der
-Nutzer sieht dabei ganz normal die gesamte Datei, ``brig``, beziehungsweise das *CAN* erledigt
-dabei das Routing transparent im Hintergrund.
-
-Technisch basiert ``ipfs`` auf der verteilten Hashtabelle
-*Kademlia*[@maymounkov2002kademlia], welches mit den Erkenntnissen aus den
-Arbeiten *CoralDHST*[@freedman2004democratizing] (Ansatz um das Routing zu
-optimieren) und *S/Kademlia*[@baumgart2007s] (Ansatz um das Netzwerk gegen
-Angriffe zu schützen) erweitert und abgesichert wurde. *S/Kademlia* verlangt
-dabei, dass jeder Knoten im Netzwerk über ein Schlüsselpaar, bestehend aus
-einem öffentlichen und privaten Schlüssel verfügt. Die Prüfsumme des
-öffentlichen Schlüssels dient dabei als einzigartige Identifikation des Knotens
-und der private Schlüssel dient als Geheimnis mit dem ein Knoten seine
-Identität nachweisen kann. Diese Kernfunktionalitäten sind bei ``ipfs`` in
-einer separaten Bibliothek namens ``libp2p``[^LIBP2P] untergebracht, welche
-auch von anderen Programmen genutzt werden können.
-
-[^CAN]: Siehe auch: <https://en.wikipedia.org/wiki/Content_addressable_network> 
-[^LIBP2P]: Mehr Informationen in der Dokumentation unter: <https://github.com/ipfs/specs/tree/master/libp2p>
-
-### Eigenschaften des *Interplanetary Filesystems* {#sec:ipfs-attrs}
-
-Im Folgenden werden die Eigenschaften von ``ipfs`` kurz vorgestellt, welche von
-``brig`` genutzt werden. Einige interessante Features wie beispielsweise das
-*Interplanetary Naming System* (IPNS) werden dabei ausgelassen, da sie für
-``brig`` aktuelle keine praktische Bedeutung haben.
-
-**Weltweites Netzwerk:** Standardmäßig bilden alle ``ipfs``--Knoten ein
-zusammenhängendes, weltweites Netzwerk.
-``ipfs`` verbindet sich beim Start mit
-einigen, wohlbekannten *Bootstrap--Nodes*, deren
-Adressen mit der Software mitgeliefert werden. Diese können dann wiederum den
-neuen Knoten an ihnen bekannte, passendere Knoten vermitteln. Die Menge der so
-entstandenen verbundenen Knoten nennt ``ipfs`` den *Swarm* (dt. Schwarm). Ein
-Nachbarknoten wird auch *Peer* genannt.
-
-Falls gewünscht, kann allerdings auch ein abgeschottetes Subnetz erstellt
-werden. Dazu ist es lediglich nötig, die *Bootstrap*--Nodes durch Knoten
-auszutauschen, die man selbst kontrolliert. Unternehmen könnten diesen Ansatz
-wählen, falls ihr Netzwerk komplett von der Außenwelt abgeschottet sein soll. Wie in
-[@sec:architektur] beleuchtet wird, ist eine Abschottung des Netzwerks
-rein aus Sicherheitsgründen nicht zwingend nötig.
-
-**Operation mit Prüfsummen:** ``ipfs`` arbeitet nicht mit herkömmlichen Dateipfaden,
-sondern nur mit der Prüfsumme einer Datei. Im folgenden Beispiel
-wird eine Fotodatei mittels der ``ipfs``--Kommandozeile in das Netzwerk
-gelegt[^IPFS_DAEMON]:
-
-```bash
-$ ipfs add my-photo.png
-QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
-```
-
-Wird eine Datei modifiziert, so muss sie neu mittels ``ipfs add`` hinzugefügt
-werden und wird in dieser Version unter einer anderen Prüfsumme erreichbar
-sein. Im Gegensatz zu normalen Dateisystemen kann es keinen allgemeinen
-Einstiegspunkt (wie das Wurzelverzeichnis ``/``) geben. Die Prüfsumme eines
-Verzeichnisses definiert sich in ``ipfs`` durch die Prüfsummen seiner Inhalte.
-Das Wurzelverzeichnis hätte also nach jeder Modifikation eine andere Prüfsumme.
-
-``ipfs`` nutzt dabei ein spezielles Format um Prüfsummen zu
-repräsentieren[^IPFS_HASH]. Die ersten zwei Bytes einer Prüfsumme
-repräsentieren dabei den verwendeten Algorithmus und die Länge der darauf
-folgenden, eigentlichen Prüfsumme. Die entstandene Byte--Sequenz wird dann
-mittels ``base58``[^BASE58] enkodiert, um sie menschenlesbar zu machen. Da der momentane
-Standardalgorithmus ``sha256`` ist, beginnt eine von ``ipfs`` generierte
-Prüfsumme stets mit »``Qm``«. Abbildung [@fig:ipfs-hash-format] zeigt dafür ein
-Beispiel.
-
-![Layout der ``ipfs`` Prüfsumme](images/2/ipfs-hash-layout.pdf){#fig:ipfs-hash-format}
-
-
-[^BASE58]: <https://de.wikipedia.org/wiki/Base58>
-
-[^IPFS_DAEMON]: Voraussetzung hierfür ist allerdings, dass der ``ipfs``--Daemon
-vorher gestartet wurde und ein Repository mittels ``ipfs init`` erzeugt wurde.
-
-[^IPFS_HASH]: Mehr Informationen unter: <https://github.com/multiformats/multihash>
-
-Auf einem anderen Computer, mit laufenden ``ipfs``--Daemon, ist das Empfangen
-der Datei möglich, indem die Prüfsumme an das Kommando ``ipfs cat`` gegeben wird. Dabei wird für
-den Nutzer transparent über die DHT ein Peer ausfindig gemacht, der die Datei
-anbieten kann und der Inhalt von diesem bezogen:
-
-```bash
-$ ipfs cat QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG > my-photo.png
-```
-
-**Public--Key Infrastructure:** Jeder Knoten im ``ipfs``--Netzwerk besitzt ein
-RSA--Schlüsselpaar, welches beim Anlegen des Repositories erzeugt wird. Mittels
-einer Prüfsumme  wird aus dem öffentlichen Schlüssel eine Identität berechnet
-($ID = H_{sha256}(K_{Public})$). Diese kann dann dazu genutzt werden einen Knoten
-eindeutig zu identifizieren und andere Nutzer im Netzwerk nachzuschlagen und
-deren öffentlichen Schlüssel zu empfangen:
-
-```bash
-# Nachschlagen des öffentlichen Schlüssels eines zufälligen Bootstrap-Nodes:
-$ ipfs id QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ
-{
-  "ID": "QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ",
-  "PublicKey": "CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK[...]",
-  ...
-}
-```
-
-Der öffentliche Schlüssel kann dazu genutzt werden, mit einem Peer mittels
-asymmetrischer Verschlüsselung eine verschlüsselte Verbindung aufzubauen (siehe
-[@cpiechula], Kapitel TODO). Von ``brig`` wird dieses Konzept weiterhin
-genutzt, um eine Liste vertrauenswürdiger Knoten zu verwalten. Jeder Peer muss
-bei Verbindungsaufbau nachweisen, dass er den zum öffentlichen Schlüssel passenden
-privaten Schlüssel besitzt (für Details siehe [@cpiechula], Kapitel TODO).
-
-**Pinning und Caching:** Das Konzept von ``ipfs`` basiert darauf, dass Knoten nur
-das speichern, worin sie auch interessiert sind. Daten, die von außen zum
-eigenen Knoten übertragen worden sind werden nur kurzfristig zwischengelagert.
-Nach einiger Zeit bereinigt der eingebaute Garbage--Collector die Daten im
-*Cache*.[^IPFS_MANUAL_GC]
-
-Werden Daten allerdings über den Knoten selbst hinzugefügt, so bekommen sie
-automatisch einen *Pin* (dt. Stecknadel). *Gepinnte* Daten werden automatisch
-vom *Garbage-Collector* ignoriert und beliebig lange vorgehalten, bis sie
-wieder *unpinned* werden. Möchte ein Nutzer sicher sein, dass die Datei im
-lokalen Speicher bleibt, so kann er sie manuell pinnen:
-
-```bash
-$ ipfs pin add QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
-```
-
-Wenn die Dateien nicht mehr lokal benötigt werden, können sie *unpinned* werden:
-
-```bash
-$ ipfs pin rm QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
-```
-
-[^IPFS_MANUAL_GC]: Der Garbage--Collector kann auch manuell mittels ``ipfs repo gc`` von der Kommandozeile aufgerufen werden.
-
-**Flexibler Netzwerkstack:** Einer der größten Vorteile von ``ipfs`` ist, dass
-es auch über NAT--Grenzen hinweg funktioniert. Da aufgrund von
-*UDP--Hole--Punching* kein *TCP* genutzt werden kann, wird *UDP* genutzt. Um
-die Garantien, die *TCP* bezüglich der Paketzustellung gibt, zu erhalten nutzt
-``ipfs`` das Anwendungs--Protokoll *UDT*. Insgesamt implementiert ``ipfs`` also
-einige Techniken, um, im Gegensatz zu den meisten theoretischen Ansätzen, eine
-leichte Usability zu gewährleisten. Speziell wäre hier zu vermeiden, dass ein
-Anwender die Einstellungen seines Routers ändern muss, um ``brig`` zu nutzen.
-
-[^UDT]: http://udt.sourceforge.net/
-
-In Einzelfällen kann es natürlich trotzdem dazu kommen, dass die von ``ipfs``
-verwendeten Ports durch eine besonders in Unternehmen übliche Firewall
-blockiert werden. Dies kann nötigenfalls aber vom zuständigen Administrator
-geändert werden.
-
-**Übermittlung zwischen Internet und ``ipfs``:** Ein Client/Server--Betrieb
-lässt sich mithilfe der ``ipfs``--*Gateways* emulieren. Gateways sind
-zentrale, wohlbekannte Dienste, die zwischen dem »normalen Internet« und dem
-``ipfs`` Netzwerk mittels HTTP vermitteln. Die Datei ``my-photo.png`` aus dem
-obigen Beispiel kann von anderen Nutzern bequem über den Browser
-heruntergeladen werden:
-
-```bash
-$ export PHOTO_HASH=QmPtoEEMMnbTSmzr28UEJFvmsD2dW88nbbCyyTrQgA9JR9
-$ curl https://gateway.ipfs.io/ipfs/$PHOTO_HASH > my-photo.png
-```
-
-Auf dem Gateway läuft dabei ein Webserver, der intern dasselbe tut wie ``ipfs cat``,
-aber statt auf der Kommandozeile die Daten auf eine HTTP--Verbindung ausgibt.
-Standardmäßig wird bei jedem Aufruf von ``ipfs daemon`` ein Gateway auf der
-Adresse <http://localhost:8080> gestartet.

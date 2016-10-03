@@ -252,7 +252,7 @@ Im Folgenden wird eine unvollständige Übersicht über bekannte
 Dateisynchronisationsprogramme gegeben. Davon stehen nicht alle in Konkurrenz zu
 ``brig``, sind aber zumindest aus Anwendersicht ähnlich.
 
-#### Dropbox + Boxcryptor
+### Dropbox + Boxcryptor
 
 ![Screenshot eines Dropbox--Accounts](images/2/dropbox.png){#fig:scrn-dropbox}
 
@@ -261,6 +261,7 @@ weitesten verbreitete zentrale Dienst zur Dateisynchronisation. Verschlüsselung
 kann man mit Tools wie ``encfs`` (Open--Source, siehe auch [^ENCFS]) oder dem
 etwas umfangreicheren, proprietären ``boxcryptor`` nachrüsten. Was das Backend
 genau tut ist leider das Geheimnis von Dropbox --- es ist nicht Open--Source.
+Mehr Details liefert [@cpiechula] im Kapitel TODO.
 
 [^ENCFS]: Mehr Informationen unter <https://de.wikipedia.org/wiki/EncFS>
 
@@ -273,10 +274,12 @@ Abhängigkeit von der Verfügbarkeit des Dienstes.
 
 [^KEYSERVER]: Mehr Informationen zum Keyserver unter <https://www.boxcryptor.com/de/technischer-\%C3\%BCberblick\#anc09>
 
-Technisch nachteilhaft ist vor allem, dass die Datei bei manchen Diensten »über
-den Pazifik« hinweg synchronisiert werden muss, nur um schließlich auf dem
+Technisch nachteilhaft bei vielen zentralen Diensten ist, dass die Datei »über
+den Pazifik« hinweg synchronisiert werden muss, nur um möglicherweise auf dem
 Arbeitsrechner »nebenan« anzukommen. Dropbox hat hier nachgerüstet, indem es
 nach Möglichkeit direkt über LAN synchronisiert[^DROPBOX_LAN_SYNC].
+Nichtsdestotrotz können Kunden nicht mehr synchronisieren, wenn der zentrale
+Dienst ausgefallen ist oder den Dienst eingestellt hat.
 
 [^DROPBOX_LAN_SYNC]: <https://www.dropbox.com/de/help/137>
 
@@ -285,10 +288,10 @@ nach Möglichkeit direkt über LAN synchronisiert[^DROPBOX_LAN_SYNC].
 ![Screenshot der ownCloud--Weboberfläche](images/2/owncloud.png){#fig:scrn-owncloud}
 
 Eine Alternative zu einem von einem Unternehmen bereitgestellten zentralen
-Dienst, ist die Nutzung einer eigenen »Private Cloud« mithilfe der
-Open--Source Lösung ``ownCloud`` (siehe [@fig:scrn-owncloud], beziehungsweise dessen Fork ``nextCloud``).
-
-Nutzer hosten auf ihren Servern selbst eine ``ownCloud``--Instanz und stellen
+Dienst, ist die Nutzung einer eigenen »Private Cloud« mithilfe der Open--Source
+Lösung ``ownCloud`` (siehe [@fig:scrn-owncloud], beziehungsweise dessen Fork
+``nextCloud``).
+Nutzer installieren auf ihren Servern selbst eine ``ownCloud``--Instanz und stellen
 ausreichend Speicherplatz bereit. Vorteilhaft ist also, dass die Daten auf den
 eigenen Servern liegen. Nachteilig hingegen, dass das zentrale Modell von Dropbox
 lediglich auf eigene Server übertragen wird. Einerseits ist ``ownCloud`` nicht so
@@ -296,30 +299,41 @@ stark wie ``brig`` auf Sicherheit fokussiert, andererseits ist die Installation
 eines Serversystems für viele Nutzer eine große Hürde und somit zumindest für
 den Heimanwender nicht praktikabel.
 
-#### ``syncthing``
+### ``syncthing``
 
 ![Screenshot der Syncthing--Weboberfläche](images/2/syncthing.png){#fig:scrn-syncthing}
 
 Das 2013 veröffentlichte quelloffene ``syncthing`` (siehe
 [@fig:scrn-syncthing]) versucht diese zentrale Instanz zu vermeiden, indem die
-Daten jeweils von Teilnehmer zu Teilnehmer übertragen werden. Es ist
-allerdings kein vollständiges Peer--to--peer--Netzwerk: Geteilte Dateien liegen
-immer als vollständige Kopie bei allen Teilnehmern, welche die Datei haben.
-Alternativ ist nur die selektive Synchronisation bestimmter Dateien möglich.
+Daten jeweils von Teilnehmer zu Teilnehmer übertragen werden. Die Dateien
+werden in einem speziellen Ordner gelegt, der von ``syncthing`` überwacht wird.
+Nach der Installation wird eine einzigartige Client--ID generiert. Über eine
+Weboberfläche oder eine native Desktopanwendung kann konfiguriert werden, mit
+wem dieser Ordner geteilt werden soll, indem die Client--ID eines anderen
+Teilnehmers eingegeben wird.
+
+Es ist allerdings kein vollständiges Peer--to--peer--Netzwerk: Geteilte Dateien
+liegen immer als vollständige Kopie bei allen Teilnehmern, welche die Datei
+haben. Alternativ ist nur die selektive Synchronisation bestimmter Dateien
+möglich. Zwischen den Teilnehmern wird ein Protokoll mit dem Namen *Block
+Exchange Protocol*[@borg2015syncthing] etabliert. Dieses sorgt für eine
+sichere, differentielle und blockweise Übertragung. 
 
 Praktisch ist auch, dass ``syncthing``--Instanzen mittels eines zentralen
-Discovery--Servers entdeckt werden. Nachteilig hingegen ist die fehlende
+Discovery--Servers entdeckt werden. Nachteilig ist aber die fehlende
 Benutzerverwaltung: Man kann nicht festlegen von welchen Nutzern man Änderungen
-empfangen will und von welchen nicht.
+empfangen will und von welchen nicht. Eingesetzt wird ``syncthing`` zwar auch
+gerne von technisch versierten Nutzern, doch existiert auch für Neulinge
+ausreichend Dokumentation.
 
-#### ``resilio``
+### ``resilio``
 
 ![Screenshot der ``resilio``--Weboberfläche](images/2/resilio.png){#fig:scrn-resilio}
 
 Das kommerzielle und proprietäre ``resilio`` (früher *Bittorrent Sync*) nutzt
 eine Modifikation[^PROTO_REF] des bekannten und freien BitTorrent Protokoll zur
 Übertragung. Vom Feature--Umfang ist es in etwa vergleichbar mit *Syncthing*.
-Die Anlegung von verschlüsselten Repositories ist möglich.
+Das Anlegen von verschlüsselten Repositories ist möglich.
 
 [^PROTO_REF]: Siehe auch: <http://blog.bittorrent.com/2016/03/17/%CE%BCtp2-the-evolution-of-an-enterprise-grade-protocol>
 
@@ -339,12 +353,12 @@ Etwas mehr Details liefert der Vergleich des *Infinit*--Projekts.[^RESILIO_INFIN
 [^ANNEX_SRC]: Bildquelle: <http://code.178.is/git-annex-is-magic/git-annex-assistant2.png>
 
 Das 2010 erstmals von Joey Hess veröffentlichte ``git-annex``[^ANNEX] geht in
-vielerlei Hinsicht einen anderen Weg als die oben genannten Werkzeuge. Einerseits ist es in der funktionalen
-Programmiersprache Haskell geschrieben, andererseits nutzt es intern das
-Versionsverwaltungssystem ``git``[@git], um die Metadaten zu den Dateien
-abzuspeichern, die es verwaltet. Auch werden Dateien standardmäßig nicht
-automatisch synchronisiert, hier ist die Grundidee die Dateien selbst zu
-»pushen«, beziehungsweise zu »pullen«.
+vielerlei Hinsicht einen anderen Weg als die oben genannten Werkzeuge.
+Einerseits ist es in der funktionalen Programmiersprache Haskell geschrieben,
+andererseits nutzt es intern das Versionsverwaltungssystem ``git``[@git], um
+die Metadaten zu den Dateien abzuspeichern, die es verwaltet. Auch werden
+Dateien standardmäßig nicht automatisch synchronisiert, hier ist die Grundidee
+die Dateien selbst zu »pushen«, beziehungsweise zu »pullen«.
 
 [^ANNEX]: Webpräsenz: <https://git-annex.branchable.com/>
 
@@ -361,25 +375,29 @@ für ``brig`` interessant sind:
   speichern. Versucht man eine Kopie zu löschen, so verweigert ``git-annex``
   dies.
 
-*Zusammenfassung:* Obwohl ``brig`` eine gewisse Ähnlichkeit mit verteilten
+### Weitere Alternativen
+
+Obwohl ``brig`` eine gewisse Ähnlichkeit mit verteilten
 Dateisystemen, wie *GlusterFS* hat, wurden diese in der Übersicht weggelassen
 --- einerseits aus Gründen der Übersicht, andererseits weil diese andere Ziele
 verfolgen und von Heimanwendern kaum genutzt werden. Zudem ist der
 Vollständigkeit halber auch OpenPGP zu nennen, was viele Nutzer zum
 Verschlüsseln von E-Mails benutzen. Aber auch hier ist der größte Nachteil die
-für den Ottonormalbenutzer schwierige Einrichtung und Benutzung.
+für den Otto Normalbenutzer schwierige Einrichtung und Benutzung.
 Auch das freie Projekt ``librevault``[^LIBREVAULT] wurde im Vergleich
 ausgelassen, da es sich noch im Alpha--Stadium befindet und bei einem Test
 reproduzierbar abstürzte.
 
 [^LIBREVAULT]: Mehr Informationen hier: <https://librevault.com>
 
+### Zusammenfassung
+
 In [@tbl:table-technical-overview] und [@tbl:table-practical-overview] findet
 sich zusammenfassend eine Übersicht, mit den wichtigsten
 Unterscheidungsmerkmalen. Die Bewertung ist in Punkten wie *»Einfach nutzbar«*
 subjektiver Natur.
 
-|                      | **Dezentral**       | **Verschlüsselung (Client)**     | **Versionierung**                      |
+|                      | **Dezentral**       | **Verschlüsselung im Client**     | **Versionierung**                      |
 | -------------------- | ------------------- | -------------------------------- | -------------------------------------- |
 | *Dropbox/Boxcryptor* | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |
 | ``ownCloud``         | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |
@@ -407,6 +425,14 @@ subjektiver Natur.
 
 
 : Vergleich der Software aus Nutzersicht {#tbl:table-practical-overview}
+
+Abschießend kann man sagen, dass ``syncthing`` dem Gedanken hinter ``brig`` am
+nächsten kommt. Der Hauptunterschied ist, dass die Basis hinter ``brig`` ein
+volles P2P--Netzwerk ist namens ``ipfs`` ist (dazu später mehr). Wie in den
+nächsten Kapiteln ersichtlich ist, eröffnet dieser Unterbau eine Reihe von
+Möglichkeiten, die ``syncthing`` nicht bieten kann[^BEISPIELE].
+
+[^BEISPIELE]: Beispielsweise ``git``--ähnliche Versionierung und die Möglichkeit auf alle Daten zuzugreifen, aber nur wenige physikalisch zu speichern. Hierzu später mehr.
 
 ## Zielgruppen
 

@@ -137,12 +137,12 @@ brig*«[@cpiechula] die Sicherheitskonzepte der Software im Detail beleuchtet.
 
 Die vorliegende Arbeit ist in drei größere logische Blöcke gegliedert:
 
-- [@sec:motivation] -- [@sec:eigenschaften] (Einleitung, Stand der Technik,
-   Grundlagen): Eine Hinführung zum Thema Dateisynchronisation
+- [@sec:motivation] -- [@sec:grundlagen] (Einleitung, Stand der Technik,
+   Anforderungen, Grundlagen): Eine Hinführung zum Thema Dateisynchronisation
   wird gegeben. Neben einer Analyse der Wettbewerber und Einsatzmöglichkeiten
   wird auch das nötige Grundlagenwissen vermittelt, um die nächsten Kapitel zu
   verstehen.
-- [@sec:architektur] -- [@sec:usability] (Architektur, Implementierung): In
+- [@sec:architektur] -- [@sec:usability] (Architektur, Implementierung, Usability): In
   diesen beiden Kapiteln wird das
   technische Design des Prototypen erläutert und Begründungen zu den Designentscheidungen gegeben. Zuletzt wird noch ein Konzept
   für eine grafische Benutzeroberfläche vorgestellt.
