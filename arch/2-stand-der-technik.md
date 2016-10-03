@@ -1,44 +1,45 @@
 # Stand der Technik {#sec:stand-der-technik}
 
-In diesem Kapitel wird ein kurzer Überblick über die wissenschaftlichen
-Arbeiten und Produkte auf den Markt rund um das Thema Dateisynchronisation
-gegeben. Darauf aufbauend wird von verschiedenen Perspektiven aus überlegt,
-welche Eigenschaften ``brig`` übernehmen kann und von wem und in welchem Rahmen
-die Software eingesetzt werden kann.
-
-XXX: Beschreibung passt noch?
+In diesem Kapitel wird ein kurze Einführung zum Thema Peer--to--Peer--Netzwerke
+gegeben. Danach wird eine Einordnung der Arbeit zu den bisher existierenden
+Arbeiten zum Thema Dateisynchronisation gegeben. Im Anschluss wird ``brig``
+zudem in Relation zu einigen auf dem Markt verfügbaren Produkten gesetzt.
+Darauf aufbauend wird von verschiedenen Perspektiven aus überlegt, welche
+Eigenschaften ``brig`` übernehmen kann und von wem und in welchem Rahmen die
+Software eingesetzt werden kann.
 
 ## Peer--to--Peer Netzwerke
 
 Bilden viele Rechner ein dezentrales Netzwerk, bei dem jeder Rechner (ein
-»Peer«) die gleichen Rechte besitzt wie jeder andere, so wird dieses Netz ein
-*Peer--to--Peer--Netzwerk* genannt (kurz *P2P--Netzwerk*). Statt Verbindungen
-über einen Mittelsmann aufzubauen, kommunizieren die einzelnen Peers für
-gewöhnlich direkt miteinander. Jeder Knoten des Netzwerks kann Anfragen an
-andere Knoten richten, trägt aber selbst etwas bei indem er selbst Anfragen
-beantwortet. Im Client--Server--Modell (TODO: ref?) entspricht ein Peer also
-sowohl Server als auch Client (siehe auch [@fig:central-distributed]).
+»Peer«) die gleichen Rechte besitzt und Aktionen ausführt wie jeder andere, so
+wird dieses Netz ein *Peer--to--Peer--Netzwerk* genannt (kurz *P2P--Netzwerk*).
+Statt Verbindungen über einen Mittelsmann aufzubauen, kommunizieren die
+einzelnen Peers für gewöhnlich direkt miteinander. Jeder Knoten des Netzwerks
+kann Anfragen an andere Knoten richten, trägt aber selbst etwas bei indem er
+selbst Anfragen beantwortet. Im Client--Server--Modell (TODO: buch ref) entspricht
+ein Peer also sowohl Server als auch Client (siehe auch
+[@fig:central-distributed]).
 
 ![Anschaulicher Unterschied zwischen zentralen und verteilten Systemen.](images/2/central-distributed.pdf){#fig:central-distributed}
 
 Im alltäglichen Gebrauch der meisten »Otto--Normal--Nutzer« scheinen
-P2P--Netzwerke derzeit eine eher untergeordnete Rolle zu spielen.
-Die bekanntesten und populärsten P2P--Netzwerke sind vermutlich das
-BitTorrent- und Skype--Protokoll. Darüber hinaus gibt es auch viele
-sehr große Filesharing--Netzwerke, wie Gnutella.[^GNUTELLA]
-Gemeinsam ist allen, dass sie als sogenanntes *Overlay--Netzwerk*[^OVERLAY_NETWORK]
-über das Internet gelegt werden.
+P2P--Netzwerke derzeit eine eher untergeordnete Rolle zu spielen. Die
+bekanntesten und populärsten P2P--Netzwerke sind vermutlich das BitTorrent- und
+Skype--Protokoll. Darüber hinaus gibt es auch viele sehr große
+Filesharing--Netzwerke, wie Gnutella.[^GNUTELLA] Gemeinsam ist allen, dass sie
+als sogenanntes *Overlay--Netzwerk*[^OVERLAY_NETWORK] über das Internet gelegt
+werden und dessen existierende Infrastruktur wiederverwenden.
 
 [^GNUTELLA]: Siehe auch: <https://de.wikipedia.org/wiki/Gnutella>
 [^OVERLAY_NETWORK]: Siehe auch: <https://de.wikipedia.org/wiki/Overlay-Netz>
 
 ### Technik
 
-Die meisten Dienste im Internet basieren auf dem Client--Server--Modell, bei
+Die meisten Dienste im Internet hingegen basieren auf dem Client--Server--Modell, bei
 dem viele anonyme Clients eine Anfragen an einen zentralen Server stellen.
 Dieser muss mit der steigenden Anzahl an Clients skalieren, indem er
 typischerweise mehr Prozessorleistung und Bandbreite zur Verfügung hat. Dieses
-Modell passt auf viele heterogene Anwendungsbereiche, wo Client und Server
+Modell passt auf viele heterogene Anwendungsfälle, wo Client und Server
 grundverschiedene Rollen zugeordnet sind (Beispiel: Dienstleiter und Kunde).
 Ein weiterer Eigenschaft, ist dass das Client--Server--Modell kein Problem mit
 dem sogenannten *NAT--Traversal* hat.
@@ -46,7 +47,7 @@ dem sogenannten *NAT--Traversal* hat.
 NAT steht dabei für *Network Address Resolution* (dt.
 Netzwerkadressübersetzung, siehe auch [^NAT]) und ist eine Technik, um zwischen
 einer öffentlichen und mehreren lokalen IP--Adressen zu vermitteln. Es wird
-aufgrund der Knappheit von IPv4 sehr häufig eingesetzt, um einen Heim- oder
+aufgrund der Knappheit von IPv4 sehr häufig eingesetzt, um einem Heim- oder
 Unternehmensnetzwerk eine einzige IP-Adresse nach außen zu geben, die über
 bestimmte Ports dann den Verkehr auf die jeweiligen lokalen Adressen übersetzt.
 Der Nachteil in Bezug auf P2P--Netzwerke ist dabei, dass die Rechner hinter
@@ -63,10 +64,12 @@ Notwendigkeit dabei ist die Verwendung von *UDP* anstatt *TCP*.
 
 [^NAT]: <https://de.wikipedia.org/wiki/Netzwerkadress%C3%BCbersetzung>
 
-Typischerweise ist der Mittelsmann ein sogenannter *Bootstrap--Knoten*. Dieser
-ist innerhalb eines P2P--Netzwerks ein wohlbekannter Knoten, zu dem sich neue
+Typischerweise ist dieser Mittelsmann ein sogenannter *Bootstrap--Knoten*. Dieser
+ist innerhalb eines P2P--Netzwerks ein wohlbekannter Knoten unter mehreren, zu dem sich neue
 Netzwerkteilnehmer verbinden, um von ihm an weitere Teilnehmer vermittelt zu
-werden. Bemerkenswert ist, dass sich keine zentrale Instanz um die Koordination
+werden. Der Boostrap--Knoten führt aber normalerweise das selbe Programm aus,
+wie jeder andere, ist aber vertrauenswürdiger.
+Bemerkenswert ist, dass sich keine zentrale Instanz um die Koordination
 des Datenflusses im Netzwerk kümmern muss Die Grundlage für die Koordination
 bildet dabei die *Distributed Hashtable (DHT, mehr Informationen unter TODO
 buch ref)*. Diese Datenstruktur bildet sich durch den Zusammenschluss vieler
@@ -103,8 +106,6 @@ Seiten des Empfängers limitiert sein. Fällt der zentrale Server aus (er ist
 ein »Single--Point--of--Failure«), so kann kein neuer Nutzer mehr das Festplattenimage
 empfangen.
 
-XXX: grafik fixen
-
 ![Veranschaulichung der Netzwerklast bei zentralen und dezentralen Systemen.](images/2/zentral-dezentral-speedup.pdf){#fig:speedup}
 
 Anders liegt der Fall es wenn die Rechner der Studenten ein verteiltes Netzwerk
@@ -112,13 +113,14 @@ bilden. Hier genügt es wenn nur ein Rechner einen Teil der Datei hat. Diesen
 Teil kann er im lokalen Netz anderen Teilnehmern wieder anbieten und sich Teile
 der Datei besorgen, die er selbst noch nicht hat. So muss in der Theorie die
 Datei nur maximal einmal gesamt vom zentralen Server übertragen werden. In
-diesem etwas konstruierten[^CACHING_PROXY] Beispiel hätte man also ein
-Speedup--Faktor von 50. Fällt der zentrale Server aus nachdem die Datei bereits
-einmal komplett heruntergeladen wurde, so werden die bereits existierenden
-Teile von den jeweiligen Teilnehmern weiter angeboten. [@fig:speedup]
-veranschaulicht diesen Zusammenhang noch einmal.
+diesem etwas konstruierten[^CACHING_PROXY] Beispiel würde im dezentralen
+Netzwerk die Datei also bis zu 50-mal schneller verteilt werden, als im
+zentralen Anwendungsfall. Fällt der zentrale Server aus nachdem die Datei
+bereits einmal komplett heruntergeladen wurde, so werden die bereits
+existierenden Teile von den jeweiligen Teilnehmern weiter angeboten.
+[@fig:speedup] veranschaulicht diesen Zusammenhang noch einmal.
 
-Dezentrale Netzwerke eignen also sehr gut funktionieren, um Dateien auszutauschen,
+Dezentrale Netzwerke eignen sich sehr gut um Dateien auszutauschen,
 da ganze Dateien in kleine Blöcke unterteilt werden können. Diese können dann von
 interessierten Knoten vorgehalten und weitergegeben werden. Protokolle wie *BitTorrent*
 haben das Problem, dass ein Block nur solange verfügbar ist, solange es Teilnehmer
@@ -129,24 +131,16 @@ Dateien von mindestens einen Teilnehmer angeboten werden können.
 
 [^CACHING_PROXY]: Typischerweise sorgen auch vorgeschaltete *Caching Proxies* wie Squid (<https://de.wikipedia.org/wiki/Squid>) dafür, dass Dateien nicht zigmal heruntergeladen werden.
 
-XXX
-
-gateway
-
-versionsverwaltung
-
-partiellen diffs.
-
 ## Ähnliche Arbeiten
 
 Es gibt viele unterschiedliche wissenschaftliche Arbeiten rund um das Thema der
 Dateiverteilung in P2P--Netzwerken. Die meisten Arbeiten scheinen sich mehr auf
 das Thema des Dateiaustausches an sich zu konzentrieren und weniger auf das
 Thema der Dateisynchronisation, wo eine Menge von Dateien auf dem selben Stand
-gehalten werden muss. Die vorhandenen Arbeiten legen ihren Fokus dabei meist
-auf die Untersuchung und Implementierung verteilter Dateisysteme, die sehr
-ähnliche Probleme lösen müssen, aber mehr auf Effizienz als auf Einfachheit
-Wert legen.
+gehalten werden muss. Die dazu vorhandenen Arbeiten legen ihren Fokus dabei
+meist auf die Untersuchung und Implementierung verteilter Dateisysteme, die
+sehr ähnliche Probleme lösen müssen, aber mehr auf Effizienz als auf
+Einfachheit Wert legen.
 
 Stellvertretend für eine solche Arbeit soll hier die Dissertation von Julien
 Quintard *»Towards a worldwide storage infrastructure«*[@quintard2012towards]
@@ -194,15 +188,16 @@ eine Menge an Rechnern möglichst ausfallsicher verteilen kann, selbst wenn
 einzelne Rechner ausfallen. Es richtet sich tendenziell an Administratoren und
 technisch versierte Nutzer, die eine große Menge an Daten sicher lagern wollen.
 Ähnliche Produkte in diesem Bereich gibt es mit *XtreemFs*[^XTREEMFS],
-*LizardFs*[^LIZARDFS] und *MooseFs*[^MOOSEFS].
+*LizardFs*[^LIZARDFS] und *MooseFs*[^MOOSEFS] mit jeweils unterschiedlichen
+Schwerpunkten.
 
 **restic:**[^RESTIC] Ein in *Go* geschriebenes Backup--Programm. Es
 synchronisiert zwar keine Dateien über das Netzwerk, setzt aber eine
 Versionsverwaltung mittels *Snapshots* um. Zudem verschlüsselt es alle ihm
 bekannten Dateien in einem *Repository* und gewährleistet mittels eines
-speziellen Dateiformats deren Integrität.
-``brig`` verwendet analog zu ``restic`` (und ``git``) den Begriff *Repository*
-für den Ordner, in dem es seine Daten ablegt.
+speziellen Dateiformats deren Integrität. ``brig`` verwendet analog zu
+``restic`` (und ``git``) den Begriff *Repository* für den Ordner, in dem es
+seine Daten ablegt.
 
 [^BAZIL_ORG]: Siehe auch: <https://bazil.org>
 [^FUSE_NOTE]: Der Entwickler von ``bazil``  Tommi Virtanen betreut auch dankenswerterweise die FUSE--Bindings für *Go*, die auch ``brig`` nutzt.
@@ -223,9 +218,8 @@ Konzepte genommen, um sie in einer Software zu vereinen, die ein versioniertes
 und verteiltes Dateisystem implementiert. Dieses soll nicht nur »sicher« (im
 weitesten Sinne, siehe [@cpiechula], Kapitel TODO) sein, sondern auch
 für ein Großteil der Anwender benutzbar sein.
-Im Konkreten bestehen die Neuerungen hauptsächlich aus der Kombination folgender Punkte:
 
-XXX: Nochmal überlegen.
+Im Konkreten besteht die Neuerung hauptsächlich aus der Kombination folgender Punkte:
 
 * Eine Erweiterung des Datenmodells von ``git``, welches Metadaten von den
   eigentlichen Daten trennt, leere Verzeichnisse sowie umbenannte Pfade nativ
@@ -233,22 +227,24 @@ XXX: Nochmal überlegen.
 * Die Möglichkeit nur die Metadaten zu synchronisieren und die eigentlichen Daten dynamisch
   nachzuladen und nach Anwendungsfall zu »pinnen«. Dateien mit einem *Pin* werden dabei auf dem lokalen Rechner
   gespeichert, Dateien ohne Pin dürfen falls nötig wieder gelöscht werden.
-- Ein Verschlüsselungsformat (ähnlich dem Secretbox der freien NaCl[^NACL]
-  Bibliothek), welches   effizienten wahlfreien Zugriff erlaubt.
-- Ein Kompressionsformat, welches blockbasierten, wahlfreien Zugriff und den
+- Ein Containerformat für Verschlüsselung (ähnlich dem Secretbox der freien NaCl[^NACL]
+  Bibliothek), welches effizienten wahlfreien Zugriff erlaubt und eine Austauschbarkeit
+  des Algorithmus gewährleistet.
+- Ein Containerformat zur Kompression, welches blockbasierten, wahlfreien Zugriff und den
   Einsatz verschiedener Algorithmen erlaubt.
 - Ein Konzept und Implementierung zur dezentralen Benutzerverwaltung, ohne dass
   ein Nutzer dabei registriert werden muss.
-- Verschiedene Ansätze um die Usability zu verbessern ohne an Sicherheit zu verlieren.
+- Verschiedene Ansätze um die Usability zu verbessern ohne an Sicherheit zu
+  verlieren (siehe [@sec:usability]).
 
 [^NACL]: Mehr Informationen unter <https://nacl.cr.yp.to/secretbox.html>
 
 ## Markt und Wettbewerber
 
 Bereits ein Blick auf Wikipedia[^wiki_filesync] zeigt, dass der momentane Markt
-an Dateisynchronisationssoftware sehr unübersichtlich ist.
-Ein näherer Blick zeigt, dass die Softwareprojekte dort oft nur in Teilaspekten
-gut funktionieren oder mit anderen unlösbaren Problemen behaftet sind.
+an Dateisynchronisationssoftware sehr unübersichtlich ist. Ein näherer Blick
+zeigt, dass die dortigen Softwareprojekte dort oft nur in Teilaspekten gut
+funktionieren und manchmal mit architektonischen Problemen behaftet sind.
 
 [^wiki_filesync]: Siehe <https://en.wikipedia.org/wiki/Comparison_of_file_synchronization_software>
 
@@ -260,11 +256,11 @@ Dateisynchronisationsprogramme gegeben. Davon stehen nicht alle in Konkurrenz zu
 
 ![Screenshot eines Dropbox--Accounts](images/2/dropbox.png){#fig:scrn-dropbox}
 
-Dropbox (siehe [@fig:scrn-dropbox]) ist der vermutlich bekannteste und am weitesten verbreitete zentrale Dienst zur
-Dateisynchronisation. Verschlüsselung kann man mit Tools wie ``encfs``
-(Open--Source, siehe auch [^ENCFS]) oder dem etwas umfangreicheren, proprietären
-``boxcryptor`` nachrüsten. Was das Backend genau tut ist leider das Geheimnis von
-Dropbox --- es ist nicht Open--Source.
+Dropbox (siehe [@fig:scrn-dropbox]) ist der vermutlich bekannteste und am
+weitesten verbreitete zentrale Dienst zur Dateisynchronisation. Verschlüsselung
+kann man mit Tools wie ``encfs`` (Open--Source, siehe auch [^ENCFS]) oder dem
+etwas umfangreicheren, proprietären ``boxcryptor`` nachrüsten. Was das Backend
+genau tut ist leider das Geheimnis von Dropbox --- es ist nicht Open--Source.
 
 [^ENCFS]: Mehr Informationen unter <https://de.wikipedia.org/wiki/EncFS>
 
@@ -321,9 +317,11 @@ empfangen will und von welchen nicht.
 ![Screenshot der ``resilio``--Weboberfläche](images/2/resilio.png){#fig:scrn-resilio}
 
 Das kommerzielle und proprietäre ``resilio`` (früher *Bittorrent Sync*) nutzt
-eine Modifikation (XXX: ref) des bekannten und freien BitTorrent Protokoll zur
+eine Modifikation[^PROTO_REF] des bekannten und freien BitTorrent Protokoll zur
 Übertragung. Vom Feature--Umfang ist es in etwa vergleichbar mit *Syncthing*.
 Die Anlegung von verschlüsselten Repositories ist möglich.
+
+[^PROTO_REF]: Siehe auch: <http://blog.bittorrent.com/2016/03/17/%CE%BCtp2-the-evolution-of-an-enterprise-grade-protocol>
 
 Genauere Aussagen über die verwendete Technik kann man aufgrund der
 geschlossenen Natur des Programms und der eher vagen Werbeprosa nicht treffen.
@@ -412,29 +410,20 @@ subjektiver Natur.
 
 ## Zielgruppen
 
-XXX: Stark kürzen.
-
 Die primären Zielgruppen von ``brig`` sind Unternehmen und Heimanwender.
 Aufgrund der starken Ende-zu-Ende Verschlüsselung ist ``brig`` allerdings auch
 insbesondere für Berufsgruppen attraktiv, bei denen eine hohe Diskretion
 bezüglich Datenschutz gewahrt werden muss. Hier wären in erster Linie
-Journalisten, Anwälte, Ärzte mit Schweigepflicht und auch Aktivisten und politisch
-verfolgte Minderheiten, zu nennen.
+Journalisten, Anwälte, Ärzte mit Schweigepflicht und auch Aktivisten und
+politisch verfolgte Minderheiten, zu nennen.
 
-Im Folgenden werden die verschiedenen Zielgruppen und Plattformen genauer
-besprochen und wie diese von ``brig`` profitieren können.
-
-### Unternehmen
-
-Unternehmen können ``brig`` nutzen, um ihre Daten und Dokumente intern zu
-verwalten. Besonders sicherheitskritische Dateien entgehen so der Lagerung in
-Cloud--Services oder der Gefahr von Kopien auf unsicheren
-Mitarbeiter--Endgeräten. Größere Unternehmen verwalten dabei oft ein
-Rechenzentrum in dem firmeninterne Dokumente gespeichert werden. Von den
-Nutzern werden diese dann meist mittels Diensten wie *ownCloud*[^NEXTCLOUD]
-»händisch« heruntergeladen.
-
-[^NEXTCLOUD]: Siehe auch <https://owncloud.org>, bzw. dessen Fork *Nextcloud* <https://nextcloud.com>
+**Unternehmen:** Unternehmen können ``brig`` nutzen, um ihre Daten und
+Dokumente intern zu verwalten und zwischen Mitarbeitern zu teilen. Besonders
+sicherheitskritische Dateien entgehen so der Lagerung in Cloud--Services oder
+der Gefahr von Kopien auf unsicheren Mitarbeiter--Endgeräten. Größere
+Unternehmen verwalten dabei oft ein Rechenzentrum in dem firmeninterne
+Dokumente gespeichert werden. Von den Nutzern werden diese dann meist mittels
+Diensten wie *ownCloud*[^NEXTCLOUD] »händisch« heruntergeladen.
 
 In diesem Fall könnte man ``brig`` im Rechenzentrum und auf allen Endgeräten
 installieren. Das Rechenzentrum würde die Datei mit tiefer Versionierung
@@ -443,66 +432,40 @@ Daten tatsächlich speichern, die sie auch benötigen. Hat beispielsweise ein
 Kollege im selben Büro die Datei bereits vorliegen, kann ``brig`` diese dann
 direkt transparent vom Endgerät des Kollegen holen. Das »intelligente Routing«
 erlaubt den Einsatz von ``brig`` auf Smartphones, Tablets und anderen
-speicherplatz-limitierten Geräten. Nutzer, die eine physikalische Kopie der Datei
+speicherplatzlimitierten Geräten. Nutzer, die eine physikalische Kopie der Datei
 auf ihrem Gerät haben wollen, können das entsprechende Dokument »pinnen«. Ist
 ein Außendienstmitarbeiter beispielsweise im Zug unterwegs, kann er vorher ein
 benötigtes Dokument pinnen, damit ``brig`` die Datei persistent verfügbar macht.
 
-XXX: nötig
+[^NEXTCLOUD]: Siehe auch <https://owncloud.org>, bzw. dessen Fork *Nextcloud* <https://nextcloud.com>
 
-Indirekt sorgt auch die einfache Usability von ``brig`` für höhere
-Sicherheit, da Mitarbeiter sich weniger durch die Sicherheitsrichtlinien ihres
-Unternehmens gegängelt fühlen und nicht die Notwenigkeit sehen, wichtige
-Dokumente auf private Geräte oder Speicher zu kopieren. Dies wirkt ebenfalls
-Gefahren wie Industriespionage entgegen.
+**Privatanwender:** Privatanwender können ``brig`` für ihren Datenbestand aus
+Fotos, Filmen, Musik und sonstigen Dokumenten nutzen. Ein typischer
+Anwendungsfall wäre dabei ein Network--Attached-Storage--Server (NAS), der alle
+Dateien mit niedriger Versionierung speichert. Endgeräte, wie Laptops und
+Smartphones, würden dann ebenfalls ``brig`` nutzen, aber mit deutlich
+geringeren Speicherquotas (maximales Speicherlimit), so dass nur die aktuell
+benötigten Dateien physikalisch auf dem Gerät vorhanden sind. Die anderen
+Dateien lagern im Netz und können transparent von ``brig`` von anderen
+verfügbaren Knoten geholt werden.
 
-``brig`` kann auch das Teilen von öffentlichen Dateien mittels Hyperlinks unterstützen.
-So wäre beispielsweise ein Kunde eines Ingenieurbüros nicht genötigt
-``brig`` installieren zu müssen. Die öffentlichen Dateien könnten vom Kunden
-mittels eines »Gateways« auf Seite des Ingenieurs vom Browser des Kunden aus empfangen werden.
+**Plattform:** Da ``brig`` auch komplett automatisiert und ohne Interaktion
+nutzbar ist, kann es auch als Plattform für andere Anwendungen genutzt
+werden, die Dateien sicher austauschen und synchronisieren müssen. Eine
+Anwendung in der Industrie 4.0 wäre beispielsweise die Synchronisierung von
+Konfigurationsdateien im gesamten Netzwerk.
 
-### Privatanwender
-
-Privatanwender können ``brig`` für ihren Datenbestand aus Fotos, Filmen, Musik
-und sonstigen Dokumenten nutzen. Ein typischer Anwendungsfall wäre dabei ein
-Network--Attached-Storage--Server (NAS), der alle Dateien mit niedriger
-Versionierung speichert. Endgeräte, wie Laptops und Smartphones, würden dann
-ebenfalls ``brig`` nutzen, aber mit deutlich geringeren Speicherquotas
-(maximales Speicherlimit), so dass nur die aktuell benötigten Dateien
-physikalisch auf dem Gerät vorhanden sind. Die anderen Dateien lagern im Netz
-und können transparent von ``brig`` von anderen verfügbaren Knoten geholt
-werden.
-
-### Plattform für industrielle Anwendungen
-
-Da ``brig`` auch komplett automatisiert und ohne Interaktion nutzbar sein soll,
-kann es auch als Plattform für andere Anwendungen genutzt werden, die Dateien
-sicher austauschen und synchronisieren müssen. Eine Anwendung in der Industrie 4.0
-wäre beispielsweise die Synchronisierung von Konfigurationsdateien im gesamten Netzwerk.
-
-### Einsatz im öffentlichen Bereich
-
-Aufgrund der Ende-zu-Ende Verschlüsselung und einfachen Usability ist eine
-Nutzung an Schulen, Universitäten sowie auch in Behörden zum Dokumentenaustausch
-denkbar. Vorteilhaft wäre für die jeweiligen Institutionen hierbei vor allem,
-dass man sich aufgrund des Open--Source--Modells an keinen Hersteller bindet
-(Stichwort: *Vendor Lock--In*) und keine behördlichen Daten in der Cloud
-landen. Eine praktische Anwendung im universitärem Bereich wäre die Verteilung
-von Studienunterlagen an die Studenten. Mangels einer Standardlösung ist es
-heutzutage schwierig Dokumente sicher mit Behörden auszutauschen. ``brig``
-könnte hier einen Standard etablieren und in Zukunft als eine Plattform
-dienen, um beispielsweise medizinische Unterlagen mit einem Krankenhaus auszutauschen.
-
-### Berufsgruppen mit hohen Sicherheitsanforderungen
-
-Hier wären in erster Linie Berufsgruppen mit Schweigepflicht zu nennen wie
-Ärzte, Notare und Anwälte aber auch Journalisten und politisch verfolgte
-Aktivisten. Zum jetzigen Zeitpunkt ist keine Anonymisierung
-vorgesehen, die es erlauben würde auch die Quelle der Daten unkenntlich zu
-machen. Dies könnte allerdings später mit Hilfe des Tor Netzwerks[^TOR] (Tor
-Onion Routing Projekt) realisiert werden.
-
-[^TOR]: Siehe auch: <https://www.torproject.org>
+**Einsatz im öffentlichen Bereich:** Aufgrund der Ende-zu-Ende Verschlüsselung
+und einfachen Usability ist eine Nutzung an Schulen, Universitäten sowie auch
+in Behörden zum Dokumentenaustausch denkbar. Vorteilhaft wäre für die
+jeweiligen Institutionen hierbei vor allem, dass man sich aufgrund des
+Open--Source--Modells an keinen Hersteller bindet (Stichwort: *Vendor
+Lock--In*) und keine behördlichen Daten in der Cloud landen. Eine praktische
+Anwendung im universitärem Bereich wäre die Verteilung von Studienunterlagen an
+die Studenten. Mangels einer Standardlösung ist es heutzutage schwierig
+Dokumente sicher mit Behörden auszutauschen. ``brig`` könnte hier einen
+Standard etablieren und in Zukunft als eine Plattform dienen, um beispielsweise
+medizinische Unterlagen mit einem Krankenhaus auszutauschen.
 
 ## Einsatszenarien
 
@@ -515,9 +478,9 @@ Anwendungsfall ist dabei die Synchronisation zwischen mehreren Geräten eines
 einzigen Nutzers. Eine selektive Synchronisation bestimmter Ordner ist vorerst
 nicht vorgesehen.
 
-**Transferlösung:** Veröffentlichen von Dateien nach Außen mittels eines *Gateway*
-über den Browser. Eine beliebige Anzahl an anonymen
-Teilnehmern können die Datei herunterladen.
+**Transferlösung:** Veröffentlichen von Dateien nach Außen mittels eines
+*Gateway* über den Browser. Eine beliebige Anzahl an anonymen Teilnehmern
+können die Datei herunterladen.
 
 **Versionsverwaltung:** Alle Modifikationen an den bekannten Dateien werden
 aufgezeichnet. Bis zu einer bestimmten Tiefe können Dateien

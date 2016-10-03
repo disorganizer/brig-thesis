@@ -2,10 +2,7 @@
 
 In diesem Kapitel werden aus dem Stand der Technik die Anforderungen und
 Eigenschaften abgeleitet, die ein modernes Dateisynchronisationssystem haben
-sollte. Im Zuge dessen werden die Grundlagen erklärt,
-die zum Verständnis der folgenden Kapitel notwendig sind.
-
-XXX: passt noch?
+sollte.
 
 ## Anforderungen an ``brig`` {#sec:requirements}
 
@@ -105,7 +102,7 @@ fehlerfrei hergestellt werden. Um diese Fehlerquelle zu verkleinern sollte eine
 Möglichkeit zur redundanten Speicherung geschaffen werden, bei der eine
 minimale Anzahl von Kopien einer Datei konfiguriert werden kann.
 
-[^BITROT]: Auch *Bitrot* genannt, siehe <https://en.wikipedia.org/wiki/Data_degradation>
+[^BITROT]: Auch als *Bitrot* bekannt, siehe <https://en.wikipedia.org/wiki/Data_degradation>
 
 **Verfügbarkeit:** Alle Daten die ``brig`` verwaltet sollen stets erreichbar
 sein und bleiben. In der Praxis ist dies natürlich nur möglich, wenn alle
@@ -260,12 +257,12 @@ Dienste können dies relativ einfach leisten, indem sie einen Webservice
 anbieten, welcher die Datei von einer zentralen Stelle herunterladbar macht.
 Ein dezentrales Netzwerk wie ``brig`` muss hingegen *Gateways* anbieten, also
 eine handvoll Dienste, welche zwischen den »normalen Internet« und dem
-``brig``--Netzwerk vermitteln. Die Nutzer, welche die Dateien verteilen wollen,
-können ein solches Gateway selbst betreiben. Alternativ können sie die
-entsprechende Datei mit einem öffentlichen Gateway teilen, welches von
-Freiwilligen betrieben wird.
+``brig``--Netzwerk vermitteln (siehe [@fig:gateway]). Die Nutzer, welche die
+Dateien verteilen wollen, können ein solches Gateway selbst betreiben.
+Alternativ können sie die entsprechende Datei mit einem öffentlichen Gateway
+teilen, welches von Freiwilligen betrieben wird.
 
-XXX: Gateway grafik hierhin verschieben.
+![HTTPS Gateway](images/7/gateway.pdf){#fig:gateway}
 
 **Stabilität:** Die Software muss bei normaler Benutzung ohne Abstürze und
 offensichtliche Fehler funktionieren. Eine umfangreiche Testsuite soll die
@@ -284,7 +281,7 @@ Vorgänger verglichen werden.
 
 ## ``ipfs``: Das *Interplanetary Filesystem*
 
-Anstatt das Rad neu zu erfinden, setzt ``brig`` auf das relativ junge
+Anstatt das »Rad neu zu erfinden«, setzt ``brig`` auf das relativ junge
 *Interplanetary Filesystem* (kurz ``ipfs``), welches von Juan Benet und seinen
 Mitentwicklern unter der MIT--Lizenz in der Programmiersprache Go entwickelt
 wird (siehe auch das Whitepaper[@benet2014ipfs]). Im Gegensatz zu den meisten
@@ -452,14 +449,13 @@ $ ipfs pin rm QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
 
 [^IPFS_MANUAL_GC]: Der Garbage--Collector kann auch manuell mittels ``ipfs repo gc`` von der Kommandozeile aufgerufen werden.
 
-**Flexibler Netzwerkstack:** Einer der größten Vorteile von ``ipfs`` ist, dass es
-auch über NAT--Grenzen hinweg funktioniert. 
-XXX: Schauen ob das noch passt.
-Um die Garantien, die *TCP*
-bezüglich der Paketzustellung gibt, zu erhalten nutzt ``ipfs`` das
-Anwendungs--Protokoll *UDT*. Insgesamt implementiert ``ipfs`` also einige
-Techniken, um, im Gegensatz zu den meisten theoretischen Ansätzen, eine leichte
-Usability zu gewährleisten. Speziell wäre hier zu vermeiden, dass ein
+**Flexibler Netzwerkstack:** Einer der größten Vorteile von ``ipfs`` ist, dass
+es auch über NAT--Grenzen hinweg funktioniert. Da aufgrund von
+*UDP--Hole--Punching* kein *TCP* genutzt werden kann, wird *UDP* genutzt. Um
+die Garantien, die *TCP* bezüglich der Paketzustellung gibt, zu erhalten nutzt
+``ipfs`` das Anwendungs--Protokoll *UDT*. Insgesamt implementiert ``ipfs`` also
+einige Techniken, um, im Gegensatz zu den meisten theoretischen Ansätzen, eine
+leichte Usability zu gewährleisten. Speziell wäre hier zu vermeiden, dass ein
 Anwender die Einstellungen seines Routers ändern muss, um ``brig`` zu nutzen.
 
 [^UDT]: http://udt.sourceforge.net/

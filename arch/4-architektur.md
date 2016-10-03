@@ -367,7 +367,7 @@ Davon abgesehen fällt auf, dass zwei zusätzliche Strukturen eingeführt wurden
 
 * **Checkpoints:** Jeder Datei ist über ihre ``UID`` ein Historie von mehreren, sogenannten *Checkpoints* zugeordnet.
   Jeder einzelne dieser Checkpoints beschreibt eine atomare Änderung an der Datei. Da keine
-  partiellen Änderungen möglich sind, müssen nur vier verschiedene Operation
+  partiellen Änderungen[^PARTIAL] möglich sind, müssen nur vier verschiedene Operation
   unterschieden werden: ``ADD`` (Datei wurde initial oder erneut hinzugefügt), ``MODIFY`` (Prüfsumme hat sich verändert),
   ``MOVE`` (Pfad hat sich verändert) und ``REMOVE`` (Datei wurde entfernt). Eine beispielhafte Historie findet sich
   in [@fig:file-history].
@@ -395,6 +395,8 @@ Davon abgesehen fällt auf, dass zwei zusätzliche Strukturen eingeführt wurden
   und nach jeder inhaltlichen Modifikation auf ein anderes Wurzelverzeichnis verweist.
 
 [^CHATTR_NOTE]: In Zukunft ist ein weiterer Zustand ``CHATTR`` möglich, welche die Änderung eines Dateiattributes abbildet.
+
+[^PARTIAL]: Es wird nicht zwischen der Änderung eines einzelnen Bytes oder der gesamten Datei unterschieden wie bei ``git``.
 
 ![Der Staging Bereich im Vergleich zwischen ``git`` und ``brig``](images/4/staging-area.pdf){#fig:staging-area}
 
@@ -559,7 +561,7 @@ Synchronisationsentscheidungen größtenteils automatisiert getroffen werden.
 Welche Stores dabei lokal zwischengespeichert wird, entscheiden die Einträge
 der sogenannten *Remote--Liste*.
 
-### Die Remote--Liste
+### Die Remote--Liste {#sec:remote-list}
 
 Jeder Teilnehmer mit dem synchronisiert werden soll, muss zuerst in eine
 spezielle Liste von ``brig`` eingetragen werden, damit dieser dem System
@@ -1347,7 +1349,8 @@ beispielhaft verwendet. Diese entsprechen einer abgeschwächten Form der
 Jabber--ID[^JID] (*JID*). Diese hat, ähnlich wie eine E--Mail Adresse, die Form
 ``user@domain/resource``. Beim Jabber/XMPP Protokoll ist der Teil hinter dem
 »``/``« optional, der Rest ist zwingend erforderlich. Als Abschwächung ist bei
-``brig`` auch der Teil hinter dem »``@``« optional. Darüber hinaus sollen
+``brig`` auch der Teil hinter dem »``@``« optional.
+Darüber hinaus sollen
 folgende Regeln gelten:
 
 [^JID]: Mehr Details unter: <https://de.wikipedia.org/wiki/Jabber_Identifier>
@@ -1388,6 +1391,10 @@ Die Wahl der JID als Basis hat einige Vorteile:
   wenn sie im Sicherheitsteam arbeitet.
 - Der *Ressourcen*--Teil hinter dem »``/``« ermöglicht die Nutzung desselben
   Nutzernamens auf verschiedenen Geräten, wie beispielsweise ``desktop`` oder ``laptop``.
+
+Eine Nutzung des ``domain`` und ``resource``--Teils ist kein Zwang, wird aber
+als Konvention empfohlen, da es eine Unterteilung in Gruppen und Geräte
+ermöglicht.
 
 Um den Identifikationsbezeichner im Netzwerk auffindbar zu machen, wendet
 ``brig`` einen »Trick« an. Jeder ``brig``--Knoten veröffentlicht einen

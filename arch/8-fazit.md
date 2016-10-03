@@ -7,33 +7,25 @@ Dateisynchronisationssystem vorgestellt, der viele bestehende Ideen in einem
 stimmigen Konzept vereint. Eine funktionierende, quelloffene und für alle
 zugängliche Implementierung wurde vorgestellt und dokumentiert. Die anfangs
 gestellten Anforderungen konnte im Großen und Ganzen umgesetzt werden, auch
-wenn die Implementierung den Konzepten etwas nachsteht. Aus Sicht der Autoren
+wenn die Implementierung den Konzepten etwas nachsteht. Aus Sicht der Entwicklern
 ist dies aufgrund der hohen Ambitionen und des geringen Zeitrahmens zumindest
 verständlich. Letztlich ist eine solide Basis für weitere Entwicklungen
 entstanden, die in absehbarer Zeit einem größeren Publikum präsentiert werden
-können.
-
+kann.
 Eine Abgrenzung zu anderen, existierenden Werkzeugen ergibt sich vor allem
 dadurch, dass die technischen Internas von ``brig`` vergleichsweise leicht
 verständlich sind und auch von fortgeschrittenen Nutzern verstanden werden
-können. Provokativ zusammengefasst und leicht überspitzt lässt sich zudem sagen,
-dass ``brig``...
-
-* ...mächtiger ist als ``syncthing``.
-* ...leichter bedienbar ist als ``git-annex``.
-* ...freier und verständlicher ist als ``Resilio``.
-* ...sicherer ist als ``Infinit``.
-* ...und fortgeschrittener in der Entwicklung ist als ``bazil``.
+können.
 
 ## Selbstkritik
 
-Wie in [@sec:evaluation] diskutiert, ist noch einiges Verbesserungspotenzial
+Wie in [@sec:evaluation] diskutiert, ist noch Verbesserungspotenzial
 vorhanden. In Retrospektive hätte man sich stärker auf die Kernfunktionalität
 der Software und die zugrunde liegenden Konzepte konzentrieren müssen.
 Zusatzmodule wie Verschlüsselung sind wichtig, hätten aber auch zu späteren
-Zeitpunkten nachgerüstet werden.
+Zeitpunkten nachgerüstet werden können.
 
-Des weiteren wäre im Nachhinein eine prototypischere Entwicklung angebracht
+Weiterhin wäre im Nachhinein eine prototypischere Entwicklung angebracht
 gewesen: Es wurde viel Zeit darauf verwandt, Konzepte in Quelltext zu gießen,
 die letztlich keine Anwendung fanden oder nicht aufgingen. Das lässt sich
 natürlich bei großen Projekten kaum vermeiden, aber das Testen neuer Konzepte
@@ -45,7 +37,7 @@ aufzudecken.
 
 Obwohl der zeitliche Rahmen aufgrund der Suche nach Investoren, dem
 zeitgleichen Abschließen des Studiums und privaten Problem sehr eng war, ist
-mit ``brig`` eine erstaunliche flexible Idee entstanden, von der wir glauben,
+mit ``brig`` eine erstaunlich flexible Idee entstanden, von der wir glauben,
 dass sie wirklich nützlich ist und die Welt etwas verbessern könnte.
 
 ![Ist »brig« letztlich nur ein weiterer Standard?[^XKCD_STD_SOURCE]](images/8/xkcd-standards.png){#fig:xkcd-standards width=55%}
@@ -62,11 +54,11 @@ noch einige technische und konzeptuelle Probleme:
 
 * Keine grafische Oberfläche, nur Kommandozeile.
 - Initiale Authentifizierung von Hand nötig.
-- Partner muss online sein, um ihn synchronisieren zu können.
+- Partner muss online sein, um mit ihm synchronisieren zu können.
 * Noch keine automatische »Echtzeit«--Synchronisation.
 
-Unserer Meinung nach lohnt sich eine Veröffentlichung erst, wenn obige Punkte
-ansatzweise gelöst worden sind.
+
+Eine Veröffentlichung lohnt sich erst, wenn obige Punkte ansatzweise gelöst worden sind.
 
 ### Beziehung zum ``ipfs``--Projekt
 
@@ -74,11 +66,11 @@ Momentan wird ``brig`` vollkommen separat von ``ipfs`` entwickelt. Das hat vor a
 den Grund, dass zu Anfang des Projektes die Richtung der Entwicklung noch nicht klar war. Die komplette Separation als eigenes Projekt, macht es deutlich einfacher
 mit verschiedenen Konzepten zu experimentieren.
 In Zukunft spricht jedoch nichts dagegen Teile von ``brig``, sofern sie allgemein nützlich sind, auch dem ``ipfs``--Projekt anzubieten und dort zu integrieren.
-Eine Zusammenarbeit wäre für beide Seite vorteilhaft, da mehr Entwickler sich mit dem
+Eine Zusammenarbeit wäre für beide Seiten vorteilhaft, da mehr Entwickler sich mit dem
 Quelltext befassen können und die dazugehörigen Konzepte aufeinander abstimmen können.
 Von ``ipfs``--Seite scheint eine Zusammenarbeit gern gesehen zu sein:
 
-> *[...] we want to get to this too and would love to support your efforts. I'd
+> *Yeah we want to get to this too and would love to support your efforts. I'd
 > request that you consider contributing directly to go-ipfs since much of what
 > you want we want too.*
 
@@ -91,7 +83,9 @@ Konkret wären folgende Module von ``brig`` für ``ipfs`` interessant:
 - Das Verschlüsselungsformat.
 - Das Kompressionsformat.
 * Teile des Datenmodells, insbesondere die ``Commit``--Struktur und Versionsverwaltung.
-* Die Implementierung eines beschreibbaren FUSE--Dateisystems.
+* Die Implementierung eines beschreibbaren FUSE--Dateisystems[^IPFS_FUSE].
+
+[^IPFS_FUSE]: ``ipfs`` implementiert momentan nur ein rein lesbares FUSE--Dateisystem.
 
 ### Zukunft der Autoren
 
@@ -110,9 +104,9 @@ Bevor es so weit ist, ist nicht nur Feinschliff an der bestehenden Software
 nötig, sondern es muss auch leicht zugängliche Dokumentation geschrieben werden und
 die Software für verschiedene Betriebssysteme gepackt werden.
 
-Folgende Plattformen erscheinen uns für eine Präsenation der Software geeignet:
+Folgende Plattformen erscheinen uns für eine Präsentation der Software geeignet:
 
-- Ein »Linux Tag« (Beispielsweise der »Linux Info Tag« in Augsburg).
+- Ein »Linux Tag« (Beispielsweise der »Linux Info Tag« in Augsburg[^LUGA]).
   Dort wäre eine detaillierte Präsentation vor Publikum mit direkten Feedback möglich.
 * Kleineres Forum mit technisch versierten Nutzern; beispielsweise ein Forum
   für fortgeschrittene Linux--User. Dort könnte auch eine Paketierung der Software
@@ -120,7 +114,9 @@ Folgende Plattformen erscheinen uns für eine Präsenation der Software geeignet
 * Größere Newsportale wie *reddit*. Diese werden von einem sehr breiten Publikum
   besucht.
 
-Alle drei Möglichkeiten könnten auch zusammen (in dieser Reihenfolge) genutzt
+[^LUGA]: Siehe auch: <http://www.luga.de/Aktionen/LIT-2016>
+
+Alle drei Möglichkeiten könnten auch zusammen in dieser Reihenfolge genutzt
 werden. Bei der Veröffentlichung sollte explizit angemerkt werden, dass sich
 Internas noch ändern können falls dazu Anlass bestehen sollte.
 
@@ -128,4 +124,4 @@ Auch wenn die Arbeit an ``brig`` persönlich sehr kräftezehrend war, haben wir
 eine Menge dabei gelernt. Es stecken eine Menge guter Ideen in der Software und
 aus unserer Sicht ist alleine die Zeit der limitierende Faktor, um ``brig`` zu
 einem Produkt zu machen, dass mehr als ein »Standard« (im Sinne von
-[@fig:xkcd-standards]) unter vielen ist.
+[@fig:xkcd-standards]) unter Vielen ist.

@@ -70,12 +70,12 @@ Der aktuelle Quelltext findet sich auf der Hosting--Plattform *GitHub*[^GITHUB].
 
 ## Projektziel
 
-Ziel des Projektes ist die Entwicklung einer sicheren und dezentralen
-Alternative zu Cloud--Storage Lösungen wie Dropbox, die sowohl für Unternehmen,
-als auch für Heimanwender nutzbar sind. Trotz der Prämisse, einfache Nutzbarkeit
-zu gewährleisten, wird auf Sicherheit sehr großen Wert gelegt.  Aus Gründen der
-Transparenz wird die Software dabei quelloffen unter der »``AGPLv3``«--Lizenz
-entwickelt.
+Ziel des Projektes ist die Entwicklung einer sicheren, verteilten und
+versionierten Alternative zu Cloud--Storage Lösungen wie Dropbox, die sowohl
+für Unternehmen, als auch für Heimanwender nutzbar sind. Trotz der Prämisse,
+einfache Nutzbarkeit zu gewährleisten, wird auf Sicherheit sehr großen Wert
+gelegt.  Aus Gründen der Transparenz wird die Software dabei quelloffen unter
+der »``AGPLv3``«--Lizenz entwickelt.
 
 Nutzbar soll das resultierende Produkt, neben dem Standardanwendungsfall der
 Dateisynchronisation, auch als Backup- bzw. Archivierungs--Lösung sein.
@@ -88,10 +88,6 @@ Effizienz (wie es typischerweise verteilte Dateisysteme tun) sondern versucht
 möglichst generell anwendbar zu sein und über Netzwerkgrenzen hinweg zu funktionieren.
 Dadurch soll es zu einer Art »Standard« werden, auf den sich möglichst viele
 Anwender einigen können.
-
-Um einen ersten Eindruck von ``brig`` und seinen Fähigkeiten in der Praxis zu
-bekommen, wird an dieser Stelle das *Benutzerhandbuch* in
-[@sec:benutzerhandbuch] empfohlen.
 
 ## Der Name
 

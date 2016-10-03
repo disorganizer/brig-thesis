@@ -20,32 +20,36 @@ architetktonische Defizite. Der hier vorgestellte Gegenentwurf beschreibt die
 Verwendung eines verteilten Peer--to--Peer--Netzwerks, um flexibel, bequem und verschlüsselt
 Dateien zwischen einer beliebigen Menge an Nutzern auszutauschen. Technischen
 Neuwert hat dabei die vollständige Entkopplung der Metadaten von den
-eigentlichen Daten. Besonderer Wert wird dabei auf die Balance zwischen
+eigentlichen Daten, kombiniert mit ``git``--ähnlicher Versionskontrolle, sowie
+verschlüsstelter Kompression der Daten.
+Besonderer Wert wird dabei auf die Balance zwischen
 Usability und Sicherheit gelegt, um die Nutzung des Werkzeugs auch
 unerfahrenen Nutzern zu ermöglichen.
 
 Die vorliegende Arbeit beschreibt die Architektur und Implementierung der
 Software, reflektiert aber auch kritisch wie die vorgestellten
 Ideen und Techniken erweitert und verbessert werden können. Zudem existiert
-eine Zwillings--Arbeit[1], welche die Sicherheitsmechanismen von
+eine Zwillings--Arbeit\cref{ref-cpiechula}, welche die Sicherheitsmechanismen von
 \frqq\texttt{brig}\flqq genauer betrachtet und evaluiert.
 }%
 
 \newcommand{\ThesisAbstractEnglish}{%
 We present a new open source tool for secure and distributed file
 synchronization called \frqq\texttt{brig}\flqq. Most established ways to
-exchange files rely on a central instance, often exclusively controlled by a single company or
-have other design deficits. The shown alternative describes the usage of a
-distributed peer to peer network to achieve flexible, convenient and encrypted
-file exchange between any amount of users. The main novelty from a technical
-point of view is the complete decoupling of metadata from the actual data. (XXX: Main technical novelty?)
-Special attention is given to the balance of usability and security in order to
-enable inexperienced users to use the software.
+exchange files rely on a central instance, often exclusively controlled by a
+single company or have other design deficits. The shown alternative describes
+the usage of a distributed peer to peer network to achieve flexible, convenient
+and encrypted file exchange between any amount of users. The main novelty from
+a technical point of view is the complete decoupling of metadata from the
+actual data, combined with version control of the former and encrypted
+compresison of the latter. Special attention is given to the balance of
+usability and security in order to enable inexperienced users to use the
+software.
 
 This paper describes the architecture and implementation of the software, but
-also reflects critically on how the featured ideas and techniques
-could be improved. In addition, there is a partner work[1], which discusses
-\frqq\texttt{brig}\flqq from a security perspective.
+also reflects critically on how the featured ideas and techniques could be
+improved. In addition, there is a partner work\cref{ref-cpiechula}, which
+discusses \frqq\texttt{brig}\flqq from a security perspective.
 }%
 
 \newcommand{\ThesisThanks}{%

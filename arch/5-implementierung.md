@@ -14,7 +14,7 @@ Als Sprache zur Implementierung wurde die relativ junge Programmiersprache *Go* 
 initiiert wurde und mittlerweile von Google getragen und weiterentwickelt wird.
 Für dieses spezielle Projekt bietet die Sprache aus Sicht des Autors folgende Vorteile:
 
-**Garbage Collector:** Erleichtert die Entwicklung lang laufender Dienste und
+**Garbage--Collector:** Erleichtert die Entwicklung lang laufender Dienste und
 erleichtert den Programmierer die Arbeit durch den Wegfall der manuellen
 Speicherallokation und Bereinigung.
 

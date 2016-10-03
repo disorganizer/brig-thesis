@@ -6,9 +6,7 @@ Die Funktionalität des ``brig``--Prototypen ist im momentanen Zustand nur über
 eine Kommandozeilenanwendung erreichbar. Die Hilfe dieser Anwendung wird unten
 gezeigt. Im Folgenden werden die einzelnen zur Verfügung stehenden Optionen und
 Kommandos erklärt. Daneben wird auch eine Anleitung zur Installation gegeben
-und es werden Ratschläge zur optimalen Nutzung erteilt. Vorausgesetzt wird
-dabei nur die Lektüre von [@sec:motivation] und [@sec:eigenschaften], damit
-dieses Kapitel auch als Tutorial gelesen werden kann.
+und es werden Ratschläge zur optimalen Nutzung erteilt.
 
 ```{#lst:brig-help .bash .numberLines}
 NAME:
@@ -62,21 +60,21 @@ GLOBAL OPTIONS:
 
 ## Installation {#sec:installation}
 
-``brig`` kann momentan nur aus den Quellen installiert werden. Zudem wurde
+``Brig`` kann momentan nur aus den Quellen installiert werden. Zudem wurde
 der Prototyp nur auf Linux Systemen[^SYSTEM] getestet, sollte aber prinzipiell
 auch unter *Mac OS X* funktionieren. Die Installation aus den Quellen ist in beiden
 Fällen vergleichsweise einfach und besteht aus maximal zwei Schritten:
 
 **Installation von Go:** Falls noch nicht geschehen, muss der *Go*--Compiler
 und die mitgelieferte Standardbibliothek installiert werden. Dazu kann in Linux
-Distribution der mitgelieferte Paketmanager genutzt werden. Unter ArchLinux ist
-der Befehl etwa ``pacman -S go`` unter Debian/Ubuntu ``apt-get install
-golang``. In allen anderen Fällen kann ein Installationspaket von
+Distribution der mitgelieferte Paketmanager genutzt werden. Unter Arch Linux ist
+der Befehl etwa »``pacman -S go``« unter Debian/Ubuntu »``apt-get install golang``«.
+In allen anderen Fällen kann ein Installationspaket von
 ``golang.org``[^GOLANG_DOWNLOAD] heruntergeladen werden.
 Ist *Go* installiert, muss noch der Pfad definiert werden, in dem alle *Go*--Quellen
 landen. Dazu ist das Setzen der Umgebungsvariable ``GOPATH`` nötig:
 
-```sh
+```bash
 $ mkdir ~/go
 $ export GOPATH=~/go
 $ export PATH=$PATH:~/go/bin
@@ -89,28 +87,29 @@ Sitzung erneut gesetzt werden.
 [^GOLANG_DOWNLOAD]: <https://golang.org/dl/>
 
 **Übersetzen der Quellen:** Ist *Go* installiert, kann mittels des ``go
-get``--Werkzeugs ``brig`` kompiliert werden:
+get``--Werkzeugs ``brig`` heruntergeladen und kompiliert werden:
 
 ```sh
 $ go get github.com/disorganizer/brig
 ```
 
 Nach erfolgreicher Ausführung (kann je nach Rechner zwischen etwa einer bis
-zehn Minuten dauern) sollte eine *brig* Kommando auf der Kommandozeile verfügbar sein.
+zehn Minuten dauern) sollte ein ``brig``--Kommando auf der Kommandozeile verfügbar sein.
 Ohne weitere Argumente sollte das Kommando den oben stehenden Hilfetext produzieren.
 
-[^SYSTEM]: Im Falle der Autoren ist das: ArchLinux mit Kernel 4.4 und Go in Version 1.5 bis 1.6.
+[^SYSTEM]: Im Falle der Autoren ist das: Arch Linux mit Kernel 4.4 und Go in Version 1.5 bis 1.6.
 
-### Cross-Compiling
+### Cross--Compiling
 
-Sobald eine erste öffentliche Version von ``brig`` veröffentlicht wurde, wollen
-wir vorgebaute Binärdateien für die populärsten Plattformen anbieten. Um von
+Sobald eine erste öffentliche Version von ``brig`` veröffentlicht wurde, sollen
+für die populärsten Plattformen vorgebaute Binärdateien angeboten werden.
+Um von
 einem einzigen Host--System aus Binärdateien für andere Plattformen zu
 erstellen, kann der *Go*--Compiler mittels der Umgebungsvariablen ``GOOS`` und
 ``GOARCH`` dafür konfiguriert werden. ``GOOS`` steuert dabei, die Zielplattform
 (z.B. *linux* oder *windows*), ``GOARCH`` hingegen steuert die Zielarchitektur
 der CPU (``arm``, ``386``, ``amd64``). Folgendes Shellskript kann daher genutzt
-werden, um für einen Großteil der Plattformen eine Binärdatei zu erzeugen:
+werden, um für einen Großteil der Plattformen jeweils eine Binärdatei zu erzeugen:
 
 ```sh
 #!/bin/sh
@@ -143,22 +142,16 @@ Die Bedienung von ``brig`` ist an das Versionsverwaltungssystem ``git``
 angelehnt. Genau wie dieses, bietet ``brig`` für jede Unterfunktionalität ein
 einzelnes Subkommando an. Damit ``git``--Nutzer die Bedienung leichter fällt,
 wurden viele Subkommandos ähnlich benannt, wenn sie in etwa dasselbe tun. So
-fügen sowohl ``git add``, als auch ``brig stage`` Dateien dem Repository hinzu.
-
-Es wird allerdings empfohlen nicht nur aufgrund des Namens auf die
-Funktionalität zu schließen. So fügt ``brig stage`` Dateien von überall aus dem
-Dateisystem hinzu, bei ``git add`` müssen sie unterhalb des
-Repository--Wurzelverzeichnises liegen. Die Nahmensähnlichkeit soll nur als
-Anknüpfungspunkt für erfahrene Anwender dienen.
+fügen sowohl ``git rm``, als auch ``brig rm`` Dateien dem Repository hinzu.
 
 ### Eingebaute Hilfe
 
 Neben diesem Dokument und der eingebauten Hilfe gibt es im Moment keine weitere
 Dokumentation zu den vorgestellten Kommandos. Die eingebaute Hilfe kann
 entweder allgemein über ``$ brig help``{.bash} aufgerufen werden (produziert
-diesselbe Ausgabe, wie in {#lst:brig-help}) oder für ein spezifisches
+diesselbe Ausgabe, wie in [@lst:brig-help]) oder für ein spezifisches
 Subkommando mittels ``$ brig help <subcommand>``{.bash}. Beispiel für ``$ brig
-rm``{.sh}:
+help rm``{.sh}:
 
 ```bash
 NAME:
@@ -180,10 +173,9 @@ OPTIONS:
 ### Anlegen eines Repositories (``brig init``)
 
 Alle von ``brig`` verwalteten Dateien werden in einem einzigen *Repository*
-verwaltet. Dies speichert alle Daten und die dazugehörigen Metadaten
-in einer Ordnerhierarchie.
-
-Um ``brig`` zu nutzen, muss daher zuerst ein Repository angelegt werden:
+verwaltet. Dies speichert alle Daten und die dazugehörigen Metadaten in einer
+Ordnerhierarchie. Um ``brig`` zu nutzen, muss daher zuerst ein Repository
+angelegt werden:
 
 ```sh
 $ export BRIG_PATH=/tmp/alice
@@ -192,10 +184,10 @@ $ brig init alice@wonderland.lit/desktop
 
 Der Nutzer wird um die Eingabe einer Passphrase gebeten. Die Formulierung
 *Passphrase* ist dabei bewusst anstatt dem Wort *Passwort* gewählt, da eine
-gewisse Mindestkomplexität Voraussetzung zur erfolgreichen Eingabe ist. Die
+gewisse Mindestentropie Voraussetzung zur erfolgreichen Eingabe ist. Die
 Komplexität wird dabei von der ``zxcvbn``--Bibliothek überprüft[^zxcvbn].
-Welche Kriterien es dabei anwendet, kann in Kapitel 8 von [@cpiechula]
-nachgeschlagen\ werden.
+Welche Kriterien es dabei anwendet, kann in Kapitel TODO von [@cpiechula]
+nachgeschlagen werden.
 
 [^zxcvbn]: Mehr Informationen hier: <https://github.com/dropbox/zxcvbn>
 
@@ -216,7 +208,7 @@ $ brig stage ~/music/knorkator/
 ```
 
 Das Hinzufügen größerer Verzeichnisse nimmt etwas Zeit in Anspruch, da die
-Dateien komprimiert, verschlüsselt und gehasht werden. 
+Dateien komprimiert, verschlüsselt und eine Prüfsumme berechnet werden muss.
 
 ----
 
@@ -235,7 +227,7 @@ von überall im Dateisystem das Kommando absetzen zu können.
 
 ----
 
-Die hinzugefügten Dateien werden von ``brig`` einem virtuellen Wurzelknoten ``/`` hinzugefügt (``/cat.png``),
+Die hinzugefügten Dateien werden von ``brig`` einem virtuellen Wurzelknoten »``/``« hinzugefügt (``/cat.png``),
 anstatt den vollen Pfad zu erhalten (``~/photos/cat.png``) --- letzterer hätte nach der Synchronisation
 auf andere Rechner keine sinnvolle Bedeutung mehr. Dieses Prinzip wird auch ersichtlich bei Benutzung
 von ``$ brig ls``{.bash}:
@@ -247,7 +239,7 @@ $ brig ls
 2.1 MB  5 seconds ago   /photos/cat.png
 103 MB	4 seconds ago	/knorkator/
  99 MB	4 seconds ago	/knorkator/hasenchartbreaker/
-7.9 MB	1 minute ago	/knorkator/hasenchartbreaker/01 Ich bin ein ganz besond'rer Mann.mp3
+7.9 MB	1 minute ago	/knorkator/hasenchartbreaker/01 Ich bin ein ganz besondrer Mann.mp3
 ...
 ```
 
@@ -261,8 +253,8 @@ $ brig cat /photos/cat.png > some-cat.png
 $ open ./some-cat.png  # Öffnet die Datei in einem Bildbetrachter.
 ```
 
-Da ``brig cat``{.bash} die Datei als kontinuierlichen Strom ausgibt, ist es
-möglich größere Dateien (wie Filme) ohne Zwischendatei direkt zu verwerten:
+Da ``brig cat``{.bash} die Datei als kontinuierlichen Datenstrom ausgibt, ist es
+möglich größere Dateien wie Filme ohne Zwischendatei direkt anzuzeigen:
 
 ```sh
 $ brig cat /movies/big-buck-bunny.mov | mpv -  # Zeige Film mit `mpv`
@@ -279,7 +271,7 @@ $ brig rm seen-movies/big-buck-bunny.mov
 $ brig tree
 ```
 
-### Nutzung des FUSE Filesystems (``brig mount``)
+### Nutzung des FUSE--Dateisystems (``brig mount``)
 
 Die bisherige Nutzung von ``brig`` erinnert an ``git`` und ist für alltägliche
 Aufgaben eher aufwendig und nicht kompatibel mit existierenden Dateimanagern.
@@ -330,11 +322,11 @@ werden. Erstere beschreiben eine atomare Änderung an einer Datei (also ob sie
 hinzugefügt, gelöscht, modifiziert oder verschoben wurde). Ein *Commit* fasst
 mehrere *Checkpoints* zu einem gemeinsamen, logischen Paket zusammen. Ähnlich
 wie bei ``git``, gibt es zudem einen *Staging*--Bereich, der aus den
-*Checkpoints* bestehen, die noch in keinem *Commit* verpackt worden sind. Ein
+*Checkpoints* besteht, die noch in keinem *Commit* verpackt worden sind. Ein
 wichtiger Unterschied zu ``git`` ist allerdings, dass ``brig`` auch
 automatisiert (in einem konfigurierten Zeitintevall) *Commits* erstellen kann.
 Diese dienen dann eher als Sicherungspunkte eines Repositories, beziehungsweise
-*Snapshots* wie in vielen Backup--Programmen und weniger als zusammenhänge
+*Snapshots* wie in vielen Backup--Programmen und weniger als zusammenhängende
 Einheit logischer Änderungen.
 
 ```sh
@@ -357,7 +349,7 @@ $ brig commit -m 'Moved my cat photos to the right place.'
 ```
 
 Die Nachricht, die man mittels ``-m (--message)`` angegeben hat beschreibt, was in diesem *Commit*
-passiert ist und taucht später als hilfreiche Beschreibung im ``log`` auf. Mann kann diese
+passiert ist und taucht später als hilfreiche Beschreibung im ``log`` auf. Man kann diese
 Nachricht auch weglassen, was ``brig`` dazu veranlasst eine automatische *Commit*--Nachricht zu verfassen:
 
 ```sh
@@ -392,11 +384,11 @@ TODO: brig checkout implementieren... brig unstage
 
 ### Verwalten von Synchronisationspartnern (``brig remote``)
 
-Um seine Dateien mit anderen Teilnehmern zu teilen müssen diese erst einmal
+Um seine Dateien mit anderen Teilnehmern zu teilen, müssen diese erst einmal
 ``brig`` bekannt gemacht werden und vom Nutzer authentifiziert werden. Für
 diese Aufgabe bietet ``brig`` das ``remote``--Unterkommando. Jedes Repository
 hat dabei eine eindeutige »Identität«, welches es im Netzwerk eindeutig
-identifiziert. Diese besteht aus einem Hash--Wert, und einem menschenlesbaren
+identifiziert. Diese besteht aus einer Prüfsumme, und einem menschenlesbaren
 Nutzernamen. Für das eigene Repository kann er folgendermaßen angezeigt werden:
 
 ```sh
@@ -404,11 +396,12 @@ $ brig remote self
 QmZyhL3VAAr35a9msSyhW4zfLPnx9Jn4gMSyMQR5VCBFnx online alice@wonderland.lit/desktop
 ```
 
-Das Hinzufügen eines anderen Nutzers erfordert beide Werte: Sowohl sein Nutzername,
-als auch der kryptografische Hash, der ihn unfälschbar identifiziert.
-Kennt man den Namen seines Kommunikationspartners, so kann ``brig`` alle Teilnehmer
-im Netzwerk mit diesen Namen abfragen. Im Beispiel möchte ``alice`` nun auch ein ``brig``--Repository
-auf ihren Laptop einrichten und auf ihren Arbeitsrechner dieses als Partner eintragen:
+Das Hinzufügen eines anderen Nutzers erfordert beide Werte: Sowohl sein
+Nutzername, als auch die kryptografische Prüfsumme, der ihn eindeutig
+identifiziert. Kennt man den Namen seines Kommunikationspartners, so kann
+``brig`` alle Teilnehmer im Netzwerk mit diesen Namen abfragen. Im Beispiel
+möchte ``alice`` nun auch ein ``brig``--Repository auf ihren Laptop einrichten
+und auf ihren Arbeitsrechner dieses als Partner eintragen:
 
 ```sh
 $ brig remote locate alice@wonderland.lit/laptop
@@ -416,11 +409,11 @@ QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
 QmNwr8kJrnQdjwupCDLs2Fv8JknjWD7esrF81QDKT2Q2g6
 ```
 
-Falls man nur den Teil hinter dem ``@`` kennt (also die *Domain*), so, können auch alle
+Falls man nur den Teil hinter dem ``@`` kennt (also die *Domain*), so können auch alle
 Identitäten mit dieser Domain aufgelistet werden:
 
 ```sh
-$ brig remote locate alice@wonderland.lit/laptop
+$ brig remote locate -d wonderland.lit
 QmZyhL3VAAr35a9msSyhW4zfLPnx9Jn4gMSyMQR5VCBFnx
 QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
 QmNwr8kJrnQdjwupCDLs2Fv8JknjWD7esrF81QDKT2Q2g6
@@ -432,8 +425,8 @@ Mindestens eine davon könnte allerdings theoretisch ein Betrüger sein, der nur
 den Nutzernamen *alice@wonderland.lit/laptop* verwendet. In diesem Fall ist es
 nötig über einen Seitenkanal direkt Kontakt mit der Person aufzunehmen, mit der
 man synchronisieren will und darüber die Identität abzugleichen. Ein möglicher
-Seitenkanal wäre ein Telefonanruf, E--Mail oder auch ein Instant Messenger. Hat
-man festgestellt was die richtige Identität ist,  kann man sie seiner
+Seitenkanal wäre ein Telefonanruf, E--Mail oder auch ein Instant--Messanger. Hat
+man festgestellt was die richtige Identität ist, kann man sie seiner
 Kontaktliste hinzufügen:
 
 ```sh
@@ -442,15 +435,16 @@ $ brig remote add alice@wonderland.lit/laptop QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvH
 
 TODO: Check einbauen ob der Kontakt verfügbar ist und warnen falls nicht?
 
-Der Unterbefehl ``list`` zeigt alle verfügbaren Kontakte an und ob diese online sind:
+Der Unterbefehl »``brig remote list``« zeigt alle verfügbaren Kontakte an und
+ob diese online sind:
 
 ```sh
 $ brig remote list
 QmZyhL3VAAr35a9msSyhW4zfLPnx9Jn4gMSyMQR5VCBFnx online alice@wonderland.lit/laptop
 ```
 
-Das Löschen eines Kontakts ist mit ``$ brig remove <username>``{.sh} möglich
-und wird nicht weiter demonstriert.
+Das Löschen eines Kontakts ist mit ``$ brig remote remove <username>``{.sh}
+möglich und wird nicht weiter demonstriert.
 
 ### Synchronisieren (``brig sync``)
 
@@ -464,22 +458,27 @@ TODO: brig sync dokumentieren
 
 ### Dateien pinnen (``brig pin``)
 
-Ist man mit dem Zug unterwegs, so kann ein Pfad »gepinnt« werden, um
-sicherzustellen dass sie lokal verfügbar ist:
+Ist man beispielsweise mit dem Zug unterwegs, so kann ein Pfad »gepinnt« werden, um
+sicherzustellen dass er lokal verfügbar ist:
 
 ```sh
 $ brig pin /thesis/01-motivation.tex
 ```
 
-Benötigt man später wieder den Speicherplatz, so kann die Datei wieder »unpinned« werden.
-``brig`` wird diese Datei nach einiger Zeit aus dem lokalen Zwischenspeicher entfernt, sofern
-ein Platzmangel vorherrscht.
+Benötigt man später wieder den Speicherplatz, so kann die Datei wieder
+»unpinned« werden. ``brig`` wird diese Datei nach einiger Zeit aus dem lokalen
+Zwischenspeicher entfernen, sofern ein Platzmangel vorherrscht:
+
+```sh
+$ brig pin -u /thesis/01-motivation.tex
+```
 
 ### Konfiguration (``brig config``)
 
-``brig`` bietet momentan einige wenige Konfigurationswerte, um
-das Verhalten der Software nach seinen Wünschen einzustellen.
-Ein Überblick über die verfügbaren Optionen liefert das Unterkommando ``list`` von ``brig config list``:
+``brig`` bietet momentan einige wenige Konfigurationswerte, um das Verhalten
+der Software nach seinen Wünschen einzustellen. Ein Überblick über die
+verfügbaren Optionen liefert das Unterkommando  ``$ brig config
+list``{.sh}:
 
 ```sh
 $ brig config list
@@ -514,14 +513,14 @@ versierte Nutzer und Entwickler interessant sind.
 
 ### Repository öffnen und schließen (``brig open/close``)
 
-Um ein Repository als *Datensafe* zu nutzen, kann mit dem ``close``--Unterkommando
+Um ein Repository als *Datentresor* zu nutzen, kann mit dem ``close``--Unterkommando
 der ``brigd``--Daemon heruntergefahren werden. Danach ist das Repository nur
 mit der erneuten Eingabe eines Passwortes zugreifbar. Das kann nützlich sein,
 um Fremdzugriff auch bei physikalischer Abwesenheit am Rechner zu verhindern.
 
 ```sh
 $ brig close
-# Nach einiger Zeit ohne Netz:
+# ...Nach einiger Zeit ohne Internetzugang:
 $ brig open
 Password: **********
 ```
@@ -529,7 +528,7 @@ Password: **********
 Ein explizites ``brig open`` ist bei normaler Benutzung nicht nötig. Jedes
 Kommando, das von ``brigd`` abhängt, versucht diesen zu starten, wenn der
 Daemon nicht erreichbar ist. Dazu fragt es wie ``brig open``{.sh} auch nach
-dem Passwort. Das ``open``--Unterkommando ist allerdings nützlich für
+dem Passphrase. Das ``open``--Unterkommando ist allerdings nützlich für
 Skriptdateien, wenn der Passwort--Prompt an einer erwarteten Stelle auftauchen
 soll.
 
@@ -584,10 +583,10 @@ Unter dem ``debug``--Unterkommando finden sich einige Hilfsmittel, um die intern
 von ``brig`` nachvollziehen zu können:
 
 * ``brig debug export``: Exportiert den aktuellen Metadatenindex auf ``stdout``. Standardmäßig ist das Format
-  dabei die binäre Enkodierung von Protobuf. Mit der Option ``--json`` kann allerdings auch zu Debugging--Zwecken
+  dabei die binäre Enkodierung von Protobuf. Mit der Option »``--json``« kann allerdings auch zu Debugging--Zwecken
   der Index als JSON exportiert werden.
 * ``brig debug import``: Importiert die serialisierte Version eines Metadatenindex. Falls das Format JSON ist,
-  sollte die Option ``--json`` benutzt werden.
+  sollte die Option »``--json``« benutzt werden.
 * ``brig debug diff <StoreA> <StoreB>``: Zeigt Debug--Ausgaben und Differenzen zwischen zwei exportierten, serialisierten
   Indizes.
 
@@ -595,16 +594,16 @@ von ``brig`` nachvollziehen zu können:
 
 Die Versionsnummer von ``brig`` folgt den Prinzipien des *Semantic
 Versioning*[^SEMVER] (in der Version 2.0). Das Format entspricht dabei
-``v<MAJOR>.<MINOR>.<PATCH>[-<TAG>][+<REV>]``, wobei die Platzhalter folgende
+»``v<MAJOR>.<MINOR>.<PATCH>[-<TAG>][+<REV>]``«, wobei die Platzhalter folgende
 Bedeutung haben:
 
-* ``MAJOR``: Oberste Versionsnummer. Wird nur bei inkompatiblen API--Änderungen inkrementiert.
+* ``MAJOR``: Oberste Versionsnummer. Wird nur bei inkompatiblen Änderungen inkrementiert.
 * ``MINOR``: Wird bei Erweiterungen inkrementiert, welche nicht die Kompatibilität beeinflussen.
 * ``PATCH``: Wird bei Berichtigung einzelner Fehler jeweils einmal inkrementiert.
-* ``TAG``: Optional. Weißt spezielle Entwicklungsstände wie ``alpha``, ``beta``, ``final`` etc. aus.
-* ``REV``: Falls bei Kompilierzeit verfügbar, der aktuelle ``git``--HEAD.
+* ``TAG``: Optional. Weist spezielle Entwicklungsstände wie ``alpha``, ``beta``, ``final`` etc. aus.
+* ``REV``: Optional. Falls bei Kompilierzeit verfügbar, der aktuelle ``git``--HEAD.
 
-Nach der eigentliche Versionsnummer wird zusätzlich zur Information der Kompilierzeitpunkt angezeigt:
+Nach der eigentlichen Versionsnummer wird zusätzlich zur Information der Kompilierzeitpunkt angezeigt:
 
 ```sh
 $ brig -v

@@ -2,7 +2,7 @@
 
 In diesem Kapitel werden Anforderungen beleuchtet, die ``brig`` zu einer für
 den »Otto--Normal--Nutzer« benutzbaren Software machen sollen. Zudem sollen die
-in Zukunft notwendigen Schritte beschrieben werden, um die Anforderungen
+in Zukunft notwendigen Schritte beschrieben werden, um diese Anforderungen
 umzusetzen. Dazu gehört unter anderem die Konzeption einer grafischen
 Oberfläche.
 
@@ -10,18 +10,18 @@ Oberfläche.
 
 Ob eine Bedienoberfläche verständlich ist oder ästhetisch auf den Benutzer wirkt,
 ist leider sehr subjektiver Natur. Es können nur empirisch Daten gesammelt werden,
-ob ein gewisser Prozentanteil der Nutzer die Software verständlich und ästhetisch fanden.
+ob ein gewisser Prozentanteil der Nutzer die Software verständlich und ästhetisch findet.
 Aus diesem Grund ist der unten gezeigte Vorschlag für eine Bedienoberfläche lediglich
-ein Konzept unter vielen möglichen.
+ein Konzept unter vielen Möglichkeiten.
 Der Begriff »Usability« wird dabei gleichbedeutend mit dem deutschen Wort
-»Gebrauchstauglichkeit« benutzt. Da es aber keine einheitliche übersetzung des
+»Gebrauchstauglichkeit« benutzt. Da es aber keine einheitliche Übersetzung des
 Begriffs gibt, wird der englische Originalbegriff verwendet.
 
 ## Anforderungen an die Usability
 
 Eine besondere Schwierigkeit bei ``brig`` ist, dass Sicherheit, Funktionalität
-und Usability gegeneinander abgewogen werden müssen. Zu viel (und zu
-schnell präsentierte) Funktionalität erschwert dem Nutzer den Einstieg in die
+und Usability gegeneinander abgewogen werden müssen. Zu viel und zu
+schnell präsentierte Funktionalität erschwert dem Nutzer den Einstieg in die
 Software. Zu viele sichtbare Sicherheitsmechanismen schrecken den normalen
 Nutzer ohne technischen Hintergrund ab. Hingegen werden Nutzer mit technischen
 Hintergrund tendenziell eher mehr Funktionalität und striktere
@@ -30,28 +30,31 @@ Sicherheitsmechanismen erwarten.
 Es ist daher schwierig, die Anforderung beider Nutzergruppen von einer
 gemeinsamen Oberfläche erfüllen zu lassen. Deshalb erscheint es sinnvoller mehr
 als eine Oberfläche anzubieten. Momentan wurde dabei nur zwischen
-*Kommandozeile* (für technisch versierte Nutzer) und einer grafischen
-Oberfläche die im Folgenden ``brig-ui`` genannt wird.
+der *Kommandozeile* (für technisch versierte Nutzer) und einer grafischen
+Oberfläche, die im Folgenden ``brig-ui`` genannt wird, unterschieden.
 
 Für beide Varianten lassen sich trotzdem gemeinsame Anforderungen finden:
 
 1)  Die Oberfläche muss möglichst immer im Hintergrund bleiben. Nur wenn sie benötigt
     wird soll der Benutzer sich mir ihr beschäftigen müssen.
-2)  Es sollten nur das Minimum an nötigen Informationen angezeigt werden, um
-    den »Cognitive Load« (siehe auch [@oviatt2006human]) des Nutzers zu mindern.
+2)  Es sollte nur das Minimum an nötigen Informationen angezeigt werden, um
+    den »Cognitive Load« (siehe auch [@oviatt2006human]) des Nutzers zu minimieren.
 3)  Die Oberfläche soll einfach installierbar sein. Da Nutzer meist einfach »nur
     ein Problem« lösen wollen, greifen sie oft zur schnellst möglich
-    installierbaren (und damit nutzbaren) Variante.
+    installierbaren und damit nutzbaren Variante. Zudem mögen viele Nutzer
+	nicht die Oberfläche, vom eigentlichen, dahinter liegenden Programm unterscheiden können.
 4)  Die Oberfläche muss dem Nutzer vertraute Konzepte (Listen, Auswahlmenüs...) und
     Metaphern (Dateien, Verzeichnisse...) bieten.
 5)  Die Oberfläche muss konsistent in ihrer Benutzung sein. Sieht etwas in der
     Applikation gleich oder ähnlich aus, so muss es auch gleich oder ähnlich
-    funktionieren. Im Umkehrschluss werden auch Begriffe wie »Passphrase« statt »Passwort« genutzt,
+    funktionieren. Im Umkehrschluss werden auch konsistent Begriffe wie »Passphrase« statt »Passwort« genutzt,
 	um anzuzeigen, dass die Eingabe länger sein soll als ein herkömmliches »Passwort«.
-6)  Die Oberfläche muss sich möglichst gut in das System des Benutzers integrieren.
-    Im Falle einer grafischen Oberfläche bedeutet dies die Nutzung nativer Desktopapplikation
-    (anstatt Webapplikation), die nativ *Drag&Drop* unterstützen und ein *Trayicon* anzeigen können.
-7)  Die Oberfläche soll möglichst nicht »altbacken« wirken und soll möglichst ästhetisch wirken.
+6)  Die Oberfläche muss sich möglichst gut in das System des Benutzers
+    integrieren. Im Falle einer grafischen Oberfläche bedeutet dies die Nutzung
+    einer nativen Desktopapplikation (anstatt einer Webapplikation), die
+    beispielsweise nativ *Drag&Drop* unterstützt und ein *Trayicon* anzeigen kann.
+7)  Die Oberfläche soll ein möglichst zeitgemäßes Design aufweisen, welches neue Nutzer
+    nicht abschreckt.
 8)  Alle verwendeten Texte sollten in die lokale Sprache des Benutzers übersetzt werden.
 9)  Die Funktionsweise der Oberfläche soll sich durch Konfiguration an die
     Bedürfnisse des Benutzers anpassen lassen, aber vernünftige Standardwerte
@@ -62,7 +65,7 @@ Für beide Varianten lassen sich trotzdem gemeinsame Anforderungen finden:
 
 Diese Anforderungen wurden teilweise von *www.usabilitynet.org*[^USABILITY]
 abgeleitet und ergaben sich teilweise nach Betrachtung der existierenden
-Synchronisationswerkzeuge. Die Liste ist natürlich sehr subjektiv und
+Synchronisationswerkzeuge. Die Liste ist subjektiv und
 keineswegs komplett. Obwohl beispielsweise ``syncthing`` sich als *»Easy to
 use«*[^EASY_TO_USE] bezeichnet, verletzt es unter anderem die Anforderung *2)*
 und präsentiert dem Nutzer in der Hauptansicht die Systemauslastung (siehe
@@ -72,45 +75,47 @@ wichtig sind.
 [^USABILITY]: <http://www.usabilitynet.org/trump/methods/recommended/requirements.htm>
 [^EASY_TO_USE]: <https://syncthing.net>
 
-
 ## Die Kommandozeile
 
 Momentan ist die Kommandozeile ``brigtctl`` die einzige, implementierte Möglichkeit die gesamte
 Funktionalität von ``brig`` zu nutzen. Die genaue Funktionsweise der
 Kommandozeile wird in [@sec:benutzerhandbuch] beleuchtet. Beim Design der
-Optionen und Unterkommandos wurde darauf geachtet, dass ``git``--Nutzer die
+Optionen und Unterkommandos wurde darauf geachtet, dass ``git``--Nutzern die
 Benutzung schnell *vertraut* vorkommt, wo die Konzepte sich ähneln (``brig
 remove/remote``). Wo sie sich unterscheiden, wurden bewusst andere Namen
 gewählt (``brig stage`` statt ``git add`` und ``brig sync`` statt ``git
-pull/push``).
+pull/push``). Das Projekt ``gitless``[^GITLESS] zeigt zudem einige
+Usability--Verbesserungen an der ``git``--Kommandozeile auf. Einige dieser
+Ideen könnten für die weitere Entwicklung genutzt werden.
+
+[^GITLESS]: Siehe auch: <http://gitless.com>
 
 Eine eingebaute Hilfe kann für ein bestimmtes Kommando mit dem Befehl
-``brig help <topic or command>`` angezeigt werden.
-Das initiale Anlegen eines Repositories erfordert eine Passphrase mit einer
+``brig help <topic/command>`` angezeigt werden.
+Das initiale Anlegen eines Repositories erfordert die Eingabe einer Passphrase mit einer
 bestimmten Mindestentropie. Wie man in [@fig:pwd-input] erahnen kann, wird die
-Entropie live bei der Eingabe des Passworts angezeigt, um den Nutzer direkt
+Entropie »live« bei der Eingabe des Passworts angezeigt, um den Nutzer direkt
 Feedback zu geben.
+Momentan wurde die Kommandozeile noch nicht in weitere Sprachen übersetzt, da
+sie sich genau wie der Rest der Implementierung noch ändern kann.
 
-Momentan wurde die Kommandozeile noch nicht in weitere Sprache übersetzt, da
-sie sie noch wie der Rest der Implementierung in steten Wandel befindet.
+![Angabe der Passphrase beim Anlegen eines neuen Repositories.](images/6/pwd-input.png){#fig:pwd-input width=66%}
 
-![Angabe der Passphrase beim Anlegen eines neuen Repositories.](images/6/pwd-input.png){#fig:pwd-input width=50%}
-
-Eine weitere Verbesserung wäre die Unterstützung von *Shorthashes*. Der
-Benutzer muss immer eine volle Prüfsumme angeben
+Eine weitere Verbesserung wäre die Unterstützung von »Shorthashes«. Der
+Benutzer muss derzeit immer eine volle Prüfsumme angeben
 (``QmSiM3qaUMxCrLiWwVvEeGZTrKUXLD7bULo22WYoGfHwZD``), auch wenn meist ein
-kleiner Präfix (``QmSiM3``) davon bereits eindeutig identifizierbar ist. In der
-Ausgabe von ``brig`` sollte dann auch möglichst die Präfixform bevorzugt
+kleiner Präfix (``QmSiM3q``) davon bereits eindeutig identifizierbar ist. In der
+Ausgabe von ``brigctl`` sollte dann auch möglichst die Präfixvariante bevorzugt
 werden, um die Ausgabe klein und verständlich zu halten.
 
 ## Grafische Oberfläche
 
-Für normale Benutzer ist eine grafische Oberfläche aus unserer Sicht unabdingbar.
+Für normale Benutzer ist eine grafische Oberfläche unabdingbar.
 Für die Akzeptanz der Oberfläche ist es wichtig, dass sie dem Benutzer
 vertraute Konzepte bietet. Daher wird ein großer Teil der Benutzung durch einen
 normalen Dateisystemordner abgewickelt, der sich kaum von anderen Ordner
 unterscheidet. Daher hat die grafische Oberfläche eher die Aufgabe
-einer Konfigurationsanwendung und eines Einrichtungs--Wizard, der nur bei Bedarf
+einer Konfigurationsanwendung und eines Einrichtungsassistenten, der nur bei Bedarf
 aufgerufen wird. Konkret sind die nötigen Aufgabenbereiche wie folgt:
 
 * Einrichtung und Konfiguration eines neues Repositories.
@@ -118,7 +123,7 @@ aufgerufen wird. Konkret sind die nötigen Aufgabenbereiche wie folgt:
 * Schalter, um zwischen Online- und Offline--Modus zu wechseln.
 * Hinzufügen und Verwalten von Remotes.
 * Integrierter Dateibrowser, um Dateien zu verwalten und zu pinnen.
-* Versionsverwaltung und Auflösung von Konflikten.
+* Einstellungen zur Funktionsweise und Sicherheit.
 
 Bestehende grafische Oberflächen sind aus Portabilitätsgründen meist
 web--basiert und fügen sich daher meist nicht optimal in eine Desktopumgebung
@@ -126,9 +131,9 @@ ein. Daher wurde das nachfolgende Konzept als native Desktopanwendung für den
 GNOME--Desktop[^GNOME] entworfen. Dabei wurde die Oberflächenbibliothek
 *GTK+*[^GTK] benutzt. Neben den obigen Anforderungen wurde versucht
 möglichst alle Regeln der *»Gnome Human Interface Guidelines«* (GNOME HIG[^GNOME_HIG])
-umzusetzen. Es handelt sich dabei um einer Anleitung des GNOME--Projekts, um
+umzusetzen. Es handelt sich dabei um eine Anleitung des GNOME--Projekts, um
 den Oberflächenentwurf zu vereinfachen und einheitlich zu gestalten. Offizielle
-GNOME--Anwendung müssen diesen Guidelines folgen.
+GNOME--Anwendungen müssen diesen Guidelines folgen.
 
 [^GNOME]: Eine freie Desktopumgebung für Linux (<https://www.gnome.org>)
 [^GTK]: Eine freie GUI--Bibliothek (<http://www.gtk.org>)
@@ -136,10 +141,10 @@ GNOME--Anwendung müssen diesen Guidelines folgen.
 *GTK+* wurde benutzt, weil der Autor sich mit dieser Bibliothek auskennt und bereits
 eine im Aussehen »ähnliche« Anwendung geschrieben hat, die als Basis für unten stehende
 Mockups benutzt wurde.
-Leider ist *GTK+* für die Programmiersprache *Go* noch keine native Unterstützung vorhanden.
+Leider bietet *GTK+* für die Programmiersprache *Go* noch keine native Unterstützung.
 Alternativ wäre daher eine Umsetzung, einer Bibliothek wie *Gallium*[^GALLIUM] zu
 evaluieren. Diese zeigt, vereinfacht gesagt, eine Weboberfläche als
-Desktopanwendung und integriert auch native Element wie ein Trayicon.
+Desktopanwendung und integriert auch native Elemente wie ein Trayicon.
 
 [^SHREDDER]: *Shredder*, eine grafische Deduplizierungslösung: <https://rmlint.readthedocs.io>
 
@@ -176,9 +181,9 @@ Im Folgenden werden die Aufgaben der einzelnen Bildschirme besprochen.
 
 Dieser Bildschirm taucht beim erstmaligen Starten der grafischen Oberfläche
 auf, sofern kein vorhandenes ``brig`` Repository gefunden werden konnte. Der
-Bildschirm fragt alle Daten ab, die auch der Befehle ``brig init`` benötigt.
+Bildschirm fragt alle Daten ab, die auch der Befehl »``brig init``« benötigt.
 Ein Vorteil der Oberfläche ist dabei, dass dem Nutzer direkt Feedback bei der
-Eingabe gegeben werden kann. Konkret wird dabei der Nutzername auf formaler Korrektheit überprüft und ob bereits ein solcher Name vergeben wurde.
+Eingabe gegeben werden kann. Konkret wird dabei der Nutzername auf formale Korrektheit überprüft und ob bereits ein solcher Name vergeben wurde.
 Es wird zudem geprüft, ob das Passwort einer bestimmten Mindestentropie entspricht und ob das wiederholte Passwort
 mit dem ersten übereinstimmt.
 Dadurch, dass der Nutzer mithilfe der Oberfläche den Anlegeort für das neue Repository auswählt,
@@ -196,10 +201,10 @@ werden erst angezeigt, wenn ein angeschlossener YubiKey erkannt wurde.[^MINIMALI
 Ein auch im Folgenden häufig verwendetes Designelement ist das Hervorheben
 einer Aktion als »Empfohlen«. In [@fig:mockup-repo] wird die »Create
 Repository«--Aktion blau hervorgehoben, um dem Nutzer anzuzeigen, dass dies die
-naheliegende Aktion ist, die er vermutlich nehmen wird. Drückt man diese
+naheliegendste Aktion ist, die er vermutlich nehmen wird. Drückt man diese
 »empfohlene Aktion«, so wird das Repository angelegt und der Hintergrunddienst
 ``brigd`` gestartet. Im Erfolgsfall wird eine Wischanimation zum
-Remote--Bildschirm angezeigt. (siehe [@sec:ui-remotes]).
+Remote--Bildschirm hin angezeigt. (siehe [@sec:ui-remotes]).
 
 ### Verwalten und Hinzufügen von Remotes {#sec:ui-remotes}
 
@@ -218,23 +223,24 @@ Remotes. Ist die Liste leer, wird dort ein Hinweis angezeigt, dass noch keine
 Remotes vorhanden sind und man durch die »empfohlene Aktion« unten links ein
 neues Remote anlegen kann.
 
-Jedes Remote wird durch ein Eintrag in der Liste dargestellt. Das \cmark oder
-\xmark am Anfang indiziert dabei, ob das betreffende Remote online ist. Daneben
+Jedes Remote wird durch einen Eintrag in der Liste dargestellt. Das »\cmark« oder
+»\xmark« am Anfang indiziert dabei, ob das betreffende Remote online ist. Daneben
 wird in jedem Eintrag der Name des Remotes und seine Prüfsumme angezeigt.
 Eventuell wäre hier die alleinige Anzeige des Nutzernamens (``Alice`` statt
 ``alice@wonderland.lit/home``) benutzerfreundlicher und weniger verwirrend,
-sofern der Name ``Alice`` eindeutig unter den Remotes ist. Zur rechten jeder
-Zeile finden sich drei Schaltflächen, die  (in dieser Reihenfolge) ein
-sofotiges Synchronisieren (Pfeilknopf) bewirken, ein Detailfenster zum
-entsprechenden Remote öffnet und das automatische Synchronisieren mit diesem
-Remote an oder ausschaltet. Remotes mit denen automatisch synchronisiert wird,
-werden mit einem Hintergrund hinterlegt, der kariertem Papier ähnelt. Eine
-Synchronisation ist nur möglich, wenn ``brig`` im Online--Modus ist. Im
-Suchmodus können die Namen der Remotes zusätzlich durch Angabe eines
-Stichwortes gefiltert werden.
+sofern der Name ``Alice`` eindeutig unter den Remotes ist. Auch die Anzeige eines
+Zeitstempels der letzten Synchronisation wäre denkbar.
+Zur rechten jeder Zeile finden sich drei Schaltflächen, die  (in dieser
+Reihenfolge) folgendes bewirken: sofortiges Synchronisieren (Pfeilknopf),
+Öffnung eines Detailfensters zum entsprechenden Remote und das An- und
+Ausschalten der automatischen Synchronisation mit diesem Remote. 
+Remotes mit denen automatisch synchronisiert wird, werden mit einem Hintergrund
+hinterlegt, der kariertem Papier ähnelt. Eine Synchronisation ist nur möglich,
+wenn ``brig`` im Online--Modus ist. Im Suchmodus können die Namen der Remotes
+zusätzlich durch Angabe eines Stichwortes gefiltert werden.
 
 In der unteren Statusleiste wird zudem in Zahlen zusammengefasst, wie viele
-Remotes online sind und wie vielen davon synchronisiert wird. Der Knopf zum
+Remotes online sind und mit wie vielen davon synchronisiert wird. Der Knopf zum
 Löschen eines Remotes wird nur dann angezeigt, wenn mindestens ein Remote aus
 der Liste ausgewählt wurde (hellblau hinterlegt).
 
@@ -245,7 +251,7 @@ Diagramm auszublenden, indem es auf die rechte Seite geschoben wird. Das
 Diagramm selbst zeigt an welche Teile der synchronisierten Daten das Gegenüber
 physikalisch bei sich speichert. Die Gesamtmenge wird in der Mitte als
 Dateigröße gezeichnet. Im Beispiel speichert ``bob@realworld.org/laptop``
-größtenteils die Dateien aus dem ``music`` und aus dem ``docs``--Ordner. Die
+größtenteils die Dateien aus dem ``music``- und aus dem ``docs``--Ordner. Die
 Anzeige kann auch durch den Klick auf ein beliebiges Segment verfeinert werden.
 Dann werden nur noch dieses Segment und seine Untersegmente angezeigt. Ein
 Klick in die Mitte des Diagramms führt dabei wieder auf die oberste
@@ -278,9 +284,9 @@ die zusätzlichen Optionen im Kontextmenü:
 * *Pin file:* Setzt oder entfernt einen Pin für die Datei oder rekursiv für das Verzeichnis.
 * *Show History:* Wechselt zum Versionsverwaltungsbildschirm und zeigt die Historie der Datei (siehe [@sec:ui-vcs]).
 * *Import/Export file:* Speichere Datei auf der Festplatte ab. Entspricht ``brig stage`` und ``brig cat``.
-* *Remove:* Entfernt die Datei im *Staging Bereich*.
+* *Remove:* Entfernt die Datei im *Staging--Bereich*.
 * *New Folder:* Entspricht ``brig mkdir``.
-* *Open in file browser:* Öffnet den Dateibrowser des Systems. Die ist nützlich
+* *Open in file browser:* Öffnet den Dateibrowser des Systems. Dies ist nützlich
   wenn komplexere Features benötigt werden.
 
 Die Ansicht ist zudem durchsuchbar. Wird ein Teil eines Pfades eingegeben, so
@@ -296,22 +302,23 @@ Dieser Bildschirm bietet dem Nutzer Zugriff auf die eingebaute
 Versionsverwaltung. Die Ansicht ist zweigeteilt. Auf der linken Seite findet
 sich eine Liste mit allen bekannten Commits (entspricht etwa ``brig log``).
 Jede Commitzeile enthält dabei den Index des Commits, der Commit--Message, dem
-Erstellungsdatum und dem (farbig hervorgehobenen) Autor. Auf der rechten Seite
+Erstellungsdatum und dem farbig hervorgehobenen Autor. Auf der rechten Seite
 jeder Zeile findet sich der *Checkout*--Button, mit dem der aktuelle Stand auf
-dem Stand im ausgewählten Commit zurücksetzen lässt. Unter dem Namen
+dem Stand im ausgewählten Commit zurücksetzbar ist. Unter dem Namen
 *Uncommited Changes* findet sich an oberster Stelle zudem immer der *Staging
 Commit*. Im linken, unteren Bereich wird zudem eine Statusleiste eingeblendet,
 in der als empfohlene Aktion das Anlegen eines neuen Commits möglich ist. Diese
-Aktion wird nur eingeblendet wenn ``HEAD`` und ``CURR`` sich unterscheiden.
+Aktion wird nur eingeblendet wenn sich ``HEAD`` und ``CURR`` unterscheiden.
 
 Auf der rechten Seite werden für den aktuell ausgewählten Commit alle darin
 gemachten Änderungen aufgelistet. Dabei wird für jeden Checkpoint des Commits
 eine Zeile angezeigt. Diese beinhaltet den Pfadnamen, den Änderungstyp (farbig
 kodiert) und den Änderungszeitpunkt. Liegt  der Änderungszeitpunkt noch nicht
-lange zurück, so wird er relativ zum aktuellen Zeitpunkt angegeben (*5 minutes ago*).
-Auf der rechten Seite jeder Zeile findet sich zwei Knöpfe. Der Linke erlaubt
-das Exportieren der Datei in dem entsprechenden Zustand, der Rechte setzt im *Staging--Commit*
-die entsprechende Datei auf diesen Stand zurück.
+lange zurück, so wird er relativ zum aktuellen Zeitpunkt angegeben (»*5 minutes ago*«).
+Auf der rechten Seite jeder Zeile finden sich zwei Knöpfe. Der Linke erlaubt
+den Export der Datei zu einem beliebigen Pfad im Dateisystem im entsprechenden
+Zustand. Der rechte Knopf setzt im *Staging--Commit* die entsprechende Datei
+auf diesen Stand zurück.
 
 Diese Ansicht ist durchsuchbar. Wird ein Pfad eingegeben (im Beipsiel
 ``/photos``), so werden alle Commits angezeigt, in denen der
@@ -327,21 +334,22 @@ Diese Ansicht ist durchsuchbar. Wird ein Pfad eingegeben (im Beipsiel
 Die Einstellungen sind in mehrere Kategorien aufgeteilt (hier *General*,
 *Miscellaneous*, und *Synchronize*). Jedes Einstellungsmerkmal entspricht dabei
 einer Zeile, die links jeweils eine kurze und eine etwas längere Beschreibung
-der Einstellung beinhaltet. Rechts findet sich je ein Schaltfläche, die den
+der Einstellung beinhaltet. Rechts findet sich je eine Schaltfläche, die den
 aktuellen Wert anzeigt und eine Modifikation erlaubt. Dabei erhalten
 Größenangaben (*Soft limit*) entsprechend eine Schaltfläche um eine
 physikalische Größe einzustellen, während boolesche Werte (*Go online by
 default*) einen simplen Aus/An--Schalter erhalten. Enumerationswerte, bei denen
-es eine genau festgesetzte Menge an Auswahlmöglichkeiten gibt zeigen nach einem
-Klick auf die Schaltfläche ein Auswahlmenü an. In diesem werden alle
-Möglichkeiten angezeigt, wobei die Standardmöglichkeiten mit einem Stern
-gekennzeichnet wird und die ausgewählte Möglichkeit grau hinterlegt wird.
+es eine genau festgesetzte Menge an Auswahlmöglichkeiten gibt (*Which
+synchronization strategy to choose*), zeigen nach einem Klick auf die
+Schaltfläche ein Auswahlmenü an. In diesem werden alle Möglichkeiten angezeigt,
+wobei die Standardmöglichkeit mit einem Stern gekennzeichnet wird und die
+ausgewählte Möglichkeit grau hinterlegt wird.
 
 Die Änderung der Einstellungen muss explizit mit dem (empfohlenen, da blau
-hervorgehobnenen) »Apply«--Knopf bestätigt werden. Wechselt man die Ansicht
+hervorgehobenen) »Apply«--Knopf bestätigt werden. Wechselt man die Ansicht
 ohne zu Bestätigen, so werden die Änderungen nicht übernommen. Möchte man alle
-Werte auf »Werkseinstellungen« zurücksetzen, so kann er Nutzer den »Reset to
-defaults«--Knopf betätigen. Dieser ist rot hervorgehoben, anzuzeigen, dass es
+Werte auf »Werkseinstellungen« zurücksetzen, so kann er Nutzer den *»Reset to
+defaults«*--Knopf betätigen. Dieser ist rot hervorgehoben, um anzuzeigen, dass es
 sich hierbei um eine destruktive Operation handelt.
 
 Auch diese Ansicht ist durchsuchbar. Wird ein Stichwort eingegeben, so werden
