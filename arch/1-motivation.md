@@ -74,8 +74,7 @@ Ziel des Projektes ist die Entwicklung einer sicheren, verteilten und
 versionierten Alternative zu Cloud--Storage Lösungen wie Dropbox, die sowohl
 für Unternehmen, als auch für Heimanwender nutzbar sind. Trotz der Prämisse,
 einfache Nutzbarkeit zu gewährleisten, wird auf Sicherheit sehr großen Wert
-gelegt.  Aus Gründen der Transparenz wird die Software dabei quelloffen unter
-der »``AGPLv3``«--Lizenz entwickelt.
+gelegt.
 
 Nutzbar soll das resultierende Produkt, neben dem Standardanwendungsfall der
 Dateisynchronisation, auch als Backup- bzw. Archivierungs--Lösung sein.
@@ -175,7 +174,8 @@ Es werden einige wenige typografische Konventionen im Textsatz vereinbart:
 * Wichtige Aussagen werden *hervorgehoben*.
 * Spezielle Ausdrücke und Eigennamen werden in »Chevrons« gesetzt.
 
-Zudem werden die Namen *Alice*, *Bob* und manchmal *Charlie* verwendet,
-um Testnutzer zu kennzeichnen. Sofern nicht anders angegeben,
-kann angenommen werden, dass Abläufe aus Sicht von *Alice*
-geschildert werden.
+Zudem werden die Namen *Alice*, *Bob* und manchmal *Charlie* verwendet, um
+Testnutzer zu kennzeichnen. Sofern nicht anders angegeben, kann angenommen
+werden, dass Abläufe aus Sicht von *Alice* geschildert werden. Die Grafiken in
+dieser Arbeit sind auf Englisch gehalten, da diese auch für die offizielle
+Dokumentation genutzt werden sollen.

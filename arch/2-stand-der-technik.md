@@ -12,25 +12,25 @@ Software eingesetzt werden kann.
 
 Bilden viele Rechner ein dezentrales Netzwerk, bei dem jeder Rechner (ein
 »Peer«) die gleichen Rechte besitzt und Aktionen ausführt wie jeder andere, so
-wird dieses Netz ein *Peer--to--Peer--Netzwerk* genannt (kurz *P2P--Netzwerk*).
-Statt Verbindungen über einen Mittelsmann aufzubauen, kommunizieren die
-einzelnen Peers für gewöhnlich direkt miteinander. Jeder Knoten des Netzwerks
-kann Anfragen an andere Knoten richten, trägt aber selbst etwas bei indem er
-selbst Anfragen beantwortet. Im Client--Server--Modell (TODO: buch ref) entspricht
-ein Peer also sowohl Server als auch Client (siehe auch
-[@fig:central-distributed]).
+wird dieses Netz ein *Peer--to--Peer--Netzwerk* genannt (kurz *P2P--Netzwerk*,
+vgl. auch [@peer2Peer], S. 4 ff.). Statt Verbindungen über einen Mittelsmann
+aufzubauen, kommunizieren die einzelnen Peers für gewöhnlich direkt
+miteinander. Jeder Knoten des Netzwerks kann Anfragen an andere Knoten richten,
+trägt aber selbst etwas bei indem er selbst Anfragen beantwortet. Im
+Client--Server--Modell entspricht ein Peer also sowohl Server als auch Client
+(siehe auch [@fig:central-distributed]).
 
 ![Anschaulicher Unterschied zwischen zentralen und verteilten Systemen.](images/2/central-distributed.pdf){#fig:central-distributed}
 
 Im alltäglichen Gebrauch der meisten »Otto--Normal--Nutzer« scheinen
 P2P--Netzwerke derzeit eine eher untergeordnete Rolle zu spielen. Die
 bekanntesten und populärsten P2P--Netzwerke sind vermutlich das BitTorrent- und
-Skype--Protokoll. Darüber hinaus gibt es auch viele sehr große
-Filesharing--Netzwerke, wie Gnutella.[^GNUTELLA] Gemeinsam ist allen, dass sie
-als sogenanntes *Overlay--Netzwerk*[^OVERLAY_NETWORK] über das Internet gelegt
-werden und dessen existierende Infrastruktur wiederverwenden.
+Skype--Protokoll (vgl. [@peer2Peer], S. 232 ff. und S. 2). Darüber hinaus gibt
+es auch viele sehr große Filesharing--Netzwerke, wie Gnutella (vgl. auch
+[@peer2Peer], S. 57 ff.). Gemeinsam ist allen, dass sie als sogenanntes
+*Overlay--Netzwerk*[^OVERLAY_NETWORK] über das Internet gelegt werden und
+dessen existierende Infrastruktur wiederverwenden.
 
-[^GNUTELLA]: Siehe auch: <https://de.wikipedia.org/wiki/Gnutella>
 [^OVERLAY_NETWORK]: Siehe auch: <https://de.wikipedia.org/wiki/Overlay-Netz>
 
 ### Technik
@@ -44,25 +44,25 @@ grundverschiedene Rollen zugeordnet sind (Beispiel: Dienstleiter und Kunde).
 Ein weiterer Eigenschaft, ist dass das Client--Server--Modell kein Problem mit
 dem sogenannten *NAT--Traversal* hat.
 
-NAT steht dabei für *Network Address Resolution* (dt.
-Netzwerkadressübersetzung, siehe auch [^NAT]) und ist eine Technik, um zwischen
-einer öffentlichen und mehreren lokalen IP--Adressen zu vermitteln. Es wird
-aufgrund der Knappheit von IPv4 sehr häufig eingesetzt, um einem Heim- oder
-Unternehmensnetzwerk eine einzige IP-Adresse nach außen zu geben, die über
-bestimmte Ports dann den Verkehr auf die jeweiligen lokalen Adressen übersetzt.
-Der Nachteil in Bezug auf P2P--Netzwerke ist dabei, dass die Rechner hinter
-einem *NAT* nicht direkt erreichbar sind. Client--Server--Anwendungen haben
-damit kein Problem, da der »anonyme« Client die Verbindung zum »wohlbekannten«
-Server selbstständig aufbaut. Bei einer P2P--Kommunikation hingegen, muss eine
-Verbindung in beide Richtungen möglich sein --- und das möglicherweise sogar
-über mehrere *NATs* hinweg. Die Umgehung dieser Grenzen ist in der Literatur
-als *NAT Traversal* bekannt (TODO: ref aus p2p/jabber buch). Eine populäre
-Technik ist dabei das UDP--Hole--Punching (TODO: ref aus buch). Dabei wird,
+NAT steht dabei für *Network Address Translation* (dt.
+Netzwerkadressübersetzung, siehe auch [@peer2Peer], S. 47 ff.) und
+ist eine Technik, um zwischen einer öffentlichen und mehreren lokalen
+IP--Adressen zu vermitteln. Es wird aufgrund der Knappheit von IPv4 sehr häufig
+eingesetzt, um einem Heim- oder Unternehmensnetzwerk eine einzige IP-Adresse
+nach außen zu geben, die über bestimmte Ports dann den Verkehr auf die
+jeweiligen lokalen Adressen übersetzt. Der Nachteil in Bezug auf P2P--Netzwerke
+ist dabei, dass die Rechner hinter einem *NAT* nicht direkt erreichbar sind.
+Client--Server--Anwendungen haben damit kein Problem, da der »anonyme« Client
+die Verbindung zum »wohlbekannten« Server selbstständig aufbaut. Bei einer
+P2P--Kommunikation hingegen, muss eine Verbindung in beide Richtungen möglich
+sein --- und das möglicherweise sogar über mehrere *NATs* hinweg. Die Umgehung
+dieser Grenzen ist in der Literatur als *NAT Traversal* bekannt p2p/jabber
+buch). Eine populäre Technik ist dabei das UDP--Hole--Punching[^HOLE_PUNCH]. Dabei wird,
 grob erklärt, ein beiden Parteien bekannter Mittelsmann herangezogen, über den
 die eigentliche, direkte Verbindung aufgebaut wird. Eine technische
 Notwendigkeit dabei ist die Verwendung von *UDP* anstatt *TCP*.
 
-[^NAT]: <https://de.wikipedia.org/wiki/Netzwerkadress%C3%BCbersetzung>
+[^HOLE_PUNCH]: Siehe auch: <https://en.wikipedia.org/wiki/UDP_hole_punching>
 
 Typischerweise ist dieser Mittelsmann ein sogenannter *Bootstrap--Knoten*. Dieser
 ist innerhalb eines P2P--Netzwerks ein wohlbekannter Knoten unter mehreren, zu dem sich neue
@@ -71,8 +71,8 @@ werden. Der Boostrap--Knoten führt aber normalerweise das selbe Programm aus,
 wie jeder andere, ist aber vertrauenswürdiger.
 Bemerkenswert ist, dass sich keine zentrale Instanz um die Koordination
 des Datenflusses im Netzwerk kümmern muss Die Grundlage für die Koordination
-bildet dabei die *Distributed Hashtable (DHT, mehr Informationen unter TODO
-buch ref)*. Diese Datenstruktur bildet sich durch den Zusammenschluss vieler
+bildet dabei die *Distributed Hashtable (DHT, vgl. [@peer2peer], S. 63 ff.)*
+Diese Datenstruktur bildet sich durch den Zusammenschluss vieler
 Rechner und nutzt eine *Hashfunktion*[^HASH_FUNCTION], um für
 einen bestimmten Datensatz zu entscheiden, welche Knoten (mindestens aber
 einer) im Netzwerk für diesen Datensatz zuständig ist. Ist ein Teilnehmer an

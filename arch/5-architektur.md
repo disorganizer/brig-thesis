@@ -1101,12 +1101,11 @@ merkende Prüfsumme (die »Peer--ID«).
 
 Es wurden in dieser Arbeit bereits einige Identifikationsbezeichner
 beispielhaft verwendet. Diese entsprechen einer abgeschwächten Form der
-Jabber--ID[^JID] (*JID*). Diese hat, ähnlich wie eine E--Mail Adresse, die Form
-``user@domain/resource``. Beim Jabber/XMPP Protokoll ist der Teil hinter dem
-»``/``« optional, der Rest ist zwingend erforderlich. Als Abschwächung ist bei
-``brig`` auch der Teil hinter dem »``@``« optional.
-Darüber hinaus sollen
-folgende Regeln gelten:
+Jabber--ID[^JID] (*JID*, vgl. auch [@xmpp], S. 14). Diese hat, ähnlich wie eine
+E--Mail Adresse, die Form ``user@domain/resource``. Beim Jabber/XMPP Protokoll
+ist der Teil hinter dem »``/``« optional, der Rest ist zwingend erforderlich.
+Als Abschwächung ist bei ``brig`` auch der Teil hinter dem »``@``« optional.
+Darüber hinaus sollen folgende Regeln gelten:
 
 [^JID]: Mehr Details unter: <https://de.wikipedia.org/wiki/Jabber_Identifier>
 

@@ -118,7 +118,6 @@ fehlerhafte Hardware geschehen. Absichtliche Änderungen können durch
 Angriffe von außen passieren, bei denen gezielt Dateien von einem
 Angreifer manipuliert werden. Als Beispiel könnte man an einen Schüler denken,
 welcher unbemerkt seine Noten in der Datenbank seiner Schule manipulieren will.
-
 Aus diesem Grund sollte das Dateiformat von ``brig`` mittels *Message Authentication
 Codes* (MACs) sicherstellen können, dass die gespeicherten Daten den ursprünglichen
 Daten entsprechen.
@@ -246,15 +245,14 @@ bedeuten würde.
 Ein häufiger Anwendungsfall ist ein Nutzer, der ein bestimmtes Dokument seinen
 Mitmenschen zu Verfügung stellen möchte. Optimalerweise müssen dabei die
 Empfänger des Dokuments keine weitere Software installiert haben, sondern
-können die Datei einfach mittels eines Hyperlinks in ihrem Browser herunterladen. Zentrale
-Dienste können dies relativ einfach leisten, indem sie einen Webservice
-anbieten, welcher die Datei von einer zentralen Stelle herunterladbar macht.
-Ein dezentrales Netzwerk wie ``brig`` muss hingegen *Gateways* anbieten, also
-eine handvoll Dienste, welche zwischen den »normalen Internet« und dem
-``brig``--Netzwerk vermitteln (siehe [@fig:gateway]). Die Nutzer, welche die
-Dateien verteilen wollen, können ein solches Gateway selbst betreiben.
-Alternativ können sie die entsprechende Datei mit einem öffentlichen Gateway
-teilen, welches von Freiwilligen betrieben wird.
+können die Datei einfach mittels eines Hyperlinks in ihrem Browser
+herunterladen. Zentrale Dienste können dies relativ einfach leisten, indem sie
+einen Webservice anbieten, welcher die Datei von einer zentralen Stelle
+herunterladbar macht. Ein dezentrales Netzwerk wie ``brig`` muss hingegen
+*Gateways* anbieten, also eine handvoll Dienste, welche zwischen den »normalen
+Internet« und dem ``brig``--Netzwerk vermitteln (siehe [@fig:gateway]). Die
+Nutzer, welche die Dateien verteilen wollen, können ein solches Gateway selbst
+betreiben. oder können ein von Freiwilligen betriebenes Gateway benutzen.
 
 ![HTTPS Gateway](images/7/gateway.pdf){#fig:gateway}
 

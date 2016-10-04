@@ -9,10 +9,12 @@ technische Umsetzung von ``brig`` geben sollen.
 
 ## Wahl der Sprache
 
-Als Sprache zur Implementierung wurde die relativ junge Programmiersprache *Go* ausgewählt.
-*Go* ist eine an *C* angelehnte Sprache, die von Ken Thompson, Rob Pike und Robert Griesemer
-initiiert wurde und mittlerweile von Google getragen und weiterentwickelt wird.
-Für dieses spezielle Projekt bietet die Sprache aus Sicht des Autors folgende Vorteile:
+Als Sprache zur Implementierung wurde die relativ junge Programmiersprache *Go*
+ausgewählt. *Go* ist eine an *C* angelehnte Sprache, die von Ken Thompson, Rob
+Pike und Robert Griesemer initiiert wurde und mittlerweile von Google getragen
+und weiterentwickelt wird (siehe auch [@go_programming_language], S. XI ff.).
+Für dieses spezielle Projekt bietet die Sprache aus Sicht des Autors folgende
+Vorteile:
 
 **Garbage--Collector:** Erleichtert die Entwicklung lang laufender Dienste und
 erleichtert den Programmierer die Arbeit durch den Wegfall der manuellen
