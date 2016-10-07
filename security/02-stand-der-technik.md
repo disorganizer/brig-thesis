@@ -746,3 +746,19 @@ Ermittlungsfehler, welche unschuldige Menschen hinter Gittern bringen oder zu
 Selbstmord treiben, sind hier leider an der Tagesordnung[^FN_DATENMISSBRAUCH].
 
 [^FN_DATENMISSBRAUCH]: Datenmissbrauch und Irrtümer: <http://www.daten-speicherung.de/index.php/faelle-von-datenmissbrauch-und-irrtuemern/>
+
+Laut Meinung des Autors ist es allgemein sinnvoll und wichtig Daten heutzutage
+vorwiegend verschlüsselt zu speichern. Der Wert der Daten vom Benutzer oft
+nicht »korrekt« eingestuft werden. Das Paradebeispiel hierfür ist die oben
+genannte geschichtliche Entwicklung.
+
+Auch wenn bei mobilen Geräten noch »Einsicht« herrscht, wird in anderen Fällen
+oft argumentiert, dass sensible Daten bei Bedarf sicher gelöscht werden können.
+Auch wenn dies für die meisten Fälle korrekt sein mag, sind folgende Fälle
+weiterhin als problematisch anzusehen:
+
+* Diebstahl auch bei nicht--mobilen Geräten möglich
+* Garantiefall (»defekte« Festplatte kann vielleicht nicht mehr gelöscht werden)
+* Software Wipe--Tools bei *SSDs*[^FN_SSD] problematisch (vgl. [@BIB_SSD_ERASE])
+
+[^FN_SSD]: Solid--Sate--Drive: <https://de.wikipedia.org/wiki/Solid-State-Drive>
