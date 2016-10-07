@@ -1,5 +1,14 @@
-# Sicherheit und Usability
+# Evaluation von Brig
 
-## FUSE--Layer und Backend
+## Einleitung
 
-## Grafische Oberflächen
+## Sicherheit
+
+Welche »Sicherheitsfeatures« sind in brig eingebaut?
+Evaluation der Geschwindigkeit der aktuellen »Sicherheitsfeatures«.
+
+## Mögliche Probleme
+
+## Angriffsszenarien
+
+## Risikomanagement
