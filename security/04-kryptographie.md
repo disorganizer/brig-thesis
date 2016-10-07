@@ -338,4 +338,4 @@ Systemkomponenten erfolgreiche Angriffe nicht unterbunden werden können (vgl.
 
 ## Sicherheit und Angriffsszenarien
 
-* Welche Sicherhetisprobleme existieren?
+* Welche Sicherheitsprobleme existieren?
