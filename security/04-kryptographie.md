@@ -54,10 +54,7 @@ Feistelrunden[^FN_FEISTEL]) auf Bit--Ebene dar, welche umkehrbar sind.
 Das Grundsätzliche Problem, welches bei Anwendung symmetrischer Verschlüsselung
 besteht, ist der *sichere* Schlüsselaustausch.
 
-![Konzept beim Austausch von Daten über einen unsicheren Kommunikationsweg
- unter Verwendung symmetrischer Kryptographie. *Alice* und *Bob* teilen einen
- *gemeinsamen Schlüssel* um die Daten zu ver-- und
- entschlüsseln.](images/symmetric.png){#fig:img-symmetric width=85%}
+![Konzept beim Austausch von Daten über einen unsicheren Kommunikationsweg unter Verwendung symmetrischer Kryptographie. *Alice* und *Bob* teilen einen *gemeinsamen Schlüssel* um die Daten zu ver-- und entschlüsseln.](images/symmetric.png){#fig:img-symmetric width=85%}
 
 #### Unterschied zwischen Block-- und Stromverschlüsselung
 
@@ -74,10 +71,7 @@ Verschlüsselung neben dem Schlüssel mit in die Verschlüsselung einfließen,
 bestimmt die sogenannte Betriebsart. [@fig:img-streamblock] zeigt exemplarisch
 den Unterschied zwischen Strom-- und Blockverschlüsselung.
 
-![Unterschied in der Arbeitsweise zwischen Block-- und Stromchiffre. Der
- Blockchiffre verschlüsselt die Daten blockweise, ein Stromchiffre hingegen
- verschlüsselt den Datenstrom
- »on--the--fly«.](images/streamblock.png){#fig:img-streamblock width=80%}
+![Unterschied in der Arbeitsweise zwischen Block-- und Stromchiffre. Der Blockchiffre verschlüsselt die Daten blockweise, ein Stromchiffre hingegen verschlüsselt den Datenstrom »on--the--fly«.](images/streamblock.png){#fig:img-streamblock width=80%}
 
 #### Betriebsarten der Blockverschlüsselung
 

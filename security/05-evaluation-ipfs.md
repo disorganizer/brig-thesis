@@ -6,6 +6,6 @@
 
 ### Dezentrale Schlüsselverwaltung
 
-## Angriffsszenarien 
+## Angriffsszenarien
 
 ## Risikomanagement
