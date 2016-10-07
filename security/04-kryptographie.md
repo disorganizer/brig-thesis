@@ -301,7 +301,7 @@ Authentifizierung wird Zwei--Faktor-- oder auch Mehr--Faktor--Authentifizierung
 genannt. Als zweiter *Faktor* kann beispielsweise ein biometrisches Merkmal
 verwendet werden. Eine weitere Form der Zwei--Faktor--Authentifizierung wäre
 beispielsweise die Chipkarte der Bank. Hierbei wird einerseits die *PIN* (etwas
-das man weiss) und die Chipkarte (etwas das man hat) benötigt. Eine
+das man weiß) und die Chipkarte (etwas das man hat) benötigt. Eine
 erfolgreiche Authentifizierung findet in dem Fall nur bei korrekter *PIN* unter
 Verwendung der Chipkarte der Bank statt.
 
@@ -338,14 +338,4 @@ Systemkomponenten erfolgreiche Angriffe nicht unterbunden werden können (vgl.
 
 ## Sicherheit und Angriffsszenarien
 
-* Welche Sicherhetisprobleme existieren? 
-
-# Evaluation der IPFS--Basis
-
-* Wie schaut es mit Verschlüsselung aus?
-* Wie schaut es mit Datenintegrität aus?
-* Welche Authentifizierungsmechanismen gibt es?
-
-# Evaluation brig Implementierung
-
-* nothing yet
+* Welche Sicherhetisprobleme existieren?
