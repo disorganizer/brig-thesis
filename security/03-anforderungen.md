@@ -63,7 +63,18 @@ Dies ermöglicht eine gezielte Synchronisation bestimmter Daten und ermöglicht
 dem Benutzer so Ressourcen (Speicherplatz und Zeit) zu sparen. Dabei sollen die
 Daten bei der Übertragung und Speicherung verschlüsselt sein.
 
-## Anforderungen an die Softwareentwicklung
+## Weitere Anforderungen an die Software und Softwareentwicklung
 
-* Transparentes Entwicklungsmodell * »Sichere« Softwareentwicklung * Signatur
-  von Software--Releases
+**Transparentes Entwicklungsmodell:** Es soll für den Verbraucher
+nachvollziehbar sein unter welchen Umständen die Software entsteht, sprich
+welche Technologien verwendet werden.
+
+**»Sichere« Softwareentwicklung:** Neben der »Usability« liegt ein
+Hauptaugenmerk auf der »Sicherheit«, das heißt, dass gewisse »Mindeststandards«
+(Schlüsselmanagement, bewährte Sicherheitsalgorithmen, et cetera) erfüllt
+werden müssen um ein »sicheres« Produkt zu gewährleisten. Weiterhin sollte bei
+der Softwareentwicklung eine Authentifizierung der Entwickler möglich sein. 
+
+**»Sicheres« Update-- und Patch--Mechanismus:** Softwareupdates und
+sicherheitskritische Patches müssen den Verbraucher »schnell« und »sicher«
+erreichen.
