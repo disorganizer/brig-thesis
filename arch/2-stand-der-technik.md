@@ -20,6 +20,8 @@ trägt aber selbst etwas bei indem er selbst Anfragen beantwortet. Im
 Client--Server--Modell entspricht ein Peer also sowohl Server als auch Client
 (siehe auch [@fig:central-distributed]).
 
+<!-- Die Referenz @peer2Peer führt ins Leere -->
+
 ![Anschaulicher Unterschied zwischen zentralen und verteilten Systemen.](images/2/central-distributed.pdf){#fig:central-distributed}
 
 Im alltäglichen Gebrauch der meisten »Otto--Normal--Nutzer« scheinen
@@ -56,8 +58,8 @@ Client--Server--Anwendungen haben damit kein Problem, da der »anonyme« Client
 die Verbindung zum »wohlbekannten« Server selbstständig aufbaut. Bei einer
 P2P--Kommunikation hingegen, muss eine Verbindung in beide Richtungen möglich
 sein --- und das möglicherweise sogar über mehrere *NATs* hinweg. Die Umgehung
-dieser Grenzen ist in der Literatur als *NAT Traversal* bekannt p2p/jabber
-buch). Eine populäre Technik ist dabei das UDP--Hole--Punching[^HOLE_PUNCH]. Dabei wird,
+dieser Grenzen ist in der Literatur als *NAT Traversal* bekannt. Eine populäre
+Technik ist dabei das UDP--Hole--Punching[^HOLE_PUNCH]. Dabei wird,
 grob erklärt, ein beiden Parteien bekannter Mittelsmann herangezogen, über den
 die eigentliche, direkte Verbindung aufgebaut wird. Eine technische
 Notwendigkeit dabei ist die Verwendung von *UDP* anstatt *TCP*.
@@ -90,7 +92,7 @@ Siehe auch: <https://de.wikipedia.org/wiki/Hashfunktion>
 In diesem Kontext meint der Begriff »Synchronisation« das Zusammenführen der Dateistände
 mehrerer Netzwerkteilnehmer. Typischerweise nutzen viele Nutzer heutzutage
 dafür einen zentralen Dienst. Dieser hält einen Dateistand vor, der von allen
-Teilnehmern als Referenz angesehen wird. Ändert ein Teilnehmer seine Stand, so
+Teilnehmern als Referenz angesehen wird. Ändert ein Teilnehmer seinen Stand, so
 wird die Änderung zum zentralen Server übertragen und erreicht so auch alle
 anderen Teilnehmer.
 
@@ -102,17 +104,16 @@ Verbindungen zu einem zentralen Server (beispielsweise Dropbox) geöffnet. Der
 Server muss nun 50 Verbindungen gleichzeitig bearbeiten und muss eine
 entsprechende Bandbreite zur Verfügung stellen. Bei kleineren Diensten kann
 dies bereits der Flaschenhals sein, teilweise kann aber auch die Bandbreite auf
-Seiten des Empfängers limitiert sein. Fällt der zentrale Server aus (er ist
-ein »Single--Point--of--Failure«), so kann kein neuer Nutzer mehr das Festplattenimage
-empfangen.
+Seiten des Empfängers limitiert sein. Fällt der zentrale Server aus (»Single--Point--of--Failure«),
+so kann kein neuer Nutzer mehr das Festplattenimage empfangen.
 
 ![Veranschaulichung der Netzwerklast bei zentralen und dezentralen Systemen.](images/2/zentral-dezentral-speedup.pdf){#fig:speedup}
 
-Anders liegt der Fall es wenn die Rechner der Studenten ein verteiltes Netzwerk
-bilden. Hier genügt es wenn nur ein Rechner einen Teil der Datei hat. Diesen
+Im Falle das die Rechner der Studenten ein verteiltes Netzwerk bilden: 
+Hier genügt es wenn nur ein Rechner einen Teil der Datei hat. Diesen
 Teil kann er im lokalen Netz anderen Teilnehmern wieder anbieten und sich Teile
 der Datei besorgen, die er selbst noch nicht hat. So muss in der Theorie die
-Datei nur maximal einmal gesamt vom zentralen Server übertragen werden. In
+Datei nur maximal einmal vom zentralen Server übertragen werden. In
 diesem etwas konstruierten[^CACHING_PROXY] Beispiel würde im dezentralen
 Netzwerk die Datei also bis zu 50-mal schneller verteilt werden, als im
 zentralen Anwendungsfall. Fällt der zentrale Server aus nachdem die Datei
@@ -552,7 +553,7 @@ ausreichend hohe Performanz bietet.
 
 **Keine Kollision der Prüfsummen:** ``brig`` kann (genau wie ``ipfs``) Dateien
 nicht auseinander halten, die einen unterschiedlichen Inhalt besitzen, aber die
-selbe Prüfsumme erzeugen. Auch wenn dieser Fall in der Theorie eintreten mag,
+selbe Prüfsumme erzeugen. Auch wenn dieser Fall in der Theorie eintreten kann,
 so ist dieser extrem schwer zu erreichen. Der von
 ``ipfs`` standardmäßig verwendete Algorithmus ist *sha256*[^SHA256], welcher eine Prüfsumme
 von 256 Bit Länge liefert. Wie in [@eq:hash-collision] gezeigt, müssten aufgrund des
