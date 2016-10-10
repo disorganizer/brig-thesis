@@ -67,9 +67,8 @@ Falle des Ausfalls eines Knotens wiederherstellbar ist, muss mindestens ein
 anderer Knoten, die Datei vollständig gespeichert haben, während andere
 Werkzeuge kleine Blöcke der Dateien redundant auf mehreren Rechnern ablegen.
 Werden diese beschädigt können diese sich selbst reparieren oder von anderen
-Knoten neu übertragen werden. Für die meisten Anwendungszwecke halten ist
-auch Sicht des Autors
-Redundanz auf dem Dateilevel allerdings ausreichend.
+Knoten neu übertragen werden. Für die meisten Anwendungszwecke ist
+aus Sicht des Autors Redundanz auf dem Dateilevel ausreichend.
 
 **Embedded Devices:** ``brig`` benötigt ein vollständiges Betriebssystem mit
 Netzwerkanschluss, Hauptspeicher und einer ausreichend starken CPU. Die
@@ -431,8 +430,8 @@ Möglich wäre auch die Implementierung eines Passwortschutzes, um den Zugriff
 auf die Dateien zusätzlich abzusichern. Die Verbindung kann dabei durch HTTPS
 abgesichert werden. Dies benötigt auf Seite des Webservers ein gültiges
 TLS--Zertifikat. Mittlerweile gibt es dafür automatisierte Dienste wie
-*LetsEncrypt*[^LETS_ENCRYPT]. Der in *Go* geschrieben Webserver
-``caddy``[^CADDY] beherrscht bereits das automatische Besorgen des eines
+*LetsEncrypt*[^LETS_ENCRYPT]. Der in *Go* geschriebene Webserver
+``caddy``[^CADDY] beherrscht bereits das automatische Besorgen eines
 *LetsEncrypt*--Zertifikats.
 
 [^LETS_ENCRYPT]: <https://letsencrypt.org>

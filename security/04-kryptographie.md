@@ -54,10 +54,7 @@ Feistelrunden[^FN_FEISTEL]) auf Bit--Ebene dar, welche umkehrbar sind.
 Das Grundsätzliche Problem, welches bei Anwendung symmetrischer Verschlüsselung
 besteht, ist der *sichere* Schlüsselaustausch.
 
-![Konzept beim Austausch von Daten über einen unsicheren Kommunikationsweg
- unter Verwendung symmetrischer Kryptographie. *Alice* und *Bob* teilen einen
- *gemeinsamen Schlüssel* um die Daten zu ver-- und
- entschlüsseln.](images/symmetric.png){#fig:img-symmetric width=85%}
+![Konzept beim Austausch von Daten über einen unsicheren Kommunikationsweg unter Verwendung symmetrischer Kryptographie. *Alice* und *Bob* teilen einen *gemeinsamen Schlüssel* um die Daten zu ver-- und entschlüsseln.](images/symmetric.png){#fig:img-symmetric width=85%}
 
 #### Unterschied zwischen Block-- und Stromverschlüsselung
 
@@ -74,10 +71,7 @@ Verschlüsselung neben dem Schlüssel mit in die Verschlüsselung einfließen,
 bestimmt die sogenannte Betriebsart. [@fig:img-streamblock] zeigt exemplarisch
 den Unterschied zwischen Strom-- und Blockverschlüsselung.
 
-![Unterschied in der Arbeitsweise zwischen Block-- und Stromchiffre. Der
- Blockchiffre verschlüsselt die Daten blockweise, ein Stromchiffre hingegen
- verschlüsselt den Datenstrom
- »on--the--fly«.](images/streamblock.png){#fig:img-streamblock width=80%}
+![Unterschied in der Arbeitsweise zwischen Block-- und Stromchiffre. Der Blockchiffre verschlüsselt die Daten blockweise, ein Stromchiffre hingegen verschlüsselt den Datenstrom »on--the--fly«.](images/streamblock.png){#fig:img-streamblock width=80%}
 
 #### Betriebsarten der Blockverschlüsselung
 
@@ -307,7 +301,7 @@ Authentifizierung wird Zwei--Faktor-- oder auch Mehr--Faktor--Authentifizierung
 genannt. Als zweiter *Faktor* kann beispielsweise ein biometrisches Merkmal
 verwendet werden. Eine weitere Form der Zwei--Faktor--Authentifizierung wäre
 beispielsweise die Chipkarte der Bank. Hierbei wird einerseits die *PIN* (etwas
-das man weiss) und die Chipkarte (etwas das man hat) benötigt. Eine
+das man weiß) und die Chipkarte (etwas das man hat) benötigt. Eine
 erfolgreiche Authentifizierung findet in dem Fall nur bei korrekter *PIN* unter
 Verwendung der Chipkarte der Bank statt.
 
@@ -344,14 +338,4 @@ Systemkomponenten erfolgreiche Angriffe nicht unterbunden werden können (vgl.
 
 ## Sicherheit und Angriffsszenarien
 
-* Welche Sicherhetisprobleme existieren? 
-
-# Evaluation der IPFS--Basis
-
-* Wie schaut es mit Verschlüsselung aus?
-* Wie schaut es mit Datenintegrität aus?
-* Welche Authentifizierungsmechanismen gibt es?
-
-# Evaluation brig Implementierung
-
-* nothing yet
+* Welche Sicherheitsprobleme existieren?

@@ -167,6 +167,8 @@ sind inspiriert von der OTR--Implementierung des Instant-Messanger Pidgin[^PIDGI
 
 [^PIDGIN]: Webseite: <https://www.pidgin.im>
 
+<!-- Die Nummer der Seite 23 ist komisch :D -->
+
 **Identität:** Jeder Benutzer des Netzwerks muss eine öffentliche Identität
 besitzen, welche ihn eindeutig identifiziert. Gekoppelt mit der öffentlichen
 Identität soll jeder Nutzer ein überprüfbares Geheimnis kennen, mithilfe dessen er sich
@@ -217,9 +219,8 @@ Sicht mobile Plattformen unterstützt werden.
 Vorkenntnisse installierbar sein. Zur Installation gehört dabei nicht nur die
 Beschaffung der Software und deren eigentliche Installation, sondern auch die
 initiale Konfiguration. Die Erfahrungen des Autors haben gezeigt, dass Nutzer
-verständlicherweise oft eine einfach zu installierende Software einer
-schwer zu installierenden Software bevorzugen, die aber möglicherweise ihr
-Problem besser löst.
+oft eine einfach zu installierende Software bevorzugen, obwohl eine schwerer zu
+installierende Software, ihr Problem möglicherweise besser löst.
 
 **Keine künstlichen Limitierungen:** Mit ``brig`` sollten die gleichen für den
 Nutzer gewohnten Operationen und Limitierungen gelten, wie bei einem normalen
@@ -252,7 +253,7 @@ herunterladbar macht. Ein dezentrales Netzwerk wie ``brig`` muss hingegen
 *Gateways* anbieten, also eine handvoll Dienste, welche zwischen den »normalen
 Internet« und dem ``brig``--Netzwerk vermitteln (siehe [@fig:gateway]). Die
 Nutzer, welche die Dateien verteilen wollen, können ein solches Gateway selbst
-betreiben. oder können ein von Freiwilligen betriebenes Gateway benutzen.
+betreiben. Oder können ein von Freiwilligen betriebenes Gateway benutzen.
 
 ![HTTPS Gateway](images/7/gateway.pdf){#fig:gateway}
 

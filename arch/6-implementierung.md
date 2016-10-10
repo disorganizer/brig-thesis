@@ -1,5 +1,7 @@
 # Implementierung {#sec:implementierung}
 
+<!-- Das Kapitel liest sich etwas holprig -->
+
 Dieses Kapitel dokumentiert die Implementierung.
 Der praktische Status der Implementierung kann in [@sec:benutzerhandbuch] betrachtet werden.
 Dort werden nur Funktionen gezeigt, die auch tatsächlich schon existieren.
@@ -25,9 +27,8 @@ aber zumindest in der selben Größenordnung (vgl. [@pike2009go], S. 37).
 
 **Weitläufige Standardbibliothek:** Es sind wenig externe Bibliotheken nötig.
 Insbesondere für die Entwicklung von Netzwerk- und Systemdiensten gibt es eine
-breite Auswahl von gut durchdachten Bibliotheken. Insbesondere das Angebot an
-gut ausgewählten und dokumentierten kryptografischen Primitiven erschien
-wichtig.[^ECB_MODE]
+breite Auswahl von gut durchdachten Bibliotheken. Besonders Erwähnenswert ist
+das umfangreiche Angebot an gut dokumentierten kryptografischen Primitiven.[^ECB_MODE]
 
 [^ECB_MODE]: So wurde beispielsweise der unsichere ECB--Betriebsmodus für Blockchiffren absichtlich weggelassen: <https://github.com/golang/go/issues/5597>
 
@@ -59,8 +60,8 @@ Static--Code--Checker, eine Formattierungshilfe und eine Art Paketmanager.
 
 **Einfache Installation und rapides Prototyping:** Durch das ``go
 get``--Wekzeug ist es möglich direkt Bibliotheken und Anwendungen von
-Plattformen wie *GitHub* zu installieren. Gleichzeitig ist es sehr simpel
-möglich dort eigene Bibliotheken und Anwendungen einzustellen.
+Plattformen wie *GitHub* zu installieren. Gleichzeitig ist es einfach
+eigene Bibliotheken und Anwendungen einzustellen.
 
 **Einheitliche Formatierung:** Durch das »``go fmt``« Werkzeug und strikte
 Stilrichtlinien[^STILRICHT] sieht jeder *Go*--Quelltext ähnlich und damit vertraut aus.
@@ -76,13 +77,13 @@ ist, aber dadurch gleichzeitig auch sehr einfach zu lesen ist.
 
 [^MOBILE]: Siehe dazu: <https://golang.org/wiki/Mobile>
 
-Natürlich ist auch *Go* keine perfekte Sprache. Daher werden untenstehend
+Auch *Go* ist keine perfekte Sprache. Daher werden nachfolgend
 einige kleinere Nachteile und deren Lösungen im Kontext von ``brig``
 aufgezählt:
 
 **Schwergewichtige Binärdateien:** Da bei *Go* alles statisch gelinkt wird, ist die
 entstehende Binärdatei relativ groß. Im Falle des ``brig``--Prototypen sind das
-momentan etwa 35 Megabyte. Werkzeuge wie ``upx``[^UPX] können dies allerdings auf
+momentan etwa 35 Megabyte. Werkzeuge wie ``upx``[^UPX] können dies auf
 rund 8 Megabyte reduzieren, ohne dass der Anwender die Binärdatei entpacken
 muss.
 
@@ -94,8 +95,8 @@ Versionsstand, der von den Entwicklern getestet werden konnte. Dienste wie
 *gopkg.in*[^GOPKG] versuchen eine zusätzliche Versionierung anzubieten, der
 aktuelle »Standard« ist die Nutzung des ``vendor`` Verzeichnisses. Diese Lösung
 läuft darauf hinaus alle benötigten Abhängigkeiten in der gewünschten Version
-in das eigene Quelltext--Repository zu kopieren. Diese zwar durchaus unelegante
-aber gut funktionierende Lösung verfolgt auch ``brig``[^VENDOR].
+in das eigene Quelltext--Repository zu kopieren. Diese unelegante
+aber gut funktionierende Lösung, wird von ``brig`` verwendet[^VENDOR].
 
 [^GOPKG]: <http://labix.org/gopkg.in>
 [^VENDOR]: Eigenes Repository für verwendete Bibliotheken: <https://github.com/disorganizer/brig-vendor>
@@ -117,7 +118,7 @@ Die Statistik in [@tbl:cloc-output] wurde mit dem freien Werkzeug
 eingerechnet, Testdateien hingegen schon. Auch fehlen in der Statistik die
 Module aus [@sec:dev-history], die zwar geschrieben worden sind, aber aufgrund
 sich ändernder Designanforderungen wieder gelöscht worden sind. Es wurde
-explizit versucht, die Quelltextbasis möglichst klein zu halten.
+versucht, die Quelltextbasis möglichst klein zu halten.
 
 | **Sprache**              | **Dateianzahl** | **Leerzeilen** | **Kommentare**    | **Codezeilen**
 | ------------------------ | --------------- | ------------   | ----------------- | --------
@@ -387,7 +388,7 @@ aufgerufenen Funktion ist das Auslesen der Details aus dem *Request--Objekt*
 einer Aktion (Beispiel: Öffne Datenstrom von ``ipfs``) und das Befüllen des
 *Response--Objekts* (Beispiel: Kein Fehler, neuer Dateideskriptor wird
 zurückgegeben). Bei Fehlern kann verfrüht abgebrochen werden und ein spezieller
-Fehlercode darf zurückgegeben werden (Beispiel: ``fuse.EIO`` für einen
+Fehlercode wird zurückgegeben werden (Beispiel: ``fuse.EIO`` für einen
 Input/Output--Fehler). Auf diese Weise können die meisten
 Systemaufrufe[^SYSCALL] (die normal vom Kernel vorgegeben sind) durch eigenen
 Code implementiert werden. Beispielsweise wird auch ein Callback aufgerufen, wenn

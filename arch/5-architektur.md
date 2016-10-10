@@ -298,7 +298,7 @@ ist.
 Macht man in diesem Zustand Änderungen ist es möglich die
 geänderten Daten zu verlieren[^DETACHED_HEAD]. Um das zu vermeiden, hält ``brig``
 die Historie stets linear und unveränderlich.
-Dies stellt keine Einschränkung der Architektur an sich.
+Dies stellt keine Einschränkung der Architektur an sich dar.
 
 ``LOG/HISTORY:`` Zeigt alle Commits, bis auf den Staging--Commit. Begonnen wird
 die Ausgabe mit ``HEAD`` und beendet wird sie mit dem initialen Commit.
@@ -705,7 +705,7 @@ Veranschaulichung.
 
 Zusammengefasst ist ``brigctl`` eine »Fernbedienung« für ``brigd``, welche im
 Moment exklusiv von der Kommandozeile aus bedient wird. In den meisten Fällen
-verbindet sich der Kommando--Prozess ``brigctl`` sich beim Start zu ``brigd``,
+verbindet sich der Kommando--Prozess ``brigctl`` beim Start zu ``brigd``,
 sendet ein mittels *Protobuf* serialisiertes Kommando und wartet auf die
 dazugehörige Antwort welche dann deserialisiert wird. Nachdem die empfangene
 Antwort, je nach Art, ausgewertet wurde, beendet sich der Prozess wieder.
@@ -991,6 +991,8 @@ einen effizienten, wahlfreien Zugriff am Ende der Datei bietet.
 Glücklicherweise unterstützt dies ``ipfs``. Datenströme wie ``stdin`` unter
 Unix unterstützen allerdings keinen wahlfreien Zugriff, weshalb das
 vorgestellte Format für diese Anwendungsfälle eher ungeeignet ist.
+
+<!-- Wofür wird "stdin" gebraucht? Warum "stdin" erwähnen? -->
 
 Der Index besteht aus zwei Teilen: Aus dem eigentlichen Index und einem
 sogenannten »Trailer«, der die Größe des Indexes enthält. Zusätzlich enthält

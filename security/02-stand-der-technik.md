@@ -687,6 +687,8 @@ Volume--Schlüssel aus dem Speicher entfernt, kann man sich den Quelltext auf
 
 ## Gesellschaftliche und Politische Aspekte
 
+### Gefahr für Demokratie
+
 Seit den Snowden--Enthüllungen[^FN_SNOWDEN_LEAK] ist offiziell bekannt, dass
 Unternehmen rechtlich gezwungen werden können personenbezogene Daten an
 Behörden weiter zu geben.
@@ -698,7 +700,7 @@ den Anschein, dass viele Menschen für die Thematik der Privatsphäre nicht genu
 sensibilisiert sind. Diskutiert man über sichere Alternativen oder macht
 Personen auf den problematischen Datenschutz von zentralen Diensten wie
 *Facebook*, *Dropbox* und Co. Aufmerksam, bekommt man oft das Argument »Ich
-habe nichts zu verbergen!« zu hören. 
+habe nichts zu verbergen!« zu hören.
 
 Edward Snowden sagte, dass das der falsche Ansatz ist, weil dadurch das
 Grundprinzip der Demokratie »umdreht« wird. Alle Macht geht vom Volke aus, aber
@@ -713,7 +715,11 @@ vergleichbar?
 Die eigene Privatsphäre aus der »Ich habe nichts zu verbergen«--Perspektive zu
 betrachten ist ein problematischer Ansatz. Es geht bei der Privatsphäre nicht
 darum irgend etwas »illegales« zu verbergen, es geht um den Schutz der eigenen
-Persönlichkeit und um die Wahrung der eigenen Persönlichkeitsrechte.
+Persönlichkeit und um die Wahrung der eigenen Persönlichkeitsrechte. Die
+Privatsphäre ein Grundrecht dar und ist in allen modernen Demokratien
+verankert[^FN_WP_PRIVACY].
+
+[^FN_WP_PRIVACY]: Privatsphäre: <https://de.wikipedia.org/wiki/Privatsph%C3%A4re>
 
 Ob man etwas zu verbergen hat, wird weiterhin durch den »Beobachter«
 entschieden. In unserem heutigen gesellschaftlichen Kontext heißt das, dass
@@ -740,3 +746,19 @@ Ermittlungsfehler, welche unschuldige Menschen hinter Gittern bringen oder zu
 Selbstmord treiben, sind hier leider an der Tagesordnung[^FN_DATENMISSBRAUCH].
 
 [^FN_DATENMISSBRAUCH]: Datenmissbrauch und Irrtümer: <http://www.daten-speicherung.de/index.php/faelle-von-datenmissbrauch-und-irrtuemern/>
+
+Laut Meinung des Autors ist es allgemein sinnvoll und wichtig Daten heutzutage
+vorwiegend verschlüsselt zu speichern. Der Wert der Daten vom Benutzer oft
+nicht »korrekt« eingestuft werden. Das Paradebeispiel hierfür ist die oben
+genannte geschichtliche Entwicklung.
+
+Auch wenn bei mobilen Geräten noch »Einsicht« herrscht, wird in anderen Fällen
+oft argumentiert, dass sensible Daten bei Bedarf sicher gelöscht werden können.
+Auch wenn dies für die meisten Fälle korrekt sein mag, sind folgende Fälle
+weiterhin als problematisch anzusehen:
+
+* Diebstahl auch bei nicht--mobilen Geräten möglich
+* Garantiefall (»defekte« Festplatte kann vielleicht nicht mehr gelöscht werden)
+* Software Wipe--Tools bei *SSDs*[^FN_SSD] problematisch (vgl. [@BIB_SSD_ERASE])
+
+[^FN_SSD]: Solid--Sate--Drive: <https://de.wikipedia.org/wiki/Solid-State-Drive>

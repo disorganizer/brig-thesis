@@ -77,6 +77,7 @@ landen. Dazu ist das Setzen der Umgebungsvariable ``GOPATH`` nötig:
 ```bash
 $ mkdir ~/go
 $ export GOPATH=~/go
+$ export GOBIN=~/go/bin
 $ export PATH=$PATH:~/go/bin
 ```
 
@@ -295,7 +296,7 @@ photos  movies  knorkator
 Es können wie gewohnt Dateien editiert werden, gelöscht und neu angelegt werden:
 
 ```sh
-$ gimp /tmp/alice-moumt/photos/cat.png
+$ gimp /tmp/alice-mount/photos/cat.png
 $ cp ~/dog.png /tmp/alice-mount/photos
 $ rm /tmp/alice/photos/dog.png
 ```
@@ -419,9 +420,9 @@ QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
 QmNwr8kJrnQdjwupCDLs2Fv8JknjWD7esrF81QDKT2Q2g6
 ```
 
-Für gewöhnlich taucht hier allerdings nur ein Hash--Wert auf, in diesem Fall
-muss allerdings zwischen zwei verschiedenen Identitäten gewählt werden.
-Mindestens eine davon könnte allerdings theoretisch ein Betrüger sein, der nur
+Für gewöhnlich taucht hier nur ein Hash--Wert auf, in diesem Fall
+muss zwischen zwei verschiedenen Identitäten gewählt werden.
+Mindestens eine davon könnte theoretisch ein Betrüger sein, der nur
 den Nutzernamen *alice@wonderland.lit/laptop* verwendet. In diesem Fall ist es
 nötig über einen Seitenkanal direkt Kontakt mit der Person aufzunehmen, mit der
 man synchronisieren will und darüber die Identität abzugleichen. Ein möglicher
@@ -434,6 +435,9 @@ $ brig remote add alice@wonderland.lit/laptop QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvH
 ```
 
 TODO: Check einbauen ob der Kontakt verfügbar ist und warnen falls nicht?
+
+<!-- Es kommt "Unterbefehl" und "Unterkommando" vor. Man sollte sich für eines
+entscheiden --> 
 
 Der Unterbefehl »``brig remote list``« zeigt alle verfügbaren Kontakte an und
 ob diese online sind:
@@ -469,13 +473,16 @@ Benötigt man später wieder den Speicherplatz, so kann die Datei wieder
 »unpinned« werden. ``brig`` wird diese Datei nach einiger Zeit aus dem lokalen
 Zwischenspeicher entfernen, sofern ein Platzmangel vorherrscht:
 
+<!-- Es ist vielleicht sinnvoll für "mount" und "pin" einen gegen Befehl mit "un-"
+anzubieten. Würde ich als Anwender zumindest erwarten -->
+
 ```sh
 $ brig pin -u /thesis/01-motivation.tex
 ```
 
 ### Konfiguration (``brig config``)
 
-``brig`` bietet momentan einige wenige Konfigurationswerte, um das Verhalten
+``brig`` bietet momentan wenige Optionen, um das Verhalten
 der Software nach seinen Wünschen einzustellen. Ein Überblick über die
 verfügbaren Optionen liefert das Unterkommando  ``$ brig config
 list``{.sh}:
@@ -504,6 +511,8 @@ Möchte man die Werte editieren, so können diese einzeln gesetzt werden:
 ```sh
 $ brig config set daemon.port 7777
 ```
+
+<!-- "Kommandos" und "Befehl", besser ist es eins von beiden zu verwenden -->
 
 ## Fortgeschrittene Nutzung
 

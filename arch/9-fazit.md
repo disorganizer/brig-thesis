@@ -7,11 +7,9 @@ Dateisynchronisationssystem vorgestellt, der viele bestehende Ideen in einem
 stimmigen Konzept vereint. Eine funktionierende, quelloffene und für alle
 zugängliche Implementierung wurde vorgestellt und dokumentiert. Die anfangs
 gestellten Anforderungen konnte im Großen und Ganzen umgesetzt werden, auch
-wenn die Implementierung den Konzepten etwas nachsteht. Aus Sicht der Entwicklern
-ist dies aufgrund der hohen Ambitionen und des geringen Zeitrahmens zumindest
-verständlich. Letztlich ist eine solide Basis für weitere Entwicklungen
-entstanden, die in absehbarer Zeit einem größeren Publikum präsentiert werden
-kann.
+wenn die Implementierung den Konzepten etwas nachsteht. Letztlich ist eine
+solide Basis für weitere Entwicklungen entstanden, die in absehbarer Zeit einem
+größeren Publikum präsentiert werden kann.
 Eine Abgrenzung zu anderen, existierenden Werkzeugen ergibt sich vor allem
 dadurch, dass die technischen Internas von ``brig`` vergleichsweise leicht
 verständlich sind und auch von fortgeschrittenen Nutzern verstanden werden
@@ -28,10 +26,9 @@ der Software und die zugrunde liegenden Konzepte konzentrieren müssen.
 Zusatzmodule wie Verschlüsselung sind wichtig, hätten aber auch zu späteren
 Zeitpunkten nachgerüstet werden können.
 
-Weiterhin wäre im Nachhinein eine prototypischere Entwicklung angebracht
-gewesen: Es wurde viel Zeit darauf verwandt, Konzepte in Quelltext zu gießen,
+Es wurde viel Zeit darauf verwandt, Konzepte in Quelltext zu gießen,
 die letztlich keine Anwendung fanden oder nicht aufgingen. Das lässt sich
-natürlich bei großen Projekten kaum vermeiden, aber das Testen neuer Konzepte
+bei großen Projekten kaum vermeiden, aber das Testen neuer Konzepte
 hätte auch mittels »unsauberer« Lösungen funktioniert. Hätte man die Software
 beispielsweise, nach Unix--Philosophie (wie ``git``), als Sammlung kleiner
 Werkzeuge konzipiert, hätte man diese kurzzeitig mit einer Skriptsprache wie
@@ -51,7 +48,7 @@ dass sie wirklich nützlich ist und die Welt etwas verbessern könnte.
 
 Besonders fraglich ist wie gut das System in der Praxis funktioniert und auf
 größere Nutzermengen skaliert. Da ``brig`` von technisch versierten Nutzern
-entwickelt wurde, ist es auch fraglich ist wie gut verständlich es für neue,
+entwickelt wurde, ist es auch fraglich wie gut verständlich es für neue,
 unerfahrenere Benutzer ist. Aus Sicht der Usability gibt es
 noch einige technische und konzeptuelle Probleme:
 
@@ -109,7 +106,7 @@ die Software für verschiedene Betriebssysteme gepackt werden.
 
 Folgende Plattformen erscheinen uns für eine Präsentation der Software geeignet:
 
-- Ein »Linux Tag« (Beispielsweise der »Linux Info Tag« in Augsburg[^LUGA]).
+- Bei einem »Linux Tag« (Beispielsweise der »Linux Info Tag« in Augsburg[^LUGA]).
   Dort wäre eine detaillierte Präsentation vor Publikum mit direkten Feedback möglich.
 * Kleineres Forum mit technisch versierten Nutzern; beispielsweise ein Forum
   für fortgeschrittene Linux--User. Dort könnte auch eine Paketierung der Software

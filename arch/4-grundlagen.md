@@ -250,7 +250,7 @@ In der Grafik sieht man das dadurch, dass ``big.mkv`` bereits aus zwei Blöcken
 von ``small.mkv`` besteht und der zweite Wurzelknoten auf ``/photos`` referenziert,
 ohne dessen Inhalt zu kopieren.
 
-Im Datenmodell von ``ipfs`` ([@benet2014ipfs, S.7 ff.] gibt es drei
+Im Datenmodell von ``ipfs`` ([@benet2014ipfs, S.7 ff.]) gibt es drei
 unterschiedliche Strukturen:
 
 - ``blob:`` Ein Datensatz mit definierter Größe und Prüfsumme.  Wird teilweise auch *Chunk* genannt.
