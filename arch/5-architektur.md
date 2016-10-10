@@ -15,12 +15,12 @@ jeweiligen Komponenten hingegen wird in [@sec:implementierung]
 
 ## Datenmodell von ``brig``
 
-Die Einsatzziele von ``brig`` und ``git`` unterscheiden sich: ``git`` ist primär eine
-Versionsverwaltugssoftware, mit der man auch synchronisieren kann. ``brig``
-hingegen ist eine Synchronisationssoftware, die auch Versionierung beherrscht.
-Aus diesem Grund wurde das Datenmodell von ``git`` für den Einsatz in ``brig``
-angepasst und teilweise vereinfacht. Die Hauptunterschiede sind dabei wie
-folgt:
+Die Einsatzziele von ``brig`` und ``git`` unterscheiden sich: ``git`` ist
+primär eine Versionsverwaltugssoftware, mit der man auch synchronisieren kann.
+``brig`` kann man hingegen eher als eine Synchronisationssoftware sehen, die
+auch Versionierung beherrscht. Aus diesem Grund wurde das Datenmodell von
+``git`` für den Einsatz in ``brig`` angepasst und teilweise vereinfacht. Die
+Hauptunterschiede sind dabei wie folgt:
 
 - **Strikte Trennung zwischen Daten und Metadaten:** Metadaten werden von ``brig``'s
   Datenmodell verwaltet, während die eigentlichen Daten lediglich per Prüfsumme
@@ -172,10 +172,11 @@ neuer *Merge--Point* dient.
 
 Die Gesamtheit aller *Files*, *Directories*, *Commits*, *Checkpoints* und
 *Refs* wird im Folgenden als *Store* bezeichnet. Da ein *Store* nur aus
-Metadaten besteht, ist er selbst leicht übertragbar. Er kapselt den Objektgraphen
-und kümmert sich um die Verwaltung der Objekte. Basierend auf dem Store
-werden insgesamt elf verschiedene atomare Operationen implementiert, die jeweils
-den aktuellen Graphen nehmen und einen neuen und veränderten Graphen erzeugen.
+Metadaten besteht, ist er selbst leicht auf andere Geräte übertragbar. Er
+kapselt den Objektgraphen und kümmert sich um die Verwaltung der Objekte.
+Basierend auf dem Store werden insgesamt elf verschiedene atomare Operationen
+implementiert, die jeweils den aktuellen Graphen nehmen und einen neuen und
+veränderten Graphen erzeugen.
 
 Es gibt sechs Operationen, die die Benutzung des Graphen als gewöhnliches Dateisystem ermöglichen:
 
@@ -247,10 +248,13 @@ Prüfsumme des entfernten Dokumentes wird aus den Elternknoten herausgerechnet
 und dafür die alte Prüfsumme wieder eingerechnet.
 
 *Anmerkung:* Die Benennung der Operationen ``STAGE``, ``UNSTAGE`` und
-``REMOVE`` ist anders als bei den semantisch gleichen ``git``--Werkzeugen  ``add``,
-``reset`` und ``rm``. Die Benennung nach dem ``git``--Schema ist irreführend, da
-``git add`` auch modifizierte Dateien hinzufügt (als auch neue Dateien) und
-nicht das Gegenteil von ``git rm`` ist.[^GIT_FAQ_RM].
+``REMOVE`` ist anders als bei den semantisch gleichen ``git``--Werkzeugen
+``add``, ``reset`` und ``rm``. Die Benennung nach dem ``git``--Schema ist
+irreführend, da ``git add`` nicht nur neue Dateien, sondern auch modifizierte
+Dateien hinzugefügt. Zudem ist ``git add`` es nicht das Gegenteil von ``git
+rm``[^GIT_FAQ_RM], wie man vom Namen annehmen könnte. Dass eigentliche
+Gegenteil ist ``git reset``. Eine mögliche Alternative zu ``brig stage`` wäre
+vermutlich auch ``brig track``, beziehungsweise ``brig untrack``.
 
 [^GIT_FAQ_RM]: Selbstkritik des ``git``--Projekts: <https://git.wiki.kernel.org/index.php/GitFaq#Why_is_.22git_rm.22_not_the_inverse_of_.22git_add.22.3F>
 
@@ -403,25 +407,25 @@ darin. Eine Änderung der ganzen Datei kann dabei durch folgende Aktionen des Nu
 Der vierte Zustand (``ADD``) ist dabei der Initialisierungszustand. Nicht alle dieser
 Zustände führen dabei automatisch zu Konflikten. So sollte beispielsweise ein guter
 Algorithmus kein Problem erkennen, wenn ein Partner die Datei modifiziert und
-der andere sie lediglich umbenennt. Eine Synchronisation der entsprechenden
+der andere sie nicht verändert, sondern lediglich umbenennt. Eine Synchronisation der entsprechenden
 Datei sollte den neuen Inhalt mit dem neuen Dateipfad zusammenführen.
 [@tbl:sync-conflicts] zeigt welche Operationen zu Konflikten führen und welche
 verträglich sind. Die einzelnen Möglichkeiten sind dabei wie folgt:
 
 * »\xmark«: Die beiden Aktionen sind nicht miteinander verträglich, es sei denn ihre Prüfsummen sind gleich.
 * »\qmark«: Die Aktion ist prinzipiell verträglich, hängt aber von der Konfiguration ab.
-            Entweder wird die Löschung vom Gegenüber propagiert oder die eigene Datei wird behalten (Standard).
+            Entweder wird die Löschung oder die Umbenennung vom Gegenüber propagiert oder die eigene Datei wird behalten (Standard).
 * »\cmark«: Die beiden Aktionen sind verträglich.
 
 
-| A/B          | ``ADD``           | ``REMOVE``        | ``MODIFY``        | ``MOVE``           |
+| **A/B**      | ``ADD``           | ``REMOVE``        | ``MODIFY``        | ``MOVE``           |
 | :----------: | ----------------- | ----------------- | ----------------- | ------------------ |
 | ``ADD``      | \xmark            | \qmark            | \xmark            | \xmark             |
 | ``REMOVE``   | \qmark            | \cmark            | \qmark            | \qmark             |
-| ``MODIFY``   | \xmark            | \qmark            | \xmark            | \xmark             |
+| ``MODIFY``   | \cmark            | \qmark            | \xmark            | \cmark             |
 | ``MOVE``     | \xmark            | \qmark            | \xmark            | \xmark             |
 
-: Verträglichkeit der atomaren Operationen untereinander {#tbl:sync-conflicts}
+: Verträglichkeit der atomaren Operationen untereinander für die Partner **A** und **B**. {#tbl:sync-conflicts}
 
 [^DEPENDS]: Die Aktion hängt von der Konfiguration ab. Entweder wird die Löschung propagiert oder
           die eigene Datei wird behalten.
@@ -488,12 +492,13 @@ Im Beispiel synchronisiert Alice mit Bob. Sprich, Alice möchte die Änderungen 
 
 Man könnte also das »naive« Konzept weiterführen und die Menge der zu
 synchronisierenden Pfade in drei Untermengen unterteilten. 
-Jede dieser
-Untermengen hätte dann  eine unterschiedliche Semantik:
+Jede dieser Untermengen hätte dann  eine unterschiedliche Semantik:
 
-- Pfade die beide haben ($X = Paths_{A} \bigcap Paths_{B}$): Konfliktpotenzial. Führe obigen Algorithmus für jede Datei aus.
-- Pfade die nur Alice hat ($Y = Paths_{A} \setminus Paths_{B}$): Brauchen keine weitere Behandlung.
-- Pfade die nur Bob hat ($Z = Paths_{B} \setminus Paths_{A}$): Müssen nur hinzugefügt werden.
+- Pfade die beide haben ($X = Paths_{A} \bigcap Paths_{B}$): Konfliktpotenzial.
+Führe obigen Algorithmus für jede Datei aus. - Pfade die nur Alice hat ($Y
+= Paths_{A} \setminus Paths_{B}$): Brauchen keine weitere Behandlung. - Pfade
+die nur Bob hat ($Z = Paths_{B} \setminus Paths_{A}$): Müssen nur hinzugefügt
+werden.
 
 Wie in [@fig:tree-sync] angedeutet, sind diese Mengen allerdings schwerer zu
 bestimmen als durch eine simple Vereinigung, beziehungsweise Differenz.
@@ -1026,8 +1031,9 @@ Differenz des Offset--Paars an der Stelle $n+1$ und seines Vorgängers an der
 Stelle $n$. Mithilfe der Blockgröße kann ein entsprechend dimensioniertes Stück vom
 komprimierten Datenstrom gelesen und dekomprimiert werden.
 
-**Wahlfreier Zugriff:** Um auf einen Block in der Mitte zugreifen zu können (am
-unkomprimierten Offset $o$), muss mittels binärer Suche im Index der passende, Anfang
+**Wahlfreier Zugriff:** Um auf einen beliebigen Offset $o$ im unkomprimierten
+Datenstrom zuzugreifen muss dieser zunächst in den komprimierten Offset
+übersetzt werden. Dazu muss mittels binärer Suche im Index der passende, Anfang
 des unkomprimierten Blocks gefunden werden. Wurde der passende Block bestimmt,
 ist auch der Anfangsoffset im komprimierten Datenstrom bekannt. Dadurch kann
 der entsprechende Block ganz geladen und dekomprimiert werden. Innerhalb der

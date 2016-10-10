@@ -226,12 +226,15 @@ der wiederum weitere Buckets und normale Schlüsselwertpaare enthalten kann.
 Dadurch ist die Bildung einer Hierarchie möglich.
 
 Für jeden Knotentypen (File, Directory, Commit) und Metadatentypen (Checkpoint,
-Ref) wurde eine eigene (gleichnamige) Go--Struktur eingeführt, welche die Daten
-in der Datenbank kapselt und alle Operationen darauf implementiert. Jede
-dieser Knotenstrukturen implementiert dabei ein gemeinsames Interface namens
-``Node``. Ein Verzeichnis speichert dabei allerdings nicht seine Kindknoten
-(siehe [@lst:hash-ref]) als weitere Verzeichnisstrukturen, sondern verweist auf
-diese indirekt über deren Prüfsumme:
+Ref) wurde eine eigene, gleichnamige Go--Struktur eingeführt, welche die Daten
+in der Datenbank kapselt und alle Operationen darauf implementiert. Jede dieser
+Knotenstrukturen implementiert dabei ein gemeinsames Interface namens ``Node``.
+Jedes ``Node`` weiß wie ein Knoten serialisiert und deserialisiert wird. Zudem
+fasst das Interface Metadaten zusammen, die für alle Knotentypen gleich sind
+(also Prüfsumme, Elternpfad, eigener Name, Größe, Änderungszeitpunkt und UID).
+Ein Verzeichnis speichert dabei allerdings nicht seine Kindknoten (siehe
+[@lst:hash-ref]) als weitere Verzeichnisstrukturen, sondern verweist auf diese
+indirekt über deren Prüfsumme:
 
 ```{#lst:hash-ref .go}
 type Directory {
@@ -276,9 +279,12 @@ dabei aus dem normalen Unix--Dateisystem, wo ein einzelner Punkt ebenfalls
 auf das aktuelle Verzeichnis zeigt. Es gibt allerdings noch kein
 Äquivalent zu »``..``«, welches auf das Elternverzeichnis zeigen würde.
 
-**func** ``StageNode(node Node) error``{.go}: Fügt dem Staging--Bereich einem Eintrag
-hinzu. Der Pfad des Knoten und seine Prüfsumme werden unter »``stage/...``«
-abgespeichert.
+**func** ``StageNode(node Node) error``{.go}: Fügt dem Staging--Bereich einem
+Eintrag hinzu. Der Pfad des Knoten und seine Prüfsumme werden unter
+»``stage/...``« abgespeichert. Dabei sorgt die Funktion auch dafür, dass alle
+Elternverzeichnisse des Knotens im Staging--Bereich abgespeichert werden, da
+auch dessen Prüfsummen sich nach einer Modifikation von ``node`` verändert
+haben.
 
 **func** ``StageCheckpoint(ckp *Checkpoint) error``{.go}: Fügt einen Checkpoint dem
 Staging--Commit unter ``stage/STATUS`` hinzu und speichert ihn in

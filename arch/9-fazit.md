@@ -15,7 +15,10 @@ kann.
 Eine Abgrenzung zu anderen, existierenden Werkzeugen ergibt sich vor allem
 dadurch, dass die technischen Internas von ``brig`` vergleichsweise leicht
 verständlich sind und auch von fortgeschrittenen Nutzern verstanden werden
-können.
+können. Das Ziel, Usability für eine breite Masse zu bieten, konnte mangels
+grafischer Oberfläche noch nicht erreicht werden. Das Ziel eine sichere Basis
+zu schaffen konnte hingegen umgesetzt werden. Die Effizienz ist
+steigerungsfähig, sollte aber für viele Anwendungszwecke ausreichend sein.
 
 ## Selbstkritik
 
