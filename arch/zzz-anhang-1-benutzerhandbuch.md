@@ -309,7 +309,7 @@ $ mkdir -p share
 $ brig mount ./share
 $ ls $BRIG_PATH/share
 photos  movies  knorkator
-$ brig mount -u /tmp/alice-mount/share
+$ brig unmount /tmp/alice-mount/share
 ```
 
 Wie man sieht, ist auch der andere Ordner noch weiterhin benutzbar bis er »unmounted« wurde.
@@ -420,7 +420,7 @@ QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
 QmNwr8kJrnQdjwupCDLs2Fv8JknjWD7esrF81QDKT2Q2g6
 ```
 
-Für gewöhnlich taucht hier nur ein Hash--Wert auf, in diesem Fall
+Für gewöhnlich taucht hier nur eine Prüfsumme auf, in diesem Fall
 muss zwischen zwei verschiedenen Identitäten gewählt werden.
 Mindestens eine davon könnte theoretisch ein Betrüger sein, der nur
 den Nutzernamen *alice@wonderland.lit/laptop* verwendet. In diesem Fall ist es
@@ -436,10 +436,7 @@ $ brig remote add alice@wonderland.lit/laptop QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvH
 
 TODO: Check einbauen ob der Kontakt verfügbar ist und warnen falls nicht?
 
-<!-- Es kommt "Unterbefehl" und "Unterkommando" vor. Man sollte sich für eines
-entscheiden --> 
-
-Der Unterbefehl »``brig remote list``« zeigt alle verfügbaren Kontakte an und
+Das Unterkommando »``brig remote list``« zeigt alle verfügbaren Kontakte an und
 ob diese online sind:
 
 ```sh
@@ -473,11 +470,8 @@ Benötigt man später wieder den Speicherplatz, so kann die Datei wieder
 »unpinned« werden. ``brig`` wird diese Datei nach einiger Zeit aus dem lokalen
 Zwischenspeicher entfernen, sofern ein Platzmangel vorherrscht:
 
-<!-- Es ist vielleicht sinnvoll für "mount" und "pin" einen gegen Befehl mit "un-"
-anzubieten. Würde ich als Anwender zumindest erwarten -->
-
 ```sh
-$ brig pin -u /thesis/01-motivation.tex
+$ brig unpin /thesis/01-motivation.tex
 ```
 
 ### Konfiguration (``brig config``)
@@ -512,13 +506,11 @@ Möchte man die Werte editieren, so können diese einzeln gesetzt werden:
 $ brig config set daemon.port 7777
 ```
 
-<!-- "Kommandos" und "Befehl", besser ist es eins von beiden zu verwenden -->
-
 ## Fortgeschrittene Nutzung
 
-Die obigen Kommandos reichen durchaus für die alltägliche Benutzung von
-``brig`` aus. Es gibt ein paar weitere Kommandos, die besonders für technisch
-versierte Nutzer und Entwickler interessant sind.
+Die obigen Befehle reichen für die alltägliche Benutzung von ``brig`` aus. Es
+gibt einige weitere Befehle, die besonders für technisch versierte Nutzer
+und Entwickler interessant sind.
 
 ### Repository öffnen und schließen (``brig open/close``)
 
@@ -544,7 +536,7 @@ soll.
 ### Status von ``brigd`` (``brig daemon``)
 
 Das ``daemon``--Unterkommando bietet einige Optionen, um den Status von
-``brigd`` zu überprüfen und zu verändern. Um zu überpüfen ob ``brigd`` läuft,
+``brigd`` zu überprüfen und zu verändern. Um zu überprüfen ob ``brigd`` läuft,
 kann das ``ping``--Unterkommando genutzt werden:
 
 ```sh

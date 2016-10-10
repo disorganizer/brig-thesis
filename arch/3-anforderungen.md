@@ -253,7 +253,7 @@ herunterladbar macht. Ein dezentrales Netzwerk wie ``brig`` muss hingegen
 *Gateways* anbieten, also eine handvoll Dienste, welche zwischen den »normalen
 Internet« und dem ``brig``--Netzwerk vermitteln (siehe [@fig:gateway]). Die
 Nutzer, welche die Dateien verteilen wollen, können ein solches Gateway selbst
-betreiben. Oder können ein von Freiwilligen betriebenes Gateway benutzen.
+betreiben oder können ein von Freiwilligen betriebenes Gateway benutzen.
 
 ![HTTPS Gateway](images/7/gateway.pdf){#fig:gateway}
 

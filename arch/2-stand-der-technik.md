@@ -13,23 +13,21 @@ Software eingesetzt werden kann.
 Bilden viele Rechner ein dezentrales Netzwerk, bei dem jeder Rechner (ein
 »Peer«) die gleichen Rechte besitzt und Aktionen ausführt wie jeder andere, so
 wird dieses Netz ein *Peer--to--Peer--Netzwerk* genannt (kurz *P2P--Netzwerk*,
-vgl. auch [@peer2Peer], S. 4 ff.). Statt Verbindungen über einen Mittelsmann
+vgl. auch [@peer2peer], S. 4 ff.). Statt Verbindungen über einen Mittelsmann
 aufzubauen, kommunizieren die einzelnen Peers für gewöhnlich direkt
 miteinander. Jeder Knoten des Netzwerks kann Anfragen an andere Knoten richten,
 trägt aber selbst etwas bei indem er selbst Anfragen beantwortet. Im
 Client--Server--Modell entspricht ein Peer also sowohl Server als auch Client
 (siehe auch [@fig:central-distributed]).
 
-<!-- Die Referenz @peer2Peer führt ins Leere -->
-
 ![Anschaulicher Unterschied zwischen zentralen und verteilten Systemen.](images/2/central-distributed.pdf){#fig:central-distributed}
 
 Im alltäglichen Gebrauch der meisten »Otto--Normal--Nutzer« scheinen
 P2P--Netzwerke derzeit eine eher untergeordnete Rolle zu spielen. Die
 bekanntesten und populärsten P2P--Netzwerke sind vermutlich das BitTorrent- und
-Skype--Protokoll (vgl. [@peer2Peer], S. 232 ff. und S. 2). Darüber hinaus gibt
+Skype--Protokoll (vgl. [@peer2peer], S. 232 ff. und S. 2). Darüber hinaus gibt
 es auch viele sehr große Filesharing--Netzwerke, wie Gnutella (vgl. auch
-[@peer2Peer], S. 57 ff.). Gemeinsam ist allen, dass sie als sogenanntes
+[@peer2peer], S. 57 ff.). Gemeinsam ist allen, dass sie als sogenanntes
 *Overlay--Netzwerk*[^OVERLAY_NETWORK] über das Internet gelegt werden und
 dessen existierende Infrastruktur wiederverwenden.
 
@@ -47,7 +45,7 @@ Ein weiterer Eigenschaft, ist dass das Client--Server--Modell kein Problem mit
 dem sogenannten *NAT--Traversal* hat.
 
 NAT steht dabei für *Network Address Translation* (dt.
-Netzwerkadressübersetzung, siehe auch [@peer2Peer], S. 47 ff.) und
+Netzwerkadressübersetzung, siehe auch [@peer2peer], S. 47 ff.) und
 ist eine Technik, um zwischen einer öffentlichen und mehreren lokalen
 IP--Adressen zu vermitteln. Es wird aufgrund der Knappheit von IPv4 sehr häufig
 eingesetzt, um einem Heim- oder Unternehmensnetzwerk eine einzige IP-Adresse

@@ -41,7 +41,7 @@ einem Netzwerkfehler nur alle Blöcke noch heruntergeladen werden, die noch
 fehlen.
 
 Technisch basiert ``ipfs`` auf der Distributed--Hashtable *Kademlia* (vgl.
-[@maymounkov2002kademlia] und [@peer2Peer], S. 247), welches mit den
+[@maymounkov2002kademlia] und [@peer2peer], S. 247), welches mit den
 Erkenntnissen aus den Arbeiten *CoralDHST*[@freedman2004democratizing] (Ansatz
 um das Routing zu optimieren) und *S/Kademlia*[@baumgart2007s] (Ansatz um das
 Netzwerk gegen Angriffe zu schützen) erweitert und abgesichert wurde.

@@ -990,9 +990,7 @@ eine effiziente Nutzung dieses Formats ist es also nötig, dass der Datenstrom
 einen effizienten, wahlfreien Zugriff am Ende der Datei bietet.
 Glücklicherweise unterstützt dies ``ipfs``. Datenströme wie ``stdin`` unter
 Unix unterstützen allerdings keinen wahlfreien Zugriff, weshalb das
-vorgestellte Format für diese Anwendungsfälle eher ungeeignet ist.
-
-<!-- Wofür wird "stdin" gebraucht? Warum "stdin" erwähnen? -->
+vorgestellte Format für solche Anwendungsfälle eher ungeeignet ist.
 
 Der Index besteht aus zwei Teilen: Aus dem eigentlichen Index und einem
 sogenannten »Trailer«, der die Größe des Indexes enthält. Zusätzlich enthält
