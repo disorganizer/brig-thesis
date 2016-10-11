@@ -41,7 +41,7 @@ einem Netzwerkfehler nur alle Blöcke noch heruntergeladen werden, die noch
 fehlen.
 
 Technisch basiert ``ipfs`` auf der Distributed--Hashtable *Kademlia* (vgl.
-[@maymounkov2002kademlia] und [@peer2Peer], S. 247), welches mit den
+[@maymounkov2002kademlia] und [@peer2peer], S. 247), welches mit den
 Erkenntnissen aus den Arbeiten *CoralDHST*[@freedman2004democratizing] (Ansatz
 um das Routing zu optimieren) und *S/Kademlia*[@baumgart2007s] (Ansatz um das
 Netzwerk gegen Angriffe zu schützen) erweitert und abgesichert wurde.
@@ -148,7 +148,7 @@ bei Verbindungsaufbau nachweisen, dass er den zum öffentlichen Schlüssel passe
 privaten Schlüssel besitzt (für Details siehe [@cpiechula], Kapitel TODO).
 
 **Pinning und Caching:** Das Konzept von ``ipfs`` basiert darauf, dass Knoten nur
-das speichern, worin sie auch interessiert sind. Daten, die von außen zum
+das speichern, woran sie auch interessiert sind. Daten, die von außen zum
 eigenen Knoten übertragen worden sind werden nur kurzfristig zwischengelagert.
 Nach einiger Zeit bereinigt der eingebaute Garbage--Collector die Daten im
 *Cache*.[^IPFS_MANUAL_GC]
@@ -250,7 +250,7 @@ In der Grafik sieht man das dadurch, dass ``big.mkv`` bereits aus zwei Blöcken
 von ``small.mkv`` besteht und der zweite Wurzelknoten auf ``/photos`` referenziert,
 ohne dessen Inhalt zu kopieren.
 
-Im Datenmodell von ``ipfs`` ([@benet2014ipfs, S.7 ff.] gibt es drei
+Im Datenmodell von ``ipfs`` ([@benet2014ipfs, S.7 ff.]) gibt es drei
 unterschiedliche Strukturen:
 
 - ``blob:`` Ein Datensatz mit definierter Größe und Prüfsumme.  Wird teilweise auch *Chunk* genannt.
@@ -309,7 +309,7 @@ Metadaten abbilden, welche in einer dafür geeigneten Datenbank abgelegt werden.
 eigentlichen Daten werden dabei nicht mittels eines Pfades abgespeichert,
 sondern werden durch  eine Prüfsumme referenziert (im Falle von ``git`` mittels
 ``sha1``). Im Kern lösen beide Programme also Pfade in Prüfsummen auf und
-umgekehrt. Um diese Auflösung einfach und effizient möglich zu machen nutzt
+umgekehrt. Um diese Auflösung so einfach und effizient wie möglich zu machen nutzt
 ``git`` ein ausgeklügeltes Datenmodell, mit dem sich Änderungen
 abbilden lassen. Dabei werden, anders als bei anderen
 Versionsverwaltungssystemen (wie Subversion), Differenzen »on-the-fly«
@@ -317,7 +317,7 @@ berechnet und nicht zusätzlich abgespeichert, daher die Bezeichnung »stupid«.
 Abgespeichert werden, wie in [@fig:git-data-model] gezeigt, nur vier
 verschiedene *Objekte*:
 
-![Vereinfachte Darstellung des Datenmodell von ``git``.](images/4/git-data-model.pdf){#fig:git-data-model width=80%}
+![Vereinfachte Darstellung des Datenmodells von ``git``.](images/4/git-data-model.pdf){#fig:git-data-model width=80%}
 
 [^TORVALDS_ZITAT]: Zitat von Linus Torvalds. Siehe auch: <https://git-scm.com/docs/git.html>
 

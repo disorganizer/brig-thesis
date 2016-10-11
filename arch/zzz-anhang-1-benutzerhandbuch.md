@@ -77,6 +77,7 @@ landen. Dazu ist das Setzen der Umgebungsvariable ``GOPATH`` nötig:
 ```bash
 $ mkdir ~/go
 $ export GOPATH=~/go
+$ export GOBIN=~/go/bin
 $ export PATH=$PATH:~/go/bin
 ```
 
@@ -295,7 +296,7 @@ photos  movies  knorkator
 Es können wie gewohnt Dateien editiert werden, gelöscht und neu angelegt werden:
 
 ```sh
-$ gimp /tmp/alice-moumt/photos/cat.png
+$ gimp /tmp/alice-mount/photos/cat.png
 $ cp ~/dog.png /tmp/alice-mount/photos
 $ rm /tmp/alice/photos/dog.png
 ```
@@ -308,7 +309,7 @@ $ mkdir -p share
 $ brig mount ./share
 $ ls $BRIG_PATH/share
 photos  movies  knorkator
-$ brig mount -u /tmp/alice-mount/share
+$ brig unmount /tmp/alice-mount/share
 ```
 
 Wie man sieht, ist auch der andere Ordner noch weiterhin benutzbar bis er »unmounted« wurde.
@@ -419,9 +420,9 @@ QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
 QmNwr8kJrnQdjwupCDLs2Fv8JknjWD7esrF81QDKT2Q2g6
 ```
 
-Für gewöhnlich taucht hier allerdings nur ein Hash--Wert auf, in diesem Fall
-muss allerdings zwischen zwei verschiedenen Identitäten gewählt werden.
-Mindestens eine davon könnte allerdings theoretisch ein Betrüger sein, der nur
+Für gewöhnlich taucht hier nur eine Prüfsumme auf, in diesem Fall
+muss zwischen zwei verschiedenen Identitäten gewählt werden.
+Mindestens eine davon könnte theoretisch ein Betrüger sein, der nur
 den Nutzernamen *alice@wonderland.lit/laptop* verwendet. In diesem Fall ist es
 nötig über einen Seitenkanal direkt Kontakt mit der Person aufzunehmen, mit der
 man synchronisieren will und darüber die Identität abzugleichen. Ein möglicher
@@ -435,7 +436,7 @@ $ brig remote add alice@wonderland.lit/laptop QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvH
 
 TODO: Check einbauen ob der Kontakt verfügbar ist und warnen falls nicht?
 
-Der Unterbefehl »``brig remote list``« zeigt alle verfügbaren Kontakte an und
+Das Unterkommando »``brig remote list``« zeigt alle verfügbaren Kontakte an und
 ob diese online sind:
 
 ```sh
@@ -470,12 +471,12 @@ Benötigt man später wieder den Speicherplatz, so kann die Datei wieder
 Zwischenspeicher entfernen, sofern ein Platzmangel vorherrscht:
 
 ```sh
-$ brig pin -u /thesis/01-motivation.tex
+$ brig unpin /thesis/01-motivation.tex
 ```
 
 ### Konfiguration (``brig config``)
 
-``brig`` bietet momentan einige wenige Konfigurationswerte, um das Verhalten
+``brig`` bietet momentan wenige Optionen, um das Verhalten
 der Software nach seinen Wünschen einzustellen. Ein Überblick über die
 verfügbaren Optionen liefert das Unterkommando  ``$ brig config
 list``{.sh}:
@@ -507,9 +508,9 @@ $ brig config set daemon.port 7777
 
 ## Fortgeschrittene Nutzung
 
-Die obigen Kommandos reichen durchaus für die alltägliche Benutzung von
-``brig`` aus. Es gibt ein paar weitere Kommandos, die besonders für technisch
-versierte Nutzer und Entwickler interessant sind.
+Die obigen Befehle reichen für die alltägliche Benutzung von ``brig`` aus. Es
+gibt einige weitere Befehle, die besonders für technisch versierte Nutzer
+und Entwickler interessant sind.
 
 ### Repository öffnen und schließen (``brig open/close``)
 
@@ -535,7 +536,7 @@ soll.
 ### Status von ``brigd`` (``brig daemon``)
 
 Das ``daemon``--Unterkommando bietet einige Optionen, um den Status von
-``brigd`` zu überprüfen und zu verändern. Um zu überpüfen ob ``brigd`` läuft,
+``brigd`` zu überprüfen und zu verändern. Um zu überprüfen ob ``brigd`` läuft,
 kann das ``ping``--Unterkommando genutzt werden:
 
 ```sh

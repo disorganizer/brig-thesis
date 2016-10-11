@@ -13,7 +13,7 @@ Software eingesetzt werden kann.
 Bilden viele Rechner ein dezentrales Netzwerk, bei dem jeder Rechner (ein
 »Peer«) die gleichen Rechte besitzt und Aktionen ausführt wie jeder andere, so
 wird dieses Netz ein *Peer--to--Peer--Netzwerk* genannt (kurz *P2P--Netzwerk*,
-vgl. auch [@peer2Peer], S. 4 ff.). Statt Verbindungen über einen Mittelsmann
+vgl. auch [@peer2peer], S. 4 ff.). Statt Verbindungen über einen Mittelsmann
 aufzubauen, kommunizieren die einzelnen Peers für gewöhnlich direkt
 miteinander. Jeder Knoten des Netzwerks kann Anfragen an andere Knoten richten,
 trägt aber selbst etwas bei indem er selbst Anfragen beantwortet. Im
@@ -25,27 +25,27 @@ Client--Server--Modell entspricht ein Peer also sowohl Server als auch Client
 Im alltäglichen Gebrauch der meisten »Otto--Normal--Nutzer« scheinen
 P2P--Netzwerke derzeit eine eher untergeordnete Rolle zu spielen. Die
 bekanntesten und populärsten P2P--Netzwerke sind vermutlich das BitTorrent- und
-Skype--Protokoll (vgl. [@peer2Peer], S. 232 ff. und S. 2). Darüber hinaus gibt
+Skype--Protokoll (vgl. [@peer2peer], S. 232 ff. und S. 2). Darüber hinaus gibt
 es auch viele sehr große Filesharing--Netzwerke, wie Gnutella (vgl. auch
-[@peer2Peer], S. 57 ff.). Gemeinsam ist allen, dass sie als sogenanntes
+[@peer2peer], S. 57 ff.). Gemeinsam ist allen, dass sie als sogenanntes
 *Overlay--Netzwerk*[^OVERLAY_NETWORK] über das Internet gelegt werden und
 dessen existierende Infrastruktur wiederverwenden.
 
 [^OVERLAY_NETWORK]: Siehe auch: <https://de.wikipedia.org/wiki/Overlay-Netz>
 
-### Technik
+### Zugrundeliegende Technik
 
 Die meisten Dienste im Internet hingegen basieren auf dem Client--Server--Modell, bei
-dem viele anonyme Clients eine Anfragen an einen zentralen Server stellen.
+dem viele anonyme Clients eine Anfrage an einen zentralen Server stellen.
 Dieser muss mit der steigenden Anzahl an Clients skalieren, indem er
 typischerweise mehr Prozessorleistung und Bandbreite zur Verfügung hat. Dieses
 Modell passt auf viele heterogene Anwendungsfälle, wo Client und Server
 grundverschiedene Rollen zugeordnet sind (Beispiel: Dienstleiter und Kunde).
-Ein weiterer Eigenschaft, ist dass das Client--Server--Modell kein Problem mit
+Ein weitere Eigenschaft, ist dass das Client--Server--Modell kein Problem mit
 dem sogenannten *NAT--Traversal* hat.
 
 NAT steht dabei für *Network Address Translation* (dt.
-Netzwerkadressübersetzung, siehe auch [@peer2Peer], S. 47 ff.) und
+Netzwerkadressübersetzung, siehe auch [@peer2peer], S. 47 ff.) und
 ist eine Technik, um zwischen einer öffentlichen und mehreren lokalen
 IP--Adressen zu vermitteln. Es wird aufgrund der Knappheit von IPv4 sehr häufig
 eingesetzt, um einem Heim- oder Unternehmensnetzwerk eine einzige IP-Adresse
@@ -56,8 +56,8 @@ Client--Server--Anwendungen haben damit kein Problem, da der »anonyme« Client
 die Verbindung zum »wohlbekannten« Server selbstständig aufbaut. Bei einer
 P2P--Kommunikation hingegen, muss eine Verbindung in beide Richtungen möglich
 sein --- und das möglicherweise sogar über mehrere *NATs* hinweg. Die Umgehung
-dieser Grenzen ist in der Literatur als *NAT Traversal* bekannt p2p/jabber
-buch). Eine populäre Technik ist dabei das UDP--Hole--Punching[^HOLE_PUNCH]. Dabei wird,
+dieser Grenzen ist in der Literatur als *NAT Traversal* bekannt. Eine populäre
+Technik ist dabei das UDP--Hole--Punching[^HOLE_PUNCH]. Dabei wird,
 grob erklärt, ein beiden Parteien bekannter Mittelsmann herangezogen, über den
 die eigentliche, direkte Verbindung aufgebaut wird. Eine technische
 Notwendigkeit dabei ist die Verwendung von *UDP* anstatt *TCP*.
@@ -70,7 +70,7 @@ Netzwerkteilnehmer verbinden, um von ihm an weitere Teilnehmer vermittelt zu
 werden. Der Boostrap--Knoten führt aber normalerweise das selbe Programm aus,
 wie jeder andere, ist aber vertrauenswürdiger.
 Bemerkenswert ist, dass sich keine zentrale Instanz um die Koordination
-des Datenflusses im Netzwerk kümmern muss Die Grundlage für die Koordination
+des Datenflusses im Netzwerk kümmern muss. Die Grundlage für die Koordination
 bildet dabei die *Distributed Hashtable (DHT, vgl. [@peer2peer], S. 63 ff.)*
 Diese Datenstruktur bildet sich durch den Zusammenschluss vieler
 Rechner und nutzt eine *Hashfunktion*[^HASH_FUNCTION], um für
@@ -90,7 +90,7 @@ Siehe auch: <https://de.wikipedia.org/wiki/Hashfunktion>
 In diesem Kontext meint der Begriff »Synchronisation« das Zusammenführen der Dateistände
 mehrerer Netzwerkteilnehmer. Typischerweise nutzen viele Nutzer heutzutage
 dafür einen zentralen Dienst. Dieser hält einen Dateistand vor, der von allen
-Teilnehmern als Referenz angesehen wird. Ändert ein Teilnehmer seine Stand, so
+Teilnehmern als Referenz angesehen wird. Ändert ein Teilnehmer seinen Stand, so
 wird die Änderung zum zentralen Server übertragen und erreicht so auch alle
 anderen Teilnehmer.
 
@@ -102,17 +102,16 @@ Verbindungen zu einem zentralen Server (beispielsweise Dropbox) geöffnet. Der
 Server muss nun 50 Verbindungen gleichzeitig bearbeiten und muss eine
 entsprechende Bandbreite zur Verfügung stellen. Bei kleineren Diensten kann
 dies bereits der Flaschenhals sein, teilweise kann aber auch die Bandbreite auf
-Seiten des Empfängers limitiert sein. Fällt der zentrale Server aus (er ist
-ein »Single--Point--of--Failure«), so kann kein neuer Nutzer mehr das Festplattenimage
-empfangen.
+Seiten des Empfängers limitiert sein. Fällt der zentrale Server aus (»Single--Point--of--Failure«),
+so kann kein neuer Nutzer mehr das Festplattenimage empfangen.
 
 ![Veranschaulichung der Netzwerklast bei zentralen und dezentralen Systemen.](images/2/zentral-dezentral-speedup.pdf){#fig:speedup}
 
-Anders liegt der Fall es wenn die Rechner der Studenten ein verteiltes Netzwerk
-bilden. Hier genügt es wenn nur ein Rechner einen Teil der Datei hat. Diesen
+Bilden die Rechner der Studenten ein verteiltes Netzwerk, so
+genügt es wenn nur ein Rechner einen Teil der Datei hat. Diesen
 Teil kann er im lokalen Netz anderen Teilnehmern wieder anbieten und sich Teile
 der Datei besorgen, die er selbst noch nicht hat. So muss in der Theorie die
-Datei nur maximal einmal gesamt vom zentralen Server übertragen werden. In
+Datei nur maximal einmal vom zentralen Server übertragen werden. In
 diesem etwas konstruierten[^CACHING_PROXY] Beispiel würde im dezentralen
 Netzwerk die Datei also bis zu 50-mal schneller verteilt werden, als im
 zentralen Anwendungsfall. Fällt der zentrale Server aus nachdem die Datei
@@ -125,9 +124,9 @@ da ganze Dateien in kleine Blöcke unterteilt werden können. Diese können dann
 interessierten Knoten vorgehalten und weitergegeben werden. Protokolle wie *BitTorrent*
 haben das Problem, dass ein Block nur solange verfügbar ist, solange es Teilnehmer
 gibt, die diesen Block anbieten. Prinzipiell hat auch ``brig`` dieses Problem,
-doch besteht ein ``brig``--Netzwerk nur aus den Teilnehmern besteht, die einen gemeinsamen
+doch besteht ein ``brig``--Netzwerk nur aus den Teilnehmern, die einen gemeinsamen
 Dateistand synchronisieren wollen. Daher kann angenommen werden, dass alle darin enthaltenen
-Dateien von mindestens einen Teilnehmer angeboten werden können.
+Dateien von mindestens einem Teilnehmer angeboten werden können.
 
 [^CACHING_PROXY]: Typischerweise sorgen auch vorgeschaltete *Caching Proxies* wie Squid (<https://de.wikipedia.org/wiki/Squid>) dafür, dass Dateien nicht zigmal heruntergeladen werden.
 
@@ -243,7 +242,7 @@ Im Konkreten besteht die Neuerung hauptsächlich aus der Kombination folgender P
 
 Bereits ein Blick auf Wikipedia[^wiki_filesync] zeigt, dass der momentane Markt
 an Dateisynchronisationssoftware sehr unübersichtlich ist. Ein näherer Blick
-zeigt, dass die dortigen Softwareprojekte dort oft nur in Teilaspekten gut
+zeigt, dass die dortigen Softwareprojekte oft nur in Teilaspekten gut
 funktionieren und manchmal mit architektonischen Problemen behaftet sind.
 
 [^wiki_filesync]: Siehe <https://en.wikipedia.org/wiki/Comparison_of_file_synchronization_software>
@@ -428,7 +427,7 @@ subjektiver Natur.
 
 Abschießend kann man sagen, dass ``syncthing`` dem Gedanken hinter ``brig`` am
 nächsten kommt. Der Hauptunterschied ist, dass die Basis hinter ``brig`` ein
-volles P2P--Netzwerk ist namens ``ipfs`` ist (dazu später mehr). Wie in den
+volles P2P--Netzwerk ist namens ``ipfs`` (dazu später mehr). Wie in den
 nächsten Kapiteln ersichtlich ist, eröffnet dieser Unterbau eine Reihe von
 Möglichkeiten, die ``syncthing`` nicht bieten kann[^BEISPIELE].
 
@@ -525,12 +524,12 @@ Es gibt natürlich auch einige Einsatzzwecke, für die ``brig`` weniger geeignet
 ist. Diese werden im [@sec:evaluation] beleuchtet, da die dortige Argumentation
 teilweise ein Verständnis von der internen Architektur benötigt.
 
-## Annahmen {#sec:assumptions}
+## Annahmen während der Konzeption {#sec:assumptions}
 
 Das Design von ``brig`` basiert auf einigen Annahmen, die im Voraus getroffen
 werden mussten:
 
-**Durchschnittlicher Netzwerkkonfiguration:** Für den Prototypen wird ein
+**Durchschnittliche Netzwerkkonfiguration:** Für den Prototypen wird ein
 normales Heimnetzwerk mit mehren Computern angenommen, welche typischerweise
 hinter einem NAT liegen. Diese sollen sich mit anderen
 Computern in anderen Heimnetzwerken über das Internet austauschen können.
@@ -547,12 +546,12 @@ Arbeitsspeicher. Der Internetanschluss sollte ein Download von mindestens
 
 **Stabilität von ``ipfs:``** Es wird angenommen, dass ``ipfs`` stetig
 weiterentwickelt wird und im momentanen Zustand keine gravierenden
-Sicherheitsmängel. Zudem wird angenommen, dass es für die Zwecke von ``brig``
+Sicherheitsmängel enthält. Zudem wird angenommen, dass es für die Zwecke von ``brig``
 ausreichend hohe Performanz bietet.
 
 **Keine Kollision der Prüfsummen:** ``brig`` kann (genau wie ``ipfs``) Dateien
 nicht auseinander halten, die einen unterschiedlichen Inhalt besitzen, aber die
-selbe Prüfsumme erzeugen. Auch wenn dieser Fall in der Theorie eintreten mag,
+selbe Prüfsumme erzeugen. Auch wenn dieser Fall in der Theorie eintreten kann,
 so ist dieser extrem schwer zu erreichen. Der von
 ``ipfs`` standardmäßig verwendete Algorithmus ist *sha256*[^SHA256], welcher eine Prüfsumme
 von 256 Bit Länge liefert. Wie in [@eq:hash-collision] gezeigt, müssten aufgrund des

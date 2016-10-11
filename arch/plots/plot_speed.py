@@ -123,6 +123,9 @@ import pygal.style
 
 
 def render_plot(data, logarithmic=False):
+    pygal.style.LightSolarizedStyle.background = "#FFFFFF"
+    pygal.style.LightSolarizedStyle.plot_background = "#FFFFFF"
+
     line_chart = pygal.Line(
         legend_at_bottom=True,
         logarithmic=logarithmic,

@@ -48,7 +48,7 @@ Die unten stehenden Anforderungen sind teilweise an die Eigenschaften des
 verteilten Dateisystems *Infinit* (beschrieben in [@quintard2012towards], siehe
 S.39) angelehnt und an die Ausrichtung von ``brig`` angepasst worden.
 
-## Anforderungen die Integrität
+## Anforderungen an die Integrität
 
 **Entkopplung von Metadaten und Daten:** Statt einem zentralen Dienst, soll
 ``brig`` die Basis eines dezentralen Netzwerkes bilden. Dabei stellt jeder
@@ -103,12 +103,14 @@ sein und bleiben. In der Praxis ist dies natürlich nur möglich, wenn alle
 Netzwerkteilnehmer ohne Unterbrechung zur Verfügung stehen oder wenn alle
 Dateien lokal zwischengelagert worden sind.
 
-Oft sind viele Nutzer zu unterschiedlichen Zeiten online oder
-zu komplett verschiedenen Zeiten. Aufgrund der Zeitverschiebung wäre eine
-Zusammenarbeit zwischen einem chinesischen und einem deutschen Nutzer
-schwierig. Eine mögliche Lösung wäre die Einrichtung eines automatisierten Knoten
-der ständig verfügbar ist. Statt Dateien direkt miteinander zu teilen, könnten Nutzer
-diesen Knoten als Zwischenlager benutzen.
+Oft sind viele Nutzer zu unterschiedlichen Zeiten online oder leben in komplett
+verschiedenen Zeitzonen. Aufgrund der Zeitverschiebung wäre eine Zusammenarbeit
+zwischen einem chinesischen und einem deutschen Nutzer schwierig. Eine mögliche
+Lösung wäre die Einrichtung eines automatisierten Knoten der ständig verfügbar
+ist. Statt Dateien direkt miteinander zu teilen, könnten Nutzer diesen Knoten
+als Zwischenlager benutzen.
+Falls nötig, soll es also auch möglich sein den Vorteil eines zentralen
+Ansatzes (also seine permanente Erreichbarkeit) mit ``brig`` zu kombinieren.
 
 **Integrität:** Es muss sichergestellt werden, dass absichtliche oder
 unabsichtliche Veränderungen an den Daten festgestellt werden können.
@@ -167,6 +169,8 @@ sind inspiriert von der OTR--Implementierung des Instant-Messanger Pidgin[^PIDGI
 
 [^PIDGIN]: Webseite: <https://www.pidgin.im>
 
+<!-- Die Nummer der Seite 23 ist komisch :D -->
+
 **Identität:** Jeder Benutzer des Netzwerks muss eine öffentliche Identität
 besitzen, welche ihn eindeutig identifiziert. Gekoppelt mit der öffentlichen
 Identität soll jeder Nutzer ein überprüfbares Geheimnis kennen, mithilfe dessen er sich
@@ -195,7 +199,7 @@ automatisch versioniert werden. Die Versionierung soll dabei in Form von
 *Checkpoints* bei jeder Dateiänderung erfolgen. Mehrere von Checkpoints
 können manuell oder per *Timer* in einem zusammenhängenden *Commit*
 zusammengefasst werden. Die Menge an Dateien die in alter Version vorhanden
-sollen durch eine Speicher-Quota geregelt, die nicht überschritten werden darf.
+sind, sollen durch eine Speicher-Quota geregelt werden, die nicht überschritten werden darf.
 Wird dieses Limit überschritten, so werden die ältesten Dateien von der lokalen
 Maschine gelöscht. Die jeweiligen Checkpoints sind aber noch  vorhanden und der
 darin referenzierte Stand kann von anderen Teilnehmern aus dem Netzwerk geholt
@@ -217,9 +221,8 @@ Sicht mobile Plattformen unterstützt werden.
 Vorkenntnisse installierbar sein. Zur Installation gehört dabei nicht nur die
 Beschaffung der Software und deren eigentliche Installation, sondern auch die
 initiale Konfiguration. Die Erfahrungen des Autors haben gezeigt, dass Nutzer
-verständlicherweise oft eine einfach zu installierende Software einer
-schwer zu installierenden Software bevorzugen, die aber möglicherweise ihr
-Problem besser löst.
+oft eine einfach zu installierende Software bevorzugen, obwohl eine schwerer zu
+installierende Software, ihr Problem möglicherweise besser löst.
 
 **Keine künstlichen Limitierungen:** Mit ``brig`` sollten die gleichen für den
 Nutzer gewohnten Operationen und Limitierungen gelten, wie bei einem normalen
@@ -252,9 +255,9 @@ herunterladbar macht. Ein dezentrales Netzwerk wie ``brig`` muss hingegen
 *Gateways* anbieten, also eine handvoll Dienste, welche zwischen den »normalen
 Internet« und dem ``brig``--Netzwerk vermitteln (siehe [@fig:gateway]). Die
 Nutzer, welche die Dateien verteilen wollen, können ein solches Gateway selbst
-betreiben. oder können ein von Freiwilligen betriebenes Gateway benutzen.
+betreiben oder können ein von Freiwilligen betriebenes Gateway benutzen.
 
-![HTTPS Gateway](images/7/gateway.pdf){#fig:gateway}
+![Schematischer Aufbau eines HTTPS--Gateway](images/7/gateway.pdf){#fig:gateway}
 
 **Stabilität:** Die Software muss bei normaler Benutzung ohne Abstürze und
 offensichtliche Fehler funktionieren. Eine umfangreiche Testsuite soll die
@@ -266,7 +269,7 @@ Fehlern vermeiden.
 [^REGRESSION]: Siehe auch: <https://de.wikipedia.org/wiki/Regressionstest>
 
 **Effizienz:** Die Geschwindigkeit der Software auf durchschnittlicher Hardware
-(siehe [@sec:assumptions]) schnell genug sein, um den Anwender ein flüssiges
+(siehe [@sec:assumptions]) soll schnell genug sein, um den Anwender ein flüssiges
 Arbeiten ermöglichen zu können. Die Geschwindigkeit sollte durch eine
 Benchmarksuite messbar gemacht werden und bei jedem neuen Release mit dem
 Vorgänger verglichen werden.

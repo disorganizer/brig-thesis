@@ -7,7 +7,7 @@ so kann man unter anderem zwischen den folgenden Möglichkeiten wählen:
 
 - Übertragung mittels USB--Stick, Speicherkarte oder Ähnlichem.
 - Übertragung über einen zentralen Dienst im lokalen Netz (wie FTP oder *ownCloud*[^ownCloud]).
-* Übertragung über das Internet mit zentralen Diensten wie Dropbox.
+- Übertragung über das Internet mit zentralen Diensten wie Dropbox.
 - Direkte Übertragung im Netzwerk mittels Protokollen wie ``ssh``.
 - ...oder sehr häufig auch einfach via E--Mail.
 
@@ -49,9 +49,9 @@ Sicherheitsversprechen eine gewisse Verbreitung[^SIGNAL_VERBREITUNG] erfahren,
 sondern weil es genauso leicht benutzbar und zugänglich war, wie die
 unsichereren Alternativen (wie *SMS*
 oder frühere Versionen von *WhatsApp*). Letztendlich führte dies sogar dazu,
-dass die von *Signal* genutzte Technik auch im deutlich populäreren
+dass die von *Signal* genutzte Technik im deutlich populäreren
 *WhatsApp*--Messenger eingesetzt wurde. Gleichzeitig muss
-fairerweise auch gesagt werden, dass die gute Usability durch einige
+fairerweise gesagt werden, dass die gute Usability durch einige
 Vereinfachungen im Sicherheitsmodell erreicht wurde[^SIGNAL_WIKI].
 
 [^SIGNAL]: Mehr Informationen unter: <https://whispersystems.org>
@@ -91,7 +91,7 @@ Anwender einigen können.
 ## Der Name
 
 Eine »Brigg« (englisch »brig«) ist ein kleines und wendiges
-Zweimaster--Segelschiff aus dem 18-ten Jahrhundert. Passend erschien den Autoren der
+Zweimaster--Segelschiff aus dem 18. Jahrhundert. Passend erschien den Autoren der
 Name einerseits, weil die Software flexibel »Güter« (in Form von Dateien) in der ganzen
 Welt verteilt, andererseits weil ``brig`` auf (Datei-)Strömen operiert.
 
@@ -142,7 +142,7 @@ Die vorliegende Arbeit ist in drei größere logische Blöcke gegliedert:
   wird auch das nötige Grundlagenwissen vermittelt, um die nächsten Kapitel zu
   verstehen.
 - [@sec:architektur] -- [@sec:usability] (Architektur, Implementierung, Usability): In
-  diesen beiden Kapiteln wird das
+  diesen drei Kapiteln wird das
   technische Design des Prototypen erläutert und Begründungen zu den Designentscheidungen gegeben. Zuletzt wird noch ein Konzept
   für eine grafische Benutzeroberfläche vorgestellt.
 - [@sec:evaluation] -- [@sec:fazit] (Evaluation, Fazit): Der aktuelle Prototyp

@@ -15,12 +15,12 @@ jeweiligen Komponenten hingegen wird in [@sec:implementierung]
 
 ## Datenmodell von ``brig``
 
-Die Einsatzziele von ``brig`` und ``git`` unterscheiden sich: ``git`` ist primär eine
-Versionsverwaltugssoftware, mit der man auch synchronisieren kann. ``brig``
-hingegen ist eine Synchronisationssoftware, die auch Versionierung beherrscht.
-Aus diesem Grund wurde das Datenmodell von ``git`` für den Einsatz in ``brig``
-angepasst und teilweise vereinfacht. Die Hauptunterschiede sind dabei wie
-folgt:
+Die Einsatzziele von ``brig`` und ``git`` unterscheiden sich: ``git`` ist
+primär eine Versionsverwaltugssoftware, mit der man auch synchronisieren kann.
+``brig`` kann man hingegen eher als eine Synchronisationssoftware sehen, die
+auch Versionierung beherrscht. Aus diesem Grund wurde das Datenmodell von
+``git`` für den Einsatz in ``brig`` angepasst und teilweise vereinfacht. Die
+Hauptunterschiede sind dabei wie folgt:
 
 - **Strikte Trennung zwischen Daten und Metadaten:** Metadaten werden von ``brig``'s
   Datenmodell verwaltet, während die eigentlichen Daten lediglich per Prüfsumme
@@ -43,7 +43,7 @@ folgt:
   Aus diesen Grund kennt ``brig`` auch keine ``clone`` und ``pull``--Operation.
   Diese werden durch »``brig sync <with>``« ersetzt.
 
-[^BRANCH_EXPL]: *Branches* dienen bei ``git`` um einzelne Features oder Fixes separat entwickeln zu können.
+[^BRANCH_EXPL]: *Branches* dienen bei ``git`` dazu, um einzelne Features oder Fixes separat entwickeln zu können.
 [^DETACHED_HEAD]: So ist es bei ``git`` relativ einfach möglich in den
 sogenannten *Detached HEAD* Modus zu kommen, in dem durchaus Daten verloren
 gehen können. Siehe auch: <http://gitfaq.org/articles/what-is-a-detached-head.html>
@@ -90,14 +90,14 @@ verwendet:
   referenziert. In diese Prüfsumme ist nicht nur die Integrität des aktuellen
   Standes gesichert, sondern
   auch aller Vorgänger.
-* **Refs:** Analog zu ``git`` dienen sie dazu, bestimmten *Commits einen Namen
+* **Refs:** Analog zu ``git`` dienen sie dazu, bestimmten *Commits* einen Namen
   zu geben. Es gibt zwei vordefinierte Referenzen, welche von ``brig``
   aktualisiert werden: ``HEAD``, welche auf den letzten vollständigen *Commit*
   zeigt und ``CURR``, welche auf den aktuellen Commit zeigt (meist dem *Staging
   Commit*, dazu später mehr). Da es keine Branches gibt, ist eine Unterscheidung zwischen
   *Refs* und *Tags* wie bei ``git`` nicht mehr nötig.
 
-![Jeder Knoten muss von aktuellen Wurzelverzeichnis neu aufgelöst werden, selbst wenn nur der Elternknoten gesucht wird.](images/4/path-resolution.pdf){#fig:path-resolution width=90%}
+![Jeder Knoten muss von dem aktuellen Wurzelverzeichnis aus neu aufgelöst werden, selbst wenn nur der Elternknoten gesucht wird.](images/4/path-resolution.pdf){#fig:path-resolution width=90%}
 
 *Directories* und *Files* speichern zudem zwei weitere gemeinsame Attribute:
 
@@ -116,7 +116,7 @@ verwendet:
 
 [^INODE]: Siehe auch: https://de.wikipedia.org/wiki/Inode
 
-![Jede Datei und Verzeichnis besitzt eine Liste von Checkpoints](images/4/file-history.pdf){#fig:file-history width=50%}
+![Jede Datei und jedes Verzeichnis besitzt eine Liste von Checkpoints](images/4/file-history.pdf){#fig:file-history width=50%}
 
 Davon abgesehen fällt auf, dass zwei zusätzliche Strukturen eingeführt wurden:
 
@@ -172,10 +172,11 @@ neuer *Merge--Point* dient.
 
 Die Gesamtheit aller *Files*, *Directories*, *Commits*, *Checkpoints* und
 *Refs* wird im Folgenden als *Store* bezeichnet. Da ein *Store* nur aus
-Metadaten besteht, ist er selbst leicht übertragbar. Er kapselt den Objektgraphen
-und kümmert sich um die Verwaltung der Objekte. Basierend auf dem Store
-werden insgesamt elf verschiedene atomare Operationen implementiert, die jeweils
-den aktuellen Graphen nehmen und einen neuen und veränderten Graphen erzeugen.
+Metadaten besteht, ist er selbst leicht auf andere Geräte übertragbar. Er
+kapselt den Objektgraphen und kümmert sich um die Verwaltung der Objekte.
+Basierend auf dem Store werden insgesamt elf verschiedene atomare Operationen
+implementiert, die jeweils den aktuellen Graphen nehmen und einen neuen und
+veränderten Graphen erzeugen.
 
 Es gibt sechs Operationen, die die Benutzung des Graphen als gewöhnliches Dateisystem ermöglichen:
 
@@ -197,19 +198,19 @@ für jede darin enthaltene Datei wiederholt.
 
 ``REMOVE:`` Entfernt eine vorhandene Datei aus dem Staging--Bereich. Der Pin
 der Datei oder des Verzeichnisses und all seiner Kinder wird entfernt. Die
-gelöschten Daten werden möglicherweise beim nächsten Durchgang der $Cleanup$ Operation aus
-dem lokalen Speicher von ``ipfs`` entfernt.
-Die Prüfsumme der entfernten Datei wird aus den darüber liegenden
-Verzeichnissen herausgerechnet. Handelt es sich dabei um ein Verzeichnis, wird
-der Prozess *nicht* rekursiv für jedes Unterobjekt ausgeführt. Es genügt die
-Prüfsumme des zu löschenden Verzeichnisses aus den Eltern herauszurechnen und
+gelöschten Daten werden möglicherweise beim nächsten Durchgang der $Cleanup$
+Operation aus dem lokalen Speicher von ``ipfs`` entfernt. Die Prüfsumme der
+entfernten Datei wird aus den darüber liegenden Verzeichnissen herausgerechnet.
+Handelt es sich dabei um ein Verzeichnis, wird der Prozess *nicht* rekursiv für
+jedes Unterobjekt ausgeführt. Es genügt die Prüfsumme des zu löschenden
+Verzeichnisses aus den Eltern mittels der XOR--Operation herauszurechnen und
 die Kante zu dem Elternknoten zu kappen.
 
 ``LIST:`` Entspricht konzeptuell dem Unix--Werkzeug ``ls``. Besucht alle Knoten
 unter einem bestimmten Pfad rekursiv (breadth-first) und gibt diese aus.
 
 ``MKDIR:`` Erstellt ein neues, leeres Verzeichnis. Die initiale Prüfsumme des neuen
-Verzeichnisses (ergibt sich aus dem Pfad des neuen Verzeichnisses) wird in die
+Verzeichnisses ergibt sich aus dem Pfad des neuen Verzeichnisses. Diese wird in den
 Elternknoten eingerechnet. Die Referenz auf das Wurzelverzeichnis wird im
 Staging--Commit angepasst.
 Eventuell müssen noch dazwischen liegende Verzeichnisse erstellt werden. Diese
@@ -247,10 +248,13 @@ Prüfsumme des entfernten Dokumentes wird aus den Elternknoten herausgerechnet
 und dafür die alte Prüfsumme wieder eingerechnet.
 
 *Anmerkung:* Die Benennung der Operationen ``STAGE``, ``UNSTAGE`` und
-``REMOVE`` ist anders als bei den semantisch gleichen ``git``--Werkzeugen  ``add``,
-``reset`` und ``rm``. Die Benennung nach dem ``git``--Schema ist irreführend, da
-``git add`` auch modifizierte Dateien hinzufügt (als auch neue Dateien) und
-nicht das Gegenteil von ``git rm`` ist.[^GIT_FAQ_RM].
+``REMOVE`` ist anders als bei den semantisch gleichen ``git``--Werkzeugen
+``add``, ``reset`` und ``rm``. Die Benennung nach dem ``git``--Schema ist
+irreführend, da ``git add`` nicht nur neue Dateien, sondern auch modifizierte
+Dateien hinzugefügt. Zudem ist ``git add`` es nicht das Gegenteil von ``git
+rm``[^GIT_FAQ_RM], wie man vom Namen annehmen könnte. Dass eigentliche
+Gegenteil ist ``git reset``. Eine mögliche Alternative zu ``brig stage`` wäre
+vermutlich auch ``brig track``, beziehungsweise ``brig untrack``.
 
 [^GIT_FAQ_RM]: Selbstkritik des ``git``--Projekts: <https://git.wiki.kernel.org/index.php/GitFaq#Why_is_.22git_rm.22_not_the_inverse_of_.22git_add.22.3F>
 
@@ -294,18 +298,18 @@ ist.
 Macht man in diesem Zustand Änderungen ist es möglich die
 geänderten Daten zu verlieren[^DETACHED_HEAD]. Um das zu vermeiden, hält ``brig``
 die Historie stets linear und unveränderlich.
-Dies stellt keine Einschränkung der Architektur an sich.
+Dies stellt keine Einschränkung der Architektur an sich dar.
 
 ``LOG/HISTORY:`` Zeigt alle Commits, bis auf den Staging--Commit. Begonnen wird
 die Ausgabe mit ``HEAD`` und beendet wird sie mit dem initialen Commit.
 Alternativ kann auch die Historie eines einzelnen Verzeichnisses oder einer
 Datei angezeigt werden. Dabei werden statt Commits alle Checkpoints dieser
-Datei, beginnend mit dem aktuellsten ausgegeben.
+Datei, beginnend mit dem Aktuellsten ausgegeben.
 
 ``STATUS:`` Zeigt den Inhalt des aktuellen Staging--Commits (analog zu ``git
 status``) und damit aller geänderten Dateien und Verzeichnisse im Vergleich zu
 ``HEAD``. Es gibt keine eigene ``DIFF``--Operationen, da es keine
-partiellen Differenzen gibt. Eine übersicht der Änderung erhält man durch
+partiellen Differenzen gibt. Eine Übersicht der Änderung erhält man durch
 Anwendung der ``STATUS`` und ``HISTORY``--Operationen.
 
 ## Synchronisation
@@ -332,7 +336,7 @@ bildet ``brig`` ein *Private-Peer--to--Peer*--Netzwerk[^PP2P] auf Basis von ``ip
 
 [^PP2P]: Siehe auch: <https://en.wikipedia.org/wiki/Private_peer-to-peer>
 
-![Remote--Liste von vier Repositories und verschienden Synchronisationsrichtungen.](images/4/multiple-repos.pdf){#fig:multiple-repos}
+![Remote--Liste von vier Repositories und verschiendenen Synchronisationsrichtungen.](images/4/multiple-repos.pdf){#fig:multiple-repos}
 
 Wie in [@fig:multiple-repos] gezeigt wird, können alle Knoten miteinander
 synchronisieren, die sich gegenseitig in die Liste eingetragen haben, da von
@@ -357,7 +361,7 @@ Nutzer selten zur selben Zeit online sind.
 
 In seiner einfachsten Form nimmt ein Synchronisationsalgorithmus als Eingabe
 die Metadaten zweier Dateien von zwei Synchronisationspartnern. Als Ausgabe
-trifft der Algorithmus auf dieser Basis einer der folgenden Entscheidungen:
+trifft der Algorithmus auf dieser Basis eine der folgenden Entscheidungen:
 
 1) Die Datei existiert nur bei Partner A.
 2) Die Datei existiert nur bei Partner B.
@@ -403,25 +407,25 @@ darin. Eine Änderung der ganzen Datei kann dabei durch folgende Aktionen des Nu
 Der vierte Zustand (``ADD``) ist dabei der Initialisierungszustand. Nicht alle dieser
 Zustände führen dabei automatisch zu Konflikten. So sollte beispielsweise ein guter
 Algorithmus kein Problem erkennen, wenn ein Partner die Datei modifiziert und
-der andere sie lediglich umbenennt. Eine Synchronisation der entsprechenden
+der andere sie nicht verändert, sondern lediglich umbenennt. Eine Synchronisation der entsprechenden
 Datei sollte den neuen Inhalt mit dem neuen Dateipfad zusammenführen.
 [@tbl:sync-conflicts] zeigt welche Operationen zu Konflikten führen und welche
 verträglich sind. Die einzelnen Möglichkeiten sind dabei wie folgt:
 
 * »\xmark«: Die beiden Aktionen sind nicht miteinander verträglich, es sei denn ihre Prüfsummen sind gleich.
 * »\qmark«: Die Aktion ist prinzipiell verträglich, hängt aber von der Konfiguration ab.
-            Entweder wird die Löschung vom Gegenüber propagiert oder die eigene Datei wird behalten (Standard).
+            Entweder wird die Löschung oder die Umbenennung vom Gegenüber propagiert oder die eigene Datei wird behalten (Standard).
 * »\cmark«: Die beiden Aktionen sind verträglich.
 
 
-| A/B          | ``ADD``           | ``REMOVE``        | ``MODIFY``        | ``MOVE``           |
+| **A/B**      | ``ADD``           | ``REMOVE``        | ``MODIFY``        | ``MOVE``           |
 | :----------: | ----------------- | ----------------- | ----------------- | ------------------ |
 | ``ADD``      | \xmark            | \qmark            | \xmark            | \xmark             |
 | ``REMOVE``   | \qmark            | \cmark            | \qmark            | \qmark             |
-| ``MODIFY``   | \xmark            | \qmark            | \xmark            | \xmark             |
+| ``MODIFY``   | \cmark            | \qmark            | \xmark            | \cmark             |
 | ``MOVE``     | \xmark            | \qmark            | \xmark            | \xmark             |
 
-: Verträglichkeit der atomaren Operationen untereinander {#tbl:sync-conflicts}
+: Verträglichkeit der atomaren Operationen untereinander für die Partner **A** und **B**. {#tbl:sync-conflicts}
 
 [^DEPENDS]: Die Aktion hängt von der Konfiguration ab. Entweder wird die Löschung propagiert oder
           die eigene Datei wird behalten.
@@ -488,18 +492,19 @@ Im Beispiel synchronisiert Alice mit Bob. Sprich, Alice möchte die Änderungen 
 
 Man könnte also das »naive« Konzept weiterführen und die Menge der zu
 synchronisierenden Pfade in drei Untermengen unterteilten. 
-Jede dieser
-Untermengen hätte dann  eine unterschiedliche Semantik:
+Jede dieser Untermengen hätte dann  eine unterschiedliche Semantik:
 
-- Pfade die beide haben ($X = Paths_{A} \bigcap Paths_{B}$): Konfliktpotenzial. Führe obigen Algorithmus für jede Datei aus.
-- Pfade die nur Alice hat ($Y = Paths_{A} \setminus Paths_{B}$): Brauchen keine weitere Behandlung.
-- Pfade die nur Bob hat ($Z = Paths_{B} \setminus Paths_{A}$): Müssen nur hinzugefügt werden.
+- Pfade die beide haben ($X = Paths_{A} \bigcap Paths_{B}$): Konfliktpotenzial.
+Führe obigen Algorithmus für jede Datei aus. - Pfade die nur Alice hat ($Y
+= Paths_{A} \setminus Paths_{B}$): Brauchen keine weitere Behandlung. - Pfade
+die nur Bob hat ($Z = Paths_{B} \setminus Paths_{A}$): Müssen nur hinzugefügt
+werden.
 
 Wie in [@fig:tree-sync] angedeutet, sind diese Mengen allerdings schwerer zu
 bestimmen als durch eine simple Vereinigung, beziehungsweise Differenz.
 Zwei Beispiele verdeutlichen dies:
 
-* Löscht Bob eine Datei, während Alice sie nicht verändert würde der Pfad trotzdem in der Menge $Y$ landen.
+* Löscht Bob eine Datei, während Alice sie nicht verändert, würde der Pfad trotzdem in der Menge $Y$ landen.
   Dies hätte zur Folge, dass die Löschung nicht zu Alice propagiert wird.
 * Verschiebt Bob eine Datei zu einem neuen Pfad, muss dieser neue Pfad trotzdem
   mit dem alten Pfad von Alice verglichen werden, um die Umbenennung
@@ -525,7 +530,7 @@ funktioniert die Abbildungsfunktion folgendermaßen:
 4) Für alle Pfade, die Alice momentan besitzt (Alle Pfade unter ``HEAD``), wird
    der Algorithmus in [@lst:sync-map] ausgeführt. Dieser ordnet jedem Pfad von
    Alice, einem Pfad von Bob zu oder meldet, dass er kein passendes Gegenstück
-   gefunden werden konnte.
+   finden konnte.
 
 ```{#lst:sync-map .go}
 // Ein assoziatives Array mit dem Pfad zu der Historie
@@ -571,7 +576,8 @@ Synchronisation abgeprüft werden muss. Hat einer der beiden Partner keine
 Stand »vorgespult« werden. Das heißt, alle Änderungen der Gegenseite können
 direkt übernommen werden. Dieses Vorgehen ist bei ``git`` auch als
 *Fast--Forward--Merge* bekannt (``git merge --ff``). Anders als bei ``git``
-wird bei ``git`` allerdings immer ein Merge--Point erstellt.
+wird bei ``brig`` allerdings immer ein Merge--Point erstellt, weswegen
+dies nur eine algorithmische Optimierung darstellt.
 
 ### Austausch der Metadaten {#sec:metadata-exchange}
 
@@ -700,7 +706,7 @@ Veranschaulichung.
 
 Zusammengefasst ist ``brigctl`` eine »Fernbedienung« für ``brigd``, welche im
 Moment exklusiv von der Kommandozeile aus bedient wird. In den meisten Fällen
-verbindet sich der Kommando--Prozess ``brigctl`` sich beim Start zu ``brigd``,
+verbindet sich der Kommando--Prozess ``brigctl`` beim Start zu ``brigd``,
 sendet ein mittels *Protobuf* serialisiertes Kommando und wartet auf die
 dazugehörige Antwort welche dann deserialisiert wird. Nachdem die empfangene
 Antwort, je nach Art, ausgewertet wurde, beendet sich der Prozess wieder.
@@ -718,24 +724,24 @@ enum MessageType {
 }
 
 message Command {
-	// Type identifier of the Command
+	// Typ des Kommandos
 	required MessageType command_type = 1;
 
 	message AddCmd {
-		// Absolute path to the file on the user's disk.
+		// Absoluter Pfad zur Datei auf der Festplatte des Nutzers.
 		required string file_path = 1;
 
-		// Path inside the brig repo (e.g. /photos/me.png)
+		// Pfad innerhalb von brig (/photos/me.png)
 		required string repo_path = 2;
 
-		// Add directories recursively? Defaults to true.
+		// Füge Verzeichnisse rekursiv hinzu? (Standard: Ja)
 		optional bool recursive = 3;
 	}
-	// ... more subcommands ...
+	// ... weitere Subkommandos ...
 
-	// If command_type is ADD, read from this field:
+	// Falls der Typ ADD war, lese von 'add_commando'
 	optional AddCmd add_command = 2;
-	// ... more command entries ...
+	// ... weitere Kommandoeinträge ...
 }
 ```
 
@@ -746,27 +752,25 @@ prüft, ob ``brigd`` Verbindungen von Außen annimmt.
 
 ```{#lst:proto-response .c}
 message Response {
-	// Type identifier to the response;
-	// matches the associated command.
+	// Typ der Antwort
     required MessageType response_type = 1;
 
-	// Everything fine?
+	// Wahr, falls es keine Fehlerantwort ist
     required bool success = 2;
 
-	// If not, an optional error description might be provided.
+	// Bei einem Fehler wird ein optionale Fehlerbeschreibung angegeben.
 	optional string error = 3;
 
-	// Detailed error code (not yet used)
+	// Detaillierter Fehlercode (noch nicht benutzt)
 	optional id errno = 4;
 
 	message OnlineStatusResp {
-		// True if brigd is in online mode.
     	required bool is_online = 1;
 	}
-	// ... more sub responses ...
+	// ... Mehr Unterantworten ...
 
 	optional OnlineStatusResp online_status_resp = 5;
-	// ... more response entries ...
+	// ... Mehr Antworteinträge ...
 }
 ```
 
@@ -799,7 +803,7 @@ Diffie--Hellmann ausgetauscht. Die Details des Protokolls werden in
 [@cpiechula], Kapitel TODO beschrieben.
 
 Die Anzahl der gleichzeitig offenen Verbindungen wird auf ein Maximum von ``50``
-limitiert und Verbindungen werden nach Inaktivität mit nach einer Zeitüberschreitung von 10
+limitiert und Verbindungen werden nach Inaktivität mit einer Zeitüberschreitung von 10
 Sekunden automatisch getrennt. Diese Limitierungen soll verhindern, dass
 fehlerhafte Clients den Hintergrundprozess zu stark auslasten.
 
@@ -825,7 +829,7 @@ der Angreifer alleine mit den verschlüsselten Daten ohne den dazugehörigen
 Schlüssel nichts anfangen können.
 In der Tat unterstützt er das ``ipfs``--Netzwerk sogar, da der Knoten des
 Angreifers auch wieder seine Bandbreite zum Upload anbieten muss, da der Knoten
-sonst ausgebremst wird
+sonst ausgebremst wird.
 Aus diesem Grund ist es aus Sicherheitsperspektive keine Notwendigkeit,
 ``brig`` in einem abgeschotteten Netzwerk zu betreiben. Standardmäßig verbindet
 sich ``brig`` mit dem weltweiten ``ipfs``--Netzwerk, indem es die standardmäßig
@@ -936,7 +940,7 @@ dem eigentlichen Datenblock und dem Schlüssel mitgegeben. Dieser überprüft ob
 Datenblocks korrekt ist und entschlüsselt diesen im Erfolgsfall. Anhand der
 Position im Datenstrom wird zudem überprüft ob die Blocknummer zum Wert in der
 Nonce passt. Stimmen diese nicht überein, wird die Entschlüsselung verweigert,
-da ein Angreifer möglicherweise die Reihenfolge Blöcke hätte vertauschen können.
+da ein Angreifer möglicherweise die Reihenfolge der Blöcke hätte vertauschen können.
 
 **Wahlfreier Zugriff:** Wurde der Header bereits gelesen, so kann ein
 beliebiger Block im Datenstrom gelesen werden, sofern der unterliegende
@@ -985,7 +989,7 @@ eine effiziente Nutzung dieses Formats ist es also nötig, dass der Datenstrom
 einen effizienten, wahlfreien Zugriff am Ende der Datei bietet.
 Glücklicherweise unterstützt dies ``ipfs``. Datenströme wie ``stdin`` unter
 Unix unterstützen allerdings keinen wahlfreien Zugriff, weshalb das
-vorgestellte Format für diese Anwendungsfälle eher ungeeignet ist.
+vorgestellte Format für solche Anwendungsfälle eher ungeeignet ist.
 
 Der Index besteht aus zwei Teilen: Aus dem eigentlichen Index und einem
 sogenannten »Trailer«, der die Größe des Indexes enthält. Zusätzlich enthält
@@ -1026,8 +1030,9 @@ Differenz des Offset--Paars an der Stelle $n+1$ und seines Vorgängers an der
 Stelle $n$. Mithilfe der Blockgröße kann ein entsprechend dimensioniertes Stück vom
 komprimierten Datenstrom gelesen und dekomprimiert werden.
 
-**Wahlfreier Zugriff:** Um auf einen Block in der Mitte zugreifen zu können (am
-unkomprimierten Offset $o$), muss mittels binärer Suche im Index der passende, Anfang
+**Wahlfreier Zugriff:** Um auf einen beliebigen Offset $o$ im unkomprimierten
+Datenstrom zuzugreifen muss dieser zunächst in den komprimierten Offset
+übersetzt werden. Dazu muss mittels binärer Suche im Index der passende, Anfang
 des unkomprimierten Blocks gefunden werden. Wurde der passende Block bestimmt,
 ist auch der Anfangsoffset im komprimierten Datenstrom bekannt. Dadurch kann
 der entsprechende Block ganz geladen und dekomprimiert werden. Innerhalb der

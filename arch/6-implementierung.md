@@ -1,5 +1,7 @@
 # Implementierung {#sec:implementierung}
 
+<!-- Das Kapitel liest sich etwas holprig -->
+
 Dieses Kapitel dokumentiert die Implementierung.
 Der praktische Status der Implementierung kann in [@sec:benutzerhandbuch] betrachtet werden.
 Dort werden nur Funktionen gezeigt, die auch tatsächlich schon existieren.
@@ -25,9 +27,8 @@ aber zumindest in der selben Größenordnung (vgl. [@pike2009go], S. 37).
 
 **Weitläufige Standardbibliothek:** Es sind wenig externe Bibliotheken nötig.
 Insbesondere für die Entwicklung von Netzwerk- und Systemdiensten gibt es eine
-breite Auswahl von gut durchdachten Bibliotheken. Insbesondere das Angebot an
-gut ausgewählten und dokumentierten kryptografischen Primitiven erschien
-wichtig.[^ECB_MODE]
+breite Auswahl von gut durchdachten Bibliotheken. Besonders Erwähnenswert ist
+das umfangreiche Angebot an gut dokumentierten kryptografischen Primitiven.[^ECB_MODE]
 
 [^ECB_MODE]: So wurde beispielsweise der unsichere ECB--Betriebsmodus für Blockchiffren absichtlich weggelassen: <https://github.com/golang/go/issues/5597>
 
@@ -59,8 +60,8 @@ Static--Code--Checker, eine Formattierungshilfe und eine Art Paketmanager.
 
 **Einfache Installation und rapides Prototyping:** Durch das ``go
 get``--Wekzeug ist es möglich direkt Bibliotheken und Anwendungen von
-Plattformen wie *GitHub* zu installieren. Gleichzeitig ist es sehr simpel
-möglich dort eigene Bibliotheken und Anwendungen einzustellen.
+Plattformen wie *GitHub* zu installieren. Gleichzeitig ist es einfach
+eigene Bibliotheken und Anwendungen einzustellen.
 
 **Einheitliche Formatierung:** Durch das »``go fmt``« Werkzeug und strikte
 Stilrichtlinien[^STILRICHT] sieht jeder *Go*--Quelltext ähnlich und damit vertraut aus.
@@ -76,13 +77,13 @@ ist, aber dadurch gleichzeitig auch sehr einfach zu lesen ist.
 
 [^MOBILE]: Siehe dazu: <https://golang.org/wiki/Mobile>
 
-Natürlich ist auch *Go* keine perfekte Sprache. Daher werden untenstehend
+Auch *Go* ist keine perfekte Sprache. Daher werden nachfolgend
 einige kleinere Nachteile und deren Lösungen im Kontext von ``brig``
 aufgezählt:
 
 **Schwergewichtige Binärdateien:** Da bei *Go* alles statisch gelinkt wird, ist die
 entstehende Binärdatei relativ groß. Im Falle des ``brig``--Prototypen sind das
-momentan etwa 35 Megabyte. Werkzeuge wie ``upx``[^UPX] können dies allerdings auf
+momentan etwa 35 Megabyte. Werkzeuge wie ``upx``[^UPX] können dies auf
 rund 8 Megabyte reduzieren, ohne dass der Anwender die Binärdatei entpacken
 muss.
 
@@ -94,8 +95,8 @@ Versionsstand, der von den Entwicklern getestet werden konnte. Dienste wie
 *gopkg.in*[^GOPKG] versuchen eine zusätzliche Versionierung anzubieten, der
 aktuelle »Standard« ist die Nutzung des ``vendor`` Verzeichnisses. Diese Lösung
 läuft darauf hinaus alle benötigten Abhängigkeiten in der gewünschten Version
-in das eigene Quelltext--Repository zu kopieren. Diese zwar durchaus unelegante
-aber gut funktionierende Lösung verfolgt auch ``brig``[^VENDOR].
+in das eigene Quelltext--Repository zu kopieren. Diese unelegante
+aber gut funktionierende Lösung, wird von ``brig`` verwendet[^VENDOR].
 
 [^GOPKG]: <http://labix.org/gopkg.in>
 [^VENDOR]: Eigenes Repository für verwendete Bibliotheken: <https://github.com/disorganizer/brig-vendor>
@@ -117,7 +118,7 @@ Die Statistik in [@tbl:cloc-output] wurde mit dem freien Werkzeug
 eingerechnet, Testdateien hingegen schon. Auch fehlen in der Statistik die
 Module aus [@sec:dev-history], die zwar geschrieben worden sind, aber aufgrund
 sich ändernder Designanforderungen wieder gelöscht worden sind. Es wurde
-explizit versucht, die Quelltextbasis möglichst klein zu halten.
+versucht, die Quelltextbasis möglichst klein zu halten.
 
 | **Sprache**              | **Dateianzahl** | **Leerzeilen** | **Kommentare**    | **Codezeilen**
 | ------------------------ | --------------- | ------------   | ----------------- | --------
@@ -226,12 +227,15 @@ der wiederum weitere Buckets und normale Schlüsselwertpaare enthalten kann.
 Dadurch ist die Bildung einer Hierarchie möglich.
 
 Für jeden Knotentypen (File, Directory, Commit) und Metadatentypen (Checkpoint,
-Ref) wurde eine eigene (gleichnamige) Go--Struktur eingeführt, welche die Daten
-in der Datenbank kapselt und alle Operationen darauf implementiert. Jede
-dieser Knotenstrukturen implementiert dabei ein gemeinsames Interface namens
-``Node``. Ein Verzeichnis speichert dabei allerdings nicht seine Kindknoten
-(siehe [@lst:hash-ref]) als weitere Verzeichnisstrukturen, sondern verweist auf
-diese indirekt über deren Prüfsumme:
+Ref) wurde eine eigene, gleichnamige Go--Struktur eingeführt, welche die Daten
+in der Datenbank kapselt und alle Operationen darauf implementiert. Jede dieser
+Knotenstrukturen implementiert dabei ein gemeinsames Interface namens ``Node``.
+Jedes ``Node`` weiß wie ein Knoten serialisiert und deserialisiert wird. Zudem
+fasst das Interface Metadaten zusammen, die für alle Knotentypen gleich sind
+(also Prüfsumme, Elternpfad, eigener Name, Größe, Änderungszeitpunkt und UID).
+Ein Verzeichnis speichert dabei allerdings nicht seine Kindknoten (siehe
+[@lst:hash-ref]) als weitere Verzeichnisstrukturen, sondern verweist auf diese
+indirekt über deren Prüfsumme:
 
 ```{#lst:hash-ref .go}
 type Directory {
@@ -256,7 +260,7 @@ zugreifbar. Um diese Aufgabe zu lösen, forciert *FS* eine hierarchische Ablages
 (gezeigt in [@fig:bolt-layout]) innerhalb der BoltDB, die an ``git`` angelehnt
 ist.
 
-![Hierarchische Aufteilung in der BoltDB mitttels Buckets.](images/5/bolt-layout.pdf){#fig:bolt-layout}
+![Hierarchische Aufteilung in der BoltDB mittels Buckets.](images/5/bolt-layout.pdf){#fig:bolt-layout}
 
 Basierend auf dieser Struktur kann *FS* die folgenden Funktionen effizient implementieren:
 
@@ -276,9 +280,12 @@ dabei aus dem normalen Unix--Dateisystem, wo ein einzelner Punkt ebenfalls
 auf das aktuelle Verzeichnis zeigt. Es gibt allerdings noch kein
 Äquivalent zu »``..``«, welches auf das Elternverzeichnis zeigen würde.
 
-**func** ``StageNode(node Node) error``{.go}: Fügt dem Staging--Bereich einem Eintrag
-hinzu. Der Pfad des Knoten und seine Prüfsumme werden unter »``stage/...``«
-abgespeichert.
+**func** ``StageNode(node Node) error``{.go}: Fügt dem Staging--Bereich einem
+Eintrag hinzu. Der Pfad des Knoten und seine Prüfsumme werden unter
+»``stage/...``« abgespeichert. Dabei sorgt die Funktion auch dafür, dass alle
+Elternverzeichnisse des Knotens im Staging--Bereich abgespeichert werden, da
+auch dessen Prüfsummen sich nach einer Modifikation von ``node`` verändert
+haben.
 
 **func** ``StageCheckpoint(ckp *Checkpoint) error``{.go}: Fügt einen Checkpoint dem
 Staging--Commit unter ``stage/STATUS`` hinzu und speichert ihn in
@@ -381,7 +388,7 @@ aufgerufenen Funktion ist das Auslesen der Details aus dem *Request--Objekt*
 einer Aktion (Beispiel: Öffne Datenstrom von ``ipfs``) und das Befüllen des
 *Response--Objekts* (Beispiel: Kein Fehler, neuer Dateideskriptor wird
 zurückgegeben). Bei Fehlern kann verfrüht abgebrochen werden und ein spezieller
-Fehlercode darf zurückgegeben werden (Beispiel: ``fuse.EIO`` für einen
+Fehlercode wird zurückgegeben werden (Beispiel: ``fuse.EIO`` für einen
 Input/Output--Fehler). Auf diese Weise können die meisten
 Systemaufrufe[^SYSCALL] (die normal vom Kernel vorgegeben sind) durch eigenen
 Code implementiert werden. Beispielsweise wird auch ein Callback aufgerufen, wenn
@@ -461,8 +468,10 @@ Ansonsten haben die Dateien folgenden Inhalt:
 * ``index/``: Enthält für jeden Benutzer eine BoltDB mit seinen Metadaten.
 * ``ipfs/``: Ein ``ipfs``--Repository. Hier werden die eigentlichen Daten gespeichert.
   Die Struktur des Verzeichnisses selbst wird von ``ipfs`` bestimmt.
-* ``shadow``: Noch keine Verwendung.
-* ``master.key``: Noch keine Verwendung.
+* ``shadow``: Enthält die Prüfsumme der vom Nutzer angegebenen Passphrase.
+  Wird zum Abgleich der Passphrase beim Öffnen des Repositories genutzt.
+* ``master.key``: Noch keine Verwendung. Wird zufällig beim Anlegen eines Repositories generiert.
+  Soll als Basis einer Schlüsselhierarchie dienen (vgl. [@cpiechula], Kapitel TODO).
 
 ### Nennenswerte Bibliotheken
 
@@ -503,7 +512,7 @@ Log--Ausgaben in eine Datei geschrieben und die Farbinformationen weggelassen.
 **Konfiguration:** Einige Parameter von ``brig`` sind konfigurierbar. Diese
 werden in einer menschenlesbaren YAML--Datei[^YAML] gespeichert.
 Der Zugriff auf einen Wert erfolgt dabei durch einen mit ».« getrennten Pfad.
-So liefert der Schlüssel »``daemon.port``« den Schlüssel »``port``« in der
+So liefert der Schlüssel »``daemon.port``« dem Schlüssel »``port``« in der
 assoziativen Array »``daemon``« (siehe Beispiel [@lst:local-config]).
 
 [^YAML]: <https://de.wikipedia.org/wiki/YAML>
@@ -603,7 +612,7 @@ freie Softwareprojekte dankenswerterweise kostenfrei.
 
 [^TRAVIS]: Siehe hier: <https://travis-ci.org/disorganizer/brig>
 
-## Historisches {#sec:dev-history}
+## Entwicklungshistorie {#sec:dev-history}
 
 Der Beginn der Entwicklung reicht bis in den November des Jahres 2015 zurück.
 Zu diesem Zeitpunkt war ``brig`` konzeptuell noch anders gelagert und es wurde beispielsweise
@@ -611,7 +620,7 @@ die Verwendung von ``ssh`` und ``rsync`` als Backend diskutiert. Erst nach der
 Beschäftigung mit ``ipfs`` und seinen Möglichkeiten entstand der Grundgedanke
 der hinter dem heutigen ``brig`` steht.
 
-### Sackgassen {#sec:sackgasse}
+### Sackgassen bei der Entwicklung {#sec:sackgasse}
 
 Leider wurden auch einige Techniken sehr zeitaufwendig ausprobiert und wieder
 verworfen. Dazu gehört auch der geplante Einsatz von *XMPP*[^XMPP] als sicherer Steuerkanal
