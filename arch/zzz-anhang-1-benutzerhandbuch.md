@@ -187,7 +187,7 @@ Der Nutzer wird um die Eingabe einer Passphrase gebeten. Die Formulierung
 *Passphrase* ist dabei bewusst anstatt dem Wort *Passwort* gewählt, da eine
 gewisse Mindestentropie Voraussetzung zur erfolgreichen Eingabe ist. Die
 Komplexität wird dabei von der ``zxcvbn``--Bibliothek überprüft[^zxcvbn].
-Welche Kriterien es dabei anwendet, kann in Kapitel TODO von [@cpiechula]
+Welche Kriterien es dabei anwendet, kann in [@cpiechula]
 nachgeschlagen werden.
 
 [^zxcvbn]: Mehr Informationen hier: <https://github.com/dropbox/zxcvbn>

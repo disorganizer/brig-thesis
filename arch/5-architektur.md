@@ -800,7 +800,7 @@ Für den Fall, dass ein Angreifer den lokalen Netzwerkverkehr mitlesen kann wird
 der gesamte Netzwerkverkehr zwischen ``brigctl`` und ``brigd`` mit AES256
 verschlüsselt. Der Schlüssel wird beim Verbindungsaufbau mittels
 Diffie--Hellmann ausgetauscht. Die Details des Protokolls werden in
-[@cpiechula], Kapitel TODO beschrieben.
+[@cpiechula] beschrieben.
 
 Die Anzahl der gleichzeitig offenen Verbindungen wird auf ein Maximum von ``50``
 limitiert und Verbindungen werden nach Inaktivität mit einer Zeitüberschreitung von 10
@@ -852,7 +852,7 @@ Ciphertext generieren. Der Nachteil ist, dass ein Angreifer feststellen kann,
 ob jemand eine Datei (beispielsweise Inhalte mit urhebergeschützen Inhalten)
 besitzt. Im Protoypen werden die Dateischlüssel daher zufällig generiert,
 was die Deduplizierungsfunktion von ``ipfs`` momentan ausschaltet.
-Die Vor- und Nachteile dieses Verfahrens wird in [@cpiechula], Kapitel TODO diskutiert.
+Die Vor- und Nachteile dieses Verfahrens wird in [@cpiechula] diskutiert.
 
 #### Verschlüsselung {#sec:encryption}
 
@@ -868,7 +868,7 @@ Daten sichern.
 Es werden lediglich reguläre
 Dateien verschlüsselt. Verzeichnisse existieren nur als Metadaten und werden
 gesondert behandelt. Die Details und Entscheidungen zum Design des Formats
-werden in [@cpiechula], Kapitel TODO dargestellt.
+werden in [@cpiechula] dargestellt.
 
 ![Aufbau des Verschlüsselungs--Dateiformats](images/4/format-encryption.pdf){#fig:format-encryption}
 
@@ -886,10 +886,10 @@ Werden die ersten Daten geschrieben, so schreibt der Kodierer zuerst einen
   Sollten Änderungen am Format nötig sein,
   so müssen nur die ersten 10 Byte beibehalten werden und die Versionsnummer inkrementiert
   werden. Für die jeweilige Version kann dann ein passender Dekodierer genutzt werden.
-* Die verwendete *Blockchiffre* (siehe [@cpiechula], Kapitel TODO) (2 Byte) zur
+* Die verwendete *Blockchiffre* (siehe [@cpiechula]) (2 Byte) zur
   Verschlüsselung. Standardmäßig wird *ChaCha20/Poly1305* (siehe
   [@nir2015chacha20]) eingesetzt, aber es kann auch AES (siehe [@everyday_crypto], S.
-  116 ff.) mit 256 Bit Schlüssellänge im Galois--Counter--Modus (GCM, siehe [@cpiechula], Kapitel TODO) verwendet werden.
+  116 ff.) mit 256 Bit Schlüssellänge im Galois--Counter--Modus (GCM, siehe [@cpiechula]) verwendet werden.
 * Die *Länge* (4 Byte) des verwendeten Schlüssels in Bytes.
 * Die *maximale Blockgröße* (4 Byte) der nachfolgenden Blöcke in Bytes.
 * Ein *Message--Authentication--Code (MAC, siehe auch [@everyday_crypto], S. 205 ff.)* (16 Byte)
@@ -1073,7 +1073,7 @@ Im Falle von ``brig`` wird ein eigenes Protokoll registriert, um mit anderen
 Teilnehmern zu kommunizieren. Dieses ist ähnlich aufgebaut wie das Protokoll
 zwischen Daemon und Client (siehe [@sec:client]), unterstützt aber
 andere Anfragen und hat erhöhte Sicherheitsanforderungen.
-Eine genauere Beschreibung des Protokolls wird in [@cpiechula], Kapitel TODO gegeben,
+Eine genauere Beschreibung des Protokolls wird in [@cpiechula] gegeben,
 hier werden nur kurz die wichtigsten Eigenschaften genannt:
 
 - Authentifizierung mittels Remote--Liste bei jedem Verbindungsaufbau.
@@ -1254,4 +1254,4 @@ neuer Teilnehmer (anwendbar, wenn beispielsweise ein Dozent Vorlesungsmaterial
 verteilen will), oder ein Frage--Antwort--Verfahren wie bei
 *Off--The--Record--Messaging (OTR)*. Dabei stellen sich beide Teilnehmer eine
 Frage, die sie jeweils korrekt beantworten müssen. Weitere Konzepte zur
-Authentifizierung werden in [@cpiechula], Kapitel TODO beschrieben.
+Authentifizierung werden in [@cpiechula] beschrieben.

@@ -415,8 +415,8 @@ könnte die Funktionalität in ``ipfs`` direkt eingebaut werden.
 
 **Update Mechanismus:** Sicherheitskritische Software wie ``brig`` sollte
 möglichst aktuell gehalten werden, um Sicherheitslücken schnell schließen zu
-können. Wie ein solcher Mechanismus im Detail aussehen könnte, zeigt die
-[@cpiechula], Kapitel TODO.
+können. Wie ein solcher Mechanismus im Detail aussehen könnte, zeigt
+die Arbeit von Herrn Piechula (siehe [@cpiechula]).
 
 **HTTPS--Gateway:** Wie in [@fig:gateway] gezeigt könnte ``brig`` als Webserver
 fungieren, der eine Schnittstelle zum »normalen« Internet bildet. Dieser könnte
@@ -554,7 +554,7 @@ zum Synchronisationspartner übertragen. Hier wäre entweder eine Trennung von d
 Metadaten (und damit gesonderte Übertragung) sinnvoll oder eine
 Schlüsselhierarchie, bei denen der eigentliche Schlüssel beispielsweise noch
 mit einem Gruppenschlüssel verschlüsselt werden.
-Für weitere Details, siehe [@cpiechula], Kapitel TODO.
+Siehe auch [@cpiechula] für weitere Details.
 
 **Anonymisierung:**  Eine Anonymisierung des Datenverkehrs ist momentan nicht
 implementiert. Angreifer können zwar den Datenverkehr nicht mitlesen, doch

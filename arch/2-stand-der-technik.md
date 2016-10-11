@@ -215,7 +215,7 @@ vieler wissenschaftlicher Teildisziplinen, die es nach Wissen des Autors vorher
 noch nicht in dieser Kombination gab. Dabei werden viele bestehende Ideen und
 Konzepte genommen, um sie in einer Software zu vereinen, die ein versioniertes
 und verteiltes Dateisystem implementiert. Dieses soll nicht nur »sicher« (im
-weitesten Sinne, siehe [@cpiechula], Kapitel TODO) sein, sondern auch
+weitesten Sinne, siehe [@cpiechula]) sein, sondern auch
 für ein Großteil der Anwender benutzbar sein.
 
 Im Konkreten besteht die Neuerung hauptsächlich aus der Kombination folgender Punkte:
@@ -260,7 +260,7 @@ weitesten verbreitete zentrale Dienst zur Dateisynchronisation. Verschlüsselung
 kann man mit Tools wie ``encfs`` (Open--Source, siehe auch [^ENCFS]) oder dem
 etwas umfangreicheren, proprietären ``boxcryptor`` nachrüsten. Was das Backend
 genau tut ist leider das Geheimnis von Dropbox --- es ist nicht Open--Source.
-Mehr Details liefert [@cpiechula] im Kapitel TODO.
+Mehr Details liefert die Arbeit von Herrn Piechula [@cpiechula].
 
 [^ENCFS]: Mehr Informationen unter <https://de.wikipedia.org/wiki/EncFS>
 

@@ -190,7 +190,7 @@ Dadurch, dass der Nutzer mithilfe der Oberfläche den Anlegeort für das neue Re
 wird ein fehlerhafter Pfad ausgeschlossen.
 
 In der späteren Entwicklung soll ``brig`` auch mit Geräten zur
-Zweifaktorauthentifizierung (siehe [@cpiechula], Kapitel TODO) wie dem YubiKey[^WIKI_YUBI]
+Zweifaktorauthentifizierung (siehe [@cpiechula]) wie dem YubiKey[^WIKI_YUBI]
 zusammen arbeiten. Daher wird am unteren Bildschirmrand eine
 entsprechende Nachricht angezeigt. Entsprechende Schaltflächen zur Konfiguration
 werden erst angezeigt, wenn ein angeschlossener YubiKey erkannt wurde.[^MINIMALISMUS]

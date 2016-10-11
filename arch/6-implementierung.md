@@ -471,7 +471,7 @@ Ansonsten haben die Dateien folgenden Inhalt:
 * ``shadow``: Enthält die Prüfsumme der vom Nutzer angegebenen Passphrase.
   Wird zum Abgleich der Passphrase beim Öffnen des Repositories genutzt.
 * ``master.key``: Noch keine Verwendung. Wird zufällig beim Anlegen eines Repositories generiert.
-  Soll als Basis einer Schlüsselhierarchie dienen (vgl. [@cpiechula], Kapitel TODO).
+  Soll als Basis einer Schlüsselhierarchie dienen (vgl. [@cpiechula]).
 
 ### Nennenswerte Bibliotheken
 

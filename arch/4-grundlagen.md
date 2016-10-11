@@ -142,10 +142,10 @@ $ ipfs id QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ
 
 Der öffentliche Schlüssel kann dazu genutzt werden, mit einem Peer mittels
 asymmetrischer Verschlüsselung eine verschlüsselte Verbindung aufzubauen (siehe
-[@cpiechula], Kapitel TODO). Von ``brig`` wird dieses Konzept weiterhin
+[@cpiechula]). Von ``brig`` wird dieses Konzept weiterhin
 genutzt, um eine Liste vertrauenswürdiger Knoten zu verwalten. Jeder Peer muss
 bei Verbindungsaufbau nachweisen, dass er den zum öffentlichen Schlüssel passenden
-privaten Schlüssel besitzt (für Details siehe [@cpiechula], Kapitel TODO).
+privaten Schlüssel besitzt (für Details siehe [@cpiechula]).
 
 **Pinning und Caching:** Das Konzept von ``ipfs`` basiert darauf, dass Knoten nur
 das speichern, woran sie auch interessiert sind. Daten, die von außen zum

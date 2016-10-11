@@ -133,7 +133,7 @@ auf der Platte, sondern nur im Hauptspeicher abgelegt werden.
 
 Wie in [@sec:stand-der-technik] beleuchtet wurde, speichern die meisten Dienste und
 Anwendungen zum Dateiaustausch ihre Dateien in keiner verschlüsselten Form. Es
-gibt allerdings eine Reihe von Angriffsszenarien ([@cpiechula], Kapitel TODO), die
+gibt allerdings eine Reihe von Angriffsszenarien (siehe auch [@cpiechula]), die
 durch eine Vollverschlüsselung der Daten verhindert werden können.
 
 **Verschlüsselte Übertragung:** Bei der Synchronisation zwischen Teilnehmern
@@ -169,8 +169,6 @@ sind inspiriert von der OTR--Implementierung des Instant-Messanger Pidgin[^PIDGI
 
 [^PIDGIN]: Webseite: <https://www.pidgin.im>
 
-<!-- Die Nummer der Seite 23 ist komisch :D -->
-
 **Identität:** Jeder Benutzer des Netzwerks muss eine öffentliche Identität
 besitzen, welche ihn eindeutig identifiziert. Gekoppelt mit der öffentlichen
 Identität soll jeder Nutzer ein überprüfbares Geheimnis kennen, mithilfe dessen er sich
@@ -182,7 +180,7 @@ Eine Registrierung bei einer zentralen Stelle soll nicht benötigt werden.
 **Transparenz:** Die Implementierung aller oben genannten Sicherheitsfeatures
 muss für Anwender und Entwickler nachvollziehbar und verständlich sein. Durch
 die Öffnung des gesamten Quelltextes können Entwickler den Code auf Fehler
-überprüfen. Normale Anwender können die Arbeit von Herrn Piechula[@cpiechula]
+überprüfen. Normale Anwender können die Arbeit von Herrn Piechula (siehe [@cpiechula])
 lesen, um für die Themantik der Sicherheit sensibilisiert zu werden und ein
 Überblick über die Sicherheit von ``brig`` zu bekommen. Dort wird auch das
 Entwicklungsmodell besprochen, welches helfen soll sichere Software zu
