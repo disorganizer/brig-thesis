@@ -240,7 +240,7 @@ wenn ``brig`` im Online--Modus ist. Im Suchmodus können die Namen der Remotes
 zusätzlich durch Angabe eines Stichwortes gefiltert werden.
 
 In der unteren Statusleiste wird zudem in Zahlen zusammengefasst, wie viele
-Remotes online sind und mit wie vielen davon synchronisiert wird. Der Knopf zum
+Remotes online sind und mit wie vielen Remotes synchronisiert wird. Der Knopf zum
 Löschen eines Remotes wird nur dann angezeigt, wenn mindestens ein Remote aus
 der Liste ausgewählt wurde (hellblau hinterlegt).
 
@@ -304,7 +304,7 @@ sich eine Liste mit allen bekannten Commits (entspricht etwa ``brig log``).
 Jede Commitzeile enthält dabei den Index des Commits, der Commit--Message, dem
 Erstellungsdatum und dem farbig hervorgehobenen Autor. Auf der rechten Seite
 jeder Zeile findet sich der *Checkout*--Button, mit dem der aktuelle Stand auf
-dem Stand im ausgewählten Commit zurücksetzbar ist. Unter dem Namen
+den Stand im ausgewählten Commit zurücksetzbar ist. Unter dem Namen
 *Uncommited Changes* findet sich an oberster Stelle zudem immer der *Staging
 Commit*. Im linken, unteren Bereich wird zudem eine Statusleiste eingeblendet,
 in der als empfohlene Aktion das Anlegen eines neuen Commits möglich ist. Diese

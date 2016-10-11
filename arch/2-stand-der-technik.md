@@ -33,15 +33,15 @@ dessen existierende Infrastruktur wiederverwenden.
 
 [^OVERLAY_NETWORK]: Siehe auch: <https://de.wikipedia.org/wiki/Overlay-Netz>
 
-### Technik
+### Zugrundeliegende Technik
 
 Die meisten Dienste im Internet hingegen basieren auf dem Client--Server--Modell, bei
-dem viele anonyme Clients eine Anfragen an einen zentralen Server stellen.
+dem viele anonyme Clients eine Anfrage an einen zentralen Server stellen.
 Dieser muss mit der steigenden Anzahl an Clients skalieren, indem er
 typischerweise mehr Prozessorleistung und Bandbreite zur Verfügung hat. Dieses
 Modell passt auf viele heterogene Anwendungsfälle, wo Client und Server
 grundverschiedene Rollen zugeordnet sind (Beispiel: Dienstleiter und Kunde).
-Ein weiterer Eigenschaft, ist dass das Client--Server--Modell kein Problem mit
+Ein weitere Eigenschaft, ist dass das Client--Server--Modell kein Problem mit
 dem sogenannten *NAT--Traversal* hat.
 
 NAT steht dabei für *Network Address Translation* (dt.
@@ -70,7 +70,7 @@ Netzwerkteilnehmer verbinden, um von ihm an weitere Teilnehmer vermittelt zu
 werden. Der Boostrap--Knoten führt aber normalerweise das selbe Programm aus,
 wie jeder andere, ist aber vertrauenswürdiger.
 Bemerkenswert ist, dass sich keine zentrale Instanz um die Koordination
-des Datenflusses im Netzwerk kümmern muss Die Grundlage für die Koordination
+des Datenflusses im Netzwerk kümmern muss. Die Grundlage für die Koordination
 bildet dabei die *Distributed Hashtable (DHT, vgl. [@peer2peer], S. 63 ff.)*
 Diese Datenstruktur bildet sich durch den Zusammenschluss vieler
 Rechner und nutzt eine *Hashfunktion*[^HASH_FUNCTION], um für
@@ -107,8 +107,8 @@ so kann kein neuer Nutzer mehr das Festplattenimage empfangen.
 
 ![Veranschaulichung der Netzwerklast bei zentralen und dezentralen Systemen.](images/2/zentral-dezentral-speedup.pdf){#fig:speedup}
 
-Im Falle das die Rechner der Studenten ein verteiltes Netzwerk bilden: 
-Hier genügt es wenn nur ein Rechner einen Teil der Datei hat. Diesen
+Bilden die Rechner der Studenten ein verteiltes Netzwerk, so
+genügt es wenn nur ein Rechner einen Teil der Datei hat. Diesen
 Teil kann er im lokalen Netz anderen Teilnehmern wieder anbieten und sich Teile
 der Datei besorgen, die er selbst noch nicht hat. So muss in der Theorie die
 Datei nur maximal einmal vom zentralen Server übertragen werden. In
@@ -124,9 +124,9 @@ da ganze Dateien in kleine Blöcke unterteilt werden können. Diese können dann
 interessierten Knoten vorgehalten und weitergegeben werden. Protokolle wie *BitTorrent*
 haben das Problem, dass ein Block nur solange verfügbar ist, solange es Teilnehmer
 gibt, die diesen Block anbieten. Prinzipiell hat auch ``brig`` dieses Problem,
-doch besteht ein ``brig``--Netzwerk nur aus den Teilnehmern besteht, die einen gemeinsamen
+doch besteht ein ``brig``--Netzwerk nur aus den Teilnehmern, die einen gemeinsamen
 Dateistand synchronisieren wollen. Daher kann angenommen werden, dass alle darin enthaltenen
-Dateien von mindestens einen Teilnehmer angeboten werden können.
+Dateien von mindestens einem Teilnehmer angeboten werden können.
 
 [^CACHING_PROXY]: Typischerweise sorgen auch vorgeschaltete *Caching Proxies* wie Squid (<https://de.wikipedia.org/wiki/Squid>) dafür, dass Dateien nicht zigmal heruntergeladen werden.
 
@@ -242,7 +242,7 @@ Im Konkreten besteht die Neuerung hauptsächlich aus der Kombination folgender P
 
 Bereits ein Blick auf Wikipedia[^wiki_filesync] zeigt, dass der momentane Markt
 an Dateisynchronisationssoftware sehr unübersichtlich ist. Ein näherer Blick
-zeigt, dass die dortigen Softwareprojekte dort oft nur in Teilaspekten gut
+zeigt, dass die dortigen Softwareprojekte oft nur in Teilaspekten gut
 funktionieren und manchmal mit architektonischen Problemen behaftet sind.
 
 [^wiki_filesync]: Siehe <https://en.wikipedia.org/wiki/Comparison_of_file_synchronization_software>
@@ -427,7 +427,7 @@ subjektiver Natur.
 
 Abschießend kann man sagen, dass ``syncthing`` dem Gedanken hinter ``brig`` am
 nächsten kommt. Der Hauptunterschied ist, dass die Basis hinter ``brig`` ein
-volles P2P--Netzwerk ist namens ``ipfs`` ist (dazu später mehr). Wie in den
+volles P2P--Netzwerk ist namens ``ipfs`` (dazu später mehr). Wie in den
 nächsten Kapiteln ersichtlich ist, eröffnet dieser Unterbau eine Reihe von
 Möglichkeiten, die ``syncthing`` nicht bieten kann[^BEISPIELE].
 
@@ -524,12 +524,12 @@ Es gibt natürlich auch einige Einsatzzwecke, für die ``brig`` weniger geeignet
 ist. Diese werden im [@sec:evaluation] beleuchtet, da die dortige Argumentation
 teilweise ein Verständnis von der internen Architektur benötigt.
 
-## Annahmen {#sec:assumptions}
+## Annahmen während der Konzeption {#sec:assumptions}
 
 Das Design von ``brig`` basiert auf einigen Annahmen, die im Voraus getroffen
 werden mussten:
 
-**Durchschnittlicher Netzwerkkonfiguration:** Für den Prototypen wird ein
+**Durchschnittliche Netzwerkkonfiguration:** Für den Prototypen wird ein
 normales Heimnetzwerk mit mehren Computern angenommen, welche typischerweise
 hinter einem NAT liegen. Diese sollen sich mit anderen
 Computern in anderen Heimnetzwerken über das Internet austauschen können.
@@ -546,7 +546,7 @@ Arbeitsspeicher. Der Internetanschluss sollte ein Download von mindestens
 
 **Stabilität von ``ipfs:``** Es wird angenommen, dass ``ipfs`` stetig
 weiterentwickelt wird und im momentanen Zustand keine gravierenden
-Sicherheitsmängel. Zudem wird angenommen, dass es für die Zwecke von ``brig``
+Sicherheitsmängel enthält. Zudem wird angenommen, dass es für die Zwecke von ``brig``
 ausreichend hohe Performanz bietet.
 
 **Keine Kollision der Prüfsummen:** ``brig`` kann (genau wie ``ipfs``) Dateien

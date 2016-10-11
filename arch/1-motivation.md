@@ -142,7 +142,7 @@ Die vorliegende Arbeit ist in drei größere logische Blöcke gegliedert:
   wird auch das nötige Grundlagenwissen vermittelt, um die nächsten Kapitel zu
   verstehen.
 - [@sec:architektur] -- [@sec:usability] (Architektur, Implementierung, Usability): In
-  diesen beiden Kapiteln wird das
+  diesen drei Kapiteln wird das
   technische Design des Prototypen erläutert und Begründungen zu den Designentscheidungen gegeben. Zuletzt wird noch ein Konzept
   für eine grafische Benutzeroberfläche vorgestellt.
 - [@sec:evaluation] -- [@sec:fazit] (Evaluation, Fazit): Der aktuelle Prototyp

@@ -260,7 +260,7 @@ zugreifbar. Um diese Aufgabe zu lösen, forciert *FS* eine hierarchische Ablages
 (gezeigt in [@fig:bolt-layout]) innerhalb der BoltDB, die an ``git`` angelehnt
 ist.
 
-![Hierarchische Aufteilung in der BoltDB mitttels Buckets.](images/5/bolt-layout.pdf){#fig:bolt-layout}
+![Hierarchische Aufteilung in der BoltDB mittels Buckets.](images/5/bolt-layout.pdf){#fig:bolt-layout}
 
 Basierend auf dieser Struktur kann *FS* die folgenden Funktionen effizient implementieren:
 
@@ -468,8 +468,10 @@ Ansonsten haben die Dateien folgenden Inhalt:
 * ``index/``: Enthält für jeden Benutzer eine BoltDB mit seinen Metadaten.
 * ``ipfs/``: Ein ``ipfs``--Repository. Hier werden die eigentlichen Daten gespeichert.
   Die Struktur des Verzeichnisses selbst wird von ``ipfs`` bestimmt.
-* ``shadow``: Noch keine Verwendung.
-* ``master.key``: Noch keine Verwendung.
+* ``shadow``: Enthält die Prüfsumme der vom Nutzer angegebenen Passphrase.
+  Wird zum Abgleich der Passphrase beim Öffnen des Repositories genutzt.
+* ``master.key``: Noch keine Verwendung. Wird zufällig beim Anlegen eines Repositories generiert.
+  Soll als Basis einer Schlüsselhierarchie dienen (vgl. [@cpiechula], Kapitel TODO).
 
 ### Nennenswerte Bibliotheken
 
@@ -510,7 +512,7 @@ Log--Ausgaben in eine Datei geschrieben und die Farbinformationen weggelassen.
 **Konfiguration:** Einige Parameter von ``brig`` sind konfigurierbar. Diese
 werden in einer menschenlesbaren YAML--Datei[^YAML] gespeichert.
 Der Zugriff auf einen Wert erfolgt dabei durch einen mit ».« getrennten Pfad.
-So liefert der Schlüssel »``daemon.port``« den Schlüssel »``port``« in der
+So liefert der Schlüssel »``daemon.port``« dem Schlüssel »``port``« in der
 assoziativen Array »``daemon``« (siehe Beispiel [@lst:local-config]).
 
 [^YAML]: <https://de.wikipedia.org/wiki/YAML>
@@ -610,7 +612,7 @@ freie Softwareprojekte dankenswerterweise kostenfrei.
 
 [^TRAVIS]: Siehe hier: <https://travis-ci.org/disorganizer/brig>
 
-## Historisches {#sec:dev-history}
+## Entwicklungshistorie {#sec:dev-history}
 
 Der Beginn der Entwicklung reicht bis in den November des Jahres 2015 zurück.
 Zu diesem Zeitpunkt war ``brig`` konzeptuell noch anders gelagert und es wurde beispielsweise
@@ -618,7 +620,7 @@ die Verwendung von ``ssh`` und ``rsync`` als Backend diskutiert. Erst nach der
 Beschäftigung mit ``ipfs`` und seinen Möglichkeiten entstand der Grundgedanke
 der hinter dem heutigen ``brig`` steht.
 
-### Sackgassen {#sec:sackgasse}
+### Sackgassen bei der Entwicklung {#sec:sackgasse}
 
 Leider wurden auch einige Techniken sehr zeitaufwendig ausprobiert und wieder
 verworfen. Dazu gehört auch der geplante Einsatz von *XMPP*[^XMPP] als sicherer Steuerkanal

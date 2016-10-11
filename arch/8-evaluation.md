@@ -91,7 +91,7 @@ bis zu einen gewissen, konfigurierbaren *Beschädigungsgrad* erlaubt. Siehe auch
 
 [^CEPH]: Webpräsenz: <http://ceph.com>
 [^GLUSTER]: Webpräsenz: <https://www.gluster.org>
-[^ABSTREIT]: Siehe auch: <https://de.wikipedia.org/wiki/VeraCrypt\#Glaubhafte_Abstreitbarkeit>
+[^ABSTREIT]: Siehe auch: <https://de.wikipedia.org/wiki/VeraCrypt>
 
 ## Erfüllung der Anforderungen
 
@@ -232,7 +232,7 @@ Software herzustellen. Welchen Umfang die Testsuite momentan hat, kann in
 [@sec:testsuite] nachgelesen werden.
 
 **Effizienz:** (\qmark) ``brig`` ist schnell genug, um auf einem typischen
-Arbeitsrechner eine lokale Full--HD Filmdatei von FUSE--Dateisystem aus abzuspielen.
+Arbeitsrechner eine lokale Full--HD Filmdatei vom FUSE--Dateisystem aus abzuspielen.
 Details zu der Geschwindigkeit findet sich in [@sec:benchmarks]. Besonders im
 FUSE--Dateisystem sind noch einige Optimierungsmöglichkeiten vorhanden, welche
 die Gesamteffizienz steigern können.
@@ -408,7 +408,7 @@ eines Repositories ein neues RSA--Schlüsselpaar generiert. Viele Nutzer haben
 aber bereits einen Schlüsselpaar in Form eines OpenPGP--Schlüsselpaars oder
 eines SSH--Schlüsselpaars. Diese könnten beim Anlegen des Repositories
 importiert werden. Sollte das Repository neu angelegt werden müssen, so kann
-der existierende Schlüssel in einem gängigen Format auch exportiert werden. Es
+der existierende Schlüssel in einem gängigen Format exportiert werden. Es
 muss allerdings darauf geachtet werden, dass keine zwei Repositories dasselbe
 Schlüsselpaar benutzen, da dies von ``ipfs`` nicht vorgesehen ist. Auch hier
 könnte die Funktionalität in ``ipfs`` direkt eingebaut werden.
@@ -496,7 +496,7 @@ dann in einer einzigen, atomaren Datenbank--Transaktion zusammengefasst werden.
 ### Konzeptuelle Verbesserungen
 
 **Zugriffsrechte:** ``brig`` unterscheidet im jetzigen Konzept nicht zwischen
-lesbaren, schreibbaren oder ausführbaren Dateien. Auch gibt es kein Besitzer
+lesbaren, schreibbaren oder ausführbaren Dateien. Auch gibt es keinen Besitzer
 oder eine Gruppenzugehörigkeit der Datei. Die einzigen Dateiattribute bilden
 momentan die Größe und der letzte Änderungszeitpunkt. Aus diesem Grund bewirkt
 der Aufruf von »``chmod``« auf eine Datei im FUSE--Dateisystem nichts. Es muss
@@ -507,7 +507,7 @@ Gruppe angehören, können dann Dateien und Verzeichnisse einsehen, die auch
 dieser Gruppe zugeordnet sind.
 
 **Automatische Synchronisation:** Änderungen müssen explizit synchronisiert
-werden. Um eine Dropbox--ähnliche Funktionalität zu erreichen sollte ein neue
+werden. Um eine Dropbox--ähnliche Funktionalität zu erreichen sollte eine neue
 Option eingeführt werden: »``brig sync --auto bob@wonderland.lit``«. Dabei wird
 zuerst regulär mit *Bob* synchronisiert. Im Anschluss wird der Knoten von *Bob*
 angewiesen, *Alice* alle Änderungen auf seiner Seite sofort zu schicken.

@@ -43,7 +43,7 @@ Hauptunterschiede sind dabei wie folgt:
   Aus diesen Grund kennt ``brig`` auch keine ``clone`` und ``pull``--Operation.
   Diese werden durch »``brig sync <with>``« ersetzt.
 
-[^BRANCH_EXPL]: *Branches* dienen bei ``git`` um einzelne Features oder Fixes separat entwickeln zu können.
+[^BRANCH_EXPL]: *Branches* dienen bei ``git`` dazu, um einzelne Features oder Fixes separat entwickeln zu können.
 [^DETACHED_HEAD]: So ist es bei ``git`` relativ einfach möglich in den
 sogenannten *Detached HEAD* Modus zu kommen, in dem durchaus Daten verloren
 gehen können. Siehe auch: <http://gitfaq.org/articles/what-is-a-detached-head.html>
@@ -90,14 +90,14 @@ verwendet:
   referenziert. In diese Prüfsumme ist nicht nur die Integrität des aktuellen
   Standes gesichert, sondern
   auch aller Vorgänger.
-* **Refs:** Analog zu ``git`` dienen sie dazu, bestimmten *Commits einen Namen
+* **Refs:** Analog zu ``git`` dienen sie dazu, bestimmten *Commits* einen Namen
   zu geben. Es gibt zwei vordefinierte Referenzen, welche von ``brig``
   aktualisiert werden: ``HEAD``, welche auf den letzten vollständigen *Commit*
   zeigt und ``CURR``, welche auf den aktuellen Commit zeigt (meist dem *Staging
   Commit*, dazu später mehr). Da es keine Branches gibt, ist eine Unterscheidung zwischen
   *Refs* und *Tags* wie bei ``git`` nicht mehr nötig.
 
-![Jeder Knoten muss von aktuellen Wurzelverzeichnis neu aufgelöst werden, selbst wenn nur der Elternknoten gesucht wird.](images/4/path-resolution.pdf){#fig:path-resolution width=90%}
+![Jeder Knoten muss von dem aktuellen Wurzelverzeichnis aus neu aufgelöst werden, selbst wenn nur der Elternknoten gesucht wird.](images/4/path-resolution.pdf){#fig:path-resolution width=90%}
 
 *Directories* und *Files* speichern zudem zwei weitere gemeinsame Attribute:
 
@@ -116,7 +116,7 @@ verwendet:
 
 [^INODE]: Siehe auch: https://de.wikipedia.org/wiki/Inode
 
-![Jede Datei und Verzeichnis besitzt eine Liste von Checkpoints](images/4/file-history.pdf){#fig:file-history width=50%}
+![Jede Datei und jedes Verzeichnis besitzt eine Liste von Checkpoints](images/4/file-history.pdf){#fig:file-history width=50%}
 
 Davon abgesehen fällt auf, dass zwei zusätzliche Strukturen eingeführt wurden:
 
@@ -198,19 +198,19 @@ für jede darin enthaltene Datei wiederholt.
 
 ``REMOVE:`` Entfernt eine vorhandene Datei aus dem Staging--Bereich. Der Pin
 der Datei oder des Verzeichnisses und all seiner Kinder wird entfernt. Die
-gelöschten Daten werden möglicherweise beim nächsten Durchgang der $Cleanup$ Operation aus
-dem lokalen Speicher von ``ipfs`` entfernt.
-Die Prüfsumme der entfernten Datei wird aus den darüber liegenden
-Verzeichnissen herausgerechnet. Handelt es sich dabei um ein Verzeichnis, wird
-der Prozess *nicht* rekursiv für jedes Unterobjekt ausgeführt. Es genügt die
-Prüfsumme des zu löschenden Verzeichnisses aus den Eltern herauszurechnen und
+gelöschten Daten werden möglicherweise beim nächsten Durchgang der $Cleanup$
+Operation aus dem lokalen Speicher von ``ipfs`` entfernt. Die Prüfsumme der
+entfernten Datei wird aus den darüber liegenden Verzeichnissen herausgerechnet.
+Handelt es sich dabei um ein Verzeichnis, wird der Prozess *nicht* rekursiv für
+jedes Unterobjekt ausgeführt. Es genügt die Prüfsumme des zu löschenden
+Verzeichnisses aus den Eltern mittels der XOR--Operation herauszurechnen und
 die Kante zu dem Elternknoten zu kappen.
 
 ``LIST:`` Entspricht konzeptuell dem Unix--Werkzeug ``ls``. Besucht alle Knoten
 unter einem bestimmten Pfad rekursiv (breadth-first) und gibt diese aus.
 
 ``MKDIR:`` Erstellt ein neues, leeres Verzeichnis. Die initiale Prüfsumme des neuen
-Verzeichnisses (ergibt sich aus dem Pfad des neuen Verzeichnisses) wird in die
+Verzeichnisses ergibt sich aus dem Pfad des neuen Verzeichnisses. Diese wird in den
 Elternknoten eingerechnet. Die Referenz auf das Wurzelverzeichnis wird im
 Staging--Commit angepasst.
 Eventuell müssen noch dazwischen liegende Verzeichnisse erstellt werden. Diese
@@ -304,12 +304,12 @@ Dies stellt keine Einschränkung der Architektur an sich dar.
 die Ausgabe mit ``HEAD`` und beendet wird sie mit dem initialen Commit.
 Alternativ kann auch die Historie eines einzelnen Verzeichnisses oder einer
 Datei angezeigt werden. Dabei werden statt Commits alle Checkpoints dieser
-Datei, beginnend mit dem aktuellsten ausgegeben.
+Datei, beginnend mit dem Aktuellsten ausgegeben.
 
 ``STATUS:`` Zeigt den Inhalt des aktuellen Staging--Commits (analog zu ``git
 status``) und damit aller geänderten Dateien und Verzeichnisse im Vergleich zu
 ``HEAD``. Es gibt keine eigene ``DIFF``--Operationen, da es keine
-partiellen Differenzen gibt. Eine übersicht der Änderung erhält man durch
+partiellen Differenzen gibt. Eine Übersicht der Änderung erhält man durch
 Anwendung der ``STATUS`` und ``HISTORY``--Operationen.
 
 ## Synchronisation
@@ -336,7 +336,7 @@ bildet ``brig`` ein *Private-Peer--to--Peer*--Netzwerk[^PP2P] auf Basis von ``ip
 
 [^PP2P]: Siehe auch: <https://en.wikipedia.org/wiki/Private_peer-to-peer>
 
-![Remote--Liste von vier Repositories und verschienden Synchronisationsrichtungen.](images/4/multiple-repos.pdf){#fig:multiple-repos}
+![Remote--Liste von vier Repositories und verschiendenen Synchronisationsrichtungen.](images/4/multiple-repos.pdf){#fig:multiple-repos}
 
 Wie in [@fig:multiple-repos] gezeigt wird, können alle Knoten miteinander
 synchronisieren, die sich gegenseitig in die Liste eingetragen haben, da von
@@ -361,7 +361,7 @@ Nutzer selten zur selben Zeit online sind.
 
 In seiner einfachsten Form nimmt ein Synchronisationsalgorithmus als Eingabe
 die Metadaten zweier Dateien von zwei Synchronisationspartnern. Als Ausgabe
-trifft der Algorithmus auf dieser Basis einer der folgenden Entscheidungen:
+trifft der Algorithmus auf dieser Basis eine der folgenden Entscheidungen:
 
 1) Die Datei existiert nur bei Partner A.
 2) Die Datei existiert nur bei Partner B.
@@ -504,7 +504,7 @@ Wie in [@fig:tree-sync] angedeutet, sind diese Mengen allerdings schwerer zu
 bestimmen als durch eine simple Vereinigung, beziehungsweise Differenz.
 Zwei Beispiele verdeutlichen dies:
 
-* Löscht Bob eine Datei, während Alice sie nicht verändert würde der Pfad trotzdem in der Menge $Y$ landen.
+* Löscht Bob eine Datei, während Alice sie nicht verändert, würde der Pfad trotzdem in der Menge $Y$ landen.
   Dies hätte zur Folge, dass die Löschung nicht zu Alice propagiert wird.
 * Verschiebt Bob eine Datei zu einem neuen Pfad, muss dieser neue Pfad trotzdem
   mit dem alten Pfad von Alice verglichen werden, um die Umbenennung
@@ -530,7 +530,7 @@ funktioniert die Abbildungsfunktion folgendermaßen:
 4) Für alle Pfade, die Alice momentan besitzt (Alle Pfade unter ``HEAD``), wird
    der Algorithmus in [@lst:sync-map] ausgeführt. Dieser ordnet jedem Pfad von
    Alice, einem Pfad von Bob zu oder meldet, dass er kein passendes Gegenstück
-   gefunden werden konnte.
+   finden konnte.
 
 ```{#lst:sync-map .go}
 // Ein assoziatives Array mit dem Pfad zu der Historie
@@ -576,7 +576,8 @@ Synchronisation abgeprüft werden muss. Hat einer der beiden Partner keine
 Stand »vorgespult« werden. Das heißt, alle Änderungen der Gegenseite können
 direkt übernommen werden. Dieses Vorgehen ist bei ``git`` auch als
 *Fast--Forward--Merge* bekannt (``git merge --ff``). Anders als bei ``git``
-wird bei ``git`` allerdings immer ein Merge--Point erstellt.
+wird bei ``brig`` allerdings immer ein Merge--Point erstellt, weswegen
+dies nur eine algorithmische Optimierung darstellt.
 
 ### Austausch der Metadaten {#sec:metadata-exchange}
 
@@ -723,24 +724,24 @@ enum MessageType {
 }
 
 message Command {
-	// Type identifier of the Command
+	// Typ des Kommandos
 	required MessageType command_type = 1;
 
 	message AddCmd {
-		// Absolute path to the file on the user's disk.
+		// Absoluter Pfad zur Datei auf der Festplatte des Nutzers.
 		required string file_path = 1;
 
-		// Path inside the brig repo (e.g. /photos/me.png)
+		// Pfad innerhalb von brig (/photos/me.png)
 		required string repo_path = 2;
 
-		// Add directories recursively? Defaults to true.
+		// Füge Verzeichnisse rekursiv hinzu? (Standard: Ja)
 		optional bool recursive = 3;
 	}
-	// ... more subcommands ...
+	// ... weitere Subkommandos ...
 
-	// If command_type is ADD, read from this field:
+	// Falls der Typ ADD war, lese von 'add_commando'
 	optional AddCmd add_command = 2;
-	// ... more command entries ...
+	// ... weitere Kommandoeinträge ...
 }
 ```
 
@@ -751,27 +752,25 @@ prüft, ob ``brigd`` Verbindungen von Außen annimmt.
 
 ```{#lst:proto-response .c}
 message Response {
-	// Type identifier to the response;
-	// matches the associated command.
+	// Typ der Antwort
     required MessageType response_type = 1;
 
-	// Everything fine?
+	// Wahr, falls es keine Fehlerantwort ist
     required bool success = 2;
 
-	// If not, an optional error description might be provided.
+	// Bei einem Fehler wird ein optionale Fehlerbeschreibung angegeben.
 	optional string error = 3;
 
-	// Detailed error code (not yet used)
+	// Detaillierter Fehlercode (noch nicht benutzt)
 	optional id errno = 4;
 
 	message OnlineStatusResp {
-		// True if brigd is in online mode.
     	required bool is_online = 1;
 	}
-	// ... more sub responses ...
+	// ... Mehr Unterantworten ...
 
 	optional OnlineStatusResp online_status_resp = 5;
-	// ... more response entries ...
+	// ... Mehr Antworteinträge ...
 }
 ```
 
@@ -804,7 +803,7 @@ Diffie--Hellmann ausgetauscht. Die Details des Protokolls werden in
 [@cpiechula], Kapitel TODO beschrieben.
 
 Die Anzahl der gleichzeitig offenen Verbindungen wird auf ein Maximum von ``50``
-limitiert und Verbindungen werden nach Inaktivität mit nach einer Zeitüberschreitung von 10
+limitiert und Verbindungen werden nach Inaktivität mit einer Zeitüberschreitung von 10
 Sekunden automatisch getrennt. Diese Limitierungen soll verhindern, dass
 fehlerhafte Clients den Hintergrundprozess zu stark auslasten.
 
@@ -830,7 +829,7 @@ der Angreifer alleine mit den verschlüsselten Daten ohne den dazugehörigen
 Schlüssel nichts anfangen können.
 In der Tat unterstützt er das ``ipfs``--Netzwerk sogar, da der Knoten des
 Angreifers auch wieder seine Bandbreite zum Upload anbieten muss, da der Knoten
-sonst ausgebremst wird
+sonst ausgebremst wird.
 Aus diesem Grund ist es aus Sicherheitsperspektive keine Notwendigkeit,
 ``brig`` in einem abgeschotteten Netzwerk zu betreiben. Standardmäßig verbindet
 sich ``brig`` mit dem weltweiten ``ipfs``--Netzwerk, indem es die standardmäßig
@@ -941,7 +940,7 @@ dem eigentlichen Datenblock und dem Schlüssel mitgegeben. Dieser überprüft ob
 Datenblocks korrekt ist und entschlüsselt diesen im Erfolgsfall. Anhand der
 Position im Datenstrom wird zudem überprüft ob die Blocknummer zum Wert in der
 Nonce passt. Stimmen diese nicht überein, wird die Entschlüsselung verweigert,
-da ein Angreifer möglicherweise die Reihenfolge Blöcke hätte vertauschen können.
+da ein Angreifer möglicherweise die Reihenfolge der Blöcke hätte vertauschen können.
 
 **Wahlfreier Zugriff:** Wurde der Header bereits gelesen, so kann ein
 beliebiger Block im Datenstrom gelesen werden, sofern der unterliegende
