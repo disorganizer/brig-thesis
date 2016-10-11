@@ -5,7 +5,6 @@
 Dieses Kapitel dokumentiert die Implementierung.
 Der praktische Status der Implementierung kann in [@sec:benutzerhandbuch] betrachtet werden.
 Dort werden nur Funktionen gezeigt, die auch tatsächlich schon existieren.
-(TODO: prüfen)
 An dieser Stelle werden eher Implementierungsdetails gezeigt, die einen Einstieg in die
 technische Umsetzung von ``brig`` geben sollen.
 
@@ -105,11 +104,11 @@ aber gut funktionierende Lösung, wird von ``brig`` verwendet[^VENDOR].
 
 ## Status der Implementierung
 
-Die momentane Implementierung setzt die vorher besprochene Architektur größtenteils um.
-Lediglich der Code der zuständig für die Synchronisation ist, ist nur in Grundzügen vorhanden.
-(TODO: Versuchen bis zur abgabe umzusetzen)
-Ansonsten unterscheidet sich die tatsächliche Implementierung und die
-theoretische Architektur nur in Details.
+Die momentane Implementierung setzt die vorher besprochene Architektur
+größtenteils um. Der Code der zuständig für die Synchronisierung ist
+funktioniert zwar, ist jedoch noch nicht so detailliert wie in der Architektur
+ausgearbeitet. Ansonsten unterscheidet sich die tatsächliche Implementierung
+und die theoretische Architektur nur in Details.
 
 ### Umfang
 
@@ -325,14 +324,15 @@ nutzen, um spezielle Werte persistent zu hinterlegen.
 
 Bei jeder Operation werden also die Daten direkt aus *BoltDB* geladen,
 deserialisiert und zu einer ``Node``--Struktur umgewandelt. Als
-Effizienzsteigerung werden bereits aufgelöste Prüfsummen in ein assoziatives Array
-gespeichert und bereits aufgelöste Pfade in einem Patricia--Trie[^PATRIE].
-Sobald eine Reihe von Änderungen an einem im Speicher befindlichen ``Node``
-gemacht wurde (beispielsweise eine Änderung der Prüfsumme nach einer
+Effizienzsteigerung werden bereits aufgelöste Prüfsummen in ein assoziatives
+Array und bereits aufgelöste Pfade in einem Patricia--Trie[^PATRIE]
+gespeichert. Sobald eine Reihe von Änderungen an einem im Speicher befindlichen
+``Node`` gemacht wurde (beispielsweise eine Änderung der Prüfsumme nach einer
 Modifikation), wird der ``Node``, und all seine Eltern (da dessen Prüfsummen
 sich ja auch geändert haben), in den Staging--Bereich eingefügt (durch Aufruf
-von ``StageNode()``). Der »``stage/...``« Bereich fungiert also als Sammelbecken für alle
-Änderungen.
+von ``StageNode()``). Der »``stage/...``« Bereich fungiert also als
+persistentes Sammelbecken für alle Änderungen, während die Änderungen im
+Speicher den jeweils aktuellsten Stand wiederspiegeln.
 
 Jede weitere Operation auf dem Stores läuft auf eine Sequenz von
 Aufrufen der oben gezeigten Modifikationen hinaus. Beim Anzeigen aller Commits

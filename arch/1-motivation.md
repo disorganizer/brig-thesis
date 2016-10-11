@@ -16,9 +16,10 @@ Praxis meist sehr unterschiedliche Probleme. Bei E--Mails kann oft nur eine
 maximale Dateigröße übermittelt werden, die Übertragung von Dateien mittels
 ``ssh`` ist für die meisten Nutzer zu kompliziert und zentrale Dienste rufen
 einerseits Sicherheitsbedenken hervor, andererseits sind sie meist nur bedingt
-kostenlos und können unvermittelt ausfallen. Wie in [@fig:xkcd-sync] humoristisch gezeigt,
-muss also für jeden neuen Kontakt stets erst aufwendig der kleinste gemeinsame
-Nenner ausgehandelt werden.
+kostenlos und können unvermittelt ausfallen oder mittels Zensurmaßnahmen
+blockiert werden. Wie in [@fig:xkcd-sync] humoristisch gezeigt, muss also für
+jeden neuen Kontakt stets erst aufwendig der kleinste gemeinsame Nenner
+ausgehandelt werden.
 
 ![Humorvolle Darstellung der Suche nach dem »kleinsten gemeinsamen Nenner«.[^SOURCE_XKCD]](images/1/xkcd-file-transfer.png){#fig:xkcd-sync width=50%}
 

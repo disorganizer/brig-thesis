@@ -6,18 +6,19 @@ all:
 		--smart \
 		--number-sections \
 		--bibliography thesis.bib \
-		--csl tex/acm.csl \
+		--csl tex/ieee.csl \
 		-H tex/vars.tex \
 		-H tex/header.tex \
 		-B tex/title.tex \
 		-N \
+		-M "lstPrefix=Listing" \
 		-V lang=de-DE \
 		--chapters \
 		-A tex/statement.tex \
 		--highlight-style tango \
 		-o pdf/thesis.tex \
 		*.md
-
+	sed -i 's/\\label{lst:/\\label[Listing]{lst:/g' pdf/thesis.tex
 	cd pdf && latexmk -pdf thesis.tex
 
 final: all

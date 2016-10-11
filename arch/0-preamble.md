@@ -9,6 +9,8 @@ lot: yes
 loe: yes
 cref: yes
 listings: yes
+lstPrefix: Listing
+#codeBlockCaptions: true
 
 date: \today
 ---

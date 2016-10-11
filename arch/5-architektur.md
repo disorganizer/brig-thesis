@@ -125,7 +125,9 @@ Davon abgesehen fällt auf, dass zwei zusätzliche Strukturen eingeführt wurden
   partiellen Änderungen[^PARTIAL] möglich sind, müssen nur vier verschiedene Operation
   unterschieden werden: ``ADD`` (Datei wurde initial oder erneut hinzugefügt), ``MODIFY`` (Prüfsumme hat sich verändert),
   ``MOVE`` (Pfad hat sich verändert) und ``REMOVE`` (Datei wurde entfernt). Eine beispielhafte Historie findet sich
-  in [@fig:file-history].
+  in [@fig:file-history]. Werden mehrere Checkpoints eingepflegt, die den
+  gleichen Typen haben (beispielsweise mehrere ``MODIFY``--Operationen), so
+  wird nur die letzte ``MODIFY``--Operation in der Historie abgespeichert.
   Jeder Checkpoint kennt den Zustand der Datei zum Zeitpunkt der Modifikation,
   sowie einige Metadaten wie einen Zeitstempel, der Dateigröße, dem Änderungstyp, dem Vorgänger
   und dem Urheber der Änderung. Der Vorteil einer dateiabhängigen Historie

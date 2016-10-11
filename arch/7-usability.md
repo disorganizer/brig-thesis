@@ -97,7 +97,9 @@ bestimmten Mindestentropie. Wie man in [@fig:pwd-input] erahnen kann, wird die
 Entropie »live« bei der Eingabe des Passworts angezeigt, um den Nutzer direkt
 Feedback zu geben.
 Momentan wurde die Kommandozeile noch nicht in weitere Sprachen übersetzt, da
-sie sich genau wie der Rest der Implementierung noch ändern kann.
+sie sich genau wie der Rest der Implementierung noch ändern kann. In späteren
+Versionen könnte zudem ein lokalisiertes Tutorial angeboten werden, welches
+die wichtigsten Konzepte nach Eingabe von »``brig tour``« vermittelt.
 
 ![Angabe der Passphrase beim Anlegen eines neuen Repositories.](images/6/pwd-input.png){#fig:pwd-input width=66%}
 

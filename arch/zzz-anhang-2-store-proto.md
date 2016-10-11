@@ -3,8 +3,54 @@
 ## Internes Datenmodell von ``brig`` {#sec:data-model}
 
 ```c
+syntax = "proto3";
 package brig.store;
 option go_package = "wire";
+
+///////////// VERSION CONTROL STRUCTURES ///////////
+
+message Author {
+  string name = 1;
+  string hash = 2;
+}
+
+// Optional merge information for merge commits
+message Merge {
+    string with = 1;
+    bytes hash = 2;
+}
+
+message Checkpoint {
+  // Link to the node id:
+  uint64 id_link = 1;
+  bytes hash = 2;
+  uint64 index = 3;
+  int32 change = 4;
+  string author = 5;
+}
+
+// History is the history of a file:
+message History {
+    repeated Checkpoint hist = 1 [packed=false];
+}
+
+message CheckpointLink {
+  uint64 id_link = 1;
+  uint64 index = 2;
+}
+
+// Commits is an ordered list of commits
+message Commits {
+    repeated Commit commits = 1;
+}
+
+// Ref is a pointer to a single commit
+message Ref {
+    string name = 1;
+    bytes hash = 2;
+}
+
+////////////// NODE BASICS /////////////
 
 // Might be extended with more esoteric types in the future.
 enum NodeType {
@@ -16,94 +62,97 @@ enum NodeType {
 
 // An Object is a container for a file, a directory or a Ref.
 message Node {
-  required NodeType type = 1;
+  // Type of this node (see above)
+  NodeType type = 1;
+  // Global identifier of this node, since hash and path
+  // might change sometimes.
+  uint64 ID = 2;
+
+  // Size of the node in bytes:
+  uint64 node_size = 3;
+
+  // Timestamp formated as RFC 3339
+  bytes mod_time = 4;
+
+  // Hash of the node as multihash:
+  bytes hash = 5;
+
+  // Name of this node (i.e. path element)
+  string name = 6;
+
+  // Path must only be filled when exported to a client.
+  // It may not be used internally and is not saved to the kv-store.
+  string path = 7;
 
   // Individual types:
-  optional File file = 2;
-  optional Directory directory = 3;
-  optional Commit commit = 4;
+  File file = 8;
+  Directory directory = 9;
+  Commit commit = 10;
 }
 
-message File {
-    required string path = 1;
-    optional bytes key = 2;
-    optional bytes hash = 3;
-    required int64 file_size = 4;
-    required int32 kind = 5;
+// Just a collection of nodes:
+message Nodes {
+  repeated Node nodes = 1;
+}
 
-    // Timestamp formated as RFC 3339
-    required bytes mod_time = 6;
+////////////// CONCRETE NODES /////////////
+
+message File {
+  // Path to parent directory
+  string parent = 1;
+
+  // Key of this file:
+  bytes key = 2;
 }
 
 message Directory {
-    required string name = 1;
-    required uint64 file_size = 2;
-    required bytes parent = 3;
-    required bytes hash = 4;
-    required bytes mod_time = 5;
+  // Path to parent object:
+  string parent = 1;
 
-    // Directory contents:
-    repeated bytes links = 6;
-    repeated string names = 7;
+  // Directory contents (hashtable contents [name => link]):
+  repeated bytes links = 2;
+  repeated string names = 3;
 }
 
-message Checkpoint {
-    required bytes hash = 1;
-    required bytes mod_time = 2;
-    required int64 file_size = 3;
-    required int32 change = 4;
-    required string author = 5;
-    required string path = 6;
-    required string old_path = 7;
-    required uint64 index = 8;
-}
-
-message History {
-    repeated Checkpoint hist = 1 [packed=false];
-}
-
-// Optional merge information for merge commits
-message Merge {
-    required string with = 1;
-    required bytes hash = 2;
-}
-
-// Commit is a bag of changes, either automatically done
-// or by the user.
+// Commit is a bag of changes, either automatically done or by the user.
 message Commit {
-    required string message = 1;
-    required string author = 2;
-    required bytes mod_time = 3;
-    required bytes hash = 4;
-    required bytes tree_hash = 5;
+  // Hash of the parent commit:
+  bytes parent = 1;
 
-    // List of checkpoints:
-    repeated Checkpoint checkpoints = 6;
+  // Commit message:
+  string message = 2;
 
-    // Link to parent hash (empty for initial commit):
-    optional bytes parent_hash = 7;
+  // Author of this commit:
+  Author author = 3;
 
-    // Merge information if this is a merge commit.
-    optional Merge merge = 8;
+  // Hash to the root tree:
+  bytes root = 4;
+
+  // List of checkpoints (one per file):
+  repeated CheckpointLink changeset = 5;
+
+  // Merge information if this is a merge commit.
+  Merge merge = 6;
+
+  // Checkpoints stored in the commit.
+  // This is only used when exported to the client,
+  // it is not stored in the kv-store.
+  repeated Checkpoint checkpoints = 7;
 }
 
-// Commits is an ordered list of commits
-message Commits {
-    repeated Commit commits = 1;
-}
+//////////// EXPORT/IMPORT DATA //////////////
 
-message Ref {
-    required string name = 1;
-    required bytes hash = 2;
-    required int32 type = 3;
+// Store is the exported form of a store.
+message Store {
+  // The boltdb format.
+  bytes boltdb = 1;
 }
 ```
-
-TODO: Bei änderung updaten
 
 ## Protokoll zwischen zwei Knoten {#sec:rpc-proto}
 
 ```c
+syntax = "proto3";
 package brig.transfer;
 option go_package = "wire";
 
@@ -112,31 +161,31 @@ import "store.proto";
 enum RequestType {
     INVALID = 0;
     FETCH = 1;
+    STORE_VERSION = 2;
+    UPDATE_FILE = 3;
 }
 
 message Request {
-	required RequestType req_type = 1;
-    required int64 ID = 2;
-    required int64 nonce = 3;
+	RequestType req_type = 1;
+    int64 ID = 2;
+    int64 nonce = 3;
 }
 
 message StoreVersionResponse {
-    required int32 version = 1;
+    int32 version = 1;
 }
 
 message FetchResponse {
-    required brig.store.Store store = 1;
+    brig.store.Store store = 1;
 }
 
 message Response {
-	required RequestType req_type = 1;
-    required int64 ID = 2;
-    required int64 nonce = 3;
-    optional string error = 4;
+	RequestType req_type = 1;
+    int64 ID = 2;
+    int64 nonce = 3;
+    string error = 4;
 
-    optional StoreVersionResponse store_version_resp = 5;
-    optional FetchResponse fetch_resp = 6;
+    StoreVersionResponse store_version_resp = 5;
+    FetchResponse fetch_resp = 6;
 }
 ```
-
-TODO: Bei änderung updaten
