@@ -762,3 +762,5 @@ weiterhin als problematisch anzusehen:
 * Software Wipe--Tools bei *SSDs*[^FN_SSD] problematisch (vgl. [@BIB_SSD_ERASE])
 
 [^FN_SSD]: Solid--Sate--Drive: <https://de.wikipedia.org/wiki/Solid-State-Drive>
+
+TODO: https://turkeyblocks.org/2016/10/08/google-drive-dropbox-blocked-in-turkey/

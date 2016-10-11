@@ -29,67 +29,96 @@ Eigenschaften mit sich:
 * **Skalierbarkeit:** Das System sollte in der Lage sein, auch mit einer großen
   Anzahl von Knoten funktionsfähig zu bleiben.
 
+## Projektumfang und Version
+
+TODO: Abkürzungsverzeichnis LoC
+
+Die *IPFS*--Codebasis umfasst aktuell $\approx{900.000}$ *LoC* (siehe
+[@sec:APP_IPFS_LOC]). Davon gehören $\approx{100.000}$ *LoC* direkt dem
+*IPFS*--Projekt an, $\approx{800.000}$ *LoC* stammen aus Drittanbieter--Bibliotheken.
+
+Im zeitlich begrenzten Umfang der Master--Arbeit können nur selektive
+Mechanismen der Software untersucht werden. Eine genaue Analyse der
+Quelltext--Basis ist aufgrund der Projektgröße und der begrenzten Zeit nicht
+möglich.
+
+Es wurde folgende Version aus den *Arch Linux*--Repository evaluiert:
+
+~~~sh
+freya :: ~ » ipfs version
+ipfs version 0.4.3
+~~~
+
 ## Sicherheit
 
-Beim initialisieren von *IPFS* wird ein *RSA*--Schlüsselpaar generiert. Ein
-*IPFS*--Repository kann mit dem Befehl `ipfs init` initialisiert werden. Dabei
-wird Standardmäßig unter `~/.ipfs` ein Repository angelegt.
+### IPFS--Basis 
+
+das *ipfs*--dateisystem bzw. protokoll bringt das kommandozeilenwerkzeug `ipfs` mit. Dieses ermöglicht eine rudimentäre Nutzung des *IPFS*---
+beim initialisieren von *ipfs* wird ein *rsa*--schlüsselpaar generiert. ein
+*ipfs*--repository kann mit dem befehl `ipfs init` initialisiert werden. dabei
+wird standardmäßig unter `~/.ipfs` ein repository angelegt.
 
 ~~~sh
 freya :: ~ » ipfs init
 initializing ipfs node at /home/qitta/.ipfs
-generating 2048-bit RSA keypair...done
-peer identity: QmbEg4fJd3oaM9PrpcMHcn6QR2HMdhRXz5YyL5fHnqNAET
+generating 2048-bit rsa keypair...done
+peer identity: qmbeg4fjd3oam9prpcmhcn6qr2hmdhrxz5yyl5fhnqnaet
 to get started, enter:
 
-        ipfs cat /ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme
+        ipfs cat /ipfs/qmywapjzv5czsna625s3xf2nemtygpphdwez79ojwnpbdg/readme
 ~~~
 
-Das generierte Schlüsselpaar wird in der getesteten Version (ipfs version
-0.4.3) im Klartext auf der Festplatte abgelegt. Der öffentliche Schlüssel kann
+Bei der Initialisierung wird eine *peer identity* erzeugt. Anschließend kann der Benutzer die `readme`--Datei aus dem *IPFS*--Store betrachten. [@sec:APP_IPFS_SECWARNING] zeigt weiterhin die aktuelle Sicherheitswarnung der *IPFS*--Software. Es wird explizit ein paar mal darauf hingewiesen, dass *IPFS* sich im Alphastadium befindet. Weiterhin gibt es Details zur »Sicherheit« in der Datei `security-notes`, welche analog zur `readme`--Datei betrachtet werden kann.
+
+### IPFS--ID
+
+das generierte schlüsselpaar wird in der getesteten version (ipfs version
+0.4.3) im klartext auf der festplatte abgelegt. der öffentliche schlüssel kann
 mit `ipfs id` angeschaut werden, dies liefert folgende Ausgabe:
 
 ~~~sh
 freya :: ~ » ipfs id
 {
-        "ID": "QmbEg4fJd3oaM9PrpcMHcn6QR2HMdhRXz5YyL5fHnqNAET",
-		"PublicKey":
-		"CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDGDgKtgJ9FW/EL1qY0Ohz
-		 nGGh7dPAszDDpC3fhHcF7rI9iyLp5ei0T9gjfvsj+ULhxKqXHU9qoD7LjiUPUHQKPnND1Yv
-		 WzpBIZNUhaiuo107J5MztPvroQ8/RpSAC3VpARQiQ9U9AYtlyFPmpiRKwIA7f1FX7tb//Lj
-		 3WkTFeUmS/vINCgBOasXbkwKtf3sYpsC5SKlSevFLrAFQ0Ro9/x1kQNt321/1sALgM74bI8
-		 7X5gVmtkEB8eDjLkcMNCmqMarAjjSb9Sg5uYIQj1WHPPCrvTVQioZIIIHJ6Z7ogWIDpDR5T
-		 Og55tS4kW7qSJUQebh54v1gyEVd2mSgUf40MBAgMBAAE=",
-        "Addresses": null,
-        "AgentVersion": "go-libp2p/3.3.4",
-        "ProtocolVersion": "ipfs/0.1.0"
+        "id": "qmbeg4fjd3oam9prpcmhcn6qr2hmdhrxz5yyl5fhnqnaet",
+		"publickey":
+		"caaspgiwggeima0gcsqgsib3dqebaquaa4ibdwawggekaoibaqdgdgktgj9fw/el1qy0ohz
+		 nggh7dpaszddpc3fhhcf7ri9iylp5ei0t9gjfvsj+ulhxkqxhu9qod7ljiupuhqkpnnd1yv
+		 wzpbiznuhaiuo107j5mztpvroq8/rpsac3vparqiq9u9aytlyfpmpirkwia7f1fx7tb//lj
+		 3wktfeums/vincgboasxbkwktf3sypsc5sklsevflrafq0ro9/x1kqnt321/1salgm74bi8
+		 7x5gvmtkeb8edjlkcmncmqmarajjsb9sg5uyiqj1whppcrvtvqioziiihj6z7ogwidpdr5t
+		 og55ts4kw7qsjuqebh54v1gyevd2msguf40mbagmbaae=",
+        "addresses": null,
+        "agentversion": "go-libp2p/3.3.4",
+        "protocolversion": "ipfs/0.1.0"
 }
 ~~~
 
-Der private Schlüssel ist neben weiteren Informationen zum `ipfs`--Repository
-in der `~/.ipfs/config`--Datei zu finden, welche beim Anlegen des Repositories
+der private schlüssel ist neben weiteren informationen zum `ipfs`--repository
+in der `~/.ipfs/config`--datei zu finden, welche beim anlegen des repositories
 automatisch erstellt wird.
 
 ~~~sh
-freya :: ~ » cat .ipfs/config | grep PrivKey
-	"PrivKey":
-	"CAASpwkwggSjAgEAAoIBAQDGDgKtgJ9FW/EL1qY0OhznGGh7dPAszDDpC3fhHcF7rI9iyLp
-	 5ei0T9gjfvsj+ULhxKqXHU9qoD7LjiUPUHQKPnND1YvWzpBIZNUhaiuo107J5MztPvroQ8/
+freya :: ~ » cat .ipfs/config | grep privkey
+	"privkey":
+	"caaspwkwggsjageaaoibaqdgdgktgj9fw/el1qy0ohznggh7dpaszddpc3fhhcf7ri9iylp
+	 5ei0t9gjfvsj+ulhxkqxhu9qod7ljiupuhqkpnnd1yvwzpbiznuhaiuo107j5mztpvroq8/
 	 [...]
-	 cWTidFNBZdz5IGzj0P0oO5OK6gadI608TqTvxcLWf4iC/hOMvTUA7W9r1l9dea+YXubchvY
-	 VQMS8YcXyzXoE+DQXzM5TqbZT/jxUS/UUFcs7UKhuEu+E9etcYBgpncrMoQckQE="
+	 cwtidfnbzdz5igzj0p0oo5ok6gadi608tqtvxclwf4ic/homvtua7w9r1l9dea+yxubchvy
+	 vqms8ycxyzxoe+dqxzm5tqbzt/jxus/uufcs7ukhueu+e9etcybgpncrmoqckqe="
 ~~~
 
-TODO: Warum sind die Keys unterschiedlich lang?
+todo: warum sind die keys unterschiedlich lang?
 
-* <https://github.com/ipfs/go-ipfs/blob/master/repo/config/init.go#L112>
+* <https://github.com/ipfs/go-ipfs/blob/master/repo/config/init.go#l112>
 
-* Wie schaut es mit Verschlüsselung aus?
-* Wie schaut es mit Datenintegrität aus?
-* Welche Authentifizierungsmechanismen gibt es?
+hashstuff: <https://github.com/ipfs/go-ipfs/blob/73cd8b3e98aba252f0eadcc625472103a2dd1d53/importer/importer.go>
 
-## Mögliche Probleme
+* wie schaut es mit verschlüsselung aus?
+* wie schaut es mit datenintegrität aus?
+* welche authentifizierungsmechanismen gibt es?
 
-## Angriffsszenarien
+## mögliche probleme
 
-## Risikomanagement
+## angriffsszenarien
+
+## risikomanagement
