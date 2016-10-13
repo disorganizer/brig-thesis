@@ -230,11 +230,52 @@ Quelltext[^FN_IPFS_CODE_INIT] zu Rate gezogen werden.
 [^FN_IPFS_CODE_INIT]: IPFS Schlüsselgenerierung: <https://github.com/ipfs/go-ipfs/blob/master/repo/config/init.go#L95>
 
 Ein Authentifizierungsmechanismus im eigentlichen Sinne existiert bei *IPFS*
-nicht. Benutzer lassen sich global über ihre *Peer--ID* ansprechen.
+nicht. Die Benutzer haben lediglich eine eindeutige globale *Peer--ID*. Dateien
+werden nicht direkt von einer bestimmten *Peer--ID*, sondern aus dem
+*IPFS*--Netzwerk bezogen.
+
+Eine Art Authentifizierung kann also nur manuell über einen Seitenkanal
+erfolgen. Ein Benutzer kann also nur überprüfen ob eine Datei mit einer
+bestimmten Prüfsumme »auch« auf einem bestimmten System mit der ihm bekannten
+*Peer--ID* vorzufinden ist. Hier wäre es denkbar, dass zwei kommunizierende
+Parteien ihre *Peer--ID* gegenseitig telefonisch austauschen beziehungsweise
+bestätigen.
+
+Im Gegensatz dazu haben andere »dezentrale Systeme« mit einem direkten
+Kommunikationskanal weitere Möglichkeiten der Authentifizierung. Der
+Instant--Messaging--Client *Pidgin*[^FN_PIDGIN] bietet beispielsweise mit dem
+*OTR*--Plugin[^FN_OTR] folgende Möglichkeiten für die Authentifizierung einer
+gesicherten Verbindung:
+
+[^FN_PIDGIN]: Instant--Messaging--Client Pidgin: <https://de.wikipedia.org/w/index.php?title=Pidgin_(Instant_Messenger)&oldid=155942615>
+[^FN_OTR]: Off--the--Record: https://en.wikipedia.org/w/index.php?title=Off-the-Record_Messaging&oldid=741588882
+
+*Frage und Antwort--Authentifizierung:* Alice stellt Bob eine Frage zu einem
+gemeinsamen Geheimnis. Beantwortet Bob diese Frage korrekt, so wird er vom
+System gegenüber Alice authentifiziert --- das heißt, der Fingerprint
+(Prüfsumme über eine ID die Bob eindeutig kennzeichnet) wird in Kombination mit
+dem Benutzernamen von Bob als valide vom System klassifiziert und
+abgespeichert.
+
+*Shared--Secret--Authentifizierung*: Alice weist Bob an das gemeinsam bekannte
+Geheimnis in einem entsprechenden Programmdialogfenster einzutragen. Alice
+trägt das gemeinsame Geheimnis ebenso in einem Programmdialogfenster ein. Bei
+Übereinstimmung des gemeinsamen Geheimnisses wird Bob gegenüber Alice vom
+System authentifiziert --- analog zur Frage und Antwort--Authentifizierung wird
+der Fingerprint als valide vom System klassifiziert abgespeichert.
+
+*Manuelle Verifizierung vom Fingerprint:* Alice verifiziert den ihr vom System
+angezeigten Fingerprint (Prüfsumme über eine eindeutige ID) von Bob. Dazu kann
+sie beispielsweise Bob anweise ihr über einen Seitenkanal die Information über
+die Korrektheit des Fingerprint zu bestätigen.
+
+Die genannten Verfahren erlauben eine initiale Authentifizierung zwischen den
+Kommunikationspartnern. Bei zukünftiger Kommunikation wird jeweils die *ID* der
+Benutzer mit der bei der initialen Authentifizierung gespeicherten *ID*
+verglichen.
 
 * IPFS Test--Subnetz
 * Wie schaut es mit Verschlüsselung aus?
-* Welche Authentifizierungsmechanismen gibt es?
 
 TODO: IPFS Subnetz
 
