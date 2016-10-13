@@ -66,7 +66,7 @@ to get started, enter:
         ipfs cat /ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme
 ~~~
 
-Bei der Initialisierung wird eine *peer identity* erzeugt. Anschließend kann
+Bei der Initialisierung wird eine *Peer ID* erzeugt. Anschließend kann
 der Benutzer die `readme`--Datei aus dem *IPFS*--Store betrachten.
 [@sec:APP_IPFS_SECWARNING] zeigt weiterhin die aktuelle Sicherheitswarnung der
 *IPFS*--Software. Es wird explizit ein paar mal darauf hingewiesen, dass *IPFS*
@@ -117,10 +117,22 @@ korrigiert werden. TODO: ZFS Beispiel?
 
 Das Speichern der Daten erfolgt bei *IPFS* (blockweise, in sogennanten chunks)
 mittels eines Hash--Tree), auch *Merkle--DAG* (directed acyclic graph,
-gerichteter azyklischer Graph) genannt. Das folgende Listing zeigt den internen
-Aufbau eines *IPFS*--Repository. Die Daten sind hierbei als ».data«--Blöcke
-aufgeteilt und gespeichert. Die Benennung der Datenblöcke ist basierend auf dem
-*Multihash*[^FN_MULTIHASH]. Die Formatierung erfolgt in `Base32`.
+gerichteter azyklischer Graph) genannt. 
+
+*IPFS* verwendet als Prüfsummen--Format den eigens entwickelte
+*Multihash*--Format[^FN_MULTIHASH]. [@fig:img-multihash] zeigt das
+*Multihash*--Format, es stellt einen selbstbeschreibende Prüfsumme welche den
+Algorithmus, die Länge und die eigentliche Prüfsumme kombiniert. Dieser wird in
+verschiedenen Varianten encodiert. Beispielsweise `base32` für die interne
+Namensvergabe der Datenblocks oder `base58` für die Repräsentation der
+*Peer--ID* intern verwendet.
+
+![Das *Multihash*--Format.](images/multihash.png){#fig:img-multihash width=80%} 
+
+Das folgende Listing zeigt den internen Aufbau eines *IPFS*--Repository. Die
+Daten sind hierbei als ».data«--Blöcke aufgeteilt und gespeichert. Die
+Benennung der Datenblöcke ist basierend auf dem *Multihash*, die Enkodierung
+bei Datenblocks ist `Base32`.
 
 [^FN_MULTIHASH]: Github Multihash: <https://github.com/multiformats/multihash>
 
@@ -157,12 +169,14 @@ Modifikation der `readme`--Datei und wie die Integritätsprüfung von *IPFS* die
 Änderung der Daten erkennt:
 
 ~~~sh
+# Validierung der Integrität der Daten
 freya :: ~ » ipfs repo verify
 verify complete, all blocks validated.
 
 # Unerwünschte Modifikation der Daten.
-freya :: ~ » echo "Steinkauz" >> .ipfs/blocks/CIQBE/CI5..R3A.data
+freya :: ~ » echo "Trüffelkauz" >> .ipfs/blocks/CIQBED3K6YA[..]JENZ5B5HJ5R3A.data
 
+# Erneute Validierung der Integrität der Daten
 freya :: ~ » ipfs repo verify
 block QmPZ9gcCEpqKTo6aq61g2nXGUhM4iCL3ewB6LDXZCtioEB \
 was corrupt (block in storage has different hash than requested)
@@ -192,8 +206,9 @@ freya :: ~ » ipfs id
 ~~~
 
 Die unter *ID* gelistete Nummer ist stellt die Prüfsumme über den öffentlichen
-Schlüssel dar. Mit dieser *ID* lässt sich ein Benutzer beziehungsweise Peer im
-*IPFS*--Netzwerk eindeutig identifizieren.
+Schlüssel dar als *Multihash* in `base58`--Enkodierung dar. Mit dieser *ID*
+lässt sich ein Benutzer beziehungsweise Peer im *IPFS*--Netzwerk eindeutig
+identifizieren.
 
 Der private Schlüssel ist neben weiteren Informationen zum `ipfs`--Repository
 in der `~/.ipfs/config`--Datei zu finden, welche beim anlegen des Repositories
@@ -213,6 +228,9 @@ Für weitere Details zur Erstellung der *Identität* sollte der
 Quelltext[^FN_IPFS_CODE_INIT] zu Rate gezogen werden.
 
 [^FN_IPFS_CODE_INIT]: IPFS Schlüsselgenerierung: <https://github.com/ipfs/go-ipfs/blob/master/repo/config/init.go#L95>
+
+Ein Authentifizierungsmechanismus im eigentlichen Sinne existiert bei *IPFS*
+nicht. Benutzer lassen sich global über ihre *Peer--ID* ansprechen.
 
 * IPFS Test--Subnetz
 * Wie schaut es mit Verschlüsselung aus?
