@@ -853,7 +853,7 @@ besorgt werden müssen. So lässt sich der Download von großen Dateien
 unterbrechbar und wieder fortsetzbar gestalten.
 
 Eine mögliche Lösung wäre ein Verfahren namens *Convergent
-Encryption*[@wiki:convergent-encryption]. Dabei wird der Schlüssel der zu
+Encryption*[@douceur2002reclaiming]. Dabei wird der Schlüssel der zu
 verschlüsselten Datei aus der Prüfsumme derselben Datei abgeleitet. Dies hat
 den Vorteil, dass gleiche Dateien auch den gleichen (deduplizierbaren)
 Ciphertext generieren. Der Nachteil ist, dass ein Angreifer feststellen kann,
@@ -870,7 +870,7 @@ verschlüsselten Datei erlaubt, ohne die gesamte Datei entschlüsseln zu müssen
 Dies ist eine wichtige Eigenschaft für die Implementierung des
 FUSE--Dateisystems und ermöglicht zudem aus technischer Sicht das Streaming von
 großen, verschlüsselten Dateien wie Videos. Zudem kann das Format durch den
-Einsatz von *Authenticated Encryption (AE*, [@wiki:aead]) die Integrität der verschlüsselten
+Einsatz von *Authenticated Encryption (AE*, [@bellare2000authenticated]) die Integrität der verschlüsselten
 Daten sichern.
 
 Es werden lediglich reguläre

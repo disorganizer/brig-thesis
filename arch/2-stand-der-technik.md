@@ -555,7 +555,7 @@ selbe Prüfsumme erzeugen. Auch wenn dieser Fall in der Theorie eintreten kann,
 so ist dieser extrem schwer zu erreichen. Der von
 ``ipfs`` standardmäßig verwendete Algorithmus ist *sha256*[^SHA256], welcher eine Prüfsumme
 von 256 Bit Länge liefert. Wie in [@eq:hash-collision] gezeigt, müssten trotz des
-Geburtstagsparadoxons[@wiki:geburtstagsparadoxon] unpraktikabel viele
+Geburtstagsparadoxons[@suzuki2006birthday] unpraktikabel viele
 Prüfsummen erzeugt werden, um eine Kollisionswahrscheinlichkeit von $0.1\%$ zu
 erreichen, selbst wenn man sehr optimistisch annimmt, dass die Berechnung einer
 einzigen Prüfsumme nur eine Pikosekunde dauert.

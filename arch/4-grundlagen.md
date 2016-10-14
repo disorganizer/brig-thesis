@@ -229,7 +229,7 @@ bereitzustellen. Intern hat es ein mächtiges Datenmodell, das viele Relationen
 wie eine Verzeichnisstruktur, Versionsverwaltung, ein alternatives World--Wide--Web oder gar eine
 Blockchain[^BLOCKCHAIN_NOTE] gut abbilden kann: Der *Merkle--DAG* (Direkter
 azyklischer Graph), im Folgenden kurz *MDAG* oder *Graph* genannt.
-Diese Struktur ist eine Erweiterung des Merkle--Trees[@wiki:merkle], bei der ein Knoten
+Diese Struktur ist eine Erweiterung des Merkle--Trees[@wiki:szydlo2004merkle], bei der ein Knoten
 mehr als einen Elternknoten haben kann.
 
 ![Beispielhafter MDAG der eine Verzeichnisstruktur abbildet.](images/4/ipfs-merkledag.pdf){#fig:ipfs-merkledag}
@@ -282,7 +282,7 @@ Content--Adressed--Storage--Datenbank verwendet wird, die sich im Hintergrund
 um die Speicherung von Datenströmen und deren Unterteilung in kleine Blöcke
 mittels *Chunking* kümmert. Die Aufteilung geschieht dabei entweder simpel,
 indem die Datei in gleichgröße Blöcke unterteilt wird, oder indem ein intelligenter
-Algorithmus wie Rabin--Karp--Chunking[@wiki:rabin-karp] angewandt wird.
+Algorithmus wie Rabin--Karp--Chunking[@karp1987efficient] angewandt wird.
 
 ## Datenmodell von ``git``
 
