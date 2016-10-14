@@ -697,7 +697,13 @@ sein. Abgesehen davon ist es aus Effizienzgründen förderlich, wenn nicht bei
 jedem eingetippten Kommando das gesamte Repository geladen werden muss. Auch
 ist es durch die Trennung möglich, dass ``brigd`` auch von anderen
 Programmiersprachen und Prozessen auf dem selben Rechner aus gesteuert werden
-kann.
+kann. Verbindungen von außen sollten aus Sicherheitsgründen nicht angenommen
+werden. Unter unixoiden Betriebssystemen wäre eine Alternative zu normalen
+Netzwerksockets die Nutzung von Unix--Domain--Sockets[^UNIX_DOMAIN]. Diese sind
+als Datei im Dateisystem erreichbar und können daher mit entsprechenden
+Zugriffsrechten nur von bestimmten Nutzern benutzt werden.
+
+[^UNIX_DOMAIN]: Siehe auch: <https://en.wikipedia.org/wiki/Unix_domain_socket>
 
 [^BRIGCTL_NOTE]: Tatsächlich gibt es derzeit keine ausführbaren Dateien mit
 diesen Namen. Die Bezeichnungen ``brigctl`` und ``brigd`` dienen lediglich der

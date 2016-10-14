@@ -1,7 +1,5 @@
 # Anhang: Benutzerhandbuch {#sec:benutzerhandbuch}
 
-TODO brig unstage einführen / brig status/checkout/log?
-
 Die Funktionalität des ``brig``--Prototypen ist im momentanen Zustand nur über
 eine Kommandozeilenanwendung erreichbar. Die Hilfe dieser Anwendung wird unten
 gezeigt. Im Folgenden werden die einzelnen zur Verfügung stehenden Optionen und
@@ -27,28 +25,31 @@ COMMANDS:
      mount	Mount a brig repository
 
    REPOSITORY COMMANDS:
-     init	Initialize an empty repository
-     open	Open an encrypted repository
-     close	Close an encrypted repository
-     history	Show the history of the given brig file
-     pin	Pin a file locally to this machine
-     net	Query and modify network status
-     remote	Remote management.
+     init	 Initialize an empty repository
+     open	 Open an encrypted repository
+     close	 Close an encrypted repository
+     history Show the history of the given brig file
+     pin	 Pin a file locally to this machine
+     net	 Query and modify network status
+     remote	 Remote management.
+	 sync    Synchronize with other peers.
 
    VERSION CONTROL COMMANDS:
-     status	Print which file are in the staging area
-     diff	Show what changed between two commits
-     log	Show all commits in a certain range
-     commit	Print which file are in the staging area
+     status	  Print which file are in the staging area
+     diff	  Show what changed between two commits
+     log	  Show all commits in a certain range
+     commit	  Print which file are in the staging area
+	 checkout Checkout an old version of a file or a commit
 
    WORKING COMMANDS:
-     tree	List files in a tree
-     ls		List files
-     mkdir	Create an empty directory
-     add	Transer file into brig`s control
-     rm		Remove the file and optionally old versions of it
-     mv		Move a specific file
-     cat	Concatenates a file
+     tree	  List files in a tree
+     ls		  List files
+     mkdir	  Create an empty directory
+     stage    Transer file into brig`s control
+	 unstage  Reset file to last known version
+     rm		  Remove the file and optionally old versions of it
+     mv		  Move a specific file
+     cat	  Concatenates a file
 
 GLOBAL OPTIONS:
    --nodaemon, -n		Don`t run the daemon
@@ -137,8 +138,6 @@ done
 
 ## Grundlegende Benutzung
 
-TODO: Implementieren: brig unstage
-
 Die Bedienung von ``brig`` ist an das Versionsverwaltungssystem ``git``
 angelehnt. Genau wie dieses, bietet ``brig`` für jede Unterfunktionalität ein
 einzelnes Subkommando an. Damit ``git``--Nutzer die Bedienung leichter fällt,
@@ -195,7 +194,7 @@ nachgeschlagen werden.
 Nach wiederholter, erfolgreicher Eingabe der Passphrase wird ein Schlüsselpaar generiert,
 und die in [@fig:brig-repo-tree] gezeigte Verzeichnisstruktur angelegt.
 
-### Dateien hinzufügen, löschen und verschieben
+### Dateien hinzufügen, löschen und verschieben (``brig stage/rm/mv``)
 
 Wurde ein Repository angelegt, können einzelne Dateien oder rekursiv ganze
 Verzeichnisse hinzugefügt werden:
@@ -315,7 +314,7 @@ $ brig unmount /tmp/alice-mount/share
 Wie man sieht, ist auch der andere Ordner noch weiterhin benutzbar bis er »unmounted« wurde.
 Eine Modifikation in dem einen Ordner wird auch im anderen Ordner angezeigt.
 
-### Versionsverwaltung
+### Versionsverwaltung (``brig status/commit/log/checkout``)
 
 Alle genanten Operationen werden von ``brig`` im Hintergrund aufgezeichnet und
 versioniert. Dabei muss zwischen *Checkpoints* und *Commits* unterschieden
@@ -359,18 +358,21 @@ $ brig commit
 1 change committed
 ```
 
-Die gemachten *Commits* lassen sich mittels des ``log``--Unterkommandos anzeigen:
+Die gemachten *Commits* lassen sich mittels des ``log``--Unterkommandos anzeigen.
+Dabei wird
 
 ```sh
+# Zeige alle gemachten Commits an (Prüfsummen wegen Überlänge gekürzt)
 $ brig log
-QmNLei78zW/QmNLei78zW by alice, Initial commit
-QmPtprCMpd/Qma2Uquo9b by alice, Moved cat photos to the right place.
-QmZNJPSbTE/QmbrpM6sKy by alice, Update on 2016-08-11 15:33:37.651 +0200 CEST
+QmNLei78zW by alice, Initial commit
+QmPtprCMpd by alice, Moved cat photos to the right place.
+QmZNJPSbTE by alice, Update on 2016-08-11 15:33:37.651 +0200 CEST
 ```
 
-Die *Checkpoints* einer einzelnen Datei zeigt der ``history`` Befehl:
+Die *Checkpoints* einer einzelnen Datei zeigt der ``history``--Befehl:
 
 ```sh
+$ brig history photos/cat.png
 /photos/cat.png
  +-- Checkpoint #2 (moved by alice@jabber.nullcat.de/laptop)
  |   +- Hash: Qma2Uquo9bMyuRZ7Fw1oQ1v68Vm7hpCYLRsrQXoLFpZVoK
@@ -381,7 +383,26 @@ Die *Checkpoints* einer einzelnen Datei zeigt der ``history`` Befehl:
      \_ Date: 2016-08-11 15:24:15.301565687 +0200 CEST
 ```
 
-TODO: brig checkout implementieren... brig unstage
+Hat man Änderungen an einer Datei gemacht und möchte diese wieder
+auf den letzten sauberen Stand zurücksetzen, so kann man den Befehl
+``stage``--Befehl benutzen:
+
+```sh
+$ Setze /photos/cat.png auf den letzten Stand im staging commit zurück.
+$ brig unstage /photos/cat.png
+```
+
+Möchte man tiefer in die Vergangenheit zurück springen, so kann
+der ``checkout``--Befehl genutzt werden. Dieser stellt entweder
+einen früheren Dateibaum wieder her oder setzt ein Datei oder Verzeichnis
+auf eine frühere Version zurück:
+
+```sh
+# Setze den Stand auf den Commit QmNLei78zW zurück:
+$ brig checkout QmNLei78zW
+# Setze nur eine einzelne Datei auf den Stand in Commit QmNLei78zW zurück:
+$ brig checkout QmNLei78zW -- /photos/cat.png
+```
 
 ### Verwalten von Synchronisationspartnern (``brig remote``)
 
@@ -434,8 +455,6 @@ Kontaktliste hinzufügen:
 $ brig remote add alice@wonderland.lit/laptop QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
 ```
 
-TODO: Check einbauen ob der Kontakt verfügbar ist und warnen falls nicht?
-
 Das Unterkommando »``brig remote list``« zeigt alle verfügbaren Kontakte an und
 ob diese online sind:
 
@@ -453,9 +472,19 @@ möglich und wird nicht weiter demonstriert.
 gemeinsame Synchronisations--Vergangenheit zu haben. Es wird rein auf
 Dateiebene synchronisiert. Mit anderen Worten: Konflikte entstehen nur dann
 wenn mehre Teilnehmern unterschiedliche Checkpoints für einen einzelnen Pfad
-einbringen.
+einbringen. Sollten trotzdem Konflikte auftreten, wird für jede Konfliktdatei
+eine weitere Datei gespeichert, die mit dem Suffix ``.<owner>.conflict`` versehen wird.
+Hat also beispielsweise *Alice* und *Bob* eine Datei namens ``/photos/cat.png`` und
+beide haben sie modifiziert, so wird eine Synchronisation mit Alice dazu führen,
+dass Bob seine eigene Version ``/photos/cat.png`` behält, aber eine weitere Datei
+namens ``/photos/cat.png.bob.conflict`` erhält.
 
-TODO: brig sync dokumentieren
+```sh
+$ brig sync alice@wonderland.lit/laptop
+No conflicts.
+$ brig sync bob
+Conflict: /photos/cat.png -> /photos/cat.png.bob.conflict
+```
 
 ### Dateien pinnen (``brig pin``)
 

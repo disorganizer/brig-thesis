@@ -3,6 +3,7 @@ all:
 		--filter pandoc-fignos \
 		--filter pandoc-tablenos \
 		--filter pandoc-crossref \
+		--filter pandoc-citeproc \
 		--smart \
 		--number-sections \
 		--bibliography thesis.bib \

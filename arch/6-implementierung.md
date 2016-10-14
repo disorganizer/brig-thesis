@@ -107,8 +107,10 @@ aber gut funktionierende Lösung, wird von ``brig`` verwendet[^VENDOR].
 Die momentane Implementierung setzt die vorher besprochene Architektur
 größtenteils um. Der Code der zuständig für die Synchronisierung ist
 funktioniert zwar, ist jedoch noch nicht so detailliert wie in der Architektur
-ausgearbeitet. Ansonsten unterscheidet sich die tatsächliche Implementierung
-und die theoretische Architektur nur in Details.
+ausgearbeitet. Insbesondere beherrscht er noch nicht die Synchronisation leerer
+Verzeichnisse und kann kompatibel Änderungen nur sehr bedingt auflösen.
+Ansonsten unterscheidet sich die tatsächliche Implementierung und die
+theoretische Architektur nur in Details.
 
 ### Umfang
 

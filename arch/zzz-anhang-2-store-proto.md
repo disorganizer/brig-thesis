@@ -1,6 +1,6 @@
-# Anhang: Protokolldefinitionen
+# Anhang: Protokolldefinitionen {#sec:data-model}
 
-## Internes Datenmodell von ``brig`` {#sec:data-model}
+## Internes Datenmodell von ``brig``
 
 ```c
 syntax = "proto3";
