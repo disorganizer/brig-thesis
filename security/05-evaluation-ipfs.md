@@ -7,31 +7,7 @@ Folgenden wird *IPFS* bezüglich bestimmter sicherheitstechnischer Anforderungen
 genauer beleuchtet, um Diskrepanzen zwischen den Zielen von »brig« zu
 identifizieren.
 
-## Einleitung
-
-Das *InterPlanetary File System* wird als  »content-addressable, peer-to-peer
-hypermedia distribution protocol« definiert. Das besondere an *IPFS* ist, dass
-es ein sogenanntes *Content--Addressable--Network (CAN)* darstellt. Ein *CAN*
-arbeitet mit einer verteilten Hashtabelle (*Distributed Hash Table (DHT)*),
-welche als grundlegende »Datenstruktur« verwendet wird um die Daten innerhalb
-eines Peer--to--peer--Netzwerks zu lokalisieren und zu speichern. Eine *DHT*
-als Datenstruktur bringt in der Theorie laut Wikipedia[^FN_DHT] folgende
-Eigenschaften mit sich:
-
-[^FN_DHT]: Verteilte Hashtabelle: <https://de.wikipedia.org/wiki/Verteilte_Hashtabelle>
-
-* **Fehlertoleranz:** Das System sollte zuverlässig funktionieren, auch wenn Knoten
-  ausfallen oder das System verlassen.
-* **Lastenverteilung:** Schlüssel werden gleichmäßig auf alle Knoten verteilt.
-* **Robustheit:** Das System sollte „korrekt“ funktionieren können, auch wenn ein
-  Teil (möglicherweise ein Großteil) der Knoten versucht, das System zu stören.
-* **Selbstorganisation:** Es ist keine manuelle Konfiguration nötig.
-* **Skalierbarkeit:** Das System sollte in der Lage sein, auch mit einer großen
-  Anzahl von Knoten funktionsfähig zu bleiben.
-
-## Projektumfang und Version
-
-TODO: Abkürzungsverzeichnis LoC
+## Projektumfang und getestete Version
 
 Die *IPFS*--Codebasis umfasst aktuell $\approx{900.000}$ *LoC* (siehe
 [@sec:APP_IPFS_LOC]). Davon gehören $\approx{100.000}$ *LoC* direkt dem
@@ -49,76 +25,262 @@ freya :: ~ » ipfs version
 ipfs version 0.4.3
 ~~~
 
-## Sicherheit
+## Einleitung IPFS
 
-### IPFS--Basis 
+Das *InterPlanetary File System* wird als  »content-addressable, peer-to-peer
+hypermedia distribution protocol« definiert. Das besondere an *IPFS* ist, dass
+es ein sogenanntes *Content--Addressable--Network (CAN)* darstellt. Ein *CAN*
+arbeitet mit einer verteilten Hashtabelle (*Distributed Hash Table (DHT)*),
+welche als grundlegende »Datenstruktur« verwendet wird um die Daten innerhalb
+eines Peer--to--peer--Netzwerks zu lokalisieren und zu speichern.
 
-das *ipfs*--dateisystem bzw. protokoll bringt das kommandozeilenwerkzeug `ipfs` mit. Dieses ermöglicht eine rudimentäre Nutzung des *IPFS*---
-beim initialisieren von *ipfs* wird ein *rsa*--schlüsselpaar generiert. ein
-*ipfs*--repository kann mit dem befehl `ipfs init` initialisiert werden. dabei
-wird standardmäßig unter `~/.ipfs` ein repository angelegt.
+Eine *DHT* als Datenstruktur bringt in der Theorie laut Wikipedia[^FN_DHT]
+folgende Eigenschaften mit sich:
+
+[^FN_DHT]: Verteilte Hashtabelle: <https://de.wikipedia.org/w/index.php?title=Verteilte_Hashtabelle&oldid=157901191>
+
+* **Fehlertoleranz:** Das System sollte zuverlässig funktionieren, auch wenn Knoten
+  ausfallen oder das System verlassen.
+* **Lastenverteilung:** Schlüssel werden gleichmäßig auf alle Knoten verteilt.
+* **Robustheit:** Das System sollte „korrekt“ funktionieren können, auch wenn ein
+  Teil (möglicherweise ein Großteil) der Knoten versucht, das System zu stören.
+* **Selbstorganisation:** Es ist keine manuelle Konfiguration nötig.
+* **Skalierbarkeit:** Das System sollte in der Lage sein, auch mit einer großen
+  Anzahl von Knoten funktionsfähig zu bleiben.
+
+## IPFS--Basis
+
+Das *IPFS*--Dateisystem beziehungsweise Protokoll bringt das
+Kommandozeilenwerkzeug `ipfs` mit. Dieses ermöglicht eine rudimentäre Nutzung
+von *IPFS*. Beim initialisieren von *IPFS* wird ein *RSA*--Schlüsselpaar
+generiert. Ein *IPFS*--Repository kann mit dem Befehl `ipfs init` initialisiert
+werden. Dabei wird standardmäßig unter `~/.ipfs` ein Repository angelegt.
 
 ~~~sh
 freya :: ~ » ipfs init
 initializing ipfs node at /home/qitta/.ipfs
-generating 2048-bit rsa keypair...done
-peer identity: qmbeg4fjd3oam9prpcmhcn6qr2hmdhrxz5yyl5fhnqnaet
+generating 2048-bit RSA keypair...done
+peer identity: QmbEg4fJd3oaM9PrpcMHcn6QR2HMdhRXz5YyL5fHnqNAET
 to get started, enter:
 
-        ipfs cat /ipfs/qmywapjzv5czsna625s3xf2nemtygpphdwez79ojwnpbdg/readme
+        ipfs cat /ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme
 ~~~
 
-Bei der Initialisierung wird eine *peer identity* erzeugt. Anschließend kann der Benutzer die `readme`--Datei aus dem *IPFS*--Store betrachten. [@sec:APP_IPFS_SECWARNING] zeigt weiterhin die aktuelle Sicherheitswarnung der *IPFS*--Software. Es wird explizit ein paar mal darauf hingewiesen, dass *IPFS* sich im Alphastadium befindet. Weiterhin gibt es Details zur »Sicherheit« in der Datei `security-notes`, welche analog zur `readme`--Datei betrachtet werden kann.
+Bei der Initialisierung wird eine *Peer ID* erzeugt. Anschließend kann
+der Benutzer die `readme`--Datei aus dem *IPFS*--Store betrachten.
+[@sec:APP_IPFS_SECWARNING] zeigt weiterhin die aktuelle Sicherheitswarnung der
+*IPFS*--Software. Es wird explizit ein paar mal darauf hingewiesen, dass *IPFS*
+sich im Alphastadium befindet. Weiterhin gibt es Details zur »Sicherheit« in
+der Datei `security-notes`, welche analog zur `readme`--Datei betrachtet werden
+kann.
 
-### IPFS--ID
+## Speicherung und Datenintegrität
 
-das generierte schlüsselpaar wird in der getesteten version (ipfs version
-0.4.3) im klartext auf der festplatte abgelegt. der öffentliche schlüssel kann
-mit `ipfs id` angeschaut werden, dies liefert folgende Ausgabe:
+Die Speicherung von Daten mag auf den ersten Blick simpel erscheinen.
+Betrachtet man jedoch die »Rahmenbedingungen« die zu beachten sind um Daten
+»sicher« zu speichern, wird die Thematik kompilierter. Das Hauptproblem an
+dieser Stelle ist der die sogenannten *Silent Data Corruption*, oft auch
+»Bitrot« genannt. Der Begriff beschreibt den Umstand, dass Fehler in Daten im
+Laufe der Zeit auftreten. Für die Fehlerursache können verschiedene Gründe wie
+beispielsweise:
+
+* Hardwarefehler bedingt durch Alterungsprozess der Festplatte
+* Fehler in der Festplatten--Firmware
+* Fehler in der Controller--Firmware
+* Fehler in der Software (Kernel, Dateisystem)
+* Schadsoftware
+
+Obwohl die Technologien mit steigenden Kapazitäten verbessert wurden, ist die
+Fehlerrate bisher konstant geblieben. Analysen haben ergeben, dass die
+Wahrscheinlichkeit von *Silent Data Corruption* höher ist wie bisher angenommen
+(vgl TODO:REF).
+
+Gängige Dateisysteme wie beispielsweise *NTFS*[^FN_NTFS] oder *EXT4*[^FN_EXT4]
+können Fehler verursacht durch *Silent Data Corruption* nicht erkennen und den
+Benutzer von dieser Fehlerart nicht schützen. Um eine Veränderung der Daten
+fest zu stellen, müsste der Benutzer beispielsweise die Daten mit einer
+kryptographischen Prüfsumme validieren. Entspricht die Prüfsumme beim Lesen der
+Daten, der gleichen Prüfsumme, welche bei der Speicherung der Daten ermittelt
+wurde, so sind die Daten mit hoher Wahrscheinlichkeit korrekt an den Benutzer
+zurückgegeben worden. Diese Art der Validierung der Integrität ist jedoch
+aufgrund des hohen Aufwands nicht praxistauglich.
+
+Dateisysteme wie *BTRFS* oder *ZFS* validieren die Daten und Metadaten bei
+während der Lese-- und Schreibvorgänge mittels Prüfsummen. Durch dieses
+»spezielle« Feature kann die Verarbeitungskette beim Lesen-- und Speichern der
+Daten bezüglich ihrer Integrität validiert werden. Bei der Benutzung eines
+*RAID*--System können die Daten sogar automatisiert ohne Zutun des Benutzers
+korrigiert werden. TODO: ZFS Beispiel?
+
+[^FN_NTFS]: NTFS Dateisystem: <https://en.wikipedia.org/w/index.php?title=NTFS&oldid=743913107>
+[^FN_EXT4]: EXT4 Dateisystem: <https://en.wikipedia.org/w/index.php?title=Ext4&oldid=738311553>
+
+Das Speichern der Daten erfolgt bei *IPFS* (blockweise, in sogennanten chunks)
+mittels eines Hash--Tree), auch *Merkle--DAG* (directed acyclic graph,
+gerichteter azyklischer Graph) genannt. 
+
+*IPFS* verwendet als Prüfsummen--Format den eigens entwickelte
+*Multihash*--Format[^FN_MULTIHASH]. [@fig:img-multihash] zeigt das
+*Multihash*--Format, es stellt einen selbstbeschreibende Prüfsumme welche den
+Algorithmus, die Länge und die eigentliche Prüfsumme kombiniert. Dieser wird in
+verschiedenen Varianten encodiert. Beispielsweise `base32` für die interne
+Namensvergabe der Datenblocks oder `base58` für die Repräsentation der
+*Peer--ID* intern verwendet.
+
+![Das *Multihash*--Format.](images/multihash.png){#fig:img-multihash width=80%} 
+
+Das folgende Listing zeigt den internen Aufbau eines *IPFS*--Repository. Die
+Daten sind hierbei als ».data«--Blöcke aufgeteilt und gespeichert. Die
+Benennung der Datenblöcke ist basierend auf dem *Multihash*, die Enkodierung
+bei Datenblocks ist `Base32`.
+
+[^FN_MULTIHASH]: Github Multihash: <https://github.com/multiformats/multihash>
+
+~~~sh
+freya :: ~ » tree .ipfs
+.ipfs
+|--- blocks
+|   |--- CIQBE
+|   |   |--- CIQBED3K6YA5I3QQWLJOCHWXDRK5EXZQILBCKAPEDUJENZ5B5HJ5R3A.data
+|   |--- CIQCL
+|   |   |--- CIQCLECESM3B72OM5DWMSFO6C2EA6KNCIO4SFVFDHO6JVBYRSJ5G3HQ.data
+...
+|   |--- CIQPP
+|       |--- CIQPPQVFU2X6L6RB67SNEYN4MPR236SNPL5OML2TBA4RIQQPM4FY6VY.data
+|--- config
+|--- datastore
+|   |--- 000002.ldb
+...
+|   |--- 000009.log
+|   |--- CURRENT
+|   |--- LOCK
+|   |--- LOG
+|   |--- MANIFEST-000010
+|--- version
+
+17 directories, 25 files
+~~~
+
+Die Speicherung der Daten in einem Hash--Tree hat den Vorteil, dass die Daten
+bei der Speicherung üblicherweise mit einer kryptographischen Prüfsumme
+abgelegt werden. Durch diesen Umstand kann *IPFS* eine unerwünschte Veränderung
+an den Daten feststellen. Das folgende Beispiel zeigt die unerwünschte
+Modifikation der `readme`--Datei und wie die Integritätsprüfung von *IPFS* die
+Änderung der Daten erkennt:
+
+~~~sh
+# Validierung der Integrität der Daten
+freya :: ~ » ipfs repo verify
+verify complete, all blocks validated.
+
+# Unerwünschte Modifikation der Daten.
+freya :: ~ » echo "Trüffelkauz" >> .ipfs/blocks/CIQBED3K6YA[..]JENZ5B5HJ5R3A.data
+
+# Erneute Validierung der Integrität der Daten
+freya :: ~ » ipfs repo verify
+block QmPZ9gcCEpqKTo6aq61g2nXGUhM4iCL3ewB6LDXZCtioEB \
+was corrupt (block in storage has different hash than requested)
+Error: verify complete, some blocks were corrupt.
+~~~
+
+## IPFS--ID
+
+Das generierte Schlüsselpaar wird im Klartext auf der Festplatte abgelegt. Der
+öffentliche Schlüssel kann mit `ipfs id` angeschaut werden, dies liefert
+folgende Ausgabe (gekürzt):
 
 ~~~sh
 freya :: ~ » ipfs id
 {
-        "id": "qmbeg4fjd3oam9prpcmhcn6qr2hmdhrxz5yyl5fhnqnaet",
-		"publickey":
-		"caaspgiwggeima0gcsqgsib3dqebaquaa4ibdwawggekaoibaqdgdgktgj9fw/el1qy0ohz
-		 nggh7dpaszddpc3fhhcf7ri9iylp5ei0t9gjfvsj+ulhxkqxhu9qod7ljiupuhqkpnnd1yv
-		 wzpbiznuhaiuo107j5mztpvroq8/rpsac3vparqiq9u9aytlyfpmpirkwia7f1fx7tb//lj
-		 3wktfeums/vincgboasxbkwktf3sypsc5sklsevflrafq0ro9/x1kqnt321/1salgm74bi8
-		 7x5gvmtkeb8edjlkcmncmqmarajjsb9sg5uyiqj1whppcrvtvqioziiihj6z7ogwidpdr5t
-		 og55ts4kw7qsjuqebh54v1gyevd2msguf40mbagmbaae=",
-        "addresses": null,
-        "agentversion": "go-libp2p/3.3.4",
-        "protocolversion": "ipfs/0.1.0"
+        "ID": "QmbEg4fJd3oaM9PrpcMHcn6QR2HMdhRXz5YyL5fHnqNAET",
+		"PublicKey":
+		"CAASpgIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDGDgKtgJ9FW/EL1qY0Ohz
+		 nGGh7dPAszDDpC3fhHcF7rI9iyLp5ei0T9gjfvsj+ULhxKqXHU9qoD7LjiUPUHQKPnND1Yv
+		 [...]
+		 7X5gVmtkEB8eDjLkcMNCmqMarAjjSb9Sg5uYIQj1WHPPCrvTVQioZIIIHJ6Z7ogWIDpDR5T
+		 Og55tS4kW7qSJUQebh54v1gyEVd2mSgUf40MBAgMBAAE=",
+        "Addresses": null,
+        "AgentVersion": "go-libp2p/3.3.4",
+        "ProtocolVersion": "ipfs/0.1.0"
 }
 ~~~
 
-der private schlüssel ist neben weiteren informationen zum `ipfs`--repository
-in der `~/.ipfs/config`--datei zu finden, welche beim anlegen des repositories
+Die unter *ID* gelistete Nummer ist stellt die Prüfsumme über den öffentlichen
+Schlüssel dar als *Multihash* in `base58`--Enkodierung dar. Mit dieser *ID*
+lässt sich ein Benutzer beziehungsweise Peer im *IPFS*--Netzwerk eindeutig
+identifizieren.
+
+Der private Schlüssel ist neben weiteren Informationen zum `ipfs`--Repository
+in der `~/.ipfs/config`--Datei zu finden, welche beim anlegen des Repositories
 automatisch erstellt wird.
 
 ~~~sh
-freya :: ~ » cat .ipfs/config | grep privkey
-	"privkey":
-	"caaspwkwggsjageaaoibaqdgdgktgj9fw/el1qy0ohznggh7dpaszddpc3fhhcf7ri9iylp
-	 5ei0t9gjfvsj+ulhxkqxhu9qod7ljiupuhqkpnnd1yvwzpbiznuhaiuo107j5mztpvroq8/
+freya :: ~ » cat .ipfs/config | grep PrivKey
+	"PrivKey":
+	"CAASpwkwggSjAgEAAoIBAQDGDgKtgJ9FW/EL1qY0OhznGGh7dPAszDDpC3fhHcF7rI9iyLp
+	 5ei0T9gjfvsj+ULhxKqXHU9qoD7LjiUPUHQKPnND1YvWzpBIZNUhaiuo107J5MztPvroQ8/
 	 [...]
-	 cwtidfnbzdz5igzj0p0oo5ok6gadi608tqtvxclwf4ic/homvtua7w9r1l9dea+yxubchvy
-	 vqms8ycxyzxoe+dqxzm5tqbzt/jxus/uufcs7ukhueu+e9etcybgpncrmoqckqe="
+	 cWTidFNBZdz5IGzj0P0oO5OK6gadI608TqTvxcLWf4iC/hOMvTUA7W9r1l9dea+YXubchvY
+	 VQMS8YcXyzXoE+DQXzM5TqbZT/jxUS/UUFcs7UKhuEu+E9etcYBgpncrMoQckQE="
 ~~~
 
-todo: warum sind die keys unterschiedlich lang?
+Für weitere Details zur Erstellung der *Identität* sollte der
+Quelltext[^FN_IPFS_CODE_INIT] zu Rate gezogen werden.
 
-* <https://github.com/ipfs/go-ipfs/blob/master/repo/config/init.go#l112>
+[^FN_IPFS_CODE_INIT]: IPFS Schlüsselgenerierung: <https://github.com/ipfs/go-ipfs/blob/master/repo/config/init.go#L95>
 
-hashstuff: <https://github.com/ipfs/go-ipfs/blob/73cd8b3e98aba252f0eadcc625472103a2dd1d53/importer/importer.go>
+Ein Authentifizierungsmechanismus im eigentlichen Sinne existiert bei *IPFS*
+nicht. Die Benutzer haben lediglich eine eindeutige globale *Peer--ID*. Dateien
+werden nicht direkt von einer bestimmten *Peer--ID*, sondern aus dem
+*IPFS*--Netzwerk bezogen.
 
-* wie schaut es mit verschlüsselung aus?
-* wie schaut es mit datenintegrität aus?
-* welche authentifizierungsmechanismen gibt es?
+Eine Art Authentifizierung kann also nur manuell über einen Seitenkanal
+erfolgen. Ein Benutzer kann also nur überprüfen ob eine Datei mit einer
+bestimmten Prüfsumme »auch« auf einem bestimmten System mit der ihm bekannten
+*Peer--ID* vorzufinden ist. Hier wäre es denkbar, dass zwei kommunizierende
+Parteien ihre *Peer--ID* gegenseitig telefonisch austauschen beziehungsweise
+bestätigen.
 
-## mögliche probleme
+Im Gegensatz dazu haben andere »dezentrale Systeme« mit einem direkten
+Kommunikationskanal weitere Möglichkeiten der Authentifizierung. Der
+Instant--Messaging--Client *Pidgin*[^FN_PIDGIN] bietet beispielsweise mit dem
+*OTR*--Plugin[^FN_OTR] folgende Möglichkeiten für die Authentifizierung einer
+gesicherten Verbindung:
 
-## angriffsszenarien
+[^FN_PIDGIN]: Instant--Messaging--Client Pidgin: <https://de.wikipedia.org/w/index.php?title=Pidgin_(Instant_Messenger)&oldid=155942615>
+[^FN_OTR]: Off--the--Record: https://en.wikipedia.org/w/index.php?title=Off-the-Record_Messaging&oldid=741588882
 
-## risikomanagement
+*Frage und Antwort--Authentifizierung:* Alice stellt Bob eine Frage zu einem
+gemeinsamen Geheimnis. Beantwortet Bob diese Frage korrekt, so wird er vom
+System gegenüber Alice authentifiziert --- das heißt, der Fingerprint
+(Prüfsumme über eine ID die Bob eindeutig kennzeichnet) wird in Kombination mit
+dem Benutzernamen von Bob als valide vom System klassifiziert und
+abgespeichert.
+
+*Shared--Secret--Authentifizierung*: Alice weist Bob an das gemeinsam bekannte
+Geheimnis in einem entsprechenden Programmdialogfenster einzutragen. Alice
+trägt das gemeinsame Geheimnis ebenso in einem Programmdialogfenster ein. Bei
+Übereinstimmung des gemeinsamen Geheimnisses wird Bob gegenüber Alice vom
+System authentifiziert --- analog zur Frage und Antwort--Authentifizierung wird
+der Fingerprint als valide vom System klassifiziert abgespeichert.
+
+*Manuelle Verifizierung vom Fingerprint:* Alice verifiziert den ihr vom System
+angezeigten Fingerprint (Prüfsumme über eine eindeutige ID) von Bob. Dazu kann
+sie beispielsweise Bob anweise ihr über einen Seitenkanal die Information über
+die Korrektheit des Fingerprint zu bestätigen.
+
+Die genannten Verfahren erlauben eine initiale Authentifizierung zwischen den
+Kommunikationspartnern. Bei zukünftiger Kommunikation wird jeweils die *ID* der
+Benutzer mit der bei der initialen Authentifizierung gespeicherten *ID*
+verglichen.
+
+* IPFS Test--Subnetz
+* Wie schaut es mit Verschlüsselung aus?
+
+TODO: IPFS Subnetz
+
+## Mögliche Probleme
+
+## Angriffsszenarien
+
+## Risikomanagement
