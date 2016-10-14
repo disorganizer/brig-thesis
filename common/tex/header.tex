@@ -1,6 +1,6 @@
 \usepackage{url}
 \usepackage{scrhack}
-\usepackage[babel, german=quotes]{csquotes}
+\usepackage[babel,german=quotes]{csquotes}
 \usepackage{graphicx}
 \usepackage{lmodern}
 \usepackage{hyperref}
@@ -11,10 +11,10 @@
 \RequirePackage{ccicons}
 \pagenumbering{roman}
 
+% Provide a new Listing reference target:
 \crefname{Listing}{Listing}{Listings}
 
 \usepackage{inconsolata}
-\usepackage{fancyhdr}
 \usepackage{color}
 \usepackage{wasysym}
 \usepackage{ifthen}
@@ -46,7 +46,7 @@
 \usepackage{etoolbox}
 
 \appto\chapterheadstartvskip{%
-  \vspace{-4.5em} 
+  \vspace{-4.5em}
   \smash{\makebox[0pt]{%
 	\textcolor{ThesisBarColor}{%
       \usesizeofkomafont{chapter}\rule[-2.5\ht\strutbox-\dp\strutbox]{2\paperwidth}{1.5\baselineskip}%
@@ -68,49 +68,26 @@
 \addtokomafont{subsection}{\color{ThesisFontColor}}
 \addtokomafont{subsubsection}{\color{ThesisFontColor}}
 
-\renewcommand{\labelitemi}{\textcolor{ThesisFontColor}{$$$\blacktriangleright$}}
-% \renewcommand{\labelitemii}{$\cdot$}
-% \renewcommand{\labelitemiii}{$\diamond$}
-% \renewcommand{\labelitemiv}{$\ast$}
-
-\pagestyle{fancy}
-
-\newcommand{\prettypage}{%
-    \scshape{~\thepage~~~}
-}%
-
-\fancyfoot[C]{%
+\renewcommand{\labelitemi}{\textcolor{ThesisFontColor}{$\blacktriangleright$}}
+\usepackage[automark,autooneside=false,headsepline]{scrlayer-scrpage}
+\newcommand{\fancyPagemark}{%
     % EasterEgg
     \ifthenelse{\value{page}=42}{%
         % Horizontal and vertical flip
-        \reflectbox{\scalebox{1}[-1]{\prettypage}}
+        \reflectbox{\scalebox{1}[-1]{\pagemark}}
     }{%
         \ifthenelse{\value{page}=23}{%
             % Horizontal flip
-            \reflectbox{\prettypage}
+            \reflectbox{\pagemark}
         }{%
-            \prettypage
+            \pagemark
         }%
     }%
 }%
 
-% Remove the header from pages with chapters on them:
-\fancypagestyle{plain}{%
-    \fancyhead{}
-    \renewcommand{\headrule}{}
-}%
-
-% Comment out for normal twoside:
-% \newcommand{\ONESIDEFAKE}
-
-\ifdefined\ONESIDEFAKE
-    \fancyhead[L]{{\nouppercase{\slshape{\leftmark}}}}
-    \fancyhead[R]{{\nouppercase{\scshape{\rightmark}}}}
-\else
-    \fancyhead[LO]{{\nouppercase{\slshape{\leftmark}}}}
-    \fancyhead[RO]{{\nouppercase{\scshape{\rightmark}}}}
-    \fancyhead[LE]{{\nouppercase{\scshape{\rightmark}}}}
-    \fancyhead[RE]{{\nouppercase{\slshape{\leftmark}}}}
-\fi
-
-\setlength{\footskip}{25pt} % to put page number 3/4" from the bottom of the page (1/4" from bottom of body text)
+\clearpairofpagestyles
+\ohead{\leftmark}
+\ihead{\slshape{\rightmark}}
+\cfoot*{\fancyPagemark}
+\setlength{\footskip}{25pt}
+\date{\today}

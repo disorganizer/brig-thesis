@@ -73,8 +73,8 @@ Von ``ipfs``--Seite scheint eine Zusammenarbeit gern gesehen zu sein:
 > *Yeah we want to get to this too and would love to support your efforts. I'd
 > request that you consider contributing directly to go-ipfs since much of what
 > you want we want too.*
-
---- *Juan Benet*, Kernentwickler von ``ipfs``[^JUAN_BENET_CIT]
+>
+> --- *Juan Benet*, Kernentwickler von ``ipfs``[^JUAN_BENET_CIT]
 
 [^JUAN_BENET_CIT]: Quelle: <https://github.com/ipfs/ipfs/issues/120>
 

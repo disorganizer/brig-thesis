@@ -1,6 +1,6 @@
 ---
 documentclass: scrreprt
-classoption: toc=listof,index=totoc
+classoption: toc=listof,index=totoc,twoside
 fontsize: 11pt
 sections: yes
 toc: yes

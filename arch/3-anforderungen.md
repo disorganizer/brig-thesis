@@ -41,8 +41,8 @@ Punkt überspitzt, aber prägnant dargestellt:
 
 > *Weak security that's easy to use will help more people than strong
 > security that's hard to use. Door locks are a good example.*
-
---- Rob Pike ([@pike2001security] S.24)
+>
+> --- Rob Pike ([@pike2001security] S.24)
 
 Die unten stehenden Anforderungen sind teilweise an die Eigenschaften des
 verteilten Dateisystems *Infinit* (beschrieben in [@quintard2012towards], siehe
