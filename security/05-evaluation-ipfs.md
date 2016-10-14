@@ -334,11 +334,15 @@ in Zukunft auf TLS1.3 zu migrieren.
 
 TODO: IPFS--Subnetz test?
 
-## Zusammenfassung 
+## Zusammenfassung IPFS--Evaluation
 
-Als dezentrales Netzwerk--Protokoll und Speicherort zur deduplizierten
-Speicherung von Daten stellt *IPFS* zum aktuellen Zeitpunkt eine attraktive
-Grundbasisbasis für die Entwicklung des »birg«--Prototypen dar.
+Aus Datenhaltungs-- und Netzwerksicht (TODO: Ref Elch.) stellt *IPFS* zum
+aktuellen Zeitpunkt eine attraktive Basis für die Entwicklung des
+»brig«--Prototypen dar. Aus Datenhaltungssicht sind insbesondere folgende
+Features Interessant:
+
+* Möglichkeit der Deduplizierung von Daten (Aufgrund der Speicherung in einem Merkle-DAG)
+* Möglichkeit der Validierung der Integrität der Daten (SHA256--basiert)
 
 Aus Sicht der Sicherheit muss *IPFS* um folgende Funktionalitäten erweitert werden:
 
