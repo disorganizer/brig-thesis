@@ -62,8 +62,8 @@ möglich bestimmte Dateien »on-demand« und für den Nutzer transparent zu
 
 Der Hauptvorteil einer dezentralen Architektur ist die erhöhte
 Ausfallsicherheit (kein *Single--Point--of--Failure*) und der Fakt, dass das
-Netzwerk durch seine Nutzer entsteht und keine besondere Infrastruktur
-benötigt. Stattdessen funktioniert ``brig`` als *Overlay--Netzwerk* (Siehe
+Netzwerk durch seine Nutzer entsteht und keine eigene Infrastruktur
+benötigt. ``brig`` funktioniert daher als *Overlay--Netzwerk* (Siehe
 [@peer2peer], S.8) über das Internet.
 
 **Pinning:** Der Nutzer soll Kontrolle darüber haben, welche Dateien er lokal
@@ -77,10 +77,9 @@ Limit an Bytes, die lokal zwischengespeichert werden dürfen. Wird dies übersch
 so werden Daten gelöscht, die keinen Pin haben.
 
 Das manuelle Pinnen von Dateien ist insbesondere nützlich, wenn eine bestimmte
-Datei zu einer Zeit ohne Internetzugang benötigt wird. Ein typisches Beispiel
-wäre ein Zugpendler der ein Dokument auf dem Weg zur Arbeit
-editieren möchte. Er kann dieses vorher *pinnen* um es lokal auf seinem Laptop
-zwischenzulagern.
+Datei zu einer Zeit ohne Internetzugang benötigt wird. Ein Beispiel wäre ein
+Zugpendler der ein Dokument auf dem Weg zur Arbeit editieren möchte. Er kann
+dieses vorher *pinnen*, um es lokal auf seinem Laptop zu lagern.
 
 **Langlebigkeit:** Daten die ``brig`` anvertraut werden, müssen solange ohne
 Veränderung und Datenverlust gespeichert werden bis kein Nutzer mehr
@@ -144,8 +143,8 @@ verschlüsselt werden.
 Die Verschlüsselung der Metadaten erscheint vor allem im Lichte der
 Enthüllungen zur NSA--Affäre geboten[^snowdenWiki]. Eine Ende--zu--Ende
 Verschlüsselung ist in diesem Fall vor allem deswegen wichtig, weil der
-Datenverkehr unter Umständen auch über andere, ansonsten unbeteiligte, Knoten
-im Netzwerk gehen kann.
+Datenverkehr auch über andere, ansonsten unbeteiligte, Knoten im Netzwerk gehen
+kann.
 
 [^snowdenWiki]: Siehe auch: <https://de.wikipedia.org/wiki/Globale_%C3%9Cberwachungs-_und_Spionageaff%C3%A4re>
 
@@ -165,7 +164,7 @@ eine Frage (mit vordefinierter Antwort) schicken kann, die dieser dann
 beantworten muss. Alternativ können sich beide Partner vorher auf einen
 separaten Kanal auf ein gemeinsames Geheimnis einigen, welches dann über
 ``brig`` ausgetauscht und überprüft werden kann. Diese beiden Möglichkeiten
-sind inspiriert von der OTR--Implementierung des Instant-Messanger Pidgin[^PIDGIN].
+sind ähneln der OTR--Implementierung des Instant-Messanger Pidgin[^PIDGIN].
 
 [^PIDGIN]: Webseite: <https://www.pidgin.im>
 

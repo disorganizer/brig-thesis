@@ -689,6 +689,8 @@ Austauschbarkeit einiger Komponenten erleichtern soll. Diese sind wie folgt:
   relativ schnell durch ein eigenes Kommunikationsprotokoll basierend auf ``ipfs``
   ersetzt werden.
 
+\newpage
+
 ### Beiträge zu anderen Projekten
 
 Im Laufe der Entwicklung wurden einige kleinere Beiträge zu anderen Projekten
