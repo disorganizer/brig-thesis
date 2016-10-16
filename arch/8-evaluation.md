@@ -25,7 +25,7 @@ Rechenleistung zugunsten von Sicherheit eintauscht (siehe [@sec:benchmarks]).
 Live--Updates (siehe [@sec:transfer-layer]) verfügbar sind, kann ``brig``
 selbst entscheiden, wann die Änderungen synchronisiert werden.[^SYNC_NOTE]
 Insbesondere macht es beispielsweise kaum Sinn, SQL--Datenbanken von ``brig``
-synchronisieren zu lassen. Hierfür gibt es weitaus bessere Alternativen, wie
+synchronisieren zu lassen. Hierfür gibt es weitaus bessere Alternativen wie
 *CockroachDB*[^COCKROACH].
 
 [^COCKROACH]: <https://www.cockroachlabs.com>
@@ -105,7 +105,7 @@ eingegangen und die Erfüllung wird mit »\cmark« (*Erfüllt*), »\qmark«
 **Entkopplung von Metadaten und Daten** (\cmark): Daten und Metadaten sind
 vollkommen entkoppelt und werden sowohl getrennt gespeichert (``ipfs`` und
 *BoltDB*) als auch getrennt behandelt. Die Daten können irgendwo im
-``ipfs``--Netzwerk liegen, die Metadaten werden von allen Teilnehmern kopiert.
+``ipfs``--Netzwerk liegen, die Metadaten werden von allen Teilnehmern vorgehalten.
 
 **Pinning** (\qmark): Es ist möglich einen Pin zu Dateien und Verzeichnissen
 hinzuzufügen (``brig pin``) und wieder zu entfernen (``brig pin -u``).
@@ -145,8 +145,8 @@ ist allerdings noch nicht implementiert.
 
 **Verschlüsselte Speicherung:** (\cmark) Jede Datei wird in einem
 verschlüsselten Container (siehe [@sec:encryption]) abgelegt.
-Der Schlüssel wird momentan zufällig generiert und wird direkt
-zum Synchronisationspartner übertragen.
+Der Schlüssel wird momentan zufällig generiert und wird mit den anderen
+Metadaten zum Synchronisationspartner übertragen.
 
 **Verschlüsselte Übertragung:** (\cmark) Nicht nur ``ipfs``--Verbindungen an
 sich werden verschlüsselt, auch ``brig's`` Transferprotokoll (welches darauf
@@ -297,7 +297,7 @@ Diese sind jeweils 1, 2, 4, 8, 16, 32, 64, 128, 256 und 512 MB groß sind und we
 Zudem wird im ``ramfs`` noch ein FUSE--Dateisystem, basierend auf dem
 ``brig``--Repository angelegt.
 
-Basierend auf dieser Eingabe werden für beide Datensätze folgende Daten erhoben:
+Basierend auf diesen Eingabedateien werden für beide Datensätze folgende Zeitmessungen erhoben:
 
 * Lesen mit/ohne Dekompression und mit/ohne Entschlüsselung.
 * Schreiben mit/ohne Kompression und mit/ohne Verschlüsselung.
@@ -348,8 +348,8 @@ Insgesamt können folgende Konklusionen aus den Ergebnissen gezogen werden:
 * Kompression und Dekompression ist stets weniger ressourcenaufwändig als
   Verschlüsselung und Entschlüsselung. Ob an der Implementierung etwas verbessert
   werden kann, muss separat untersucht werden.
-* Der Zugriff über das FUSE--Dateisystem ($12.8$ MB/s) ist verglichen mit ``brig
-  cat`` ($85$ MB/s) deutlich langsamer. Die Gründe hierfür liegen
+* Der Zugriff über das FUSE--Dateisystem ($12.8$ MB/s) ist verglichen mit ``brig cat``
+  ($85$ MB/s) deutlich langsamer. Die Gründe hierfür liegen
   vermutlich weniger an FUSE an sich, als an der aktuellen, ineffizienten Implementierung.
 * Die Messergebnisse bis 8MB sind noch relativ stark von Messungenauigkeiten beeinträchtigt.
   Erst bei höheren Datenmengen werden die Ergebnisse repräsentativ.
@@ -396,7 +396,7 @@ Treten Diskrepanzen auf, so kann versucht werden, den fehlerhaften Block aus
 alten Versionsständen oder von einem Synchronisationspartner zu beziehen.
 Diese Funktionalität könnte auch direkt in ``ipfs`` eingebaut werden.
 Auch könnte eine solche Reparaturfunktion die BoltDB von ``brig`` auf Konsistenz
-prüfen und nötigenfalls (falls möglich) reparieren. Im Gegensatz zu ``git``
+prüfen und nötigenfalls und falls möglich reparieren. Im Gegensatz zu ``git``
 sollten bei ``brig`` keine unerreichbaren Referenzen mehr im MDAG entstehen.
 Trotzdem könnte ein Programm wie »``brig gc``« einen *Garbage--Collector*
 laufen lassen, der solche Referenzen aufspüren und bereinigen kann. Diese würden
@@ -478,13 +478,13 @@ weswegen hier weitere Arbeiten ansetzen könnten.
 **Atomarität und Transaktionen:** In der momentanen Implementierung ist bei
 einem Ausfall von ``brigd`` (beispielsweise durch einen Absturz oder Stromausfall)
 nicht sichergestellt, dass eine Aktion (wie ``MakeCommit()``) vollständig, atomar
-abgelaufen ist. Auch wenn die Aktion von der API aus atomar ist (durch Locks),
+abgelaufen ist. Auch wenn die jeweilige Aktion von der API aus durch Locks atomar ist,
 wird im momentanen Zustand kein Rollback bei Fehlern ausgeführt.
 BoltDB an sich unterstützt atomare Transaktionen, aber durch die Abstraktion
 von der konkreten Datenbank werden mehrere kleine Transaktionen nicht zu einer
 zusammenhängenden, großen Transaktion zusammengefasst. Da aber die Datenbank
 austauschbar bleiben soll, muss von der Abstraktionsschicht eine Möglichkeit
-implementiert werden, zurückspulbare Transaktionen (sogenannte *Rollbacks*) zu
+implementiert werden, zurückspulbare Transaktionen zu
 starten. Dazu dürfen Modifikationen an der Datenbank nicht direkt ausgeführt
 werden, sondern müssen in einem »Journal«[^JOURNAL] zusammengefasst werden. Dieses kann
 dann in einer einzigen, atomaren Datenbank--Transaktion zusammengefasst werden.
@@ -564,7 +564,7 @@ sein. Abhilfe könnte die Nutzung des Tor--Netzwerks[^TOR] schaffen. Die einzeln
 würden dabei nicht direkt miteinander kommunizieren, sondern schicken ihren Datenverkehr,
 verpackt in mehrere verschlüsselte Schichten, über mehre Knoten des Tor--Netzwerks.
 Diese Funktionalität muss direkt in ``ipfs`` implementiert werden. Entsprechende
-Überlegungen scheinen bereits zu existieren[^IPFS_TOR].
+Überlegungen scheinen auf ``ipfs``--Seite bereits zu existieren[^IPFS_TOR].
 
 [^TOR]: Siehe auch: <https://www.torproject.org>
 [^IPFS_TOR]: Siehe auch: <https://github.com/ipfs/notes/issues/37>

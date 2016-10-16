@@ -42,7 +42,7 @@ dass sie wirklich nützlich ist und die Welt etwas verbessern könnte.
 
 ![Ist »brig« letztlich nur ein weiterer Standard?[^XKCD_STD_SOURCE]](images/8/xkcd-standards.png){#fig:xkcd-standards width=55%}
 
-[^XKCD_STD_SOURCE]: <https://xkcd.com/927>
+[^XKCD_STD_SOURCE]: Bildquelle: xkcd (<https://xkcd.com/927>)
 
 ## Offene Fragen
 

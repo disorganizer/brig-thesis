@@ -47,7 +47,7 @@ Für beide Varianten lassen sich trotzdem gemeinsame Anforderungen finden:
     Metaphern (Dateien, Verzeichnisse...) bieten.
 5)  Die Oberfläche muss konsistent in ihrer Benutzung sein. Sieht etwas in der
     Applikation gleich oder ähnlich aus, so muss es auch gleich oder ähnlich
-    funktionieren. Im Umkehrschluss werden auch konsistent Begriffe wie »Passphrase« statt »Passwort« genutzt,
+    funktionieren. Im Umkehrschluss sollen auch konsistent Begriffe wie »Passphrase« statt »Passwort« genutzt werden,
 	um anzuzeigen, dass die Eingabe länger sein soll als ein herkömmliches »Passwort«.
 6)  Die Oberfläche muss sich möglichst gut in das System des Benutzers
     integrieren. Im Falle einer grafischen Oberfläche bedeutet dies die Nutzung

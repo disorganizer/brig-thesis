@@ -5,13 +5,12 @@ wird vor allem das »Kernstück« beleuchtet: Das zugrundeliegende Datenmodell i
 dem alle Metadaten abgespeichert und in Relation gesetzt werden.
 Dazu wird auf die zuvor erklärten Internas von ``ipfs`` und ``git`` eingegangen.
 
-Basierend darauf werden die umgebenden Komponenten beschrieben, die um den
-Kern von ``brig`` gelagert sind. Am Ende des Kapitels werden zudem noch einmal alle
-Einzelkomponenten in einer Übersicht gezeigt. Es wird dabei stets vom Stand des
-aktuellen Prototypen ausgegangen. Mögliche Erweiterungen werden in
-[@sec:evaluation] (*Evaluation*) diskutiert. Die technische Umsetzung der
-jeweiligen Komponenten hingegen wird in [@sec:implementierung]
-(*Implementierung*) besprochen.
+Basierend darauf werden die umgebenden Komponenten beschrieben, die um den Kern
+von ``brig`` gelagert sind. Am Ende des Kapitels werden zudem noch einmal alle
+Einzelkomponenten in einer Übersicht gezeigt. Mögliche Erweiterungen werden in
+[@sec:evaluation] (*Evaluation*) diskutiert. Die technische Umsetzung des
+Prototypen hingegen wird in [@sec:implementierung] (*Implementierung*)
+besprochen.
 
 ## Datenmodell von ``brig``
 
@@ -50,11 +49,11 @@ gehen können. Siehe auch: <http://gitfaq.org/articles/what-is-a-detached-head.h
 [^DOUBLE_ROOT]: Streng genommen ist dies bei ``git`` auch nicht nötig, allerdings sehr unüblich.
 
 
-![Das Datenmodell von ``brig``](images/4/brig-data-model.pdf){#fig:brig-data-model}
+![Das Datenmodell von ``brig``. Checkpoints von Verzeichnissen wurden ausgelassen.](images/4/brig-data-model.pdf){#fig:brig-data-model}
 
 [@fig:brig-data-model] zeigt das oben verwendete Beispiel in ``brig``'s
-Datenmodell. Es werden die selben Objekttypen verwendet, die auch ``git``
-verwendet:
+Datenmodell. Es werden prinzipiell die selben Objekttypen verwendet, die auch
+``git`` verwendet:
 
 * **File:** Speichert die Metadaten einer einzelnen, regulären Datei. Zu den Metadaten gehört die aktuelle Prüfsumme,
   die Dateigröße, der letzte Änderungszeitpunkt und der kryptografische Schlüssel mit dem die Datei verschlüsselt ist.
@@ -71,7 +70,7 @@ verwendet:
     so erhält man das neutrale Element $0$. Analog dazu führt die Anwendung auf ein vorheriges Ergebnis wieder zur ursprünglichen Eingabe:
 
     $$x \oplus x = 0 \text{  (Auslöschung)}$$
-    $$y = y \oplus x \oplus x = x \oplus y \oplus x = x \oplus x \oplus y$$
+    $$y = y \oplus x \oplus x = x \oplus y \oplus x = x \oplus x \oplus y \text{  (Kommutativität)}$$
 
     Diese Eigenschaft kann man sich beim Löschen einer Datei zunutze machen,
     indem die Prüfsumme jedes darüber liegenden Verzeichnisses mit der Prüfsumme
@@ -114,14 +113,14 @@ verwendet:
   (referenziert ein veränderliches »Dokument«) und ist grob mit dem Konzept einer
   *Inode--Nummer* bei Dateisystemen[^INODE] vergleichbar.
 
-[^INODE]: Siehe auch: https://de.wikipedia.org/wiki/Inode
+[^INODE]: Siehe auch: <https://de.wikipedia.org/wiki/Inode>
 
-![Jede Datei und jedes Verzeichnis besitzt eine Liste von Checkpoints](images/4/file-history.pdf){#fig:file-history width=50%}
+![Jede Datei und jedes Verzeichnis besitzt eine Liste von Checkpoints.](images/4/file-history.pdf){#fig:file-history width=50%}
 
 Davon abgesehen fällt auf, dass zwei zusätzliche Strukturen eingeführt wurden:
 
 * **Checkpoints:** Jeder Datei ist über ihre ``UID`` ein Historie von mehreren, sogenannten *Checkpoints* zugeordnet.
-  Jeder einzelne dieser Checkpoints beschreibt eine atomare Änderung an der Datei. Da keine
+  Jeder Einzelne dieser Checkpoints beschreibt eine atomare Änderung an der Datei. Da keine
   partiellen Änderungen[^PARTIAL] möglich sind, müssen nur vier verschiedene Operation
   unterschieden werden: ``ADD`` (Datei wurde initial oder erneut hinzugefügt), ``MODIFY`` (Prüfsumme hat sich verändert),
   ``MOVE`` (Pfad hat sich verändert) und ``REMOVE`` (Datei wurde entfernt). Eine beispielhafte Historie findet sich
@@ -216,7 +215,7 @@ Verzeichnisses ergibt sich aus dem Pfad des neuen Verzeichnisses. Diese wird in 
 Elternknoten eingerechnet. Die Referenz auf das Wurzelverzeichnis wird im
 Staging--Commit angepasst.
 Eventuell müssen noch dazwischen liegende Verzeichnisse erstellt werden. Diese
-werden einzeln von oben nach unten mit den oben beschriebenen Prozess erstellt.
+werden einzeln von oben nach unten mit den eben beschriebenen Prozess erstellt.
 
 ``MOVE:`` Verschiebt eine Quelldatei oder Verzeichnis zu einem
 Zielpfad. Es muss eine Fallunterscheidung getroffen werden, je nachdem ob
@@ -229,9 +228,10 @@ und welcher Knoten im Zielpfad vorhanden ist:
    Zielverzeichnis verschoben, sofern darunter noch kein Verzeichnis mit diesem Namen
    existiert. Andernfalls wird die Aktion mit einem Fehler abgebrochen.
 
-In jedem Fall entspricht diese Operation technisch dem sequentiellen Ausführen der
-Operationen ``REMOVE`` und ``ADD``. Im Unterschied dazu ist sie im Ganzen
-atomar und erstellt einen Checkpoint mit dem Typen ``MOVED`` für alle verschobenen Knoten.
+In jedem Fall entspricht diese Operation technisch dem, möglicherweise
+mehrfachen, sequentiellen Ausführen der Operationen ``REMOVE`` und ``ADD``. Im
+Unterschied dazu ist sie im Ganzen atomar und erstellt einen Checkpoint mit dem
+Typen ``MOVED`` für alle verschobenen Knoten.
 
 ``CAT:`` Gibt ein Dokument als einen Datenstrom aus. Der Name lehnt sich dabei an
 das Unix--Tool ``cat`` an, welches ebenfalls Dateien ausgeben kann. Es wird lediglich
@@ -245,7 +245,7 @@ zur Versionskontrolle dienen und in dieser Form normalerweise nicht von
 Dateisystemen implementiert werden:
 
 ``UNSTAGE:`` Entfernt ein Dokument aus dem Staging--Bereich und setzt den Stand
-auf den zuletzt bekannten Wert zurück (der Stand der in ``HEAD`` präsent war). Die
+auf den zuletzt bekannten Wert zurück (also der Stand der in ``HEAD`` präsent war). Die
 Prüfsumme des entfernten Dokumentes wird aus den Elternknoten herausgerechnet
 und dafür die alte Prüfsumme wieder eingerechnet.
 
@@ -256,7 +256,7 @@ irreführend, da ``git add`` nicht nur neue Dateien, sondern auch modifizierte
 Dateien hinzugefügt. Zudem ist ``git add`` es nicht das Gegenteil von ``git
 rm``[^GIT_FAQ_RM], wie man vom Namen annehmen könnte. Dass eigentliche
 Gegenteil ist ``git reset``. Eine mögliche Alternative zu ``brig stage`` wäre
-vermutlich auch ``brig track``, beziehungsweise ``brig untrack``.
+vermutlich auch ``brig track``, beziehungsweise ``brig untrack`` statt ``brig rm``.
 
 [^GIT_FAQ_RM]: Selbstkritik des ``git``--Projekts: <https://git.wiki.kernel.org/index.php/GitFaq#Why_is_.22git_rm.22_not_the_inverse_of_.22git_add.22.3F>
 
@@ -281,12 +281,11 @@ Commits wiederherstellen.
 
 Im Gegensatz zu ``git`` ist es allerdings nicht vorgesehen in der
 Versionshistorie »herumzuspringen«. Soll ein alter *Commit* wiederhergestellt
-werden, so wird ein neuer *Commit* erzeugt, welcher den aktuellen Stand so
-verändert, dass er dem gewünschten, alten Stand entspricht (siehe auch
-Abbildung [@fig:op-checkout]). Das Verhalten von ``brig`` entspricht an dieser
-Stelle also nicht dem Namensvetter ``git checkout`` sondern eher dem
-wiederholten Anwenden von ``git revert`` zwischen dem aktuellen und dem
-Nachfolger des gewünschten Commits.
+werden, so wird der Staging--Commit so verändert, dass er dem gewünschten,
+alten Stand entspricht (siehe auch Abbildung [@fig:op-checkout]). Das Verhalten
+von ``brig`` entspricht an dieser Stelle also nicht dem Namensvetter ``git
+checkout`` sondern eher dem wiederholten Anwenden von ``git revert`` zwischen
+dem aktuellen und dem Nachfolger des gewünschten Commits.
 
 ![Die Abfolge der ``CHECKOUT``--Operation im Detail.](images/4/op-checkout.pdf){#fig:op-checkout width=75%}
 
@@ -297,7 +296,7 @@ Dieser Zustand kann in ``git`` erreicht werden, indem man in einen früheren
 zeigt dann nicht mehr auf einen benannten Branch, sondern auf die Prüfsumme des
 neuen Commits, der vom Nutzer nur noch durch die Kenntnis derselben erreichbar
 ist.
-Macht man in diesem Zustand Änderungen ist es möglich die
+Macht man in diesem Zustand Änderungen, ist es möglich die
 geänderten Daten zu verlieren[^DETACHED_HEAD]. Um das zu vermeiden, hält ``brig``
 die Historie stets linear und unveränderlich.
 Dies stellt keine Einschränkung der Architektur an sich dar.
@@ -329,7 +328,7 @@ spezielle Liste von ``brig`` eingetragen werden, damit dieser dem System
 bekannt wird. Dies ist vergleichbar mit der Liste die ``git remote -v``
 erzeugt: Eine Zuordnung eines menschenlesbarem Namen zu einer eindeutigen
 Referenz zum Synchronisationspartner. Im Falle von ``git`` ist das eine URL,
-bei ``brig`` handelt es sich um die öffentlichen Identität des Partners, also
+bei ``brig`` handelt es sich um die öffentliche Identität des Partners, also
 einer Prüfsumme. Wie später gezeigt wird, ist dieses explizite Hinzufügen des
 Partners eine Authentifizierungsmaßnahme, die bewusst eingefügt wurde.
 Unter [@sec:user-management] wird das Konzept genauer erläutert.
@@ -372,7 +371,7 @@ trifft der Algorithmus auf dieser Basis eine der folgenden Entscheidungen:
 
 Je nach Entscheidung kann für diese Datei eine entsprechende Aktion ausgeführt werden:
 
-1) Die Datei muss zu Partner B übertragen werden.
+1) Die Datei muss zu Partner B übertragen werden (falls bidirektionale Synchronisation gewünscht ist).
 2) Die Datei muss zu Partner A übertragen werden.
 3) Es muss nichts weiter gemacht werden.
 4) Konfliktsituation: Auflösung nötig.
@@ -388,7 +387,7 @@ das Änderungsdatum und die Dateigröße vergleichen.
 Für die Konfliktsituation hingegen kann es keine perfekte, allumfassende Lösung
 geben, da die optimale Lösung von der jeweiligen Datei und der Absicht des
 Nutzers abhängt. Bei Quelltext--Dateien möchte der Anwender vermutlich, dass
-beide Stände automatisch zusammengeführt werden, bei großen Videodateien ist
+beide Stände möglichst automatisch zusammengeführt werden, bei großen Videodateien ist
 das vermutlich nicht seine Absicht. Selbst wenn die Dateien nicht automatisch zusammengeführt werden sollen
 (englisch »to merge«), ist fraglich was mit der Konfliktdatei des Partners geschehen soll.
 Soll die eigene oder die fremde Version behalten werden? Dazwischen sind auch weitere Lösungen denkbar,
@@ -415,8 +414,9 @@ Datei sollte den neuen Inhalt mit dem neuen Dateipfad zusammenführen.
 verträglich sind. Die einzelnen Möglichkeiten sind dabei wie folgt:
 
 * »\xmark«: Die beiden Aktionen sind nicht miteinander verträglich, es sei denn ihre Prüfsummen sind gleich.
+            Sind die Prüfsummen gleich, heißt das, dass die exakt gleiche Änderung auf beiden Seiten gemacht wurde.
 * »\qmark«: Die Aktion ist prinzipiell verträglich, hängt aber von der Konfiguration ab.
-            Entweder wird die Löschung oder die Umbenennung vom Gegenüber propagiert oder die eigene Datei wird behalten (Standard).
+            Entweder wird die Löschung oder die Umbenennung vom Gegenüber propagiert (Standard) oder die eigene Datei wird behalten.
 * »\cmark«: Die beiden Aktionen sind verträglich.
 
 
@@ -424,8 +424,8 @@ verträglich sind. Die einzelnen Möglichkeiten sind dabei wie folgt:
 | :----------: | ----------------- | ----------------- | ----------------- | ------------------ |
 | ``ADD``      | \xmark            | \qmark            | \xmark            | \xmark             |
 | ``REMOVE``   | \qmark            | \cmark            | \qmark            | \qmark             |
-| ``MODIFY``   | \cmark            | \qmark            | \xmark            | \cmark             |
-| ``MOVE``     | \xmark            | \qmark            | \xmark            | \xmark             |
+| ``MODIFY``   | \xmark            | \qmark            | \xmark            | \cmark             |
+| ``MOVE``     | \xmark            | \qmark            | \cmark            | \xmark             |
 
 : Verträglichkeit der atomaren Operationen untereinander für die Partner **A** und **B**. {#tbl:sync-conflicts}
 
@@ -497,7 +497,7 @@ synchronisierenden Pfade in drei Untermengen unterteilten.
 Jede dieser Untermengen hätte dann  eine unterschiedliche Semantik:
 
 - Pfade die beide haben ($X = Paths_{A} \bigcap Paths_{B}$): Konfliktpotenzial.
-Führe obigen Algorithmus für jede Datei aus. - Pfade die nur Alice hat ($Y
+Führe obigen Algorithmus für jede Datei aus. Pfade die nur Alice hat ($Y
 = Paths_{A} \setminus Paths_{B}$): Brauchen keine weitere Behandlung. - Pfade
 die nur Bob hat ($Z = Paths_{B} \setminus Paths_{A}$): Müssen nur hinzugefügt
 werden.
@@ -527,8 +527,8 @@ funktioniert die Abbildungsfunktion folgendermaßen:
 3) Es wird eine Abbildung (als assoziatives Array) erstellt, die alle bekannten
    Pfade von Bob der jeweiligen Historie zuordnen, in dem der Pfad vorkommt. Mehr
    als ein Pfad kann dabei auf die gleiche Historie zeigen, wenn Verschiebungen
-   vorkamen. Gelöschte Dateien sind in der Abbildung unter ihrem zuletzt bekannten
-   Pfad zu finden.
+   vorkamen. Innerhalb dieser Spanne gelöschte Dateien sind in der Abbildung
+   unter ihrem zuletzt bekannten Pfad zu finden.
 4) Für alle Pfade, die Alice momentan besitzt (Alle Pfade unter ``HEAD``), wird
    der Algorithmus in [@lst:sync-map] ausgeführt. Dieser ordnet jedem Pfad von
    Alice, einem Pfad von Bob zu oder meldet, dass er kein passendes Gegenstück
@@ -569,7 +569,7 @@ Das Ergebnis dieses Vorgehens ist eine Abbildung aller Pfade von Alice zu den Pf
 Damit wurde eine eindeutige Zuordnung erreicht und die einzelnen Dateien können mit dem Algorithmus
 unter [@sec:sync-single-file] synchronisiert werden. Die Dateien, die Bob
 zusätzlich hat (aber Alice nicht) können nun leicht ermittelt werden, indem geprüft wird
-welche von Bob's Pfaden noch nicht in der errechneten Abbildung vorkommen.
+welche von Bob's Pfaden noch nicht in der errechneten Wertemenge der Abbildung vorkommen.
 Diese Pfade können dann in einem zweiten Schritt dem Stand von Alice hinzugefügt werden.
 
 Darüber hinaus gibt es noch einen Spezialfall, der vor der eigentlichen
@@ -618,12 +618,12 @@ schicken, welche einen einzelnen *Checkpoint* beinhalten würden.
 Diese Checkpoints müssten dann jeweils in den aktuellen Staging--Bereich eingepflegt
 werden. Dadurch wären Änderungen in »Echtzeit« auf anderen Knoten verfügbar.
 Aus Zeitgründen wird an dieser Stelle aber nur auf diese Möglichkeit verwiesen;
-eine konzeptuelle Implementierung steht noch aus.
+eine konzeptuelle Implementierung hierzu steht noch aus.
 
 
 ### Abgrenzung zu anderen Synchronisationswerkzeugen
 
-In der Fachliteratur (vergleiche unter anderem [@cox2005file])
+In der Fachliteratur (vgl. unter anderem [@cox2005file])
 findet sich zudem die Unterscheidung zwischen *informierter* und
 *uninformierter* Synchronisation. Der Hauptunterschied ist, dass bei ersterer
 die Änderungshistorie jeder Datei als zusätzliche Eingabe zur Verfügung steht.
@@ -801,7 +801,7 @@ Der Daemon--Prozess implementiert alle Kernfunktionalitäten.
 Die einzelnen Komponenten werden in [@sec:einzelkomponenten] beschrieben.
 
 Als Netzwerkdienst muss ``brigd`` auf einen bestimmten Port (momentan
-standardmäßig Port ``127.0.0.1:6666``) auf Anfragen warten. Es werden keine Anfragen von
+standardmäßig Port ``6666`` auf ``127.0.0.1``) auf Anfragen warten. Es werden keine Anfragen von
 außen angenommen, da über diese lokale Verbindung fast alle
 sicherheitskritischen Informationen ausgelesen werden können.
 Für den Fall, dass ein Angreifer den lokalen Netzwerkverkehr mitlesen kann wird
@@ -873,10 +873,9 @@ großen, verschlüsselten Dateien wie Videos. Zudem kann das Format durch den
 Einsatz von *Authenticated Encryption (AE*, [@bellare2000authenticated]) die Integrität der verschlüsselten
 Daten sichern.
 
-Es werden lediglich reguläre
-Dateien verschlüsselt. Verzeichnisse existieren nur als Metadaten und werden
-gesondert behandelt. Die Details und Entscheidungen zum Design des Formats
-werden in [@cpiechula] dargestellt.
+Es werden lediglich reguläre Dateien verschlüsselt. Verzeichnisse existieren
+nur als Metadaten und werden nicht von ``ipfs`` gespeichert. Die Details und
+Entscheidungen zum Design des Formats werden in [@cpiechula] dargestellt.
 
 ![Aufbau des Verschlüsselungs--Dateiformats](images/4/format-encryption.pdf){#fig:format-encryption}
 
@@ -963,17 +962,17 @@ wenn nur wenige Bytes innerhalb des Blocks angefragt werden. Da typischerweise
 die Blöcke aber fortlaufend gelesen werden, ist das aus Sicht des Autors ein
 vernachlässigbares Problem.
 
-Das vorgestellte Format ähnelt der *Secretbox* der freien
-NaCL--Bibliothek.[^NACL_LIB] Diese erlaubt allerdings keinen wahlfreien
-Zugriff. Davon abgesehen handelt es sich um eine Neuimplementierung mit eigenem
-Code, der auch außerhalb von ``brig`` eingesetzt werden kann.
+Die einzelnen Blocks des vorgestellten Formats ähneln der *Secretbox* der freien
+NaCL--Bibliothek[^NACL_LIB]. Diese erlaubt allerdings keinen wahlfreien
+Zugriff. Abgesehen handelt es sich um eine Neuentwicklung, die auch außerhalb
+von ``brig`` eingesetzt werden kann.
 
 [^NACL_LIB]: Siehe auch: <https://nacl.cr.yp.to/secretbox.html>
 
 #### Kompression
 
 Bevor Datenströme verschlüsselt werden, werden diese von ``brig`` auch
-komprimiert.[^ANDERSRUM] Auch hier wurde ein eigenes Containerformat
+komprimiert[^ANDERSRUM]. Auch hier wurde ein eigenes Containerformat
 entworfen, welches in [@fig:format-compression] gezeigt wird.
 
 [^ANDERSRUM]: Rein technisch ist es auch andersherum möglich, aber aufgrund der
@@ -987,7 +986,7 @@ werden konnte, welches wahlfreien Zugriff im komprimierten Datenstrom zulässt,
 ohne dass dabei die ganze Datei entpackt werden muss.
 
 **Enkodierung:** Der Eingabedatenstrom wird in gleich große Blöcke unterteilt
-(maximal 64KB standardmäßig), wobei nur der letzte Block kleiner sein darf.
+(standardmäßig maximal 64KB), wobei nur der letzte Block kleiner sein darf.
 Nachdem der Header geschrieben wurde, folgt jeder Eingabeblock als
 komprimierter Block mit variabler Länge. Am Schluss wird ein Index geschrieben,
 der beschreibt welcher Eingabeblock mit welchem komprimierten Block
@@ -1071,7 +1070,7 @@ Netzwerkpartner von der Protokollebene aus über seine Peer--ID anzusprechen.
 Der eigentliche Verbindungsaufbau geschieht dann, wie in [@sec:ipfs-attrs]
 beschrieben auch über NAT--Grenzen hinweg.
 
-![Der Netzwerkstack von ``ipfs``[^NET_SOURCE]](images/4/ipfs-network.pdf){#fig:ipfs-net width=60%}
+![Der Netzwerkstack von ``ipfs`` im Detail[^NET_SOURCE].](images/4/ipfs-network.pdf){#fig:ipfs-net width=60%}
 
 [^MULTISTREAM]: Siehe auch: <https://github.com/multiformats/multistream>
 [^NET_SOURCE]: Diese Grafik ist eine Aufbereitung von: <https://github.com/libp2p/go-libp2p/tree/master/p2p/net>
@@ -1088,7 +1087,7 @@ hier werden nur kurz die wichtigsten Eigenschaften genannt:
 * Anfragen und Antworten werden als Protobuf--Nachricht enkodiert.
   Die eigentliche Protokolldefinition kann in [@sec:rpc-proto] eingesehen werden.
 * Kompression der gesendeten Nachrichten mittels Snappy.
-- Zusätzliche Verschlüsselung der Verbindung, mittels *Elliptic Curve Diffie Hellman*.
+- Zusätzliche Verschlüsselung der Verbindung, mittels eines via *Elliptic Curve Diffie Hellman* ausgetauschten Schlüssels.
 - Senden von »Broadcast«--Nachrichten zu allen bekannten, verbundenen Teilnehmern.
   Es wird keine Antwort auf Broadcast--Nachrichten erwartet. Diese sind daher
   eher für Status--Updates geeignet.
@@ -1124,7 +1123,8 @@ Darüber hinaus sollen folgende Regeln gelten:
 
 - Es sind keine Leerzeichen erlaubt.
 - Ein leerer String ist nicht valide.
-* Groß- und Kleinschreibung wird nicht unterschieden. Es wird empfohlen den Namen klein zu schreiben.
+* Groß- und Kleinschreibung wird nicht unterschieden. Es wird empfohlen den Namen klein zu schreiben,
+  so wie es bei Mailadressen und URLs der Fall ist.
 - Der String muss valides UTF8[^UTF8] sein.
 - Der String muss der »UTF-8 Shortest Form[^SHORTEST]« entsprechen
 - Der String darf durch die »UTF-8 NKFC Normalisierung[^NORMALIZATION]« nicht verändert werden.
@@ -1198,7 +1198,7 @@ diesem Fall muss der Nutzer explizit authentifiziert worden sein.
 
 Analog kann das Konzept auch übertragen werden, um bestimmte Gruppen von
 Nutzern zu finden. Angenommen, Alice, Bob und Charlie arbeiten im gleichen Unternehmen.
-Das Unternehmen spiegelt sich in auch in ihren Identitäten wieder:
+Das Unternehmen spiegelt sich in auch in ihren Identitätsbezeichnern wieder:
 
 - ``alice@corp.de/server``
 - ``bob@corp.de/laptop``
@@ -1207,7 +1207,7 @@ Das Unternehmen spiegelt sich in auch in ihren Identitäten wieder:
 Neben den gesamten Nutzernamen, können diese drei Nutzer auch ihren
 Unternehmensnamen (``corp.de``) *publishen*, beziehungsweise auch ihren Nutzernamen ohne
 den ``resource``--Zusatz. So ist es beispielsweise wie in [@lst:corp-hash] möglich
-alle Unternehmensmitglieder aufzulösen:
+die öffentlichen Identitäten alle Unternehmensmitglieder aufzulösen:
 
 ```{#lst:corp-hash .bash}
 $ CORP_HASH=$(printf 'brig#domain:%s' corp.de | multihash -)

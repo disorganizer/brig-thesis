@@ -82,7 +82,7 @@ $ export GOBIN=~/go/bin
 $ export PATH=$PATH:~/go/bin
 ```
 
-Die letzten beiden ``export`` Kommandos sollte man in eine Datei wie
+Die letzten drei ``export`` Kommandos sollte man in eine Datei wie
 ``.bashrc`` einfügen, um zu gewährleisten, dass die Umgebungsvariablen in jeder
 Sitzung erneut gesetzt werden.
 
@@ -142,7 +142,7 @@ Die Bedienung von ``brig`` ist an das Versionsverwaltungssystem ``git``
 angelehnt. Genau wie dieses, bietet ``brig`` für jede Unterfunktionalität ein
 einzelnes Subkommando an. Damit ``git``--Nutzer die Bedienung leichter fällt,
 wurden viele Subkommandos ähnlich benannt, wenn sie in etwa dasselbe tun. So
-fügen sowohl ``git rm``, als auch ``brig rm`` Dateien dem Repository hinzu.
+löschen sowohl ``git rm``, als auch ``brig rm`` Dateien aus dem Repository.
 
 ### Eingebaute Hilfe
 
@@ -208,7 +208,7 @@ $ brig stage ~/music/knorkator/
 ```
 
 Das Hinzufügen größerer Verzeichnisse nimmt etwas Zeit in Anspruch, da die
-Dateien komprimiert, verschlüsselt und eine Prüfsumme berechnet werden muss.
+Dateien jeweils komprimiert, verschlüsselt und eine Prüfsumme berechnet werden muss.
 
 ----
 
@@ -217,7 +217,8 @@ sein oder in einem Unterordner. Andernfalls wird ``brig`` eine Meldung wie diese
 
 ```sh
 10.08.2016/17:33:11 I: Unable to find repo in path or any parents: "/home/sahib"
-10.08.2016/17:33:11 W: Could not load config: open .brig/config: No such file or directory
+10.08.2016/17:33:11 W: Could not load config: open .brig/config:
+					   No such file or directory
 10.08.2016/17:33:11 W: Falling back on config defaults...
 ```
 
@@ -271,7 +272,7 @@ $ brig rm seen-movies/big-buck-bunny.mov
 $ brig tree
 ```
 
-### Nutzung des FUSE--Dateisystems (``brig mount``)
+### Nutzung des FUSE--Dateisystems (``brig mount/unmount``)
 
 Die bisherige Nutzung von ``brig`` erinnert an ``git`` und ist für alltägliche
 Aufgaben eher aufwendig und nicht kompatibel mit existierenden Dateimanagern.
@@ -300,19 +301,8 @@ $ cp ~/dog.png /tmp/alice-mount/photos
 $ rm /tmp/alice/photos/dog.png
 ```
 
-Der ``mount``--Befehl kann auch ohne Pfad aufgerufen werden. In diesem Fall wird das Dateisystem.
-direkt unterhalb dem ``brig``--Repository unter ``$BRIG_PATH`` gelegt:
-
-```sh
-$ mkdir -p share
-$ brig mount ./share
-$ ls $BRIG_PATH/share
-photos  movies  knorkator
-$ brig unmount /tmp/alice-mount/share
-```
-
-Wie man sieht, ist auch der andere Ordner noch weiterhin benutzbar bis er »unmounted« wurde.
-Eine Modifikation in dem einen Ordner wird auch im anderen Ordner angezeigt.
+Das Erstellen mehrere Mounts an verschiedenen Pfaden ist möglich. Eine
+Modifikation in dem einen Ordner wird stets auch im anderen Ordner angezeigt.
 
 ### Versionsverwaltung (``brig status/commit/log/checkout``)
 
@@ -431,16 +421,6 @@ QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
 QmNwr8kJrnQdjwupCDLs2Fv8JknjWD7esrF81QDKT2Q2g6
 ```
 
-Falls man nur den Teil hinter dem ``@`` kennt (also die *Domain*), so können auch alle
-Identitäten mit dieser Domain aufgelistet werden:
-
-```sh
-$ brig remote locate -d wonderland.lit
-QmZyhL3VAAr35a9msSyhW4zfLPnx9Jn4gMSyMQR5VCBFnx
-QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
-QmNwr8kJrnQdjwupCDLs2Fv8JknjWD7esrF81QDKT2Q2g6
-```
-
 Für gewöhnlich taucht hier nur eine Prüfsumme auf, in diesem Fall
 muss zwischen zwei verschiedenen Identitäten gewählt werden.
 Mindestens eine davon könnte theoretisch ein Betrüger sein, der nur
@@ -452,7 +432,18 @@ man festgestellt was die richtige Identität ist, kann man sie seiner
 Kontaktliste hinzufügen:
 
 ```sh
-$ brig remote add alice@wonderland.lit/laptop QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
+$ brig remote add alice@wonderland.lit/laptop \
+		QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
+```
+
+Falls man nur den Teil hinter dem ``@`` kennt (also die *Domain*), so können auch alle
+Identitäten mit dieser Domain aufgelistet werden:
+
+```sh
+$ brig remote locate -d wonderland.lit
+QmZyhL3VAAr35a9msSyhW4zfLPnx9Jn4gMSyMQR5VCBFnx
+QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
+QmNwr8kJrnQdjwupCDLs2Fv8JknjWD7esrF81QDKT2Q2g6
 ```
 
 Das Unterkommando »``brig remote list``« zeigt alle verfügbaren Kontakte an und
@@ -492,7 +483,7 @@ Ist man beispielsweise mit dem Zug unterwegs, so kann ein Pfad »gepinnt« werde
 sicherzustellen dass er lokal verfügbar ist:
 
 ```sh
-$ brig pin /thesis/01-motivation.tex
+$ brig pin /movies/swiss-army-man.mkv
 ```
 
 Benötigt man später wieder den Speicherplatz, so kann die Datei wieder
@@ -500,7 +491,7 @@ Benötigt man später wieder den Speicherplatz, so kann die Datei wieder
 Zwischenspeicher entfernen, sofern ein Platzmangel vorherrscht:
 
 ```sh
-$ brig unpin /thesis/01-motivation.tex
+$ brig unpin /movies/swiss-army-man.mkv
 ```
 
 ### Konfiguration (``brig config``)
@@ -613,10 +604,8 @@ Unter dem ``debug``--Unterkommando finden sich einige Hilfsmittel, um die intern
 von ``brig`` nachvollziehen zu können:
 
 * ``brig debug export``: Exportiert den aktuellen Metadatenindex auf ``stdout``. Standardmäßig ist das Format
-  dabei die binäre Enkodierung von Protobuf. Mit der Option »``--json``« kann allerdings auch zu Debugging--Zwecken
-  der Index als JSON exportiert werden.
-* ``brig debug import``: Importiert die serialisierte Version eines Metadatenindex. Falls das Format JSON ist,
-  sollte die Option »``--json``« benutzt werden.
+  dabei die binäre Enkodierung von Protobuf.
+* ``brig debug import``: Importiert die serialisierte Version eines Metadatenindex.
 * ``brig debug diff <StoreA> <StoreB>``: Zeigt Debug--Ausgaben und Differenzen zwischen zwei exportierten, serialisierten
   Indizes.
 

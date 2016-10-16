@@ -39,7 +39,9 @@ Dienste, da der Ausfall einzelner Netzwerkknoten durch andere abgefangen werden 
 Anwender sind auch oft davon betroffen, dass viele Filehoster nur für einen bestimmten Zeitraum
 Dateien speichern. Ist dieser Zeitraum vorbei oder wird der Dienst eingestellt, entstehen vielfach
 tote Links. Hier könnte eine Lösung ansetzen, bei der die Dateien von jedem Interessenten
-gespiegelt werden und auch von diesen beziehbar sind.
+gespiegelt werden und auch von diesen beziehbar sind. Dieser Gedanke entspricht dem *Permanent Web*[^PERMAWEB].
+
+[^PERMAWEB]: Siehe auch: <https://motherboard.vice.com/read/the-interplanetary-file-system-wants-to-create-a-permanent-web>
 
 Abseits der Dateisynchronisation konnte sich in anderen Bereichen sichere
 Open--Source--Software erfolgreich etablieren. Ein gutes Beispiel hierfür ist
@@ -80,7 +82,7 @@ gelegt.
 Nutzbar soll das resultierende Produkt, neben dem Standardanwendungsfall der
 Dateisynchronisation, auch als Backup- bzw. Archivierungs--Lösung sein.
 Weiterhin kann es auch als verschlüsselter Daten--Safe oder als
-»Werkzeugkasten« für andere, verteilte Anwendungen dienen -- wie beispielsweise
+»Werkzeugkasten« für andere, verteilte Anwendungen dienen --- wie beispielsweise
 aus dem Industrie--4.0--Umfeld.
 
 Als weiteres Abgrenzungsmerkmal setzt ``brig`` nicht auf möglichst hohe
@@ -151,15 +153,15 @@ Die vorliegende Arbeit ist in drei größere logische Blöcke gegliedert:
   werden Möglichkeiten zur weiteren Entwicklung aufgezeigt.
 
 Im [@sec:benutzerhandbuch] findet sich zudem ein Benutzerhandbuch, das
-losgekoppelt vom Rest gelesen werden kann und dazu dienen soll einen praktischen Eindruck von der
-Implementierung zu bekommen.
+losgekoppelt vom Rest gelesen werden kann und dazu dienen soll einen
+praktischen Eindruck von der Implementierung zu bekommen. Es wird daher
+empfohlen, das Benutzerhandbuch frühzeitig zu lesen.
 
 ## Über die Autoren
 
 Die Autoren sind zwei Master--Studenten an der Hochschule Augsburg, die von
-»Freier Software« begeistert sind und mit ihr die Welt ein klein bisschen
-besser machen wollen. Momentan entwickeln wir ``brig`` im Rahmen unserer
-Masterarbeiten bei Prof. Dr.-Ing. Thorsten Schöler in der
+»Freier Software« begeistert sind. Momentan entwickeln wir ``brig`` im Rahmen
+unserer Masterarbeiten bei Prof. Dr.-Ing. Thorsten Schöler in der
 Distributed--Systems--Group[^DSG] und wollen auch nach unserem Abschluss weiter
 daran arbeiten. Beide Autoren haben Erfahrung und Spaß daran
 Open--Source--Software zu entwickeln und zu betreuen, was neben dem Eigennutzen

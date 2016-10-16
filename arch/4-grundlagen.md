@@ -16,12 +16,12 @@ vergleichsweise dünne Schicht, zwischen Benutzer und ``ipfs`` zu fungieren (wie
 
 ![Zusammenhang zwischen ``ipfs``, ``brig`` und FUSE.](images/3/fuse-brig-ipfs.pdf){#fig:fuse-brig-ipfs width=30%}
 
-``ipfs`` stellt dabei ein *Content Addressed Network* (kurz *CAN*, [^CAN]) dar.
+``Ipfs`` stellt dabei ein *Content Addressed Network* (kurz *CAN*[^CAN]) dar.
 Dabei wird eine Datei, die in das Netzwerk gelegt wird nicht mittels eines
 Dateinamen angesprochen, sondern mittels einer Prüfsumme, die durch eine vorher
 festgelegte Hashfunktion berechnet wird. Andere Teilnehmer im Netzwerk können
 mittels dieser Prüfsumme die Datei lokalisieren und empfangen. Anders als bei
-einer HTTP--URL (*Unified Resource Locator*) steckt der Prüfsumme einer Datei
+einer HTTP--URL (*Unified Resource Locator*) steckt in der Prüfsumme einer Datei
 also nicht nur die Lokation der Datei, sondern sie dient auch
 als eindeutiges Identifikationsmerkmal (ähnlich eines Pfads) und gleicht daher
 eher einem Magnet Link[^MAGNET_LINK] als einer URL. Vereinfacht gesagt ist es
@@ -46,7 +46,7 @@ Erkenntnissen aus den Arbeiten *CoralDHST*[@freedman2004democratizing] (Ansatz
 um das Routing zu optimieren) und *S/Kademlia*[@baumgart2007s] (Ansatz um das
 Netzwerk gegen Angriffe zu schützen) erweitert und abgesichert wurde.
 *S/Kademlia* verlangt dabei, dass jeder Knoten im Netzwerk über ein
-Schlüsselpaar, bestehend aus einem öffentlichen und privaten Schlüssel verfügt.
+Schlüsselpaar verfügt, bestehend aus einem öffentlichen und privaten Schlüssel.
 Die Prüfsumme des öffentlichen Schlüssels dient dabei als einzigartige
 Identifikation des Knotens und der private Schlüssel dient als Geheimnis mit
 dem ein Knoten seine Identität nachweisen kann. Diese Kernfunktionalitäten sind
@@ -92,7 +92,7 @@ QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
 Wird eine Datei modifiziert, so muss sie neu mittels ``ipfs add`` hinzugefügt
 werden und wird in dieser Version unter einer anderen Prüfsumme erreichbar
 sein. Im Gegensatz zu normalen Dateisystemen kann es keinen allgemeinen
-Einstiegspunkt (wie das Wurzelverzeichnis ``/``) geben. Die Prüfsumme eines
+Einstiegspunkt (wie das Wurzelverzeichnis »``/``«) geben. Die Prüfsumme eines
 Verzeichnisses definiert sich in ``ipfs`` durch die Prüfsummen seiner Inhalte.
 Das Wurzelverzeichnis hätte also nach jeder Modifikation eine andere Prüfsumme.
 
@@ -126,7 +126,7 @@ $ ipfs cat QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG > my-photo.png
 **Public--Key Infrastructure:** Jeder Knoten im ``ipfs``--Netzwerk besitzt ein
 RSA--Schlüsselpaar, welches beim Anlegen des Repositories erzeugt wird. Mittels
 einer Prüfsumme  wird aus dem öffentlichen Schlüssel eine Identität berechnet
-($ID = H_{sha256}(K_{Public})$). Diese kann dann dazu genutzt werden einen Knoten
+($\text{Id} = H_{sha256}(K_{Public})$). Diese kann dann dazu genutzt werden einen Knoten
 eindeutig zu identifizieren und andere Nutzer im Netzwerk nachzuschlagen und
 deren öffentlichen Schlüssel zu empfangen:
 
@@ -151,7 +151,7 @@ privaten Schlüssel besitzt (für Details siehe [@cpiechula]).
 das speichern, woran sie auch interessiert sind. Daten, die von außen zum
 eigenen Knoten übertragen worden sind werden nur kurzfristig zwischengelagert.
 Nach einiger Zeit bereinigt der eingebaute Garbage--Collector die Daten im
-*Cache*.[^IPFS_MANUAL_GC]
+*Cache* von ``ipfs``.[^IPFS_MANUAL_GC]
 
 Werden Daten allerdings über den Knoten selbst hinzugefügt, so bekommen sie
 automatisch einen *Pin* (dt. Stecknadel). *Gepinnte* Daten werden automatisch
@@ -182,7 +182,7 @@ Anwender die Einstellungen seines Routers ändern muss, um ``brig`` zu nutzen.
 
 [^UDT]: http://udt.sourceforge.net/
 
-In Einzelfällen kann es natürlich trotzdem dazu kommen, dass die von ``ipfs``
+In Einzelfällen kann es trotzdem dazu kommen, dass die von ``ipfs``
 verwendeten Ports durch eine besonders in Unternehmen übliche Firewall
 blockiert werden. Dies kann nötigenfalls aber vom zuständigen Administrator
 geändert werden.
@@ -199,7 +199,7 @@ $ export PHOTO_HASH=QmPtoEEMMnbTSmzr28UEJFvmsD2dW88nbbCyyTrQgA9JR9
 $ curl https://gateway.ipfs.io/ipfs/$PHOTO_HASH > my-photo.png
 ```
 
-Auf dem Gateway läuft dabei ein Webserver, der intern dasselbe tut wie ``ipfs cat``,
+Auf dem Gateway läuft dabei ein Webserver, der intern dasselbe tut wie »``ipfs cat``«,
 aber statt auf der Kommandozeile die Daten auf eine HTTP--Verbindung ausgibt.
 Standardmäßig wird bei jedem Aufruf von ``ipfs daemon`` ein Gateway auf der
 Adresse <http://localhost:8080> gestartet.
@@ -220,7 +220,7 @@ beherrscht:
 
 [^GC_WIKI]: Siehe auch <https://de.wikipedia.org/wiki/Garbage_Collection>
 
-Das besondere ist, dass die ``GET`` Operation von jedem verbundenen Knoten
+Das besondere ist, dass die $Get()$ Operation von jedem verbundenen Knoten
 ausgeführt werden kann, wodurch die Nutzung von ``ipfs`` als verteilte Datenbank
 möglich wird. Die oben geschilderte Sicht ist rein die Art und Weise in der
 ``ipfs`` von ``brig`` benutzt wird. Die Möglichkeiten, die ``ipfs`` bietet,
@@ -250,7 +250,7 @@ In der Grafik sieht man das dadurch, dass ``big.mkv`` bereits aus zwei Blöcken
 von ``small.mkv`` besteht und der zweite Wurzelknoten auf ``/photos`` referenziert,
 ohne dessen Inhalt zu kopieren.
 
-Im Datenmodell von ``ipfs`` ([@benet2014ipfs, S.7 ff.]) gibt es drei
+Im Datenmodell von ``ipfs`` ([@benet2014ipfs, S.7 ff.]) gibt es vier
 unterschiedliche Strukturen:
 
 - ``blob:`` Ein Datensatz mit definierter Größe und Prüfsumme.  Wird teilweise auch *Chunk* genannt.
@@ -260,7 +260,7 @@ unterschiedliche Strukturen:
         Modelliert ein Verzeichnis, das ``blobs``, ``lists`` oder andere ``trees`` beinhalten kann.
 		Die Prüfsumme ergibt sich aus den Kindern.
 * ``commit:`` Ein Snapshot eines der drei obigen Strukturen. In der Grafik nicht gezeigt, da
-        diese Datenstrukutur noch nicht finalisiert ist.[^COMMIT_DISCUSS]
+        diese Datenstrukutur noch nicht finalisiert ist[^COMMIT_DISCUSS].
 
 [^BLOCKCHAIN_NOTE]: Siehe auch die Erklärung hier: <https://medium.com/@ConsenSys/an-introduction-to-ipfs-9bba4860abd0#.t6mcryb1r>
 [^COMMIT_DISCUSS]: Diskussion der Entwickler hier: <https://github.com/ipfs/notes/issues/23>
@@ -334,7 +334,7 @@ verschiedene *Objekte*:
   speichert eine vom Nutzer verfasste Änderungszusammenfassung ab, sowie den
   Namen des Nutzers. Seine Prüfsumme ergibt sich indem eine Konkatenation der
   Wurzelprüfsumme, der Vorgängerprüfsumme, des Nutzernamen und
-  der Commit--Nachricht.[^COMMIT_HASH]
+  der Commit--Nachricht[^COMMIT_HASH].
 - **Ref:** Eine Referenz auf einen bestimmten *Commit*. Er speichert lediglich dessen
   Prüfsumme und wird von ``git`` separat zu den eigentlichen Objekten gespeichert.
   In [@fig:git-data-model] verweist beispielsweise die Referenz ``HEAD`` stets
@@ -389,10 +389,11 @@ vergleichbar mit einem indizierten, komprimierten Archiv mehrerer Objekte sind[^
 Zusammengefasst hat ``git`` also aus architektonischer Sicht einige positive Eigenschaften:
 
 * Objekte werden vollautomatisch und ohne weiteren Aufwand dedupliziert abgespeichert.
-* Das Datenmodell ist minimalistisch gehalten und leicht für erfahrenere Benutzer verständlich.
+* Das Datenmodell ist minimalistisch gehalten und relativ leicht verständlich.
 * Nicht alle Objekte müssen beim Start von ``git`` geladen werden. Lediglich die benötigten Objekte werden von ``git`` geladen,
   was den Startvorgang beschleunigt.
 * Das Bilden einer dezentralen Architektur liegt nahe, da das Datenmodell immer alle Objekte beinhalten muss.
+  Jeder Knoten hat also dieselben Informationen.
 * Alle Dateien liegen in einem separaten ``.git``--Verzeichnis und alle darin enthaltenen Internas sind
   durch die gute Dokumentation gut verständlich und nötigenfalls reparierbar. Zudem ist das Arbeitsverzeichnis
   ein ganz normales Verzeichnis, in dem der Benutzer arbeiten kann ohne von ``git`` gestört zu werden.
@@ -403,7 +404,7 @@ Zusammengefasst hat ``git`` also aus architektonischer Sicht einige positive Eig
 
 [^SCHNEIER_SHA1]: Siehe unter anderem: <https://www.schneier.com/blog/archives/2005/02/sha1_broken.html>
 
-Aus Sicht des Autors hat ``git`` einige, kleinere Schwächen aus architektonischer Sicht:
+Aus Sicht des Autors hat ``git`` aus architektonischer Sicht einige kleinere Schwächen:
 
 1) **Prüfsummenalgorithmus nicht veränderbar:** Ein MDAG--basiertes Versionsverwaltungssystem muss
    eine Abwägung zwischen der Prüfsummenlänge (länger ist typischerweise rechenaufwendiger, braucht mehr Speicher und
@@ -421,7 +422,7 @@ Aus Sicht des Autors hat ``git`` einige, kleinere Schwächen aus architektonisch
 3) **Probleme mit großen Dateien:** Da ``git`` für die Verwaltung von Quelltextdateien entwickelt wurde, ist es nicht auf die Verwaltung großer Dateien ausgelegt.
    Jede Datei muss einmal im ``.git``--Verzeichnis und einmal im
    Arbeitsverzeichnis gespeichert werden, was den Speicherverbrauch mindestens verdoppelt. Da Differenzen zwischen Binärdateien
-   nur wenig Aussagekraft haben (da Differenz--Algorithmen normal zeilenbasiert arbeiten) wird bei jeder Modifikation
+   nur wenig Aussagekraft haben (da Differenz--Algorithmen normalerweise zeilenbasiert arbeiten) wird bei jeder Modifikation
    jeweils noch eine Kopie angelegt. Nutzer, die ein solches Repository »*clonen*« (also sich eine eigene Arbeitskopie besorgen wollen),
    müssen diese Kopien lokal bei sich speichern. Werkzeuge wie ``git-annex`` versuchen das Problem zu lösen, indem sie statt den Dateien,
    nur symbolische Links versionieren, die zu den tatsächlichen Dateien zeigen[^GIT_ANNEX]. Symbolische Links sind allerdings wenig portabel.

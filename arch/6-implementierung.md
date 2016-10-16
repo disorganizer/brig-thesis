@@ -27,7 +27,8 @@ aber zumindest in der selben Größenordnung (vgl. [@pike2009go], S. 37).
 **Weitläufige Standardbibliothek:** Es sind wenig externe Bibliotheken nötig.
 Insbesondere für die Entwicklung von Netzwerk- und Systemdiensten gibt es eine
 breite Auswahl von gut durchdachten Bibliotheken. Besonders Erwähnenswert ist
-das umfangreiche Angebot an gut dokumentierten kryptografischen Primitiven.[^ECB_MODE]
+das umfangreiche Angebot an gut dokumentierten kryptografischen Primitiven, die
+eine unsichere Benutzung möglichst ausschließen sollen[^ECB_MODE].
 
 [^ECB_MODE]: So wurde beispielsweise der unsichere ECB--Betriebsmodus für Blockchiffren absichtlich weggelassen: <https://github.com/golang/go/issues/5597>
 
@@ -83,7 +84,7 @@ aufgezählt:
 **Schwergewichtige Binärdateien:** Da bei *Go* alles statisch gelinkt wird, ist die
 entstehende Binärdatei relativ groß. Im Falle des ``brig``--Prototypen sind das
 momentan etwa 35 Megabyte. Werkzeuge wie ``upx``[^UPX] können dies auf
-rund 8 Megabyte reduzieren, ohne dass der Anwender die Binärdatei entpacken
+rund 8 Megabyte reduzieren, ohne dass der Anwender die Binärdatei selbst entpacken
 muss.
 
 **Vendor:** Der »Paketmanager« von ``go`` beherrscht nicht die
@@ -100,7 +101,7 @@ aber gut funktionierende Lösung, wird von ``brig`` verwendet[^VENDOR].
 [^GOPKG]: <http://labix.org/gopkg.in>
 [^VENDOR]: Eigenes Repository für verwendete Bibliotheken: <https://github.com/disorganizer/brig-vendor>
 
-[^UPX]: Ein Packprogramm Mehr Informationen unter <http://upx.sourceforge.net>
+[^UPX]: Ein Packprogramm für Binärdateien. Mehr Informationen unter <http://upx.sourceforge.net>
 
 ## Status der Implementierung
 
@@ -337,7 +338,7 @@ persistentes Sammelbecken für alle Änderungen, während die Änderungen im
 Speicher den jeweils aktuellsten Stand wiederspiegeln.
 
 Jede weitere Operation auf dem Stores läuft auf eine Sequenz von
-Aufrufen der oben gezeigten Modifikationen hinaus. Beim Anzeigen aller Commits
+Aufrufen der oben gezeigten Operationen hinaus. Beim Anzeigen aller Commits
 (``Log()``) wird beispielsweise die Referenz ``HEAD`` aufgelöst (mittels ``ResolveRef()``). Dessen Eltern--Commit wird
 dann rekursiv aufgelöst (mittels ``NodeByHash()``), bis kein weiterer Eltern--Commit gefunden werden
 konnte. Die so gefundenen Commits werden dann von ``Log()`` in einem Array

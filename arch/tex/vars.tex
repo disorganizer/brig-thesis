@@ -15,40 +15,41 @@
 Es wird ein neuartiges, quelloffenes Werkzeug zur sicheren und verteilten
 Dateisynchronisation namens \frqq\texttt{brig}\flqq vorgestellt. Die meisten
 etablierten Möglichkeiten zum Austausch von Dateien verlassen sich auf eine
-zentrale Instanz, die oft von einem einzigen Unternehmen abhängig ist, oder haben andere
-architetktonische Defizite. Der hier vorgestellte Gegenentwurf beschreibt die
+zentrale Instanz, die oft von einem einzigen Unternehmen abhängig ist, oder die andere
+architetktonische Defizite haben. Der hier vorgestellte Gegenentwurf beschreibt die
 Verwendung eines verteilten Peer--to--Peer--Netzwerks, um flexibel, bequem und verschlüsselt
 Dateien zwischen einer beliebigen Menge an Nutzern auszutauschen. Technischen
 Neuwert hat dabei die vollständige Entkopplung der Metadaten von den
-eigentlichen Daten, kombiniert mit ``git``--ähnlicher Versionskontrolle, sowie
+eigentlichen Daten, kombiniert mit \texttt{git}--ähnlicher Versionskontrolle, sowie
 verschlüsstelter Kompression der Daten.
 Besonderer Wert wird dabei auf die Balance zwischen
 Usability und Sicherheit gelegt, um die Nutzung des Werkzeugs auch
 unerfahrenen Nutzern zu ermöglichen.
 
 Die vorliegende Arbeit beschreibt die Architektur und Implementierung der
-Software, reflektiert aber auch kritisch wie die vorgestellten
-Ideen und Techniken erweitert und verbessert werden können. Zudem existiert
-eine Zwillings--Arbeit\hyperlink{ref-cpiechula}{[1]}, welche die Sicherheitsmechanismen von
-\frqq\texttt{brig}\flqq genauer betrachtet und evaluiert.
+Software, reflektiert aber auch kritisch wie die vorgestellten Ideen und
+Techniken erweitert und verbessert werden können. Zudem existiert eine
+Zwillings--Arbeit (vgl. \hyperlink{ref-cpiechula}{[1]}), welche die
+Sicherheitsmechanismen von \frqq\texttt{brig}\flqq genauer betrachtet und
+evaluiert.
 }%
 
 \newcommand{\ThesisAbstractEnglish}{%
-We present a new open source tool for secure and distributed file
-synchronization called \frqq\texttt{brig}\flqq. Most established ways to
-exchange files rely on a central instance, often exclusively controlled by a
-single company or have other design deficits. The shown alternative describes
-the usage of a distributed peer to peer network to achieve flexible, convenient
-and encrypted file exchange between any amount of users. The main novelty from
-a technical point of view is the complete decoupling of metadata from the
-actual data, combined with \texttt{git}--like version control of the former and
-encrypted compresison of the latter. Special attention is given to the balance
-of usability and security in order to enable inexperienced users to use the
+A new open source tool for secure and distributed file synchronization called
+\frqq\texttt{brig}\flqq is presented. Most established ways to exchange files
+rely on a central instance, often exclusively controlled by a single company or
+have other design deficits. The shown alternative describes the usage of a
+distributed peer to peer network to achieve flexible, convenient and encrypted
+file exchange between any amount of users. The main novelty from a technical
+point of view is the complete decoupling of metadata from the actual data,
+combined with \texttt{git}--like version control of the former and encrypted
+compresison of the latter. Special attention is given to the balance of
+usability and security in order to enable inexperienced users to use the
 software.
 
 This paper describes the architecture and implementation of the software, but
 also reflects critically on how the featured ideas and techniques could be
-improved. In addition, there is a partner work\hyperlink{ref-cpiechula}{[1]}, which
+improved. In addition, there is a partner work at \hyperlink{ref-cpiechula}{[1]}, which
 discusses \frqq\texttt{brig}\flqq from a security perspective.
 }%
 

@@ -183,7 +183,7 @@ die Öffnung des gesamten Quelltextes können Entwickler den Code auf Fehler
 überprüfen. Normale Anwender können die Arbeit von Herrn Piechula (siehe [@cpiechula])
 lesen, um für die Themantik der Sicherheit sensibilisiert zu werden und ein
 Überblick über die Sicherheit von ``brig`` zu bekommen. Dort wird auch das
-Entwicklungsmodell besprochen, welches helfen soll sichere Software zu
+Entwicklungsmodell besprochen, welches helfen soll, sichere Software zu
 entwickeln.
 
 ## Anforderungen an die Usability
@@ -243,8 +243,8 @@ bedeuten würde.
 [^BTRFS]: Siehe auch: <https://de.wikipedia.org/wiki/Btrfs>
 [^ZFS]: Siehe auch: <https://de.wikipedia.org/wiki/ZFS_(Dateisystem)>
 
-Ein häufiger Anwendungsfall ist ein Nutzer, der ein bestimmtes Dokument seinen
-Mitmenschen zu Verfügung stellen möchte. Optimalerweise müssen dabei die
+Ein häufiger Anwendungsfall ist ein Nutzer, der ein bestimmtes Dokument anderen Nutzern
+zu Verfügung stellen möchte. Optimalerweise müssen dabei die
 Empfänger des Dokuments keine weitere Software installiert haben, sondern
 können die Datei einfach mittels eines Hyperlinks in ihrem Browser
 herunterladen. Zentrale Dienste können dies relativ einfach leisten, indem sie

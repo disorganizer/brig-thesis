@@ -11,12 +11,12 @@ Software eingesetzt werden kann.
 ## Peer--to--Peer Netzwerke
 
 Bilden viele Rechner ein dezentrales Netzwerk, bei dem jeder Rechner (ein
-»Peer«) die gleichen Rechte besitzt und Aktionen ausführt wie jeder andere, so
-wird dieses Netz ein *Peer--to--Peer--Netzwerk* genannt (kurz *P2P--Netzwerk*,
-vgl. auch [@peer2peer], S. 4 ff.). Statt Verbindungen über einen Mittelsmann
-aufzubauen, kommunizieren die einzelnen Peers für gewöhnlich direkt
-miteinander. Jeder Knoten des Netzwerks kann Anfragen an andere Knoten richten,
-trägt aber selbst etwas bei indem er selbst Anfragen beantwortet. Im
+»Peer«) die gleichen Rechte besitzt und die gleichen Aktionen ausführt wie
+jeder andere, so wird dieses Netz ein *Peer--to--Peer--Netzwerk* genannt (kurz
+*P2P--Netzwerk*, vgl. auch [@peer2peer], S. 4 ff.). Statt Verbindungen über
+einen Mittelsmann aufzubauen, kommunizieren die einzelnen Peers für gewöhnlich
+direkt miteinander. Jeder Knoten des Netzwerks kann Anfragen an andere Knoten
+richten, trägt aber selbst etwas bei indem er selbst Anfragen beantwortet. Im
 Client--Server--Modell entspricht ein Peer also sowohl Server als auch Client
 (siehe auch [@fig:central-distributed]).
 
@@ -49,7 +49,7 @@ Netzwerkadressübersetzung, siehe auch [@peer2peer], S. 47 ff.) und
 ist eine Technik, um zwischen einer öffentlichen und mehreren lokalen
 IP--Adressen zu vermitteln. Es wird aufgrund der Knappheit von IPv4 sehr häufig
 eingesetzt, um einem Heim- oder Unternehmensnetzwerk eine einzige IP-Adresse
-nach außen zu geben, die über bestimmte Ports dann den Verkehr auf die
+nach Außen zu geben, die über bestimmte Ports dann den Verkehr auf die
 jeweiligen lokalen Adressen übersetzt. Der Nachteil in Bezug auf P2P--Netzwerke
 ist dabei, dass die Rechner hinter einem *NAT* nicht direkt erreichbar sind.
 Client--Server--Anwendungen haben damit kein Problem, da der »anonyme« Client
@@ -64,11 +64,11 @@ Notwendigkeit dabei ist die Verwendung von *UDP* anstatt *TCP*.
 
 [^HOLE_PUNCH]: Siehe auch: <https://en.wikipedia.org/wiki/UDP_hole_punching>
 
-Typischerweise ist dieser Mittelsmann ein sogenannter *Bootstrap--Knoten*. Dieser
-ist innerhalb eines P2P--Netzwerks ein wohlbekannter Knoten unter mehreren, zu dem sich neue
-Netzwerkteilnehmer verbinden, um von ihm an weitere Teilnehmer vermittelt zu
-werden. Der Boostrap--Knoten führt aber normalerweise das selbe Programm aus,
-wie jeder andere, ist aber vertrauenswürdiger.
+Typischerweise ist dieser Mittelsmann ein sogenannter *Bootstrap--Knoten*.
+Dieser ist innerhalb eines P2P--Netzwerks einer von mehreren wohlbekannten
+Knoten, zu dem sich neue Netzwerkteilnehmer verbinden, um von ihm an weitere
+Teilnehmer vermittelt zu werden. Der Boostrap--Knoten führt aber normalerweise
+das selbe Programm aus, wie jeder andere, ist aber vertrauenswürdiger.
 Bemerkenswert ist, dass sich keine zentrale Instanz um die Koordination
 des Datenflusses im Netzwerk kümmern muss. Die Grundlage für die Koordination
 bildet dabei die *Distributed Hashtable (DHT, vgl. [@peer2peer], S. 63 ff.)*
@@ -128,7 +128,7 @@ doch besteht ein ``brig``--Netzwerk nur aus den Teilnehmern, die einen gemeinsam
 Dateistand synchronisieren wollen. Daher kann angenommen werden, dass alle darin enthaltenen
 Dateien von mindestens einem Teilnehmer angeboten werden können.
 
-[^CACHING_PROXY]: Typischerweise sorgen auch vorgeschaltete *Caching Proxies* wie Squid (<https://de.wikipedia.org/wiki/Squid>) dafür, dass Dateien nicht zigmal heruntergeladen werden.
+[^CACHING_PROXY]: Typischerweise sorgen auch vorgeschaltete *Caching Proxies* wie ``Squid`` (<https://de.wikipedia.org/wiki/Squid>) dafür, dass Dateien nicht zigmal heruntergeladen werden.
 
 ## Ähnliche Arbeiten
 
@@ -164,7 +164,7 @@ Entwickler und Administratoren ausgelegt und leider nur teilweise quelloffen
 [^INFINIT_SOURCE]: Siehe auch: <https://infinit.sh/open-source>
 
 Eine sehr detaillierte Gegenüberstellung vieler Produkte rund um das Thema
-Dateisynchronisation findet sich in der Dokumentation von ``inifinit``[^INF_COMP]
+Dateisynchronisation findet sich in der Dokumentation von ``inifinit``[^INF_COMP].
 
 [^INF_COMP]: Beispielsweise mit Dropbox: <https://infinit.sh/documentation/comparison/dropbox>
 
@@ -175,9 +175,9 @@ Es gibt eine Reihe nicht--kommerzieller Projekte, die teilweise eine ähnliche
 Ausrichtung wie ``brig`` haben und daher mindestens eine Erwähnung verdienen.
 Im Folgenden werden die Ähnlichkeiten zu ``brig`` genannt:
 
-**bazil:**[^BAZIL_ORG]  Ein Werkzeug um Dateien verschlüsselt und dezentral zu
+**bazil:**[^BAZIL_ORG] Ein Werkzeug um Dateien verschlüsselt und dezentral zu
 verteilen. In seinen Zielen ist es sehr ähnlich zu ``brig``, besonders da
-es ebenfalls ein FUSE--Dateisystem implementiert.[^FUSE_NOTE] Es ist eher an
+es ebenfalls ein FUSE--Dateisystem implementiert[^FUSE_NOTE]. Es ist eher an
 technisch versierte Nutzer gerichtet und momentan noch nicht
 für den Produktivbetrieb geeignet. Zu diesem Zeitpunkt funktioniert es
 nur lokal auf einem System ohne mit anderen Knoten kommunizieren zu können.
@@ -215,7 +215,7 @@ vieler wissenschaftlicher Teildisziplinen, die es nach Wissen des Autors vorher
 noch nicht in dieser Kombination gab. Dabei werden viele bestehende Ideen und
 Konzepte genommen, um sie in einer Software zu vereinen, die ein versioniertes
 und verteiltes Dateisystem implementiert. Dieses soll nicht nur »sicher« (im
-weitesten Sinne, siehe [@cpiechula]) sein, sondern auch
+weitesten Sinne, siehe [@cpiechula] für eine Begriffseinordnung) sein, sondern auch
 für ein Großteil der Anwender benutzbar sein.
 
 Im Konkreten besteht die Neuerung hauptsächlich aus der Kombination folgender Punkte:
@@ -232,9 +232,9 @@ Im Konkreten besteht die Neuerung hauptsächlich aus der Kombination folgender P
 - Ein Containerformat zur Kompression, welches blockbasierten, wahlfreien Zugriff und den
   Einsatz verschiedener Algorithmen erlaubt.
 - Ein Konzept und Implementierung zur dezentralen Benutzerverwaltung, ohne dass
-  ein Nutzer dabei registriert werden muss.
-- Verschiedene Ansätze um die Usability zu verbessern ohne an Sicherheit zu
-  verlieren (siehe [@sec:usability]).
+  ein Nutzer dabei explizit registriert werden muss.
+- Verschiedene Ansätze um die Usability zu verbessern ohne die Sicherheit einzuschränken
+  (siehe [@sec:usability]).
 
 [^NACL]: Mehr Informationen unter <https://nacl.cr.yp.to/secretbox.html>
 
@@ -243,24 +243,25 @@ Im Konkreten besteht die Neuerung hauptsächlich aus der Kombination folgender P
 Bereits ein Blick auf Wikipedia[^wiki_filesync] zeigt, dass der momentane Markt
 an Dateisynchronisationssoftware sehr unübersichtlich ist. Ein näherer Blick
 zeigt, dass die dortigen Softwareprojekte oft nur in Teilaspekten gut
-funktionieren und manchmal mit architektonischen Problemen behaftet sind.
+funktionieren und teilweise auch mit architektonischen Problemen behaftet sind.
 
 [^wiki_filesync]: Siehe <https://en.wikipedia.org/wiki/Comparison_of_file_synchronization_software>
 
 Im Folgenden wird eine unvollständige Übersicht über bekannte
-Dateisynchronisationsprogramme gegeben. Davon stehen nicht alle in Konkurrenz zu
-``brig``, sind aber zumindest aus Anwendersicht ähnlich.
+Dateisynchronisationsprogramme gegeben. Davon stehen nicht alle in Konkurrenz
+zu ``brig``, sind aber zumindest aus Anwendersicht ähnlich und sollten daher
+kurz aus dieser Perspektive verglichen werden.
 
 ### Dropbox + Boxcryptor
 
-![Screenshot eines Dropbox--Accounts](images/2/dropbox.png){#fig:scrn-dropbox}
+![Screenshot eines Dropbox--Accounts.](images/2/dropbox.png){#fig:scrn-dropbox}
 
 Dropbox (siehe [@fig:scrn-dropbox]) ist der vermutlich bekannteste und am
 weitesten verbreitete zentrale Dienst zur Dateisynchronisation. Verschlüsselung
-kann man mit Tools wie ``encfs`` (Open--Source, siehe auch [^ENCFS]) oder dem
+kann man mit Tools wie dem freien ``encfs``[^ENCFS] oder dem
 etwas umfangreicheren, proprietären ``boxcryptor`` nachrüsten. Was das Backend
 genau tut ist leider das Geheimnis von Dropbox --- es ist nicht Open--Source.
-Mehr Details liefert die Arbeit von Herrn Piechula [@cpiechula].
+Mehr Details liefert die Arbeit von Herrn Piechula[@cpiechula].
 
 [^ENCFS]: Mehr Informationen unter <https://de.wikipedia.org/wiki/EncFS>
 
@@ -284,7 +285,7 @@ Dienst ausgefallen ist oder den Dienst eingestellt hat.
 
 #### ``ownCloud`` / ``nextCloud``
 
-![Screenshot der ownCloud--Weboberfläche](images/2/owncloud.png){#fig:scrn-owncloud}
+![Screenshot der ownCloud--Weboberfläche.](images/2/owncloud.png){#fig:scrn-owncloud}
 
 Eine Alternative zu einem von einem Unternehmen bereitgestellten zentralen
 Dienst, ist die Nutzung einer eigenen »Private Cloud« mithilfe der Open--Source
@@ -300,7 +301,7 @@ den Heimanwender nicht praktikabel.
 
 ### ``syncthing``
 
-![Screenshot der Syncthing--Weboberfläche](images/2/syncthing.png){#fig:scrn-syncthing}
+![Screenshot der Syncthing--Weboberfläche.](images/2/syncthing.png){#fig:scrn-syncthing}
 
 Das 2013 veröffentlichte quelloffene ``syncthing`` (siehe
 [@fig:scrn-syncthing]) versucht diese zentrale Instanz zu vermeiden, indem die
@@ -327,7 +328,7 @@ ausreichend Dokumentation.
 
 ### ``resilio``
 
-![Screenshot der ``resilio``--Weboberfläche](images/2/resilio.png){#fig:scrn-resilio}
+![Screenshot der ``resilio``--Weboberfläche.](images/2/resilio.png){#fig:scrn-resilio}
 
 Das kommerzielle und proprietäre ``resilio`` (früher *Bittorrent Sync*) nutzt
 eine Modifikation[^PROTO_REF] des bekannten und freien BitTorrent Protokoll zur
@@ -347,7 +348,7 @@ Etwas mehr Details liefert der Vergleich des *Infinit*--Projekts.[^RESILIO_INFIN
 
 #### ``git-annex``
 
-![Screenshot des ``git-annex``--Assistenten[^ANNEX_SRC]](images/2/git-annex-assistant.png){#fig:scrn-git-annex}
+![Screenshot des ``git-annex``--Assistenten[^ANNEX_SRC].](images/2/git-annex-assistant.png){#fig:scrn-git-annex}
 
 [^ANNEX_SRC]: Bildquelle: <http://code.178.is/git-annex-is-magic/git-annex-assistant2.png>
 
@@ -398,7 +399,7 @@ subjektiver Natur.
 
 |                      | **Dezentral**       | **Verschlüsselung im Client**     | **Versionierung**                      |
 | -------------------- | ------------------- | -------------------------------- | -------------------------------------- |
-| *Dropbox/Boxcryptor* | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |
+| *Dropbox/Boxcryptor* | \xmark              | \textcolor{Mit Boxcryptor}       | \textcolor{YellowOrange}{Rudimentär}   |
 | ``ownCloud``         | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |
 | ``syncthing``        | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |
 | ``resilio``          | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |
@@ -425,7 +426,7 @@ subjektiver Natur.
 
 : Vergleich der Software aus Nutzersicht {#tbl:table-practical-overview}
 
-Abschießend kann man sagen, dass ``syncthing`` dem Gedanken hinter ``brig`` am
+Abschließend kann man sagen, dass ``syncthing`` dem Gedanken hinter ``brig`` am
 nächsten kommt. Der Hauptunterschied ist, dass die Basis hinter ``brig`` ein
 volles P2P--Netzwerk ist namens ``ipfs`` (dazu später mehr). Wie in den
 nächsten Kapiteln ersichtlich ist, eröffnet dieser Unterbau eine Reihe von
@@ -440,16 +441,15 @@ Aufgrund der starken Ende-zu-Ende Verschlüsselung ist ``brig`` allerdings auch
 insbesondere für Berufsgruppen attraktiv, bei denen eine hohe Diskretion
 bezüglich Datenschutz gewahrt werden muss. Hier wären in erster Linie
 Journalisten, Anwälte, Ärzte mit Schweigepflicht und auch Aktivisten und
-politisch verfolgte Minderheiten, zu nennen.
+politisch verfolgte Minderheiten zu nennen.
 
 **Unternehmen:** Unternehmen können ``brig`` nutzen, um ihre Daten und
 Dokumente intern zu verwalten und zwischen Mitarbeitern zu teilen. Besonders
 sicherheitskritische Dateien entgehen so der Lagerung in Cloud--Services oder
-der Gefahr von Kopien auf unsicheren Mitarbeiter--Endgeräten. Größere
+der Gefahr von Kopien auf potenziell unsicheren Mitarbeiter--Endgeräten. Größere
 Unternehmen verwalten dabei oft ein Rechenzentrum in dem firmeninterne
 Dokumente gespeichert werden. Von den Nutzern werden diese dann meist mittels
 Diensten wie *ownCloud*[^NEXTCLOUD] »händisch« heruntergeladen.
-
 In diesem Fall könnte man ``brig`` im Rechenzentrum und auf allen Endgeräten
 installieren. Das Rechenzentrum würde die Datei mit tiefer Versionierung
 vorhalten. Endanwender würden alle Daten sehen, aber auf ihrem Gerät nur die
