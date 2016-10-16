@@ -110,7 +110,9 @@ während der Lese-- und Schreibvorgänge mittels Prüfsummen. Durch dieses
 »spezielle« Feature kann die Verarbeitungskette beim Lesen-- und Speichern der
 Daten bezüglich ihrer Integrität validiert werden. Bei der Benutzung eines
 *RAID*--System können die Daten sogar automatisiert ohne Zutun des Benutzers
-korrigiert werden. TODO: ZFS Beispiel?
+korrigiert werden. 
+
+TODO: ZFS Beispiel?
 
 [^FN_NTFS]: NTFS Dateisystem: <https://en.wikipedia.org/w/index.php?title=NTFS&oldid=743913107>
 [^FN_EXT4]: EXT4 Dateisystem: <https://en.wikipedia.org/w/index.php?title=Ext4&oldid=738311553>
@@ -165,8 +167,8 @@ Die Speicherung der Daten in einem Hash--Tree hat den Vorteil, dass die Daten
 bei der Speicherung üblicherweise mit einer kryptographischen Prüfsumme
 abgelegt werden. Durch diesen Umstand kann *IPFS* eine unerwünschte Veränderung
 an den Daten feststellen. Das folgende Beispiel zeigt die unerwünschte
-Modifikation der `readme`--Datei und wie die Integritätsprüfung von *IPFS* die
-Änderung der Daten erkennt:
+Modifikation der `readme`--Datei direkt im *Store--Backend* und wie die
+Integritätsprüfung von *IPFS* die Änderung der Daten erkennt:
 
 ~~~sh
 # Validierung der Integrität der Daten
@@ -182,6 +184,17 @@ block QmPZ9gcCEpqKTo6aq61g2nXGUhM4iCL3ewB6LDXZCtioEB \
 was corrupt (block in storage has different hash than requested)
 Error: verify complete, some blocks were corrupt.
 ~~~
+
+Aktuell werden die Daten mittels *SHA256* gehasht. Eine Verschlüsselung der
+Daten findet nicht statt. Es gibt zwar Pläne für die Zukunft einen
+Verschlüsselten *Store* zu realisieren, aktuell wird jedoch in
+Feature--Requests[^FN_IPFS_FILEENC] die Möglichkeit der manuellen
+Verschlüsselung beispielsweise mittels *OpenSSL/GPG* nahe gelegt.
+
+[^FN_IPFS_FILEENC]: *IPFS* file encryption request: <https://github.com/ipfs/faq/issues/116>
+
+Neben der Möglichkeit der Datenvalidierung, hat Speicherung der Daten in einem
+Merkle-Tree auch den Vorteil, Daten effizient deduplizieren zu können.
 
 ## IPFS--ID
 
@@ -232,27 +245,46 @@ Quelltext[^FN_IPFS_CODE_INIT] zu Rate gezogen werden.
 Ein Authentifizierungsmechanismus im eigentlichen Sinne existiert bei *IPFS*
 nicht. Die Benutzer haben lediglich eine eindeutige globale *Peer--ID*. Dateien
 werden nicht direkt von einer bestimmten *Peer--ID*, sondern aus dem
-*IPFS*--Netzwerk bezogen.
+*IPFS*--Netzwerk bezogen.  Schaut man sich beispielsweise mit `ipfs dht
+findprovs` an, welche *Peers* die `readme`--Datei anbieten, bekommt man eine
+Liste verschiedener Teilnehmer. Ruft man den Befehl auf der Prüfsumme einer
+»persönlichen« Datei im lokalen Netzwerk auf, so bekommt man als einzigen
+anbietenden Knoten die *Peer--ID* des Rechners im lokalen Netzwerk:
 
-Eine Art Authentifizierung kann also nur manuell über einen Seitenkanal
+~~~sh
+# Suche nach Providern für die `readme` Datei des IPFS--Werkzeugs
+freya :: ~ » ipfs dht findprovs QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
+Qmadh19kRmg1SufioE8ipNvyESd3fwKqqiMdRdFHBJxseH
+[...]
+QmPKBHmwWJbin2BuzE3zvua9JxsrsEGm6rn69CgWTEU5wn
+
+# Suche nach Provider für eine »persönliche« Datei im lokalem Netzwerk
+freya :: ~ » ipfs dht findprovs QmagF4CPz5LCwSwkwhYwn1uZHhJXoXQJDWeV65fcuTyqP1
+QmW2jc7k5Ug987QEkUx6tJUTdZov7io39MDCiKKp2f57mD
+~~~
+
+Eine Art »Authentifizierung« kann also nur manuell über einen Seitenkanal
 erfolgen. Ein Benutzer kann also nur überprüfen ob eine Datei mit einer
 bestimmten Prüfsumme »auch« auf einem bestimmten System mit der ihm bekannten
 *Peer--ID* vorzufinden ist. Hier wäre es denkbar, dass zwei kommunizierende
 Parteien ihre *Peer--ID* gegenseitig telefonisch austauschen beziehungsweise
-bestätigen.
+bestätigen. Diese grundlegende Funktionalität der »Authentifizierung« einer
+Quelle ist nur bedingt praxistauglich, da eine nicht--persönliche Datei durch
+aus mehrere Provider haben kann. Dieser Umstand ist nicht direkt als »Schwäche«
+zu werden, er stellt die grundlegende Funktionsweise des *IPFS*--Netzwerks dar.
 
-Im Gegensatz dazu haben andere »dezentrale Systeme« mit einem direkten
-Kommunikationskanal weitere Möglichkeiten der Authentifizierung. Der
-Instant--Messaging--Client *Pidgin*[^FN_PIDGIN] bietet beispielsweise mit dem
-*OTR*--Plugin[^FN_OTR] folgende Möglichkeiten für die Authentifizierung einer
-gesicherten Verbindung:
+**Einschub:** Im Gegensatz dazu haben beispielsweise andere »dezentrale Systeme«
+mit einem direkten Kommunikationskanal weitere Möglichkeiten der
+Authentifizierung. Der Instant--Messaging--Client *Pidgin*[^FN_PIDGIN] bietet
+beispielsweise mit dem *OTR*--Plugin[^FN_OTR] folgende Möglichkeiten für die
+Authentifizierung einer gesicherten Verbindung:
 
 [^FN_PIDGIN]: Instant--Messaging--Client Pidgin: <https://de.wikipedia.org/w/index.php?title=Pidgin_(Instant_Messenger)&oldid=155942615>
 [^FN_OTR]: Off--the--Record: https://en.wikipedia.org/w/index.php?title=Off-the-Record_Messaging&oldid=741588882
 
 *Frage und Antwort--Authentifizierung:* Alice stellt Bob eine Frage zu einem
 gemeinsamen Geheimnis. Beantwortet Bob diese Frage korrekt, so wird er vom
-System gegenüber Alice authentifiziert --- das heißt, der Fingerprint
+System gegenüber Alice authentifiziert --- das heißt, der Fingerabdruck
 (Prüfsumme über eine ID die Bob eindeutig kennzeichnet) wird in Kombination mit
 dem Benutzernamen von Bob als valide vom System klassifiziert und
 abgespeichert.
@@ -262,25 +294,60 @@ Geheimnis in einem entsprechenden Programmdialogfenster einzutragen. Alice
 trägt das gemeinsame Geheimnis ebenso in einem Programmdialogfenster ein. Bei
 Übereinstimmung des gemeinsamen Geheimnisses wird Bob gegenüber Alice vom
 System authentifiziert --- analog zur Frage und Antwort--Authentifizierung wird
-der Fingerprint als valide vom System klassifiziert abgespeichert.
+der Fingerabdruck als valide vom System klassifiziert abgespeichert.
 
-*Manuelle Verifizierung vom Fingerprint:* Alice verifiziert den ihr vom System
-angezeigten Fingerprint (Prüfsumme über eine eindeutige ID) von Bob. Dazu kann
+*Manuelle Verifizierung vom Fingerabdruck:* Alice verifiziert den ihr vom System
+angezeigten Fingerabdruck (Prüfsumme über eine eindeutige ID) von Bob. Dazu kann
 sie beispielsweise Bob anweise ihr über einen Seitenkanal die Information über
-die Korrektheit des Fingerprint zu bestätigen.
+die Korrektheit des Fingerabdruck zu bestätigen.
 
 Die genannten Verfahren erlauben eine initiale Authentifizierung zwischen den
 Kommunikationspartnern. Bei zukünftiger Kommunikation wird jeweils die *ID* der
 Benutzer mit der bei der initialen Authentifizierung gespeicherten *ID*
 verglichen.
 
-* IPFS Test--Subnetz
-* Wie schaut es mit Verschlüsselung aus?
+## *IPFS*--Netzwerk
 
-TODO: IPFS Subnetz
+Das *IPFS*--Netzwerk arbeitet mit einer *DHT*. Standardmäßig sind nach der
+Installation eine Reihe von sogenannten *Bootstrapnodes* eingetragen, welche
+einen initialen »Einstiegspunkt« bieten (gekürzt):
 
-## Mögliche Probleme
+~~~sh
+freya :: ~ » ipfs bootstrap list
+/ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ
+[..]
+/ip4/178.62.61.185/tcp/4001/ipfs/QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3
+~~~
 
-## Angriffsszenarien
+Diese *Bootstrap*--Nodes spannen das *IPFS*--Netzwerk auf. Alle Änderungen
+(beispielsweise Hinzugefügten oder Löschen von Daten) werden so in dem von den
+*Bootstrap*--nodes aufgespannten Netzwerk allen Teilnehmern bekannt gemacht. Da
+alle Teilnehmer im *IPFS*--Netzwerk gleichberechtigt sind, wird lediglich die
+Prüfsumme einer Datei benötigt um an die Daten zu gelangen.
 
-## Risikomanagement
+Aktuell verwendet *IPFS* als Transport--Verschlüsselung ein selbst entwickeltes
+Protokoll namens *Secio*[^FN_SECIO], welches laut Entwickleraussagen
+([@sec:APP_IPFS_TRANSPORT_SEC]) auf einem TLS1.2--Modi basiert. Es ist geplant
+in Zukunft auf TLS1.3 zu migrieren.
+
+[^FN_SECIO]: Github IPFS Secio--Verschlüsselung: <https://github.com/libp2p/go-libp2p-secio>
+
+TODO: IPFS--Subnetz test?
+
+## Zusammenfassung IPFS--Evaluation
+
+Aus Datenhaltungs-- und Netzwerksicht (TODO: Ref Elch.) stellt *IPFS* zum
+aktuellen Zeitpunkt eine attraktive Basis für die Entwicklung des
+»brig«--Prototypen dar. Aus Datenhaltungssicht sind insbesondere folgende
+Features Interessant:
+
+* Möglichkeit der Deduplizierung von Daten (Aufgrund der Speicherung in einem Merkle-DAG)
+* Möglichkeit der Validierung der Integrität der Daten (SHA256--basiert)
+
+Aus Sicht der Sicherheit muss *IPFS* um folgende Funktionalitäten erweitert werden:
+
+* Verschlüsselte Lagerung der Daten und kryptographischen Schlüssel
+* Mechanismus zur Authentifizierung von Kommunikationspartnern
+* Möglichkeit einer »einfachen« Begrenzung der am *IPFS*--Netzwerk teilnehmenden Benutzer
+* Anerkanntes Protokoll zum verschlüsselten Austausch von Metadaten
+* Schlüsselmanagement (Verwaltung und Sicherung von Schlüsseln, Identitäten)
