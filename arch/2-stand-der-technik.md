@@ -399,7 +399,7 @@ subjektiver Natur.
 
 |                      | **Dezentral**       | **Verschlüsselung im Client**     | **Versionierung**                      |
 | -------------------- | ------------------- | -------------------------------- | -------------------------------------- |
-| *Dropbox/Boxcryptor* | \xmark              | \textcolor{Mit Boxcryptor}       | \textcolor{YellowOrange}{Rudimentär}   |
+| *Dropbox/Boxcryptor* | \xmark              | \textcolor{YellowOrange}{Mit Boxcryptor}       | \textcolor{YellowOrange}{Rudimentär}   |
 | ``ownCloud``         | \xmark              | \xmark                           | \textcolor{YellowOrange}{Rudimentär}   |
 | ``syncthing``        | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |
 | ``resilio``          | \cmark              | \cmark                           | \textcolor{YellowOrange}{Archivordner} |

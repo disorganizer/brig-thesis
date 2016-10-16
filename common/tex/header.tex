@@ -26,13 +26,14 @@
   bottom=20mm,
   includefoot,
   foot=\baselineskip,
-  bindingoffset=0mm]{geometry}
+  bindingoffset=0mm
+]{geometry}
 
 \usepackage{setspace}
 \onehalfspacing
 
-\usepackage{amssymb}% http://ctan.org/pkg/amssymb
-\usepackage{pifont}% http://ctan.org/pkg/pifont
+\usepackage{amssymb}
+\usepackage{pifont}
 \newcommand{\cmark}{\textcolor{ForestGreen}{\ding{51}}}%
 \newcommand{\xmark}{\textcolor{red}{\ding{55}}}%
 \newcommand{\qmark}{\textcolor{BurntOrange}{\ding{46}}}%
@@ -46,7 +47,7 @@
 \usepackage{etoolbox}
 
 \appto\chapterheadstartvskip{%
-  \vspace{-4.5em}
+  \vspace{-6.5em}
   \smash{\makebox[0pt]{%
 	\textcolor{ThesisBarColor}{%
       \usesizeofkomafont{chapter}\rule[-2.5\ht\strutbox-\dp\strutbox]{2\paperwidth}{1.5\baselineskip}%
@@ -91,3 +92,22 @@
 \cfoot*{\fancyPagemark}
 \setlength{\footskip}{25pt}
 \date{\today}
+
+%\RedeclareSectionCommand[
+%  beforeskip=6em,
+%  afterskip=2\baselineskip]{chapter}
+\RedeclareSectionCommand[
+  beforeskip=-.3\baselineskip,
+  afterskip=.3\baselineskip]{section}
+\RedeclareSectionCommand[
+  beforeskip=-.2\baselineskip,
+  afterskip=.2\baselineskip]{subsection}
+\RedeclareSectionCommand[
+  beforeskip=-.5\baselineskip,
+  afterskip=.25\baselineskip]{subsubsection}
+\RedeclareSectionCommand[
+  beforeskip=.5\baselineskip,
+  afterskip=-1em]{paragraph}
+\RedeclareSectionCommand[
+  beforeskip=-.5\baselineskip,
+  afterskip=-1em]{subparagraph}
