@@ -588,7 +588,7 @@ dies nur eine algorithmische Optimierung darstellt.
 
 Um die Metadaten nun tatsächlich synchronisieren zu können, muss ein Protokoll
 etabliert werden, mit dem zwei Partner ihren Store über das Netzwerk austauschen können.
-Im Folgenden wird diese Operation, analog zum gleichnamigen ``git``--Kommando[^TRANSFER_PROTOCOL], ``git fetch`` genannt.
+Im Folgenden wird diese Operation, analog zum gleichnamigen ``git``--Kommando[^TRANSFER_PROTOCOL], ``brig fetch`` genannt.
 
 [^TRANSFER_PROTOCOL]: <https://git-scm.com/book/be/v2/Git-Internals-Transfer-Protocols>
 
@@ -606,7 +606,7 @@ Wie in [@fig:fetch-protocol] gezeigt, besteht das Protokoll aus drei Teilen:
   das Ergebnis in der Liste der Stores ihrer Kommunikationspartner.
   Eine Synchronisation der beiden Metadatensätze kann nun lokal bei Alice erfolgen.
 
-[^EXPORT]: Die Form des serialisierten Export--Formattes ist nicht weiter interessant und kann im Anhang [@sec:data-model]
+[^EXPORT]: Die Form des serialisierten Export--Formats ist nicht weiter interessant und kann im Anhang [@sec:data-model]
          eingesehen werden (Message: *Store*).
 
 Aus Zeitgründen ist dieses Protokoll momentan noch sehr einfach gehalten und
@@ -641,7 +641,7 @@ Verzeichnisse sammeln und darauf arbeiten.
 
 ### Speicherquoten
 
-Werden immer mehr Modifikationen gespeichert, so steigt der Speicherplatz immer
+Werden immer mehr Modifikationen gespeichert, so steigt der Speicherverbrauch immer
 weiter an, da ohne ein Differenzmechanismus jede Datei pro Version einmal voll
 abgespeichert werden muss. Die Anzahl der Objekte die dabei gespeichert werden
 können, hängt von dem verfügbaren Speicherplatz ab. Sehr alte Versionen werden
@@ -656,7 +656,7 @@ nicht gepinnte Objekte sofort. In der momentanen Architektur und
 Implementierung sind allerdings zu diesem Zeitpunkt noch keine Speicherquoten
 vorhanden.
 
-Eine Möglichkeit Speicher zu reduzieren, wäre die Einführung von
+Eine Möglichkeit den Speicherverbrauch zu reduzieren, wäre die Einführung von
 *Packfiles*, wie ``git`` sie implementiert[^PACKFILES_GIT]. Diese komprimieren nicht eine
 einzelne Datei, sondern packen mehrere Objekte in ein zusammengehöriges Archiv.
 Dies kann die Kompressionsrate stark erhöhen wenn viele ähnliche Dateien
@@ -687,14 +687,14 @@ dabei über das Netzwerk mit einem speziellen Protokoll, welches auf einen
 Serialisierungsmechanismus  von Google namens *Protobuf*[^PROTOBUF] basiert.
 Dabei wird basierend auf einer textuellen Beschreibung des Protokolls (einer
 ``.proto``--Datei mit eigener Syntax) Quelltext in der gewünschten
-Zielsprache generiert. Dieser Quelltext ist dann in der Lage Datenstrukturen
+Zielsprache generiert. Dieser Quelltext ist dann in der Lage, Datenstrukturen
 von der Zielsprache in ein serialisiertes Format zu überführen, beziehungsweise
 dieses wieder einzulesen. Als Format steht dabei wahlweise eine
 speichereffiziente, binäre Repräsentation der Daten zur Verfügung, oder eine
 menschenlesbare Darstellung als JSON--Dokument.
 
 Nötig ist die Aufteilung vor allem, da ``brigd`` im Hintergrund als
-Netzwerkdienst laufen muss, um Anfragen von außen verarbeiten zu können. Auch
+Netzwerkdienst laufen muss, um Anfragen von Außen verarbeiten zu können. Auch
 läuft ``ipfs`` im selben Prozess wie ``brigd`` und muss daher stets erreichbar
 sein. Abgesehen davon ist es aus Effizienzgründen förderlich, wenn nicht bei
 jedem eingetippten Kommando das gesamte Repository geladen werden muss. Auch
@@ -803,9 +803,9 @@ Neben der Kommunikation mit  ``brigd`` muss ``brigctl`` noch drei andere Aufgabe
 Der Daemon--Prozess implementiert alle Kernfunktionalitäten.
 Die einzelnen Komponenten werden in [@sec:einzelkomponenten] beschrieben.
 
-Als Netzwerkdienst muss ``brigd`` auf einen bestimmten Port (momentan
+Als Netzwerkdienst muss ``brigd`` auf einem bestimmten Port (momentan
 standardmäßig Port ``6666`` auf ``127.0.0.1``) auf Anfragen warten. Es werden keine Anfragen von
-außen angenommen, da über diese lokale Verbindung fast alle
+Außen angenommen, da über diese lokale Verbindung fast alle
 sicherheitskritischen Informationen ausgelesen werden können.
 Für den Fall, dass ein Angreifer den lokalen Netzwerkverkehr mitlesen kann wird
 der gesamte Netzwerkverkehr zwischen ``brigctl`` und ``brigd`` mit AES256
@@ -857,10 +857,10 @@ unterbrechbar und wieder fortsetzbar gestalten.
 
 Eine mögliche Lösung wäre ein Verfahren namens *Convergent
 Encryption*[@douceur2002reclaiming]. Dabei wird der Schlüssel der zu
-verschlüsselten Datei aus der Prüfsumme derselben Datei abgeleitet. Dies hat
+verschlüsselnden Datei aus der Prüfsumme derselben Datei abgeleitet. Dies hat
 den Vorteil, dass gleiche Dateien auch den gleichen (deduplizierbaren)
 Ciphertext generieren. Der Nachteil ist, dass ein Angreifer feststellen kann,
-ob jemand eine Datei (beispielsweise Inhalte mit urhebergeschützen Inhalten)
+ob jemand eine Datei (beispielsweise Inhalte mit urhebergeschützten Inhalten)
 besitzt. Im Protoypen werden die Dateischlüssel daher zufällig generiert,
 was die Deduplizierungsfunktion von ``ipfs`` momentan ausschaltet.
 Dies hat auch zur Folge, dass die Synchronisation von zwei unabhängig
@@ -884,7 +884,7 @@ Es werden lediglich reguläre Dateien verschlüsselt. Verzeichnisse existieren
 nur als Metadaten und werden nicht von ``ipfs`` gespeichert. Die Details und
 Entscheidungen zum Design des Formats werden in [@cpiechula] dargestellt.
 
-![Aufbau des Verschlüsselungs--Dateiformats](images/4/format-encryption.pdf){#fig:format-encryption}
+![Aufbau des Verschlüsselungs--Dateiformats.](images/4/format-encryption.pdf){#fig:format-encryption}
 
 **Enkodierung:** [@fig:format-encryption] zeigt den Aufbau des Formats. Ein
 roher Datenstrom (dessen Länge nicht bekannt sein muss) wird an den Enkodierer 
@@ -913,7 +913,7 @@ Werden die ersten Daten geschrieben, so schreibt der Kodierer zuerst einen
 
 Nachdem der Header geschrieben wurde, sammelt der Enkodierer in einem internen
 Puffer ausreichend viele Daten, um einen zusammenhängenden Block zu schreiben
-(standardmäßig 64 Kilobyte). Ist diese Datenmenge erreicht wird der Inhalt des
+(standardmäßig 64 Kilobyte). Ist diese Datenmenge erreicht, wird der Inhalt des
 Puffers verschlüsselt und ein kompletter Block ausgegeben. Dieser enthält
 folgende Felder:
 

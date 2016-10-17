@@ -4,7 +4,7 @@ Der Datenträger zu dieser Arbeit enthält folgende Dateien und Verzeichnisse:
 
 ----
 
-* ``./brig/``: Enthält das ``git``--Repository von ``brig`` zum Abgabezeitpunkt (``git--rev``: TODO).
+* ``./brig/``: Enthält das ``git``--Repository von ``brig`` zum Abgabezeitpunkt (``git-rev``: ``fa9bb63``).
 * ``./brig-vendor/``: Enthält ein ``git``--Repository mit allen Abhängigkeiten zu ``brig``.
 * ``./brig-thesis/``: Die Quellen, die zum Erzeugen des vorliegenden Dokuments nötig sind.
 * ``./thesis.pdf``: Das vorliegende Dokument im PDF--Format.

@@ -1,7 +1,5 @@
 # Implementierung {#sec:implementierung}
 
-<!-- Das Kapitel liest sich etwas holprig -->
-
 Dieses Kapitel dokumentiert die Implementierung.
 Der praktische Status der Implementierung kann in [@sec:benutzerhandbuch] betrachtet werden.
 Dort werden nur Funktionen gezeigt, die auch tatsächlich schon existieren.
@@ -124,16 +122,14 @@ versucht, die Quelltextbasis möglichst klein zu halten.
 
 | **Sprache**              | **Dateianzahl** | **Leerzeilen** | **Kommentare**    | **Codezeilen**
 | ------------------------ | --------------- | ------------   | ----------------- | --------
-| *Go*                     | 88              | 2833           | 1824              | 10813
-| *Go Tests*               | 24              | 573            | 100               | 2698
-| *Protocol Buffers*       | 4               | 97             | 58                | 323
-| *Bourne Shell*           | 4               | 8              | 5                 | 44
-| *make*                   | 4               | 5              | 1                 | 34
-| $\sum{}$                 | *124*           | *3516*         | *1988*            | *13912*
+| *Go*                     | 86              | 2944           | 1700              | 11427
+| *Go Tests*               | 28              | 667            | 335               | 2890
+| *Protocol Buffers*       | 4               | 95             | 60                | 316
+| *Bourne Shell*           | 5               | 11             | 8                 | 134
+| *make*                   | 4               | 6              | 1                 | 34
+| $\sum{}$                 | *127*           | *3743*         | *2104*            | *14801*
 
 :Quelltextumfang, gestaffelt nach Sprache. {#tbl:cloc-output}
-
-TODO: Update wenn Implementierung  final.
 
 [^CLOC]: <https://github.com/AlDanial/cloc>
 
