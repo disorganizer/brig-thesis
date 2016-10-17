@@ -342,7 +342,7 @@ Privatanwender ist der Aufwand höchstwahrscheinlich zu hoch. Weiterhin haben
 Endanwender in der Regel nicht das nötige Know--How, welches für das Betreiben
 eines Cloud--Speicher--Dienstes essentiell ist.
 
-### Datenaustausch über dezentrale Lösungen
+### Datenaustausch über dezentrale Lösungen {#sec:CAP_DEC_SERVICES}
 
 #### Funktionsweise dezentraler Dienste
 

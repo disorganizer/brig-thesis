@@ -51,10 +51,12 @@ folgende Eigenschaften mit sich:
 ## IPFS--Basis
 
 Das *IPFS*--Dateisystem beziehungsweise Protokoll bringt das
-Kommandozeilenwerkzeug `ipfs` mit. Dieses ermöglicht eine rudimentäre Nutzung
-von *IPFS*. Beim initialisieren von *IPFS* wird ein *RSA*--Schlüsselpaar
-generiert. Ein *IPFS*--Repository kann mit dem Befehl `ipfs init` initialisiert
-werden. Dabei wird standardmäßig unter `~/.ipfs` ein Repository angelegt.
+Kommandozeilenwerkzeug `ipfs` mit, weiterhin kann es jedoch auch als
+Software--Bibliothek verwendet werden. Dieses ermöglicht eine rudimentäre
+Nutzung von *IPFS*. Beim initialisieren von *IPFS* wird ein
+*RSA*--Schlüsselpaar generiert. Ein *IPFS*--Repository kann mit dem Befehl
+`ipfs init` initialisiert werden. Dabei wird standardmäßig unter `~/.ipfs` ein
+Repository angelegt.
 
 ~~~sh
 freya :: ~ » ipfs init
@@ -334,7 +336,7 @@ in Zukunft auf TLS1.3 zu migrieren.
 
 TODO: IPFS--Subnetz test?
 
-## Zusammenfassung IPFS--Evaluation
+## Zusammenfassung IPFS--Evaluation {#sec:CAP_SUMMARY}
 
 Aus Datenhaltungs-- und Netzwerksicht (TODO: Ref Elch.) stellt *IPFS* zum
 aktuellen Zeitpunkt eine attraktive Basis für die Entwicklung des
