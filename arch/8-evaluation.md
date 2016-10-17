@@ -32,7 +32,7 @@ synchronisieren zu lassen. Hierfür gibt es weitaus bessere Alternativen wie
 
 [^SYNC_NOTE]: In der momentanen Implementierung bei jedem ``fsync()`` und beim Schließen einer Datei.
 
-**Volle POSIX-Kompabilität notwendig:** Der *POSIX*--Standard definiert (unter
+**Volle POSIX-Kompatibilität notwendig:** Der *POSIX*--Standard definiert (unter
 anderem) eine gemeinsame, standardisierte API, die von vielen (zumeist
 unixoiden) Betriebssystemen implementiert wird (siehe auch [@1999standard]).
 Nicht alle Teile dieses Interfaces können von ``brig`` umgesetzt werden. So
@@ -66,7 +66,7 @@ angewendet, wie beispielsweise ``Tahoe-LAFS`` das tut. Damit eine Datei im
 Falle des Ausfalls eines Knotens wiederherstellbar ist, muss mindestens ein
 anderer Knoten, die Datei vollständig gespeichert haben, während andere
 Werkzeuge kleine Blöcke der Dateien redundant auf mehreren Rechnern ablegen.
-Werden diese beschädigt können diese sich selbst reparieren oder von anderen
+Werden diese beschädigt, können diese sich selbst reparieren oder von anderen
 Knoten neu übertragen werden. Für die meisten Anwendungszwecke ist
 aus Sicht des Autors Redundanz auf dem Dateilevel ausreichend.
 
@@ -86,7 +86,7 @@ Raspberry Pi in Version 3.
 Netzwerk angezeigt werden.
 
 [^ERASURE_ENCODING]: Eine Enkodierung, welche die Wiederherstellung der Inhalte
-bis zu einen gewissen, konfigurierbaren *Beschädigungsgrad* erlaubt. Siehe auch
+bis zu einem gewissen, konfigurierbaren *Beschädigungsgrad* erlaubt. Siehe auch
 [@lin2010secure].
 
 [^CEPH]: Webpräsenz: <http://ceph.com>
@@ -107,7 +107,7 @@ vollkommen entkoppelt und werden sowohl getrennt gespeichert (``ipfs`` und
 *BoltDB*) als auch getrennt behandelt. Die Daten können irgendwo im
 ``ipfs``--Netzwerk liegen, die Metadaten werden von allen Teilnehmern vorgehalten.
 
-**Pinning** (\qmark): Es ist möglich einen Pin zu Dateien und Verzeichnissen
+**Pinning** (\qmark): Es ist möglich, einen Pin zu Dateien und Verzeichnissen
 hinzuzufügen (``brig pin``) und wieder zu entfernen (``brig pin -u``).
 Allerdings wird dieses Konzept von ``brig`` selbst noch sehr simpel behandelt.
 Neu hinzugefügte Dateien bekommen automatisch einen Pin, die Pins eines
@@ -132,13 +132,13 @@ diese Aufgabe von ``ipfs`` übernommen wird. Daher wird dies für den Benutzer
 erst ersichtlich wenn er versucht die Datei auszulesen. Sollte die Datei nicht
 verfügbar sein, so wird das Öffnen der Datei eine lange Zeit benötigen und
 schließlich mit einem Zeitüberschreitungsfehler enden. Hier müsste ``brig``
-mehr Aufwand betreiben, um den Nutzer dabei zu helfen nicht zugreifbare Dateien
+mehr Aufwand betreiben, um den Nutzer dabei zu helfen, nicht zugreifbare Dateien
 frühzeitig zu erkennen.
 
 **Integrität** (\cmark): Jede Datei ist in Blöcke aufgeteilt, von denen jeder
 eine MAC speichert. Mithilfe dieser können absichtliche und unabsichtliche
 Modifikationen erkannt werden. Eine Integritätsprüfung für Metadaten
-(beispielsweise eine MAC die den Store--Inhalt vor der Übertragung absichert)
+(beispielsweise eine MAC, die den Store--Inhalt vor der Übertragung absichert)
 ist allerdings noch nicht implementiert.
 
 ### Anforderungen an die Sicherheit
@@ -215,16 +215,16 @@ ganz normaler Systemordner bereitgestellt. Bis auf den lokalen
 Festplattenspeicher hat dieser keine zusätzlichen Limitierungen. Der einzige
 Unterschied für den Benutzer ist, dass die darin gespeicherten Daten entweder
 gar keinen Speicherplatz brauchen oder (durch das Verschlüsselungsformat)
-geringfügig größer ist als die eigentliche Datei. Durch die Versionierung
+geringfügig größer sind als die eigentliche Datei. Durch die Versionierung
 benötigen zudem alte Kopien zusätzlichen Speicherplatz.
 
 **Generalität:** (\qmark) ``brig`` ist mit denen im Punkt »Portabilität«
 genannten Einschränkungen auf allen Rechnern lauffähig und macht keine Annahmen
 zum Dateisystem oder zur Hardware auf der es läuft. Momentan sind allerdings
 alle Nutzer, mit denen synchronisiert werden soll, gezwungen ``brig`` zu
-nutzen. Dies betrifft auch Nutzer, mit denen nur eine einzelne geteilt werden
+nutzen. Dies betrifft auch Nutzer, mit denen nur eine einzelne Datei geteilt werden
 soll. Ein »HTTPS--Gateway«, mit dem einzelne Dateien veröffentlicht werden
-können wurde noch nicht implementiert.
+können, wurde noch nicht implementiert.
 
 **Stabilität:** (\xmark) Die momentane Implementierung ist vergleichsweise instabil
 und bräuchte mehr Testfälle, um ein gewisses Vertrauen in die Stabilität der
@@ -233,15 +233,15 @@ Software herzustellen. Welchen Umfang die Testsuite momentan hat, kann in
 
 **Effizienz:** (\qmark) ``brig`` ist schnell genug, um auf einem typischen
 Arbeitsrechner eine lokale Full--HD Filmdatei vom FUSE--Dateisystem aus abzuspielen.
-Details zu der Geschwindigkeit findet sich in [@sec:benchmarks]. Besonders im
+Details zu der Geschwindigkeit finden sich in [@sec:benchmarks]. Besonders im
 FUSE--Dateisystem sind noch einige Optimierungsmöglichkeiten vorhanden, welche
 die Gesamteffizienz steigern können.
 
 ## Stand der Testsuite {#sec:testsuite}
 
 Obwohl die Testsuite im momentanen Zustand zu klein ist, existieren für die
-meisten Pakete bereits Unittests. Insgesamt gibt es derzeit 24 Dateien die Tests
-beinhalten, in denen sich 50 einzelne Unittests befinden.
+meisten Pakete bereits Unittests. Insgesamt gibt es derzeit 26 Dateien, die Tests
+beinhalten, in denen sich 56 einzelne Unittests befinden.
 Diese versuchen immer möglichst kleine Teile der Codebasis anzusprechen,
 um die Fehlersuche zu erleichtern. So wird für viele Tests ein *Mock*--Store
 in einem temporären Verzeichnis angelegt oder es wird ein temporäres ``ipfs``--Repository
@@ -259,7 +259,7 @@ aufzuspüren.
 Die Umsetzung von sauberen Benchmarks ist schwierig, da ``brig`` genau wie
 andere Synchronisationswerkzeuge ein sehr komplexes System ist, dessen
 Effizienz von einer Vielzahl von Faktoren abhängt. Grundsätzlich ist es
-schwierig die Gesamteffizienz eines Systems sinnvoll zu messen, da folgende
+schwierig, die Gesamteffizienz eines Systems sinnvoll zu messen, da folgende
 Komponenten sich von System zu System drastisch unterscheiden können:
 
 * Hauptspeicher und Prozessor.
@@ -291,11 +291,11 @@ Als Eingabedateien wurden zwei unterschiedliche Datensätze genommen:
 [^CORPUS]: <http://corpora2.informatik.uni-leipzig.de/downloads/deu_news_2015_3M.tar.gz>
 
 Aus beiden Dateien werden jeweils zehn kleinere Dateien durch Abschneiden hergestellt.
-Diese sind jeweils 1, 2, 4, 8, 16, 32, 64, 128, 256 und 512 MB groß sind und werden in das
+Diese sind jeweils 1, 2, 4, 8, 16, 32, 64, 128, 256 und 512 MB groß und werden in das
 ``ramfs`` gelegt. Es entstehen also insgesamt 20 kleinere Dateien. Im
 ``ramfs`` wird ebenfalls ein ``brig``--Repository und ein ``ipfs``--Repository angelegt.
 Zudem wird im ``ramfs`` noch ein FUSE--Dateisystem, basierend auf dem
-``brig``--Repository angelegt.
+``brig``--Repository, angelegt.
 
 Basierend auf diesen Eingabedateien werden für beide Datensätze folgende Zeitmessungen erhoben:
 
@@ -405,7 +405,7 @@ um ``ipfs gc`` zu starten.
 
 **Nutzung eines existierenden OpenPGP--Schlüssels:** Momentan wird beim Anlegen
 eines Repositories ein neues RSA--Schlüsselpaar generiert. Viele Nutzer haben
-aber bereits einen Schlüsselpaar in Form eines OpenPGP--Schlüsselpaars oder
+aber bereits ein Schlüsselpaar in Form eines OpenPGP--Schlüsselpaars oder
 eines SSH--Schlüsselpaars. Diese könnten beim Anlegen des Repositories
 importiert werden. Sollte das Repository neu angelegt werden müssen, so kann
 der existierende Schlüssel in einem gängigen Format exportiert werden. Es
@@ -507,7 +507,7 @@ Gruppe angehören, können dann Dateien und Verzeichnisse einsehen, die auch
 dieser Gruppe zugeordnet sind.
 
 **Automatische Synchronisation:** Änderungen müssen explizit synchronisiert
-werden. Um eine Dropbox--ähnliche Funktionalität zu erreichen sollte eine neue
+werden. Um eine Dropbox--ähnliche Funktionalität zu erreichen, sollte eine neue
 Option eingeführt werden: »``brig sync --auto bob@wonderland.lit``«. Dabei wird
 zuerst regulär mit *Bob* synchronisiert. Im Anschluss wird der Knoten von *Bob*
 angewiesen, *Alice* alle Änderungen auf seiner Seite sofort zu schicken.
@@ -518,7 +518,7 @@ die Änderung nachzuahmen.
 hierarchisches Dateisystem. Einzelne Knoten des MDAG werden also vom Nutzer
 mittels Pfad zugegriffen. Eine Erweiterung dazu könnte die Einführung eines
 schlagwortbasierten Ansatzes (ähnlich zu Tagsistant[^TAG]) sein, welcher es
-möglich macht die Menge aller Dateien semantisch durchsuchbar zu machen.
+möglich macht, die Menge aller Dateien semantisch durchsuchbar zu machen.
 Dateien und Verzeichnisse können vom Nutzer mit einem Schlagwort versehen
 werden (``brig tag <path> [<tag>...]``). Im FUSE--Dateisystem könnte das
 Konzept durch die Einführung eines speziellen Ordners (beispielsweise
@@ -532,7 +532,7 @@ verschlagworteten Dateien angezeigt.
 nur finden, wenn man seinen Nutzernamen kennt. Eine »unscharfe« Suche nach
 Benutzernamen wäre praktisch, ist aber aufgrund der dezentralen Natur von
 ``brig`` schwer umzusetzen. Machbar erscheint aber die automatische Erkennung
-von anderen ``brig``--Nutzer »in der Nähe« (also im selben, lokalen Netzwerk). Für
+von anderen ``brig``--Nutzern »in der Nähe« (also im selben, lokalen Netzwerk). Für
 diesen Anwendungsfall würde sich das *Zeroconf--Protokoll*[^ZEROCONF] eignen. Auch diese
 Funktionalität ließe sich eventuell direkt in ``ipfs`` integrieren.
 
@@ -545,15 +545,15 @@ bleiben diese auch lesbar und werden erst wieder verschlüsselt, wenn
 in Besitz einzelner Dateien des Repositories kommen kann. Auch werden
 die Dateien nicht verschlüsselt, wenn ``brigd`` unvermittelt abstürzt und
 unsauber beendet wird. Schöner wäre eine reine Entschlüsselung
-der Daten im Hauptspeicher. Änderungen würden direkt in verschlüsselter Form
-wieder zurückgeschrieben werden.
+der Daten im Hauptspeicher. Änderungen werden direkt in verschlüsselter Form
+wieder zurückgeschrieben.
 
 **Intelligenteres Key--Management:** In der momentanen Implementierung werden
 alle Schlüssel in den Metadaten der Dateien gelagert. Die Metadaten werden als Ganzes
 zum Synchronisationspartner übertragen. Hier wäre entweder eine Trennung von den
 Metadaten (und damit gesonderte Übertragung) sinnvoll oder eine
 Schlüsselhierarchie, bei denen der eigentliche Schlüssel beispielsweise noch
-mit einem Gruppenschlüssel verschlüsselt werden.
+mit einem Gruppenschlüssel verschlüsselt wird.
 Siehe auch [@cpiechula] für weitere Details.
 
 **Anonymisierung:**  Eine Anonymisierung des Datenverkehrs ist momentan nicht

@@ -988,7 +988,7 @@ entworfen, welches in [@fig:format-compression] gezeigt wird.
 
 ![Aufbau des Kompressions--Dateiformats.](images/4/format-compression.pdf){#fig:format-compression}
 
-Nötig war dieser Schritt auch hier wieder weil kein geeignetes Format gefunden
+Nötig war dieser Schritt auch hier wieder, weil kein geeignetes Format gefunden
 werden konnte, welches wahlfreien Zugriff im komprimierten Datenstrom zulässt,
 ohne dass dabei die ganze Datei entpackt werden muss.
 
@@ -1012,7 +1012,7 @@ Datenstrom unterteilt wurde. Der eigentliche Index besteht aus einer Liste von
 64--Bit Offset--Paaren. Jedes Paar enthält einmal den unkomprimierten und
 einmal den komprimierten Offset eines Blocks als Absolutwert gemessen vom
 Anfang des Datenstroms. Am Ende wird ein zusätzliches Paar eingefügt, welches
-zu keinen realen Block verweist. Dieses letzte Paar beschreibt die Größe des
+zu keinem realen Block verweist. Dieses letzte Paar beschreibt die Größe des
 unkomprimierten und komprimierten Datenstroms.
 
 Der vorangestellte Header enthält alle Daten, die definitiv vor der Kompression
@@ -1045,8 +1045,8 @@ Stelle $n$. Mithilfe der Blockgröße kann ein entsprechend dimensioniertes Stü
 komprimierten Datenstrom gelesen und dekomprimiert werden.
 
 **Wahlfreier Zugriff:** Um auf einen beliebigen Offset $o$ im unkomprimierten
-Datenstrom zuzugreifen muss dieser zunächst in den komprimierten Offset
-übersetzt werden. Dazu muss mittels binärer Suche im Index der passende, Anfang
+Datenstrom zuzugreifen, muss dieser zunächst in den komprimierten Offset
+übersetzt werden. Dazu muss mittels binärer Suche im Index der passende Anfang
 des unkomprimierten Blocks gefunden werden. Wurde der passende Block bestimmt,
 ist auch der Anfangsoffset im komprimierten Datenstrom bekannt. Dadurch kann
 der entsprechende Block ganz geladen und dekomprimiert werden. Innerhalb der
@@ -1067,8 +1067,8 @@ zusätzlicher Netzwerkport für den RPC--Dienst in Anspruch genommen, da alle
 Kommunikation über den selben Kanal laufen, wie die eigentliche Datenübertragung. Es
 findet also eine Art »Multiplexing« statt.
 
-Dies wird durch das fortgeschrittenes Netzwerkmodell von ``ipfs`` möglich[^LIP2P],
-welches in [@fig:ipfs-net] gezeigt werden. Nutzer des gezeigten Netzwerkstacks
+Dies wird durch das fortgeschrittene Netzwerkmodell von ``ipfs`` möglich[^LIP2P],
+welches in [@fig:ipfs-net] gezeigt wird. Nutzer des gezeigten Netzwerkstacks
 können eigene Protokolle registrieren, die mittels eines *Muxing--Protokolls*
 namens *Multistream*[^MULTISTREAM] in einer einzigen, gemeinsamen
 physikalischen Verbindung zusammengefasst werden. Der sogenannte *Swarm* hält
@@ -1173,7 +1173,7 @@ ermöglicht.
 Um den Identifikationsbezeichner im Netzwerk auffindbar zu machen, wendet
 ``brig`` einen »Trick« an. Jeder ``brig``--Knoten veröffentlicht einen
 einzelnen ``blob`` in das ``ipfs``--Netzwerk mit dem Inhalt
-``brig#user:<username>``. Dieses Verfahren wird *Publishing* genannt. Ein Nutzer der nun einen solchen menschenlesbaren  Namen
+``brig#user:<username>``. Dieses Verfahren wird *Publishing* genannt. Ein Nutzer, der nun einen solchen menschenlesbaren  Namen
 zu einer Netzwerkadresse  auflösen möchte, kann den Inhalt des obigen
 Datensatzes generieren und daraus eine Prüfsumme bilden. Mit der entstandenen
 Prüfsumme kann wie in [@lst:user-hash] mittels dem folgenden
@@ -1205,7 +1205,7 @@ diesem Fall muss der Nutzer explizit authentifiziert worden sein.
 
 Analog kann das Konzept auch übertragen werden, um bestimmte Gruppen von
 Nutzern zu finden. Angenommen, Alice, Bob und Charlie arbeiten im gleichen Unternehmen.
-Das Unternehmen spiegelt sich in auch in ihren Identitätsbezeichnern wieder:
+Das Unternehmen spiegelt sich auch in ihren Identitätsbezeichnern wieder:
 
 - ``alice@corp.de/server``
 - ``bob@corp.de/laptop``
@@ -1225,7 +1225,7 @@ $ ipfs dht findprovs $CORP_HASH
 ```
 
 Die einzelnen IDs können dann, sofern bekannt, zu den »Klarnamen« aufgelöst
-werden die in der Remote--Liste jedes Teilnehmers stehen. Insgesamt können
+werden, die in der Remote--Liste jedes Teilnehmers stehen. Insgesamt können
 folgende sinnvolle Kombinationen (falls möglich, da optional) von ``brig``
 *published* werden, die jeweils eine spezielle Semantik hätten:
 
@@ -1234,7 +1234,7 @@ folgende sinnvolle Kombinationen (falls möglich, da optional) von ``brig``
 - ``user@domain``: Alle Geräte eines Nutzers.
 - ``user@domain/resource``: Spezifisches Gerät eines Nutzers.
 
-Das besondere an dieser Vorgehensweise ist, dass kein Nutzer sich an einer
+Das Besondere an dieser Vorgehensweise ist, dass kein Nutzer sich an einer
 zentralen Stelle registriert. Trotzdem können sich die Nutzer gegenseitig im
 Netzwerk mit einem aussagekräftigen Namen finden und trauen nicht
 einer zentralen Instanz, sondern entscheiden selbst welchen Knoten sie trauen.
@@ -1244,7 +1244,7 @@ von denen gesagt wird, dass immer nur zwei Ecken gleichzeitig erfüllbar sind
 für Techniken wie *DNS* kaum einsetzbar und ist daher keine allgemeine Lösung für *Zooko's
 Dilemma*.
 
-![Bildliche Darstellung von Zooko's Dreieck](images/4/zooko.pdf){#fig:zooko width=50%}
+![Bildliche Darstellung von Zooko's Dreieck.](images/4/zooko.pdf){#fig:zooko width=50%}
 
 Aus Sicht der Usability ist dabei die initiale Authentifizierung ein Problem.
 Diese kann nicht von ``brig`` automatisiert erledigt werden, da ``brig`` nicht wissen
@@ -1256,7 +1256,7 @@ Trust*[^WEB_OF_TRUST] erweitert werden. Als Anwendungsfall könnte man
 eine geschlossene Gruppe von Nutzern betrachten, die sich nur teilweise bekannt sind.
 Vergrößert sich die Gruppe mit einem neuen Teilnehmer, so muss dieser alle anderen
 Teilnehmer authentifizieren und gegenseitig auch von diesen authentifiziert werden.
-Ab einer bestimmten Gruppengröße wird dies ein sehr aufwendige Aufgabe.
+Ab einer bestimmten Gruppengröße wird dies eine sehr aufwendige Aufgabe.
 Eine logische Lösung wäre das Anlegen eines *Blessed Repository*, dem alle Gruppenteilnehmer trauen und das von einem respektierten Teilnehmer der Gruppe
 betrieben wird. Möchte man diesen zentralen Ansatz nicht, so kann man wie beim *Web
 of Trust*, ein System einführen, das einem neuen Nutzer automatisch traut, wenn

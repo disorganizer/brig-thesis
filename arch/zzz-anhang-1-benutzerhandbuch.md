@@ -4,7 +4,7 @@ Die Funktionalität des ``brig``--Prototypen ist im momentanen Zustand nur über
 eine Kommandozeilenanwendung erreichbar. Die Hilfe dieser Anwendung wird unten
 gezeigt. Im Folgenden werden die einzelnen zur Verfügung stehenden Optionen und
 Kommandos erklärt. Daneben wird auch eine Anleitung zur Installation gegeben
-und es werden Ratschläge zur optimalen Nutzung erteilt.
+und es werden Ratschläge zur optimalen Nutzung gegeben.
 Die Software ist zu diesem Zeitpunkt bei Weitem noch nicht stabil genug für den
 alltäglichen Einsatz. Es muss mit Abstürzen und Fehlern gerechnet werden.
 
@@ -54,8 +54,8 @@ COMMANDS:
      cat	  Concatenates a file
 
 GLOBAL OPTIONS:
-   --nodaemon, -n		Don`t run the daemon
-   --password value, -x value	Supply user password
+   --nodaemon, -n	    Don`t run the daemon
+   --password value,    Supply user password
    --path value			Path of the repository (default: ".") [$BRIG_PATH]
    --help, -h			show help
    --version, -v		print the version
@@ -73,9 +73,10 @@ und die mitgelieferte Standardbibliothek installiert werden. Dazu kann in Linux
 Distribution der mitgelieferte Paketmanager genutzt werden. Unter Arch Linux ist
 der Befehl etwa »``pacman -S go``« unter Debian/Ubuntu »``apt-get install golang``«.
 In allen anderen Fällen kann ein Installationspaket von
-``golang.org``[^GOLANG_DOWNLOAD] heruntergeladen werden.
-Ist *Go* installiert, muss noch der Pfad definiert werden, in dem alle *Go*--Quellen
-landen. Dazu ist das Setzen der Umgebungsvariable ``GOPATH`` nötig:
+``golang.org``[^GOLANG_DOWNLOAD] heruntergeladen werden. Ist *Go* installiert,
+muss noch der Pfad definiert werden, in dem alle *Go*--Quellen landen. Dazu ist
+das Setzen der Umgebungsvariable ``GOPATH`` und eventuell auch ``GOROOT``
+nötig:
 
 ```bash
 $ mkdir ~/go
@@ -98,7 +99,7 @@ $ go get github.com/disorganizer/brig
 ```
 
 Nach erfolgreicher Ausführung (kann je nach Rechner zwischen etwa einer bis
-zehn Minuten dauern) sollte ein ``brig``--Kommando auf der Kommandozeile verfügbar sein.
+zehn Minuten dauern) sollte ein »``brig``«--Kommando auf der Kommandozeile verfügbar sein.
 Ohne weitere Argumente sollte das Kommando den oben stehenden Hilfetext produzieren.
 
 [^SYSTEM]: Im Falle der Autoren ist das: Arch Linux mit Kernel 4.4 und Go in Version 1.5 bis 1.6.
@@ -150,9 +151,9 @@ löschen sowohl ``git rm``, als auch ``brig rm`` Dateien aus dem Repository.
 
 Neben diesem Dokument und der eingebauten Hilfe gibt es im Moment keine weitere
 Dokumentation zu den vorgestellten Kommandos. Die eingebaute Hilfe kann
-entweder allgemein über ``$ brig help``{.bash} aufgerufen werden (produziert
-diesselbe Ausgabe, wie in [@lst:brig-help]) oder für ein spezifisches
-Subkommando mittels ``$ brig help <subcommand>``{.bash}. Beispiel für ``$ brig
+entweder allgemein über ``brig help``{.bash} aufgerufen werden (produziert
+dieselbe Ausgabe, wie die eingangs gezeigte Hilfe) oder für ein spezifisches
+Subkommando mittels ``brig help <subcommand>``{.bash}. Beispiel für ``brig
 help rm``{.sh}:
 
 ```bash
@@ -233,7 +234,7 @@ von überall im Dateisystem das Kommando absetzen zu können.
 Die hinzugefügten Dateien werden von ``brig`` einem virtuellen Wurzelknoten »``/``« hinzugefügt (``/cat.png``),
 anstatt den vollen Pfad zu erhalten (``~/photos/cat.png``) --- letzterer hätte nach der Synchronisation
 auf andere Rechner keine sinnvolle Bedeutung mehr. Dieses Prinzip wird auch ersichtlich bei Benutzung
-von ``$ brig ls``{.bash}:
+von ``brig ls``{.bash}:
 
 ```sh
 $ brig ls
@@ -350,8 +351,7 @@ $ brig commit
 1 change committed
 ```
 
-Die gemachten *Commits* lassen sich mittels des ``log``--Unterkommandos anzeigen.
-Dabei wird
+Die gemachten *Commits* lassen sich mittels des ``log``--Unterkommandos anzeigen:
 
 ```sh
 # Zeige alle gemachten Commits an (Prüfsummen wegen Überlänge gekürzt)
@@ -380,7 +380,7 @@ auf den letzten sauberen Stand zurücksetzen, so kann man den Befehl
 ``stage``--Befehl benutzen:
 
 ```sh
-$ Setze /photos/cat.png auf den letzten Stand im staging commit zurück.
+# Setze /photos/cat.png auf den letzten Stand im staging commit zurück.
 $ brig unstage /photos/cat.png
 ```
 
@@ -438,7 +438,7 @@ $ brig remote add alice@wonderland.lit/laptop \
 		QmVszFHVNj6UYuPybU3rVXG5L6Jm6TVcvHi2ucDaAubfss
 ```
 
-Falls man nur den Teil hinter dem ``@`` kennt (also die *Domain*), so können auch alle
+Falls man nur den Teil hinter dem »``@``« kennt (also die *Domain*), so können auch alle
 Identitäten mit dieser Domain aufgelistet werden:
 
 ```sh
@@ -456,7 +456,7 @@ $ brig remote list
 QmZyhL3VAAr35a9msSyhW4zfLPnx9Jn4gMSyMQR5VCBFnx online alice@wonderland.lit/laptop
 ```
 
-Das Löschen eines Kontakts ist mit ``$ brig remote remove <username>``{.sh}
+Das Löschen eines Kontakts ist mit ``brig remote remove <username>``{.sh}
 möglich und wird nicht weiter demonstriert.
 
 ### Synchronisieren (``brig sync``)
@@ -500,7 +500,7 @@ $ brig unpin /movies/swiss-army-man.mkv
 
 ``brig`` bietet momentan wenige Optionen, um das Verhalten
 der Software nach seinen Wünschen einzustellen. Ein Überblick über die
-verfügbaren Optionen liefert das Unterkommando  ``$ brig config
+verfügbaren Optionen liefert das Unterkommando  ``brig config
 list``{.sh}:
 
 ```sh
@@ -605,11 +605,8 @@ true
 Unter dem ``debug``--Unterkommando finden sich einige Hilfsmittel, um die internen Abläufe
 von ``brig`` nachvollziehen zu können:
 
-* ``brig debug export``: Exportiert den aktuellen Metadatenindex auf ``stdout``. Standardmäßig ist das Format
-  dabei die binäre Enkodierung von Protobuf.
+* ``brig debug export``: Exportiert den aktuellen Metadatenindex auf ``stdout``.
 * ``brig debug import``: Importiert die serialisierte Version eines Metadatenindex.
-* ``brig debug diff <StoreA> <StoreB>``: Zeigt Debug--Ausgaben und Differenzen zwischen zwei exportierten, serialisierten
-  Indizes.
 
 ### Software--Version anzeigen (``brig version``)
 
