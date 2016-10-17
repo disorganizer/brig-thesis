@@ -5,9 +5,9 @@ Zukunft erfüllen soll. Diese sind weitreichender als der Umfang der
 aktuellen Implementierung. Die Anforderungen lassen sich in drei Kategorien
 unterteilen:
 
-- **Anforderungen an die Integrität:** ``brig`` muss die Daten die es speichert
+- **Anforderungen an die Integrität:** ``brig`` muss die Daten, die es speichert,
   versionieren, auf Integrität prüfen können und korrekt wiedergeben.
-- **Anforderungen an die Sicherheit:** Alle Daten die ``brig`` anvertraut werden,
+- **Anforderungen an die Sicherheit:** Alle Daten, die ``brig`` anvertraut werden,
   sollten sowohl bei der Speicherung auf der Festplatte als auch bei der
   Übertragung zwischen Partnern verschlüsselt werden. Die Implementierung
   der Sicherheitstechniken sollte transparent von Nutzern und Experten
@@ -27,13 +27,13 @@ Nicht jede Anforderung kann dabei voll umgesetzt werden. Teils überschneiden
 oder widersprechen sich Anforderungen an die Sicherheit und an die Effizienz,
 da beispielsweise verschlüsselte Speicherung mehr Prozessor--Ressourcen in Anspruch nimmt.
 Auch ist hohe Usability bei gleichzeitig hohen
-Sicherheitsanforderungen schwierig umzusetzen. Das Neueingeben eines Passworts
+Sicherheitsanforderungen schwierig umzusetzen. Die Neueingabe eines Passworts
 bei jedem Zugriff mag sicherer sein, aber eben kaum benutzerfreundlich.
 Daher muss bei der Erfüllung der Anforderungen eine Priorisierung erfolgen.
 Im Zweifel wurde sich beim Entwurf von ``brig`` primär für die Usability entschieden.
 Zwar kann ein sehr sicheres System den Nutzer beschützen, doch wird der
 Nutzer es ungern einsetzen wollen, wenn es aufwendig zu bedienen ist.
-Das heißt allerdings keineswegs dass ``brig`` »per Entwurf« unsicher
+Das heißt allerdings keineswegs, dass ``brig`` »per Entwurf« unsicher
 ist. Es wurde darauf geachtet, dass Sicherheitstechniken den
 Benutzer möglichst wenig im Weg stehen und eher in den Hintergrund treten.
 Rob Pike hat diesen
@@ -44,21 +44,20 @@ Punkt überspitzt, aber prägnant dargestellt:
 >
 > --- Rob Pike ([@pike2001security] S.24)
 
-Die unten stehenden Anforderungen sind teilweise an die Eigenschaften des
+Die untenstehenden Anforderungen sind teilweise an die Eigenschaften des
 verteilten Dateisystems *Infinit* (beschrieben in [@quintard2012towards], siehe
 S.39) angelehnt und an die Ausrichtung von ``brig`` angepasst worden.
 
 ## Anforderungen an die Integrität
 
-**Entkopplung von Metadaten und Daten:** Statt einem zentralen Dienst, soll
-``brig`` die Basis eines dezentralen Netzwerkes bilden. Dabei stellt jeder
-Teilnehmer einen Knoten in diesem Netzwerk dar. Nutzer des Netzwerkes können
-Dateien untereinander synchronisieren. Dabei muss nicht
+**Entkopplung von Metadaten und tatsächlichen Daten:** Statt einem zentralen
+Dienst, soll ``brig`` die Basis eines dezentralen Netzwerkes bilden. Dabei
+stellt jeder Teilnehmer einen Knoten in diesem Netzwerk dar. Nutzer des
+Netzwerkes können Dateien untereinander synchronisieren. Dabei muss nicht
 zwangsweise die gesamte Datei übertragen werden, jeder Nutzer verwaltet
 lediglich eine Liste der Metadaten der Dateien, die jeder Teilnehmer besitzt.
-Durch die Entkopplung zwischen Metadaten und tatsächlichen Daten ist es
-möglich bestimmte Dateien »on-demand« und für den Nutzer transparent zu
-übertragen.
+Durch diese Entkopplung  ist es möglich, bestimmte Dateien »on--demand« und für
+den Nutzer transparent zu übertragen.
 
 Der Hauptvorteil einer dezentralen Architektur ist die erhöhte
 Ausfallsicherheit (kein *Single--Point--of--Failure*) und der Fakt, dass das
@@ -70,18 +69,18 @@ benötigt. ``brig`` funktioniert daher als *Overlay--Netzwerk* (Siehe
 auf seinem Rechner speichert und welche er von anderen Teilnehmern dynamisch
 empfangen will. Dazu wird das Konzept des »Pinnings« und der »Quota«
 eingeführt. Ein Nutzer kann eine Datei manuell *pinnen*, um sie auf seinem
-lokalen Rechner zu behalten oder um ``brig`` anzuweisen sie aus dem Netzwerk zu holen und
+lokalen Rechner zu behalten oder um ``brig`` anzuweisen, sie aus dem Netzwerk zu holen und
 lokal zwischenzulagern. Dateien, die ``brig`` explizit hinzugefügt wurden,
 werden implizit mit einem *Pin* versehen. Die *Quota* hingegen beschreibt ein
 Limit an Bytes, die lokal zwischengespeichert werden dürfen. Wird dies überschritten,
 so werden Daten gelöscht, die keinen Pin haben.
 
 Das manuelle Pinnen von Dateien ist insbesondere nützlich, wenn eine bestimmte
-Datei zu einer Zeit ohne Internetzugang benötigt wird. Ein Beispiel wäre ein
-Zugpendler der ein Dokument auf dem Weg zur Arbeit editieren möchte. Er kann
+Datei zu einem Zeitpunkt ohne Internetzugang benötigt wird. Ein Beispiel wäre ein
+Zugpendler, der ein Dokument auf dem Weg zur Arbeit editieren möchte. Er kann
 dieses vorher *pinnen*, um es lokal auf seinem Laptop zu lagern.
 
-**Langlebigkeit:** Daten die ``brig`` anvertraut werden, müssen solange ohne
+**Langlebigkeit:** Daten, die ``brig`` anvertraut werden, müssen solange ohne
 Veränderung und Datenverlust gespeichert werden bis kein Nutzer mehr
 diese Datei benötigt.
 
@@ -161,7 +160,7 @@ sind kann ``brig`` nicht selbstständig ermessen. Man kann allerdings dem Nutzer
 Hilfsmittel geben, um die Identität des Gegenüber zu überprüfen. So könnten
 Werkzeuge angeboten werden, mithilfe deren der Nutzer dem potenziellen Partner
 eine Frage (mit vordefinierter Antwort) schicken kann, die dieser dann
-beantworten muss. Alternativ können sich beide Partner vorher auf einen
+beantworten muss. Alternativ können sich beide Partner vorher auf einem
 separaten Kanal auf ein gemeinsames Geheimnis einigen, welches dann über
 ``brig`` ausgetauscht und überprüft werden kann. Diese beiden Möglichkeiten
 sind ähneln der OTR--Implementierung des Instant-Messanger Pidgin[^PIDGIN].
@@ -193,9 +192,9 @@ für die Gesamtheit der Software relevant sind, werden sie hier ausgelassen.
 
 **Automatische Versionierung:** Die Dateien die ``brig`` verwaltet, sollen
 automatisch versioniert werden. Die Versionierung soll dabei in Form von
-*Checkpoints* bei jeder Dateiänderung erfolgen. Mehrere von Checkpoints
+*Checkpoints* bei jeder Dateiänderung erfolgen. Mehrere Checkpoints
 können manuell oder per *Timer* in einem zusammenhängenden *Commit*
-zusammengefasst werden. Die Menge an Dateien die in alter Version vorhanden
+zusammengefasst werden. Die Menge an Dateien, die in alter Version vorhanden
 sind, sollen durch eine Speicher-Quota geregelt werden, die nicht überschritten werden darf.
 Wird dieses Limit überschritten, so werden die ältesten Dateien von der lokalen
 Maschine gelöscht. Die jeweiligen Checkpoints sind aber noch  vorhanden und der
@@ -208,11 +207,11 @@ aus, dass Dateinamen wie ``FINAL-rev2.pdf`` oder ``FINAL-rev7.comments.pdf``
 entstehen. Daher wäre für viele Nutzer eine automatisierte und
 robuste Versionierung wünschenswert.
 
-**Portabilität:** ``brig`` sollte in möglichst portabler Weise implementiert
+**Portabilität:** ``brig`` soll in möglichst portabler Weise implementiert
 werden, um die zunehmende Fragmentierung des
-Betriebssystemmarkts[@statistaFragOS] zu berücksichtigen. Dabei sollten neben
-den populärsten Betriebssystemen wie Windows, Mac OSX und GNU/Linux auch auf lange
-Sicht mobile Plattformen unterstützt werden.
+Betriebssystemmarkts[@statistaFragOS] zu berücksichtigen. Es sollen neben
+den populärsten Systemen wie Windows, macOS und GNU/Linux auf lange
+Sicht auch mobile Plattformen wie Android unterstützt werden.
 
 **Einfache Installation:** ``brig`` sollte möglichst einfach und ohne
 Vorkenntnisse installierbar sein. Zur Installation gehört dabei nicht nur die
@@ -227,13 +226,13 @@ Dateisystem. Als Datei wird in diesem Kontext ein Datenstrom verstanden, der
 unter einem bestimmten Pfad im Dateisystem ausgelesen oder beschrieben werden
 kann. Ihm zugeordnet sind Metadaten, wie Größe, Änderungsdatum und
 Zugriffsdatum. Dateien sollen kopiert, verschoben und gelöscht werden können.
-Zudem sollten keine Limitierungen der Pfadlänge durch ``brig`` erfolgen, auch
-keine bestimmte Enkodierung des Pfadnamens soll forciert werden. Ebenfalls soll
-die Dateigröße nur durch das darunter liegende System begrenzt werden.
+Zudem sollten keine Limitierungen der Pfadlänge oder der Dateigröße durch
+``brig`` erfolgen. Auch soll keine bestimmte Enkodierung des Pfadnamens
+forciert werden.
 
-**Generalität:** Die Nutzung von Techniken die den Nutzerstamm auf bestimmte
+**Generalität:** Die Nutzung von Techniken, die den Nutzerstamm auf bestimmte
 Plattformen einschränkt oder den Kauf zusätzlicher, spezieller Hardware
-benötigt ist nicht erlaubt. Beispielsweise der Einsatz von
+benötigt, ist nicht erlaubt. Beispielsweise der Einsatz von
 plattformspezifischen Dateisystemen wie btrfs[^BTRFS] oder ZFS[^ZFS] zur
 Speicherung  entfällt daher. Auch darf nicht vorausgesetzt werden, dass alle
 Nutzer ``brig`` verwenden, da dies ein Lock--in wie bei anderen Produkten
@@ -250,11 +249,11 @@ herunterladen. Zentrale Dienste können dies relativ einfach leisten, indem sie
 einen Webservice anbieten, welcher die Datei von einer zentralen Stelle
 herunterladbar macht. Ein dezentrales Netzwerk wie ``brig`` muss hingegen
 *Gateways* anbieten, also eine handvoll Dienste, welche zwischen den »normalen
-Internet« und dem ``brig``--Netzwerk vermitteln (siehe [@fig:gateway]). Die
+Internet« und dem ``brig``--Netzwerk vermitteln (siehe [@fig:gateway]).
 Nutzer, welche die Dateien verteilen wollen, können ein solches Gateway selbst
 betreiben oder können ein von Freiwilligen betriebenes Gateway benutzen.
 
-![Schematischer Aufbau eines HTTPS--Gateway](images/7/gateway.pdf){#fig:gateway}
+![Schematischer Aufbau eines HTTPS--Gateways.](images/7/gateway.pdf){#fig:gateway}
 
 **Stabilität:** Die Software muss bei normaler Benutzung ohne Abstürze und
 offensichtliche Fehler funktionieren. Eine umfangreiche Testsuite soll die
@@ -266,7 +265,7 @@ Fehlern vermeiden.
 [^REGRESSION]: Siehe auch: <https://de.wikipedia.org/wiki/Regressionstest>
 
 **Effizienz:** Die Geschwindigkeit der Software auf durchschnittlicher Hardware
-(siehe [@sec:assumptions]) soll schnell genug sein, um den Anwender ein flüssiges
+(siehe [@sec:assumptions]) soll schnell genug sein, um dem Anwender ein flüssiges
 Arbeiten ermöglichen zu können. Die Geschwindigkeit sollte durch eine
 Benchmarksuite messbar gemacht werden und bei jedem neuen Release mit dem
 Vorgänger verglichen werden.

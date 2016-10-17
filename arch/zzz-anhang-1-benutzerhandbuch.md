@@ -5,6 +5,8 @@ eine Kommandozeilenanwendung erreichbar. Die Hilfe dieser Anwendung wird unten
 gezeigt. Im Folgenden werden die einzelnen zur Verfügung stehenden Optionen und
 Kommandos erklärt. Daneben wird auch eine Anleitung zur Installation gegeben
 und es werden Ratschläge zur optimalen Nutzung erteilt.
+Die Software ist zu diesem Zeitpunkt bei Weitem noch nicht stabil genug für den
+alltäglichen Einsatz. Es muss mit Abstürzen und Fehlern gerechnet werden.
 
 ```{#lst:brig-help .bash .numberLines}
 NAME:

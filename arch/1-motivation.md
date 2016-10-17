@@ -28,7 +28,7 @@ ausgehandelt werden.
 
 ## Motivation
 
-Zahlreiche Ansätze haben versucht diese Probleme in der Praxis abzumildern oder
+Zahlreiche Ansätze haben versucht, diese Probleme in der Praxis abzumildern oder
 zu lösen. Viele dieser Ansätze basieren nicht mehr auf einer zentralen
 Infrastruktur, sondern benutzen als Gegenentwurf einen dezentralen Ansatz.
 Dabei werden nicht alle Dateien an einem zentralen Punkt gespeichert, sondern
@@ -75,7 +75,7 @@ Der aktuelle Quelltext findet sich auf der Hosting--Plattform *GitHub*[^GITHUB].
 
 Ziel des Projektes ist die Entwicklung einer sicheren, verteilten und
 versionierten Alternative zu Cloud--Storage Lösungen wie Dropbox, die sowohl
-für Unternehmen, als auch für Heimanwender nutzbar sind. Trotz der Prämisse,
+für Unternehmen, als auch für Heimanwender nutzbar ist. Trotz der Prämisse,
 einfache Nutzbarkeit zu gewährleisten, wird auf Sicherheit sehr großen Wert
 gelegt.
 
@@ -153,17 +153,17 @@ Die vorliegende Arbeit ist in drei größere logische Blöcke gegliedert:
   werden Möglichkeiten zur weiteren Entwicklung aufgezeigt.
 
 Im [@sec:benutzerhandbuch] findet sich zudem ein Benutzerhandbuch, das
-losgekoppelt vom Rest gelesen werden kann und dazu dienen soll einen
+losgekoppelt vom Rest gelesen werden kann und dazu dienen soll, einen
 praktischen Eindruck von der Implementierung zu bekommen. Es wird daher
 empfohlen, das Benutzerhandbuch frühzeitig zu lesen.
 
-## Über die Autoren
+## Über die Autoren der Software
 
 Die Autoren sind zwei Master--Studenten an der Hochschule Augsburg, die von
 »Freier Software« begeistert sind. Momentan entwickeln wir ``brig`` im Rahmen
 unserer Masterarbeiten bei Prof. Dr.-Ing. Thorsten Schöler in der
 Distributed--Systems--Group[^DSG] und wollen auch nach unserem Abschluss weiter
-daran arbeiten. Beide Autoren haben Erfahrung und Spaß daran
+daran arbeiten. Beide Autoren haben Erfahrung und Spaß daran,
 Open--Source--Software zu entwickeln und zu betreuen, was neben dem Eigennutzen
 einen großen Teil der Motivation ausmacht.
 
@@ -180,5 +180,5 @@ Es werden einige wenige typografische Konventionen im Textsatz vereinbart:
 Zudem werden die Namen *Alice*, *Bob* und manchmal *Charlie* verwendet, um
 Testnutzer zu kennzeichnen. Sofern nicht anders angegeben, kann angenommen
 werden, dass Abläufe aus Sicht von *Alice* geschildert werden. Die Grafiken in
-dieser Arbeit sind auf Englisch gehalten, da diese auch für die offizielle
+dieser Arbeit sind in englischer Sprache gehalten, da diese auch für die offizielle
 Dokumentation genutzt werden sollen.

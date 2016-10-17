@@ -52,14 +52,14 @@ gehen können. Siehe auch: <http://gitfaq.org/articles/what-is-a-detached-head.h
 ![Das Datenmodell von ``brig``. Checkpoints von Verzeichnissen wurden ausgelassen.](images/4/brig-data-model.pdf){#fig:brig-data-model}
 
 [@fig:brig-data-model] zeigt das oben verwendete Beispiel in ``brig``'s
-Datenmodell. Es werden prinzipiell die selben Objekttypen verwendet, die auch
+Datenmodell. Es werden prinzipiell die gleichen Objekttypen verwendet, die auch
 ``git`` verwendet:
 
 * **File:** Speichert die Metadaten einer einzelnen, regulären Datei. Zu den Metadaten gehört die aktuelle Prüfsumme,
   die Dateigröße, der letzte Änderungszeitpunkt und der kryptografische Schlüssel mit dem die Datei verschlüsselt ist.
   Anders als ein *Blob* speichert ein *File* die Daten nicht selbst, sondern referenziert diese nur im ``ipfs``--Backend.
 * **Directory:**  Speichert wie ein *Tree* einzelne *Files* und weitere *Directories*. Die Prüfsumme des Verzeichnisses $H_{directory}$ ergibt sich auch hier
-  aus der XOR--Verknüpfung ($\oplus$) der Prüfsumme des Pfades $H_{path}$ mit den den Prüfsummen der direkten Nachfahren $x$: $$
+  aus der XOR--Verknüpfung ($\oplus$) der Prüfsumme des Pfades $H_{path}$ mit den Prüfsummen der direkten Nachfahren $x$: $$
 	H_{directory}(x) = \begin{cases}
 			H_{path} & \text{für } x = () \\
 			x_1 \oplus f(x_{(x_2, \ldots, x_n)}) & \text{sonst}
@@ -73,7 +73,7 @@ Datenmodell. Es werden prinzipiell die selben Objekttypen verwendet, die auch
     $$y = y \oplus x \oplus x = x \oplus y \oplus x = x \oplus x \oplus y \text{  (Kommutativität)}$$
 
     Diese Eigenschaft kann man sich beim Löschen einer Datei zunutze machen,
-    indem die Prüfsumme jedes darüber liegenden Verzeichnisses mit der Prüfsumme
+    indem die Prüfsumme jedes darüberliegenden Verzeichnisses mit der Prüfsumme
     der zu löschenden Datei XOR--genommen wird. Der resultierende Graph hat die gleiche Prüfsumme wie vor
     dem Einfügen der Datei.
 
@@ -82,7 +82,7 @@ Datenmodell. Es werden prinzipiell die selben Objekttypen verwendet, die auch
   von der Software nach einem bestimmten Zeitintervall erstellt. Daher ist ihr
   Zweck eher mit den *Snapshots* vieler Backup--Programme vergleichbar, welche
   dem Nutzer einen Sicherungspunkt zu einem bestimmten Zeitpunkt in der
-  Vergangenheit bietet. Als Metadaten speichert er als Referenz die Prüfsumme des
+  Vergangenheit bieten. Als Metadaten speichert er als Referenz die Prüfsumme des
   Wurzelverzeichnisses, eine Commit--Nachricht sowie dessen Autor und eine
   Referenz auf den Vorgänger. Aus diesen Metadaten wird durch Konkatenation
   derselben eine weitere Prüfsumme errechnet, die den Commit selbst eindeutig
@@ -100,12 +100,12 @@ Datenmodell. Es werden prinzipiell die selben Objekttypen verwendet, die auch
 
 *Directories* und *Files* speichern zudem zwei weitere gemeinsame Attribute:
 
-* Ihren eigenen Namen und den vollen Pfad des darüber liegenden Knoten. Zusammen ergibt dieser den vollen
+* **Ihren eigenen Namen und den vollen Pfad des darüber liegenden Knoten**. Zusammen ergibt dieser den vollen
   Pfad der Datei oder des Verzeichnisses. Dieser Pfad ist nötig, um den jeweiligen Elternknoten zu erreichen.
   In einem gerichteten, azyklischen Graphen darf es keine Rückkanten nach »oben« geben, deswegen scheidet
   die direkte Referenzierung des Elternknotens mittels seiner Prüfsumme aus. Wie in [@fig:path-resolution] gezeigt
   ist es daher nötig, beispielsweise den Elternknoten eines beliebigen Knotens vom aktuellen Wurzelknoten neu aufzulösen.
-* Eine eindeutige Nummer (*Unique Identifier*, ``UID``), welche die Datei oder das Verzeichnis
+* **Eine eindeutige Nummer** (*Unique Identifier*, ``UID``), welche die Datei oder das Verzeichnis
   eindeutig kennzeichnet. Diese Nummer bleibt auch bei Modifikation und
   Verschieben der Datei gleich. Neben der Prüfsumme
   (referenziert einen bestimmten Inhalt) und dem Pfad (referenziert eine
@@ -119,7 +119,7 @@ Datenmodell. Es werden prinzipiell die selben Objekttypen verwendet, die auch
 
 Davon abgesehen fällt auf, dass zwei zusätzliche Strukturen eingeführt wurden:
 
-* **Checkpoints:** Jeder Datei ist über ihre ``UID`` ein Historie von mehreren, sogenannten *Checkpoints* zugeordnet.
+* **Checkpoints:** Jeder Datei ist über ihre ``UID`` eine Historie von mehreren, sogenannten *Checkpoints* zugeordnet.
   Jeder Einzelne dieser Checkpoints beschreibt eine atomare Änderung an der Datei. Da keine
   partiellen Änderungen[^PARTIAL] möglich sind, müssen nur vier verschiedene Operation
   unterschieden werden: ``ADD`` (Datei wurde initial oder erneut hinzugefügt), ``MODIFY`` (Prüfsumme hat sich verändert),
@@ -130,7 +130,7 @@ Davon abgesehen fällt auf, dass zwei zusätzliche Strukturen eingeführt wurden
   Jeder Checkpoint kennt den Zustand der Datei zum Zeitpunkt der Modifikation,
   sowie einige Metadaten wie einen Zeitstempel, der Dateigröße, dem Änderungstyp, dem Vorgänger
   und dem Urheber der Änderung. Der Vorteil einer dateiabhängigen Historie
-  ist die Möglichkeit umbenannte Dateien zu erkennen, sowie Dateien zu erkennen, die gelöscht und dann
+  ist die Möglichkeit, umbenannte Dateien zu erkennen, sowie Dateien zu erkennen, die gelöscht und dann
   wieder hinzugefügt worden sind. Ein weiterer Vorteil ist, dass zur Ausgabe der Historie einer Datei,
   nur die *Checkpoints* betrachtet werden müssen. Es muss nicht wie bei ``git`` jeder Commit betrachtet werden, um
   nachzusehen ob eine Änderung an einer bestimmten Datei stattgefunden hat.
@@ -154,7 +154,7 @@ Davon abgesehen fällt auf, dass zwei zusätzliche Strukturen eingeführt wurden
 
 [^PARTIAL]: Es wird nicht zwischen der Änderung eines einzelnen Bytes oder der gesamten Datei unterschieden wie bei ``git``.
 
-![Der Staging Bereich im Vergleich zwischen ``git`` und ``brig``](images/4/staging-area.pdf){#fig:staging-area}
+![Der Staging--Bereich im Vergleich zwischen ``git`` und ``brig``](images/4/staging-area.pdf){#fig:staging-area}
 
 Da ein *Commit* nur einen Vorgänger haben kann, muss ein anderer Mechanismus
 eingeführt werden, um die Synchronisation zwischen zwei Partnern festzuhalten.
@@ -214,7 +214,7 @@ unter einem bestimmten Pfad rekursiv (breadth-first) und gibt diese aus.
 Verzeichnisses ergibt sich aus dem Pfad des neuen Verzeichnisses. Diese wird in den
 Elternknoten eingerechnet. Die Referenz auf das Wurzelverzeichnis wird im
 Staging--Commit angepasst.
-Eventuell müssen noch dazwischen liegende Verzeichnisse erstellt werden. Diese
+Eventuell müssen noch dazwischenliegende Verzeichnisse erstellt werden. Diese
 werden einzeln von oben nach unten mit den eben beschriebenen Prozess erstellt.
 
 ``MOVE:`` Verschiebt eine Quelldatei oder Verzeichnis zu einem
@@ -252,9 +252,9 @@ und dafür die alte Prüfsumme wieder eingerechnet.
 *Anmerkung:* Die Benennung der Operationen ``STAGE``, ``UNSTAGE`` und
 ``REMOVE`` ist anders als bei den semantisch gleichen ``git``--Werkzeugen
 ``add``, ``reset`` und ``rm``. Die Benennung nach dem ``git``--Schema ist
-irreführend, da ``git add`` nicht nur neue Dateien, sondern auch modifizierte
-Dateien hinzugefügt. Zudem ist ``git add`` es nicht das Gegenteil von ``git
-rm``[^GIT_FAQ_RM], wie man vom Namen annehmen könnte. Dass eigentliche
+irreführend, da ``git add`` nicht nur neue Dateien hinzufügt, sondern auch modifizierte
+Dateien aktualisiert. Zudem ist ``git add`` nicht das Gegenteil von ``git
+rm``[^GIT_FAQ_RM], wie man vom Namen annehmen könnte. Das eigentliche
 Gegenteil ist ``git reset``. Eine mögliche Alternative zu ``brig stage`` wäre
 vermutlich auch ``brig track``, beziehungsweise ``brig untrack`` statt ``brig rm``.
 
@@ -270,16 +270,16 @@ Autor in den Metadaten des Commits gesetzt werden. Basierend darauf wird die
 finale Prüfsumme berechnet und der entstandene Commit abgespeichert. Ein neuer
 *Staging-Commit* wird erstellt, welcher im unveränderten Zustand auf das selbe
 Wurzelverzeichnis zeigt wie sein Vorgänger. Zuletzt werden die Referenzen von
-``HEAD`` und ``CURR`` jeweils um ein Platz nach vorne verschoben.
+``HEAD`` und ``CURR`` jeweils um einen Platz nach vorne verschoben.
 
 ![Die Abfolge der ``COMMIT``--Operation im Detail. Links der vorige Stand, rechts der Stand nach der ``COMMIT``--Operation.](images/4/op-commit.pdf){#fig:op-commit}
 
 ``CHECKOUT:`` Stellt einen alten Stand wieder her. Dabei kann die Operation
 eine alte Datei oder ein altes Verzeichnis basierend auf der
-alten Prüfsumme oder den Stand eines gesamten, in der Vergangenheit liegenden
+alten Prüfsumme oder den Stand eines gesamten, in der Vergangenheit liegenden,
 Commits wiederherstellen.
 
-Im Gegensatz zu ``git`` ist es allerdings nicht vorgesehen in der
+Im Gegensatz zu ``git`` ist es allerdings nicht vorgesehen, in der
 Versionshistorie »herumzuspringen«. Soll ein alter *Commit* wiederhergestellt
 werden, so wird der Staging--Commit so verändert, dass er dem gewünschten,
 alten Stand entspricht (siehe auch Abbildung [@fig:op-checkout]). Das Verhalten
@@ -305,11 +305,11 @@ Dies stellt keine Einschränkung der Architektur an sich dar.
 die Ausgabe mit ``HEAD`` und beendet wird sie mit dem initialen Commit.
 Alternativ kann auch die Historie eines einzelnen Verzeichnisses oder einer
 Datei angezeigt werden. Dabei werden statt Commits alle Checkpoints dieser
-Datei, beginnend mit dem Aktuellsten ausgegeben.
+Datei, beginnend mit dem Aktuellsten, ausgegeben.
 
 ``STATUS:`` Zeigt den Inhalt des aktuellen Staging--Commits (analog zu ``git
 status``) und damit aller geänderten Dateien und Verzeichnisse im Vergleich zu
-``HEAD``. Es gibt keine eigene ``DIFF``--Operationen, da es keine
+``HEAD``. Es gibt keine eigene ``DIFF``--Operation, da es keine
 partiellen Differenzen gibt. Eine Übersicht der Änderung erhält man durch
 Anwendung der ``STATUS`` und ``HISTORY``--Operationen.
 
@@ -318,7 +318,7 @@ Anwendung der ``STATUS`` und ``HISTORY``--Operationen.
 Ähnlich wie ``git`` speichert ``brig`` für jeden Nutzer seinen zuletzt
 bekannten *Store* ab. Mithilfe dieser Informationen können dann
 Synchronisationsentscheidungen größtenteils automatisiert getroffen werden.
-Welche Stores dabei lokal zwischengespeichert wird, entscheiden die Einträge
+Welche Stores dabei lokal zwischengespeichert werden, entscheiden die Einträge
 der sogenannten *Remote--Liste*.
 
 ### Die Remote--Liste {#sec:remote-list}
@@ -326,7 +326,7 @@ der sogenannten *Remote--Liste*.
 Jeder Teilnehmer mit dem synchronisiert werden soll, muss zuerst in eine
 spezielle Liste von ``brig`` eingetragen werden, damit dieser dem System
 bekannt wird. Dies ist vergleichbar mit der Liste die ``git remote -v``
-erzeugt: Eine Zuordnung eines menschenlesbarem Namen zu einer eindeutigen
+erzeugt: Eine Zuordnung eines menschenlesbaren Namen zu einer eindeutigen
 Referenz zum Synchronisationspartner. Im Falle von ``git`` ist das eine URL,
 bei ``brig`` handelt es sich um die öffentliche Identität des Partners, also
 einer Prüfsumme. Wie später gezeigt wird, ist dieses explizite Hinzufügen des
@@ -400,7 +400,7 @@ stark abträglich.
 Im Falle von ``brig`` müssen nur die Änderungen von ganzen Dateien betrachtet werden, aber keine partiellen Änderungen
 darin. Eine Änderung der ganzen Datei kann dabei durch folgende Aktionen des Nutzers entstehen:
 
-1) Der Dateinhalt wurde modifiziert, ergo muss sich die Prüfsumme geändert haben (``MODIFY``).
+1) Der Dateiinhalt wurde modifiziert, ergo muss sich die Prüfsumme geändert haben (``MODIFY``).
 2) Die Datei wurde verschoben, ergo muss sich der Pfad geändert haben (``MOVE``).
 3) Die Datei wurde gelöscht, ergo ist sie im *Staging--Commit* nicht mehr vorhanden (``REMOVE``).
 4) Die Datei wurde (initial oder erneut nach einem ``REMOVE``) hinzugefügt (``ADD``).
@@ -483,14 +483,17 @@ func sync(historyA, historyB History) Result {
 
 ### Synchronisation von Verzeichnissen
 
-Die naive Herangehensweise wäre es, den obigen Algorithmus für jede Datei im
-Verzeichnis zu wiederholen. Der beispielhafte Verzeichnisbaum in
-[@fig:tree-sync] zeigt allerdings bereits ein Problem dabei: Die Menge an
-Pfaden, die Alice besitzt wird sich selten ganz mit denen decken, die Bob besitzt.
-So kann natürlich Alice Pfade besitzen, die Bob nicht hat und umgekehrt.
-Im Beispiel synchronisiert Alice mit Bob. Sprich, Alice möchte die Änderungen von Bob empfangen.
+Die naive Herangehensweise wäre, den obigen Algorithmus für jede Datei im
+Verzeichnis zu wiederholen[^SYNC_ONLY_FILE]. Der beispielhafte Verzeichnisbaum
+in [@fig:tree-sync] zeigt allerdings bereits ein Problem dabei: Die Menge an
+Pfaden, die Alice besitzt wird sich selten ganz mit denen decken, die Bob
+besitzt. So kann natürlich Alice Pfade besitzen, die Bob nicht hat und
+umgekehrt. Im Beispiel synchronisiert Alice mit Bob. Das heißt, Alice möchte
+die Änderungen von Bob empfangen.
 
 ![Unterteilung der zu synchronisierenden Pfade in drei Gruppen.](images/4/tree-sync.pdf){#fig:tree-sync}
+
+[^SYNC_ONLY]: Es werden nur reguläre Dateien und leere Verzeichnisse bei der Synchronisation berücksichtigt.
 
 Man könnte also das »naive« Konzept weiterführen und die Menge der zu
 synchronisierenden Pfade in drei Untermengen unterteilten. 
@@ -860,7 +863,11 @@ Ciphertext generieren. Der Nachteil ist, dass ein Angreifer feststellen kann,
 ob jemand eine Datei (beispielsweise Inhalte mit urhebergeschützen Inhalten)
 besitzt. Im Protoypen werden die Dateischlüssel daher zufällig generiert,
 was die Deduplizierungsfunktion von ``ipfs`` momentan ausschaltet.
-Die Vor- und Nachteile dieses Verfahrens wird in [@cpiechula] diskutiert.
+Dies hat auch zur Folge, dass die Synchronisation von zwei unabhängig
+hinzugefügten, aber sonst gleichen Dateien zwangsweise dazu führt, dass diese
+unterschiedlich sind, da auf beiden Seiten jeweils ein anderer Schlüssel
+generiert wird. Die Vor- und Nachteile dieses Verfahrens wird weiter in [@cpiechula]
+diskutiert.
 
 #### Verschlüsselung {#sec:encryption}
 

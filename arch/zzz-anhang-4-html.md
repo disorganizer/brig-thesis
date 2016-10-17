@@ -8,6 +8,7 @@ Der Datenträger zu dieser Arbeit enthält folgende Dateien und Verzeichnisse:
 * ``./brig-vendor/``: Enthält ein ``git``--Repository mit allen Abhängigkeiten zu ``brig``.
 * ``./brig-thesis/``: Die Quellen, die zum Erzeugen des vorliegenden Dokuments nötig sind.
 * ``./thesis.pdf``: Das vorliegende Dokument im PDF--Format.
+* ``./thesis-twoside.pdf``: Eine Version von ``thesis.pdf``, die sich für beidseitigen Druck eignet.
 * ``./html-thesis/``: HTML--Version des vorliegenden Dokuments.
 * ``README.txt``: Der Inhalt dieser Seite in Textform.
 
