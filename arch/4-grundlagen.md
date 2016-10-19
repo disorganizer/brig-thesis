@@ -26,7 +26,7 @@ also nicht nur die Lokation der Datei, sondern sie dient auch
 als eindeutiges Identifikationsmerkmal (ähnlich eines Pfads) und gleicht daher
 eher einem Magnet Link[^MAGNET_LINK] als einer URL. Vereinfacht gesagt ist es
 nun die Hauptaufgabe von ``brig`` dem Nutzer die gewohnte Abstraktionsschicht
-eines Dateisystem zu geben, während im Hintergrund jede Datei zu einer
+eines Dateisystems zu geben, während im Hintergrund jede Datei zu einer
 Prüfsumme aufgelöst wird.
 
 [^MAGNET_LINK]: Mehr Informationen unter <https://de.wikipedia.org/wiki/Magnet-Link>
@@ -37,7 +37,7 @@ und müssen nicht physikalisch auf allen Geräten verfügbar sein. Eine Datei ka
 vom *CAN* intelligent aus dem Netzwerk geholt, sofern sie lokal nicht vorhanden
 ist. Dabei wird die Datei typischerweise in kleine Blöcke unterteilt, welche
 einzeln verteilt und geholt werden können. Daher müssen beispielsweise bei
-einem Netzwerkfehler nur alle Blöcke noch heruntergeladen werden, die noch
+einem Netzwerkfehler nur alle Blöcke heruntergeladen werden, die noch
 fehlen.
 
 Technisch basiert ``ipfs`` auf der Distributed--Hashtable *Kademlia* (vgl.
@@ -61,7 +61,7 @@ untergebracht, welche auch von anderen Programmen genutzt werden können.
 Im Folgenden werden die Eigenschaften von ``ipfs`` kurz vorgestellt, welche von
 ``brig`` genutzt werden. Einige interessante Features wie beispielsweise das
 *Interplanetary Naming System* (IPNS) werden dabei ausgelassen, da sie für
-``brig`` aktuelle keine praktische Bedeutung haben.
+``brig`` aktuell keine praktische Bedeutung haben.
 
 **Weltweites Netzwerk:** Standardmäßig bilden alle ``ipfs``--Knoten ein
 zusammenhängendes, weltweites Netzwerk.
@@ -126,7 +126,7 @@ $ ipfs cat QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG > my-photo.png
 **Public--Key Infrastructure:** Jeder Knoten im ``ipfs``--Netzwerk besitzt ein
 RSA--Schlüsselpaar, welches beim Anlegen des Repositories erzeugt wird. Mittels
 einer Prüfsumme  wird aus dem öffentlichen Schlüssel eine Identität berechnet
-($\text{Id} = H_{sha256}(K_{Public})$). Diese kann dann dazu genutzt werden einen Knoten
+($\text{Id} = H_{sha256}(K_{Public})$). Diese kann dann dazu genutzt werden, einen Knoten
 eindeutig zu identifizieren und andere Nutzer im Netzwerk nachzuschlagen und
 deren öffentlichen Schlüssel zu empfangen:
 
@@ -148,7 +148,7 @@ bei Verbindungsaufbau nachweisen, dass er den zum öffentlichen Schlüssel passe
 privaten Schlüssel besitzt (für Details siehe [@cpiechula]).
 
 **Pinning und Caching:** Das Konzept von ``ipfs`` basiert darauf, dass Knoten nur
-das speichern, woran sie auch interessiert sind. Daten, die von außen zum
+das speichern, woran sie auch interessiert sind. Daten, die von Außen zum
 eigenen Knoten übertragen worden sind werden nur kurzfristig zwischengelagert.
 Nach einiger Zeit bereinigt der eingebaute Garbage--Collector die Daten im
 *Cache* von ``ipfs``.[^IPFS_MANUAL_GC]
@@ -174,7 +174,7 @@ $ ipfs pin rm QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
 **Flexibler Netzwerkstack:** Einer der größten Vorteile von ``ipfs`` ist, dass
 es auch über NAT--Grenzen hinweg funktioniert. Da aufgrund von
 *UDP--Hole--Punching* kein *TCP* genutzt werden kann, wird *UDP* genutzt. Um
-die Garantien, die *TCP* bezüglich der Paketzustellung gibt, zu erhalten nutzt
+die Garantien zu erhalten, die *TCP* bezüglich der Paketzustellung gibt, nutzt
 ``ipfs`` das Anwendungs--Protokoll *UDT*. Insgesamt implementiert ``ipfs`` also
 einige Techniken, um, im Gegensatz zu den meisten theoretischen Ansätzen, eine
 leichte Usability zu gewährleisten. Speziell wäre hier zu vermeiden, dass ein
@@ -199,10 +199,10 @@ $ export PHOTO_HASH=QmPtoEEMMnbTSmzr28UEJFvmsD2dW88nbbCyyTrQgA9JR9
 $ curl https://gateway.ipfs.io/ipfs/$PHOTO_HASH > my-photo.png
 ```
 
-Auf dem Gateway läuft dabei ein Webserver, der intern dasselbe tut wie »``ipfs cat``«,
-aber statt auf der Kommandozeile die Daten auf eine HTTP--Verbindung ausgibt.
-Standardmäßig wird bei jedem Aufruf von ``ipfs daemon`` ein Gateway auf der
-Adresse <http://localhost:8080> gestartet.
+Auf dem Gateway läuft dabei ein Webserver, der die gleiche Aufgabe hat wie
+»``ipfs cat``«, aber statt auf der Kommandozeile die Daten auf eine
+HTTP--Verbindung ausgibt. Standardmäßig wird bei jedem Aufruf von ``ipfs
+daemon`` ein Gateway auf der Adresse <http://localhost:8080> gestartet.
 
 ## Datenmodell von ``ipfs``
 
@@ -220,7 +220,7 @@ beherrscht:
 
 [^GC_WIKI]: Siehe auch <https://de.wikipedia.org/wiki/Garbage_Collection>
 
-Das besondere ist, dass die $Get()$ Operation von jedem verbundenen Knoten
+Das Besondere ist, dass die $Get()$ Operation von jedem verbundenen Knoten
 ausgeführt werden kann, wodurch die Nutzung von ``ipfs`` als verteilte Datenbank
 möglich wird. Die oben geschilderte Sicht ist rein die Art und Weise in der
 ``ipfs`` von ``brig`` benutzt wird. Die Möglichkeiten, die ``ipfs`` bietet,
@@ -295,7 +295,7 @@ angeht, soll allerdings aufgrund der relativ unterschiedlichen Ziele kein
 Vergleich gezogen werden.
 
 Im Folgenden ist ein gewisses Grundwissen über ``git`` nützlich. Es wird bei
-Unklarheiten das Buch »*Git --- Verteile Versionsverwaltung für Code
+Unklarheiten das Buch »*Git --- Verteilte Versionsverwaltung für Code
 und Dokumente*[@git]« empfohlen. Alternativ bietet auch die offizielle
 Projektdokumentation[^GITBOOK] einen sehr guten Überblick. Aus Platzgründen
 wird an dieser Stelle über eine gesonderte Einführung verzichtet, da es
@@ -309,7 +309,7 @@ Metadaten abbilden, welche in einer dafür geeigneten Datenbank abgelegt werden.
 eigentlichen Daten werden dabei nicht mittels eines Pfades abgespeichert,
 sondern werden durch  eine Prüfsumme referenziert (im Falle von ``git`` mittels
 ``sha1``). Im Kern lösen beide Programme also Pfade in Prüfsummen auf und
-umgekehrt. Um diese Auflösung so einfach und effizient wie möglich zu machen nutzt
+umgekehrt. Um diese Auflösung so einfach und effizient wie möglich zu machen, nutzt
 ``git`` ein ausgeklügeltes Datenmodell, mit dem sich Änderungen
 abbilden lassen. Dabei werden, anders als bei anderen
 Versionsverwaltungssystemen (wie Subversion), Differenzen »on-the-fly«
@@ -349,7 +349,7 @@ Datei in ``git`` sich sämtliche Prüfsummen der Verzeichnisse darüber ändern.
 Abbildung [@fig:git-data-model] wurde im zweiten Commit die Datei ``big.mkv``
 verändert (Prüfsumme ändert sich von *QmR5AWs9* zu  *QmYYLnXi*). Als direkte
 Konsequenz ändert sich die Prüfsumme des darüber liegenden Verzeichnisses, in
-diesem Fall das Wurzelverzeichnis »``/``«. Bemerkenswert ist hier aber, dass auf
+diesem Fall das Wurzelverzeichnis »``/``«. Bemerkenswert ist hier aber, dass
 das neue »``/``«--Verzeichnis trotzdem auf das ``/photos``--Verzeichnis des
 vorherigen *Commits* verlinkt, da dieses sich in der Zwischenzeit nicht
 geändert hat.
@@ -358,7 +358,7 @@ Jede Änderung bedingt daher eine Veränderung der Prüfsumme des »``/``«--Ver
 Daher sichert dies die Integrität aller darin enthaltenen Dateien ab. Aufgrund dessen
 kann ein darüber liegender *Commit* einfach ein *Wurzelverzeichnis* referenzieren, um
 eine Momentaufnahme aller Dateien zu erzeugen. Jeder *Commit* lässt in seine eigene
-Prüfsumme zudem die Prüfsumme seines Vorgänger einfließen, weshalb jegliche
+Prüfsumme zudem die Prüfsumme seines Vorgängers einfließen, weshalb jegliche
 (absichtliche oder versehentliche) Modifikation der von ``git`` gespeicherten Daten
 aufgedeckt werden kann.
 
@@ -368,12 +368,12 @@ verschiedenen Commits anzeigen, so geht es folgendermaßen vor:
 1) Löse die Prüfsummen der beiden zu untersuchenden *Commits* auf.
 2) Löse die Prüfsummen der darin enthaltenen Wurzelverzeichnisse auf.
 3) Traversiere in beiden Wurzelverzeichnisse zum gewünschten *Blob*.
-4) Lade beide *Blobs* und wende ein Algorithmus an, der Differenzen findet (z. B. ``diff`` von Unix).
+4) Lade beide *Blobs* und wende einen Algorithmus an, der Differenzen findet (z. B. ``diff`` von Unix).
 5) Gebe Differenzen aus.
 
 Dies ist ein signifikanter Unterschied zu zentralen Versionsverwaltungssystemen wie ``svn``, die
 jeweils die aktuellste Datei ganz und ein oder mehrere »Reverse-Diff« abspeichern. Mithilfe
-des *Reverse-Diff* ist es möglich die alten Stände wiederherzustellen.
+des *Reverse-Diff* ist es möglich, die alten Stände wiederherzustellen.
 Obwohl das auf den ersten Blick wie ein Vorteil von ``svn`` wirkt, so nutzt dieses
 in der Praxis deutlich mehr Speicherplatz für ein Repository[^MORE_SPACE] und ist signifikant
 langsamer als ``git``, insbesondere da Netzwerkzugriffe nötig sind, während
@@ -432,10 +432,10 @@ Aus Sicht des Autors hat ``git`` aus architektonischer Sicht einige kleinere Sch
    weniger eine Einschränkung des Datenmodells von ``git``, als viel mehr ein
    kleiner Designfehler[^GIT_FAQ_EMPTY_DIR] in der Implementierung, der bisher als zu unwichtig galt,
    um korrigiert zu werden.
-5) **Keine einzelne Historie pro Datei:** Es gibt nur eine gesamte *Historie*,
+5) **Keine eigene Historie pro Datei:** Es gibt nur eine gesamte *Historie*,
    die durch die Verkettung von *Commits* erzeugt wird. Bei einem Befehl wie ``git log <filename>``
    (Zeige alle Commits, in denen ``<filename>`` verändert wurde) müssen alle *Commits* betrachtet werden, auch wenn ``<filename>`` nur
-   in wenigen davon tatsächlich geändert wurde. Eine mögliche Lösung wäre das
+   in wenigen davon tatsächlich etwas geändert wurde. Eine mögliche Lösung wäre das
    Anlegen einer Historie für einzelne Dateien.
 
 [^VERSION_CONTROL_BY_EXAMPLE]: Siehe auch: <http://ericsink.com/vcbe/html/cryptographic_hashes.html>

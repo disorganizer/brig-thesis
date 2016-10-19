@@ -1,7 +1,5 @@
 # Implementierung {#sec:implementierung}
 
-<!-- Das Kapitel liest sich etwas holprig -->
-
 Dieses Kapitel dokumentiert die Implementierung.
 Der praktische Status der Implementierung kann in [@sec:benutzerhandbuch] betrachtet werden.
 Dort werden nur Funktionen gezeigt, die auch tatsächlich schon existieren.
@@ -56,12 +54,12 @@ für Android und iOS zu entwickeln ist ebenfalls in der Entwicklung[^MOBILE].
 **Große Anzahl mitgelieferter Werkzeuge:** Im Gegensatz zu anderen Sprachen
 umfasst das *Go*--Paket nicht nur die Sprache, sondern auch ein Buildsystem,
 ein Race--Condition--Checker, ein Testrunner, ein Dokumentationsgenerator, ein
-Static--Code--Checker, eine Formattierungshilfe und eine Art Paketmanager.
+Static--Code--Checker, eine Formatierungshilfe und eine Art Paketmanager.
 
 **Einfache Installation und rapides Prototyping:** Durch das ``go
-get``--Wekzeug ist es möglich direkt Bibliotheken und Anwendungen von
-Plattformen wie *GitHub* zu installieren. Gleichzeitig ist es einfach
-eigene Bibliotheken und Anwendungen einzustellen.
+get``--Werkzeug, ist es möglich direkt Bibliotheken und Anwendungen von
+Plattformen wie *GitHub* zu installieren. Gleichzeitig ist es einfach eigene
+Bibliotheken und Anwendungen einzustellen.
 
 **Einheitliche Formatierung:** Durch das »``go fmt``« Werkzeug und strikte
 Stilrichtlinien[^STILRICHT] sieht jeder *Go*--Quelltext ähnlich und damit vertraut aus.
@@ -94,9 +92,9 @@ wird einfach immer die momentan aktuelle Version installiert. Viele Projekte,
 Versionsstand, der von den Entwicklern getestet werden konnte. Dienste wie
 *gopkg.in*[^GOPKG] versuchen eine zusätzliche Versionierung anzubieten, der
 aktuelle »Standard« ist die Nutzung des ``vendor`` Verzeichnisses. Diese Lösung
-läuft darauf hinaus alle benötigten Abhängigkeiten in der gewünschten Version
-in das eigene Quelltext--Repository zu kopieren. Diese unelegante
-aber gut funktionierende Lösung, wird von ``brig`` verwendet[^VENDOR].
+läuft darauf hinaus, alle benötigten Abhängigkeiten in der gewünschten Version
+in das eigene Quelltext--Repository zu kopieren. Diese unelegante,
+aber gut funktionierende Lösung wird von ``brig`` verwendet[^VENDOR].
 
 [^GOPKG]: <http://labix.org/gopkg.in>
 [^VENDOR]: Eigenes Repository für verwendete Bibliotheken: <https://github.com/disorganizer/brig-vendor>
@@ -124,16 +122,14 @@ versucht, die Quelltextbasis möglichst klein zu halten.
 
 | **Sprache**              | **Dateianzahl** | **Leerzeilen** | **Kommentare**    | **Codezeilen**
 | ------------------------ | --------------- | ------------   | ----------------- | --------
-| *Go*                     | 88              | 2833           | 1824              | 10813
-| *Go Tests*               | 24              | 573            | 100               | 2698
-| *Protocol Buffers*       | 4               | 97             | 58                | 323
-| *Bourne Shell*           | 4               | 8              | 5                 | 44
-| *make*                   | 4               | 5              | 1                 | 34
-| $\sum{}$                 | *124*           | *3516*         | *1988*            | *13912*
+| *Go*                     | 86              | 2944           | 1700              | 11427
+| *Go Tests*               | 28              | 667            | 335               | 2890
+| *Protocol Buffers*       | 4               | 95             | 60                | 316
+| *Bourne Shell*           | 5               | 11             | 8                 | 134
+| *make*                   | 4               | 6              | 1                 | 34
+| $\sum{}$                 | *127*           | *3743*         | *2104*            | *14801*
 
 :Quelltextumfang, gestaffelt nach Sprache. {#tbl:cloc-output}
-
-TODO: Update wenn Implementierung  final.
 
 [^CLOC]: <https://github.com/AlDanial/cloc>
 
@@ -152,7 +148,7 @@ erlaubt die API--Dokumentation, die unter *»godoc.org«*[^BRIG_GODOC] einsehbar
 ist. Die Software ist möglichst nahe an der Beschreibung von *Effective Go*
 gehalten[^EFFECTIVE_GO], was den Einstieg für andere *Go*--Programmierer erleichtern sollte.
 Eines der meist genutzten Idiome bildet dabei die strikte Fehlerbehandlung, bei der jede
-Funktion die einen Fehler zurückgeben kann, einen zweiten ``error``--Wert zurückgibt.
+Funktion, die einen Fehler zurückgeben kann, einen zweiten ``error``--Wert zurückgibt.
 Dieser wird innerhalb der Funktion möglichst früh zurückgeben. So entstehen zwei »vertikale Linien«
 im optischen Aussehen des Quelltextes.  Die eine Linie kümmert sich um die Fehlerbehandlung, die
 andere um den Erfolgsfall. [@lst:two-lines] zeigt ein Beispiel für diese Regel:
@@ -179,7 +175,7 @@ func someAction(msg string) (int, error) {
 
 ### Paketübersicht
 
-![Übersicht über alle Pakete in ``brig``](images/5/package-diagram.pdf){#fig:package-diagram}
+![Übersicht über alle Pakete in ``brig``.](images/5/package-diagram.pdf){#fig:package-diagram}
 
 [@fig:package-diagram] zeigt die Aufteilung des Quelltextes in die einzelnen Go--Pakete.
 Die Software ist dabei in fünf Hauptpakete und drei »umliegende« Pakete aufgeteilt.
@@ -319,7 +315,7 @@ auf das angeforderte Kind zu kommen, indem die Kinder eines Verzeichnisses mit
 Stelle gespeichert war.
 
 **func** ``MetadataPut(key string, value []byte) error``{.go}: Erlaubt das Setzen bestimmter
-Schlüsselwertpaare unterhalb des ``metadata``--Bucket. Aufrufender Code kann dies
+Schlüssel--Wert--Paare unterhalb des ``metadata``--Bucket. Aufrufender Code kann dies
 nutzen, um spezielle Werte persistent zu hinterlegen.
 
 **func** ``MetadataGet(key string) ([]byte, error)``{.go}: Holt den Wert unter
@@ -337,7 +333,7 @@ von ``StageNode()``). Der »``stage/...``« Bereich fungiert also als
 persistentes Sammelbecken für alle Änderungen, während die Änderungen im
 Speicher den jeweils aktuellsten Stand wiederspiegeln.
 
-Jede weitere Operation auf dem Stores läuft auf eine Sequenz von
+Jede weitere Operation auf den Stores läuft auf eine Sequenz von
 Aufrufen der oben gezeigten Operationen hinaus. Beim Anzeigen aller Commits
 (``Log()``) wird beispielsweise die Referenz ``HEAD`` aufgelöst (mittels ``ResolveRef()``). Dessen Eltern--Commit wird
 dann rekursiv aufgelöst (mittels ``NodeByHash()``), bis kein weiterer Eltern--Commit gefunden werden
@@ -391,7 +387,7 @@ aufgerufenen Funktion ist das Auslesen der Details aus dem *Request--Objekt*
 einer Aktion (Beispiel: Öffne Datenstrom von ``ipfs``) und das Befüllen des
 *Response--Objekts* (Beispiel: Kein Fehler, neuer Dateideskriptor wird
 zurückgegeben). Bei Fehlern kann verfrüht abgebrochen werden und ein spezieller
-Fehlercode wird zurückgegeben werden (Beispiel: ``fuse.EIO`` für einen
+Fehlercode wird zurückgegeben (Beispiel: ``fuse.EIO`` für einen
 Input/Output--Fehler). Auf diese Weise können die meisten
 Systemaufrufe[^SYSCALL] (die normal vom Kernel vorgegeben sind) durch eigenen
 Code implementiert werden. Beispielsweise wird auch ein Callback aufgerufen, wenn
@@ -427,7 +423,7 @@ bei großen Dateien sehr ineffizient. Als Kompromisslösung wird jeder
 geschriebene Block samt seinen Offset im Hauptspeicher zwischengelagert. Erst
 beim Aufruf von ``Close()`` (Schließen des Dateideskriptors) oder ``Flush()``
 (explizites Herausschreiben aller zwischengelagerten Daten) werden die
-gespeicherten Blöcke mit dem darunter liegenden Datenstrom wie in
+gespeicherten Blöcke mit dem darunterliegenden Datenstrom wie in
 [@fig:writer-overlay] kombiniert. Die kombinierte Version wird dann wieder
 komprimiert, verschlüsselt und ``ipfs`` übergeben. Die Implementierung ist
 etwas trickreich, da durch eine Modifikation auch der darunterliegende
@@ -494,10 +490,10 @@ In Klammern wird jeweils die Lizenz der Bibliothek mit angegeben:
 * ``bkaradzic/go-lz4:`` Go--Implementierung des LZ4--Kompressionsalgorithmus. (*BSD--3--Clause*)
 * ``dustin/go-humanize:`` Enthält nützliche Konvertierungsfunktionen, um beispielsweise Bytes in eine passende, menschenlesbare Form zu formatieren. (*MIT*)
 * ``jbenet/go-multihash:`` Implementiert die Enkodierung und Dekodierung des *Multihash*--Format. (*MIT*)
-* ``VividCortex/godaemon:`` Wird benutzt um den Pfad zur eigenen ausführbaren Datei plattformübergreifend zu finden. (*MIT*)
+* ``VividCortex/godaemon:`` Wird benutzt, um den Pfad zur eigenen ausführbaren Datei plattformübergreifend zu finden. (*MIT*)
 * ``gogo/protobuf/proto:`` Optimierte Version des Original--Protobuf--Compilers.  (*BSD--3--Clause*)
 * ``codahale/chacha20poly1305:`` Nutzt die Streaming--Cipher
-  *ChaCha20* und die MAC *Poly1305* um authentifizierte Verschlüsselung
+  *ChaCha20* und die MAC *Poly1305*, um authentifizierte Verschlüsselung
   umzusetzen. (Siehe auch: [@nir2015chacha20], *MIT*).
 * ``chzyer/readline:`` Komfortable Eingabe von Text auf dem Terminal. (*MIT*)
 * ``nbutton23/zxcvbn-go:`` Prüft eine Passphrase auf ihre Entropie. (*MIT*)
@@ -507,15 +503,15 @@ In Klammern wird jeweils die Lizenz der Bibliothek mit angegeben:
 **Logging:** ``brigd`` nutzt eine farbige Log--Ausgabe und Unicode--Glyphen, um
 dem Entwickler das Erkennen von verschiedenen Log--Leveln zu erleichtern (siehe
 [@fig:log-levels]). Farbig ist die Ausgabe nur, wenn ``brigd`` im Vordergrund
-läuft und auf ``stdout`` ausgibt. Läuft der Daemon im Hintergrund werden die
+läuft und auf ``stdout`` ausgibt. Läuft der Daemon im Hintergrund, werden die
 Log--Ausgaben in eine Datei geschrieben und die Farbinformationen weggelassen.
 
-![Beispielhafte Ausgabe mit allen verfügbaren Logleveln](images/5/log-levels.png){#fig:log-levels width=75%}
+![Beispielhafte Ausgabe mit allen verfügbaren Log--Leveln](images/5/log-levels.png){#fig:log-levels width=75%}
 
 **Konfiguration:** Einige Parameter von ``brig`` sind konfigurierbar. Diese
 werden in einer menschenlesbaren YAML--Datei[^YAML] gespeichert.
 Der Zugriff auf einen Wert erfolgt dabei durch einen mit ».« getrennten Pfad.
-So liefert der Schlüssel »``daemon.port``« dem Schlüssel »``port``« in der
+So liefert der Schlüssel »``daemon.port``« dem Schlüssel »``port``« in dem
 assoziativen Array »``daemon``« (siehe Beispiel [@lst:local-config]).
 
 [^YAML]: <https://de.wikipedia.org/wiki/YAML>
@@ -530,12 +526,12 @@ repository:
   id: alice@wonderland.lit/laptop  # Nutzername.
 ```
 
-**Global--Config:** Es ist möglich mehrere ``brig``--Repositories auf einem
+**Global--Config:** Es ist möglich, mehrere ``brig``--Repositories auf einem
 Rechner parallel laufen zu lassen. Dabei ist allerdings darauf zu achten, dass
 ``brigd`` zwei Ports pro laufender  Instanz benötigt (4001 für ``ipfs`` und
 6666 für ``brigd`` selbst). Deshalb hinterlegt jedes angelegte Repository in der sogenannten
 *Global Config* einen Eintrag, welche Ports es nutzt. Neu angelegte Repositories
-konsultieren die *Global Config*, um automatisch einen vernünftige Portkonfiguration
+konsultieren die *Global Config*, um automatisch eine vernünftige Portkonfiguration
 zu erhalten. Die Konfiguration ist wie die lokale Konfiguration eine YAML--Datei und
 befindet sich im Home--Verzeichnis des Nutzers unter ``.brig-config/``. [@lst:global-config]
 zeigt ein Beispiel mit zwei unterschiedlichen Repositories.
@@ -560,7 +556,7 @@ Umgebungsvariablen gesteuert, sofern diese nicht von der Kommandozeile
 überschrieben werden. Momentan gibt es drei Variablen, die gesetzt werden
 können.
 
-* ``BRIG_PATH:`` Falls gesetzt, operiert ``brig`` auf diesen Verzeichnis anstatt
+* ``BRIG_PATH:`` Falls gesetzt, operiert ``brig`` auf diesem Verzeichnis anstatt
   dem aktuellen Arbeitsverzeichnis. Kann dazu genutzt werden, um außerhalb des Repositories
   zu arbeiten.
 * ``BRIG_LOG:`` Schreibt die Logdatei an den Pfad in der Umgebungsvariable.
@@ -580,7 +576,7 @@ verschiedene in der Go--Welt gebräuchlichen Programme auf den Quelltext laufen
 und sammelt deren Ergebnisse in einer konsistenten Ausgabe. Die Prüfungen dabei
 sind vergleichsweise strikt und umfangreich. Beispielsweise werden nicht nur
 undokumentierte Funktionen gefunden, sondern auch duplizierter Code. Es wurde
-versucht ein Großteil der so gefundenen Probleme zu reparieren.
+versucht, ein Großteil der so gefundenen Probleme zu reparieren.
 
 [^NEOVIM_LINK]: <https://neovim.io>
 [^GLIDE]: <https://github.com/Masterminds/glide>
@@ -589,7 +585,7 @@ versucht ein Großteil der so gefundenen Probleme zu reparieren.
 Der gesamte Quelltext wird mit ``git`` verwaltet und zu mindestens drei
 verschiedenen Rechnern synchronisiert. Dazu gehört der bereits genannte
 GitHub--Account (<https://github.com/disorganizer/brig>), sowie ein von
-Herrn Schöler dankenswerterweise bereitgestelltes GitLab--Repository[^GITLAB_BRIG].
+Herrn Prof. Schöler dankenswerterweise bereitgestelltes GitLab--Repository[^GITLAB_BRIG].
 Zusätzlich wird der Quelltext noch auf einem privaten Rechner synchronisiert und
 ist auf den Entwicklerrechnern vorhanden.
 
@@ -609,7 +605,7 @@ nach den Regeln des *Semantic Versioning*[^SEMVER_LINK] richtet.
 [^SEMVER_LINK]: Mehr Informationen hier: <http://semver.org>
 
 Bei jedem veröffentlichten Commit auf GitHub werden zudem von der
-Continuous--Integration--Plattform *Travis* alle Tests automatisch ausgeführt.
+Continous--Integration--Plattform *Travis* alle Tests automatisch ausgeführt.
 Bei Fehlern wird man durch eine E--Mail benachrichtigt. Diese Plattform ist für
 freie Softwareprojekte dankenswerterweise kostenfrei.
 
@@ -620,15 +616,15 @@ freie Softwareprojekte dankenswerterweise kostenfrei.
 Der Beginn der Entwicklung reicht bis in den November des Jahres 2015 zurück.
 Zu diesem Zeitpunkt war ``brig`` konzeptuell noch anders gelagert und es wurde beispielsweise
 die Verwendung von ``ssh`` und ``rsync`` als Backend diskutiert. Erst nach der
-Beschäftigung mit ``ipfs`` und seinen Möglichkeiten entstand der Grundgedanke
+Beschäftigung mit ``ipfs`` und seinen Möglichkeiten entstand der Grundgedanke,
 der hinter dem heutigen ``brig`` steht.
 
 ### Sackgassen bei der Entwicklung {#sec:sackgasse}
 
 Leider wurden auch einige Techniken sehr zeitaufwendig ausprobiert und wieder
 verworfen. Dazu gehört auch der geplante Einsatz von *XMPP*[^XMPP] als sicherer Steuerkanal
-und als Möglichkeit ein Benutzermanagement zu implementieren. Nach kurzer Recherche
-stellte sich heraus, dass zum damaligen Zeitpunkt für *Go* noch keine verwertbaren,
+und als Möglichkeit, ein Benutzermanagement zu implementieren. Nach kurzer Recherche
+stellte sich heraus, dass zum damaligen Zeitpunkt für *Go* noch keine verwertbaren
 Bibliotheken existierten.
 Daher wurde ein eigener XMPP--Client entwickelt, der in Kombination mit
 *Off--the--Record--Messaging (OTR)[^OTR]* für eine sichere Verbindung zwischen zwei
@@ -636,7 +632,7 @@ Daher wurde ein eigener XMPP--Client entwickelt, der in Kombination mit
 sich dieser als zu langsam und ineffizient heraus (teilweise Verbindungsaufbau
 $>$ 30 Sekunden)[^XMPP_IMPL]. Zudem handelt es sich bei *XMPP* um kein gänzlich dezentralisiertes
 Protokoll, da die meisten Nachrichten über zentrale Server geleitet werden.
-Von *XMPP* ist im heutigen Konzept nur das Format der Benutzernamens
+Von *XMPP* ist im heutigen Konzept nur das Format des Benutzernamens
 geblieben, welcher an die JID angelehnt ist.
 
 [^XMPP]: <https://de.wikipedia.org/wiki/Extensible_Messaging_and_Presence_Protocol>
@@ -648,7 +644,7 @@ offenes Machine--to--Machine Nachrichtenprotokoll. Clients registrieren sich
 bei einem (normalerweise zentralen) Broker auf benannte Kanäle (*Topics*
 genannt) und werden benachrichtigt, wenn ein anderer Client eine Nachricht auf
 einem registrieren Topic veröffentlicht. Die Idee war, jeden ``brig``--Knoten
-zu einem MQTT--Broker zu machen. Dabei ist jeder Knoten auch ein *Client* der
+zu einem MQTT--Broker zu machen. Dabei ist jeder Knoten auch ein *Client*, der
 auf den *Topics* des eigenen Brokers und aller anderen, benachbarten Knoten
 hört. Aus einem zentral aufgebauten Protokoll wurde so ein dezentrales
 Protokoll gemacht. Und obwohl die Lösung dem ursprünglichen Konzept von *MQTT*

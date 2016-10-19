@@ -35,13 +35,13 @@ dessen existierende Infrastruktur wiederverwenden.
 
 ### Zugrundeliegende Technik
 
-Die meisten Dienste im Internet hingegen basieren auf dem Client--Server--Modell, bei
+Die meisten Dienste im Internet basieren hingegen auf dem Client--Server--Modell, bei
 dem viele anonyme Clients eine Anfrage an einen zentralen Server stellen.
 Dieser muss mit der steigenden Anzahl an Clients skalieren, indem er
-typischerweise mehr Prozessorleistung und Bandbreite zur Verfügung hat. Dieses
+typischerweise mehr Prozessorleistung und Bandbreite zur Verfügung stellt. Dieses
 Modell passt auf viele heterogene Anwendungsfälle, wo Client und Server
 grundverschiedene Rollen zugeordnet sind (Beispiel: Dienstleiter und Kunde).
-Ein weitere Eigenschaft, ist dass das Client--Server--Modell kein Problem mit
+Eine weitere Eigenschaft, ist dass das Client--Server--Modell kein Problem mit
 dem sogenannten *NAT--Traversal* hat.
 
 NAT steht dabei für *Network Address Translation* (dt.
@@ -68,21 +68,21 @@ Typischerweise ist dieser Mittelsmann ein sogenannter *Bootstrap--Knoten*.
 Dieser ist innerhalb eines P2P--Netzwerks einer von mehreren wohlbekannten
 Knoten, zu dem sich neue Netzwerkteilnehmer verbinden, um von ihm an weitere
 Teilnehmer vermittelt zu werden. Der Boostrap--Knoten führt aber normalerweise
-das selbe Programm aus, wie jeder andere, ist aber vertrauenswürdiger.
+das gleiche Programm aus, wie jeder andere, ist aber vertrauenswürdiger.
 Bemerkenswert ist, dass sich keine zentrale Instanz um die Koordination
 des Datenflusses im Netzwerk kümmern muss. Die Grundlage für die Koordination
 bildet dabei die *Distributed Hashtable (DHT, vgl. [@peer2peer], S. 63 ff.)*
 Diese Datenstruktur bildet sich durch den Zusammenschluss vieler
 Rechner und nutzt eine *Hashfunktion*[^HASH_FUNCTION], um für
 einen bestimmten Datensatz zu entscheiden, welche Knoten (mindestens aber
-einer) im Netzwerk für diesen Datensatz zuständig ist. Ist ein Teilnehmer an
+einer) im Netzwerk für diesen Datensatz zuständig sind. Ist ein Teilnehmer an
 einem Datensatz interessiert, so muss er nur die Prüfsumme desselben kennen, um
 zu wissen von welchem Teilnehmer er den Datensatz beziehen kann. Jeder Knoten
 verwaltet dabei einen bestimmten Wertebereich der Prüfsummenfunktion und ist
 für diese Prüfsummen zuständig. Werden neue Knoten hinzugefügt oder andere
 verlassen das Netz, werden die Wertebereiche neu verteilt.
 
-[^HASH_FUNCTION]: Bildet einen Datensatz beliebiger auf eine kurze Prüfsumme mit fixer Länge ab. Eine Rückrechnung von der Prüfsumme zum ursprünglichen Datensatz ist theoretisch möglich, aber extrem rechenaufwendig. Kleine Änderungen der Eingabe, erzeugen eine gänzlich andere Prüfsumme.
+[^HASH_FUNCTION]: Bildet einen Datensatz beliebiger Länge auf eine kurze Prüfsumme mit fixer Länge ab. Eine Rückrechnung von der Prüfsumme zum ursprünglichen Datensatz ist theoretisch möglich, aber extrem rechenaufwendig. Kleine Änderungen der Eingabe, erzeugen eine gänzlich andere Prüfsumme.
 Siehe auch: <https://de.wikipedia.org/wiki/Hashfunktion>
 
 ### Dateisynchronisation in P2P--Netzwerken
@@ -216,13 +216,13 @@ noch nicht in dieser Kombination gab. Dabei werden viele bestehende Ideen und
 Konzepte genommen, um sie in einer Software zu vereinen, die ein versioniertes
 und verteiltes Dateisystem implementiert. Dieses soll nicht nur »sicher« (im
 weitesten Sinne, siehe [@cpiechula] für eine Begriffseinordnung) sein, sondern auch
-für ein Großteil der Anwender benutzbar sein.
+für einen Großteil der Anwender benutzbar sein.
 
 Im Konkreten besteht die Neuerung hauptsächlich aus der Kombination folgender Punkte:
 
 * Eine Erweiterung des Datenmodells von ``git``, welches Metadaten von den
   eigentlichen Daten trennt, leere Verzeichnisse sowie umbenannte Pfade nativ
-  unterstützt und eine eigene Historie pro Datei mit sich bringt.
+  unterstützt und eine eigene Historie pro Datei verwaltet.
 * Die Möglichkeit nur die Metadaten zu synchronisieren und die eigentlichen Daten dynamisch
   nachzuladen und nach Anwendungsfall zu »pinnen«. Dateien mit einem *Pin* werden dabei auf dem lokalen Rechner
   gespeichert, Dateien ohne Pin dürfen falls nötig wieder gelöscht werden.
@@ -283,14 +283,14 @@ Dienst ausgefallen ist oder den Dienst eingestellt hat.
 
 [^DROPBOX_LAN_SYNC]: <https://www.dropbox.com/de/help/137>
 
-#### ``ownCloud`` / ``nextCloud``
+### ``ownCloud`` / ``Nextcloud``
 
 ![Screenshot der ownCloud--Weboberfläche.](images/2/owncloud.png){#fig:scrn-owncloud}
 
 Eine Alternative zu einem von einem Unternehmen bereitgestellten zentralen
 Dienst, ist die Nutzung einer eigenen »Private Cloud« mithilfe der Open--Source
 Lösung ``ownCloud`` (siehe [@fig:scrn-owncloud], beziehungsweise dessen Fork
-``nextCloud``).
+``Nextcloud``).
 Nutzer installieren auf ihren Servern selbst eine ``ownCloud``--Instanz und stellen
 ausreichend Speicherplatz bereit. Vorteilhaft ist also, dass die Daten auf den
 eigenen Servern liegen. Nachteilig hingegen, dass das zentrale Modell von Dropbox
@@ -299,7 +299,7 @@ stark wie ``brig`` auf Sicherheit fokussiert, andererseits ist die Installation
 eines Serversystems für viele Nutzer eine große Hürde und somit zumindest für
 den Heimanwender nicht praktikabel.
 
-### ``syncthing``
+### ``Syncthing``
 
 ![Screenshot der Syncthing--Weboberfläche.](images/2/syncthing.png){#fig:scrn-syncthing}
 
@@ -317,7 +317,7 @@ liegen immer als vollständige Kopie bei allen Teilnehmern, welche die Datei
 haben. Alternativ ist nur die selektive Synchronisation bestimmter Dateien
 möglich. Zwischen den Teilnehmern wird ein Protokoll mit dem Namen *Block
 Exchange Protocol*[@borg2015syncthing] etabliert. Dieses sorgt für eine
-sichere, differentielle und blockweise Übertragung. 
+sichere, differentielle und blockweise Übertragung.
 
 Praktisch ist auch, dass ``syncthing``--Instanzen mittels eines zentralen
 Discovery--Servers entdeckt werden. Nachteilig ist aber die fehlende
@@ -332,7 +332,7 @@ ausreichend Dokumentation.
 
 Das kommerzielle und proprietäre ``resilio`` (früher *Bittorrent Sync*) nutzt
 eine Modifikation[^PROTO_REF] des bekannten und freien BitTorrent Protokoll zur
-Übertragung. Vom Feature--Umfang ist es in etwa vergleichbar mit *Syncthing*.
+Übertragung. Vom Feature--Umfang ist es in etwa vergleichbar mit ``syncthing``.
 Das Anlegen von verschlüsselten Repositories ist möglich.
 
 [^PROTO_REF]: Siehe auch: <http://blog.bittorrent.com/2016/03/17/%CE%BCtp2-the-evolution-of-an-enterprise-grade-protocol>
@@ -346,7 +346,7 @@ Etwas mehr Details liefert der Vergleich des *Infinit*--Projekts.[^RESILIO_INFIN
 
 [^RESILIO_INFINIT]: <https://infinit.sh/documentation/comparison/bsync>
 
-#### ``git-annex``
+### ``git-annex``
 
 ![Screenshot des ``git-annex``--Assistenten[^ANNEX_SRC].](images/2/git-annex-assistant.png){#fig:scrn-git-annex}
 
@@ -381,14 +381,15 @@ Obwohl ``brig`` eine gewisse Ähnlichkeit mit verteilten
 Dateisystemen, wie *GlusterFS* hat, wurden diese in der Übersicht weggelassen
 --- einerseits aus Gründen der Übersicht, andererseits weil diese andere Ziele
 verfolgen und von Heimanwendern kaum genutzt werden. Zudem ist der
-Vollständigkeit halber auch OpenPGP zu nennen, was viele Nutzer zum
+Vollständigkeit halber auch *OpenPGP*[^OPEN_PGP] zu nennen, was viele Nutzer zum
 Verschlüsseln von E-Mails benutzen. Aber auch hier ist der größte Nachteil die
-für den Otto Normalbenutzer schwierige Einrichtung und Benutzung.
+für den Otto--Normal--Nutzer schwierige Einrichtung und Benutzung.
 Auch das freie Projekt ``librevault``[^LIBREVAULT] wurde im Vergleich
 ausgelassen, da es sich noch im Alpha--Stadium befindet und bei einem Test
 reproduzierbar abstürzte.
 
 [^LIBREVAULT]: Mehr Informationen hier: <https://librevault.com>
+[^OPEN_PGP]: Siehe auch: <https://de.wikipedia.org/wiki/OpenPGP>
 
 ### Zusammenfassung
 
@@ -428,7 +429,7 @@ subjektiver Natur.
 
 Abschließend kann man sagen, dass ``syncthing`` dem Gedanken hinter ``brig`` am
 nächsten kommt. Der Hauptunterschied ist, dass die Basis hinter ``brig`` ein
-volles P2P--Netzwerk ist namens ``ipfs`` (dazu später mehr). Wie in den
+volles P2P--Netzwerk namens ``ipfs`` ist (dazu später mehr). Wie in den
 nächsten Kapiteln ersichtlich ist, eröffnet dieser Unterbau eine Reihe von
 Möglichkeiten, die ``syncthing`` nicht bieten kann[^BEISPIELE].
 
@@ -492,13 +493,13 @@ Dokumente sicher mit Behörden auszutauschen. ``brig`` könnte hier einen
 Standard etablieren und in Zukunft als eine Plattform dienen, um beispielsweise
 medizinische Unterlagen mit einem Krankenhaus auszutauschen.
 
-## Einsatszenarien
+## Einsatzszenarien
 
 Basierend auf den vorgestellten Nutzergruppen lassen sich einige konkrete
-Einsatszenarien ableiten:
+Einsatzszenarien ableiten:
 
 **Synchronisationslösung:** Spiegelung von zwei oder mehr Ordnern und das
-Teilen desselben zwischen ein oder mehreren Nutzern. Ein häufiger
+Teilen derselben zwischen ein oder mehreren Nutzern. Ein häufiger
 Anwendungsfall ist dabei die Synchronisation zwischen mehreren Geräten eines
 einzigen Nutzers. Eine selektive Synchronisation bestimmter Ordner ist vorerst
 nicht vorgesehen.
@@ -521,7 +522,7 @@ im Hauptspeicher vorgehalten werden, ist nach Beenden der Software kein
 Zugriff mehr möglich.
 
 Es gibt natürlich auch einige Einsatzzwecke, für die ``brig`` weniger geeignet
-ist. Diese werden im [@sec:evaluation] beleuchtet, da die dortige Argumentation
+ist. Diese werden in [@sec:evaluation] beleuchtet, da die dortige Argumentation
 teilweise ein Verständnis von der internen Architektur benötigt.
 
 ## Annahmen während der Konzeption {#sec:assumptions}
@@ -550,7 +551,7 @@ Sicherheitsmängel enthält. Zudem wird angenommen, dass es für die Zwecke von 
 ausreichend hohe Performanz bietet.
 
 **Keine Kollision der Prüfsummen:** ``brig`` kann (genau wie ``ipfs``) Dateien
-nicht auseinander halten, die einen unterschiedlichen Inhalt besitzen, aber die
+nicht auseinanderhalten, die einen unterschiedlichen Inhalt besitzen, aber die
 selbe Prüfsumme erzeugen. Auch wenn dieser Fall in der Theorie eintreten kann,
 so ist dieser extrem schwer zu erreichen. Der von
 ``ipfs`` standardmäßig verwendete Algorithmus ist *sha256*[^SHA256], welcher eine Prüfsumme

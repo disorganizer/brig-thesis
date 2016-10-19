@@ -1,7 +1,7 @@
 # Usability {#sec:usability}
 
 In diesem Kapitel werden Anforderungen beleuchtet, die ``brig`` zu einer für
-den »Otto--Normal--Nutzer« benutzbaren Software machen sollen. Zudem sollen die
+den »Otto--Normal--Nutzer« benutzbaren Software machen soll. Zudem sollen die
 in Zukunft notwendigen Schritte beschrieben werden, um diese Anforderungen
 umzusetzen. Dazu gehört unter anderem die Konzeption einer grafischen
 Oberfläche.
@@ -77,7 +77,7 @@ wichtig sind.
 
 ## Die Kommandozeile
 
-Momentan ist die Kommandozeile ``brigtctl`` die einzige, implementierte Möglichkeit die gesamte
+Momentan ist die Kommandozeile ``brigctl`` die einzige, implementierte Möglichkeit die gesamte
 Funktionalität von ``brig`` zu nutzen. Die genaue Funktionsweise der
 Kommandozeile wird in [@sec:benutzerhandbuch] beleuchtet. Beim Design der
 Optionen und Unterkommandos wurde darauf geachtet, dass ``git``--Nutzern die
@@ -115,7 +115,7 @@ werden, um die Ausgabe klein und verständlich zu halten.
 Für normale Benutzer ist eine grafische Oberfläche unabdingbar.
 Für die Akzeptanz der Oberfläche ist es wichtig, dass sie dem Benutzer
 vertraute Konzepte bietet. Daher wird ein großer Teil der Benutzung durch einen
-normalen Dateisystemordner abgewickelt, der sich kaum von anderen Ordner
+normalen Dateisystemordner abgewickelt, der sich kaum von anderen Ordnern
 unterscheidet. Daher hat die grafische Oberfläche eher die Aufgabe
 einer Konfigurationsanwendung und eines Einrichtungsassistenten, der nur bei Bedarf
 aufgerufen wird. Konkret sind die nötigen Aufgabenbereiche wie folgt:
@@ -131,7 +131,7 @@ Bestehende grafische Oberflächen sind aus Portabilitätsgründen meist
 web--basiert und fügen sich daher meist nicht optimal in eine Desktopumgebung
 ein. Daher wurde das nachfolgende Konzept als native Desktopanwendung für den
 GNOME--Desktop[^GNOME] entworfen. Dabei wurde die Oberflächenbibliothek
-*GTK+*[^GTK] benutzt. Neben den obigen Anforderungen wurde versucht
+*GTK+*[^GTK] benutzt. Neben den obigen Anforderungen wurde versucht,
 möglichst alle Regeln der *»Gnome Human Interface Guidelines«* (GNOME HIG[^GNOME_HIG])
 umzusetzen. Es handelt sich dabei um eine Anleitung des GNOME--Projekts, um
 den Oberflächenentwurf zu vereinfachen und einheitlich zu gestalten. Offizielle
@@ -179,7 +179,7 @@ Im Folgenden werden die Aufgaben der einzelnen Bildschirme besprochen.
 
 ### Anlegen eines neuen Repositories
 
-![Mockup: Bildschirm zum Anlegen eins Repositories](images/6/view-repo.png){#fig:mockup-repo}
+![Mockup: Bildschirm zum Anlegen eines Repositories.](images/6/view-repo.png){#fig:mockup-repo}
 
 Dieser Bildschirm taucht beim erstmaligen Starten der grafischen Oberfläche
 auf, sofern kein vorhandenes ``brig`` Repository gefunden werden konnte. Der
@@ -193,7 +193,7 @@ wird ein fehlerhafter Pfad ausgeschlossen.
 
 In der späteren Entwicklung soll ``brig`` auch mit Geräten zur
 Zweifaktorauthentifizierung (siehe [@cpiechula]) wie dem YubiKey[^WIKI_YUBI]
-zusammen arbeiten. Daher wird am unteren Bildschirmrand eine
+zusammenarbeiten. Daher wird am unteren Bildschirmrand eine
 entsprechende Nachricht angezeigt. Entsprechende Schaltflächen zur Konfiguration
 werden erst angezeigt, wenn ein angeschlossener YubiKey erkannt wurde.[^MINIMALISMUS]
 
@@ -210,12 +210,12 @@ Remote--Bildschirm hin angezeigt. (siehe [@sec:ui-remotes]).
 
 ### Verwalten und Hinzufügen von Remotes {#sec:ui-remotes}
 
-![Mockup: Verwalten und Hinzufügen von Remotes](images/6/view-remotes.png){#fig:mockup-remotes}
+![Mockup: Verwalten und Hinzufügen von Remotes.](images/6/view-remotes.png){#fig:mockup-remotes}
 
 In dieser Ansicht kann der Nutzer existierende Remotes verwalten und Neue
 hinzufügen. Eine Idee, die vom Instant--Messanger *Signal* übernommen wurde,
 ist die Einfärbung eines Remotes mit einer bestimmten Farbe. Dies soll dem
-Nutzer helfen den Kontakt mit dieser Farbe zu assoziieren und stellt
+Nutzer helfen, den Kontakt mit dieser Farbe zu assoziieren und stellt
 gleichzeitig ein Sicherheitsmechanismus dar, da die Farbe basierend auf der
 Identitäts--Prüfsumme des Gegenübers gewählt wird. Ändert sich diese, so wird
 auch eine andere Farbe angezeigt.
@@ -232,7 +232,7 @@ Eventuell wäre hier die alleinige Anzeige des Nutzernamens (``Alice`` statt
 ``alice@wonderland.lit/home``) benutzerfreundlicher und weniger verwirrend,
 sofern der Name ``Alice`` eindeutig unter den Remotes ist. Auch die Anzeige eines
 Zeitstempels der letzten Synchronisation wäre denkbar.
-Zur rechten jeder Zeile finden sich drei Schaltflächen, die  (in dieser
+Zur Rechten jeder Zeile finden sich drei Schaltflächen, die  (in dieser
 Reihenfolge) folgendes bewirken: sofortiges Synchronisieren (Pfeilknopf),
 Öffnung eines Detailfensters zum entsprechenden Remote und das An- und
 Ausschalten der automatischen Synchronisation mit diesem Remote. 
@@ -250,7 +250,7 @@ Die rechte Seite des Bildschirms besteht aus einem segmentierten Kreisdiagramm.
 Es wird nur angezeigt wenn genau ein Remote ausgewählt ist. Allerdings kann
 auch die Trennlinie in der Mitte des Bildschirms benutzt werden, um das
 Diagramm auszublenden, indem es auf die rechte Seite geschoben wird. Das
-Diagramm selbst zeigt an welche Teile der synchronisierten Daten das Gegenüber
+Diagramm selbst zeigt an, welche Teile der synchronisierten Daten das Gegenüber
 physikalisch bei sich speichert. Die Gesamtmenge wird in der Mitte als
 Dateigröße gezeichnet. Im Beispiel speichert ``bob@realworld.org/laptop``
 größtenteils die Dateien aus dem ``music``- und aus dem ``docs``--Ordner. Die
@@ -277,7 +277,7 @@ würde sich der QR--Code eignen, um auf Visitenkarten abgedruckt zu werden.
 
 ### Dateibrowser
 
-![Mockup: Bildschirm des Dateibrowsers](images/6/view-file-browser.png){#fig:mockup-file-browser}
+![Mockup: Bildschirm des Dateibrowsers.](images/6/view-file-browser.png){#fig:mockup-file-browser}
 
 Der Dateibrowser zeigt alle Dateien an, die der jeweilige Synchronisationsteilnehmer verwaltet.
 Dies entspricht einer grafischen Sicht auf den FUSE--Dateisystemordner. Den Hauptunterschied bilden
@@ -326,11 +326,11 @@ Diese Ansicht ist durchsuchbar. Wird ein Pfad eingegeben (im Beipsiel
 ``/photos``), so werden alle Commits angezeigt, in denen der
 ``/photos``--Ordner verändert wurde.
 
-![Mockup: Bildschirm zur Versionsverwaltung](images/6/view-vcs.png){#fig:mockup-vcs}
+![Mockup: Bildschirm zur Versionsverwaltung.](images/6/view-vcs.png){#fig:mockup-vcs}
 
 ### Einstellungen
 
-![Mockup: Bildschirm des Einstellungseditors](images/6/view-settings.png){#fig:mockup-settings}
+![Mockup: Bildschirm des Einstellungseditors.](images/6/view-settings.png){#fig:mockup-settings}
 
 Über den Einstellungsbildschirm sind alle verfügbaren Einstellungen erreichbar.
 Die Einstellungen sind in mehrere Kategorien aufgeteilt (hier *General*,
@@ -338,7 +338,7 @@ Die Einstellungen sind in mehrere Kategorien aufgeteilt (hier *General*,
 einer Zeile, die links jeweils eine kurze und eine etwas längere Beschreibung
 der Einstellung beinhaltet. Rechts findet sich je eine Schaltfläche, die den
 aktuellen Wert anzeigt und eine Modifikation erlaubt. Dabei erhalten
-Größenangaben (*Soft limit*) entsprechend eine Schaltfläche um eine
+Größenangaben (*Soft limit*) entsprechend eine Schaltfläche, um eine
 physikalische Größe einzustellen, während boolesche Werte (*Go online by
 default*) einen simplen Aus/An--Schalter erhalten. Enumerationswerte, bei denen
 es eine genau festgesetzte Menge an Auswahlmöglichkeiten gibt (*Which
@@ -349,8 +349,8 @@ ausgewählte Möglichkeit grau hinterlegt wird.
 
 Die Änderung der Einstellungen muss explizit mit dem (empfohlenen, da blau
 hervorgehobenen) »Apply«--Knopf bestätigt werden. Wechselt man die Ansicht
-ohne zu Bestätigen, so werden die Änderungen nicht übernommen. Möchte man alle
-Werte auf »Werkseinstellungen« zurücksetzen, so kann er Nutzer den *»Reset to
+ohne zu bestätigen, so werden die Änderungen nicht übernommen. Möchte man alle
+Werte auf »Werkseinstellungen« zurücksetzen, so kann der Nutzer den *»Reset to
 defaults«*--Knopf betätigen. Dieser ist rot hervorgehoben, um anzuzeigen, dass es
 sich hierbei um eine destruktive Operation handelt.
 

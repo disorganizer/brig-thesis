@@ -93,13 +93,13 @@ Fraglich ist auch wie die Zukunft von ``brig`` aussieht, nachdem die
 vorliegende Arbeit abgeschlossen wurde. Leider konnte für die weitere Förderung
 des Projektes kein Sponsor verpflichtet werden. Trotz Motivation der Autoren
 wird ``brig`` daher in der näheren Zukunft als Hobbyprojekt weitergeführt.
-Durch die private Situation beider Autoren wird daher die
-Entwicklung sich leider verlangsamen.
+Durch die private Situation beider Autoren wird die
+Entwicklung sich daher leider verlangsamen.
 
 ### Veröffentlichung der Software
 
 Nichtsdestotrotz ist es unser Ziel bis spätestens Mitte des Jahres 2017 ``brig``
-auf einen Stand zu bringen den man der Open--Source--Community präsentieren kann.
+auf einen Stand zu bringen, den man der Open--Source--Community präsentieren kann.
 Bevor es so weit ist, ist nicht nur Feinschliff an der bestehenden Software
 nötig, sondern es muss auch leicht zugängliche Dokumentation geschrieben werden und
 die Software für verschiedene Betriebssysteme gepackt werden.
@@ -107,7 +107,7 @@ die Software für verschiedene Betriebssysteme gepackt werden.
 Folgende Plattformen erscheinen uns für eine Präsentation der Software geeignet:
 
 - Bei einem »Linux Tag« (Beispielsweise der »Linux Info Tag« in Augsburg[^LUGA]).
-  Dort wäre eine detaillierte Präsentation vor Publikum mit direkten Feedback möglich.
+  Dort wäre eine detaillierte Präsentation vor Publikum mit direktem Feedback möglich.
 * Kleineres Forum mit technisch versierten Nutzern; beispielsweise ein Forum
   für fortgeschrittene Linux--User. Dort könnte auch eine Paketierung der Software
   angesprochen werden.
