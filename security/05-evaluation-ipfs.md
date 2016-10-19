@@ -210,7 +210,7 @@ siehe [@cpahl].
 [^FN_IPFS_BLOCK]: Block Subkommando: <https://ipfs.io/docs/commands/#ipfs-block>
 [^FN_IPFS_ADD]: Add Kommando: <https://ipfs.io/docs/commands/#ipfs-add>
 
-## IPFS--ID
+## IPFS--ID {#sec:CAP_IPFS_ID}
 
 ### Aufbau
 
