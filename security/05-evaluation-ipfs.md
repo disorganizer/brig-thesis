@@ -28,7 +28,7 @@ ipfs version 0.4.3
 ## Einleitung IPFS
 
 Das *InterPlanetary File System* wird als  »content-addressable, peer-to-peer
-hypermedia distribution protocol« definiert. Das besondere an *IPFS* ist, dass
+hypermedia distribution protocol« definiert. Das Besondere an *IPFS* ist, dass
 es ein sogenanntes *Content--Addressable--Network (CAN)* darstellt. Ein *CAN*
 arbeitet mit einer verteilten Hashtabelle (*Distributed Hash Table (DHT)*),
 welche als grundlegende »Datenstruktur« verwendet wird um die Daten innerhalb
@@ -198,7 +198,21 @@ Verschlüsselung beispielsweise mittels *OpenSSL/GPG* nahe gelegt.
 Neben der Möglichkeit der Datenvalidierung, hat Speicherung der Daten in einem
 Merkle-Tree auch den Vorteil, Daten effizient deduplizieren zu können.
 
+### IPFS--Daten und IPFS--Blöcke
+
+Das *IPFS*--Kommandozeilentool kann mittels des `ipfs
+add`--Befehl[^FN_IPFS_ADD] Daten dem *IPFS*--Netzwerk hinzufügen. Wie bereits
+erwähnt werden die Daten Blockweise abgelegt. Weiterhin existiert auch die
+Möglichkeit *IPFS* auf unterster Ebene Blöcke direkt hinzuzufügen. Hierzu wird
+das Subkommando `ipfs block`[^FN_IPFS_BLOCK] verwendet. Für weitere Details
+siehe [@cpahl].
+
+[^FN_IPFS_BLOCK]: Block Subkommando: <https://ipfs.io/docs/commands/#ipfs-block>
+[^FN_IPFS_ADD]: Add Kommando: <https://ipfs.io/docs/commands/#ipfs-add>
+
 ## IPFS--ID
+
+### Aufbau
 
 Das generierte Schlüsselpaar wird im Klartext auf der Festplatte abgelegt. Der
 öffentliche Schlüssel kann mit `ipfs id` angeschaut werden, dies liefert
@@ -244,6 +258,8 @@ Quelltext[^FN_IPFS_CODE_INIT] zu Rate gezogen werden.
 
 [^FN_IPFS_CODE_INIT]: IPFS Schlüsselgenerierung: <https://github.com/ipfs/go-ipfs/blob/master/repo/config/init.go#L95>
 
+### Authentifizierung 
+
 Ein Authentifizierungsmechanismus im eigentlichen Sinne existiert bei *IPFS*
 nicht. Die Benutzer haben lediglich eine eindeutige globale *Peer--ID*. Dateien
 werden nicht direkt von einer bestimmten *Peer--ID*, sondern aus dem
@@ -284,29 +300,30 @@ Authentifizierung einer gesicherten Verbindung:
 [^FN_PIDGIN]: Instant--Messaging--Client Pidgin: <https://de.wikipedia.org/w/index.php?title=Pidgin_(Instant_Messenger)&oldid=155942615>
 [^FN_OTR]: Off--the--Record: https://en.wikipedia.org/w/index.php?title=Off-the-Record_Messaging&oldid=741588882
 
-*Frage und Antwort--Authentifizierung:* Alice stellt Bob eine Frage zu einem
-gemeinsamen Geheimnis. Beantwortet Bob diese Frage korrekt, so wird er vom
-System gegenüber Alice authentifiziert --- das heißt, der Fingerabdruck
-(Prüfsumme über eine ID die Bob eindeutig kennzeichnet) wird in Kombination mit
-dem Benutzernamen von Bob als valide vom System klassifiziert und
-abgespeichert.
+* *Frage und Antwort--Authentifizierung:* Alice stellt Bob eine Frage zu einem
+  gemeinsamen Geheimnis. Beantwortet Bob diese Frage korrekt, so wird er vom
+  System gegenüber Alice authentifiziert --- das heißt, der Fingerabdruck
+  (Prüfsumme über eine ID die Bob eindeutig kennzeichnet) wird in Kombination mit
+  dem Benutzernamen von Bob als valide vom System klassifiziert und
+  abgespeichert.
 
-*Shared--Secret--Authentifizierung*: Alice weist Bob an das gemeinsam bekannte
-Geheimnis in einem entsprechenden Programmdialogfenster einzutragen. Alice
-trägt das gemeinsame Geheimnis ebenso in einem Programmdialogfenster ein. Bei
-Übereinstimmung des gemeinsamen Geheimnisses wird Bob gegenüber Alice vom
-System authentifiziert --- analog zur Frage und Antwort--Authentifizierung wird
-der Fingerabdruck als valide vom System klassifiziert abgespeichert.
+* *Shared--Secret--Authentifizierung*: Alice weist Bob an das gemeinsam bekannte
+  Geheimnis in einem entsprechenden Programmdialogfenster einzutragen. Alice
+  trägt das gemeinsame Geheimnis ebenso in einem Programmdialogfenster ein. Bei
+  Übereinstimmung des gemeinsamen Geheimnisses wird Bob gegenüber Alice vom
+  System authentifiziert --- analog zur Frage und Antwort--Authentifizierung wird
+  der Fingerabdruck als valide vom System klassifiziert abgespeichert.
 
-*Manuelle Verifizierung vom Fingerabdruck:* Alice verifiziert den ihr vom System
-angezeigten Fingerabdruck (Prüfsumme über eine eindeutige ID) von Bob. Dazu kann
-sie beispielsweise Bob anweise ihr über einen Seitenkanal die Information über
-die Korrektheit des Fingerabdruck zu bestätigen.
+* *Manuelle Verifizierung vom Fingerabdruck:* Alice verifiziert den ihr vom System
+  angezeigten Fingerabdruck (Prüfsumme über eine eindeutige ID) von Bob. Dazu kann
+  sie beispielsweise Bob anweise ihr über einen Seitenkanal die Information über
+  die Korrektheit des Fingerabdruck zu bestätigen.
 
 Die genannten Verfahren erlauben eine initiale Authentifizierung zwischen den
 Kommunikationspartnern. Bei zukünftiger Kommunikation wird jeweils die *ID* der
 Benutzer mit der bei der initialen Authentifizierung gespeicherten *ID*
 verglichen.
+
 
 ## *IPFS*--Netzwerk
 
