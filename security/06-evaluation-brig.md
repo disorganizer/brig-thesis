@@ -42,6 +42,23 @@ Eigenschaften des *IPFS*--Protokolls zu ergänzen.
 
 ## Sicherheit
 
+### Datenverschlüsselung
+
+Standardmäßig werden die Daten bei *IPFS* unverschlüsselt gespeichert.
+Weiterhin basiert die aktuelle Transportverschlüsselung der Daten auf einem
+nicht standardisiertem Protokoll.
+
+Um die gesetzten Anforderungen ([@sec:requirements]) zu erreichen muss »brig«
+die Funktionalität von *IPFS* so erweitern, dass die Authentizität und
+Vertraulichkeit der Daten bei lokaler Speicherung aber auch bei der Übertragung
+gewährleistet ist. [@fig:img-aesgcm] zeigt das Containerformat welches für
+»brig« entwickelt wurde um diese Anforderungen zu erreichen.
+
+![»brig«-Containerformat für Datenverschlüsselung mit Authenzität.](images/aesgcm.png){#fig:img-aesgcm width=80%}
+
+Das Container--Format wurde so angelegt um wahlfreier Zugriff auf Daten zu
+ermöglichen und den Verschlüsselungsalgorithmus austauschbar zu machen.
+
 ### »brig«--Identifier
 
 Da *IPFS* an sich keinen Authentifizierungsmechanismus bietet, muss dieser von
@@ -78,7 +95,7 @@ Folgende Daten werden kombiniert um einen Benutzer eindeutig zu identifizieren:
 
 * **Peer--ID:** Prüfsumme über den öffentlichen *IPFS*--Schlüssel.
 * **User--ID:** Prüfsumme über die »brig«--ID, welche einen vom Benutzer gewählten
-Identifier darstellt.
+  Identifier darstellt.
 
 [@fig:img-userlookup] zeigt das Auffinden von einem Benutzer im
 *IPFS*--Netzwerk. Für weitere Details zur Softwarearchitektur und
@@ -86,11 +103,30 @@ Funktionsweise siehe auch [@cpahl].
 
 ![User lookup mittels »brig«-ID (gekürzter Peer--Fingerprint + User--ID). Nur bei Übereinstimmung vom Peer--Fingerprint und Benutzernamen--Fingerprint wird der Benutzer als valide erkannt.](images/userlookup.png){#fig:img-userlookup width=100%}
 
-Eine Schwierigkeit die sich im Voraus stellt, ist der »sichere« Austausch der Identität, im Konkreten Fall, der sicher Austausch der *IPFS*--Peer--ID.
+### Authentifizierung
 
+Eine Schwierigkeit die sich im Voraus stellt, ist die »sichere«
+Authentifizierung. Mit der »brig«--ID ist es aufgrund des *Multihash* vom
+öffentlichen *IPFS*--Schlüssel möglich den Benutzer eindeutig zu
+identifizieren. Bei der aktuellen »brig«--Version muss der Fingerabdruck beim
+hinzufügen des Synchronisationspartners manuell hinzugefügt werden. Dies setzt
+voraus, dass die Synchronisationspartner ihre *IPFS*--Fingerabdrücke
+austauschen. Anschließend können beide Synchronisationspartner ihre
+Repositories synchronisieren.
+
+~~~sh
+# Alice fügt Bob (Bob's brig-ID:bob@jabber.nullcat.de/desktop,
+# Bob's IPFS-Fingerabdruck: QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2q)
+# als Synchronisationspartner hinzu
+brig remote add bob@jabber.nullcat.de/desktop QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2q
+~~~
+
+Analog dazu muss auch Alice von Bob als Synchronisationspartner hinzugefügt
+werden.
 
 Welche »Sicherheitsfeatures« sind in brig eingebaut?
 Evaluation der Geschwindigkeit der aktuellen »Sicherheitsfeatures«.
+
 https://git.schwanenlied.me/yawning/chacha20
 
 * Keymanagement.
