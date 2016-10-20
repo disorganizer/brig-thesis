@@ -50,9 +50,17 @@ Prüfsumme über den öffentlichen Schlüssel eine eindeutige Kennung. Diese
 Prüfsumme ist aufgrund des Aufbaues und der Länge als Menschen--lesbare Kennung
 nicht geeignet. Aus diesem Grund wurde ein »brig«--Identifier (»brig«--*ID*) eingeführt.
 
-Diese *ID* repräsentiert den Benutzer mit einem Benutzernamen im
+Die »brig«--*ID* repräsentiert den Benutzer mit einem Benutzernamen im
 »brig«--Netzwerk nach außen. Der Aufbau dieses Namens ist an die Semantik des
-XMPP--Standard[^FN_XMPPID] angelehnt und mit dem Prefix `brig#user:` versehen.
+XMPP--Standard[^FN_XMPPID] angelehnt und mit dem Präfix `brig#user:` versehen.
+Folgendes Beispiel mit dem *Multihash*--Tool vom *IPFS*--Projekt zeigt die
+Generierung einer User--ID aus dem Benutzernamen.
+
+~~~sh
+freya :: ~ » echo 'brig#user:alice@university.cc' | multihash -
+QmYRofJVzXGsL4njv5BW7HNhCkpLCiCjQvrqesbm7TWUCe
+~~~
+
 Diese Definition ermöglicht es Organisationen ihre Mitarbeiter und deren
 Ressourcen im »brig«--Netzwerk abzubilden. Weiterhin hat es den Vorteil, dass
 eine E-Mail--Adresse auch einen korrekten Benutzernamen darstellen würde.
@@ -64,10 +72,19 @@ welchem die Zeichenkette des Nutzernamen als Block dem *IPFS*--Netzwerk bekannt
 gemacht wird (vgl. [@cpahl]). Dieser Block selbst ist nicht eindeutig und
 könnte auch von einem Angreifer selbst erstellt worden sein. Um eine
 Eindeutigkeit herzustellen, wird der Benutzername direkt an die öffentliche
-*ID* (siehe [@sec:CAP_IPFS_ID]) geknüpft. [@fig:img-userlookup] zeigt das
-Auffinden von einem Benutzer im *IPFS*--Netzwerk. Für weitere Details siehe auch [@cpahl].
+*ID* (siehe [@sec:CAP_IPFS_ID]) geknüpft.
 
-![User lookup mittels »brig«-ID. Nur bei Übereinstimmung vom Peer--Fingerprint und Benutzernamen--Fingerprint wird der Benutzer als valide erkannt.](images/userlookup.png){#fig:img-userlookup width=100%}
+Folgende Daten werden kombiniert um einen Benutzer eindeutig zu identifizieren:
+
+* **Peer--ID:** Prüfsumme über den öffentlichen *IPFS*--Schlüssel.
+* **User--ID:** Prüfsumme über die »brig«--ID, welche einen vom Benutzer gewählten
+Identifier darstellt.
+
+[@fig:img-userlookup] zeigt das Auffinden von einem Benutzer im
+*IPFS*--Netzwerk. Für weitere Details zur Softwarearchitektur und
+Funktionsweise siehe auch [@cpahl].
+
+![User lookup mittels »brig«-ID (gekürzter Peer--Fingerprint + User--ID). Nur bei Übereinstimmung vom Peer--Fingerprint und Benutzernamen--Fingerprint wird der Benutzer als valide erkannt.](images/userlookup.png){#fig:img-userlookup width=100%}
 
 Eine Schwierigkeit die sich im Voraus stellt, ist der »sichere« Austausch der Identität, im Konkreten Fall, der sicher Austausch der *IPFS*--Peer--ID.
 
