@@ -16,7 +16,9 @@ freya :: code/brig-thesis/security ‹master*› » brig --version
 brig version v0.1.0-alpha+0d4b404 [buildtime: 2016-10-10T10:05:10+0000]
 ~~~
 
-Zum aktuellen Zeitpunkt gibt es zwar bereits eine weitere Iteration in der Entwicklung von »brig«, bei welchem das interne »Store«--Handling geändert wurde. Da die »neue« Stor
+Zum aktuellen Zeitpunkt gibt es zwar bereits eine weitere Iteration in der
+Entwicklung von »brig«, bei welchem das interne »Store«--Handling geändert
+wurde.
 
 ## Einleitung »brig«
 
@@ -48,16 +50,55 @@ Standardmäßig werden die Daten bei *IPFS* unverschlüsselt gespeichert.
 Weiterhin basiert die aktuelle Transportverschlüsselung der Daten auf einem
 nicht standardisiertem Protokoll.
 
-Um die gesetzten Anforderungen ([@sec:requirements]) zu erreichen muss »brig«
-die Funktionalität von *IPFS* so erweitern, dass die Authentizität und
-Vertraulichkeit der Daten bei lokaler Speicherung aber auch bei der Übertragung
-gewährleistet ist. [@fig:img-aesgcm] zeigt das Containerformat welches für
-»brig« entwickelt wurde um diese Anforderungen zu erreichen.
+Um die gesetzten Anforderungen (Vertraulichkeit von Daten, [@sec:requirements])
+zu erreichen muss »brig« die Funktionalität von *IPFS* so erweitern, dass die
+Authentizität und Vertraulichkeit der Daten bei lokaler Speicherung aber auch
+bei der Übertragung gewährleistet ist. [@fig:img-aesgcm] zeigt das
+Containerformat welches für »brig« entwickelt wurde um diese Anforderungen zu
+erreichen.
 
 ![»brig«-Containerformat für Datenverschlüsselung mit Authenzität.](images/aesgcm.png){#fig:img-aesgcm width=80%}
 
 Das Container--Format wurde so angelegt um wahlfreier Zugriff auf Daten zu
-ermöglichen und den Verschlüsselungsalgorithmus austauschbar zu machen.
+ermöglichen und den Verschlüsselungsalgorithmus austauschbar zu machen. Falls
+Schwächen bei einem bestimmten Algorithmus auftauchen sollten, kann die
+Vertraulichkeit der Daten durch den Wechseln auf einen noch sicheren
+Algorithmus gewährleistet werden.
+
+Neben dem Nutzdaten, die von *IPFS* verwaltet werden, werden weiterhin die
+sogenannten »Stores« verschlüsselt. Diese beinhalten den Metadatenstand der
+jeweiligen Synchronisationspartner.
+
+Folgend die Struktur eines neu initialisierten eines »brig«--Repositories (vgl.
+auch [@cpahl]):
+
+~~~sh
+freya :: tree -al alice
+alice
+|-- .brig
+    |-- index # Stores der Synchronisationspartner
+    |   |-- alice@ipfsnetwork.de.locked
+    |-- config
+    |-- ipfs
+    |   |-- config
+    |   |...|
+    |   |-- version
+    |-- master.key.locked
+    |-- remotes.yml.locked # Bekannte Synchronisationspartner
+    |-- shadow
+~~~
+
+Die Dateien mit der Endung `locked` sind durch »brig« verschlüsselt. Als
+Einstiegspunkt für den Zugriff auf das Repository fungiert aktuell eine
+Passwort--Abfrage. Das Passwort ist samt Salt als *SHA-3*--Repräsentation in
+der `shadow`--Datei gespeichert.
+
+Die verschlüsselte Remotes--Datei beinhaltet den *Benutzernamen* mit
+dazugehörigen *Peer--ID* und einen *Zeitstempel* für die jeweils bekannten
+(authentifizierten) Synchronisationspartner.
+
+Das *IPFS*--Repository, sowie das Schlüsselpaar von *IPFS* ist aktuell
+unverschlüsselt. Der `master.key` hat aktuell keine Verwendung.
 
 ### »brig«--Identifier
 
@@ -65,7 +106,8 @@ Da *IPFS* an sich keinen Authentifizierungsmechanismus bietet, muss dieser von
 »brig« bereitgestellt werden. Im *IPFS*--Netzwerk haben die *Peers* durch die
 Prüfsumme über den öffentlichen Schlüssel eine eindeutige Kennung. Diese
 Prüfsumme ist aufgrund des Aufbaues und der Länge als Menschen--lesbare Kennung
-nicht geeignet. Aus diesem Grund wurde ein »brig«--Identifier (»brig«--*ID*) eingeführt.
+nicht geeignet. Aus diesem Grund wurde ein »brig«--Identifier (»brig«--*ID*)
+eingeführt.
 
 Die »brig«--*ID* repräsentiert den Benutzer mit einem Benutzernamen im
 »brig«--Netzwerk nach außen. Der Aufbau dieses Namens ist an die Semantik des
@@ -105,6 +147,8 @@ Funktionsweise siehe auch [@cpahl].
 
 ### Authentifizierung
 
+#### Im Netzwerk
+
 Eine Schwierigkeit die sich im Voraus stellt, ist die »sichere«
 Authentifizierung. Mit der »brig«--ID ist es aufgrund des *Multihash* vom
 öffentlichen *IPFS*--Schlüssel möglich den Benutzer eindeutig zu
@@ -122,7 +166,13 @@ brig remote add bob@jabber.nullcat.de/desktop QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2q
 ~~~
 
 Analog dazu muss auch Alice von Bob als Synchronisationspartner hinzugefügt
-werden.
+werden. Die aktuelle Softwareversion bietet hier keinen Automatismus und auch
+keinen Authentifizierungsmechanismus wie er beispielsweise bei
+*Pidgin*--Messenger mit *OTR*--Verschlüsselung.
+
+
+#### Lokal
+
 
 Welche »Sicherheitsfeatures« sind in brig eingebaut?
 Evaluation der Geschwindigkeit der aktuellen »Sicherheitsfeatures«.
