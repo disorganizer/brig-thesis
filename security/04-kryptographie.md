@@ -98,7 +98,9 @@ Gegensatz zum *ECB*--Modus gleiche Klartextblöcke unterschiedliche
 Geheimtextblöcke. Weiterhin wird bei dieser Arbeitsweise aus der
 Blockverschlüsselung eine Stromverschlüsselung.
 
-![ECB--Modus (links): Datenblöcke werden unabhängig von einander verschlüsselt. CFB--Modus (rechts): Datenblöcke hängen beim Verschlüsseln von einander ab.](images/ciphermode.png){#fig:img-streamblock width=100%}
+[@fig:img-ciphermode] zeigt den Unterschied zwischen den beiden genannten Modi.
+
+![ECB--Modus (links): Datenblöcke werden unabhängig von einander verschlüsselt. CFB--Modus (rechts): Datenblöcke hängen beim Verschlüsseln von einander ab.](images/ciphermode.png){#fig:img-ciphermode width=100%}
 
 Neben den genannten Betriebsarten gibt es noch weitere die sich in der
 Funktionsweise unterscheide beziehungsweise für bestimmte Anwendungen
