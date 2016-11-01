@@ -326,11 +326,9 @@ bestimmten Einsatzzweck essentiell.
 Die Sicherheit des Systems hängt in diesem Fall nicht alleine vom Schlüssel ab.
 Nach Kerckhoffs' Prinzip sollte die »Sicherheit« nur von der Geheimhaltung des
 Schlüssel abhängen. Die Vergangenheit hat beispielsweise beim GSM--Standard
-oder DVD--Kopierschutz »CSS«[^FN_CSS] gezeigt, dass durch die Geheimhaltung von
+oder DVD--Kopierschutz gezeigt, dass durch die Geheimhaltung von
 Systemkomponenten erfolgreiche Angriffe nicht unterbunden werden können (vgl.
 [@spitz2011kryptographie], [@ertel2012angewandte, S. 23]).
-
-[^FN_CSS]: Cryptanalysis of Contents Scrambling System: <http://www.cs.cmu.edu/~dst/DeCSS/FrankStevenson/analysis.html>
 
 ## Softwareentwicklungmodel
 
