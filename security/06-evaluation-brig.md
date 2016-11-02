@@ -65,6 +65,18 @@ Schwächen bei einem bestimmten Algorithmus auftauchen sollten, kann die
 Vertraulichkeit der Daten durch den Wechseln auf einen noch sicheren
 Algorithmus gewährleistet werden.
 
+Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEDA*--Blockchiffren[^AEAD]:
+
+* AES--GCM
+* ChaCha20/Poly1305 (externe Bibliothek[^FN_CHACHA20])
+
+[^FN_SYMALGO]: Aktuell von »brig« unterstützte symmetrische Verschlüsselungsverfahren: <https://github.com/disorganizer/brig/blob/fa9bb634b4b83aaabaa967ac523123ce67aa217d/store/encrypt/format.go>
+[^FN_CHACHA20]: ChaCha20/Poly1305--Bibliothek: <https://github.com/codahale/chacha20poly1305>
+[^AEAD]: Authenticated encryption: <https://en.wikipedia.org/wiki/Authenticated_encryption>
+
+Der *AEAD*--Betriebsmodi hat den Vorteil, dass er neben der Vertraulichkeit
+auch Authentizität und Integrität sicherstellt.
+
 Neben dem Nutzdaten, die von *IPFS* verwaltet werden, werden weiterhin die
 sogenannten »Stores« verschlüsselt. Diese beinhalten den Metadatenstand der
 jeweiligen Synchronisationspartner.
@@ -90,15 +102,19 @@ alice
 
 Die Dateien mit der Endung `locked` sind durch »brig« verschlüsselt. Als
 Einstiegspunkt für den Zugriff auf das Repository fungiert aktuell eine
-Passwort--Abfrage. Das Passwort ist samt Salt als *SHA-3*--Repräsentation in
-der `shadow`--Datei gespeichert.
+Passwort--Abfrage. Das Passwort ist samt zufällig generiertem Salt als
+*SHA-3*--Repräsentation in der `shadow`--Datei [^FN_BRIG_SHADOW] gespeichert.
+
+[^FN_BRIG_SHADOW]: Quellcode: <https://github.com/disorganizer/brig/blob/fa9bb634b4b83aaabaa967ac523123ce67aa217d/repo/shadow.go>
 
 Die verschlüsselte Remotes--Datei beinhaltet den *Benutzernamen* mit
 dazugehörigen *Peer--ID* und einen *Zeitstempel* für die jeweils bekannten
 (authentifizierten) Synchronisationspartner.
 
-Das *IPFS*--Repository, sowie das Schlüsselpaar von *IPFS* ist aktuell
-unverschlüsselt. Der `master.key` hat aktuell keine Verwendung.
+**Einschätzung:** Das *IPFS*--Repository, sowie das Schlüsselpaar von *IPFS* ist aktuell
+unverschlüsselt. Dies würde diverse Modifikationen am erlauben wie
+beispielsweise die Manipulation der *Peer--ID* von *IPFS*. Der `master.key` hat
+aktuell keine Verwendung.
 
 ### »brig«--Identifier
 
@@ -166,13 +182,22 @@ brig remote add bob@jabber.nullcat.de/desktop QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2q
 ~~~
 
 Analog dazu muss auch Alice von Bob als Synchronisationspartner hinzugefügt
-werden. Die aktuelle Softwareversion bietet hier keinen Automatismus und auch
-keinen Authentifizierungsmechanismus wie er beispielsweise bei
+werden.
+
+**Einschätzung**: Die aktuelle Softwareversion bietet hier keinen Automatismus
+und auch keinen Authentifizierungsmechanismus wie er beispielsweise bei
 *Pidgin*--Messenger mit *OTR*--Verschlüsselung.
 
 
 #### Lokal
 
+Um Zugriff auf das »brig«--Repository zu erhalten muss sich der Benutzer »brig«
+gegenüber mit einem Passwort authentifizieren. Schlechte Passwörter (TODO: Ref)
+sind ein großes Problem im Informationszeitalter, da von ihnen die Sicherheit
+eines gesamten Systems abhängen kann. Menschen sind schlecht darin die
+*Entropie*[^FN_ENTROPY] von Passwörter richtig einzuschätzen. »brig« verwendet für die Bestimmung der Passwort--Entropie 
+
+[^FN_ENTROPY]: Password--Entropy: <https://en.wikipedia.org/wiki/Password_strength#Entropy_as_a_measure_of_password_strength>
 
 Welche »Sicherheitsfeatures« sind in brig eingebaut?
 Evaluation der Geschwindigkeit der aktuellen »Sicherheitsfeatures«.
