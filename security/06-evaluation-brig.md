@@ -184,6 +184,28 @@ brig remote add bob@jabber.nullcat.de/desktop QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2q
 Analog dazu muss auch Alice von Bob als Synchronisationspartner hinzugefügt
 werden.
 
+#### Aufbau einer verschlüsselten Verbindung
+
+[@fig:img-keyexchange] zeigt den Ablauf beim Aufbau einer Verschlüsselten
+Verbindung zwischen zwei Synchronisationspartnern.
+
+![Vereinfachte Ansicht bei der Aushandlung eines Sitzungsschlüssel beim Verbindungsaufbau.](images/keyexchange.png){#fig:img-keyexchange width=90%}
+
+**Ablauf aus der Sicht von Alice**:
+
+1. *Alice* generiert  eine zufällige Nonce $nA$.
+2. *Alice* verschlüsselt $nA$ mit dem öffentlichen Schlüssel von *Bob*.
+3. *Alice* schickt verschlüsselte Nonce $nA$ an *Bob* (bob_pub_key($nA$)).
+4. *Bob* entschlüsselt die Nonce $nA$ von *Alice* mit seinem privaten Schlüssel.
+5. *Bob* generiert eine Prüfsumme der Nonce $nA$ und schickt diese an *Alice*.
+6. *Alice* vergleicht die von *Bob* erhaltene Prüfsumme SHA3($nA$) mit ihrer
+   eigenen. Bei Übereinstimmung wird ein Schlüssel generiert, ansonsten wird der
+   Vorgang abgebrochen.
+7. Analog zu *Alice* hat *Bob* auf die gleiche Art und Weise seine Nonce $nB$ mit
+   *Alice* ausgetauscht. Der gemeinsame Schlüssel ist nun eine *XOR*--Verknüpfung
+   der beiden Noncen $nA$ und $nB$. Um den Schlüssel zu »verstärken« wird
+   zusätzlich die Schlüsselableitungsfunktion *scrypt* angewendet.
+
 **Einschätzung**: Die aktuelle Softwareversion bietet hier keinen Automatismus
 und auch keinen Authentifizierungsmechanismus wie er beispielsweise bei
 *Pidgin*--Messenger mit *OTR*--Verschlüsselung.
@@ -195,7 +217,18 @@ Um Zugriff auf das »brig«--Repository zu erhalten muss sich der Benutzer »bri
 gegenüber mit einem Passwort authentifizieren. Schlechte Passwörter (TODO: Ref)
 sind ein großes Problem im Informationszeitalter, da von ihnen die Sicherheit
 eines gesamten Systems abhängen kann. Menschen sind schlecht darin die
-*Entropie*[^FN_ENTROPY] von Passwörter richtig einzuschätzen. »brig« verwendet für die Bestimmung der Passwort--Entropie 
+*Entropie*[^FN_ENTROPY] von Passwörter richtig einzuschätzen. »brig« verwendet
+für die Bestimmung der Passwort--Entropie *zxcvb*--Bibliothek, welche von
+*Dropbox* entwickelt wurden. Laut einer Studie [@Carnavalet] wird die
+Bibliothek, im Vergleich zu den getesteten Konkurrenten, als akkurater in ihrer
+Funktionsweise bezeichnet. Eine Schwäche, welche bei den
+Entropie--Schätzungswerkzeugen auftritt ist, dass diese ohne Basis eines
+Wörterbuchs arbeiten und somit bei Zeichenketten *Brute--Force* als schnellsten
+Ansatz annehmen (TODO: Ref Passwortcracking.).
+
+Ein weiteres Problem dass bei der Definition einer minimalen Entropie besteht
+ist, dass Benutzer bei komplexen Passwörtern dazu neigen werden diese
+aufzuschreiben.
 
 [^FN_ENTROPY]: Password--Entropy: <https://en.wikipedia.org/wiki/Password_strength#Entropy_as_a_measure_of_password_strength>
 
