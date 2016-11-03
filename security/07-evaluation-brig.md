@@ -65,6 +65,8 @@ Schwächen bei einem bestimmten Algorithmus auftauchen sollten, kann die
 Vertraulichkeit der Daten durch den Wechseln auf einen noch sicheren
 Algorithmus gewährleistet werden.
 
+### Verwendete Algorithmen
+
 Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEDA*--Blockchiffren[^AEAD]:
 
 * AES--GCM
@@ -75,12 +77,22 @@ Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEDA*--Blockchiffren[^
 [^AEAD]: Authenticated encryption: <https://en.wikipedia.org/wiki/Authenticated_encryption>
 
 Der *AEAD*--Betriebsmodi hat den Vorteil, dass er neben der Vertraulichkeit
-auch Authentizität und Integrität sicherstellt. 
+auch Authentizität und Integrität sicherstellt.
 
 TODO: Benchmark & Algo Specs
 
 Weiterhin haben erste Testläufe [@cpahl] gezeigt, dass die Performance bei
 Verschlüsselung stark einbricht.
+
+### Schlüsselgenerierung
+
+Aktuell wird für jede Datei ein Schlüssel zufällig generiert. Dieser wird in
+den Metadaten abgelegt. Durch das zufällige generieren eines Schlüssels wird
+bei zwei unterschiedlichen Kommunikationspartnern für die gleiche Datei ein
+unterschiedlicher Schlüssel erstellt. Dies hat den Nachteil, dass die
+Deduplizierungsfunktionalität von *IPFS* aktuell nicht funktioniert.
+
+### Metadatenverschlüsselung
 
 Neben dem Nutzdaten, die von *IPFS* verwaltet werden, werden weiterhin die
 sogenannten »Stores« verschlüsselt. Diese beinhalten den Metadatenstand der

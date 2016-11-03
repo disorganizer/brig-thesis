@@ -166,12 +166,12 @@ zugrundeliegenden mathematischen Probleme sind das Faktorisierungsproblem
 (*RSA*--Verfahren) großer Primzahlen und das diskreter Logarithmusproblem
 (*ElGamal*--Verfahren).
 
-#### Gängige Algorithmen, Einsatzzwecke und Schlüssellängen 
+#### Gängige Algorithmen, Einsatzzwecke und Schlüssellängen
 
 Zu den gängigen Algorithmen der asymmetrischen Verschlüsselungsverfahrens
 gehören *RSA* und *ElGamal*. Beide Verfahren ermöglichen sowohl die Ver-- und
 Entschlüsselung von Daten sowie das Signieren von Daten. Zu den
-Signatur--Verfahren gehören die RSA--Signatur und *DSA (ElGamal--Signatur)*. 
+Signatur--Verfahren gehören die RSA--Signatur und *DSA (ElGamal--Signatur)*.
 
 Weiterhin gibt es eine Variante des *DSA*--Verfahrens welche
 Elliptische--Kurven--Kryptographie verwendet, das *ECDSA (elliptic curve DSA)*.
@@ -337,7 +337,3 @@ Systemkomponenten erfolgreiche Angriffe nicht unterbunden werden können (vgl.
 * Trusted User
 * Signierter Code/Downloads
 * Audits
-
-## Sicherheit und Angriffsszenarien
-
-* Welche Sicherheitsprobleme existieren?
