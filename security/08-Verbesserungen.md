@@ -10,6 +10,7 @@ beziehungsweise zu beheben.
 * BSI: Richtlinie für AES-GCM?
 * Integrität der Shadow--File?
 * Sicherung der Identität?
+* Convergent encryption
 
 ## Authentifizierungskonzept mittels Yubikey
 
@@ -26,3 +27,4 @@ beziehungsweise zu beheben.
 
 * Benchmark mit AES--NI Port von GO
 * Benchmark mit https://git.schwanenlied.me/yawning/chacha20
+* https://calomel.org/aesni_ssl_performance.html
