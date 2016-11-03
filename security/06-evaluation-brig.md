@@ -75,7 +75,12 @@ Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEDA*--Blockchiffren[^
 [^AEAD]: Authenticated encryption: <https://en.wikipedia.org/wiki/Authenticated_encryption>
 
 Der *AEAD*--Betriebsmodi hat den Vorteil, dass er neben der Vertraulichkeit
-auch Authentizität und Integrität sicherstellt.
+auch Authentizität und Integrität sicherstellt. 
+
+TODO: Benchmark & Algo Specs
+
+Weiterhin haben erste Testläufe [@cpahl] gezeigt, dass die Performance bei
+Verschlüsselung stark einbricht.
 
 Neben dem Nutzdaten, die von *IPFS* verwaltet werden, werden weiterhin die
 sogenannten »Stores« verschlüsselt. Diese beinhalten den Metadatenstand der
@@ -199,16 +204,24 @@ Verbindung zwischen zwei Synchronisationspartnern.
 4. *Bob* entschlüsselt die Nonce $nA$ von *Alice* mit seinem privaten Schlüssel.
 5. *Bob* generiert eine Prüfsumme der Nonce $nA$ und schickt diese an *Alice*.
 6. *Alice* vergleicht die von *Bob* erhaltene Prüfsumme SHA3($nA$) mit ihrer
-   eigenen. Bei Übereinstimmung wird ein Schlüssel generiert, ansonsten wird der
-   Vorgang abgebrochen.
-7. Analog zu *Alice* hat *Bob* auf die gleiche Art und Weise seine Nonce $nB$ mit
-   *Alice* ausgetauscht. Der gemeinsame Schlüssel ist nun eine *XOR*--Verknüpfung
-   der beiden Noncen $nA$ und $nB$. Um den Schlüssel zu »verstärken« wird
-   zusätzlich die Schlüsselableitungsfunktion *scrypt* angewendet.
+   eigenen. Stimmt diese überein, so kann der Vorgang fortgesetzt werden,
+   ansonsten wird dieser abgebrochen.
+7. Analog zu *Alice* hat *Bob* auf die gleiche Art und Weise seine
+   Nonce $nB$ mit *Alice* ausgetauscht.
+8. *Alice* entschlüsselt die Nonce $nB$ von *Bob* und lässt diese in die
+   Schlüsselgenerierung einfließen.
+9. Der gemeinsame Schlüssel ist nun eine *XOR*--Verknüpfung der beiden Noncen
+   $nA$ und $nB$. Um den Schlüssel zu »verstärken« wird zusätzlich die
+   Schlüsselableitungsfunktion *scrypt* angewendet.
 
-**Einschätzung**: Die aktuelle Softwareversion bietet hier keinen Automatismus
-und auch keinen Authentifizierungsmechanismus wie er beispielsweise bei
-*Pidgin*--Messenger mit *OTR*--Verschlüsselung.
+**Einschätzung**: Dir Aufbau der Verschlüsselten Verbindung setzt eine
+vorherige Authentifizierung des jeweiligen Kommunikationspartners. Wäre dieser
+nicht authentifiziert, so wäre in diesem Fall ein
+*Man--In--The--Middle*--Angriff denkbar.
+
+Die aktuelle Softwareversion bietet hier keinen Automatismus und auch keinen
+Authentifizierungsmechanismus wie er beispielsweise bei *Pidgin*--Messenger mit
+*OTR*--Verschlüsselung.
 
 
 #### Lokal
@@ -232,7 +245,10 @@ aufzuschreiben.
 
 [^FN_ENTROPY]: Password--Entropy: <https://en.wikipedia.org/wiki/Password_strength#Entropy_as_a_measure_of_password_strength>
 
-Welche »Sicherheitsfeatures« sind in brig eingebaut?
+**Einschätzung**: Bei der aktuellen Authentifikation gegenüber dem Repository
+ist ein schlechtes Passwort oder die erzwungene Komplexität (Benutzer schreiben
+Komplexe Passwörter auf) eine Schwachstelle.
+
 Evaluation der Geschwindigkeit der aktuellen »Sicherheitsfeatures«.
 
 https://git.schwanenlied.me/yawning/chacha20
