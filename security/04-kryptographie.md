@@ -1,4 +1,4 @@
-# Kryptographische Primitiven und Protokolle
+# Kryptographische Primitiven und Protokolle {#sec:CAP_CRYPTOGRAPHY}
 
 ## Einleitung
 
@@ -25,6 +25,14 @@ Tagesgeschäft gehört, machen immer wieder fatale Fehler bei der Implementierun
 ihrer Produkte.
 
 [^FN_HDD_ENCRYPTION_FAIL]: Festplattenverschlüsselung: <http://www.heise.de/security/artikel/Verschusselt-statt-verschluesselt-270058.html>
+
+Die oben genannten Beispiele zeigen, dass selbst Systeme die von »Experten«
+entwickelt werden, genau so kritische Fehler aufweisen. Das *BSI* (Bundesamt
+fur Sicherheit in der Informationstechnik) hat aus diesem Grund einen Leitfaden
+(vgl. [@bsi]) für die Implementierung kryptographischer Verfahren
+zusammengestellt. Im Leitfaden wird darauf hingewiesen, dass der Leitfaden je
+nach Anwendungsfall nicht »blind« angewendet werden darf und dass bei
+kritischen Systmen Experten stets zu rate zu ziehen sind.
 
 Selektiv gewählte Sicherheitsprinzipien werden betrachtet um zu sensibilisieren
 jedoch viel mehr um eine »sinnvollen« Einsatz für »brig« definieren zu können.
@@ -137,8 +145,7 @@ weiterhin *MARS*, *RC6*, *Serpent* und der von *Bruce Schneier* entwickelte
 *Twofish*. Alle genannten Algorithmen arbeiten mit einer Blockgröße von 128 Bit
 und unterstützen jeweils die Schlüssellängen 128 Bit, 192 Bit und 256 Bit.
 
-*AES* ist die aktuelle Empfehlung vom *BSI (Bundesamt für Sicherheit in der
-Informationstechnik)*.
+*AES* ist die aktuelle Empfehlung vom *BSI (vgl. [@bsi] S.22 f.)*.
 
 ### Asymmetrische Verschlüsselungsverfahren
 
