@@ -57,7 +57,7 @@ bei der Übertragung gewährleistet ist. [@fig:img-aesgcm] zeigt das
 Containerformat welches für »brig« entwickelt wurde um diese Anforderungen zu
 erreichen.
 
-![»brig«-Containerformat für Datenverschlüsselung mit Authenzität.](images/aesgcm.png){#fig:img-aesgcm width=80%}
+![»brig«-Containerformat für Datenverschlüsselung mit Authenzität.](images/aesgcm.png){#fig:img-aesgcm width=100%}
 
 Das Container--Format wurde so angelegt um wahlfreier Zugriff auf Daten zu
 ermöglichen und den Verschlüsselungsalgorithmus austauschbar zu machen. Falls
@@ -72,17 +72,33 @@ Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEDA*--Blockchiffren[^
 * AES--GCM
 * ChaCha20/Poly1305 (externe Bibliothek[^FN_CHACHA20])
 
+TODO: encrypt-than-mac vs GCM/Poly1305, key reuse? 
+http://security.stackexchange.com/questions/2202/lessons-learned-and-misconceptions-regarding-encryption-and-cryptology
+
 [^FN_SYMALGO]: Aktuell von »brig« unterstützte symmetrische Verschlüsselungsverfahren: <https://github.com/disorganizer/brig/blob/fa9bb634b4b83aaabaa967ac523123ce67aa217d/store/encrypt/format.go>
 [^FN_CHACHA20]: ChaCha20/Poly1305--Bibliothek: <https://github.com/codahale/chacha20poly1305>
 [^AEAD]: Authenticated encryption: <https://en.wikipedia.org/wiki/Authenticated_encryption>
 
-Der *AEAD*--Betriebsmodi hat den Vorteil, dass er neben der Vertraulichkeit
-auch Authentizität und Integrität sicherstellt.
+Der *AEAD*--Betriebsmodi wurde gewählt, weil er den Vorteil hat, dass er neben
+der Vertraulichkeit auch Authentizität und Integrität sicherstellt.
 
+Erste Benchmarks [@cpahl] haben gezeigt, dass die Performance bei
+Verschlüsselung (chacha20/poly1305) stark einbricht. Es gibt unter von
+*cloudflare* einen Go--Fork [^FN_CLOUDFLARE] welcher AES--NI--Erweiterungen
+unterstützt.
+
+[^FN_CLOUDFLARE]: CloudFlare Go--Crypto--Fork: <https://blog.cloudflare.com/go-crypto-bridging-the-performance-gap/>
+
+Der *AES--NI*--Befehlserweiterungssatz war lange Zeit aufgrund von
+Lizenzproblemen nicht in *Go* implementiert. Nach eingehender Recherche
+scheinen die Patches von *Cloudflare* jedoch mittlerweile in *Go*
+Einzug[^FN_AESNI_MERGE][^FN_ECDSA_MERGE] gefunden haben.
+
+[^FN_AESNI_MERGE]: Go AES--NI--Patch--Merge: <https://go-review.googlesource.com/#/c/10484/>
+[^FN_ECDSA_MERGE]: Go ECDSA--P256--Patch--Merge: <https://go-review.googlesource.com/#/c/8968/>
+
+![Benchmark](images/plots/archive_read.pdf){#fig:img-arpdf width=100%}
 TODO: Benchmark & Algo Specs
-
-Weiterhin haben erste Testläufe [@cpahl] gezeigt, dass die Performance bei
-Verschlüsselung stark einbricht.
 
 ### Schlüsselgenerierung
 
@@ -235,7 +251,6 @@ Die aktuelle Softwareversion bietet hier keinen Automatismus und auch keinen
 Authentifizierungsmechanismus wie er beispielsweise bei *Pidgin*--Messenger mit
 *OTR*--Verschlüsselung.
 
-
 #### Lokal
 
 Um Zugriff auf das »brig«--Repository zu erhalten muss sich der Benutzer »brig«
@@ -267,9 +282,3 @@ https://git.schwanenlied.me/yawning/chacha20
 
 * Keymanagement.
 * Key/Identify--Backup.
-
-## Mögliche Probleme
-
-## Angriffsszenarien
-
-## Risikomanagement
