@@ -80,7 +80,7 @@ func die(err error) {
 func parseFlags() options {
 	read := flag.Bool("r", false, "Read mode.")
 	write := flag.Bool("w", false, "Write mode.")
-	maxblocksize := flag.Int64("b", 128, "BlockSize.")
+	maxblocksize := flag.Int64("b", 64*1024, "BlockSize.")
 	zipalgo := flag.String("c", "none", "Possible compression algorithms: none, snappy, lz4.")
 	encalgo := flag.String("e", "aes", "Possible encryption algorithms: aes, chacha.")
 	forceDstOverwrite := flag.Bool("f", false, "Force overwriting destination file.")
@@ -135,32 +135,28 @@ func main() {
 	dst := openDst(dstPath, opts.forceDstOverwrite)
 	defer dst.Close()
 
-	var chiper uint16 = aeadCipherAES
-	var key []byte = []byte("")
-	if opts.write {
-		key = derivateAesKey([]byte("defaultpassword"), nil, 32)
-		if key == nil {
-			die(err)
-		}
-		if opts.encalgo == "chacha" {
-			chiper = aeadCipherChaCha
-		}
+	var cipher uint16 = aeadCipherAES
+	key := derivateAesKey([]byte("defaultpassword"), nil, 32)
+	if key == nil {
+		die(err)
+	}
+	if opts.encalgo == "chacha" {
+		cipher = aeadCipherChaCha
+	}
 
-		if opts.encalgo == "aes" {
-			chiper = aeadCipherAES
-		}
+	if opts.encalgo == "aes" {
+		cipher = aeadCipherAES
 	}
 
 	if opts.encalgo == "none" {
 		opts.write = false
 	}
 
-	fmt.Println(opts)
 	// Writing
 	if opts.write {
 		ew := io.WriteCloser(dst)
 		if opts.encalgo != "none" {
-			ew, err = encrypt.NewWriterWithTypeAndBlockSize(dst, key, chiper, opts.maxblocksize)
+			ew, err = encrypt.NewWriterWithTypeAndBlockSize(dst, key, cipher, opts.maxblocksize)
 			if err != nil {
 				die(err)
 			}
