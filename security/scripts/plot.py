@@ -7,13 +7,9 @@ import pygal
 import pygal.style
 from math import log
 from statistics import mean
+import subprocess
 
-BLOCKSIZES = [(2**x) for x in range(6,29)] 
-#[
-#    128, 512, 1024, 4096, 32768, 65536, 131072, 262144, 524288,
-#    1048576, 2097152, 4194304, 8388608, 16777216, 33554432, 67108864,
-#    134217728, 268435456
-#]
+BLOCKSIZES = [(2**x) for x in range(6,29)]
 
 # http://stackoverflow.com/questions/1094841/
 # reusable-library-to-get-human-readable-version-of-file-size
@@ -32,7 +28,7 @@ def render_plot(*args, logarithmic=True):
         x_label_rotation=25,
         interpolate='cubic'
     )
-    line_chart.title = "Read benchmark of crypto layer."
+    line_chart.title = "Write benchmark of crypto layer."
     line_chart.x_labels = [pretty_size(x) for x in BLOCKSIZES]
     line_chart.x_title = "MaxBlockSize of encryption layer in bytes."
     line_chart.y_title = "Time in milliseconds"
@@ -52,3 +48,4 @@ if __name__ == '__main__':
         with open(item, "r") as fd:
             data.append(json.loads(fd.read()))
     render_plot(*data)
+    subprocess.call(["inkscape", "./render.svg",  "--export-pdf=render.svg.pdf"])

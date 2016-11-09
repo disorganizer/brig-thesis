@@ -12,14 +12,9 @@ INPUTFILE="./data/movie_256"
 
 BLOCKSIZES = [(2**x) for x in range(6,29)]
 
-#[
-#    128, 512, 1024, 4096, 32768, 65536, 131072, 262144, 524288,
-#    1048576, 2097152, 4194304, 8388608, 16777216, 33554432, 67108864,
-#    134217728, 268435456
-#]
 COMPRESSION_ALGOS = ["none", "lz4", "snappy"]
 ENCRYPTION_ALGOS = ["none", "aes", "chacha"]
-RUNS=10
+RUNS=1
 
 def setup(size=256):
     for cmd in [
@@ -40,8 +35,8 @@ def teardown():
             return "Error occured during teardown."
     return None
 
-def build_cmd(data, block):
-    cmd = "{binary} -b {block} -D -e -n {enc} -c -a {zip} -f {inputfile}".format(
+def build_write_cmd(data, block):
+    cmd = "{binary} -w -b {block} -D -e {enc} -c {zip} -f {inputfile}".format(
             binary=BINARY,
             block=block,
             enc=data["encryption"],
@@ -76,7 +71,7 @@ def get_input_parameters(system, encryption, compression, title, runs):
         "type": "unknown"
     }
 
-def read_benchmark(system, encryption, compression, title, runs=10):
+def write_benchmark(system, encryption, compression, title, runs=10):
     data = get_input_parameters(system, encryption, compression, title, runs)
     if data is None:
         print("Something went wrong - no correct data template available.")
@@ -87,7 +82,7 @@ def read_benchmark(system, encryption, compression, title, runs=10):
     print("Parameters for this run: {0}.".format(data))
     for blocksize in BLOCKSIZES:
         cmd = "subprocess.call({cmd})".format(
-            cmd=build_cmd(data, blocksize)
+            cmd=build_write_cmd(data, blocksize)
         )
         print("{0} bytes blocksize run...".format(blocksize))
         run = timeit.timeit(cmd, number=data["runs"], setup="import subprocess")
@@ -95,6 +90,24 @@ def read_benchmark(system, encryption, compression, title, runs=10):
 
     data["type"] = "read"
     return data
+
+def read_benchmark(system, encryption, compression, title, runs=10):
+    data = get_input_parameters(system, encryption, compression, title, runs)
+    if data is None:
+        print("Something went wrong - no correct data template available.")
+        sys.exit(-1)
+
+    print("** Running bench using {0} runs. **".format(data["runs"]))
+
+    print("Parameters for this run: {0}.".format(data))
+    for blocksize in BLOCKSIZES:
+        print("{0} bytes blocksize run...".format(blocksize))
+        run = timeit.timeit(cmd, number=data["runs"], setup="import subprocess")
+        data["results"].append(round(run/data["runs"]*1000))
+
+    data["type"] = "read"
+    return data
+
 
 if __name__ == '__main__':
 
@@ -107,11 +120,12 @@ if __name__ == '__main__':
         system = "unknown"
         if len(sys.argv) == 2:
             system = sys.argv[1]
-        data = read_benchmark(system=system, encryption="aes", compression="none", title="AES-GCM", runs=RUNS)
+
+        data = write_benchmark(system=system, encryption="aes", compression="none", title="AES-GCM", runs=RUNS)
         write_bench_data(data)
-        data = read_benchmark(system=system, encryption="none", compression="none", title="Go-Baseline", runs=RUNS)
+        data = write_benchmark(system=system, encryption="none", compression="none", title="Go-Baseline", runs=RUNS)
         write_bench_data(data)
-        data = read_benchmark(system=system, encryption="chacha", compression="none", title="ChaCha20/Poly1305", runs=RUNS)
+        data = write_benchmark(system=system, encryption="chacha", compression="none", title="ChaCha20/Poly1305", runs=RUNS)
         write_bench_data(data)
     except KeyboardInterrupt:
         print("Interrupted by user.")
