@@ -5,11 +5,21 @@ import json
 import sys
 import pygal
 import pygal.style
+from math import log
+from statistics import mean
 
-BLOCKSIZES = [
-    128, 512, 1024, 4096, 32768, 65536, 131072, 262144, 524288,
-    1048576, 2097152, 4194304, 8388608,
-]
+BLOCKSIZES = [(2**x) for x in range(6,29)] 
+#[
+#    128, 512, 1024, 4096, 32768, 65536, 131072, 262144, 524288,
+#    1048576, 2097152, 4194304, 8388608, 16777216, 33554432, 67108864,
+#    134217728, 268435456
+#]
+
+# http://stackoverflow.com/questions/1094841/
+# reusable-library-to-get-human-readable-version-of-file-size
+def pretty_size(n,pow=0,b=1024,u='B',pre=['']+[p+'i'for p in'KMGTPEZY']):
+    pow,n=min(int(log(max(n*b**pow,1),b)),len(pre)-1),n*b**pow
+    return "%%.%if %%s%%s"%abs(pow%(-pow-1))%(n/b**float(pow),pre[pow],u)
 
 def render_plot(*args, logarithmic=True):
     pygal.style.LightSolarizedStyle.background = "#FFFFFF"
@@ -19,15 +29,20 @@ def render_plot(*args, logarithmic=True):
         legend_at_bottom=True,
         logarithmic=logarithmic,
         style=pygal.style.LightSolarizedStyle,
+        x_label_rotation=25,
         interpolate='cubic'
     )
     line_chart.title = "Read benchmark of crypto layer."
-    line_chart.x_labels = [x if x < 1024 else str(int(x/1024)) + "K" for x in BLOCKSIZES]
-    line_chart.x_title = "Blocksize in bytes."
+    line_chart.x_labels = [pretty_size(x) for x in BLOCKSIZES]
+    line_chart.x_title = "MaxBlockSize of encryption layer in bytes."
     line_chart.y_title = "Time in milliseconds"
     for arg in args:
         print(arg["title"], arg["results"])
-        line_chart.add(arg["title"], arg["results"])
+        avg = mean(arg["results"])
+        avg = round(256/(avg/(1024**3)), 2)
+        print(avg)
+        title = arg["title"] + " (" + pretty_size(avg)  + "/s)"
+        line_chart.add(title, arg["results"])
     line_chart.render_to_file('render.svg')
 
 
