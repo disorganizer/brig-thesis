@@ -1,0 +1,1 @@
+{"compression": "none", "runs": 10, "results": [9246, 5493, 3709, 2850, 2385, 2071, 2042, 1883, 1841, 1772, 1800, 1789, 1839, 1912, 1963, 1981, 1992, 1812, 1812, 1793, 1869, 1882, 2026], "title": "ChaCha20/Poly1305", "system": "Intel i5", "encryption": "chacha", "type": "read"}

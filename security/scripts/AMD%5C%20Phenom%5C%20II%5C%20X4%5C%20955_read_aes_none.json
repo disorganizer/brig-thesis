@@ -1,0 +1,1 @@
+{"type": "read", "title": "AES-GCM", "runs": 1, "compression": "none", "encryption": "aes", "system": "AMD Phenom II X4 955", "results": [12219, 9464, 8131, 7451, 7156, 6973, 6903, 6861, 6834, 6813, 6812, 6823, 6859, 6859, 6923, 6924, 6971, 6967, 7024, 7068, 7171, 7182, 7375]}

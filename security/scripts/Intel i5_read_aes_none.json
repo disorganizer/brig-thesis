@@ -1,0 +1,1 @@
+{"compression": "none", "runs": 10, "results": [3014, 1406, 895, 660, 523, 461, 412, 410, 395, 395, 390, 410, 412, 413, 442, 455, 460, 448, 473, 507, 541, 540, 680], "title": "AES-GCM", "system": "Intel i5", "encryption": "aes", "type": "read"}
