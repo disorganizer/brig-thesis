@@ -20,13 +20,12 @@ const (
 )
 
 type options struct {
-	algo              string
+	zipalgo           string
 	encalgo           string
 	args              []string
-	compress          bool
-	encrypt           bool
+	write             bool
+	read              bool
 	maxblocksize      int64
-	decompress        bool
 	useDevNull        bool
 	forceDstOverwrite bool
 }
@@ -79,20 +78,18 @@ func die(err error) {
 }
 
 func parseFlags() options {
-	decompress := flag.Bool("d", false, "Decompress.")
-	compress := flag.Bool("c", false, "Compress.")
-	encrypt := flag.Bool("e", false, "Enable encryption/decryption.")
-	maxblocksize := flag.Int64("b", 1, "BlockSize.")
-	algo := flag.String("a", "none", "Possible compression algorithms: none, snappy, lz4.")
-	encalgo := flag.String("n", "aes", "Possible encryption algorithms: aes, chacha.")
+	read := flag.Bool("r", false, "Write mode.")
+	write := flag.Bool("w", false, "Read mode.")
+	maxblocksize := flag.Int64("b", 128, "BlockSize.")
+	zipalgo := flag.String("c", "none", "Possible compression algorithms: none, snappy, lz4.")
+	encalgo := flag.String("e", "aes", "Possible encryption algorithms: aes, chacha.")
 	forceDstOverwrite := flag.Bool("f", false, "Force overwriting destination file.")
 	useDevNull := flag.Bool("D", false, "Write to /dev/null.")
 	flag.Parse()
 	return options{
-		decompress:        *decompress,
-		compress:          *compress,
-		encrypt:           *encrypt,
-		algo:              *algo,
+		read:              *read,
+		write:             *write,
+		zipalgo:           *zipalgo,
 		encalgo:           *encalgo,
 		maxblocksize:      *maxblocksize,
 		forceDstOverwrite: *forceDstOverwrite,
@@ -111,19 +108,18 @@ func derivateAesKey(pwd, salt []byte, keyLen int) []byte {
 
 func main() {
 	opts := parseFlags()
-
 	if len(opts.args) != 1 {
 		dieWithUsage()
 	}
-	if opts.compress && opts.decompress {
+	if opts.read && opts.write {
 		dieWithUsage()
 	}
-	if !opts.compress && !opts.decompress {
+	if !opts.read && !opts.write {
 		dieWithUsage()
 	}
 
 	srcPath := opts.args[0]
-	algo, err := compress.FromString(opts.algo)
+	algo, err := compress.FromString(opts.zipalgo)
 	if err != nil {
 		die(err)
 	}
@@ -131,7 +127,7 @@ func main() {
 	src := openSrc(srcPath)
 	defer src.Close()
 
-	dstPath := dstFilename(opts.compress, srcPath, opts.algo)
+	dstPath := dstFilename(opts.write, srcPath, opts.zipalgo)
 	if opts.useDevNull {
 		dstPath = os.DevNull
 	}
@@ -139,26 +135,31 @@ func main() {
 	dst := openDst(dstPath, opts.forceDstOverwrite)
 	defer dst.Close()
 
-	key := derivateAesKey([]byte("defaultpassword"), nil, 32)
-	if key == nil {
-		die(err)
-	}
 	var chiper uint16 = aeadCipherAES
-	if opts.encalgo == "chacha" {
-		chiper = aeadCipherChaCha
-	}
+	var key []byte = []byte("")
+	if opts.write {
+		key = derivateAesKey([]byte("defaultpassword"), nil, 32)
+		if key == nil {
+			die(err)
+		}
+		if opts.encalgo == "chacha" {
+			chiper = aeadCipherChaCha
+		}
 
-	if opts.encalgo == "aes" {
-		chiper = aeadCipherAES
+		if opts.encalgo == "aes" {
+			chiper = aeadCipherAES
+		}
 	}
 
 	if opts.encalgo == "none" {
-		opts.encrypt = false
+		opts.write = false
 	}
 
-	if opts.compress {
+	fmt.Println(opts)
+	// Writing
+	if opts.write {
 		ew := io.WriteCloser(dst)
-		if opts.encrypt {
+		if opts.encalgo != "none" {
 			ew, err = encrypt.NewWriterWithTypeAndBlockSize(dst, key, chiper, opts.maxblocksize)
 			if err != nil {
 				die(err)
@@ -179,9 +180,10 @@ func main() {
 			die(err)
 		}
 	}
-	if opts.decompress {
+	// Reading
+	if opts.read {
 		var reader io.ReadSeeker = src
-		if opts.encrypt {
+		if opts.encalgo != "none" {
 			er, err := encrypt.NewReader(src, key)
 			if err != nil {
 				die(err)
