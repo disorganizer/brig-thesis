@@ -78,8 +78,8 @@ func die(err error) {
 }
 
 func parseFlags() options {
-	read := flag.Bool("r", false, "Write mode.")
-	write := flag.Bool("w", false, "Read mode.")
+	read := flag.Bool("r", false, "Read mode.")
+	write := flag.Bool("w", false, "Write mode.")
 	maxblocksize := flag.Int64("b", 128, "BlockSize.")
 	zipalgo := flag.String("c", "none", "Possible compression algorithms: none, snappy, lz4.")
 	encalgo := flag.String("e", "aes", "Possible encryption algorithms: aes, chacha.")
