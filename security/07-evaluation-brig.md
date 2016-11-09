@@ -70,7 +70,7 @@ Algorithmus gewährleistet werden.
 Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEDA*--Blockchiffren[^AEAD]:
 
 * AES--GCM
-* ChaCha20/Poly1305 (externe Bibliothek[^FN_CHACHA20])
+*userlookup  ChaCha20/Poly1305 (externe Bibliothek[^FN_CHACHA20])
 
 TODO: encrypt-than-mac vs GCM/Poly1305, key reuse? 
 http://security.stackexchange.com/questions/2202/lessons-learned-and-misconceptions-regarding-encryption-and-cryptology

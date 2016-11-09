@@ -28,7 +28,7 @@ dass sich Experten nicht immer einig sind oder es kommt erschwerend hinzu dass
 es nicht für jeden Anwendungsfall eine konkrete Empfehlung geben kann. Manchmal
 muss auch zwischen Sicherheit und Geschwindigkeit abgewogen werden. Ein
 Beispiel hierfür wäre die Abwägung ob man Betriebsmodi verwendet die
-Authentifikation und Verschlüsselung unterstützen wie beispielsweise GCM oder
+Authentifikation und Verschlüsselung unterstützen wie beispielsweise *GCM* oder
 doch besser eine »Encrypt--than--MAC«--Komposition (vgl auch [@encryptthanmac]).
 
 ## Sicherheit--Aufwand--Abwägung

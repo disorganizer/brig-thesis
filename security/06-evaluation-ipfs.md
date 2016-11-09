@@ -112,7 +112,7 @@ während der Lese-- und Schreibvorgänge mittels Prüfsummen. Durch dieses
 »spezielle« Feature kann die Verarbeitungskette beim Lesen-- und Speichern der
 Daten bezüglich ihrer Integrität validiert werden. Bei der Benutzung eines
 *RAID*--System können die Daten sogar automatisiert ohne Zutun des Benutzers
-korrigiert werden. 
+korrigiert werden.
 
 TODO: ZFS Beispiel?
 
@@ -121,7 +121,7 @@ TODO: ZFS Beispiel?
 
 Das Speichern der Daten erfolgt bei *IPFS* (blockweise, in sogennanten chunks)
 mittels eines Hash--Tree), auch *Merkle--DAG* (directed acyclic graph,
-gerichteter azyklischer Graph) genannt. 
+gerichteter azyklischer Graph) genannt.
 
 *IPFS* verwendet als Prüfsummen--Format den eigens entwickelte
 *Multihash*--Format[^FN_MULTIHASH]. [@fig:img-multihash] zeigt das
@@ -131,7 +131,7 @@ verschiedenen Varianten encodiert. Beispielsweise `base32` für die interne
 Namensvergabe der Datenblocks oder `base58` für die Repräsentation der
 *Peer--ID* intern verwendet.
 
-![Das *Multihash*--Format.](images/multihash.png){#fig:img-multihash width=80%} 
+![Das *Multihash*--Format.](images/multihash.png){#fig:img-multihash width=90%}
 
 Das folgende Listing zeigt den internen Aufbau eines *IPFS*--Repository. Die
 Daten sind hierbei als ».data«--Blöcke aufgeteilt und gespeichert. Die
@@ -258,7 +258,7 @@ Quelltext[^FN_IPFS_CODE_INIT] zu Rate gezogen werden.
 
 [^FN_IPFS_CODE_INIT]: IPFS Schlüsselgenerierung: <https://github.com/ipfs/go-ipfs/blob/master/repo/config/init.go#L95>
 
-### Authentifizierung 
+### Authentifizierung
 
 Ein Authentifizierungsmechanismus im eigentlichen Sinne existiert bei *IPFS*
 nicht. Die Benutzer haben lediglich eine eindeutige globale *Peer--ID*. Dateien
