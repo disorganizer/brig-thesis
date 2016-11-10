@@ -9,7 +9,8 @@ from math import log
 from statistics import mean
 import subprocess
 
-BLOCKSIZES = [(2**x) for x in range(6,29)]
+FILESIZE=128
+BLOCKSIZES = [(2**x) for x in range(6,28)]
 
 # http://stackoverflow.com/questions/1094841/
 # reusable-library-to-get-human-readable-version-of-file-size
@@ -35,7 +36,7 @@ def render_plot(*args, logarithmic=True):
     for arg in args:
         print(arg["title"], arg["results"])
         avg = mean(arg["results"])
-        avg = round(256/(avg/(1024**3)), 2)
+        avg = round(FILESIZE/(avg/(1024**3)), 2)
         print(avg)
         title = arg["title"] + " (" + pretty_size(avg)  + "/s)"
         line_chart.add(title, arg["results"])

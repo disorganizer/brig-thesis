@@ -7,21 +7,36 @@ import time
 import timeit
 import subprocess
 
+FILESIZE = 128
 BINARY="./data/main"
-INPUTFILE="./data/movie_256"
+WRITE_INPUT="./data/movie_{0}".format(FILESIZE)
+READ_INPUT="./movie_{0}".format(FILESIZE)
 
-BLOCKSIZES = [(2**x) for x in range(6,29)]
+BLOCKSIZES = [(2**x) for x in range(6,28)]
 
 COMPRESSION_ALGOS = ["none", "lz4", "snappy"]
 ENCRYPTION_ALGOS = ["none", "aes", "chacha"]
-RUNS=1
+RUNS=5
 
-def setup(size=256):
+def setup_write_benchmark(size=FILESIZE):
     for cmd in [
         "mkdir -p data",
         "sudo mount -t ramfs -o size=2G ramfs data",
         "sudo chmod 0777 data",
         "sudo dd if=/dev/urandom of=./data/movie_{0} bs=1M count={0} conv=sync".format(size),
+        "sudo chown -R qitta:users data",
+        "cp ./main ./data/main"
+    ]:
+        if subprocess.call(cmd.split(), shell=False) != 0:
+            return "Error occured during setup."
+    return None
+
+def setup_read_benchmark(size=FILESIZE):
+    for cmd in [
+        "mkdir -p data",
+        "sudo mount -t ramfs -o size=2G ramfs data",
+        "sudo chmod 0777 data",
+        "sudo dd if=/dev/urandom of=./movie_{0} bs=1M count={0} conv=sync".format(size),
         "sudo chown -R qitta:users data",
         "cp ./main ./data/main"
     ]:
@@ -41,7 +56,26 @@ def build_write_cmd(data, block):
             block=block,
             enc=data["encryption"],
             zip=data["compression"],
-            inputfile=INPUTFILE
+            inputfile=WRITE_INPUT
+        )
+    return cmd.split()
+
+def build_read_cmd(data, block):
+    cmd = "{binary} -r -b {block} -D -e {enc} -f {inputfile}".format(
+            binary=BINARY,
+            block=block,
+            enc=data["encryption"],
+            inputfile=WRITE_INPUT
+        )
+    return cmd.split()
+
+def build_prepare_read_cmd(data, block):
+    cmd = "{binary} -w -b {block} -e {enc} -o {outputfile} -f {inputfile}".format(
+            binary=BINARY,
+            block=block,
+            enc=data["encryption"],
+            inputfile=READ_INPUT,
+	    outputfile=WRITE_INPUT
         )
     return cmd.split()
 
@@ -88,7 +122,7 @@ def write_benchmark(system, encryption, compression, title, runs=10):
         run = timeit.timeit(cmd, number=data["runs"], setup="import subprocess")
         data["results"].append(round(run/data["runs"]*1000))
 
-    data["type"] = "read"
+    data["type"] = "write"
     return data
 
 def read_benchmark(system, encryption, compression, title, runs=10):
@@ -101,7 +135,17 @@ def read_benchmark(system, encryption, compression, title, runs=10):
 
     print("Parameters for this run: {0}.".format(data))
     for blocksize in BLOCKSIZES:
-        print("{0} bytes blocksize run...".format(blocksize))
+        # Write encrypted file to ramfs
+        pre_cmd = build_prepare_read_cmd(data, blocksize)
+        if subprocess.call(pre_cmd) != 0:
+            print("Preparing read cmd failed.")
+            sys.exit(-1)
+
+        plaincmd = build_read_cmd(data, blocksize)
+        cmd = "subprocess.call({cmd})".format(
+            cmd=plaincmd
+        )
+        print("BS: {0} \t CMD:{1} ".format(blocksize, plaincmd))
         run = timeit.timeit(cmd, number=data["runs"], setup="import subprocess")
         data["results"].append(round(run/data["runs"]*1000))
 
@@ -112,7 +156,7 @@ def read_benchmark(system, encryption, compression, title, runs=10):
 if __name__ == '__main__':
 
     try:
-        ret_code = setup()
+        ret_code = setup_write_benchmark()
         if ret_code is not None:
             print("Cannot setup ramfs.", ret_code)
             sys.exit(-1)
@@ -121,12 +165,18 @@ if __name__ == '__main__':
         if len(sys.argv) == 2:
             system = sys.argv[1]
 
-        data = write_benchmark(system=system, encryption="aes", compression="none", title="AES-GCM", runs=RUNS)
-        write_bench_data(data)
+        #data = read_benchmark(system=system, encryption="aes", compression="none", title="AES-GCM", runs=RUNS)
+        #write_bench_data(data)
+        #data = read_benchmark(system=system, encryption="none", compression="none", title="Go-Baseline", runs=RUNS)
+        #write_bench_data(data)
+        #data = read_benchmark(system=system, encryption="chacha", compression="none", title="ChaCha20/Poly1305", runs=RUNS)
+        #write_bench_data(data)
+        #data = write_benchmark(system=system, encryption="aes", compression="none", title="AES-GCM", runs=RUNS)
+        #write_bench_data(data)
         data = write_benchmark(system=system, encryption="none", compression="none", title="Go-Baseline", runs=RUNS)
         write_bench_data(data)
-        data = write_benchmark(system=system, encryption="chacha", compression="none", title="ChaCha20/Poly1305", runs=RUNS)
-        write_bench_data(data)
+        #data = write_benchmark(system=system, encryption="chacha", compression="none", title="ChaCha20/Poly1305", runs=RUNS)
+        #write_bench_data(data)
     except KeyboardInterrupt:
         print("Interrupted by user.")
     finally:
