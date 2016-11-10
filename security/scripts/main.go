@@ -10,7 +10,6 @@ import (
 
 	"github.com/disorganizer/brig/store/compress"
 	"github.com/disorganizer/brig/store/encrypt"
-	//"github.com/disorganizer/brig/util/pwd"
 	"golang.org/x/crypto/scrypt"
 )
 
@@ -22,6 +21,7 @@ const (
 type options struct {
 	zipalgo           string
 	encalgo           string
+	output            string
 	args              []string
 	write             bool
 	read              bool
@@ -82,6 +82,7 @@ func parseFlags() options {
 	write := flag.Bool("w", false, "Write mode.")
 	maxblocksize := flag.Int64("b", 64*1024, "BlockSize.")
 	zipalgo := flag.String("c", "none", "Possible compression algorithms: none, snappy, lz4.")
+	output := flag.String("o", "", "User defined output file destination.")
 	encalgo := flag.String("e", "aes", "Possible encryption algorithms: aes, chacha.")
 	forceDstOverwrite := flag.Bool("f", false, "Force overwriting destination file.")
 	useDevNull := flag.Bool("D", false, "Write to /dev/null.")
@@ -91,6 +92,7 @@ func parseFlags() options {
 		write:             *write,
 		zipalgo:           *zipalgo,
 		encalgo:           *encalgo,
+		output:            *output,
 		maxblocksize:      *maxblocksize,
 		forceDstOverwrite: *forceDstOverwrite,
 		useDevNull:        *useDevNull,
@@ -127,9 +129,18 @@ func main() {
 	src := openSrc(srcPath)
 	defer src.Close()
 
+	if opts.useDevNull && opts.output != "" {
+		fmt.Printf("%s\n", "dev/null (-D) and outputfile (-o) may not be set at the same time.")
+		os.Exit(-1)
+	}
+
 	dstPath := dstFilename(opts.write, srcPath, opts.zipalgo)
 	if opts.useDevNull {
 		dstPath = os.DevNull
+	}
+
+	if opts.output != "" {
+		dstPath = opts.output
 	}
 
 	dst := openDst(dstPath, opts.forceDstOverwrite)
@@ -148,13 +159,14 @@ func main() {
 		cipher = aeadCipherAES
 	}
 
-	if opts.encalgo == "none" {
-		opts.write = false
+	if opts.encalgo != "aes" && opts.encalgo != "chacha" && opts.encalgo != "none" {
+		opts.encalgo = "none"
 	}
 
 	// Writing
 	if opts.write {
 		ew := io.WriteCloser(dst)
+		// Encryption is enabled
 		if opts.encalgo != "none" {
 			ew, err = encrypt.NewWriterWithTypeAndBlockSize(dst, key, cipher, opts.maxblocksize)
 			if err != nil {
@@ -179,6 +191,7 @@ func main() {
 	// Reading
 	if opts.read {
 		var reader io.ReadSeeker = src
+		// Decryption is enabled
 		if opts.encalgo != "none" {
 			er, err := encrypt.NewReader(src, key)
 			if err != nil {
