@@ -1,1 +1,0 @@
-{"type": "read", "title": "ChaCha20/Poly1305", "runs": 1, "compression": "none", "encryption": "chacha", "system": "AMD Phenom II X4 955", "results": [10611, 6734, 4988, 4082, 3298, 3125, 2929, 2966, 2902, 2868, 2917, 2648, 3220, 3173, 2779, 2509, 2441, 2431, 2499, 2563, 2625, 2797, 2903]}

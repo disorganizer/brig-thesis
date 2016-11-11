@@ -147,10 +147,11 @@ func main() {
 	defer dst.Close()
 
 	var cipher uint16 = aeadCipherAES
-	key := derivateAesKey([]byte("defaultpassword"), nil, 32)
-	if key == nil {
-		die(err)
-	}
+	// key := derivateAesKey([]byte("defaultpassword"), nil, 32)
+	//if key == nil {
+	//	die(err)
+	//}
+	key := make([]byte, 32)
 	if opts.encalgo == "chacha" {
 		cipher = aeadCipherChaCha
 	}

@@ -12,50 +12,51 @@ BINARY="./data/main"
 WRITE_INPUT="./data/movie_{0}".format(FILESIZE)
 READ_INPUT="./movie_{0}".format(FILESIZE)
 
-BLOCKSIZES = [(2**x) for x in range(6,28)]
+BLOCKSIZES = [(2**x) for x in range(30) if 2**x >= 64 and (2**x)/1024**2 <= FILESIZE]
+
 
 COMPRESSION_ALGOS = ["none", "lz4", "snappy"]
 ENCRYPTION_ALGOS = ["none", "aes", "chacha"]
 RUNS=5
 
-def setup_write_benchmark(size=FILESIZE):
+def setup_write_benchmark():
+    setup(WRITE_INPUT)
+
+def setup_read_benchmark():
+    setup(READ_INPUT)
+
+def setup(path):
     for cmd in [
         "mkdir -p data",
         "sudo mount -t ramfs -o size=2G ramfs data",
         "sudo chmod 0777 data",
-        "sudo dd if=/dev/urandom of=./data/movie_{0} bs=1M count={0} conv=sync".format(size),
+        "sudo dd if=/dev/urandom of={0} bs=1M count={1} conv=sync".format(path, FILESIZE),
         "sudo chown -R qitta:users data",
         "cp ./main ./data/main"
     ]:
         if subprocess.call(cmd.split(), shell=False) != 0:
-            return "Error occured during setup."
-    return None
+            print("Error occured during setup of read benchmark.")
+            sys.exit(-1)
 
-def setup_read_benchmark(size=FILESIZE):
-    for cmd in [
-        "mkdir -p data",
-        "sudo mount -t ramfs -o size=2G ramfs data",
-        "sudo chmod 0777 data",
-        "sudo dd if=/dev/urandom of=./movie_{0} bs=1M count={0} conv=sync".format(size),
-        "sudo chown -R qitta:users data",
-        "cp ./main ./data/main"
-    ]:
-        if subprocess.call(cmd.split(), shell=False) != 0:
-            return "Error occured during setup."
-    return None
 
-def teardown():
-    for cmd in ["sudo umount -l data", "sudo rm data -rv"]:
+def teardown(cmds):
+    for cmd in cmds:
         if subprocess.call(cmd.split(), shell=False) != 0:
-            return "Error occured during teardown."
-    return None
+            print("Error occured during teardown.")
+            sys.exit(-1)
+
+def teardown_read():
+    teardown_write()
+    teardown(["sudo rm {0}".format(READ_INPUT)])
+
+def teardown_write():
+    teardown(["sudo umount -l data", "sudo rm data -rv"])
 
 def build_write_cmd(data, block):
-    cmd = "{binary} -w -b {block} -D -e {enc} -c {zip} -f {inputfile}".format(
+    cmd = "{binary} -w -b {block} -D -e {enc} -f {inputfile}".format(
             binary=BINARY,
             block=block,
             enc=data["encryption"],
-            zip=data["compression"],
             inputfile=WRITE_INPUT
         )
     return cmd.split()
@@ -152,32 +153,36 @@ def read_benchmark(system, encryption, compression, title, runs=10):
     data["type"] = "read"
     return data
 
-
-if __name__ == '__main__':
-
+# Benchmark entry point
+def run_read_bench(runs, system="unknown"):
     try:
-        ret_code = setup_write_benchmark()
-        if ret_code is not None:
-            print("Cannot setup ramfs.", ret_code)
-            sys.exit(-1)
-
-        system = "unknown"
-        if len(sys.argv) == 2:
-            system = sys.argv[1]
-
-        #data = read_benchmark(system=system, encryption="aes", compression="none", title="AES-GCM", runs=RUNS)
-        #write_bench_data(data)
-        #data = read_benchmark(system=system, encryption="none", compression="none", title="Go-Baseline", runs=RUNS)
-        #write_bench_data(data)
-        #data = read_benchmark(system=system, encryption="chacha", compression="none", title="ChaCha20/Poly1305", runs=RUNS)
-        #write_bench_data(data)
-        #data = write_benchmark(system=system, encryption="aes", compression="none", title="AES-GCM", runs=RUNS)
-        #write_bench_data(data)
-        data = write_benchmark(system=system, encryption="none", compression="none", title="Go-Baseline", runs=RUNS)
-        write_bench_data(data)
-        #data = write_benchmark(system=system, encryption="chacha", compression="none", title="ChaCha20/Poly1305", runs=RUNS)
-        #write_bench_data(data)
+        for enc, title in runs:
+            data = read_benchmark(system=system, encryption=enc, compression="none" ,title=title, runs=RUNS)
+            write_bench_data(data)
     except KeyboardInterrupt:
         print("Interrupted by user.")
     finally:
-        teardown()
+        teardown_read()
+
+def run_write_bench(runs, system="unknown"):
+    try:
+        for enc, title in runs:
+            data = write_benchmark(system=system, encryption=enc, compression="none", title=title, runs=RUNS)
+            write_bench_data(data)
+    except KeyboardInterrupt:
+        print("Interrupted by user.")
+    finally:
+        teardown_write()
+
+if __name__ == '__main__':
+
+    if len(sys.argv) == 2:
+        system = sys.argv[1]
+
+    runs = [("aes", "AES/GCM"), ("none", "Base"), ("chacha", "ChaCha20/Poly1305")]
+
+    setup_read_benchmark()
+    run_read_bench(runs, system)
+
+    setup_write_benchmark()
+    run_write_bench(runs, system)

@@ -10,7 +10,8 @@ from statistics import mean
 import subprocess
 
 FILESIZE=128
-BLOCKSIZES = [(2**x) for x in range(6,28)]
+BLOCKSIZES = [(2**x) for x in range(30) if 2**x >= 64 and (2**x)/1024**2 <= FILESIZE]
+
 
 # http://stackoverflow.com/questions/1094841/
 # reusable-library-to-get-human-readable-version-of-file-size
@@ -34,7 +35,8 @@ def render_plot(*args, logarithmic=True):
     line_chart.x_title = "MaxBlockSize of encryption layer in bytes."
     line_chart.y_title = "Time in milliseconds"
     for arg in args:
-        print(arg["title"], arg["results"])
+        #print(arg["title"], arg["results"])
+        print(arg["results"])
         avg = mean(arg["results"])
         avg = round(FILESIZE/(avg/(1024**3)), 2)
         print(avg)
