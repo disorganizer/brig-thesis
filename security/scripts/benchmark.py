@@ -5,6 +5,7 @@ import sys
 import json
 import time
 import timeit
+import getpass
 import subprocess
 
 FILESIZE = 128
@@ -31,7 +32,8 @@ def setup(path):
         "sudo mount -t ramfs -o size=2G ramfs data",
         "sudo chmod 0777 data",
         "sudo dd if=/dev/urandom of={0} bs=1M count={1} conv=sync".format(path, FILESIZE),
-        "sudo chown -R qitta:users data",
+        "sudo chown -R {user}:users data".format(user=getpass.getuser()),
+        "go build main.go",
         "cp ./main ./data/main"
     ]:
         if subprocess.call(cmd.split(), shell=False) != 0:
