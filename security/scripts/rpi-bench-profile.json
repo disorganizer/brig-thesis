@@ -1,0 +1,26 @@
+{
+    "input-data": "data/",
+    "type": "line",
+    "y-title": "Time in milliseconds",
+    "outputfile": "",
+    "x-title": "Blocksize in bytes",
+    "logarithmic": false,
+    "filesize": 32,
+    "title": "Cryptography layer write throughput (go 1.7.1)",
+    "plot-data": [],
+    "needs": {
+        "system": [
+            "sys1",
+			"raspberrypi-32M-3runs"
+        ],
+        "type": [
+            "read"
+        ],
+        "runs": 3,
+        "algo": [
+            "aes",
+            "chacha",
+            "none"
+        ]
+    }
+}
