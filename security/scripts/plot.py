@@ -33,14 +33,13 @@ def render_line_plot(data):
         interpolate='cubic'
     )
     line_chart.title = data["title"]
-    line_chart.x_labels = [x for x in get_blocksizes(data["filesize"])]
+    line_chart.x_labels = [pretty_size(x) for x in get_blocksizes(data["filesize"])]
     line_chart.x_title = data["x-title"]
     line_chart.y_title = data["y-title"]
 
     plot_data = data["plot-data"]
 
     for item in plot_data:
-        print(item)
         avg = mean(item["results"])
         avg = round(data["filesize"]/(avg/(1024**3)), 2)
         title = item["title"] + " (" + pretty_size(avg)  + "/s)"
@@ -100,28 +99,60 @@ def extract_plot_data(data, fs):
 #        line_chart.add(k, [3])
 #        line_chart.render_to_file(data["outputfile"])
 
+def is_valid(jdir, metadata):
+    if jdir.get("system") not in metadata["needs"]["system"]:
+        return False
+
+    if jdir.get("type") not in metadata["needs"]["type"]:
+        return False
+
+    if jdir.get("runs") != metadata["needs"]["runs"]:
+        return False
+
+    if jdir.get("encryption") not in metadata["needs"]["algo"]:
+        return False
+
+    return True
+
 def get_input_data(path):
     with open(path, 'r') as fd:
-        return json.loads(fd.read())
+        metadata = json.loads(fd.read())
+        metadata["input-data"] = os.path.abspath(metadata["input-data"])
 
+    # Load all benchmark files
+    benchmark_files = []
+    for file in sorted(os.listdir(metadata["input-data"])):
+        jfile = os.path.abspath(os.path.join(metadata["input-data"], file))
+        if not os.path.isdir(jfile):
+            with open(jfile, "r") as fd:
+                benchmark_files.append(json.loads(fd.read()))
+
+    # Filter only needed files
+    needed_files = []
+    for jfile in benchmark_files:
+        if is_valid(jfile, metadata):
+            metadata["plot-data"].append(jfile)
+    return metadata
 
 if __name__ == '__main__':
     config_path = os.path.abspath(sys.argv[1])
     dir_path = os.path.dirname(config_path)
-    print(config_path)
     input_data = get_input_data(config_path)
-    input_data["outputfile"] = os.path.join(dir_path, input_data.get("outputfile"))
+    input_data["outputfile"] = os.path.join(dir_path, os.path.basename(config_path) + ".svg")
 
-    for item in input_data["input"]:
-        with open(os.path.join(dir_path,item), "r") as fd:
-            input_data["plot-data"].append(json.loads(fd.read()))
+    if input_data["plot-data"] == []:
+        print("No Plot data found with this attributes.")
+        sys.exit(0)
 
     if input_data["type"] == "line":
         render_line_plot(input_data)
 
-    #if input_data["type"] == "bar":
-    #    render_bar_plot(input_data)
+    ##if input_data["type"] == "bar":
+    ##    render_bar_plot(input_data)
 
     subprocess.call(
         ["inkscape", "{0}".format(input_data["outputfile"]),  "--export-pdf={0}.pdf".format(input_data["outputfile"])]
+    )
+    subprocess.call(
+        ["chromium", "{0}".format(input_data["outputfile"]), "&"]
     )
