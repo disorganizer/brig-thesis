@@ -1,0 +1,1 @@
+{"encryption": "chacha", "title": "ChaCha20/Poly1305", "results": [4714, 2917, 2011, 1560, 1298, 1170, 1105, 1071, 1060, 1043, 1029, 1030, 1044, 1055, 1089, 1230, 1220, 1212, 1096, 1047, 1035, 1076], "type": "write", "system": "Intel i5 (Go 1.5.3)", "filesize": 128, "runs": 5, "compression": "none"}

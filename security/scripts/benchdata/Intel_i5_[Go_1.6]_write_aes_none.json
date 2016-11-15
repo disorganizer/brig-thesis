@@ -1,0 +1,1 @@
+{"encryption": "aes", "title": "AES/GCM", "results": [1535, 722, 465, 304, 253, 227, 201, 195, 189, 161, 171, 173, 204, 195, 193, 208, 197, 193, 218, 247, 263, 238], "type": "write", "system": "Intel i5 (Go  1.6)", "filesize": 128, "runs": 5, "compression": "none"}

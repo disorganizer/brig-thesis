@@ -1,0 +1,1 @@
+{"encryption": "chacha", "title": "ChaCha20/Poly1305", "results": [37805, 22699, 15160, 11344, 9150, 7995, 7337, 7078, 6791, 6703, 6632, 6569, 6514, 6452, 6399, 6408, 6507, 6669, 7059, 7159], "type": "write", "system": "ARM11 (Go 1.7.1)", "filesize": 32, "runs": 3, "compression": "none"}

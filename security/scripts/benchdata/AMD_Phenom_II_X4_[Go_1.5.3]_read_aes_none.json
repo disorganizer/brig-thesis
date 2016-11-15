@@ -1,0 +1,1 @@
+{"encryption": "aes", "title": "AES/GCM", "results": [8106, 6064, 5020, 4491, 4219, 4095, 4026, 4001, 3980, 3974, 3973, 3979, 3997, 3996, 4015, 4050, 4142, 4287, 4545, 5068, 6081, 8086], "type": "read", "system": "AMD Phenom II X4 (Go 1.5.3)", "filesize": 128, "runs": 5, "compression": "none"}

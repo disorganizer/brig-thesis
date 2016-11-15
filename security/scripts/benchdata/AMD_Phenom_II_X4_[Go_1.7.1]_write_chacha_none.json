@@ -1,0 +1,1 @@
+{"encryption": "chacha", "title": "ChaCha20/Poly1305", "results": [5356, 3399, 2523, 2040, 1664, 1523, 1479, 1436, 1417, 1422, 1397, 1338, 1559, 1631, 1287, 1200, 1205, 1223, 1270, 1310, 1311, 1409], "type": "write", "system": "AMD Phenom II X4 (Go 1.7.1)", "filesize": 128, "runs": 5, "compression": "none"}

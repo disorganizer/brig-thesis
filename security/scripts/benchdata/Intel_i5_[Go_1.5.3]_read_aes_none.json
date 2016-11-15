@@ -1,0 +1,1 @@
+{"encryption": "aes", "title": "AES/GCM", "results": [4067, 2821, 2149, 1796, 1604, 1492, 1438, 1409, 1429, 1400, 1424, 1406, 1439, 1401, 1396, 1436, 1451, 1514, 1564, 1748, 2072, 2784], "type": "read", "system": "Intel i5 (Go 1.5.3)", "filesize": 128, "runs": 5, "compression": "none"}
