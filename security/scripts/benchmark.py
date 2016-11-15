@@ -88,7 +88,7 @@ def write_bench_data(data):
         type=data["type"],
         enc=data["encryption"],
         zip=data["compression"]
-    )
+    ).replace(" ", "_").replace("(", "[").replace(")", "]")
     with open(filename, "w") as fd:
         print("Writing {0}".format(filename))
         fd.write(json.dumps(data))
@@ -105,6 +105,7 @@ def get_input_parameters(system, encryption, compression, title, runs):
         "runs": runs,
         "results": [],
         "system": system,
+        "filesize": FILESIZE,
         "type": "unknown"
     }
 
