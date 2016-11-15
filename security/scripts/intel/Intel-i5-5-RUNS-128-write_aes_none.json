@@ -1,1 +1,0 @@
-{"type": "write", "results": [1466, 673, 450, 284, 217, 202, 172, 164, 161, 158, 168, 160, 173, 166, 172, 178, 197, 183, 206, 236, 281, 290], "system": "Intel-i5-10RUNS-128-2", "compression": "none", "runs": 5, "title": "AES/GCM", "encryption": "aes"}

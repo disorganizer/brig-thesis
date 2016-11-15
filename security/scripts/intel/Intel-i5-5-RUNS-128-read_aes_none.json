@@ -1,1 +1,0 @@
-{"type": "read", "results": [2632, 1309, 745, 466, 319, 244, 211, 170, 160, 175, 158, 171, 181, 173, 163, 185, 190, 212, 201, 237, 265, 382], "system": "Intel-i5-10RUNS-128-2", "compression": "none", "runs": 5, "title": "AES/GCM", "encryption": "aes"}
