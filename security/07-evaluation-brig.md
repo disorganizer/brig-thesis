@@ -100,6 +100,8 @@ Einzug[^FN_AESNI_MERGE][^FN_ECDSA_MERGE] gefunden haben.
 ![Benchmark](images/plots/archive_read.pdf){#fig:img-arpdf width=100%}
 TODO: Benchmark & Algo Specs
 
+Cross compiling note: Raspberry Pi Binary: GOARM=6 GOARCH=arm GOOS=linux  go build main.go
+
 ### Schlüsselgenerierung
 
 Aktuell wird für jede Datei ein Schlüssel zufällig generiert. Dieser wird in
