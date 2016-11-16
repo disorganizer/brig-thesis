@@ -9,7 +9,11 @@ Experten entwickelt wurden, können gravierende Sicherheitsmängel aufweisen.
 Ein wichtiger Punkt, welcher von Experten oft geraten wird, ist die Verwendung
 bekannter und »bewährter« Algorithmen und Protokolle wie beispielsweise AES,
 RSA/DSA, TLS et cetera. Die Entwicklung neuer kryptographischer Algorithmen und
-Protokolle sollte vermieden werden. Weiterhin werden kryptographische Elemente oftmals missverstanden oder es werden für den Einsatz von Sicherheit die falschen Werkzeuge eingesetzt. Beispiele hierfür wären (vlg. [@evertythin1hour]):
+Protokolle sollte vermieden werden. Weiterhin werden Details von
+kryptographische Elementen oftmals missverstanden oder es werden für den
+Einsatz von Sicherheit die falschen Werkzeuge eingesetzt. Beispiele hierfür
+wären (vlg.
+[@evertythin1hour]):
 
 * Google Keyczar (timing side channel)[^FN_KEYCZAR_BUG]
 * SSL (session renegotiation)[^FN_SSL_BUG]
