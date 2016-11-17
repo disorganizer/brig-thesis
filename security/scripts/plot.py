@@ -13,6 +13,25 @@ from statistics import mean
 import subprocess
 import pprint
 
+LEGEND_MAP = {
+    'aesread': 'AES [R]',
+    'aeswrite': 'AES [W]',
+    'chacharead': 'Chacha20 [R]',
+    'chachawrite': 'Chacha20 [W]',
+    'noneread': 'Base [R]',
+    'nonewrite': 'Base [W]'
+      }
+
+LEGEND_SYS_MAP = {
+    "Intel i5 (Go 1.7.1)": "Intel",
+    "Intel i5 (Go 1.5.3)": "Intel",
+    "Intel i5 (Go  1.6)": "Intel",
+    "AMD Phenom II X4 (Go 1.5.3)": "AMD",
+    "AMD Phenom II X4 (Go 1.7.1)": "AMD",
+    "ARM11 (Go 1.7.1)": "ARM11",
+    "Intel Atom N270 SSE2 (Go 1.7.1)": "Atom",
+    "Intel Atom N270 387fpu (Go 1.7.1)": "Atom"
+      }
 
 def get_blocksizes(filesize):
     return [(2**x) for x in range(30) if 2**x >= 64 and (2**x)/1024**2 <= filesize]
@@ -24,9 +43,6 @@ def pretty_size(n,pow=0,b=1024,u='B',pre=['']+[p+'i'for p in'KMGTPEZY']):
     return "%%.%if %%s%%s"%abs(pow%(-pow-1))%(n/b**float(pow),pre[pow],u)
 
 def render_line_plot(data):
-    pygal.style.LightSolarizedStyle.background = "#FFFFFF"
-    pygal.style.LightSolarizedStyle.plot_background = "#FFFFFF"
-
     line_chart = pygal.Line(
         legend_at_bottom=True,
         logarithmic=data["logarithmic"],
@@ -42,22 +58,28 @@ def render_line_plot(data):
     plot_data = data["plot-data"]
 
     for item in plot_data:
-        avg = mean(item["results"])
-        avg = round(data["needs"]["filesize"]/(avg/(1024**3)), 2)
-        title = item["title"] + " (" + pretty_size(avg)  + "/s)"
+        avg_sec = mean(item["results"]) / 1000
+        fs_bytes = item["filesize"] * (1024**2)
+        avg_mb_sec = round(fs_bytes/avg_sec, 2)
+        op = item["type"][0]
+        title =LEGEND_SYS_MAP[item["system"]] + item["encryption"] + " (" + pretty_size(avg_mb_sec)  + "/s) [{0}]".format(op.upper())
+        if item["filesize"] == 32:
+            item["results"] += [None, None]
+        print(item["system"], len(item["results"]), item["results"])
         line_chart.add(title, item["results"])
         line_chart.render_to_file(data["outputfile"])
 
 def render_bar_plot(data):
-    pygal.style.LightSolarizedStyle.background = "#FFFFFF"
-    pygal.style.LightSolarizedStyle.plot_background = "#FFFFFF"
-
-    line_chart = pygal.Bar(
-        order_min=1,
+    line_chart = pygal.HorizontalBar(
+        print_values=True,
+        value_formatter=lambda x: '{}/s'.format(pretty_size(x)),
+        min_scale=12,
+        legend_at_bottom_columns=6,
         legend_at_bottom=True,
         logarithmic=data["logarithmic"],
         style=pygal.style.LightSolarizedStyle,
-        x_label_rotation=25,
+        x_label_rotation=60,
+        y_label_rotation=300,
         interpolate='cubic'
     )
     line_chart.title = data["title"]
@@ -71,12 +93,14 @@ def render_bar_plot(data):
 
     d = {}
     for item in plot_data:
-        d.setdefault(item["encryption"] + "/" + item["type"], []).append(
-            item["filesize"]/(min(item["results"])/1000/1000)
-        )
+        # mbytes to bytes, and mseconds to seconds
+        fs = item["filesize"] * 1024**2
+        s = item["results"][10] / 1000
+        d.setdefault(item["encryption"] + item["type"], []).append(fs/s)
+        print(item["filesize"], min(item["results"])/1000)
 
     for k in sorted(d):
-        line_chart.add(k, [round(v/1024) for v in d[k]])
+        line_chart.add(LEGEND_MAP[k], [round(v) for v in d[k]])
         line_chart.render_to_file(data["outputfile"])
 
 
