@@ -42,6 +42,47 @@ def pretty_size(n,pow=0,b=1024,u='B',pre=['']+[p+'i'for p in'KMGTPEZY']):
     pow,n=min(int(log(max(n*b**pow,1),b)),len(pre)-1),n*b**pow
     return "%%.%if %%s%%s"%abs(pow%(-pow-1))%(n/b**float(pow),pre[pow],u)
 
+def render_line_plot_scrypt(data):
+    line_chart = pygal.Line(
+        legend_at_bottom=True,
+        logarithmic=data["logarithmic"],
+        style=pygal.style.LightSolarizedStyle,
+        x_label_rotation=25,
+        interpolate='cubic'
+    )
+    filesizes = set()
+
+    plot_data = data["plot-data"]
+    for item in plot_data:
+        filesizes.add(item["filesize"])
+
+    line_chart.title = data["title"]
+    line_chart.x_labels = [pretty_size(x * 1024**2) for x in sorted(list(filesizes))]
+    line_chart.x_title = data["x-title"]
+    line_chart.y_title = data["y-title"]
+
+    plot_data = sorted(plot_data, key=lambda d: d["system"],  reverse=False)
+    print(plot_data)
+
+    sys1 = [s for s in plot_data if s["system"] == "Intel Keygen (Go 1.7.1)" and s["kgfunc"] == "scrypt"]
+    sys1 = sorted(sys1, key=lambda d: d["filesize"],  reverse=False)
+
+
+    sys2 = [s for s in plot_data if s["system"] == "Intel Keygen (Go 1.7.1)" and s["kgfunc"] == "random"]
+    sys2 = sorted(sys2, key=lambda d: d["filesize"],  reverse=False)
+
+    sys3 = [s for s in plot_data if s["system"] == "Intel Keygen (Go 1.7.1)" and s["kgfunc"] == "none"]
+    sys3 = sorted(sys3, key=lambda d: d["filesize"],  reverse=False)
+    print(sys3)
+
+    d1 = {}
+    for item in sys1 + sys2 + sys3:
+        d1.setdefault(item["kgfunc"], []).append(item["results"])
+
+    for v in d1:
+        line_chart.add(v, [round(x.pop()) for x in d1[v]])
+        line_chart.render_to_file(data["outputfile"])
+
 def render_line_plot(data):
     line_chart = pygal.Line(
         legend_at_bottom=True,
@@ -73,6 +114,7 @@ def render_bar_plot(data):
     line_chart = pygal.HorizontalBar(
         print_values=True,
         value_formatter=lambda x: '{}/s'.format(pretty_size(x)),
+        truncate_legend=220,
         min_scale=12,
         legend_at_bottom_columns=6,
         legend_at_bottom=True,
@@ -157,6 +199,9 @@ if __name__ == '__main__':
 
     if input_data["type"] == "bar":
         render_bar_plot(input_data)
+
+    if input_data["type"] == "scrypt":
+        render_line_plot_scrypt(input_data)
 
     subprocess.call(
         ["inkscape", "{0}".format(input_data["outputfile"]),  "--export-pdf={0}.pdf".format(input_data["outputfile"])]
