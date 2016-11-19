@@ -1,0 +1,1 @@
+{"runs": 3, "title": "AES/GCM", "encryption": "aes", "filesize": 32, "results": [14236, 11704, 10410, 9810, 9506, 9304, 9236, 9179, 9196, 9144, 9150, 9136, 9153, 9161, 9153, 9168, 9214, 9275, 9313, 9375], "result-min": 9136, "system": "Intel Atom N270 387fpu (Go 1.7.1)", "type": "write", "result-avg": 9691.15, "compression": "none", "result-max": 14236}

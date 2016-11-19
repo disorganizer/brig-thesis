@@ -1,0 +1,1 @@
+{"runs": 3, "result-min": 41, "results": [41, 42, 41, 41, 42, 41, 41, 41, 41, 41, 43, 41, 41, 41, 41, 41, 41, 41, 41, 42], "filesize": 32, "type": "read", "compression": "none", "result-avg": 41.25, "result-max": 43, "title": "Base", "encryption": "none", "system": "Intel Atom N270 SSE2 (Go 1.7.1)"}

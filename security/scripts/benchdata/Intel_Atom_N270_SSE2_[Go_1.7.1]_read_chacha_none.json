@@ -1,0 +1,1 @@
+{"runs": 3, "result-min": 7074, "results": [24053, 15607, 11338, 9197, 8169, 7591, 7322, 7192, 7131, 7109, 7082, 7074, 7089, 7175, 7220, 7340, 7561, 8107, 8949, 10786], "filesize": 32, "type": "read", "compression": "none", "result-avg": 9154.6, "result-max": 24053, "title": "ChaCha20/Poly1305", "encryption": "chacha", "system": "Intel Atom N270 SSE2 (Go 1.7.1)"}

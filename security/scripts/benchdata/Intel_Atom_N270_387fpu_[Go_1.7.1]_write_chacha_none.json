@@ -1,0 +1,1 @@
+{"runs": 3, "title": "ChaCha20/Poly1305", "encryption": "chacha", "filesize": 32, "results": [17700, 11279, 8091, 6479, 5576, 5155, 4946, 4816, 4757, 4719, 4730, 4683, 4671, 4716, 4750, 4730, 4732, 4798, 4934, 4924], "result-min": 4671, "system": "Intel Atom N270 387fpu (Go 1.7.1)", "type": "write", "result-avg": 6059.3, "compression": "none", "result-max": 17700}
