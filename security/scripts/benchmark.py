@@ -18,7 +18,8 @@ def get_read_dummy(filesize):
     return "./movie_{0}".format(filesize)
 
 def get_blocksizes(filesize):
-    return [(2**x) for x in range(30) if 2**x >= 64 and (2**x)/1024**2 <= filesize]
+    return [64 * 1024]
+    #return [(2**x) for x in range(30) if 2**x >= 64 and (2**x)/1024**2 <= filesize]
 
 def benchmark_preprocessing(config):
     print(config)
@@ -53,7 +54,8 @@ def teardown(data):
             sys.exit(-1)
 
 def build_write_cmd(data, block):
-    cmd = "{binary} -w -b {block} -D -e {enc} -f {inputfile}".format(
+    cmd = "{binary} -k {keyderiv} -w -b {block} -D -e {enc} -f {inputfile}".format(
+            keyderiv=data["kgfunc"],
             binary=BINARY,
             block=block,
             enc=data["encryption"],
@@ -62,7 +64,8 @@ def build_write_cmd(data, block):
     return cmd.split()
 
 def build_read_cmd(data, block):
-    cmd = "{binary} -r -b {block} -D -e {enc} -f {inputfile}".format(
+    cmd = "{binary} -k {keyderiv} -r -b {block} -D -e {enc} -f {inputfile}".format(
+            keyderiv=data["kgfunc"],
             binary=BINARY,
             block=block,
             enc=data["encryption"],
@@ -71,7 +74,8 @@ def build_read_cmd(data, block):
     return cmd.split()
 
 def build_prepare_read_cmd(data, block):
-    cmd = "{binary} -w -b {block} -e {enc} -o {outputfile} -f {inputfile}".format(
+    cmd = "{binary} -k {keyderiv} -w -b {block} -e {enc} -o {outputfile} -f {inputfile}".format(
+            keyderiv=data["kgfunc"],
             binary=BINARY,
             block=block,
             enc=data["encryption"],
@@ -81,11 +85,13 @@ def build_prepare_read_cmd(data, block):
     return cmd.split()
 
 def write_bench_data(data):
-    filename = "{sys}_{type}_{enc}_{zip}.json".format(
+    filename = "{sys}_{type}_{enc}_{zip}_{fs}_{kd}.json".format(
         sys=data["system"],
         type=data["type"],
         enc=data["encryption"],
-        zip=data["compression"]
+        zip=data["compression"],
+        fs=data["filesize"],
+        kd=data["kgfunc"]
     ).replace(" ", "_").replace("(", "[").replace(")", "]")
     with open(filename, "w") as fd:
         print("Writing {0}".format(filename))
@@ -136,6 +142,7 @@ def initialize(algo, runs, filesize):
             "title": title,
             "runs": runs,
             "results": [],
+            "kgfunc": config["kgfunc"],
             "system": config["system"],
             "filesize": filesize,
             "type": config["type"]
@@ -155,16 +162,21 @@ def run_benchmark(config, runs=5, filesize=128):
             print(output)
             sys.exit(err)
         write_bench_data(output)
+        teardown(bench_input)
 
 if __name__ == '__main__':
 
-    runs = [("aes", "AES/GCM"), ("none", "Base"), ("chacha", "ChaCha20/Poly1305")]
-    for run in runs:
-        for type in ["read", "write"]:
-            config = {
-                "algos": run,
-                "system" : sys.argv[1],
-                "type": type
-            }
-            run_benchmark(config, runs=3, filesize=32)
+    for fs in [1, 2, 4, 8, 16, 32, 64, 128]:
+        runs = [("aes", "AES/GCM"), ("chacha", "ChaCha20/Poly1305")]
+        kgfuncs = ["none", "scrypt", "random"]
+        for run in runs:
+            for kgfunc in kgfuncs:
+                for type in ["write"]:
+                    config = {
+                        "algos": run,
+                        "kgfunc": kgfunc,
+                        "system" : sys.argv[1],
+                        "type": type
+                    }
+                    run_benchmark(config, runs=10, filesize=fs)
 
