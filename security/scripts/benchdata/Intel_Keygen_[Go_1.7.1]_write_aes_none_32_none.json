@@ -1,0 +1,1 @@
+{"results": [43], "result-max": 43, "result-avg": 43, "type": "write", "kgfunc": "none", "compression": "none", "result-min": 43, "title": "AES/GCM", "filesize": 32, "encryption": "aes", "runs": 10, "system": "Intel Keygen (Go 1.7.1)"}

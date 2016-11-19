@@ -1,0 +1,1 @@
+{"results": [55], "result-max": 55, "result-avg": 55, "type": "write", "kgfunc": "none", "compression": "none", "result-min": 55, "title": "ChaCha20/Poly1305", "filesize": 8, "encryption": "chacha", "runs": 10, "system": "Intel Keygen (Go 1.7.1)"}
