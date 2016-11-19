@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/rand"
 	"flag"
 	"fmt"
 	"io"
@@ -21,6 +22,7 @@ const (
 type options struct {
 	zipalgo           string
 	encalgo           string
+	keyderiv          string
 	output            string
 	args              []string
 	write             bool
@@ -84,6 +86,7 @@ func parseFlags() options {
 	zipalgo := flag.String("c", "none", "Possible compression algorithms: none, snappy, lz4.")
 	output := flag.String("o", "", "User defined output file destination.")
 	encalgo := flag.String("e", "aes", "Possible encryption algorithms: aes, chacha.")
+	keyderiv := flag.String("k", "none", "Use random or scrypt as key derivation: random, scrypt")
 	forceDstOverwrite := flag.Bool("f", false, "Force overwriting destination file.")
 	useDevNull := flag.Bool("D", false, "Write to /dev/null.")
 	flag.Parse()
@@ -93,6 +96,7 @@ func parseFlags() options {
 		zipalgo:           *zipalgo,
 		encalgo:           *encalgo,
 		output:            *output,
+		keyderiv:          *keyderiv,
 		maxblocksize:      *maxblocksize,
 		forceDstOverwrite: *forceDstOverwrite,
 		useDevNull:        *useDevNull,
@@ -147,11 +151,6 @@ func main() {
 	defer dst.Close()
 
 	var cipher uint16 = aeadCipherAES
-	// key := derivateAesKey([]byte("defaultpassword"), nil, 32)
-	//if key == nil {
-	//	die(err)
-	//}
-	key := make([]byte, 32)
 	if opts.encalgo == "chacha" {
 		cipher = aeadCipherChaCha
 	}
@@ -162,6 +161,23 @@ func main() {
 
 	if opts.encalgo != "aes" && opts.encalgo != "chacha" && opts.encalgo != "none" {
 		opts.encalgo = "none"
+	}
+
+	key := make([]byte, 32)
+
+	if opts.keyderiv == "scrypt" {
+		fmt.Printf("%s\n", "Using scrypt key derivation.")
+		key = derivateAesKey([]byte("defaultpassword"), nil, 32)
+		if key == nil {
+			die(err)
+		}
+	}
+
+	if opts.keyderiv == "random" {
+		fmt.Printf("%s\n", "Using random key derivation.")
+		if _, err := io.ReadFull(rand.Reader, key); err != nil {
+			die(err)
+		}
 	}
 
 	// Writing
