@@ -103,7 +103,7 @@ def render_line_plot(data):
         fs_bytes = item["filesize"] * (1024**2)
         avg_mb_sec = round(fs_bytes/avg_sec, 2)
         op = item["type"][0]
-        title =LEGEND_SYS_MAP[item["system"]] + item["encryption"] + " (" + pretty_size(avg_mb_sec)  + "/s) [{0}]".format(op.upper())
+        title =LEGEND_SYS_MAP[item["system"]] + "/" + item["encryption"] + " (" + pretty_size(avg_mb_sec)  + "/s) [{0}]".format(op.upper())
         if item["filesize"] == 32:
             item["results"] += [None, None]
         print(item["system"], len(item["results"]), item["results"])
@@ -115,8 +115,6 @@ def render_bar_plot(data):
         print_values=True,
         value_formatter=lambda x: '{}/s'.format(pretty_size(x)),
         truncate_legend=220,
-        min_scale=12,
-        legend_at_bottom_columns=6,
         legend_at_bottom=True,
         logarithmic=data["logarithmic"],
         style=pygal.style.LightSolarizedStyle,
