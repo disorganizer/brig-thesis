@@ -97,8 +97,21 @@ Einzug[^FN_AESNI_MERGE][^FN_ECDSA_MERGE] gefunden haben.
 [^FN_AESNI_MERGE]: Go AES--NI--Patch--Merge: <https://go-review.googlesource.com/#/c/10484/>
 [^FN_ECDSA_MERGE]: Go ECDSA--P256--Patch--Merge: <https://go-review.googlesource.com/#/c/8968/>
 
-![Benchmark](images/plots/archive_read.pdf){#fig:img-arpdf width=100%}
-TODO: Benchmark & Algo Specs
+Benchmark 1 [@fig:img-aesni] zeigt den Geschwindigkeitszugewinn der durch die
+Nutzung des *AES--NI*--Befehlserweiterungssatzes zustande kommt.
+
+![Geschwindigkeitszuwachs durch AES--NI](images/aesni-impact.json.svg.pdf){#fig:img-aesni width=100%}
+
+Benchmark 2 [@fig:img-aesni] zeigt den Geschwindigkeitszugewinn der durch die
+Nutzung des *AES--NI*--Befehlserweiterungssatzes zustande kommt.
+
+![Keygeneration overhead.](images/keygenoverhead-profile.json.svg.pdf){#fig:img-keyoverhead width=100%}
+
+![Low end systeme.](images/low-end-performance.json.svg.pdf){#fig:img-lowend width=100%}
+
+![Lese--Geschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/read-performance-blocksize.json.svg.pdf){#fig:img-read-block width=100%}
+
+![Schreib--Geschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/write-performance-blocksize.json.svg.pdf){#fig:img-write-block width=100%}
 
 Cross compiling note: Raspberry Pi Binary: GOARM=6 GOARCH=arm GOOS=linux  go build main.go
 
