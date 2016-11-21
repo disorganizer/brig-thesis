@@ -46,3 +46,5 @@ welches beispielsweise nur Daten im Wert von ein paar tausend Euro schützt.
 
 Weiterhin ist es auch wichtig »realistische« Gefahren zu identifizieren und
 nicht unnötig Ressourcen in sicherheitstechnische Details zu investieren.
+
+Note - Sicherheitssoftware als Einfallstor: https://www.heise.de/newsticker/meldung/Update-wichtig-Sicherheitswarnung-zu-Symantec-Software-3492125.html
