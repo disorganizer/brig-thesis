@@ -53,9 +53,24 @@ nicht standardisiertem Protokoll.
 Um die gesetzten Anforderungen (Vertraulichkeit von Daten, [@sec:requirements])
 zu erreichen muss »brig« die Funktionalität von *IPFS* so erweitern, dass die
 Authentizität und Vertraulichkeit der Daten bei lokaler Speicherung aber auch
-bei der Übertragung gewährleistet ist. [@fig:img-aesgcm] zeigt das
-Containerformat welches für »brig« entwickelt wurde um diese Anforderungen zu
-erreichen.
+bei der Übertragung gewährleistet ist. Für diesen Einsatzzweck wurde eine
+Verschlüsselungsschicht vor das *IPFS*--Backend [@fig:img-enclayer] eingeführt.
+
+![»brig« Verschlüsselungsschicht mit Datenverschlüsselung mit Authenzität.](images/encbackend.png){#fig:img-enclayer width=40%}
+
+Die Verschlüsselungsschicht ist so ausgelegt, dass die verwendete
+Verschlüsselungstechnik austauschbar ist. Für den anfänglichen Prototypen
+wurden zwei Verfahren (AES, ChaCha20) implementiert. Die Entscheidung ist neben
+dem weit etablierten *AES*--Standard auf Chacha20 gefallen, da dieses recht
+neue Verfahren welches Geschwindigkeitsvorteile[^FN_CHACHA20_PERF1][^FN_CHACHA20_PERF2] auf
+schwächerer und mobiler Hardware, insbesondere bei Hardware ohne
+kryptographischer Beschleunigung, bieten soll.
+
+[^FN_CHACHA20_PERF1]:Do the ChaCha: better mobile performance with cryptography: <https://blog.cloudflare.com/do-the-chacha-better-mobile-performance-with-cryptography/>
+[^FN_CHACHA20_PERF2]: AES-NI SSL Performance: <https://calomel.org/aesni_ssl_performance.html>
+
+[@fig:img-aesgcm] zeigt das Containerformat welches für »brig« entwickelt wurde
+um diese Anforderungen zu erreichen.
 
 ![»brig«-Containerformat für Datenverschlüsselung mit Authenzität.](images/aesgcm.png){#fig:img-aesgcm width=100%}
 
@@ -255,7 +270,7 @@ Verbindung zwischen zwei Synchronisationspartnern.
    Schlüsselgenerierung einfließen.
 9. Der gemeinsame Schlüssel ist nun eine *XOR*--Verknüpfung der beiden Noncen
    $nA$ und $nB$. Um den Schlüssel zu »verstärken« wird zusätzlich die
-   Schlüsselableitungsfunktion *scrypt* angewendet.
+   Schlüsselableitungsfunktion *scrypt* (vgl. [@scrypt]) angewendet.
 
 **Einschätzung**: Dir Aufbau der Verschlüsselten Verbindung setzt eine
 vorherige Authentifizierung des jeweiligen Kommunikationspartners. Wäre dieser
