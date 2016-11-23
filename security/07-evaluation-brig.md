@@ -42,13 +42,14 @@ Basis für die Implementierung eines Prototypen standen die beiden Protokolle
 Overlay--Netzwerk. »brig« wird verwendet um die in [@sec:CAP_SUMMARY] fehlenden
 Eigenschaften des *IPFS*--Protokolls zu ergänzen.
 
-## Sicherheit
 
-### Datenverschlüsselung
+## Datenverschlüsselung
 
 Standardmäßig werden die Daten bei *IPFS* unverschlüsselt gespeichert.
 Weiterhin basiert die aktuelle Transportverschlüsselung der Daten auf einem
 nicht standardisiertem Protokoll.
+
+### Datenverschlüsselungsschicht
 
 Um die gesetzten Anforderungen (Vertraulichkeit von Daten, [@sec:requirements])
 zu erreichen muss »brig« die Funktionalität von *IPFS* so erweitern, dass die
@@ -97,23 +98,89 @@ http://security.stackexchange.com/questions/2202/lessons-learned-and-misconcepti
 Der *AEAD*--Betriebsmodi wurde gewählt, weil er den Vorteil hat, dass er neben
 der Vertraulichkeit auch Authentizität und Integrität sicherstellt.
 
-Erste Benchmarks [@cpahl] haben gezeigt, dass die Performance bei
-Verschlüsselung (chacha20/poly1305) stark einbricht. Es gibt unter von
-*cloudflare* einen Go--Fork [^FN_CLOUDFLARE] welcher AES--NI--Erweiterungen
-unterstützt.
+### Geschwindigkeitsevaluation
+
+Der bisherigen »brig«--Benchmarks unter [@cpahl] haben die Performance von
+»brig« mit *IPFS* verglichen. Hierbei ist auffällig gewesen, dass die
+Performance bei Verschlüsselung vergleichsweise stark eingebrochen ist.
+
+Um Verschlüsselungsoperationen zu beschleunigen, gibt es neben der Wahl
+verschiedener Blockcipher, auch die Möglichkeit einer hardwarebasierten
+Beschleunigung. Moderne Prozessoren bieten eine Beschleunigung mit dem
+sogenannten *AES--NI*--Befehlserweiterungssatz. Diese müssen jedoch vom
+Betriebssystem und der jeweiligen Anwendung genutzt werden.
+
+Von *cloudflare* gibt es einen Go--Fork [^FN_CLOUDFLARE] welcher
+AES--NI--Erweiterungen unterstützt und somit eine erhöhte Performance auf
+bestimmten Systemen bieten sollte.
 
 [^FN_CLOUDFLARE]: CloudFlare Go--Crypto--Fork: <https://blog.cloudflare.com/go-crypto-bridging-the-performance-gap/>
 
 Der *AES--NI*--Befehlserweiterungssatz war lange Zeit aufgrund von
 Lizenzproblemen nicht in *Go* implementiert. Nach eingehender Recherche
-scheinen die Patches von *Cloudflare* jedoch mittlerweile in *Go*
-Einzug[^FN_AESNI_MERGE][^FN_ECDSA_MERGE] gefunden haben.
+scheinen jedoch bereits die Patches von *Cloudflare* jedoch mittlerweile in
+*Go* Einzug[^FN_AESNI_MERGE][^FN_ECDSA_MERGE] gefunden haben.
 
 [^FN_AESNI_MERGE]: Go AES--NI--Patch--Merge: <https://go-review.googlesource.com/#/c/10484/>
 [^FN_ECDSA_MERGE]: Go ECDSA--P256--Patch--Merge: <https://go-review.googlesource.com/#/c/8968/>
 
+### Benchmarkdurchführung 
+
+Im Folgenden soll die Verschlüsselungsschicht separiert betrachtet werden um
+genauere Aussagen über die Ressourcennutzung machen zu können. Weiterhin soll
+untersucht werden, wie sich die Verschlüsselungsschicht optimieren lässt
+beziehungsweise ob der getroffene Parameter bezüglich der Blockgröße weiterer Optimierung bedarf.  
+
+Weiterhin sollen verschiedene Architekturen in den Benchmark einbezogen werden
+damit die Nutzung der Algorithmen und Ressourcen besser klassifiziert werden
+kann.
+
+Um das Verhalten auf verschiedenen Klassen von Rechnern testen zu können,
+wurden folgende Systeme in die Performance--Analyse mit einbezogen:
+
+Aktuellere Prozessorarchitekturen:
+
+* Intel i5 Laptop, 16GB RAM, 64bit--Architektur, AES--NI
+* AMD Phenom X4 Desktop--PC, 8GB RAM, 64bit--Architektur, *kein* AES--NI
+
+Ältere beziehungsweise schwächere Prozessorarchitekturen:
+
+* Intel Atom N270 Netbook, 1,5GB RAM, 32bit--Architektur, *kein* AES--NI
+* Raspberry Pi, 512MB RAM, *ARM*--Architektur, kein AES--NI
+
+Der Benchmark soll die maximal mögliche Performance eines Systems beim
+Ver-- und Entschlüsseln evaluieren. Daher wird der Benchmark in einer RAM--Disk
+durchgeführt. In der Praxis wird beim Ver-- und Entschlüsseln in der Regel die
+Festplatte oder die Netzwerkanbindung der limitierende Faktor sein. Ob dies
+jedoch pauschal, auch bei *low--end*--Systemen der Fall ist, ist bisher unklar.
+
+Beim erheben der Daten wurde wie folgt vorgegangen:
+
+* Eine RAM--Disk wurde mittels Skript angelegt
+* Die Messpunkte bilden den Mittelwert aus mehreren Durchläufen um statistische
+  Ausreißer zu eliminieren. 
+
+
+### Benchmarks
+
+Die Verschlüsselungsschicht arbeitet aktuell mit einer Blockgröße von *64kB*.
+Diese Blockgröße wurde mehr oder weniger für den ersten Prototypen willkürlich
+festgelegt. 
+
+Die beiden Auswertungen [@img-read-block] (Lesegeschwindigkeit) und
+[@img-write-block] (Schreibgeschwindigkeit) zeigen welchen Einfluss die Wahl
+der Blockgröße auf die Geschwindigkeit hat.
+
+![Lese--Geschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/read-performance-blocksize.json.svg.pdf){#fig:img-read-block width=100%}
+
+Hierbei wurden die Systeme mit einer Datei der Größe von 128MiByte getestet.
+Diese Datei wurde jeweils komplett mehrmals im der RAM--DISK mit verschiedenen
+Blockgrößen verschlüsselte verschlüsselt und wieder entschlüsselt.
+
+![Schreib--Geschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/write-performance-blocksize.json.svg.pdf){#fig:img-write-block width=100%}
+
 Benchmark 1 [@fig:img-aesni] zeigt den Geschwindigkeitszugewinn der durch die
-Nutzung des *AES--NI*--Befehlserweiterungssatzes zustande kommt.
+Nutzung des *AES--NI*--Befehlserweiterungssatzes zustande kommt. Hier sieht man 
 
 ![Geschwindigkeitszuwachs durch AES--NI](images/aesni-impact.json.svg.pdf){#fig:img-aesni width=100%}
 
@@ -123,10 +190,6 @@ Nutzung des *AES--NI*--Befehlserweiterungssatzes zustande kommt.
 ![Keygeneration overhead.](images/keygenoverhead-profile.json.svg.pdf){#fig:img-keyoverhead width=100%}
 
 ![Low end systeme.](images/low-end-performance.json.svg.pdf){#fig:img-lowend width=100%}
-
-![Lese--Geschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/read-performance-blocksize.json.svg.pdf){#fig:img-read-block width=100%}
-
-![Schreib--Geschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/write-performance-blocksize.json.svg.pdf){#fig:img-write-block width=100%}
 
 Cross compiling note: Raspberry Pi Binary: GOARM=6 GOARCH=arm GOOS=linux  go build main.go
 
