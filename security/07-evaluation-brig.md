@@ -158,40 +158,94 @@ Beim erheben der Daten wurde wie folgt vorgegangen:
 
 * Eine RAM--Disk wurde mittels Skript angelegt
 * Die Messpunkte bilden den Mittelwert aus mehreren Durchläufen um statistische
-  Ausreißer zu eliminieren. 
+  Ausreißer zu eliminieren.
 
+\newpage
 
 ### Benchmarks
 
-Die Verschlüsselungsschicht arbeitet aktuell mit einer Blockgröße von *64kB*.
-Diese Blockgröße wurde mehr oder weniger für den ersten Prototypen willkürlich
-festgelegt. 
+#### Einfluss der Blockgröße beim Ver-- und Entschlüsseln
 
-Die beiden Auswertungen [@img-read-block] (Lesegeschwindigkeit) und
-[@img-write-block] (Schreibgeschwindigkeit) zeigen welchen Einfluss die Wahl
-der Blockgröße auf die Geschwindigkeit hat.
+Die Verschlüsselungsschicht arbeitet aktuell mit einer Blockgröße von *64KiB*.
+Diese Blockgröße wurde mehr oder weniger für den ersten Prototypen willkürlich
+festgelegt.
+
+Die beiden Auswertungen [@fig:img-read-block] (Lesegeschwindigkeit) und
+[@fig:img-write-block] (Schreibgeschwindigkeit) zeigen welchen Einfluss die Wahl
+der Blockgröße auf die Geschwindigkeit hat. Das Verschlüsselungsmodul wurde
+hierfür mit der aktuellen Go Version 1.7.1 kompiliert.
 
 ![Lese--Geschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/read-performance-blocksize.json.svg.pdf){#fig:img-read-block width=100%}
 
-Hierbei wurden die Systeme mit einer Datei der Größe von 128MiByte getestet.
-Diese Datei wurde jeweils komplett mehrmals im der RAM--DISK mit verschiedenen
-Blockgrößen verschlüsselte verschlüsselt und wieder entschlüsselt.
+Hierbei wurden die Systeme mit einer Datei der Größe von *128 MiB* getestet.
+Diese Datei wurde jeweils komplett mehrmals in der RAM--DISK mit verschiedenen
+Blockgrößen verschlüsselt und wieder entschlüsselt.
+
+Beim Entschlüsseln [@fig:img-read-block] ist ist erkennbar dass die
+Performance bei unterhalb *4KiB* bei beiden Algorithmen einbricht. Im Mittelfeld
+ist die Geschwindigkeit stabil, aber einer Blockgröße von oberhalb *32MiB*
+scheint die Performance wieder zu degenerieren.
+
+
+Ähnlich wie beim Entschlüsseln, zeigt die Verschlüsselung einen vergleichbaren
+Verlauf. Hier ist die Geschwindigkeit unterhalb *4kB* Blockgröße rückläufig.
+Der obere Grenzwert für die Blockgröße ist beim Verschlüsseln weniger gut
+erkennbar. Hier bricht die Performance verglichen mit dem Entschlüsseln nur
+beim Intel System mit AES Algorithmus ab ungefähr *64kB* zusammen. 
 
 ![Schreib--Geschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/write-performance-blocksize.json.svg.pdf){#fig:img-write-block width=100%}
 
-Benchmark 1 [@fig:img-aesni] zeigt den Geschwindigkeitszugewinn der durch die
-Nutzung des *AES--NI*--Befehlserweiterungssatzes zustande kommt. Hier sieht man 
+Über die Faktoren bei den großen Blockgrößen kann nur mutmaßt werden, dass es
+mit hier der Geschwindigkeitseinbruch mit dem
+Speichermanagement/Speicherallokierung zusammenhängen könnte.
+
+#### Einfluss des AES--NI--Befehlserweiterungssatzes beim Ver-- und Entschlüsseln
+
+[@fig:img-aesni] zeigt den Geschwindigkeitszugewinn der durch die Nutzung des
+*AES--NI*--Befehlserweiterungssatzes zustande kommt. Hier wurde die
+Verschlüsselungsschicht mit verschiedenen Go Versionen kompiliert um zu sehen
+wie stark die Änderungen ab Go Version 1.6 (Merge des
+*Cloudflare--AES--NI*--Patches [^FN_AESNI_MERGE]) sind.
 
 ![Geschwindigkeitszuwachs durch AES--NI](images/aesni-impact.json.svg.pdf){#fig:img-aesni width=100%}
 
-Benchmark 2 [@fig:img-aesni] zeigt den Geschwindigkeitszugewinn der durch die
-Nutzung des *AES--NI*--Befehlserweiterungssatzes zustande kommt.
+Weiterhin wurde das AMD--System, welches kein AES--NI unterstützt zum Vergleich
+mit in die Auswertung aufgenommen. Hier zeigt sich ein großer Unterschied beim
+AES/GCM--Verfahren zwischen den beiden Systemen wenn man die Version 1.5.3 mit
+der Version 1.7.1 vergleicht. Die Chacha20/Poly1305--Implementierungen weist
+einen Performance Zugewinn von ~20--30% auf, die AES/GCM--Implementierung
+hingegen hat beim AMD--System jedoch einen Geschwindigkeitszuwachs von ~15%,
+das Intel--System kann seine Geschwindigkeit jedoch aufgrund der
+funktionierenden AES--NI--Beschleunigung um ~750% (!) steigern.
 
-![Keygeneration overhead.](images/keygenoverhead-profile.json.svg.pdf){#fig:img-keyoverhead width=100%}
+#### Low--end--Systeme
+
+Neben »aktuelleren« Systemen soll auch die Performance von schwächeren Systemen
+wie beispielsweise dem weit verbreiteten *Raspberry Pi* evaluiert werden. 
+
+Für das Erstellen der Benchmark--Binary für die »low--end«--Systeme wurde die
+Go--Cross--Comipler Funktionalität verwendet. Hierbei wurden die Binaries für
+die Beiden Systeme mit folgenden Parametern kompiliert:
+
+* Raspberry Pi Binary: `GOARM=6 GOARCH=arm GOOS=linux  go build main.go`
+* Intel Atom SSE2: `GOARCH=386 GO386=sse2 go build main.go`
+* Intel Atom FPU-387: `GOARCH=386 GO386=387 go build main.go`
+
+Ein kurzer Testdurchlauf vor dem eigentlichen Benchmark hat gezeigt, dass die
+Beiden Systeme (Intel Atom, Raspberry Pi) vergleichsweise zum Intel i5/AMD
+Phenom so langsam sind dass eine Durchführung des Benchmarks mit den gleichen
+Parametern in keiner akzeptablen Zeit durchgeführt werden kann. Aus diesem
+Grund wurde die Anzahl der Durchläuft auf drei, und die verarbeitende
+Dateigröße auf *32MiB* reduziert. [@fig:img-lowend] zeigt den Einbruch der Geschwindigkeit der Beiden Systeme.
 
 ![Low end systeme.](images/low-end-performance.json.svg.pdf){#fig:img-lowend width=100%}
 
-Cross compiling note: Raspberry Pi Binary: GOARM=6 GOARCH=arm GOOS=linux  go build main.go
+Trotz des reduzierten Benchmarkaufwandes lagen die Zeiten für die Durchführung des Benchmarks bei 1 Stunde 30 Minuten (*Raspberry Pi*) und 40 Minuten (*Intel Atom*). 
+
+Weiterhin ist in der Grafik ersichtlich, dass der
+Chacha20/Poly1305--Algorithmus bei diesen schwachen Systemen, verglichen mit
+AES/GCM, bessere Ver-- und Entschlüsselungsgeschwindigkeiten liefert.
+
 
 ### Schlüsselgenerierung
 
@@ -200,6 +254,8 @@ den Metadaten abgelegt. Durch das zufällige generieren eines Schlüssels wird
 bei zwei unterschiedlichen Kommunikationspartnern für die gleiche Datei ein
 unterschiedlicher Schlüssel erstellt. Dies hat den Nachteil, dass die
 Deduplizierungsfunktionalität von *IPFS* aktuell nicht funktioniert.
+
+![Keygeneration overhead.](images/keygenoverhead-profile.json.svg.pdf){#fig:img-keyoverhead width=100%}
 
 ### Metadatenverschlüsselung
 
