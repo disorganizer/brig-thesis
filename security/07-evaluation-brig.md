@@ -42,7 +42,6 @@ Basis für die Implementierung eines Prototypen standen die beiden Protokolle
 Overlay--Netzwerk. »brig« wird verwendet um die in [@sec:CAP_SUMMARY] fehlenden
 Eigenschaften des *IPFS*--Protokolls zu ergänzen.
 
-
 ## Datenverschlüsselung
 
 Standardmäßig werden die Daten bei *IPFS* unverschlüsselt gespeichert.
@@ -124,7 +123,7 @@ scheinen jedoch bereits die Patches von *Cloudflare* jedoch mittlerweile in
 [^FN_AESNI_MERGE]: Go AES--NI--Patch--Merge: <https://go-review.googlesource.com/#/c/10484/>
 [^FN_ECDSA_MERGE]: Go ECDSA--P256--Patch--Merge: <https://go-review.googlesource.com/#/c/8968/>
 
-### Benchmarkdurchführung 
+### Testumgebung
 
 Im Folgenden soll die Verschlüsselungsschicht separiert betrachtet werden um
 genauere Aussagen über die Ressourcennutzung machen zu können. Weiterhin soll
@@ -149,18 +148,20 @@ Aktuellere Prozessorarchitekturen:
 * Raspberry Pi, 512MB RAM, *ARM*--Architektur, kein AES--NI
 
 Der Benchmark soll die maximal mögliche Performance eines Systems beim
-Ver-- und Entschlüsseln evaluieren. Daher wird der Benchmark in einer RAM--Disk
-durchgeführt. In der Praxis wird beim Ver-- und Entschlüsseln in der Regel die
-Festplatte oder die Netzwerkanbindung der limitierende Faktor sein. Ob dies
-jedoch pauschal, auch bei *low--end*--Systemen der Fall ist, ist bisher unklar.
+Ver-- und Entschlüsseln evaluieren. Daher wird der Benchmark vollständig in
+einer RAM--Disk durchgeführt. [@fig:img-benchsetup]
+
+
+In der Praxis wird beim Ver-- und Entschlüsseln
+in der Regel die Festplatte oder die Netzwerkanbindung der limitierende Faktor
+sein. Ob dies jedoch pauschal, auch bei *low--end*--Systemen der Fall ist, ist
+bisher unklar.
 
 Beim erheben der Daten wurde wie folgt vorgegangen:
 
 * Eine RAM--Disk wurde mittels Skript angelegt
 * Die Messpunkte bilden den Mittelwert aus mehreren Durchläufen um statistische
   Ausreißer zu eliminieren.
-
-\newpage
 
 ### Benchmarks
 
@@ -185,7 +186,6 @@ Beim Entschlüsseln [@fig:img-read-block] ist ist erkennbar dass die
 Performance bei unterhalb *4KiB* bei beiden Algorithmen einbricht. Im Mittelfeld
 ist die Geschwindigkeit stabil, aber einer Blockgröße von oberhalb *32MiB*
 scheint die Performance wieder zu degenerieren.
-
 
 Ähnlich wie beim Entschlüsseln, zeigt die Verschlüsselung einen vergleichbaren
 Verlauf. Hier ist die Geschwindigkeit unterhalb *4kB* Blockgröße rückläufig.
@@ -240,14 +240,13 @@ Dateigröße auf *32MiB* reduziert. [@fig:img-lowend] zeigt den Einbruch der Ges
 
 ![Low end systeme.](images/low-end-performance.json.svg.pdf){#fig:img-lowend width=100%}
 
-Trotz des reduzierten Benchmarkaufwandes lagen die Zeiten für die Durchführung des Benchmarks bei 1 Stunde 30 Minuten (*Raspberry Pi*) und 40 Minuten (*Intel Atom*). 
+Trotz des reduzierten Benchmarkaufwandes lagen die Zeiten für die Durchführung des Benchmarks bei 1 Stunde 30 Minuten (*Raspberry Pi*) und 40 Minuten (*Intel Atom*).
 
 Weiterhin ist in der Grafik ersichtlich, dass der
 Chacha20/Poly1305--Algorithmus bei diesen schwachen Systemen, verglichen mit
 AES/GCM, bessere Ver-- und Entschlüsselungsgeschwindigkeiten liefert.
 
-
-### Schlüsselgenerierung
+#### Schlüsselgenerierung
 
 Aktuell wird für jede Datei ein Schlüssel zufällig generiert. Dieser wird in
 den Metadaten abgelegt. Durch das zufällige generieren eines Schlüssels wird
@@ -255,9 +254,25 @@ bei zwei unterschiedlichen Kommunikationspartnern für die gleiche Datei ein
 unterschiedlicher Schlüssel erstellt. Dies hat den Nachteil, dass die
 Deduplizierungsfunktionalität von *IPFS* aktuell nicht funktioniert.
 
+Beim Benchmark--Tool wurde beim Ver-- und Entschlüsseln, bei Verwendung der
+eine Geschwindigkeits--Anomalie beim verschlüsseln verschiedenen Dateigrößen
+festgestellt. Nach eingehender Recherche wurde hierfür die Ableitung des
+Schlüssels mittels »scrypt« identifiziert.
+
+»brig« verwendet aktuell einen zufällig generieren Schlüssel für das
+Verschlüsseln jeder Datei. [@fig:img-keyoverhead] zeigt im Vergleich dazu
+den relativ starken Geschwindigkeitseinbruch beim Verschlüsseln kleiner
+Dateien, welcher bei der Nutzung der Key--derivation--function »scrypt«
+zustande kommt.
+
 ![Keygeneration overhead.](images/keygenoverhead-profile.json.svg.pdf){#fig:img-keyoverhead width=100%}
 
-### Metadatenverschlüsselung
+#### Zusammenfassung Geschwindigkeitsevaluation 
+
+Zusammengefasst kann gesagt werden, dass die Blockgröße beim Verschlüsseln und Entschlüsseln sich im Bereich von 16KiByte bis wenigen MiByte bewegen sollte.
+
+
+## Metadatenverschlüsselung
 
 Neben dem Nutzdaten, die von *IPFS* verwaltet werden, werden weiterhin die
 sogenannten »Stores« verschlüsselt. Diese beinhalten den Metadatenstand der
@@ -298,7 +313,7 @@ unverschlüsselt. Dies würde diverse Modifikationen am erlauben wie
 beispielsweise die Manipulation der *Peer--ID* von *IPFS*. Der `master.key` hat
 aktuell keine Verwendung.
 
-### »brig«--Identifier
+## »brig«--Identifier
 
 Da *IPFS* an sich keinen Authentifizierungsmechanismus bietet, muss dieser von
 »brig« bereitgestellt werden. Im *IPFS*--Netzwerk haben die *Peers* durch die
@@ -343,9 +358,7 @@ Funktionsweise siehe auch [@cpahl].
 
 ![User lookup mittels »brig«-ID (gekürzter Peer--Fingerprint + User--ID). Nur bei Übereinstimmung vom Peer--Fingerprint und Benutzernamen--Fingerprint wird der Benutzer als valide erkannt.](images/userlookup.png){#fig:img-userlookup width=100%}
 
-### Authentifizierung
-
-#### Im Netzwerk
+## Authentifizierung
 
 Eine Schwierigkeit die sich im Voraus stellt, ist die »sichere«
 Authentifizierung. Mit der »brig«--ID ist es aufgrund des *Multihash* vom
@@ -366,7 +379,32 @@ brig remote add bob@jabber.nullcat.de/desktop QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2q
 Analog dazu muss auch Alice von Bob als Synchronisationspartner hinzugefügt
 werden.
 
-#### Aufbau einer verschlüsselten Verbindung
+## Repository--Zugriff
+
+Um Zugriff auf das »brig«--Repository zu erhalten muss sich der Benutzer »brig«
+gegenüber mit einem Passwort authentifizieren. Schlechte Passwörter (TODO: Ref)
+sind ein großes Problem im Informationszeitalter, da von ihnen die Sicherheit
+eines gesamten Systems abhängen kann. Menschen sind schlecht darin die
+*Entropie*[^FN_ENTROPY] von Passwörter richtig einzuschätzen. »brig« verwendet
+für die Bestimmung der Passwort--Entropie *zxcvb*--Bibliothek, welche von
+*Dropbox* entwickelt wurde. Laut einer Studie [@Carnavalet] wird die
+Bibliothek, im Vergleich zu den getesteten Konkurrenten, als akkurater in ihrer
+Funktionsweise bezeichnet. Eine Schwäche, welche bei den
+Entropie--Schätzungswerkzeugen auftritt ist, dass diese ohne Basis eines
+Wörterbuchs arbeiten und somit bei Zeichenketten *Brute--Force* als schnellsten
+Ansatz annehmen (TODO: Ref Passwortcracking.).
+
+Ein weiteres Problem dass bei der Definition einer minimalen Entropie besteht
+ist, dass Benutzer bei komplexen Passwörtern dazu neigen werden diese
+aufzuschreiben.
+
+[^FN_ENTROPY]: Password--Entropy: <https://en.wikipedia.org/wiki/Password_strength#Entropy_as_a_measure_of_password_strength>
+
+**Einschätzung**: Bei der aktuellen Authentifikation gegenüber dem Repository
+ist ein schlechtes Passwort oder die erzwungene Komplexität (Benutzer schreiben
+Komplexe Passwörter auf) eine Schwachstelle.
+
+### Aufbau einer verschlüsselten Verbindung
 
 [@fig:img-keyexchange] zeigt den Ablauf beim Aufbau einer Verschlüsselten
 Verbindung zwischen zwei Synchronisationspartnern.
@@ -400,34 +438,14 @@ Die aktuelle Softwareversion bietet hier keinen Automatismus und auch keinen
 Authentifizierungsmechanismus wie er beispielsweise bei *Pidgin*--Messenger mit
 *OTR*--Verschlüsselung.
 
-#### Lokal
-
-Um Zugriff auf das »brig«--Repository zu erhalten muss sich der Benutzer »brig«
-gegenüber mit einem Passwort authentifizieren. Schlechte Passwörter (TODO: Ref)
-sind ein großes Problem im Informationszeitalter, da von ihnen die Sicherheit
-eines gesamten Systems abhängen kann. Menschen sind schlecht darin die
-*Entropie*[^FN_ENTROPY] von Passwörter richtig einzuschätzen. »brig« verwendet
-für die Bestimmung der Passwort--Entropie *zxcvb*--Bibliothek, welche von
-*Dropbox* entwickelt wurden. Laut einer Studie [@Carnavalet] wird die
-Bibliothek, im Vergleich zu den getesteten Konkurrenten, als akkurater in ihrer
-Funktionsweise bezeichnet. Eine Schwäche, welche bei den
-Entropie--Schätzungswerkzeugen auftritt ist, dass diese ohne Basis eines
-Wörterbuchs arbeiten und somit bei Zeichenketten *Brute--Force* als schnellsten
-Ansatz annehmen (TODO: Ref Passwortcracking.).
-
-Ein weiteres Problem dass bei der Definition einer minimalen Entropie besteht
-ist, dass Benutzer bei komplexen Passwörtern dazu neigen werden diese
-aufzuschreiben.
-
-[^FN_ENTROPY]: Password--Entropy: <https://en.wikipedia.org/wiki/Password_strength#Entropy_as_a_measure_of_password_strength>
-
-**Einschätzung**: Bei der aktuellen Authentifikation gegenüber dem Repository
-ist ein schlechtes Passwort oder die erzwungene Komplexität (Benutzer schreiben
-Komplexe Passwörter auf) eine Schwachstelle.
-
-Evaluation der Geschwindigkeit der aktuellen »Sicherheitsfeatures«.
+## Weiteres
 
 https://git.schwanenlied.me/yawning/chacha20
 
 * Keymanagement.
 * Key/Identify--Backup.
+
+Mit einem Ansatz wie »Convergent encryption« würde es die Möglichkeit geben die
+kryptographischen Schlüsseln von den zu verschlüsselten Dateien abzuleiten.
+Diese Verfahren bringt Vor-- und Nachteile mit sich, welche weiter unter XY
+beleuchtet werden.
