@@ -128,7 +128,8 @@ scheinen jedoch bereits die Patches von *Cloudflare* jedoch mittlerweile in
 Im Folgenden soll die Verschlüsselungsschicht separiert betrachtet werden um
 genauere Aussagen über die Ressourcennutzung machen zu können. Weiterhin soll
 untersucht werden, wie sich die Verschlüsselungsschicht optimieren lässt
-beziehungsweise ob der getroffene Parameter bezüglich der Blockgröße weiterer Optimierung bedarf.  
+beziehungsweise ob der getroffene Parameter bezüglich der Blockgröße weiterer
+Optimierung bedarf.
 
 Weiterhin sollen verschiedene Architekturen in den Benchmark einbezogen werden
 damit die Nutzung der Algorithmen und Ressourcen besser klassifiziert werden
@@ -147,21 +148,29 @@ Aktuellere Prozessorarchitekturen:
 * Intel Atom N270 Netbook, 1,5GB RAM, 32bit--Architektur, *kein* AES--NI
 * Raspberry Pi, 512MB RAM, *ARM*--Architektur, kein AES--NI
 
-Der Benchmark soll die maximal mögliche Performance eines Systems beim
+Der Benchmark soll die maximal mögliche Performance des jeweiligen Systems beim
 Ver-- und Entschlüsseln evaluieren. Daher wird der Benchmark vollständig in
-einer RAM--Disk durchgeführt. [@fig:img-benchsetup]
+einer RAM--Disk durchgeführt. [@fig:img-ramdisk] zeigt grafisch den Aufbau
+der Testumgebung.
 
+![Testablauf in der RAMDISK bei der Erhebung der Messdaten.](images/ramdisk.png){#fig:img-ramdisk width=100%}
 
-In der Praxis wird beim Ver-- und Entschlüsseln
-in der Regel die Festplatte oder die Netzwerkanbindung der limitierende Faktor
-sein. Ob dies jedoch pauschal, auch bei *low--end*--Systemen der Fall ist, ist
-bisher unklar.
+Beim Erheben der Daten wurde wie folgt vorgegangen:
 
-Beim erheben der Daten wurde wie folgt vorgegangen:
-
+* Swap--Datei wurde deaktiviert `swapoff -a` um ein auslagern der Daten aus dem
+  *RAM* auf die Festplatte zu verhindern.
 * Eine RAM--Disk wurde mittels Skript angelegt
+* Verschlüsselte und Entschlüsselte Daten werden Mittels Skript erstellt
+* Daten werden verschlüsselt (Schreibvorgang) nach `/dev/null` geschrieben,
+  Daten werden entschlüsselt (Lesevorgang) nach `/dev/null` geschrieben
+* Zeitmessung erfolgt jeweils beim ver/entschlüsseln nach `/dev/null`
 * Die Messpunkte bilden den Mittelwert aus mehreren Durchläufen um statistische
   Ausreißer zu eliminieren.
+
+In der Praxis wird in der Regel beim Ver-- und Entschlüsseln die Festplatte
+oder die Netzwerkanbindung der limitierende Faktor sein. Ob sich dies bei der
+Verschlüsselungsschicht jedoch pauschal, auch bei *low--end*--Systemen der Fall
+ist, ist unklar.
 
 ### Benchmarks
 
