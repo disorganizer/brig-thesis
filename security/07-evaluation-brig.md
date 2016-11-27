@@ -411,7 +411,9 @@ aufzuschreiben.
 
 **Einschätzung**: Bei der aktuellen Authentifikation gegenüber dem Repository
 ist ein schlechtes Passwort oder die erzwungene Komplexität (Benutzer schreiben
-Komplexe Passwörter auf) eine Schwachstelle.
+Komplexe Passwörter auf) eine Schwachstelle. Weiterhin ist auch problematisch,
+dass die Public/Private--Key--Schlüsselpaar von *IPFS* nicht verschlüsselt ist.
+Dieser Umstand ermöglicht beispielsweise Identitätsdiebstahl.
 
 ### Aufbau einer verschlüsselten Verbindung
 
@@ -447,14 +449,43 @@ Die aktuelle Softwareversion bietet hier keinen Automatismus und auch keinen
 Authentifizierungsmechanismus wie er beispielsweise bei *Pidgin*--Messenger mit
 *OTR*--Verschlüsselung.
 
-## Weiteres
+## Entwicklung und Entwicklungsumgebung
 
-https://git.schwanenlied.me/yawning/chacha20
+### Sichere Softwareentwicklung
 
-* Keymanagement.
-* Key/Identify--Backup.
+Bei Software, welche das Augenmerk auf einen gewissen »Sicherheitsstandard«
+legt, sollte neben dem korrekten Einsatz von kryptographischen Elemente bereits
+der Entwicklungprozess gewissen Mindestanforderungen genügen. Welche dies im
+konkreten Fall sind, hängt stark vom Projekt, Aufwand und dem Einsatzzweck ab.
 
-Mit einem Ansatz wie »Convergent encryption« würde es die Möglichkeit geben die
-kryptographischen Schlüsseln von den zu verschlüsselten Dateien abzuleiten.
-Diese Verfahren bringt Vor-- und Nachteile mit sich, welche weiter unter XY
-beleuchtet werden.
+Da ein Hauptaugenmerk von »brig« der sichere und dezentrale Austausch von Daten
+ist und es zusätzlich als Open--Source--Projekt angelegt ist, ist ein
+detaillierter Überblick über Entwicklung beziehungswiese die Projektbeteiligten wichtig.
+
+### »brig«--Quellcode--Repository
+
+Aktuell wird »brig« mit der Quelltext--Versionsverwaltungssoftware `git`
+verwaltet. Da es sich um ein Open--Souce--Projekt handelt, ist das Repository
+öffentlich auf der *Github*--Plattform zu finden.
+
+**Einschätzung:** Quelltexte/Releases sind bisher nicht signiert. Updates am
+Repository werden aktuell über den von den Entwicklern hinterlegten
+*SSH*--Schlüssel *gepush* beziehungsweise *gepullt*. Der Zugriff auf die
+*GitHub*--Plattform erfolgt aktuell über eine Kombination aus Benutzername und
+Passwort. Hier würde sich die Aktivierung der von *GitHub* angebotenen
+Zwei--Faktor--Authentifizierung aus Gründen der Sicherheit anbieten.
+
+Problematisch ist aktuell der Umstand, dass die Urheber des Quelltextes nicht
+direkt authentifiziert werden können. Durch dieser Umstand macht es Personen
+(Angreifern) einfacher sich als Entwickler unter einer falschen Identität
+auszugeben.
+
+### Update--Mechanismus
+
+Im aktuellen Stadion kann »brig« über das beziehen des Quelltextes von *GitHub*
+installiert werden. Ein Update--Mechanismus existiert nicht, die Validierung
+der Integrität des Quelltextes ist aktuell nur auf Basis der `git`
+*SHA--1*--Integrität möglich.
+
+**Einschätzung:** Aktuell ist es für den Benutzer nicht möglich den Ursprung
+der Heruntergeladenen Software zu validieren.
