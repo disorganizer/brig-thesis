@@ -22,14 +22,14 @@ all:
 		-B tex/title.tex \
 		-N \
 		-V lang=de-DE \
-		--chapters \
+		--top-level-division=chapter \
 		-A tex/statement.tex \
 		--highlight-style tango \
 		-o pdf/thesis.tex \
 		*.md \
 	    appendix/*.md
 
-	cd pdf && latexmk -pdf thesis.tex
+	cd pdf && latexmk -silent -pdf thesis.tex
 
 html:
 	pandoc \
