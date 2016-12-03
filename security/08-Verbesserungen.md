@@ -153,21 +153,18 @@ Weitere Eigenschaften sind im Datenblatt[^FN_YUBIKEY_NEO] des YubiKey--Neo zu fi
 [^FN_NISTPIV]: PIV--Standard: <http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.201-2.pdf>
 [^FN_YUBIKEY_NEO]: YubiKey--Neo: <https://www.yubico.com/wp-content/uploads/2016/02/Yubico_YubiKeyNEO_ProductSheet.pdf>
 
-Der *YubiKey--NEO* bietet mit zwei Konfigurationsslots die Möglichkeit an
-mehrere Verfahren gleichzeitig nutzen zu können. Ein beispielhafte
-Konfiguration wäre den ersten Konfigurationsslot mit einem statischen Passwort
-und den zweiten mit einem One--Time--Passwort zu belegen. 
-
-unterschiedlichen 
-[@fig:img-ykgui] zeigt
+Der *YubiKey--NEO* bietet mit zwei Konfigurationsslots (siehe GUI--Screenshot
+[@fig:img-ykgui]) die Möglichkeit an mehrere Verfahren gleichzeitig nutzen zu
+können. Ein beispielhafte Konfiguration wäre den ersten Konfigurationsslot mit
+einem statischen Passwort und den zweiten mit einem One--Time--Passwort zu
+belegen. 
 
 [^FN_YUBICO_PERSON_TOOL]: Yubico Personalization Tool: <https://www.yubico.com/products/services-software/personalization-tools/use/>
 
 Die grundlegende Konfiguration des *YubiKey* ist mit dem *YubiKey
-Personalisation Tool* möglich. 
+Personalisation Tool* möglich.  
 
 ![GUI des YubiKey Personalisation Tool. Das Konfigurationswerkzeug ist eine QT--Anwendung, diese wird von den gängigen Betriebssystemen (Linux, MacOs, Windows) unterstützt.](images/ykgui2.png){#fig:img-ykgui width=75%}
-
 
 ##### Proof of concept 2FA von »brig« mit Yubico--Cloud
 
