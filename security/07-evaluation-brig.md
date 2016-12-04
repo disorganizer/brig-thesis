@@ -87,7 +87,7 @@ Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEDA*--Blockchiffren[^
 * AES--GCM
 *userlookup  ChaCha20/Poly1305 (externe Bibliothek[^FN_CHACHA20])
 
-TODO: encrypt-than-mac vs GCM/Poly1305, key reuse? 
+TODO: encrypt-than-mac vs GCM/Poly1305, key reuse?
 http://security.stackexchange.com/questions/2202/lessons-learned-and-misconceptions-regarding-encryption-and-cryptology
 
 [^FN_SYMALGO]: Aktuell von »brig« unterstützte symmetrische Verschlüsselungsverfahren: <https://github.com/disorganizer/brig/blob/fa9bb634b4b83aaabaa967ac523123ce67aa217d/store/encrypt/format.go>
@@ -137,6 +137,8 @@ kann.
 
 Um das Verhalten auf verschiedenen Klassen von Rechnern testen zu können,
 wurden folgende Systeme in die Performance--Analyse mit einbezogen:
+
+TODO: Table?
 
 Aktuellere Prozessorarchitekturen:
 
@@ -255,13 +257,24 @@ Weiterhin ist in der Grafik ersichtlich, dass der
 Chacha20/Poly1305--Algorithmus bei diesen schwachen Systemen, verglichen mit
 AES/GCM, bessere Ver-- und Entschlüsselungsgeschwindigkeiten liefert.
 
-#### Schlüsselgenerierung
+#### Schlüsselgenerierung {#sec:schluesselgenerierung}
 
 Aktuell wird für jede Datei ein Schlüssel zufällig generiert. Dieser wird in
 den Metadaten abgelegt. Durch das zufällige generieren eines Schlüssels wird
 bei zwei unterschiedlichen Kommunikationspartnern für die gleiche Datei ein
-unterschiedlicher Schlüssel erstellt. Dies hat den Nachteil, dass die
-Deduplizierungsfunktionalität von *IPFS* aktuell nicht funktioniert.
+unterschiedlicher Schlüssel erstellt.
+
+Ein großer Nachteil der aktuell zum Tragen kommt, ist dass die
+*IPFS*--Deduplizierung nur noch stark eingeschränkt funktioniert.
+
+![Für die gleiche Datei werden aktuell unterschiedliche Schlüssel generiert.](images/dedupbroken.png){#fig:img-dedupbroken width=100%}
+
+[@fig:img-dedupbroken] zeigt den aktuellen Ansatz. Durch den zufällig
+generierten Schlüssel haben die verschlüsselten Dateien und Datenblöcke ---
+auch bei gleichem Input --- einen unterschiedlichen Output. Dies hat zur Folge,
+dass *IPFS* die Daten nicht mehr sinnvoll Deduplizieren kann wie unter (REF
+IPFS DEDUP) abgebildet. Eine möglicher Ansatz dieses »Problem« zu umgehen oder
+abzumildern ist Convergent Encryption, siehe TODO: REF Verbesserugen.
 
 Beim Benchmark--Tool wurde beim Ver-- und Entschlüsseln, bei Verwendung der
 eine Geschwindigkeits--Anomalie beim verschlüsseln verschiedenen Dateigrößen
@@ -278,8 +291,8 @@ zustande kommt.
 
 #### Zusammenfassung Geschwindigkeitsevaluation 
 
-Zusammengefasst kann gesagt werden, dass die Blockgröße beim Verschlüsseln und Entschlüsseln sich im Bereich von 16KiByte bis wenigen MiByte bewegen sollte.
-
+Zusammengefasst kann gesagt werden, dass die Blockgröße beim Verschlüsseln und
+Entschlüsseln sich im Bereich von 16KiByte bis wenigen MiByte bewegen sollte.
 
 ## Metadatenverschlüsselung
 
