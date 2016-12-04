@@ -76,7 +76,9 @@ sich im Alphastadium befindet. Weiterhin gibt es Details zur »Sicherheit« in
 der Datei `security-notes`, welche analog zur `readme`--Datei betrachtet werden
 kann.
 
-## Speicherung und Datenintegrität
+## IPFS--Backend
+
+### Speicherung und Datenintegrität
 
 Die Speicherung von Daten mag auf den ersten Blick simpel erscheinen.
 Betrachtet man jedoch die »Rahmenbedingungen« die zu beachten sind um Daten
@@ -195,10 +197,23 @@ Verschlüsselung beispielsweise mittels *OpenSSL/GPG* nahe gelegt.
 
 [^FN_IPFS_FILEENC]: *IPFS* file encryption request: <https://github.com/ipfs/faq/issues/116>
 
-Neben der Möglichkeit der Datenvalidierung, hat Speicherung der Daten in einem
-Merkle-Tree auch den Vorteil, Daten effizient deduplizieren zu können.
+### Datendeduplizierung
 
-### IPFS--Daten und IPFS--Blöcke
+Neben der Möglichkeit der Datenvalidierung, hat die Speicherung der Daten in
+einem Merkle-Tree auch den Vorteil, Daten effizient deduplizieren zu können.
+[@fig:img-dedup] zeigt die Deduplizierung auf Blockebene. Eine vier MiByte
+große Textdatei wurde hierbei jeweils an verschiedenen Stellen geändert und
+unter einem neuen Namen gespeichert. Ohne Deduplizierung wird die Datei jedes
+mal jeweils komplett gespeichert, der Speicherplatz der dafür benötigt wird
+würde normalerweise bei 16MiByte liegen. *IPFS* teilt diese Datei --- in diesem
+Fall nur beispielhaft --- in 1MiByte große Blöcke auf und speichert nur
+Datenblöcke, welche dem *IPFS*--Backend noch nicht bekannt ist. Alle bekannten
+*Blöcke* werden vom Merkle--DAG nur referenziert. Durch diesen Ansatz reduziert
+sich im Beispiel der benötigte Speicherplatz auf 6MiByte.
+
+![*IPFS* Block--Level Deduplizierung von Daten. Eine 4MiB große Textdatei wurde 4 mal kopiert und jeweils an verschiedenen Stellen geändert.](images/dedup.png){#fig:img-dedup width=90%}
+
+### IPFS--Daten und IPFS--Blöcke 
 
 Das *IPFS*--Kommandozeilentool kann mittels des `ipfs
 add`--Befehl[^FN_IPFS_ADD] Daten dem *IPFS*--Netzwerk hinzufügen. Wie bereits
