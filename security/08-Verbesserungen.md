@@ -104,6 +104,8 @@ zusätzlich auf eine *Smartcard* auszulagern (siehe [@sec:smartcard]).
 
 ## Authentifizierungskonzept
 
+### Authentifizierungkonzept mit IPFS--Bordmitteln
+
 Unter [birg-Auth] wurde die aktuelle Situation evaluiert. Zum aktuellen
 Zeitpunkt hat »brig« keine Authentifizierungsmechanismus, der kommunizierenden
 Parteien müssen im Grunde ihre »brig«--Fingerabdrücke gegenseitig validieren
@@ -137,9 +139,61 @@ und könnte beispielsweise in folgender Form auf untergebracht werden:
 Da *IPFS* bereits ein *Public/Private*--Schlüsselpaar mitbringt würde sich im
 einfachste Falle nach dem ersten Verbindungsaufbau die Möglichkeit bieten den
 sein Gegenüber anhand eines *Gemeinsamen Geheimnis* oder anhand eines
-*Frage--Antwort--Dialogs* zu verifizieren.
+*Frage--Antwort--Dialogs* zu verifizieren. [@fig:img-question-answer] zeigt den
+Ablauf einer Authentifizierung des Synchronisationspartners, welcher in Folgenden Schritten abläuft:
 
-![Frage--Antwort--Authentifizierung. Alice stellt Bob eine Frage auf die nur er die Antwort wissen kann.](images/question-answer.png){#fig:img-qa width=95%}
+![Frage--Antwort--Authentifizierung. Alice stellt Bob eine Frage auf die nur er die Antwort wissen kann.](images/question-answer.png){#fig:img-question-answer width=95%}
+
+1. Alice generiert eine zufällige Nonce, Frage und Antwort
+2. Alice verschlüsselt Nonce + Antwort, signiert mit ihrem privaten Schlüssel
+   und schickt sie an Bob
+3. Bob prüft die Signatur, ist diese ungültig, wird abgebrochen, bei
+   Gültigkeit entschlüsselt Bob die Nachricht
+4. Bob inkrementiert die Nonce von Alice um eins und erstellt ein Antwortpaket
+   bestehend aus Nonce, Frage und Antwort und schickt dieses an Alice
+5. Alice prüft die Signatur, ist diese ungültig wird abgebrochen, bei
+   Gültigkeit entschlüsselt Alice die Nachricht
+6. Alice prüft ob Nonce um eins inkrementiert wurde, ob die Frage zur
+   gestellten Frage passt und ob die Antwort die erwartete Antwort ist
+7. Stimmen alle drei Parameter überein, dann wird Bob von Alice als
+   vertrauenswürdig eingestuft und kann somit Bobs ID als vertrauenswürdig
+   hinterlegen
+8. Um Alice gegenüber Bob zu verifizieren, muss das Protokoll von Bob aus
+   initialisiert werden
+
+Eine weitere Möglichkeit wäre auch wie beim OTR--Plugin des
+*Pidgin*--Messengers das Teilen eines gemeinsamen Geheimnisses.
+[@fig:img-shared-secret] zeigt den Ablauf der Authentifizierungsphase bei der
+Nutzung eines gemeinsamen Geheimnisses.
+
+![Authentifizierung über ein gemeinsames Geheimnis.](images/shared-secret.png){#fig:img-shared-secret width=95%}
+
+1. Alice und Bob generieren jeweils eine zufälligen Nonce (NA und NB)
+2. NA und NB werden mit dem Public Key des Gegenübers verschlüsselt,
+   signiert und an den Kommunikationspartner versendet
+3. Die Kommunikationspartner validieren die Signatur und entschlüsseln jeweils die erhaltene Nonce N(A|B)
+4. Die Kommunikationspartner inkrementieren die erhaltene Nonce fügen eine
+   Prüfsumme ihres gemeinsamen geglaubten Geheimnisses hinzu, verschlüsseln,
+   signieren und versenden diese an den Kommunikationspartner
+5. Alice und Bob erhalten die inkrementierte Nonce und Prüfsumme (in
+   verschlüsselter Form) des gemeinsam geglaubten Geheimnisses des Gegenübers
+   Beide prüfen wieder die Signatur, entschlüsseln das Paket und Prüfen ob die
+   Nonce inkrementiert wurde und ob die Prüfsumme ihres Geheimnisses mit dem des
+   Gegenübers übereinstimmt
+6. Bei gültiger Nonce und Prüfsumme sind beide Kommunikationspartner
+   Gegenseitig authentifiziert und können Ihren Kommunikationspartner jeweils als
+   vertrauenswürdig einstufen
+
+Bei beiden Abläufen wurde jeweils ein zufällige Nonce verschlüsselt und
+signiert versendet. Dies soll in beiden Fällen das Abgreifen der Nonce
+verhindern und die bisherige Quelle Authentifizieren. Würde man an dieser
+stelle die Nonce weglassen, so wäre ein *Replay*--Angriff möglich.
+
+TODO: Anforderungen an Authentifizierung validieren. 
+
+### Authentifizierungkonzept auf Basis des Web--of--Trust
+
+* IPFS--ID mit privaten Schlüssel signieren und über »Web--of--Trust--Overlay--Network«
 
 ## Smartcards und RSA--Token als 2F--Authentifizierung {#sec:smartcard}
 
@@ -150,15 +204,21 @@ aufzuschreiben. Ist die Komplexität beziehungsweise Entropie zu niedrig so ist
 es mit modernen Methoden vergleichsweise einfach das Passwort »berechnen«.
 
 Ein weiterer Schwachpunkt der oft ausgenutzt wird ist die »unsichere«
-Speicherung von kryptographischen Schlüsseln.
+Speicherung von kryptographischen Schlüsseln. Passwörter sowie kryptographische
+Schlüssel können bei handelsüblichen Endanwendersystemen wie beispielsweise PC
+oder Smartphone relativ einfach mitgeloggt beziehungswiese entwendet werden
+können. Neben dem *FreeBSD*--Projekt welches dem Diebstahl von
+kryptographischen Schlüsseln zum Opfer fiel[^FN_FREEBSD_SSH_MALWARE] gibt es
+laut Berichten[^FN_SSH_MALWARE][^FN_PRIV_KEY_MALWARE] zunehmend Schadsoftware
+welcher explizit für diesen Einsatzzweck konzipiert wurde.
 
-Da Passwörter sowie kryptographische Schlüssel können bei handelsüblichen
-Endanwendersystemen wie beispielsweise PC, Smartphone relativ einfach
-mitgeloggt beziehungswiese entwendet werden können.
+[^FN_FREEBSD_SSH_MALWARE]:Hackers break into FreeBSD with stolen SSH key: <http://www.theregister.co.uk/2012/11/20/freebsd_breach/>
+[^FN_SSH_MALWARE]:Malware & Hackers Collect SSH Keys to Spread Attacks: <https://www.ssh.com/malware/>
+[^FN_PRIV_KEY_MALWARE]:Are Your Private Keys and Digital Certificates a Risk to You?: <https://www.venafi.com/blog/are-your-private-keys-and-digital-certificates-a-risk-to-you>
 
 Um hier die Sicherheit zu steigern wird von Sicherheitsexperten oft zur
-kwei--Faktor--Authentifizierung beziehungsweise zur hardwarebasierten
-Speicherung kryptographischer Schlüssel (persönliche Identität,
+zwei--Faktor--Authentifizierung beziehungsweise zur hardwarebasierten
+Speicherung kryptographischer Schlüssel (persönliche Identität beziehungswiese
 RSA--Schlüsselpaar) geraten (vgl. [@martin2012everyday]).
 
 Für die Speicherung von kryptographischen Schlüsseln eignen sich beispielsweise
@@ -331,12 +391,6 @@ import ...
 
 
 * Speicherung von Schlüsseln auf YubiKey möglich? Wie?
-
-### Authentifizierung von Benutzern auf Basis vom Web--of--trust
-
-* IPFS--ID mit privaten Schlüssel signieren und über
-  »Web--of--Trust--Overlay--Network«
-
 
 ## Schlüsselhierarchie-- und Authentifizierungskonzept
 
