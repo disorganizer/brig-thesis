@@ -205,9 +205,11 @@ einem Merkle-Tree auch den Vorteil, Daten effizient deduplizieren zu können.
 große Textdatei wurde hierbei jeweils an verschiedenen Stellen geändert und
 unter einem neuen Namen gespeichert. Ohne Deduplizierung wird die Datei jedes
 mal jeweils komplett gespeichert, der Speicherplatz der dafür benötigt wird
-würde normalerweise bei 16MiByte liegen. *IPFS* teilt diese Datei --- in diesem
-Fall nur beispielhaft --- in 1MiByte große Blöcke auf und speichert nur
-Datenblöcke, welche dem *IPFS*--Backend noch nicht bekannt ist. Alle bekannten
+würde normalerweise bei 16MiByte liegen, da die Daten auf gewöhnlichen
+Dateisystemen wie beispielsweise *ext4* oder *NTFS* redundant abgespeichert
+werden. *IPFS* teilt diese Datei --- in diesem Fall nur beispielhaft --- in
+1MiByte große Blöcke auf und speichert nur Datenblöcke, welche dem
+*IPFS*--Backend noch nicht bekannt sind (vgl. auch [@cpahl]). Alle bekannten
 *Blöcke* werden vom Merkle--DAG nur referenziert. Durch diesen Ansatz reduziert
 sich im Beispiel der benötigte Speicherplatz auf 6MiByte.
 
