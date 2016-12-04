@@ -8,12 +8,55 @@ beziehungsweise zu beheben.
 
 ### Datenverschlüsselung
 
-* Verschlüsselung des gesamten Repository?
-* BSI: Richtlinie für AES-GCM?
-* Integrität der Shadow--File?
-* Convergent encryption
+Aktuell verwendet der Datenverschlüsselungsschicht bei der Generierung der
+*MAC* xy bit. Laut *BSI* werden hierfür zz bit empfohlen. BSI--Richtlinie für GCM.
 
-## Keymanagement
+Wie unter yy zu sehen sind aktuell die *IPFS*--Schlüssel in der `config`--Datei
+von *IPFS* im Klartext hinterlegt. »brig« verschlüsselt diese Datei zum
+aktuellen Zeitpunkt nicht. Hier wäre eine Verschlüsselung mit einem
+*Repository*--Key möglich, welcher wiederrum durch einen Masterschlüssel
+geschützt werden sollte (siehe [@sec:keymanagement]). Eine weitere Überlegung
+wäre das gesamte *Repository* mittels eines externen Masterschlüssel zu
+verschlüsseln.
+
+Wie unter [@sec:schluesselgenerierung] erläutert, wird aktuell für jede Datei
+ein zufälliger Schlüssel generiert. Mit diesem Ansatz wird die
+Deduplizierungsfunktinalität von *IPFS* weitgehend nutzlos gemacht.
+
+Ein Ansatz dieses »Problem« zum Umgehen ist die sogenannte »Convergent
+Encryption«. Diese Technik wird beispielsweise von *Cloud--Storage*--Anbietern
+verwendet um verschlüsselte Daten deduplizieren zu können, ohne dabei auf den
+eigentlichen Inhalt zugreifen zu müssen (vgl. [@convergent-encryption]). 
+
+![Bei Convergent Encryption resultiert aus gleichem Klartext der gleiche Geheimtext da der Schlüssel zur Verschlüsselung vom Klartext selbst abgeleitet wird.](images/convergent-encryption.png){#fig:img-convergent-encryption width=80%}
+
+Wie in [@fig:img-convergent-encryption] zu sehen, wird hierbei beispielsweise
+der Schlüssel zum verschlüsseln einer Datei von dieser selbst mittels einer
+kryptographischen Hashfunktion abgeleitet.
+
+Diese Verfahren lässt sich jedoch bei der aktuellen Architektur (separate
+Verschlüsselungsschicht) nur eingeschränkt realisieren, da die Prüfsumme der
+Daten erst nach dem Hinzufügen zum *IPFS* bekannt ist. Um die Daten zu
+verschlüsseln müssten diese vor dem Hinzufügen komplett *gehasht* werden. Dies
+würde bedeuten dass man die Daten insgesamt zwei mal einlesen müsste (1.
+Prüfsumme generieren, 2. `brig add`), was bei vielen und/oder großen Dateien
+sehr ineffizient wäre.
+
+Ein Kompromiss beispielsweise wäre anstatt der kompletten Prüfsumme über die
+ganze Datei, nur die Prüfsumme über einen Teil (beispielsweise 1024Bytes vom
+Anfang der Datei) der Datei zu machen und zusätzlich die Dateigröße mit in die
+Berechnung des »Schlüssels« einfließen zu lassen. Dies hätte den Nachteil, dass
+man auch viele Unterschiedliche Dateien mit dem gleichen Schlüssel
+verschlüsseln würde, da mehrere unterschiedliche Dateien mit einer gewissen
+Wahrscheinlichkeit fälschlicherweise die gleiche »Prüfsumme« generieren würden.
+
+Ein weiteres Problem der *Convergent Encryption* ist, dass dieses Verfahren für
+den »confirmation of a file«--Angriff anfällig ist. Das heißt, dass es einem
+Angreifer möglich ist durch das Verschlüsseln eigener Dateien darauf zu
+schließen was beispielsweise ein anderer Benutzer in seinem Repository
+gespeichert hat.
+
+## Keymanagement {#sec:keymanagement}
 
 Das asymmetrische Schlüsselpaar von *IPFS* ist standardmäßig in keinster Weise
 gesichert und muss daher besonders geschützt werden, da dieses die Identität
@@ -54,7 +97,8 @@ gebunden sind und auch unabhängig vom eigentlich Master--Schlüsselpaar
 widerrufen werden können --- was eine sehr wichtige Eigenschaft bei der
 Verwaltung von Schlüsseln darstellt.
 
-Eine weitere Empfehlung an dieser Stelle wäre es den *privaten Schlüssel* ()
+Eine weitere Empfehlung an dieser Stelle wäre es den *privaten Schlüssel*
+zusätzlich auf eine *Smartcard* auszulagern (siehe [@sec:smartcard]).
 
 [^FN_DEBIAN_SUBKEY]: Debian Wiki Subkeys: <https://wiki.debian.org/Subkeys>
 
@@ -68,6 +112,28 @@ Neben der Möglichkeit den Fingerabdruck über einen Seitenkanal (Telefonat,
 E--Mail) auszutauschen, sollen nun benutzerfreundlichere Konzepte vorgestellt
 werden.
 
+Eine sinnvolle Erweiterung an dieser Stelle wäre die Einführung eines QR--Codes
+welcher die Identität eines Kommunikationspartners eindeutig klassifiziert.
+Beispielsweise auf Visitenkaten gedurckte QR--Codes lassen den Benutzer seinen
+Synchronisationspartner mit wenig Aufwand über ein Smartphone--App
+verifizieren. Bei Anwendung eines »Masterschlüssels«, welcher für das Signieren
+der »brig«--ID verwendet werden kann --- wie unter [@sec:keymanagement]
+vorgeschlagen --- würde der Datensatz zur Verifikation wie folgt aussehen:
+
+* IPFS--ID: `QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2qv5BW7HNhCkpL`
+* GPG--Key--ID (16Byte[^FN_EVIL32]): `D3B2 790F BAC0 7EAC`, wenn keine GPG--Key--ID
+  existiert: `0000 0000 0000 0000`
+
+und könnte beispielsweise in folgender Form auf untergebracht werden:
+
+* `QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2qv5BW7HNhCkpL | D3B2790FBAC07EAC`
+
+[@fig:img-qrcode] zeigt den definieren Datensatz als QR--Code.
+
+![»brig« QR--Code um einen Synchronisationspatner auf einfache Art und Weise zu authentifizieren.](images/qrcode.png){#fig:img-qrcode width=30%}
+
+[^FN_EVIL32]: Evil32. Check Your GPG Fingerprints: <https://evil32.com/>
+
 Da *IPFS* bereits ein *Public/Private*--Schlüsselpaar mitbringt würde sich im
 einfachste Falle nach dem ersten Verbindungsaufbau die Möglichkeit bieten den
 sein Gegenüber anhand eines *Gemeinsamen Geheimnis* oder anhand eines
@@ -75,7 +141,7 @@ sein Gegenüber anhand eines *Gemeinsamen Geheimnis* oder anhand eines
 
 ![Frage--Antwort--Authentifizierung. Alice stellt Bob eine Frage auf die nur er die Antwort wissen kann.](images/question-answer.png){#fig:img-qa width=95%}
 
-## Smartcards und RSA--Token als 2F--Authentifizierung
+## Smartcards und RSA--Token als 2F--Authentifizierung {#sec:smartcard}
 
 Wie bereits erwähnt, ist die Authentifizierung über ein Passwort oft der
 Schwachpunkt eines zu sichernden Systems. Ist das Passwort oder die
@@ -88,10 +154,10 @@ Speicherung von kryptographischen Schlüsseln.
 
 Da Passwörter sowie kryptographische Schlüssel können bei handelsüblichen
 Endanwendersystemen wie beispielsweise PC, Smartphone relativ einfach
-mitgeloggt beziehungswiese entwendet werden können. 
+mitgeloggt beziehungswiese entwendet werden können.
 
 Um hier die Sicherheit zu steigern wird von Sicherheitsexperten oft zur
-Zwei--Faktor--Authentifizierung beziehungsweise zur hardwarebasierten
+kwei--Faktor--Authentifizierung beziehungsweise zur hardwarebasierten
 Speicherung kryptographischer Schlüssel (persönliche Identität,
 RSA--Schlüsselpaar) geraten (vgl. [@martin2012everyday]).
 
@@ -110,9 +176,11 @@ einem Hardware--Token wie beispielsweise der RSA SecureID[^FN_SECUREID] verknüp
 Ein Problem hierbei ist wieder die Umsetzung im privaten Bereich.
 
 Eine relativ »neue« Möglichkeit bieten beispielsweise die Hardware--Token von
-*Yubico*[^FN_YUBICO] und *Nitrokey*[^FN_NITROKEY]. Diese Hardware--Token haben
+*Yubico*[^FN_YUBICO] (siehe [@fig:img-yubikey]) und *Nitrokey*[^FN_NITROKEY]. Diese Hardware--Token haben
 zudem den Vorteil, dass sie die Funktionalität einer Smartcard und eines
-Hardware--Token für Zwei--Faktor--Authentifizierung vereinen. 
+Hardware--Token für Zwei--Faktor--Authentifizierung vereinen.
+
+![YubKey Neo mit USB--Kontaktschnittstelle und »Push--Button«, welcher auf Berühung reagiert.](images/yubikeyneo.png){#fig:img-yubikey width=35%}
 
 Der besondere bei diesen Hardware--Komponenten ist, dass sie sich über die
 USB--Schnittstelle als HID (Human--Interface--Device) ausgeben und somit keine
@@ -122,10 +190,18 @@ weitere Zusatzhardware wie beispielsweise ein Lesegerät benötigt wird.
 [^FN_YUBICO]: Yubico: <https://www.yubico.com>
 
 Bei beiden Herstellern gibt es die Hardware--Token in verschiedenen
-Ausführungen. Für die Entwicklung von »brig« wurden *Yubico
-Neo*--Hardware--Token --- aufgrund der Umfangreichen Programmier--API --- des
-Herstellers *Yubico* beschafft. Alle weiteren Ausführungen und Demonstrationen
-beziehen sich auf dieses Modell.
+Ausführungen. Bekannte Institutionen welche den *YubiKey* verwenden ist
+beispielsweise die Universität von Auckland[^FN_YK_UNIVERSITY_AUCKLAND], das
+*CERN*[^FN_YK_CERN] oder auch das [^FN_YK_MIT].
+
+[^FN_YK_UNIVERSITY_AUCKLAND]: Auckland University YubiKey--Benutzeranweisung: <https://www.auckland.ac.nz/en/about/the-university/how-university-works/policy-and-administration/computing/use/twostepverification.html>
+[^FN_YK_MIT]: Massachusetts Institute of Technology YubiKey--Benutzeranweisung: <https://security.web.cern.ch/security/recommendations/en/2FA.shtml>
+[^FN_YK_CERN]: CERN YubiKey--Benutzeranweisung: <http://kb.mit.edu/confluence/pages/viewpage.action?pageId=151109106>
+
+Für die Entwicklung von »brig« wurden *Yubico Neo*--Hardware--Token ---
+aufgrund der Umfangreichen Programmier--API --- des Herstellers *Yubico*
+beschafft. Alle weiteren Ausführungen und Demonstrationen beziehen sich auf
+dieses Modell.
 
 ### Yubikey--NEO Einleitung
 
@@ -136,7 +212,7 @@ Der *Yubikey Neo* hat folgende Funktionalitäten beziehugnsweise Eigenschaften:
 * Yubico OTP, One--Time--Password--Verfahren des Herstellers. Standardmäßig
   kann jeder YubiKey gegen die YubiCloud--Authentifizierungdienst mittels OTP
   authentifiziert werden
-* OATH–Kompitabilität (HMAC--Based--OTP-- und Time--Based--OTP--Verfahren[^FN_HOTP][^FN_TOTP])
+* OATH–Kompitabilität (HMAC--Based--OTP-- und Time--Based--OTP--Verfahren, für weitere Details vgl. [@oath])
 * Challange--Response--Verfahren (HMAC-SHA1, Yubico OTP)
 * FIDO U2F (Universal Second Factor)
 * Statische Passwörter
