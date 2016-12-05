@@ -39,7 +39,7 @@ Verschlüsselungsschicht) nur eingeschränkt realisieren, da die Prüfsumme der
 Daten erst nach dem Hinzufügen zum *IPFS* bekannt ist. Um die Daten zu
 verschlüsseln müssten diese vor dem Hinzufügen komplett *gehasht* werden. Dies
 würde bedeuten dass man die Daten insgesamt zwei mal einlesen müsste (1.
-Prüfsumme generieren, 2. `brig add`), was bei vielen und/oder großen Dateien
+Prüfsumme generieren, 2. `brig stage`), was bei vielen und/oder großen Dateien
 sehr ineffizient wäre.
 
 Ein Kompromiss beispielsweise wäre anstatt der kompletten Prüfsumme über die
@@ -193,7 +193,42 @@ TODO: Anforderungen an Authentifizierung validieren.
 
 ### Authentifizierungkonzept auf Basis des Web--of--Trust
 
-* IPFS--ID mit privaten Schlüssel signieren und über »Web--of--Trust--Overlay--Network«
+![Authentifizierung auf Basis des Web--Of--Trust.](images/web-of-trust.png){#fig:img-web-of-trust width=100%}
+
+Eine weitere Möglichkeit einer Authentifizierung ist auf Basis des
+*Web--of--trust*.  Dieses beschreibt einen typischen dezentralen PKI--Ansatz,
+welcher mittels der aktuell mittels der GnuPG--Software umgesetzt wird.
+*IPFS--ID* kann hierbei mit dem privaten Schlüssel signiert werden und über
+»Web--of--trust--Overlay--Network« von den jeweiligen Benutzer validiert
+werden. [@fig:img-web-of-trust] stellt das Konzept grafisch dar. 
+
+Die Authentifizierung von Kommunikationspartnern ist für den Benutzer keine
+triviale Aufgabe. Die in [@fig:img-web-of-trust] dargestellte Situation stellt
+jedoch eine ideale Sichtweise des *Web--of--trust*--Vertrauensmodells dar. Das
+Vertrauen zwischen den verschiedenen Parteien des *Web--of--trust* ist nicht
+generell übertragbar, da es lediglich auf Empfehlungen einzelner Individuen
+basiert (vgl. [@pgp-trust-model]). »A Probabilistic Trust Model for GnuPG«
+stellt eine interessante wahrscheinlichkeitstheoretische Erweiterung des
+klassischen Vertrauensmodells dar (vgl. [@gpg-probabilistic]).
+
+**Kurze Erläuterung:**
+
+1. Alice und Bob sie Teilnehmer des *Web--of--trust*, ihre öffentlichen Schlüssel
+   sind von weiteren Personen (Freunden) signiert.
+2. Alice und Bob signieren ihre *IPFS--ID* vor dem Austausch mit dem jeweiligen
+   Synchronisationspartner
+3. Alice und Bob beschaffen sich den öffentlichen Schlüssel des
+   Synchronisationspartners aus dem *Web--of--trust* um die Signatur der *IPFS--ID* damit zu prüfen
+4. Da die öffentlichen Schlüssel der jeweiligen Parteien von bereits anderen
+   vertrauenswürdigen Parteien unterschrieben sind, akzeptieren beide
+   Synchronisationspartner die Signatur und somit die *IPFS--ID*
+
+Dieses Konzept ist um so vertrauenswürdiger, je mehr vertrauenswürdige Parteien
+einen öffentlichen Schlüssel unterschreiben. Durch zusätzlichen Instanzen wie
+beispielsweise die Zertifizierungsstelle CAcert[^FN_CACERT], kann das Vertrauen
+in die Identität einer Partei weiter erhöht werden.
+
+[^FN_CACERT]: CAcert: <https://de.wikipedia.org/wiki/CAcert>
 
 ## Smartcards und RSA--Token als 2F--Authentifizierung {#sec:smartcard}
 
