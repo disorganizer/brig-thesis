@@ -337,19 +337,89 @@ Personalisation Tool* möglich.
 
 ![GUI des YubiKey Personalisation Tool. Das Konfigurationswerkzeug ist eine QT--Anwendung, diese wird von den gängigen Betriebssystemen (Linux, MacOs, Windows) unterstützt.](images/ykgui2.png){#fig:img-ykgui width=75%}
 
-##### Proof of concept 2FA von »brig« mit Yubico--Cloud
+### Yubico OTP Zwei--Faktor--Authentifizierung
+
+Der YubiKey ist im Auslieferungszustand so konfiguriert dass er sich gegenüber
+der YubiCloud mittels Yubico OTP authentifizieren kann. [@fig:img-otp-details]
+zeigt den Ablauf des Authentifizierungsprozesses. Das One--Time--Passwort ist
+insgesamt 44 Zeichen lang und besteht dabei aus zwei Teilkomponenten. Die
+ersten 12 Zeichen repräsentieren eine statische öffentliche *ID* mit welcher
+sich die YubiKey Hardware identifizieren lässt. Die verbleibenden Zeichen
+repräsentieren das dynamisch generierten Teil des One--Time--Passwort. Der
+dynamische Teil besteht aus mehreren verschiedenen Einzelkomponenten die
+beispielsweise eine zufällige Nonce, Sitzungsschlüssel und Zähler beinhalten.
+Weiterhin fließt ein AES--Schlüssel in die Generierung des One--Time--Password
+ein, es ist für einen Angreifer somit nicht möglich die eigentlichen Daten
+auszuwerten.
+
+![Yubico OTP[^FN_YUBICO_OTP]](images/otp-details.png){#fig:img-otp-details width=65%}
+
+Das One--Time--Password ist nur ein Mal gültig. Zur Validierung werden am
+Server Sitzung und Zähler jeweils mit den zuvor gespeicherten Daten überprüft.
+Stimmen diese nicht --- da beispielsweise der aktuelle Zähler kleiner ist als
+der zuletzt gespeicherte --- so wird das One--Time--Password nicht akzeptiert.
+
+[^FN_YUBICO_OTP]: OTPs Explained: <https://developers.yubico.com/OTP/OTPs_Explained.html>
+
+Für das Testen der korrekten Funktionalität stellt *Yubico* eine Demoseite für
+*OTP*[^FN_YUBICO_DEMO_OTP] und *U2F*[^FN_YUBICO_DEMO_U2F] bereit. Über diese
+lässt sich ein One--Time--Password an die YubiCloud schicken und somit die
+korrekte Funktionsweise eines *YubiKey* validieren. [@fig:img-otp-response]
+zeigt die Authentifizierungsantwort der *YubiCloud*.
+
+![YubiCloud Response bei Zwei--Faktor--Authentifizierung. Seriennummer des YubiKeys wurde retuschiert.](images/response-noserial.png){#fig:img-otp-response width=65%}
+
+Die Demoseite bietet hier neben dem einfachen Authentifizierungstest, bei
+welchem nur das One--Time--Passwort validiert wird, auch noch die Möglichkeit
+einen Zwei--Faktor--Authentifizierungstest und einen
+Zwei--Faktor--Authentifizierungstest mit Passwort durchführen.
+
+[^FN_YUBICO_DEMO_OTP]: Yubico OTP--Demopage: <https://demo.yubico.com>
+[^FN_YUBICO_DEMO_U2F]: Yubico U2F--Demopage: <https://demo.yubico.com/u2f>
+
+### Möglichkeit der Zwei--Faktor--Authentifizierung von »brig« mit YubiCloud
 
 Für die Proof--of--concept Implementierung der Zwei--Faktor--Authentifizierung
 wird die *yubigo*--Bibliothek[^FN_YUBIGO] verwendet.
 
 [^FN_YUBIGO]: Yubigo Dokumentation: <https://godoc.org/github.com/GeertJohan/yubigo>
 
+besteht aus einer *Client--ID*, welche beispielsweise die Applikation repräsentieren
+Für den Einsatz unter »brig« wird ein *API*--Key von *Yubico* benötigt. Diese
+kann und einem *Secret--Key* über welchen der Anwendung genehmigt wird den
+Dienst zu verwenden. Die Beantragung erfolgt online[^FN_APIKEY] und erfordert
+einen YubiKey.
+
+[^FN_APIKEY]: Yubico API--Key beantragen: <https://upgrade.yubico.com/getapikey/>
+
 Das folgende minimale Implementierung zeigt eine voll funktionsfähigen
-Authentifizierung eine *Yubikey* am *Yubico*--Cloud--Service. Bei der
-Implementierung des Hardwaretokens als zweiten Faktor, ist es wichtig darauf zu
-achten, dass die *Yubikey ID* gesichert wird. Passiert dies nicht, so könnte
-sich jeder Benutzer mit einem gültigen *Yubikey* gegenüber »brig«
-authentifizieren.
+Authentifizierung eine *Yubikey* am *YubiCloud*--Service.
+
+![Schematische Darstellung der Zwei--Faktor--Authentifizierung gegenüber einem »brig«--Repository.](images/poc-2fa-auth.png){#fig:img-poc-brig-2fa width=85%}
+
+[@fig:img-poc-brig-2fa] zeigt schematisch den Zwei--Faktor--Authentifizierung
+mit einem *YubiKey* über die *YubiCloud*. Um auf das »brig«--Repository Zugriff
+zu erhalten müssen folgende Informationen validiert werden:
+
+1. »brig« prüft das Passwort von Alice
+2. »brig« prüft ob der *YubiKey* von Alice dem Repository bekannt ist
+3. »brig« lässt das One--Time--Passwort von der *YubiCloud* validieren
+
+Eine essentiell wichtige Komponente an dieser Stelle ist der Zusammenhang
+zwischen dem Repository und dem *YubiKey*. Der *YubiKey* muss beim
+Initialisieren dem System genauso wie das Passwort bekannt gemacht werden.
+
+Dies kann bei der Initialisierung durch ein One--Time--Password gegenüber
+»brig« gemacht werden.
+
+
+
+
+Bei der Implementierung des Hardwaretokens als zweiten Faktor, ist es wichtig
+darauf zu achten, dass die *Yubikey ID* »brig« bekannt ist. Passiert dies
+nicht, so könnte sich jeder Benutzer mit einem gültigen *Yubikey* gegenüber
+»brig« authentifizieren. [@fig:img-poc-brig-2fa]
+
 
 ~~~go
 const (
