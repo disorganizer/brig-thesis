@@ -58,8 +58,10 @@ gespeichert hat.
 
 ## Keymanagement {#sec:keymanagement}
 
+### Sicherung und Bindung der kryptographischen Schlüssel an eine Identität 
+
 Das asymmetrische Schlüsselpaar von *IPFS* ist standardmäßig in keinster Weise
-gesichert und muss daher besonders geschützt werden, da dieses die Identität
+gesichert und muss daher besonders geschützt werden, da diese die Identität
 eines Individuums oder eine Institution darstellt. Bei Diebstahl des Schlüssels
 (Malware, Laptop--Verlust/Diebstahl) kann die jeweilige Identität nicht mehr
 als vertrauenswürdig betrachtet werden.
@@ -79,7 +81,35 @@ Absicherung des *IPFS*--Repository dient.
 
 Diese »externe« Identität muss dabei besonders vor Diebstahl geschützt werden
 um Missbrauch zu vermeiden. Auf üblichen »Endverbrauchergeräten« ist der
-Passwortschutz dieses Schlüsselpaars ein absolutes Minimalkriterium.
+Passwortschutz dieses Schlüsselpaars ein absolutes Minimalkriterium. Weiterhin
+könnte »brig« den Ansatz fahren und die kryptographischen Schlüssel
+(`config`--Datei von *IPFS*) selbst nur »on demand« im Speicher beispielsweise
+über ein *VFS* (Virtual Filesystem) *IPFS* bereitstellen. [@fig:img-vfs] zeigt
+ein Konzept bei welchem »brig« über einen *VFS*--Adapter die
+Konfigurationsdateien und somit auch die kryptographischen Schlüssel *IPFS*
+bereit stellt. 
+
+![»brig« stellt mittels VFS eine Zugriffsschnittstelle für *IPFS* dar.](images/vfs.png){#fig:img-vfs width=60%}
+
+Dabei wird beim Starten des »brig«--Daemon die verschlüsselte
+Datei im Arbeitsspeicher entschlüsselt und anschließen *IPFS* über einen
+Zugriffsadapter bereitgestellt. Dabei wird der komplette Zugriff über das *VFS*
+von »brig« verwaltet. 
+
+### GNUPG als Basis für »externe Identität«
+
+*GnuPG* ist eine freie Implementierung vom OpenPGP--Standard
+(RFC4880[^FN_RFC4880]). Neben den Einsatz der sicheren E--Mail--Kommunikation,
+wird *GnuPG* heute unter vielen unixoiden Betriebssystemen zur
+vertrauenswürdigen Paketverwaltung verwendet. Distributionen wie beispielsweise
+*Debian*[^FN_DEBIAN_GPG], *OpenSuse*[^FN_OPENSUSE_GPG], *Arch
+Linux*[^FN_ARCH_GPG] und weitere verwenden *GnuPG* zum signieren von Paketen.
+
+[^FN_ARCH_GPG]: Pacman/Package Signing: <https://wiki.archlinux.org/index.php/Pacman/Package_signing>
+[^FN_DEBIAN_GPG]: Archive Signing Keys: <https://ftp-master.debian.org/keys.html>
+[^FN_OPENSUSE_GPG]: RPM -- der Paket--Manager: <http://www.mpipks-dresden.mpg.de/~mueller/docs/suse10.3/opensuse-manual_de/manual/cha.rpm.html>
+[^FN_GNUPG]: Internetpräsentation GnuPG: <www.gnupg.org>
+[^FN_RFC4880]: RFC4880: <https://www.ietf.org/rfc/rfc4880.txt>
 
 Eine weitere Maßnahme und »Best Practise« ist die sogenannte »Key Seperation«.
 Obwohl es möglich ist das selbe Schlüsselpaar zum Signieren und Verschlüsseln
@@ -377,7 +407,7 @@ Zwei--Faktor--Authentifizierungstest mit Passwort durchführen.
 [^FN_YUBICO_DEMO_OTP]: Yubico OTP--Demopage: <https://demo.yubico.com>
 [^FN_YUBICO_DEMO_U2F]: Yubico U2F--Demopage: <https://demo.yubico.com/u2f>
 
-### Möglichkeit der Zwei--Faktor--Authentifizierung von »brig« mit YubiCloud
+### Konzept Zwei--Faktor--Authentifizierung von »brig« mit YubiCloud
 
 Für die Proof--of--concept Implementierung der Zwei--Faktor--Authentifizierung
 wird die *yubigo*--Bibliothek[^FN_YUBIGO] verwendet.
@@ -402,8 +432,8 @@ mit einem *YubiKey* über die *YubiCloud*. Um auf das »brig«--Repository Zugri
 zu erhalten müssen folgende Informationen validiert werden:
 
 1. »brig« prüft das Passwort von Alice
-2. »brig« prüft ob der *YubiKey* von Alice dem Repository bekannt ist
-3. »brig« lässt das One--Time--Passwort von der *YubiCloud* validieren
+2. »brig« prüft anhand der *Public--ID* ob der *YubiKey* von Alice dem Repository bekannt ist
+3. »brig« lässt das One--Time--Passwort des *YubiKey* von der *YubiCloud* validieren
 
 Eine essentiell wichtige Komponente an dieser Stelle ist der Zusammenhang
 zwischen dem Repository und dem *YubiKey*. Der *YubiKey* muss beim
@@ -412,20 +442,16 @@ Initialisieren dem System genauso wie das Passwort bekannt gemacht werden.
 Dies kann bei der Initialisierung durch ein One--Time--Password gegenüber
 »brig« gemacht werden.
 
-
-
-
 Bei der Implementierung des Hardwaretokens als zweiten Faktor, ist es wichtig
-darauf zu achten, dass die *Yubikey ID* »brig« bekannt ist. Passiert dies
-nicht, so könnte sich jeder Benutzer mit einem gültigen *Yubikey* gegenüber
-»brig« authentifizieren. [@fig:img-poc-brig-2fa]
-
+darauf zu achten, dass die *Public--ID* des *YubiKey* »brig« bekannt ist. Passiert dies
+nicht, so könnte sich jeder Benutzer mit einem gültigen *YubiKey* gegenüber
+»brig« authentifizieren. 
 
 ~~~go
 const (
-	// Passwort und Yubikeu (zweites Token) welches gegenüber
+	// Passwort und Yubikey (zweites Token) welches gegenüber
 	// »brig« registriert ist
-	RegistredYubikeyID = "ccccccababab"
+	YubiKeyPublicID = "ccccccababab"
 	UserPassword       = "katzenbaum"
 )
 
@@ -453,7 +479,7 @@ func main() {
 
 	// Validierung welche Authentifizierungs-Parameter korrekt sind
 	fmt.Printf("Yubico Auth valid? :\t %s\n", answer(ok))
-	fmt.Printf("YubiKey known by brig? : %s\n", answer(otp[0:12] == RegistredYubikeyID))
+	fmt.Printf("YubiKey known by brig? : %s\n", answer(otp[0:12] == YubiKeyPublicID))
 	fmt.Printf("Password valid? :\t %s\n", answer(password == UserPassword))
 }
 ~~~
@@ -482,19 +508,35 @@ this error, you might be the victim of a man-in-the-middle attack.
 [Yubico Auth valid? : No] ++++ [YubiKey known by brig? : Yes] ++++ [Password valid? : No]
 ~~~
 
-TODO: Lieber Tabelle?
+##### Konzept mit eigener Serverinfrastruktur
 
-##### Proof of concept 2FA von »brig« mit Eigener Serverinfrastruktur
+Neben der Möglichkeit das *YubiKey* One--Time--Password gegen die *YubiCloud*
+validieren zu lassen gibt es auch die Möglichkeit eine eigene Infrastruktur für
+die Validierung bereit zu stellen[^FN_YUBICO_VAL_SERVER].
+
+[^FN_YUBICO_VAL_SERVER]:YubiCloud Validation Servers: <https://developers.yubico.com/Software_Projects/Yubico_OTP/YubiCloud_Validation_Servers/>
+
+Dies ist in erster Linie für Unternehmen interessant, das keine Abhängigkeit zu
+einem externen Dienst besteht. Weiterhin bekommt das Unternehmen dadurch mehr
+Kontrolle und kann den *YubiKey* feingranularer als Sicherheitstoken nicht nur
+für »brig« sondern die gesamte Infrastruktur nutzen.
+
+Als Vorbereitung hierfür muss der *YubiKey* mit einer neuen »Identität«
+programmiert werden. Für die Programmierung wird das
+Yubikey--Personalisation--Tool verwendet. Hier kann unter *Yubico OTP->Quick*
+eine neue Identität »autogeneriert werden. Die hier erstellte *Public--ID*
+sowie der *AES*--Schlüssel müssen anschließend dem Validierungsserver bekannt
+gemacht werden. Für die Registrierung einer neuen »Identität« an der
+*YubiCloud* stellt *Yubico* eine Seite[^FN_AESKEY_UPLOAD] bereit über welche
+der *AES*--Schlüssel an die *Yubico* Validierungsserver geschickt werden kann.
+
+[^FN_AESKEY_UPLOAD]: Yubico AES--Key--Upload: <https://upload.yubico.com/>
 
 ~~~go
-
 import ...
-
 ~~~
 
 ### Yubikey als Smartcard
-
-
 * Speicherung von Schlüsseln auf YubiKey möglich? Wie?
 
 ## Schlüsselhierarchie-- und Authentifizierungskonzept
