@@ -99,12 +99,17 @@ von »brig« verwaltet.
 ### GNUPG als Basis für »externe Identität«
 
 *GnuPG* ist eine freie Implementierung vom OpenPGP--Standard
-(RFC4880[^FN_RFC4880]). Neben den Einsatz der sicheren E--Mail--Kommunikation,
-wird *GnuPG* heute unter vielen unixoiden Betriebssystemen zur
-vertrauenswürdigen Paketverwaltung verwendet. Distributionen wie beispielsweise
-*Debian*[^FN_DEBIAN_GPG], *OpenSuse*[^FN_OPENSUSE_GPG], *Arch
-Linux*[^FN_ARCH_GPG] und weitere verwenden *GnuPG* zum signieren von Paketen.
+(RFC4880[^FN_RFC4880]). Die Implementierung ist heutzutage auf den gängigen
+Plattformen (Windows, MacOS, Linux, *BSD) vorhanden. Die Implementierung für
+Windows (*Gpg4win*[^FN_GPG4WIN]) wurde vom Bundesamt für Sicherheit in der
+Informationstechnik in Auftrag gegeben. Neben den Einsatz der sicheren
+E--Mail--Kommunikation, wird *GnuPG* heute unter vielen unixoiden
+Betriebssystemen zur vertrauenswürdigen Paketverwaltung verwendet.
+Distributionen wie beispielsweise *Debian*[^FN_DEBIAN_GPG],
+*OpenSuse*[^FN_OPENSUSE_GPG], *Arch Linux*[^FN_ARCH_GPG] und weitere verwenden
+*GnuPG* zum signieren von Paketen.
 
+[^FN_GPG4WIN]: Gpg4win: <https://de.wikipedia.org/wiki/Gpg4win>
 [^FN_ARCH_GPG]: Pacman/Package Signing: <https://wiki.archlinux.org/index.php/Pacman/Package_signing>
 [^FN_DEBIAN_GPG]: Archive Signing Keys: <https://ftp-master.debian.org/keys.html>
 [^FN_OPENSUSE_GPG]: RPM -- der Paket--Manager: <http://www.mpipks-dresden.mpg.de/~mueller/docs/suse10.3/opensuse-manual_de/manual/cha.rpm.html>
@@ -112,11 +117,17 @@ Linux*[^FN_ARCH_GPG] und weitere verwenden *GnuPG* zum signieren von Paketen.
 [^FN_RFC4880]: RFC4880: <https://www.ietf.org/rfc/rfc4880.txt>
 
 Eine weitere Maßnahme und »Best Practise« ist die sogenannte »Key Seperation«.
-Obwohl es möglich ist das selbe Schlüsselpaar zum Signieren und Verschlüsseln
-zu nehmen ist dies aus sicherheitstechnischen Gründen nicht empfehlenswert. Im
-Klartext heißt das, dass für unterschiedliche Einsatzzwecke unterschiedliche
-Schlüssel verwendet werden sollen. Um dies zu realisieren bietet *GnuPG* die
-Möglichkeit von sogenannten *Subkeys*.
+Obwohl es mit *GnuPG* möglich ist das selbe Schlüsselpaar zum Signieren und
+Verschlüsseln zu nehmen ist dies aus sicherheitstechnischen Gründen nicht
+empfehlenswert. Im Klartext heißt das, dass für unterschiedliche Einsatzzwecke
+unterschiedliche Schlüssel verwendet werden sollen. Um dies zu realisieren
+bietet *GnuPG* die Möglichkeit von sogenannten *Subkeys*.
+
+*GnuPG* hat einen `gpg-agent`, welcher für das Management der vom Benutzer
+eingegebenen Passphrase zuständig ist (gewisse Zeit Speichern, bei Bedarf
+Abfragen). Weiterhin bietet der Agent seit Version 2.0.x die Möglichkeit auf
+Smartcards zuzugreifen. Zusätzlich ist es seit Version 2 möglich GPG--Schlüssel
+für die SSH--Authentifizierung zu verwenden.
 
 Beim erstellen eines Schlüsselpaars mit *GPG* wird standardmäßig ein
 Masterschlüssel (zum Signieren von Daten und Zertifizieren Subkeys) und ein
@@ -127,8 +138,13 @@ gebunden sind und auch unabhängig vom eigentlich Master--Schlüsselpaar
 widerrufen werden können --- was eine sehr wichtige Eigenschaft bei der
 Verwaltung von Schlüsseln darstellt.
 
-Eine weitere Empfehlung an dieser Stelle wäre es den *privaten Schlüssel*
-zusätzlich auf eine *Smartcard* auszulagern (siehe [@sec:smartcard]).
+*GnuPG* bietet neben dem RFC4880--Standard die Möglichkeit den privaten
+Master--Schlüssel »offline« zu speichern. Dieser sollte in der Regel so
+konfiguriert sein, dass er lediglich zum Signieren/Zertifizieren und Anlegen
+neuer Subkeys verwendet wird.
+
+Eine weitere Empfehlung an dieser Stelle wäre es die *Subkeys* zusätzlich auf
+eine *Smartcard* auszulagern (siehe [@sec:smartcard]).
 
 [^FN_DEBIAN_SUBKEY]: Debian Wiki Subkeys: <https://wiki.debian.org/Subkeys>
 
@@ -255,10 +271,19 @@ klassischen Vertrauensmodells dar (vgl. [@gpg-probabilistic]).
 
 Dieses Konzept ist um so vertrauenswürdiger, je mehr vertrauenswürdige Parteien
 einen öffentlichen Schlüssel unterschreiben. Durch zusätzlichen Instanzen wie
-beispielsweise die Zertifizierungsstelle CAcert[^FN_CACERT], kann das Vertrauen
-in die Identität einer Partei weiter erhöht werden.
+beispielsweise die Zertifizierungsstelle CAcert[^FN_CACERT] und die *c't*
+Krypto--Kampagne[^FN_CTCRYPTO], kann das Vertrauen in die Identität einer Partei
+weiter erhöht werden.
+
+Wissenschaftliche Untersuchen haben weiterhin ergeben das ein großteil der
+Web--of--trust Teilnehmer zum sogenanntem *Strong Set* gehören. Diese Teilmenge
+repräsentiert Benutzer/Schlüssel welche durch gegenseitige Bestätigung
+vollständig mit einander verbunden sind. Projekte wie die c't Krypto--Kampagne
+oder auch das *Debian*--Projekt sollen hierzu einen deutlichen Beitrag
+geleistet haben (vgl. [@wot1], [@wot2]).
 
 [^FN_CACERT]: CAcert: <https://de.wikipedia.org/wiki/CAcert>
+[^FN_CTCRYPTO]: Krypto-Kampagne: <https://www.heise.de/security/dienste/Krypto-Kampagne-2111.html>
 
 ## Smartcards und RSA--Token als 2F--Authentifizierung {#sec:smartcard}
 
@@ -532,9 +557,67 @@ der *AES*--Schlüssel an die *Yubico* Validierungsserver geschickt werden kann.
 
 [^FN_AESKEY_UPLOAD]: Yubico AES--Key--Upload: <https://upload.yubico.com/>
 
-~~~go
-import ...
+~~~sh
+$ ./yubikey-server -app "brig"
+app created, id: 1 key: Q0w7RkvWxL/lvCynBh+TYiuhZKg=
+
+$ ./yubikey-server -name "Christoph" -pub "vvrfglutrrgk" -secret "619d71e138697797f7af68924e8ecd68"
+creation of the key: OK
+
+$ ./yubikey-server -s
+2016/12/08 19:28:20 Listening on: 127.0.0.1:4242...
+
 ~~~
+
+Der folgende Konsolenauszug zeigt die Validierung am lokalen
+Validierungsserver. Für den Zugriff wird das Kommandozielen--Tool
+*cURL*[^FN_CURL] verwendet.
+
+[^FN_CURL]: cURL Homepage: <https://curl.haxx.se/>
+
+~~~sh
+# Validierung des YubiKey OTP
+$ curl "http://localhost:4242/wsapi/2.0/verify \ 
+  ?otp=vvrfglutrrgkkddjfnkjlitiuvfglnbkfghlnjvnkflj&id=1&nonce=test42"
+nonce=test42 otp=vvrfglutrrgkkddjfnkjlitiuvfglnbkfghlnjvnkflj
+name=Christoph
+status=OK
+t=2016-12-08T19:29:20+01:00
+h=7DJyK6NZOIeCcs9lHcH+K8RFaYY=
+~~~
+
+Beim wiederholten einspielen des gleichen OTP verhält sich der eigene
+Validierungsserver genauso wie die Yubicloud und meldet die erwartete 
+Fehlermeldung `REPLAYED_OTP`. Weitere Response--Tests sind im Anhang X zu
+finden.
+
+~~~sh
+# Widerholtes OTP
+$ curl "http://localhost:4242/wsapi/2.0/verify \ 
+  ?otp=vvrfglutrrgkkddjfnkjlitiuvfglnbkfghlnjvnkflj&id=1&nonce=test42"
+nonce=test42
+otp=vvrfglutrrgkkddjfnkjlitiuvfglnbkfghlnjvnkflj
+name=
+status=REPLAYED_OTP
+t=2016-12-08T19:35:18+01:00
+h=JqO407mZWS4Us/J/n2jCtbSnRFk=
+~~~
+
+Beim Betreiben eines eigenen Validierungsserver muss besonderen Wert auf die
+Sicherheit dieses geachtet werden, da dieser die *AES*--Schlüssel der
+registrierten *YubiKeys* enthält.
+
+Es ist für Unternehmen empfehlenswert den Validierungsserver nicht direkt am
+Netz, sondern über einen Reverse--Proxy zu betreiben.
+[@fig:img-reverseproxy-auth] zeigt den Ansatz. Alle an One--Time--Passwöter
+werden über einen »normalen« Webserver entgegengenommen und an den
+*YubiKey*--Validierungsserver weitergeleitet. Der Vorteil an dieser stellte
+
+* HTTPS
+* Besseres Patchmanagement.
+* Debian--Validierungsserver Buggy.
+
+Letsencrypt für gemeinnützige Organisationen. Zertifikate für Unternehmen.
 
 ### Yubikey als Smartcard
 * Speicherung von Schlüsseln auf YubiKey möglich? Wie?
