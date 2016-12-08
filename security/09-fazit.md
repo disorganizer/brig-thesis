@@ -4,6 +4,7 @@ RSA empfohlen dass DSA kompromitiert werden kann wenn schlechte
 zufallszahlengenerator:
 <https://www.heise.de/security/artikel/Digitale-Signaturen-und-Zertifikate-270982.html>
 
+https://github.com/stealth/opmsg?
 GPG: Passphrase 1234567890 sicher?
 
 Dropbox-Library--Passwort--Problem?
