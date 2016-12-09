@@ -136,19 +136,22 @@ damit die Nutzung der Algorithmen und Ressourcen besser klassifiziert werden
 kann.
 
 Um das Verhalten auf verschiedenen Klassen von Rechnern testen zu können,
-wurden folgende Systeme in die Performance--Analyse mit einbezogen:
+wurden zwei »Systemeklassen« in die Performance--Analyse mit einbezogen.
+[@tbl:TAB_HIGH_SYS] zeigt die getesteten Prozessorarchitekturen, die
+»schwächeren« Systeme, sollen hierbei Ersatzweise für mobile Plattformen als
+Referenzwert dienen.
 
-TODO: Table?
+|                 	| Intel i5--3320M  	| AMD Phenom X4 955  | Intel Atom N270   | Raspberry Pi Zero            |
+|-----------------	|------------------	|------------------- |-----------------	 |---------------------------	|
+| Architektur     	|      x86_64      	|       x86_64       | x86             	 | ARM                       	|
+| Betriebsmodus   	|      64-bit       |       64-bit       | 32-bit          	 | 32-bit                    	|
+| Arbeitsspeicher 	|       16GB       	|        8GB         | 1.5 GB          	 | 512 MB                    	|
+| Taktfrequenz    	|  3.30 GHz (max)  	|      3.2 GHz       | 1.6 GHz         	 | 1 GHz                     	|
+| AES--NI         	|        Ja        	|        Nein        | nein            	 | nein                      	|
+| Kernel          	|   4.8.12       	|   4.8.12           | -               	 | 4.4.30                    	|
 
-Aktuellere Prozessorarchitekturen:
 
-* Intel i5 Laptop, 16GB RAM, 64bit--Architektur, AES--NI
-* AMD Phenom X4 Desktop--PC, 8GB RAM, 64bit--Architektur, *kein* AES--NI
-
-Ältere beziehungsweise schwächere Prozessorarchitekturen:
-
-* Intel Atom N270 Netbook, 1,5GB RAM, 32bit--Architektur, *kein* AES--NI
-* Raspberry Pi, 512MB RAM, *ARM*--Architektur, kein AES--NI
+Table: Evaluierte Testsysteme mit und ohne AES--NI--Befehlserweiterungssatz. {#tbl:TAB_HIGH_SYS} 
 
 Der Benchmark soll die maximal mögliche Performance des jeweiligen Systems beim
 Ver-- und Entschlüsseln evaluieren. Daher wird der Benchmark vollständig in
@@ -267,7 +270,7 @@ unterschiedlicher Schlüssel erstellt.
 Ein großer Nachteil der aktuell zum Tragen kommt, ist dass die
 *IPFS*--Deduplizierung nur noch stark eingeschränkt funktioniert.
 
-![Für die gleiche Datei werden aktuell unterschiedliche Schlüssel generiert.](images/dedupbroken.png){#fig:img-dedupbroken width=100%}
+![Für die gleiche Datei werden aktuell unterschiedliche Schlüssel generiert. Das hat zur Folge, dass Deduplizierungsfunktionalität von *IPFS* weitestgehend nicht mehr funktioniert.](images/dedupbroken.png){#fig:img-dedupbroken width=100%}
 
 [@fig:img-dedupbroken] zeigt den aktuellen Ansatz. Durch den zufällig
 generierten Schlüssel haben die verschlüsselten Dateien und Datenblöcke ---
