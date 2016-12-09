@@ -98,6 +98,8 @@ von »brig« verwaltet.
 
 ### GNUPG als Basis für »externe Identität«
 
+#### Einleitung
+
 *GnuPG* ist eine freie Implementierung vom OpenPGP--Standard
 (RFC4880[^FN_RFC4880]). Die Implementierung ist heutzutage auf den gängigen
 Plattformen (Windows, MacOS, Linux, *BSD) vorhanden. Die Implementierung für
@@ -116,12 +118,80 @@ Distributionen wie beispielsweise *Debian*[^FN_DEBIAN_GPG],
 [^FN_GNUPG]: Internetpräsentation GnuPG: <www.gnupg.org>
 [^FN_RFC4880]: RFC4880: <https://www.ietf.org/rfc/rfc4880.txt>
 
-Eine weitere Maßnahme und »Best Practise« ist die sogenannte »Key Seperation«.
-Obwohl es mit *GnuPG* möglich ist das selbe Schlüsselpaar zum Signieren und
-Verschlüsseln zu nehmen ist dies aus sicherheitstechnischen Gründen nicht
-empfehlenswert. Im Klartext heißt das, dass für unterschiedliche Einsatzzwecke
-unterschiedliche Schlüssel verwendet werden sollen. Um dies zu realisieren
-bietet *GnuPG* die Möglichkeit von sogenannten *Subkeys*.
+#### Grundlagen
+
+Das theoretische Prinzip der asymmetrischen Verschlüsselung ist unter
+[@sec:SEC_ASYNC_ENCRYPTION] anschaulich erläutert, in der Praxis ergeben sich
+jedoch nennenswerte Unterschiede, welche direkten Einfluss auf dich Sicherheit
+des Verfahrens haben können.
+
+Beim Erstellen eines Schlüsselpaars wird bei *GnuPG* standardmäßig ein
+Hauptschlüssel-- und ein Unterschlüsselpaar angelegt. Dies hat einerseits
+historische Gründe (auf Grund von Patenten konnten frühere Versionen von GnuPG
+kein RSA/RSA Schlüsselpaar zum Signieren und Ver-- und Entschlüsseln anlegen,
+es wurde standardmäßig ein *DSA* Schlüssel zum Signieren und ein *ElGamal*
+Schlüssel zum Ver-- und Entschlüsseln angelegt), andererseits ermöglicht es
+*GnuPG* Schlüssel mit unterschiedlichem »Schutzbedarf« anders zu behandeln.
+
+Der »Schlüsselbund« bei Anlage eines neuen Schlüssels mit `gpg --gen-key`
+besteht aus einem Hauptschlüssel-- und einem Unterschlüsselpaar. Beide
+Schlüssel besitzen jeweils einen öffentlichen und einen privaten Schlüssel. Der
+folgende Kommandozeilenauszug zeigt beispielhaft einen mit dem oben genannten
+Befehl angelegten Schlüssel.
+
+~~~sh
+$ gpg --list-keys christoph@nullcat.de                                                                                                        2 ↵
+pub   rsa2048 2013-02-09 [SC] [expires: 2017-01-31]
+      E9CD5AB4075551F6F1D6AE918219B30B103FB091
+uid           [ultimate] Christoph Piechula <christoph@nullcat.de>
+sub   rsa2048 2013-02-09 [E] [expires: 2017-01-31]
+~~~
+
+Hier ist in der ersten Zeile der öffentliche Teil des Hauptschlüssels (pub =
+public key) zu sehen. Es handelt sich um einen RSA--Schlüssel mit 2048 bit. Im
+unteren Bereich ist der Unterschlüssel (sub = public subkey) zu sehen, hierbei
+handelt es sich ebenso wie beim Hauptschlüssel um einen RSA--Schlüssel mit 2048
+bit. Die Fähigkeit eines Schlüssel wird durch die Flags in eckigen Klammern
+angezeigt (Hauptschlüssel `[SC]`, Unterschlüssel `[E]`). 
+
+Schlüssel können unter *GnuPG* folgende Fähigkeiten besitzen:
+
+* `C` (certify): Dieser Schlüssel ist zum *Signieren von anderen/neuen Schlüsseln* geeignet
+* `S` (sign): Dieser Schlüssel ist zum *Signieren von Daten* geeignet
+* `E` (encrypt): Dieser Schlüssel ist zum *Ver-- und Entschlüsseln* geeignet
+* `A` (auth): Dieser Schlüssel ist zum *Authentifizieren* geeignet
+
+Einen besonderen Schutzbedarf hat an dieser Stelle der Hauptschlüssel, da
+dieser in der Lage ist neu erstellte Schlüssel und Unterschlüssel zu signieren
+(`[C]`). Fällt einem Angreifer dieser Schlüssel in die Hände, so wäre er in der
+Lage im Namen des Benutzers neue Schlüssel zu erstellen und Schlüssel von
+anderen Teilnehmern zu signieren. Die privaten Schlüssel sind bei *GnuPG*  mit
+einer Passphrase geschützt.
+
+Zusätzlich bietet *GnuPG* für den Schutz dieses Schlüssels eine Funktionalität
+namens *Offline Master Key*, diese Funktionalität ermöglicht dem Benutzer den
+Hauptschlüssel --- welcher zum Zertifizieren/Signieren anderer Schlüssel
+verwendet wird, und somit nicht für den täglichen Gebrauch benötigt wird --- zu
+Exportieren und beispielsweise auf einem sicheren externen Datenträger zu
+speichern. Diese Funktionalität ist jedoch leider *nicht* Teil des
+RFC4880--Standards.
+
+#### Unterschlüssel und Key Seperation
+
+Eine weitere Maßnahme und »Best Practise« im Bereich der Kryptographie ist die
+sogenannte »Key Seperation«. Das heißt, dass kryptographische Schlüssel an
+einen bestimmten Zweck gebunden sein sollen, einen Schlüssel für mehrere
+Verschiedene Zwecke zu verwendet ist sicherheitstechnisch bedenklich.
+
+Obwohl es mit *GnuPG* möglich ist ein Schlüsselpaar zu erstellen, welches zum
+Signieren, Zertifizieren und Ver-- und Entschlüsseln verwendet werden kann
+(Flags `[SCE]`), ist dies aus Gründen der Sicherheit nicht empfehlenswert. Beim
+Anlegen eines neuen Schlüssels wird standardmäßig bereits ein Schlüsselpaar
+bestehend aus Haupt-- und Unterschlüssel angelegt. In der Standardkonfiguration
+würde der Hauptschlüssel auf Grund seiner Flags neben dem signieren von
+Schlüsseln `[C]` auf für das Signieren von Daten `[S]` Verwendung finden.
+Dieser Umstand würde auch verhindern dass der Benutzer beim Einsatz der
+*offline master key* Funktionalität Daten signieren kann.
 
 *GnuPG* hat einen `gpg-agent`, welcher für das Management der vom Benutzer
 eingegebenen Passphrase zuständig ist (gewisse Zeit Speichern, bei Bedarf
@@ -147,6 +217,9 @@ Eine weitere Empfehlung an dieser Stelle wäre es die *Subkeys* zusätzlich auf
 eine *Smartcard* auszulagern (siehe [@sec:smartcard]).
 
 [^FN_DEBIAN_SUBKEY]: Debian Wiki Subkeys: <https://wiki.debian.org/Subkeys>
+
+http://groups.csail.mit.edu/cis/crypto/classes/6.857/papers/secret-shamir.pdf
+https://github.com/jcushman/libgfshare
 
 ## Authentifizierungskonzept
 
@@ -533,7 +606,9 @@ this error, you might be the victim of a man-in-the-middle attack.
 [Yubico Auth valid? : No] ++++ [YubiKey known by brig? : Yes] ++++ [Password valid? : No]
 ~~~
 
-##### Konzept mit eigener Serverinfrastruktur
+#### Konzept mit eigener Serverinfrastruktur
+
+#### Allgemein
 
 Neben der Möglichkeit das *YubiKey* One--Time--Password gegen die *YubiCloud*
 validieren zu lassen gibt es auch die Möglichkeit eine eigene Infrastruktur für
@@ -545,6 +620,8 @@ Dies ist in erster Linie für Unternehmen interessant, das keine Abhängigkeit z
 einem externen Dienst besteht. Weiterhin bekommt das Unternehmen dadurch mehr
 Kontrolle und kann den *YubiKey* feingranularer als Sicherheitstoken nicht nur
 für »brig« sondern die gesamte Infrastruktur nutzen.
+
+#### Einrichtung 
 
 Als Vorbereitung hierfür muss der *YubiKey* mit einer neuen »Identität«
 programmiert werden. Für die Programmierung wird das
@@ -568,6 +645,8 @@ $ ./yubikey-server -s
 2016/12/08 19:28:20 Listening on: 127.0.0.1:4242...
 
 ~~~
+
+#### Validierung des Validierungsservers
 
 Der folgende Konsolenauszug zeigt die Validierung am lokalen
 Validierungsserver. Für den Zugriff wird das Kommandozielen--Tool
@@ -603,21 +682,58 @@ t=2016-12-08T19:35:18+01:00
 h=JqO407mZWS4Us/J/n2jCtbSnRFk=
 ~~~
 
+#### Sicherheit 
+
 Beim Betreiben eines eigenen Validierungsserver muss besonderen Wert auf die
 Sicherheit dieses geachtet werden, da dieser die *AES*--Schlüssel der
 registrierten *YubiKeys* enthält.
 
 Es ist für Unternehmen empfehlenswert den Validierungsserver nicht direkt am
-Netz, sondern über einen Reverse--Proxy zu betreiben.
-[@fig:img-reverseproxy-auth] zeigt den Ansatz. Alle an One--Time--Passwöter
-werden über einen »normalen« Webserver entgegengenommen und an den
-*YubiKey*--Validierungsserver weitergeleitet. Der Vorteil an dieser stellte
+Netz, sondern über einen Reverse--Proxy zu betreiben. Neben der
+*GO*--Implementierung haben andere Validierungsserver auf
+Python--[^FN_YUBICO_YUBISERVE_VULNERABILITY] und
+C--Basis[^FN_YUBISERVER_DEBIAN_VULNERABILITY_1][^FN_YUBISERVER_DEBIAN_VULNERABILITY_2]
+haben in der Vergangenheit immer wieder kritische Sicherheitslücken
+aufgewiesen. 
 
-* HTTPS
-* Besseres Patchmanagement.
-* Debian--Validierungsserver Buggy.
+[^FN_YUBICO_YUBISERVE_VULNERABILITY]:Yubico-YubiServe SQL Injection Vulnerability: <https://code.google.com/archive/p/yubico-yubiserve/issues/38>
+[^FN_YUBISERVER_DEBIAN_VULNERABILITY_1]:Yubico-YubiServer CVE-2015-0842 SQL Injection Vulnerability: <https://security-tracker.debian.org/tracker/CVE-2015-0842>
+[^FN_YUBISERVER_DEBIAN_VULNERABILITY_2]:Yubico-YubiServer CVE-2015-0842 Buffer Overflow Vulnerability: <https://security-tracker.debian.org/tracker/CVE-2015-0843>
 
-Letsencrypt für gemeinnützige Organisationen. Zertifikate für Unternehmen.
+[@fig:img-reverseproxy-auth] zeigt einen Ansatz bei welchem der
+Validierungsserver hinter einem »Reverse--Proxy« betrieben wird. Alle an
+One--Time--Passwöter werden über einen »normalen« Webserver entgegengenommen
+und an den *YubiKey*--Validierungsserver weitergeleitet. 
+
+![Validierungsserver welcher über einen Reverse--Proxy angesprochen wird.](images/reverse-proxy.png){#fig:img-reverseproxy width=95%}
+
+Der Vorteil an dieser Stelle ist, dass je nach Organisation und
+Unternehmensgröße ein anderer Validierungsserver im »Hintergrund« eingesetzt
+werden kann. Es ist zusätzlich weiterhin davon auszugehen dass kritische
+Sicherheitslücken in weit verbreiteten Webservern wie *NGINX*[^FN_NGINX] oder
+*Apache*[^FN_APACHE] schneller gefunden und behoben werden wie bei einem
+spezifischen Server--Produkt. Weiterhin kann der Webserver feingranulat
+konfiguriert werden und Sicherheitsfeatures wie beispielsweise
+*X-XSS-Protection* oder *HTTP Strict Transport Security (HSTS)* aktiviert
+werden. Wichtig an dieser Stelle ist auch der ausschließliche Einsatz von
+*HTTPS* mit einem validen Zertifikat als Transportprotokoll um mögliche
+*Man--in--the--Middle*--Angriffe zu verhindern. 
+
+Da der Webserver besonders gut gesichert sein muss, würde sich an dieser Stelle
+neben der architektonischen Trennung auch die Umsetzung einer internen
+sicherheitsorientierten Systemarchitektur unter Linux beispielsweise mittels
+grsecurity, SELinux oder mittels Jails bei einem *BSD*--Derivat
+wie *FreeBSD* um das Risiko bestimmter Exploit--Arten zu minimieren (vgl [@BIB_GRSECURITY]).
+
+[^FN_NGINX]: NGINX--Webserver Homepage: <https://nginx.org/en/>
+[^FN_APACHE]: Apache--Webserver Homepage: <https://httpd.apache.org/>
+
+Für den Einsatz bei gemeinnützigen Organisationen oder auch öffentlichen
+Institutionen wie Hochschule würde sich zusätzlich der Einsatz von
+*Letsencrypt*[^FN_LETSECNRYPT_HP] für die Bereitstellung kostenfreier valider
+Websserver--Zertifikate eignen.
+
+[^FN_LETSECNRYPT_HP]: Let's Encrypt--Homepage: <https://letsencrypt.org/about/>
 
 ### Yubikey als Smartcard
 * Speicherung von Schlüsseln auf YubiKey möglich? Wie?
@@ -634,8 +750,22 @@ kryptographischen Schlüsseln von den zu verschlüsselten Dateien abzuleiten.
 Diese Verfahren bringt Vor-- und Nachteile mit sich, welche weiter unter XY
 beleuchtet werden.
 
+## Repository--Backup--Konzept
 
-## Signieren von Quellcode
+Ein weiterer Punkt der für eine »benutzerfreundliche« 
+* Key/Identify--Backup.
+
+## »Sichere« Entwicklung und Entwicklungsumgebung
+
+### Signiertes Updatemanagement
+
+.. Signatur und Update der Binaries
+
+1.) Signieren wie das Tor Projekt?
+2.) Update Proof of concept mit Public-Key aufbauend?
+
+
+### Signieren von Quellcode
 
 Um die Verantwortlichkeit sowie den Urheber bestimmter Quellcodeteile besser
 identifizieren zu können und dadurch die Entwickler auch vor Manipulationen am
@@ -691,13 +821,3 @@ ein, so signalisiert das Label eine verifizierte Signatur des jeweiligen
 *Commits* beziehungsweise *Tags*, siehe [@fig:img-signed].
 
 ![Verifiziertes *GitHub*--Signatur--Label eines Commit/Tag welches aufgeklappt wurde.](images/signed2.png){#fig:img-signed width=70%}
-
-## Signatur und Update der Binaries
-
-1.) Signieren wie das Tor Projekt?
-2.) Update Proof of concept mit Public-Key aufbauend?
-
-## Repository--Backup--Konzept
-
-Ein weiterer Punkt der für eine »benutzerfreundliche« 
-* Key/Identify--Backup.
