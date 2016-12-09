@@ -35,6 +35,14 @@ Beispiel hierfür wäre die Abwägung ob man Betriebsmodi verwendet die
 Authentifikation und Verschlüsselung unterstützen wie beispielsweise *GCM* oder
 doch besser eine »Encrypt--than--MAC«--Komposition (vgl auch [@encryptthanmac]).
 
+## Angriffsfläche bei »brig«
+
+### Sybil-Attacke
+
+### Passwort + Kryptographische Schlüssel
+
+### Mangelnde Authentifizierung
+
 ## Sicherheit--Aufwand--Abwägung
 
 Weiterhin macht es keinen Sinn und ist auch oft wirtschaftlich untragbar alle
