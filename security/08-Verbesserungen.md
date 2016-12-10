@@ -58,7 +58,7 @@ gespeichert hat.
 
 ## Keymanagement {#sec:keymanagement}
 
-### Sicherung und Bindung der kryptographischen Schlüssel an eine Identität 
+### Sicherung und Bindung der kryptographischen Schlüssel an eine Identität {#sec:SEC_IDENTITY}
 
 Das asymmetrische Schlüsselpaar von *IPFS* ist standardmäßig in keinster Weise
 gesichert und muss daher besonders geschützt werden, da diese die Identität
@@ -96,18 +96,19 @@ Datei im Arbeitsspeicher entschlüsselt und anschließen *IPFS* über einen
 Zugriffsadapter bereitgestellt. Dabei wird der komplette Zugriff über das *VFS*
 von »brig« verwaltet. 
 
-### GNUPG als Basis für »externe Identität«
+### GnuPG als Basis für »externe Identität«
 
 #### Einleitung
 
-*GnuPG* ist eine freie Implementierung vom OpenPGP--Standard
-(RFC4880[^FN_RFC4880]). Die Implementierung ist heutzutage auf den gängigen
-Plattformen (Windows, MacOS, Linux, *BSD) vorhanden. Die Implementierung für
-Windows (*Gpg4win*[^FN_GPG4WIN]) wurde vom Bundesamt für Sicherheit in der
-Informationstechnik in Auftrag gegeben. Neben den Einsatz der sicheren
-E--Mail--Kommunikation, wird *GnuPG* heute unter vielen unixoiden
-Betriebssystemen zur vertrauenswürdigen Paketverwaltung verwendet.
-Distributionen wie beispielsweise *Debian*[^FN_DEBIAN_GPG],
+Für die Erstellung einer »externen Identität« ([@sec:SEC_IDENTITY]) kann
+beispielsweise *GnuPG* verwendet werden. *GnuPG* ist eine freie Implementierung
+vom OpenPGP--Standard (RFC4880[^FN_RFC4880]). Die Implementierung ist
+heutzutage auf den gängigen Plattformen (Windows, MacOS, Linux, *BSD)
+vorhanden. Die Implementierung für Windows (*Gpg4win*[^FN_GPG4WIN]) wurde vom
+Bundesamt für Sicherheit in der Informationstechnik in Auftrag gegeben. Neben
+den Einsatz der sicheren E--Mail--Kommunikation, wird *GnuPG* heute unter
+vielen unixoiden Betriebssystemen zur vertrauenswürdigen Paketverwaltung
+verwendet. Distributionen wie beispielsweise *Debian*[^FN_DEBIAN_GPG],
 *OpenSuse*[^FN_OPENSUSE_GPG], *Arch Linux*[^FN_ARCH_GPG] und weitere verwenden
 *GnuPG* zum signieren von Paketen.
 
@@ -123,7 +124,42 @@ Distributionen wie beispielsweise *Debian*[^FN_DEBIAN_GPG],
 Das theoretische Prinzip der asymmetrischen Verschlüsselung ist unter
 [@sec:SEC_ASYNC_ENCRYPTION] anschaulich erläutert, in der Praxis ergeben sich
 jedoch nennenswerte Unterschiede, welche direkten Einfluss auf dich Sicherheit
-des Verfahrens haben können.
+des Verfahrens haben können. 
+
+Von *GnuPG* werden aktuell die folgenden drei Versionen gepflegt:
+
+
+* *GnuPG* modern 2.1 -- neuer Entwicklungzweig mit erweiterten Funktionalitäten
+  und neuen kryptographischen Algorithmen beispielsweise für Elliptische Kurven
+* *GnuPG* stable 2.0 -- modularisierte Version von *GnuPG* (Support bis 2017-12-31)
+* *GnuPG* classic -- obsolete nicht modulare Version, diese wird aus Kompitabilitätsgründen zu alten Systemen gepflegt
+
+Für die hier vorgestellten Konzepte wird *GnuPG* modern in der version 2.1 als
+Kommandozeilen--Werkzeug verwendet, dieses ist unter Linux über die
+Kommandozeile mit `gpg/gpg2` verwendbar:
+
+~~~sh
+$ gpg2 --version
+gpg (GnuPG) 2.1.16
+libgcrypt 1.7.3
+Copyright (C) 2016 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Home: /home/qitta/.gnupg
+Supported algorithms:
+Pubkey: RSA, ELG, DSA, ECDH, ECDSA, EDDSA
+Cipher: IDEA, 3DES, CAST5, BLOWFISH, AES, AES192, AES256, TWOFISH,
+        CAMELLIA128, CAMELLIA192, CAMELLIA256
+Hash: SHA1, RIPEMD160, SHA256, SHA384, SHA512, SHA224
+Compression: Uncompressed, ZIP, ZLIB, BZIP2
+~~~
+
+Für den *GnuPG*--Neugling gibt es verschiedene Frontends[^FN_GNUPG_FRONTENDS]
+und Anwendungen welche als *GnuPG*--Aufsatz verwendet werden können.
+
+[^FN_GNUPG_FRONTENDS]:*GnuPG*--Frontends: <https://www.gnupg.org/related_software/frontends.html>
 
 Beim Erstellen eines Schlüsselpaars wird bei *GnuPG* standardmäßig ein
 Hauptschlüssel-- und ein Unterschlüsselpaar angelegt. Dies hat einerseits
@@ -131,20 +167,24 @@ historische Gründe (auf Grund von Patenten konnten frühere Versionen von GnuPG
 kein RSA/RSA Schlüsselpaar zum Signieren und Ver-- und Entschlüsseln anlegen,
 es wurde standardmäßig ein *DSA* Schlüssel zum Signieren und ein *ElGamal*
 Schlüssel zum Ver-- und Entschlüsseln angelegt), andererseits ermöglicht es
-*GnuPG* Schlüssel mit unterschiedlichem »Schutzbedarf« anders zu behandeln.
+*GnuPG* Schlüssel mit unterschiedlichem »Schutzbedarf« anders zu behandeln. 
+
+![GnuPG--Schlüsselpaar RSA/RSA bestehend aus einem Haupt-- und Unterschlüssel. Beide Schlüssel haben unterschiedliche Fähigkeiten und bestehen jeweils aus einem öffentlichen und pirvaten Schlüssel.](images/gpg_keypair.png){#fig:IMG_GNUPG_KEYPAIR width=90%}
 
 Der »Schlüsselbund« bei Anlage eines neuen Schlüssels mit `gpg --gen-key`
 besteht aus einem Hauptschlüssel-- und einem Unterschlüsselpaar. Beide
-Schlüssel besitzen jeweils einen öffentlichen und einen privaten Schlüssel. Der
-folgende Kommandozeilenauszug zeigt beispielhaft einen mit dem oben genannten
-Befehl angelegten Schlüssel.
+Schlüssel besitzen jeweils einen öffentlichen und einen privaten Schlüssel
+(siehe [@fig:IMG_GNUPG_KEYPAIR]). Der folgende Kommandozeilenauszug zeigt
+beispielhaft einen mit dem oben genannten Befehl angelegten Schlüssel, welcher
+von den Daten mit der Abbildung übereinstimmt.
 
 ~~~sh
-$ gpg --list-keys christoph@nullcat.de                                                                                                        2 ↵
+$ gpg --list-keys --fingerprint --fingerprint christoph@nullcat.de
 pub   rsa2048 2013-02-09 [SC] [expires: 2017-01-31]
-      E9CD5AB4075551F6F1D6AE918219B30B103FB091
+      E9CD 5AB4 0755 51F6 F1D6  AE91 8219 B30B 103F B091
 uid           [ultimate] Christoph Piechula <christoph@nullcat.de>
 sub   rsa2048 2013-02-09 [E] [expires: 2017-01-31]
+      6258 6E4C D843 F566 0488  0EB0 0B81 E5BF 8582 1570
 ~~~
 
 Hier ist in der ersten Zeile der öffentliche Teil des Hauptschlüssels (pub =
@@ -165,16 +205,65 @@ Einen besonderen Schutzbedarf hat an dieser Stelle der Hauptschlüssel, da
 dieser in der Lage ist neu erstellte Schlüssel und Unterschlüssel zu signieren
 (`[C]`). Fällt einem Angreifer dieser Schlüssel in die Hände, so wäre er in der
 Lage im Namen des Benutzers neue Schlüssel zu erstellen und Schlüssel von
-anderen Teilnehmern zu signieren. Die privaten Schlüssel sind bei *GnuPG*  mit
-einer Passphrase geschützt.
+anderen Teilnehmern zu signieren. 
 
+#### Offline Hauptschlüssel
+
+Die privaten Schlüssel sind bei *GnuPG*  mit einer Passphrase geschützt.
 Zusätzlich bietet *GnuPG* für den Schutz dieses Schlüssels eine Funktionalität
 namens *Offline Master Key*, diese Funktionalität ermöglicht dem Benutzer den
-Hauptschlüssel --- welcher zum Zertifizieren/Signieren anderer Schlüssel
-verwendet wird, und somit nicht für den täglichen Gebrauch benötigt wird --- zu
-Exportieren und beispielsweise auf einem sicheren externen Datenträger zu
-speichern. Diese Funktionalität ist jedoch leider *nicht* Teil des
-RFC4880--Standards.
+privaten Teil des Hauptschlüssels --- welcher zum Zertifizieren/Signieren
+anderer Schlüssel verwendet wird, und somit nicht für den täglichen Gebrauch
+benötigt wird --- zu Exportieren und beispielsweise auf einem sicheren externen
+Datenträger zu speichern. Für die »sichere« externe Speicherung kann
+beispielsweise ein Verfahren wie *Shamir's Secret Sharing* (vgl.
+[@martin2012everyday], S. 337f.) verwendet werden. Bei diesem Verfahren wird
+ein Geheimnis auf mehrere Instanzen aufgeteilt, zur Rekonstruktion des
+Geheimnisses ist jedoch nur eine gewisse Teilmenge nötig. Das *Shamir's Secret
+Sharing*--Verfahren wird von *libgfshare*[^FN_GITHUB_LIBGFSHARE] implementiert.
+Diese bietet mit dem beiden Kommandozeilenwerkzeugen `gfsplit` und `gfcombine`
+eine einfache Möglichkeit den privaten Schlüssel auf mehrere Instanzen
+aufzuteilen. Im Standardfall wir der Schlüssel auf fünf Dateien aufgeteilt von
+welchen mindestens drei benötigt werden um den Schlüssel wieder zu
+rekonstruieren.
+
+Der folgende Kommandozeilenauszüge zeigen die Funktionsweise im Erfolgs-- und Fehlerfall.
+
+Prüfsumme des zu sichernden privaten Schlüssels und Aufteilung mittels `gfsplit`:
+
+~~~sh
+$ sha256sum private.key 
+d90dc1dbb96387ef25995ada677c59f909a9249eafcb32fc7a4f5eae91c82b42  private.key
+
+$ gfsplit private.key && ls
+private.key  private.key.022  private.key.064  \
+private.key.076  private.key.153  private.key.250
+~~~
+
+Das Zusammensetzen mit genügend (recovered1.key)und ungenügend (recovered2.key)
+vielen Teilgeheimnissen und die anschließende Validierung über die Prüfsumme:
+
+~~~sh
+$ gfcombine -o recovered1.key private.key.022 private.key.064
+$ gfcombine -o recovered2.key private.key.022 private.key.064 private.key.153
+$ sha256sum recovered* private.key
+6ea5094f26ae1b02067c5b96755313650da78ded64496634c3cc49777df79de6  recovered1.key
+d90dc1dbb96387ef25995ada677c59f909a9249eafcb32fc7a4f5eae91c82b42  recovered2.key
+d90dc1dbb96387ef25995ada677c59f909a9249eafcb32fc7a4f5eae91c82b42  private.key
+~~~
+
+Eine Möglichkeit den privaten Schlüssel analog zu sichern bietet die
+Applikation *Paperkey*[^FN_PAPERKEY]. *Paperkey* »extrahiert« nur die
+benötigten Daten für Sicherung des privaten Schlüssels und bringt Sie in eine
+gut druckbare Form.
+
+
+[^FN_GITHUB_LIBGFSHARE]: GitHub libgfshare: <https://github.com/jcushman/libgfshare>
+[^FN_PAPERKEY]: Paperkey Homepage: <http://www.jabberwocky.com/software/paperkey/>
+
+
+Die *Offline Hauptschlüssel*--Funktionalität ist eine zusätzliche
+Funktionalität von *GnuPG* und *nicht* Teil des RFC4880--Standards.
 
 #### Unterschlüssel und Key Seperation
 
@@ -191,7 +280,16 @@ bestehend aus Haupt-- und Unterschlüssel angelegt. In der Standardkonfiguration
 würde der Hauptschlüssel auf Grund seiner Flags neben dem signieren von
 Schlüsseln `[C]` auf für das Signieren von Daten `[S]` Verwendung finden.
 Dieser Umstand würde auch verhindern dass der Benutzer beim Einsatz der
-*offline master key* Funktionalität Daten signieren kann.
+*Offline Hauptschlüssel* Funktionalität Daten signieren kann. 
+
+Die Umsetzung einer »Key Seperation« kann mit *GnuPG* beim anlegen (`gpg2
+--full-gen-key --expert`) oder nachträglich (`gpg2 --edit-key <keyid>`)
+realisiert werden. [@fig:IMG_KEYSEPERATION] zeigt eine Möglichkeit der Anlage
+von Unterschlüsseln für den täglichen Gebrauch.
+
+![GPG--Schlüsselbund mit Unterschlüsseln für den »täglichen« Einsatz. Jeder Unterschlüssel ist an einen bestimmten Einsatzzweck gebunden.](images/gpg_subkey_keypair.png){#fig:IMG_KEYSEPERATION width=100%}
+
+#### GPG--Agent
 
 *GnuPG* hat einen `gpg-agent`, welcher für das Management der vom Benutzer
 eingegebenen Passphrase zuständig ist (gewisse Zeit Speichern, bei Bedarf
@@ -209,12 +307,12 @@ widerrufen werden können --- was eine sehr wichtige Eigenschaft bei der
 Verwaltung von Schlüsseln darstellt.
 
 *GnuPG* bietet neben dem RFC4880--Standard die Möglichkeit den privaten
-Master--Schlüssel »offline« zu speichern. Dieser sollte in der Regel so
+Hauptschlüssel offline zu speichern. Dieser sollte in der Regel so
 konfiguriert sein, dass er lediglich zum Signieren/Zertifizieren und Anlegen
 neuer Subkeys verwendet wird.
 
 Eine weitere Empfehlung an dieser Stelle wäre es die *Subkeys* zusätzlich auf
-eine *Smartcard* auszulagern (siehe [@sec:smartcard]).
+eine *Smartcard* auszulagern (siehe [@sec:SEC_SMARTCARD]).
 
 [^FN_DEBIAN_SUBKEY]: Debian Wiki Subkeys: <https://wiki.debian.org/Subkeys>
 
@@ -358,7 +456,9 @@ geleistet haben (vgl. [@wot1], [@wot2]).
 [^FN_CACERT]: CAcert: <https://de.wikipedia.org/wiki/CAcert>
 [^FN_CTCRYPTO]: Krypto-Kampagne: <https://www.heise.de/security/dienste/Krypto-Kampagne-2111.html>
 
-## Smartcards und RSA--Token als 2F--Authentifizierung {#sec:smartcard}
+## Smartcards und RSA--Token als 2F--Authentifizierung {#sec:SEC_SMARTCARD}
+
+### Allgemein
 
 Wie bereits erwähnt, ist die Authentifizierung über ein Passwort oft der
 Schwachpunkt eines zu sichernden Systems. Ist das Passwort oder die
@@ -381,14 +481,33 @@ welcher explizit für diesen Einsatzzweck konzipiert wurde.
 
 Um hier die Sicherheit zu steigern wird von Sicherheitsexperten oft zur
 zwei--Faktor--Authentifizierung beziehungsweise zur hardwarebasierten
-Speicherung kryptographischer Schlüssel (persönliche Identität beziehungswiese
+Speicherung kryptographischer Schlüssel (persönliche Identität,
 RSA--Schlüsselpaar) geraten (vgl. [@martin2012everyday]).
 
+### OpenPGP Smartcard
+
 Für die Speicherung von kryptographischen Schlüsseln eignen sich beispielsweise
-Chipkarten, welche die Speicherung kryptographischer Schlüssel ermöglichen. Die
-Problematik bei Smartcards ist, dass man zusätzlich ein Lesegerät benötigt.
-Dieser Umstand schränkt die Benutzung stark ein und ist deswegen weniger für
-den privaten Einsatzzweck geeignet.
+Chipkarten, welche die Speicherung kryptographischer Schlüssel ermöglichen.
+
+![Von g20 code vertrieben Smartcard für den Einsatz mit *GnuPG*.](images/newcard-b.jpg){#fig:IMG_OPENPGP_CARD width=50%}
+
+[@fig:IMG_G10_SMARTCARD] zeigt die *OpenPGP--Card* Chipkarte[^FN_OPENPGP_CARD]
+von von *ZeitControl*, welche über *g20 code* vertrieben wird. Der Anbieter der
+Smartcard ist gleichzeitig der Entwickler hinter dem *GnuPG*--Projekt. Auf der
+OpenPGP Version 2.0 Karte lassen sich drei RSA--Schlüssel (Signieren,
+Ver--/Entschlüsseln, Authentifizieren) mit jeweils 2048 bit speichern. Der
+Vorteil bei der Smartcard ist, dass die kryptographischen Schlüssel die Karte
+selbst nie verlassen, alle kryptographischen Operationen werden auf der Karte
+selbst durchgeführt. Dieser Ansatz schafft eine sichere Aufbewahrung der
+kryptographischen Schlüssel.
+
+[^FN_OPENPGP_CARD]: Homepage g10 code: <https://g10code.com/p-card.html>
+
+Die Problematik bei Smartcards ist jedoch, dass man zusätzlich ein Lesegerät
+benötigt. Dieser Umstand schränkt die Benutzung stark ein und ist deswegen
+weniger für den privaten Einsatzzweck weniger geeignet.
+
+### Zwei--Faktor--Authentifizierung
 
 Bei der Zwei--Faktor--Authentifizierung gibt es verschiedene Varianten, welche
 in der Regel ein Passwort mit einem weiterem Element wie einer Bankkarte oder
@@ -413,9 +532,9 @@ weitere Zusatzhardware wie beispielsweise ein Lesegerät benötigt wird.
 [^FN_YUBICO]: Yubico: <https://www.yubico.com>
 
 Bei beiden Herstellern gibt es die Hardware--Token in verschiedenen
-Ausführungen. Bekannte Institutionen welche den *YubiKey* verwenden ist
+Ausführungen. Bekannte Institutionen welche den *YubiKey* verwenden sind
 beispielsweise die Universität von Auckland[^FN_YK_UNIVERSITY_AUCKLAND], das
-*CERN*[^FN_YK_CERN] oder auch das [^FN_YK_MIT].
+*CERN*[^FN_YK_CERN] oder auch das Massachusetts Institute of Technology[^FN_YK_MIT].
 
 [^FN_YK_UNIVERSITY_AUCKLAND]: Auckland University YubiKey--Benutzeranweisung: <https://www.auckland.ac.nz/en/about/the-university/how-university-works/policy-and-administration/computing/use/twostepverification.html>
 [^FN_YK_MIT]: Massachusetts Institute of Technology YubiKey--Benutzeranweisung: <https://security.web.cern.ch/security/recommendations/en/2FA.shtml>
@@ -473,14 +592,26 @@ zeigt den Ablauf des Authentifizierungsprozesses. Das One--Time--Passwort ist
 insgesamt 44 Zeichen lang und besteht dabei aus zwei Teilkomponenten. Die
 ersten 12 Zeichen repräsentieren eine statische öffentliche *ID* mit welcher
 sich die YubiKey Hardware identifizieren lässt. Die verbleibenden Zeichen
-repräsentieren das dynamisch generierten Teil des One--Time--Passwort. Der
-dynamische Teil besteht aus mehreren verschiedenen Einzelkomponenten die
+repräsentieren das dynamisch generierten Teil des One--Time--Passwort.
+[@fig:IMG_OTP_STRING] zeigt ein vollständiges valides One--Time--Password.
+
+![Yubico OTP Aufbau](images/otp_string.png){#fig:IMG_OTP_STRING width=100%}
+
+1. Öffentliche ID (6 bytes), statisch Teil des One--Time--Password
+2. Geheime ID (6 bytes), dynamisch erzeugt, wird von der validierenden Instanz geprüft
+3. Interner Zähler (2 bytes), ein nichtflüchtiger Zähler der beim »power up/reset« um eins inkrementiert wird
+4. Zeitstempel (3 bytes)
+5. Sitzungszähler (1 byte), beim »power up« wird dieser Zähler auf null gesetzt und bei jedem *OTP* inkrementiert
+6. Zufällig generierte Nonce (2 bytes), wird vom internen Random--Number--Generator erstellt um weitere Entropie hinzuzufügen
+7. CRC16 Prüfsumme (2 bytes)
+
+Der dynamische Teil besteht aus mehreren verschiedenen Einzelkomponenten die
 beispielsweise eine zufällige Nonce, Sitzungsschlüssel und Zähler beinhalten.
 Weiterhin fließt ein AES--Schlüssel in die Generierung des One--Time--Password
 ein, es ist für einen Angreifer somit nicht möglich die eigentlichen Daten
-auszuwerten.
+auszuwerten. 
 
-![Yubico OTP[^FN_YUBICO_OTP]](images/otp-details.png){#fig:img-otp-details width=65%}
+![Yubico OTP--Authentifizierungsprozess an der *YubiCloud*[^FN_YUBICO_OTP]](images/otp-details.png){#fig:img-otp-details width=75%}
 
 Das One--Time--Password ist nur ein Mal gültig. Zur Validierung werden am
 Server Sitzung und Zähler jeweils mit den zuvor gespeicherten Daten überprüft.
@@ -634,12 +765,25 @@ der *AES*--Schlüssel an die *Yubico* Validierungsserver geschickt werden kann.
 
 [^FN_AESKEY_UPLOAD]: Yubico AES--Key--Upload: <https://upload.yubico.com/>
 
+Registrierung einer neuen Applikation am Validierungsserver:
+
 ~~~sh
 $ ./yubikey-server -app "brig"
 app created, id: 1 key: Q0w7RkvWxL/lvCynBh+TYiuhZKg=
+~~~
 
-$ ./yubikey-server -name "Christoph" -pub "vvrfglutrrgk" -secret "619d71e138697797f7af68924e8ecd68"
+Registrierung eine *YubiKey* unter dem Namen `Christoph` und übergabe der
+Public-- und Secret--ID des *YubiKeys*:
+
+~~~sh
+$ ./yubikey-server -name "Christoph" -pub "vvrfglutrrgk" \
+  -secret "619d71e138697797f7af68924e8ecd68"
 creation of the key: OK
+~~~
+
+Server auf `localhost` starten:
+
+~~~sh
 
 $ ./yubikey-server -s
 2016/12/08 19:28:20 Listening on: 127.0.0.1:4242...
@@ -735,7 +879,21 @@ Websserver--Zertifikate eignen.
 
 [^FN_LETSECNRYPT_HP]: Let's Encrypt--Homepage: <https://letsencrypt.org/about/>
 
+### YubiKey für Passworthärtung
+
+... static password
+
 ### Yubikey als Smartcard
+
+Wie unter [@sec:SEC_SMARTCARD] erwähnt hat der der *YubiKey* die Möglichkeit
+als Smartcard zu fungieren. Die *Chip Card Interface Device (CCID)*[^FN_CCID]
+ist beim *YubiKey Neo* ab Werk deaktiviert. Für die Aktivierung kann mit dem
+Kommandozeilen--Werkzeug `ykpersonalize` aktiviert werden. Standardmäßig ist
+beim *YubiKey Neo* nur die *OTP*--Funktionalität aktiviert.
+
+[^FN_CCID]:CCID (protocol): <https://en.wikipedia.org/wiki/CCID_(protocol)>
+
+
 * Speicherung von Schlüsseln auf YubiKey möglich? Wie?
 
 ## Schlüsselhierarchie-- und Authentifizierungskonzept
