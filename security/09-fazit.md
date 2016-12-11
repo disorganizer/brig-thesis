@@ -19,6 +19,8 @@ Piv sinnvoll? <https://developers.yubico.com/PIV/Introduction/YubiKey_and_PIV.ht
 optimierter Variante: <https://git.schwanenlied.me/yawning/chacha20>? 
 * Weitere Experten zur Rate ziehen?
 
+yubikey gpg schlüssel werden gecached?
+
 # Crypto--Layer Performance
 
 * https://calomel.org/aesni_ssl_performance.html
