@@ -7,13 +7,12 @@ Entwickeln von »sicherer« Software kein trivialer Prozess. Auch Systeme die vo
 Experten entwickelt wurden, können gravierende Sicherheitsmängel aufweisen.
 
 Ein wichtiger Punkt, welcher von Experten oft geraten wird, ist die Verwendung
-bekannter und »bewährter« Algorithmen und Protokolle wie beispielsweise AES,
+bekannter und bewährter Algorithmen und Protokolle wie beispielsweise AES,
 RSA/DSA, TLS et cetera. Die Entwicklung neuer kryptographischer Algorithmen und
 Protokolle sollte vermieden werden. Weiterhin werden Details von
 kryptographische Elementen oftmals missverstanden oder es werden für den
 Einsatz von Sicherheit die falschen Werkzeuge eingesetzt. Beispiele hierfür
-wären (vlg.
-[@evertythin1hour]):
+wären (vlg. [@evertythin1hour]):
 
 * Google Keyczar (timing side channel)[^FN_KEYCZAR_BUG]
 * SSL (session renegotiation)[^FN_SSL_BUG]
@@ -28,31 +27,82 @@ wären (vlg.
 [^FN_INTEL_VUL]: <http://www.daemonology.net/hyperthreading-considered-harmful/>
 
 Erschwert kommt bei der Auswahl kryptographischer Algorithmen/Protokolle hinzu,
-dass sich Experten nicht immer einig sind oder es kommt erschwerend hinzu dass
+dass sich Experten nicht immer einig sind oder es kommt erschwerend hinzu, dass
 es nicht für jeden Anwendungsfall eine konkrete Empfehlung geben kann. Manchmal
 muss auch zwischen Sicherheit und Geschwindigkeit abgewogen werden. Ein
 Beispiel hierfür wäre die Abwägung ob man Betriebsmodi verwendet die
 Authentifikation und Verschlüsselung unterstützen wie beispielsweise *GCM* oder
 doch besser eine »Encrypt--than--MAC«--Komposition (vgl auch [@encryptthanmac]).
 
-## Angriffsfläche bei »brig«
+Ein weiteres Beispiel welches die Komplexität der Lage darstellt, ist eine
+aktuelle  Warnung vom *BSI*[^FN_BSI_NORTON] bei welcher »Sicherheitssoftware«
+aufgrund von gravierenden Sicherheitslücken als Einfallstor für Schadsoftware
+missbraucht werden kann.
 
-### Sybil-Attacke
-
-### Passwort + Kryptographische Schlüssel
-
-### Mangelnde Authentifizierung
-
-## Sicherheit--Aufwand--Abwägung
+[^FN_BSI_NORTON]:  BSI Warn-- und Informationsdienste: <https://www.cert-bund.de/advisoryshort/CB-K16-1797>
 
 Weiterhin macht es keinen Sinn und ist auch oft wirtschaftlich untragbar alle
 finanziellen Mittel in die Sicherheit eines Softwareproduktes zu investieren.
 Laut [@martin2012everyday] ist es in der Regel eine Abwägung zwischen möglichen
-Risikofaktoren und finanziellem und zeitlichen Aufwand. Es macht so gesehen
+Risikofaktoren und finanziellem sowie zeitlichen Aufwand. Es macht so gesehen
 keinen Sinn mehrere Millionen Euro in ein Softwareprodukt zu investieren,
 welches beispielsweise nur Daten im Wert von ein paar tausend Euro schützt.
 
 Weiterhin ist es auch wichtig »realistische« Gefahren zu identifizieren und
 nicht unnötig Ressourcen in sicherheitstechnische Details zu investieren.
 
-Note - Sicherheitssoftware als Einfallstor: https://www.heise.de/newsticker/meldung/Update-wichtig-Sicherheitswarnung-zu-Symantec-Software-3492125.html
+## Angriffsfläche bei »brig«
+
+Ziel dieser Arbeit ist es praxisrelevante Gefahren/Risiken für ein
+Software--Produkt und einen Entwicklungsprozess wie er bei »brig« vorliegt zu
+definieren und mögliche Verbesserungskonzepte zu erarbeiten.
+
+Hierbei wird in erster Linie angenommen, dass die meisten Sicherheitsprobleme durch
+Benutzerfehler oder durch mangelnde Kenntnis/Sicherheitvorkehrungen zustande
+kommen. Primär spielen in der Arbeit praxisorientierte Ansätze eine wichtige
+Rolle, theoretische Sicherheitsmängel sind diese untergeordnet nur werden, auf
+Grund der hohen Komplexität der Thematik, nur am Rande behandelt.
+
+Zu den theoretischen Problemen gehören im Umfeld dezentraler Softwaresysteme
+primär Angriffe wie beispielsweise die Sybil--Attacke, bei welcher es für einem
+Angreifer möglich mit einer großen Anzahl von Pseudonymen einen
+überproportional großen Einfluss in einem dezentralen Netzwerk zu erlangen.
+Möglichkeiten die diesem Angriff entgegenwirken sind in erster Line zentrale
+Aufhentifizierungsinstanzen. Der Angriff wird unter [@BIB_SYBIL_ATTACK] genauer
+erläutert. Das von »brig« verwendete *IPFS*--Netzwerk verwendet Teile des
+*S/Kademlia*--Protokolls, welches es Prinzipiell erschwert eine
+Sybil--Attacke[^FN_IPFS_SYBIL_ATTACK] durchzuführen. Unter [@BIB_SKADEMLIA]
+wird *S/Kademlia* genauer bezüglich der Angriffe auf dezentrale Architekturen
+untersucht.
+
+Zu den praxisorientierten Problemen bei der Entwicklung einer Software wie
+»brig« gehören in erster Linie folgende Punkte, auf welche primär in der Arbeit
+eingegangen wird:
+
+**Passwormanagement:** Menschen sind schlecht darin gute Passwörter vergeben.
+Erweiterte Technologien ermöglichen es immer Schneller gestohlene
+Passwörter--Datenbanken zu knacken in Systeme einzubrechen. Bruce Schneier
+beschreibt im Artikel »A Really Good Article on How Easy it Is to Crack
+Passwords«[^FN_BRUCE_PW] die Problematik detailierter und gibt Empfehlungen.
+
+[^FN_BRUCE_PW]: A Really Good Article on How Easy it Is to Crack Passwords: <https://www.schneier.com/blog/archives/2013/06/a_really_good_a.html>
+
+**Schlüsselmanagement:** Die sichere Kommunikation von krypographischen
+Schlüsseln stellt eins der größten Probleme im digitalen Zeitalter dar. (TODO:
+REF). In der Vergangenheit gab es immer wieder Zwischenfälle bei welchen in
+Systeme mit gestohlenen krypographischen Schlüsseln eingebrochen wurde.
+Weiterhin expandiert der Malware--Markt in dieser Richtung, es wird zunehmend
+Malware für das ausspähen kryptographischer Schlüssel entwickelt.
+
+**Authentifizierung:** Wie weiss der Benutzer, dass sein Kommunikationspartner
+der ist für den er sich ausgibt? Hier sollen mögliche Konzepte erarbeitet
+werden um »fremde« Kommunikationspartner identifizieren zu können.
+
+**Softwareverteilung:** Der Benutzer sicherstellen
+können, dass die aus dem Internet bezogene Open--Source--Software keine Malware
+ist. Weiterhin ist es wichtig Software auf einem aktuellen Stand zu halten um
+bekannte Sicherheitslücken zu schließen.
+
+**Entwicklungsumgebung bei Open--Source--Projekten:**  Wie können
+Softwareentwickler das Risiko von unerwünschten Manipulationen am eigenen
+Projekt minimieren? Wie sichern Softwareentwickler ihren »Arbeitsprozess« ab?
