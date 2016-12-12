@@ -474,13 +474,8 @@ Speicherung von kryptographischen Schlüsseln. Passwörter sowie kryptographisch
 Schlüssel können bei handelsüblichen Endanwendersystemen wie beispielsweise PC
 oder Smartphone relativ einfach mitgeloggt beziehungswiese entwendet werden
 können. Neben dem *FreeBSD*--Projekt welches dem Diebstahl von
-kryptographischen Schlüsseln zum Opfer fiel[^FN_FREEBSD_SSH_MALWARE] gibt es
-laut Berichten[^FN_SSH_MALWARE][^FN_PRIV_KEY_MALWARE] zunehmend Schadsoftware
-welcher explizit für diesen Einsatzzweck konzipiert wurde.
-
-[^FN_FREEBSD_SSH_MALWARE]:Hackers break into FreeBSD with stolen SSH key: <http://www.theregister.co.uk/2012/11/20/freebsd_breach/>
-[^FN_SSH_MALWARE]:Malware & Hackers Collect SSH Keys to Spread Attacks: <https://www.ssh.com/malware/>
-[^FN_PRIV_KEY_MALWARE]:Are Your Private Keys and Digital Certificates a Risk to You?: <https://www.venafi.com/blog/are-your-private-keys-and-digital-certificates-a-risk-to-you>
+kryptographischen Schlüsseln zum Opfer fiel gibt es laut Berichten zunehmend
+Schadsoftware welcher explizit für diesen Einsatzzweck konzipiert wurde.
 
 Um hier die Sicherheit zu steigern wird von Sicherheitsexperten oft zur
 zwei--Faktor--Authentifizierung beziehungsweise zur hardwarebasierten
@@ -679,65 +674,41 @@ darauf zu achten, dass die *Public--ID* des *YubiKey* »brig« bekannt ist. Pass
 nicht, so könnte sich jeder Benutzer mit einem gültigen *YubiKey* gegenüber
 »brig« authentifizieren. 
 
-~~~go
-const (
-	// Passwort und Yubikey (zweites Token) welches gegenüber
-	// »brig« registriert ist
-	YubiKeyPublicID = "ccccccababab"
-	UserPassword       = "katzenbaum"
-)
+Beim Ausführen des Code--Snippets (@sec:APP_YUBICLOUD_AUTHENTIFIZIERUNG) wird
+das Passwort als erster Parameter übergeben, der *Yubikey*--OTP--Schlüssel  ist
+der zweite übergebene Parameter. Die *Proof--of--concept*--Implementierung hat
+aktuell einen *YubiKey* registriert und das Passwort *Katzenbaum* als valide
+registriert.
 
-func answer(flag bool) string {
-	if flag {
-		return "Yes"
-	}
-	return "No"
-}
-
-func main() {
-	// Passwort und OTP einlesen
-	password, otp := os.Args[1], os.Args[2]
-	yubiAuth, err := yubigo.NewYubiAuth("00042", "78AJl49l2924j2393jl29dsjlp9=")
-
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	// Validierung an der Yubico Cloud
-	_, ok, err := yubiAuth.Verify(otp)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	// Validierung welche Authentifizierungs-Parameter korrekt sind
-	fmt.Printf("Yubico Auth valid? :\t %s\n", answer(ok))
-	fmt.Printf("YubiKey known by brig? : %s\n", answer(otp[0:12] == YubiKeyPublicID))
-	fmt.Printf("Password valid? :\t %s\n", answer(password == UserPassword))
-}
-~~~
-
-Beim Ausführen des Code--Snippets wird der *Yubikey*--OTP--Schlüssel als erster
-Parameter übergeben. Folgende Ausgabe zeigt den Test mit zwei verschiedenen
-*Yubikey*--Token.
+Authentifizierung mit korrektem Passwort und *YubiKey*:
 
 ~~~sh
-# Korrektes Passwort, korrekter Yubikey und OTP
-$ ./twofac katzenbaum ccccccabababkdnkekdfvltennnlulrngvujviikcerg
-[Yubico Auth valid? : Yes] ++++ [YubiKey known by brig? : Yes] ++++ [Password valid? : Yes]
+$ ./twofac katzenbaum cccccceleflifuccbfruutuudkntjhbkfjevbhndbcrk
+[yubico: OK, brig? : OK, password: OK]
+~~~
 
-# Korrektes Passwort, anderer Yubikey und OTP
-$ ./twofac katzenbaum cccccccdcdcdfjckvrnckvfufkglckrdrgjlrntbcgbn
-[Yubico Auth valid? : Yes] ++++ [YubiKey known by brig? : No] ++++ [Password valid? : Yes]
+Authentifizierung mit falschen Passwort und korrektem *YubiKey*:
 
-# Falsches Passwort, korrekter Yubikey und OTP
-$ ./twofac elchwald ccccccabababgfbtejutvddbvdrfcrdrtbvlkktrdknl
-[Yubico Auth valid? : Yes] ++++ [YubiKey known by brig? : Yes] ++++ [Password valid? : No]
+~~~sh
+$ ./twofac elchwald ccccccelefliujnnnjbllkhrfeklifntfknicfbilced  
+[yubico: OK, brig : OK, password: X]
+~~~
 
-# Korrektes Passwort, korrekter Yubikey und vorheriges OTP (replay)
-$ ./twofac elchwald ccccccabababgfbtejutvddbvdrfcrdrtbvlkktrdknl
-2016/11/28 12:20:43 The OTP is valid, but has been used before. If you receive
-this error, you might be the victim of a man-in-the-middle attack.
-[Yubico Auth valid? : No] ++++ [YubiKey known by brig? : Yes] ++++ [Password valid? : No]
+Authentifizierung mit falschen Passwort und falschen *YubiKey*:
+
+~~~sh
+$ ./twofac elchwald ccccccejjegnjrvnbbthinvbvrbjerljknbeteluugut
+[yubico: OK, brig : X, password: X]
+~~~
+
+Authentifizierung mit falschen Passwort und dem zuletzt wiederholten
+One--Time--Passwort des falschen *YubiKey*:
+
+~~~sh
+$ ./twofac elchwald ccccccejjegnjrvnbbthinvbvrbjerljknbeteluugut
+2016/12/12 22:41:30 The OTP is valid, but has been used before. \ 
+If you receive this error, you might be the victim of a man-in-the-middle attack.
+[yubico: X, brig : X, password: X]
 ~~~
 
 #### Konzept mit eigener Serverinfrastruktur {#sec:SEC08_KONZEPT_MIT_EIGENER_SERVERINFRASTRUKTUR}
@@ -1202,7 +1173,8 @@ Daten dabei nicht modifiziert werden.
 Signieren der Daten ohne Entwickler--*YubiKey*:
 
 ~~~sh
-$ gpg2 --armor --output brig-version-1.0.tar.gz.asc --detach-sign brig-version-1.0.tar.gz
+$ gpg2 --armor --output brig-version-1.0.tar.gz.asc \
+  --detach-sign brig-version-1.0.tar.gz
 gpg: signing failed: Card error
 gpg: signing failed: Card error
 ~~~
@@ -1310,11 +1282,19 @@ git--Konfigurationsdatei hinterlegt werden:
 $ git config --global user.signingkey  8219B30B103FB091
 ~~~
 
-Anschließen kann mit der `-S`--Option ein signierter *Commit* abgesetzt werden:
+Anschließen kann mit der `--gpg-sign`--Option ein signierter *Commit* abgesetzt
+werden:
 
 ~~~sh
 $ git commit -S -m 'Brig evaluation update. Signed.'
 ~~~
+
+Möchte man das Signieren dauerhaft aktivieren so muss noch die `gpgsign`--Option gesetzt werden:
+
+~~~sh
+ $ git config --global commit.gpgsign true
+~~~
+
 
 Durch das signieren von *Commits* wird auf *GitHub* über ein Label ein
 erweiterter Status zum jeweiligen *Commit* beziehungsweise *Tag* angezeigt,
@@ -1330,11 +1310,35 @@ ein, so signalisiert das Label eine verifizierte Signatur des jeweiligen
 
 ### Sichere Authentifizierung für Entwickler {#sec:SEC08_SICHERE_AUTHENTIFIZIERUNG_FUER_ENTWICKLER}
 
-Um sich als Entwickler beispielsweise sicher gegenüber der *GitHub*--Plattform
-zu authentifizieren bietet die *GitHub*[^FN_GITHUB_U2F] Universal--2--Faktor
-an, welche auch mit dem *YubiKey* genutzt werden kann.
+#### GitHub--Plattform
 
+Um sich als Entwickler beispielsweise sicher gegenüber der *GitHub*--Plattform
+zu authentifizieren bietet die *GitHub*Universal--2--Faktor an, welche auch mit
+dem *YubiKey* genutzt werden kann[^FN_GITHUB_U2F]. 
 [^FN_GITHUB_U2F]: GitHub U2F: <https://github.com/blog/2071-github-supports-universal-2nd-factor-authentication>
+
+Für diesen Einsatzzweck muss *Universal--2--Faktor* auf dem *YubiKey* aktiviert
+sein, dies kann nach dem Anstecken des *YubiKey* mit `dmesg` validiert werden:
+
+~~~sh
+freya :: code/brig-thesis/security ‹master*› » dmesg | tail -n 2
+[448904.638703] input: Yubico Yubikey NEO OTP+U2F+CCID as /devices/pci[...]
+[448904.694278] hid-generic 0003:1050:0116.0364: input,hidraw4: USB HID[...]
+~~~
+
+Falls nötig kann der korrekte Modi analog zu  @sec:SEC08_EINLEITUNG_SMARTCARD
+aktiviert werden.
+
+Anschließend muss der die Zwei--Faktor--Authentifizierung im persönlichen
+Account unter dem Menüpunkt »Setting« aktiviert und der *YubiKey* auf der
+*GitHub*--Plattform registriert werden. Nach erfolgreicher Registrierung  wird
+man nach der Eingabe seines persönlichen Passworts um den zweiten Faktor
+gebeten, siehe @fig:IMG_YUBIKEY_GITHUB.
+
+![GitHub--Anmeldung mit Zwei--Faktor--Authentifizierung.](images/ghlogin.png){#fig:IMG_YUBIKEY_GITHUB width=60%}
+
+
+#### Arbeiten über Secure--Shell
 
 Weiterhin ist für die tägliche Arbeit --- das Hochladen von Quellcode --- ein
 Zugriff über *SSH* sinnvoll. Hier gibt es wie bei anderen Plattformen die
@@ -1425,3 +1429,4 @@ verwalteten Schlüssel--Fingerprint überprüft werden:
 2048 SHA256:eoOgD/8ri0RCblmJgTbPx/Ci6pBBssLtjMulpX4brlY cardno:000600000011 (RSA)
 2048 SHA256:V00F8adokJZljo1WD+XPjSP51rTl/GVS3bh5YfJOLtk /home/qitta/.ssh/id_rsa (RSA)
 ~~~
+
