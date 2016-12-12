@@ -883,7 +883,62 @@ Websserver--Zertifikate eignen.
 
 ### YubiKey für Passworthärtung {#sec:SEC08_YUBIKEY_FUER_PASSWORTHAERTUNG}
 
-... static password
+Unter @sec:SEC08_YUBIKEY_NEO_EINLEITUNG wird die Funktionalität »Statische
+Passwörter« erwähnt. Diese Funktionalität ermöglicht es auf dem *YubiKey Neo*
+ein bis zu 32--Zeichen langes Passwort zu hinterlegen. Der *YubiKey* arbeitet
+aus Kompitabilitätsgründen mit einem *Modhex*--Alphabet[^FN_MODHEX_YUBICO].
+Dies kann entweder bequem vom Benutzer mit der *yubikey-personalization-gui*
+erfolgen oder unter Linux beispielsweise auch mit mit dem
+`ykpersonalize`--Werkzeug mit Hilfe des
+*ModHex*--Converters[^FN_GITHUB_MOD_HEX] von Michael Stapelberg: 
+
+[^FN_GITHUB_MOD_HEX]: GitHub pw-to-yubi.pl: <https://github.com/stapelberg/pw-to-yubi/blob/master/pw-to-yubi.pl>
+[^FN_MODHEX_YUBICO]: YubiKey Static Password Function :<https://www.yubico.com/wp-content/uploads/2015/11/Yubico_WhitePaper_Static_Password_Function.pdf>
+
+~~~sh
+$ $(perl pw-to-yubi.pl MyVeryLongPasswordYouWontGuessToday)
+yirmware version 3.4.1 Touch level 1551 Program sequence 6
+
+Configuration data to be written to key configuration 2:
+
+fixed: m:kcbrkkcjbgbrjvbdbbclkecfbhbhblbd
+uid: 15079c12189a
+key: h:1211178a18081616971207041c000000
+acc_code: h:000000000000
+ticket_flags:
+config_flags: SHORT_TICKET
+extended_flags:
+
+Commit? (y/n) [n]: y
+~~~
+
+Im Beispiel wurde der zweite Slot des *YubiKey Neo* mit dem Passwort
+*MyVeryLongPasswordYouWontGuessToday* konfiguriert. Beim anschließenden
+zweimaligem Aktivieren des zweiten Slots liefert der *YubiKey* immer das
+gleiche Passwort: Beim längeren Drücken (Aktivierung von Slot 2) wird das
+Passwort emitiert:
+
+~~~sh
+MyVeryLongPasswordYouWontGuessTodayMyVeryLongPasswordYouWontGuessToday
+~~~
+
+Diese Feature erlaubt es dem Benutzer beim Merken eines »einfachen« Passwortes,
+trotzdem ein sicheres Passwort generieren zu können. Je nach Anwendung kann so
+das vom *YubiKey* generierte Passwort mit eine *Prefix* und/oder *Suffix*
+erweitert werden. Beispiel mit Prefix = »YEAH« und Suffix = »GehtDoch!?«
+(Benutzereingabe + YubiKey + Benutzereingabe):
+
+~~~sh
+$ YEAHMyVeryLongPasswordYouWontGuessTodayGehtDoch!?
+~~~
+
+Auch wenn dieses Feature auf den ersten Blick dem Benutzer ersparen kann sich
+lange Passwörter merken zu müssen, so sollte es trotzdem mit Vorsicht
+eingesetzt werden, da Standard--Passwörter jeder Zeit beispielsweise über
+mittels einem Keylogger aufgezeichnet werden können. Die bessere Alternative
+ist an dieser Stelle trotzdem eine »echte« Zwei--Faktor--Authentifizierung,
+sofern diese von der jeweiligen Applikation beziehungsweise vom Anbieter
+angeboten wird.
 
 ### Yubikey als Smartcard {#sec:SEC08_YUBIKEY_ALS_SMARTCARD}
 
