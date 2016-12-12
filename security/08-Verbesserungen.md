@@ -814,8 +814,7 @@ h=7DJyK6NZOIeCcs9lHcH+K8RFaYY=
 
 Beim wiederholten einspielen des gleichen OTP verhält sich der eigene
 Validierungsserver genauso wie die Yubicloud und meldet die erwartete 
-Fehlermeldung `REPLAYED_OTP`. Weitere Response--Tests sind im Anhang X zu
-finden.
+Fehlermeldung `REPLAYED_OTP`. 
 
 ~~~sh
 # Widerholtes OTP
@@ -991,13 +990,14 @@ Es gibt zwei Möglichkeiten die Smartcard mit kryptographischen Schlüsseln zu b
 
 Die Schlüssel lassen sich direkt mit `gpg2 --card-edit` auf der Smartcard
 generieren. Hier muss man in den `admin`--Modus wechseln und kann anschließend
-mit dem Befehl `generate` die Schlüssel generieren lassen. Anhang Z zeigt den
-kompletten Vorgang. Beim generieren der Schlüssel wird man von der Anwendung gefragt ob ein
-Schlüssel »off--card«--Backup gemacht werden soll, weiterhin werden
+mit dem Befehl `generate` die Schlüssel generieren lassen.
+@sec:APP_GPG_GENKEY_ONCARD zeigt den kompletten Vorgang. Beim generieren der
+Schlüssel wird man von der Anwendung gefragt ob ein Schlüssel
+»off--card«--Backup gemacht werden soll, weiterhin werden
 Revocation--Zertifikate generiert (früher mussten diese manuell erstellt
 werden, aktuelle gpg Versionen erstellen diese automatisch).
 
-Auszug aus Anhang Z:
+Auszug aus @sec:APP_GPG_GENKEY_ONCARD:
 
 ~~~sh
 gpg: Note: backup of card key saved to '/home/qitta/.gnupg/sk_E5A1965037A8E37C.gpg'
@@ -1036,7 +1036,7 @@ sub   rsa2048 2013-02-09 [E] [expires: 2017-01-31]
 ~~~
 
 Die Erweiterung um einen Unterschlüssel zum Signieren und Authentifizieren wird
-in Anhang L  gezeigt. Weiterhin wurde der Hauptschlüssel um 10 Jahre Laufzeit
+in @sec:APP_UNTERSCHLUESSEL_ERSTELLEN gezeigt. Weiterhin wurde der Hauptschlüssel um 10 Jahre Laufzeit
 erweitert. Die Ver--/Entschlüsselungs--Unterschlüssel wurde um 2 Jahre erweitert
 (siehe Anhang O). Nach dem Anpassen schaut der für die Smartcard vorbereitete
 Schlüssel wie folgt aus:
