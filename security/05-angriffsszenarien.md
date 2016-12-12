@@ -90,9 +90,15 @@ Passwords«[^FN_BRUCE_PW] die Problematik detailierter und gibt Empfehlungen.
 **Schlüsselmanagement:** Die sichere Kommunikation von krypographischen
 Schlüsseln stellt eins der größten Probleme im digitalen Zeitalter dar. (TODO:
 REF). In der Vergangenheit gab es immer wieder Zwischenfälle bei welchen in
-Systeme mit gestohlenen krypographischen Schlüsseln eingebrochen wurde.
-Weiterhin expandiert der Malware--Markt in dieser Richtung, es wird zunehmend
-Malware für das ausspähen kryptographischer Schlüssel entwickelt.
+Systeme mit gestohlenen krypographischen Schlüsseln eingebrochen
+wurde[^FN_FREEBSD_SSH_MALWARE]. Laut
+Berichten[^FN_SSH_MALWARE][FN_PRIV_KEY_MALWARE] expandiert der Malware--Markt
+in dieser Richtung, es wird zunehmend Malware für das ausspähen
+kryptographischer Schlüssel entwickelt.
+
+[^FN_FREEBSD_SSH_MALWARE]:Hackers break into FreeBSD with stolen SSH key: <http://www.theregister.co.uk/2012/11/20/freebsd_breach/>
+[^FN_SSH_MALWARE]:Malware & Hackers Collect SSH Keys to Spread Attacks: <https://www.ssh.com/malware/>
+[^FN_PRIV_KEY_MALWARE]:Are Your Private Keys and Digital Certificates a Risk to You?: <https://www.venafi.com/blog/are-your-private-keys-and-digital-certificates-a-risk-to-you>
 
 **Authentifizierung:** Wie weiss der Benutzer, dass sein Kommunikationspartner
 der ist für den er sich ausgibt? Hier sollen mögliche Konzepte erarbeitet
