@@ -991,13 +991,13 @@ Es gibt zwei Möglichkeiten die Smartcard mit kryptographischen Schlüsseln zu b
 Die Schlüssel lassen sich direkt mit `gpg2 --card-edit` auf der Smartcard
 generieren. Hier muss man in den `admin`--Modus wechseln und kann anschließend
 mit dem Befehl `generate` die Schlüssel generieren lassen.
-@sec:APP_GPG_GENKEY_ONCARD zeigt den kompletten Vorgang. Beim generieren der
+@sec:APP_SCHLUESSELGENERIERUNG_AUF_DER_KARTE zeigt den kompletten Vorgang. Beim generieren der
 Schlüssel wird man von der Anwendung gefragt ob ein Schlüssel
 »off--card«--Backup gemacht werden soll, weiterhin werden
 Revocation--Zertifikate generiert (früher mussten diese manuell erstellt
 werden, aktuelle gpg Versionen erstellen diese automatisch).
 
-Auszug aus @sec:APP_GPG_GENKEY_ONCARD:
+Auszug aus @sec:APP_SCHLUESSELGENERIERUNG_AUF_DER_KARTE:
 
 ~~~sh
 gpg: Note: backup of card key saved to '/home/qitta/.gnupg/sk_E5A1965037A8E37C.gpg'
@@ -1018,12 +1018,12 @@ Identität verliert.
 Die zweite Variante ermöglicht es dem Benutzer ein »echtes« Backup der privaten
 Schlüssel anzulegen. Ein Schlüsselpaar kann hier mit den Standardbefehlen `gpg2
 --gen-key` angelegt werden.  Wird der Expertenmodus nicht verwendet, so legt *GnuPG*
-standardmäßig einen Haupt-- und einen Unterschlüsseln an (siehe Absatz Z).
+standardmäßig einen Haupt-- und einen Unterschlüsseln an (siehe @sec:SEC08_GRUNDLAGEN).
 
-Wie unter Absatz X erwähnt ist es sinnvoll für den täglichen Einsatz
+Wie unter @sec:SEC08_OFFLINE_HAUPTSCHLUESSEL erwähnt ist es sinnvoll für den täglichen Einsatz
 Unterschlüssel zu generieren, da diese das Keymanagement erheblich erleichtern.
 Für die Evaluation sowie die Evaluation der Authentifizierung über die
-Smartcard wird der bereits in Absatz x gezeigte Entwicklerschlüssel erweitert:
+Smartcard wird der bereits in @sec:SEC08_GRUNDLAGEN gezeigte Entwicklerschlüssel erweitert:
 
 ~~~sh
 $ gpg2 --list-keys --fingerprint --fingerprint \
@@ -1036,10 +1036,11 @@ sub   rsa2048 2013-02-09 [E] [expires: 2017-01-31]
 ~~~
 
 Die Erweiterung um einen Unterschlüssel zum Signieren und Authentifizieren wird
-in @sec:APP_UNTERSCHLUESSEL_ERSTELLEN gezeigt. Weiterhin wurde der Hauptschlüssel um 10 Jahre Laufzeit
-erweitert. Die Ver--/Entschlüsselungs--Unterschlüssel wurde um 2 Jahre erweitert
-(siehe Anhang O). Nach dem Anpassen schaut der für die Smartcard vorbereitete
-Schlüssel wie folgt aus:
+in @sec:APP_UNTERSCHLUESSEL_ERSTELLEN gezeigt. Weiterhin wurde der
+Hauptschlüssel um 10 Jahre Laufzeit erweitert. Die
+Ver--/Entschlüsselungs--Unterschlüssel wurde um 2 Jahre erweitert (siehe
+@sec:APP_ABLAUFDATUM_AENDERN). Nach dem Anpassen schaut der für die Smartcard
+vorbereitete Schlüssel wie folgt aus:
 
 ~~~sh
 $ gpg2 --list-keys --fingerprint --fingerprint \
@@ -1061,9 +1062,10 @@ ein Backup von den privaten Haupt-- und Unterschlüssel erfolgen. Dies kann am
 einfachsten über das kopieren des `.gnupg`--Konfigurationsordners
 bewerkstelligt werden. Dieser enthält die `pubring.gpg` und `secring.gpg`
 Dateien welche die öffentlichen und privaten Schlüssel enthalten. Eine
-alternative Methode einen bestimmten Schlüssel zu sicheren Zeigt Anhang Z.
-Verfahren zur Offline--Speicherung von Schlüsseln wurden bereits unter Absatz A
-behandelt.
+alternative Methode einen bestimmten Schlüssel zu sicheren Zeigt
+@sec:APP_EXPORTIEREN_DER_PRIVATEN_UND_OEFFENTLICHEN_SCHLUESSEL. Verfahren zur
+Offline--Speicherung von Schlüsseln wurden bereits unter
+@sec:SEC08_OFFLINE_HAUPTSCHLUESSEL behandelt.
 
 Nach dem Verschieben der Schlüssel schaut die Ausgabe der privaten Schlüssel im
 Schlüsselbund wie folgt aus:
@@ -1104,7 +1106,7 @@ Authentication key: 2BC3 8804 4699 B83F DEA0  A323 74B0 50CC 5ED6 4D18
       created ....: 2016-12-11 16:34:21
 ~~~
 
-Um den in Absatz F vorgeschlagenen weg zu gehen und den Hauptschlüssel nur zum
+Um den in @sec:SEC08_OFFLINE_HAUPTSCHLUESSEL vorgeschlagenen weg zu gehen und den Hauptschlüssel nur zum
 Signieren neuer Schlüssel zu verwenden, sollte dieser am Schluss aus dem
 Schlüsselbund gelöscht werden. Dies kann mit ` gpg --delete-secret-keys
 E9CD5AB4075551F6F1D6AE918219B30B103FB091` erledigt werden. Wird der
@@ -1117,7 +1119,8 @@ Anschließend sollte noch die Standard--Pin `123456` und das
 Standard--Admin--Pin `12345678` auf geändert werden. Diese Einstellung kann
 ebenso mit `gpg2 --card-edit` im Untermenü `admin/passwd` getätigt werden.
 
-Absatz V zeigt das Signieren von Daten die mit und ohne Smartcard.
+@sec:SEC08_ERSTELLEN_UND_VALIDIEREN_VON_SIGNATUREN zeigt das Signieren von
+Daten die mit und ohne Smartcard.
 
 ## »Sichere« Entwicklung und Entwicklungsumgebung {#sec:SEC08_SICHERE_ENTWICKLUNG_UND_ENTWICKLUNGSUMGEBUNG}
 

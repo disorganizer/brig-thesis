@@ -1,4 +1,4 @@
-# Schlüsselgenerierung auf der Karte
+# Schlüsselgenerierung auf der Karte {#sec:APP_SCHLUESSELGENERIERUNG_AUF_DER_KARTE}
 
 ~~~sh
 gpg/card> admin
@@ -76,7 +76,7 @@ ssb>  rsa2048/E5A1965037A8E37C  created: 2016-12-11  expires: 2021-12-10
 gpg/card>
 ~~~
 
-# Schlüssel mit gpg anzeigen lassen
+Schlüssel mit *GnuPG* anzeigen lassen:
 
 ~~~sh
 freya :: code/brig-thesis/security ‹master*› » gpg --list-keys 932AEBFDD72FE59C
@@ -95,7 +95,9 @@ ssb>  rsa2048 2016-12-11 [A] [expires: 2021-12-10]
 ssb>  rsa2048 2016-12-11 [E] [expires: 2021-12-10]
 ~~~
 
-# Unterschlüssel erstellen
+\newpage
+
+# Unterschlüssel erstellen {#sec:APP_UNTERSCHLUESSEL_ERSTELLEN}
 
 ~~~sh
 $ gpg --expert --edit-key E9CD5AB4075551F6F1D6AE918219B30B103FB091
@@ -239,6 +241,11 @@ gpg> save
 
 ~~~
 
+# Ablaufdatum ändern {#sec:APP_ABLAUFDATUM_AENDERN}
+
+Ablaufdatum für den Hauptschlüssel und für den Unterschlüssel zum
+Ver--/Entschlüsseln ändern:
+
 ~~~sh
 $ gpg --expert --edit-key E9CD5AB4075551F6F1D6AE918219B30B103FB091
 gpg (GnuPG) 2.1.16; Copyright (C) 2016 Free Software Foundation, Inc.
@@ -320,7 +327,9 @@ ssb  rsa2048/74B050CC5ED64D18
 gpg> save
 ~~~
 
-# Exportieren der privaten und öffentlichen Schlüssel
+# Exportieren der privaten und öffentlichen Schlüssel {#sec:APP_EXPORTIEREN_DER_PRIVATEN_UND_OEFFENTLICHEN_SCHLUESSEL}
+
+Exportieren der privaten Schlüssel:
 
 ~~~sh
 $ gpg --armor --export E9CD5AB4075551F6F1D6AE918219B30B103FB091 \
@@ -330,6 +339,8 @@ $ gpg --armor --export-secret-keys \
 $ gpg --armor --export-secret-subkeys \
   > E9CD5AB4075551F6F1D6AE918219B30B103FB091.secsub
 ~~~
+
+# Schlüssel auf die Smartcard verschieben {#sec:APP_SCHLUESSEL_AUF_SMARTCARD_VERSCHIEBEN}
 
 ~~~sh
 $ gpg --expert --edit-key E9CD5AB4075551F6F1D6AE918219B30B103FB091
@@ -470,7 +481,7 @@ ssb* rsa2048/74B050CC5ED64D18
 gpg> save
 ~~~
 
-# pin change
+# User-- und Admin--Pin ändern {#sec:APP_USER_UND_ADMIN_PIN_AENDERN}
 
 ~~~sh
 freya :: code/brig-thesis/security ‹master*› » gpg --card-edit
@@ -519,4 +530,23 @@ Q - quit
 
 Your selection? 1
 PIN changed.
+
+1 - change PIN
+2 - unblock PIN
+3 - change Admin PIN
+4 - set the Reset Code
+Q - quit
+
+Your selection? 3
+PIN changed.
+
+1 - change PIN
+2 - unblock PIN
+3 - change Admin PIN
+4 - set the Reset Code
+Q - quit
+
+Your selection? Q
+
+gpg/card> quit
 ~~~
