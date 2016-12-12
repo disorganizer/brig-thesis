@@ -1143,7 +1143,6 @@ Signieren der Daten ohne Entwickler--*YubiKey*:
 $ gpg2 --armor --output brig-version-1.0.tar.gz.asc --detach-sign brig-version-1.0.tar.gz
 gpg: signing failed: Card error
 gpg: signing failed: Card error
-
 ~~~
 
 Signieren der Daten mit Einsatz des *YubiKey* und der korrekten Pin können die
@@ -1180,8 +1179,8 @@ gpg: Good signature from "Christoph Piechula <christoph@nullcat.de>" [ultimate]
 
 ~~~
 
-Wurde eine Manipulation an den Daten --- beispielsweise durch einen Angreifer
-oder Malware durchgeführt --- so schlägt die Verifizierung fehl:
+Wurde eine Manipulation an den Daten oder an der Signatur --- beispielsweise durch einen Angreifer
+oder Malware --- durchgeführt, so schlägt die Verifizierung fehl:
 
 ~~~sh
 $ gpg2 --verify brig-v1.0.tar.gz.asc
@@ -1195,8 +1194,26 @@ gpg: BAD signature from "Christoph Piechula <christoph@nullcat.de>" [ultimate]
 
 Auch bei Updates wäre in erster Linie die Bereitstellung über den Paketmanager
 die sinnvollste Variante der Auslieferung von »brig«. Um auch Betriebssysteme
-ohne Paketmanager unterstützen zu können würde sich ein integrierter
-Updatemechanismus besser eignen.
+ohne Paketmanager unterstützen zu können würde sich eine integrierte
+Updatefunktion besser eignen.
+
+Diese könnte innerhalb der »brig« das oben genannte Verfahren mit der manuellen
+Überprüfung einer Signatur aufgreifen und automatisieren. Bei erfolgreicher
+initialer Validierung der Signatur nach dem ersten Herunterladen der Software
+kann davon ausgegangen werden, dass die Integrität gewährleistet ist und
+Softwareinternas nicht verändert sind. [@fig:IMG_UPDATEPROCESS] visualisiert den Updateprozess.
+
+![Updateprozess zur sicheren Softwareverteilung](images/updateprocess.png){#fig:IMG_UPDATEPROCESS width=95%}
+
+Auf dieser Basis könnte die Software intern ein Schlüsselmanagement (revoced
+keys, valid keys) verwalten, anhand welchem sie Updates von der
+Entwicklerquelle lädt und automatisiert validiert (Schritt 1--5). Bei
+erfolgreicher Ausführung/Validierung aller Teilschritte kann die Software ein
+Update durchführen, ansonsten wird der Benutzer gewarnt und ein Update
+verweigert. Dies sollte sich auf beispielsweise mit einer High--Level
+Bibliothek wie *openpgp*[^FN_OPENPGP_GO] realisieren lassen.
+
+[^FN_OPENPGP_GO]: Go OpenPGP--Bibliothek: <https://godoc.org/golang.org/x/crypto/openpgp>
 
 ### Signieren von Quellcode
 
