@@ -1,8 +1,8 @@
-# Stand von Wissenschaft und Technik
+# Stand von Wissenschaft und Technik {#sec:SEC02_STAND_DER_WISSENSCHAFT_UND_TECHNIK}
 
-## Sicherheit und Usability von Dateiverteilungssystemen
+## Sicherheit und Usability von Dateiverteilungssystemen {#sec:SEC02_SICHERHEIT_UND_USABILITY_VON_DATEIVERTEILUNGSSYSTEMEN}
 
-### Allgemeines
+### Allgemeines {#sec:SEC02_ALGEMEINES}
 
 Zentrale und dezentrale Systeme sind die Basis für den Austausch von
 Informationen. Ob ein System zentral oder dezentral fungiert ist nicht immer
@@ -11,7 +11,7 @@ dezentral funktionieren, jedoch eine zentrale Instanz benötigen, hier wäre
 beispielsweise das *Torrent*--Konzept zu nennen. Weitere Informationen hierzu
 sind unter [@cpahl] zu finden.
 
-### Der »Sicherheitsbegriff« {#sec:sicherheit}
+### Der »Sicherheitsbegriff« {#sec:SEC02_DER_SICHERHEITSBEGRIFF}
 
 Betrachten man die »Sicherheit« von Dateiverteilungssystemen, so müssen
 verschiedene Teilaspekte betrachten werden. Leider ist das Umfeld der
@@ -30,7 +30,7 @@ Cloud--Speicher--Anbietern zu tragen kommen. Um diese zu auf technischer Ebene
 realisieren, müssen neben unterschiedliche Kryptographische Komponenten
 verwendet werden.
 
-### Angriffe und Bedrohungen
+### Angriffe und Bedrohungen {#sec:SEC02_ANGRIFFE_UND_BEDROHUNGEN}
 
 Die Sicherheit eines System lässt sich nicht mit einem einfachen »ja« oder
 »nein« beantworten. Betrachtet man ein System bezüglich seiner Sicherheit, so
@@ -73,9 +73,9 @@ der Regel ein Kompromiss aus den folgenden Punkten ist:
 * Sicherheit
 * Benutzbarkeit/Benutzerfreundlichkeit
 
-### Datenaustausch über zentrale Lösungen
+### Datenaustausch über zentrale Lösungen {#sec:SEC02_DATENAUSTAUSCH_UEBER_ZENTRALE_LOESUNGEN}
 
-#### Funktionsweise zentraler Dienste
+#### Funktionsweise zentraler Dienste {#sec:SEC02_FUNKTIONSWEISE_ZENTRALER_DIENSTE}
 
 Zentrale Dienste klassifizieren sich im Kontext dieser Arbeit durch die
 Eigenschaft, dass es eine zentrale Instanz gibt, welche zum Austausch der Daten
@@ -104,7 +104,7 @@ verwenden und die Daten »sicher« in der »Cloud« sind. Spätestens seit den
 Snowden--Enthüllungen ist es jedoch klar, dass die Anbieter dazu gezwungen
 werden können die Daten eines Benutzers herauszugeben.
 
-#### Synchronisations--Software
+#### Synchronisations--Software {#sec:SEC02_SYNCHRONISATIONS_SOFTWARE}
 
 Die verwendete Software zum Synchronisation ist wieder vom jeweiligen Anbieter
 abhängig. Das Problem hierbei ist, dass die Software in der Regel proprietär
@@ -113,7 +113,7 @@ Hintertüren ausschließen kann. Die Software liegt in dem meisten Fälle für
 verschiedene Plattformen bereit. Weiterhin ermöglichen Anbieter auch Zugriff
 auf die Daten mittels Webbrowser--Interface.
 
-#### Sicherheit von Cloud--Speicher--Anbietern
+#### Sicherheit von Cloud--Speicher--Anbietern {#sec:SEC02_SICHERHEIT_VON_CLOUDSPEICHER_ANBIETERN}
 
 Es ist sehr schwierig die »Sicherheit« der Cloud--Speicher--Anbieter
 realistisch zu bewerten, da sowohl die Infrastruktur als auch die verwendete
@@ -331,7 +331,7 @@ seiner Webseite[^FN_HAVEIBEENBWNED].
 
 [^FN_HAVEIBEENBWNED]: Gesammelte Informationen zu Datenlecks: <https://haveibeenpwned.com/>
 
-### Private Cloud
+### Private Cloud {#sec:SEC02_PRIVATE_CLOUD}
 
 Weiterhin gibt es bei der Cloud--Speicher--Lösung auch die Möglichkeit einen
 eigenen »Cloud--Speicher« aufzusetzen. Hierfür wird oft die
@@ -342,9 +342,9 @@ Privatanwender ist der Aufwand höchstwahrscheinlich zu hoch. Weiterhin haben
 Endanwender in der Regel nicht das nötige Know--How, welches für das Betreiben
 eines Cloud--Speicher--Dienstes essentiell ist.
 
-### Datenaustausch über dezentrale Lösungen {#sec:CAP_DEC_SERVICES}
+### Datenaustausch über dezentrale Lösungen {#sec:SEC02_DATENAUSTAUSCH_UEBER_DEZENTRALE_LOESUNGEN}
 
-#### Funktionsweise dezentraler Dienste
+#### Funktionsweise dezentraler Dienste {#sec:SEC02_FUNKTIONSWEISE_DEZENTRALER_DIENSTE}
 
 Der dezentrale Bereich klassifiziert sich durch den Dateiaustausch, welcher in
 der Regel *ohne* eine zentrale Instanz auskommt. Es handelt es sich hierbei um
@@ -407,7 +407,7 @@ Früher eingesetzte Peer--to--peer Filesharing--Protokolle:
 * Gnutella Protokoll (Einsatz: Gnutella Client)
 * Napster--Protokoll
 
-#### Synchronisations--Software
+#### Synchronisations--Software {#sec:SEC02_SYNCHRONISATIONSSOFTWARE}
 
 Zu den Vertretern der etablierten dezentralen Systeme gibt es vergleichsweise
 zu den Cloud--Speicher--Anbietern nur wenige Produkte, welche für die
@@ -420,7 +420,7 @@ eingesetzt werden können. Bekannten Lösungen sind:
 * Syncthing (Open--Source)
 * Librevault (Open--Source)
 
-#### Sicherheit von Peer--to--peer Synchronisationsanwendungen
+#### Sicherheit von Peer--to--peer Synchronisationsanwendungen {#sec:SEC02_SICHERHEIT_VON_PEERTOPEER_SYNCHRONISATIONSANWENDUNGEN}
 
 Bei den bekannten Vertretern des BitTorrent--Netzwerks wie dem
 BitTorrent--Client werden die Daten in der Regel unverschlüsselt übertragen und
@@ -569,7 +569,7 @@ TODO: Validate once more
 [^FN_GIT_ANNEX_SPECIALREMOTES]: *git--annex* special remotes: <https://git-annex.branchable.com/special_remotes/>
 [^FN_GIT_ANNEX_ENCRYPTION]: *git--annex* encryption: <http://git-annex.branchable.com/design/encryption/>
 
-### Ähnliche Arbeiten
+### Ähnliche Arbeiten {#sec:SEC02_AEHNLICHE_ARBEITEN}
 
 Neben den genannten dezentralen Projekten existieren weitere Ansätze im Bereich
 des dezentralen Datenaustausches.
@@ -597,7 +597,7 @@ vielversprechenden Ansatzes, ist *IPFS* die Grundlage von »brig«.
 
 [^FN_IPFS]: InterPlanetary--File System: <https://en.wikipedia.org/wiki/InterPlanetary_File_System>
 
-## Markt und Wettbewerber
+## Markt und Wettbewerber {#sec:SEC02_MARKT_UND_WETTBEWERBER}
 
 Da der Cloud--Speicher--Mark sehr dynamisch und fragmentiert ist, ist es
 schwierig hier zuverlässige Daten zu finden. Laut einem Online--Beitrag der
@@ -632,7 +632,7 @@ genannten dezentralen Synchronisationswerkzeuge
 
 angesehen werden.
 
-## Closed--Source vs Open--Source
+## Closed--Source vs Open--Source {#sec:SEC02_CLOSEDSOURCE_VS_OPENSOURCE}
 
 Es ist schwierig zu beantworten ob Open--Source--Software als »sicherer«
 anzusehen ist. Es spielen hierbei sehr viele Faktoren eine Rolle, weswegen eine
@@ -685,9 +685,9 @@ Volume--Schlüssel aus dem Speicher entfernt, kann man sich den Quelltext auf
 
 [^FN_LUKS_VK_MEMSET]: Luks Volume--Key Free--Funktion: <https://github.com/mhfan/cryptsetup/blob/ae9c9cf369cb24ac5267376401c80c2c40ada6a2/lib/volumekey.c#L46>
 
-## Gesellschaftliche und Politische Aspekte
+## Gesellschaftliche und Politische Aspekte {#sec:SEC02_GESELLSCHAFTLICHE_UND_POLITISCHE_ASPEKTE}
 
-### Gefahr für Demokratie
+### Gefahr für Demokratie {#sec:SEC02_GEFAHR_FUER_DEMOKRATIE}
 
 Seit den Snowden--Enthüllungen[^FN_SNOWDEN_LEAK] ist offiziell bekannt, dass
 Unternehmen rechtlich gezwungen werden können personenbezogene Daten an

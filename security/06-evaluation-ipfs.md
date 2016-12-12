@@ -1,4 +1,4 @@
-# Evaluation IPFS
+# Evaluation IPFS {#sec:SEC06_EVALUATION_IPFS}
 
 *IPFS* (*InterPlanetary File System*) stellt die Netzwerkbasis für »brig« dar.
 Da *IPFS* teilweise andere Ziele als »brig« hat, ist es wichtig, dass die
@@ -7,7 +7,7 @@ Folgenden wird *IPFS* bezüglich bestimmter sicherheitstechnischer Anforderungen
 genauer beleuchtet, um Diskrepanzen zwischen den Zielen von »brig« zu
 identifizieren.
 
-## Projektumfang und getestete Version
+## Projektumfang und getestete Version {#sec:SEC06_PROJEKTUMFANG_UND_GETESTETE_VERSION}
 
 Die *IPFS*--Codebasis umfasst aktuell $\approx{900.000}$ *LoC* (siehe
 [@sec:APP_IPFS_LOC]). Davon gehören $\approx{100.000}$ *LoC* direkt dem
@@ -25,7 +25,7 @@ freya :: ~ » ipfs version
 ipfs version 0.4.3
 ~~~
 
-## Einleitung IPFS
+## Einleitung IPFS {#sec:SEC06_EINLEITUNG_IPFS}
 
 Das *InterPlanetary File System* wird als  »content-addressable, peer-to-peer
 hypermedia distribution protocol« definiert. Das Besondere an *IPFS* ist, dass
@@ -48,7 +48,7 @@ folgende Eigenschaften mit sich:
 * **Skalierbarkeit:** Das System sollte in der Lage sein, auch mit einer großen
   Anzahl von Knoten funktionsfähig zu bleiben.
 
-## IPFS--Basis
+## IPFS--Basis {#sec:SEC06_IPFS_BASIS}
 
 Das *IPFS*--Dateisystem beziehungsweise Protokoll bringt das
 Kommandozeilenwerkzeug `ipfs` mit, weiterhin kann es jedoch auch als
@@ -76,9 +76,9 @@ sich im Alphastadium befindet. Weiterhin gibt es Details zur »Sicherheit« in
 der Datei `security-notes`, welche analog zur `readme`--Datei betrachtet werden
 kann.
 
-## IPFS--Backend
+## IPFS--Backend {#sec:SEC06_IPFS_BACKEND}
 
-### Speicherung und Datenintegrität
+### Speicherung und Datenintegrität {#sec:SEC06_SPEICHERUNG_UND_DATENINTEGRITAET}
 
 Die Speicherung von Daten mag auf den ersten Blick simpel erscheinen.
 Betrachtet man jedoch die »Rahmenbedingungen« die zu beachten sind um Daten
@@ -197,7 +197,7 @@ Verschlüsselung beispielsweise mittels *OpenSSL/GPG* nahe gelegt.
 
 [^FN_IPFS_FILEENC]: *IPFS* file encryption request: <https://github.com/ipfs/faq/issues/116>
 
-### Datendeduplizierung
+### Datendeduplizierung {#sec:SEC06_DATENDEDUPLIZIERUNG}
 
 Neben der Möglichkeit der Datenvalidierung, hat die Speicherung der Daten in
 einem Merkle-Tree auch den Vorteil, Daten effizient deduplizieren zu können.
@@ -215,7 +215,7 @@ sich im Beispiel der benötigte Speicherplatz auf 6MiByte.
 
 ![*IPFS* Block--Level Deduplizierung von Daten. Eine 4MiB große Textdatei wurde 4 mal kopiert und jeweils an verschiedenen Stellen geändert.](images/dedup.png){#fig:img-dedup width=90%}
 
-### IPFS--Daten und IPFS--Blöcke 
+### IPFS--Daten und IPFS--Blöcke {#sec:SEC06_IPFS_DATEN_UND_IPFS_BLOECKE}
 
 Das *IPFS*--Kommandozeilentool kann mittels des `ipfs
 add`--Befehl[^FN_IPFS_ADD] Daten dem *IPFS*--Netzwerk hinzufügen. Wie bereits
@@ -227,9 +227,9 @@ siehe [@cpahl].
 [^FN_IPFS_BLOCK]: Block Subkommando: <https://ipfs.io/docs/commands/#ipfs-block>
 [^FN_IPFS_ADD]: Add Kommando: <https://ipfs.io/docs/commands/#ipfs-add>
 
-## IPFS--ID {#sec:CAP_IPFS_ID}
+## IPFS--ID {#sec:SEC06_IPFS_ID}
 
-### Aufbau
+### Aufbau {#sec:SEC06_AUFBAU}
 
 Das generierte Schlüsselpaar wird im Klartext auf der Festplatte abgelegt. Der
 öffentliche Schlüssel kann mit `ipfs id` angeschaut werden, dies liefert
@@ -275,7 +275,7 @@ Quelltext[^FN_IPFS_CODE_INIT] zu Rate gezogen werden.
 
 [^FN_IPFS_CODE_INIT]: IPFS Schlüsselgenerierung: <https://github.com/ipfs/go-ipfs/blob/master/repo/config/init.go#L95>
 
-### Authentifizierung
+### Authentifizierung {#sec:SEC06_AUTHENTIFIZIERUNG}
 
 Ein Authentifizierungsmechanismus im eigentlichen Sinne existiert bei *IPFS*
 nicht. Die Benutzer haben lediglich eine eindeutige globale *Peer--ID*. Dateien
@@ -342,7 +342,7 @@ Benutzer mit der bei der initialen Authentifizierung gespeicherten *ID*
 verglichen.
 
 
-## *IPFS*--Netzwerk
+## *IPFS*--Netzwerk {#sec:SEC06_IPFS_NETZWERK}
 
 Das *IPFS*--Netzwerk arbeitet mit einer *DHT*. Standardmäßig sind nach der
 Installation eine Reihe von sogenannten *Bootstrapnodes* eingetragen, welche
@@ -370,7 +370,7 @@ in Zukunft auf TLS1.3 zu migrieren.
 
 TODO: IPFS--Subnetz test?
 
-## Zusammenfassung IPFS--Evaluation {#sec:CAP_SUMMARY}
+## Zusammenfassung IPFS--Evaluation {#sec:SEC06_ZUSAMMENFASSUNG_IPFS_EVALUATION}
 
 Aus Datenhaltungs-- und Netzwerksicht (TODO: Ref Elch.) stellt *IPFS* zum
 aktuellen Zeitpunkt eine attraktive Basis für die Entwicklung des

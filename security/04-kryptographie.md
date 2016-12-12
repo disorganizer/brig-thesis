@@ -1,6 +1,6 @@
-# Kryptographische Primitiven und Protokolle {#sec:CAP_CRYPTOGRAPHY}
+# Kryptographische Primitiven und Protokolle {#sec:SEC04_KRYPTOGRAPHISCHE_PRIMITIVEN_UND_PROTOKOLLE}
 
-## Einleitung
+## Einleitung {#sec:SEC04_EINLEITUNG}
 
 Hauptmotivation ist es, die Zusammenhänge klar zu machen!
 
@@ -39,11 +39,11 @@ kritischen Systmen Experten stets zu rate zu ziehen sind.
 Selektiv gewählte Sicherheitsprinzipien werden betrachtet um zu sensibilisieren
 jedoch viel mehr um eine »sinnvollen« Einsatz für »brig« definieren zu können.
 
-## Verschlüsselung
+## Verschlüsselung {#sec:SEC04_VERSCHLUESSELUNG}
 
-### Symmetrische Verschlüsselungsverfahren
+### Symmetrische Verschlüsselungsverfahren {#sec:SEC04_SYMMETRISCHE_VERSCHLUESSELUNGSVERFAHREN}
 
-#### Grundlegende Funktionsweise
+#### Grundlegende Funktionsweise {#sec:SEC04_GRUNDLEGENDE_FUNKTIONSWEISE_SYM}
 
 [@fig:img-symmetric] zeigt die Verschlüsselung von Daten mittels symmetrischer
 Kryptographie. Bei symmetrischer Kryptographie wird der gleich Schlüssel um
@@ -68,7 +68,7 @@ besteht, ist der *sichere* Schlüsselaustausch.
 
 ![Konzept beim Austausch von Daten über einen unsicheren Kommunikationsweg unter Verwendung symmetrischer Kryptographie. *Alice* und *Bob* teilen einen *gemeinsamen Schlüssel* um die Daten zu ver-- und entschlüsseln.](images/symmetric.png){#fig:img-symmetric width=85%}
 
-#### Unterschied zwischen Block-- und Stromverschlüsselung
+#### Unterschied zwischen Block-- und Stromverschlüsselung {#sec:SEC04_UNTERSCHIED_ZWISCHEN_BLOCK_UND_STROMVERSCHLUESSELUNG}
 
 Das symmetrische Verschlüsseln unterteilt sich in die beiden
 Verschlüsselungsverfahren Stromverschlüsselung und Blockverschlüsselung. Bei
@@ -85,7 +85,7 @@ den Unterschied zwischen Strom-- und Blockverschlüsselung.
 
 ![Unterschied in der Arbeitsweise zwischen Block-- und Stromchiffre. Der Blockchiffre verschlüsselt die Daten blockweise, ein Stromchiffre hingegen verschlüsselt den Datenstrom »on--the--fly«.](images/streamblock.png){#fig:img-streamblock width=80%}
 
-#### Betriebsarten der Blockverschlüsselung
+#### Betriebsarten der Blockverschlüsselung {#sec:SEC04_BETRIEBSARTEN_DER_BLOCKVERSCHLUESSELUNG}
 
 Die Betriebsart beschreibt auf welche Art und Weise die Blöcke verschlüsselt
 werden. Dies ist insofern wichtig, da sich durch die Betriebsart die
@@ -132,7 +132,7 @@ Betriebsarten und ihre Eigenschaften.
 Table: Laut ISO 10116 Standard definierte Betriebsarten für blockorientierte
 Verschlüsselungsalgorithmen. {#tbl:t-betriebsarten} 
 
-#### Gängige Algorithmen, Schlüssellängen und Blockgrößen
+#### Gängige Algorithmen, Schlüssellängen und Blockgrößen {#sec:SEC04_GAENGIGE_ALGORITHMEN_SCHLUESSELLAENGEN_UND_BLOCKGROESSEN}
 
 Der ursprünglich seit Ende der 70er--Jahre verwendete *DES (Data Encryption
 Standard)*, welcher eine effektive Schlüssellänge von 56--Bit hatte, war ende
@@ -149,9 +149,9 @@ und unterstützen jeweils die Schlüssellängen 128 Bit, 192 Bit und 256 Bit.
 
 *AES* ist die aktuelle Empfehlung vom *BSI (vgl. [@bsi] S.22 f.)*.
 
-### Asymmetrische Verschlüsselungsverfahren {#sec:SEC_ASYNC_ENCRYPTION}
+### Asymmetrische Verschlüsselungsverfahren {#sec:SEC04_ASYMMETRISCHE_VERSCHLUESSELUNGSVERFAHREN}
 
-#### Grundlegende Funktionsweise
+#### Grundlegende Funktionsweise {#sec:SEC04_GRUNDLEGENDE_FUNKTIONSWEISE_ASYM}
 
 Im Vergleich zu symmetrischen Verschlüsselung, werden bei der asymmetrischen
 Verschlüsselung die Daten mit einem unterschiedlichen Schlüssel ver-- und
@@ -175,7 +175,7 @@ zugrundeliegenden mathematischen Probleme sind das Faktorisierungsproblem
 (*RSA*--Verfahren) großer Primzahlen und das diskreter Logarithmusproblem
 (*ElGamal*--Verfahren).
 
-#### Gängige Algorithmen, Einsatzzwecke und Schlüssellängen
+#### Gängige Algorithmen, Einsatzzwecke und Schlüssellängen {#sec:SEC04_GAENGIGE_ALGORITHMEN_EINSATZZWECKE_UND_SCHLUESSELLAENGEN}
 
 Zu den gängigen Algorithmen der asymmetrischen Verschlüsselungsverfahrens
 gehören *RSA* und *ElGamal*. Beide Verfahren ermöglichen sowohl die Ver-- und
@@ -224,7 +224,7 @@ asymmetrischer und symmetrischer Verfahren im direkten Vergleich. {#tbl:t-keys}
 
 [^FN_ECRYPTII]:ECRYPT II Yearly Report on Algorithms and Key Lengths (2012): <http://www.ecrypt.eu.org/ecrypt2/documents/D.SPA.20.pdf>
 
-### Hybride Verschlüsselungsverfahren
+### Hybride Verschlüsselungsverfahren {#sec:SEC04_HYBRIDE_VERSCHLUESSELUNGSVERFAHREN}
 
 Asymmetrische Verschlüsselungsverfahren sind im Vergleich zu symmetrischen
 Verschlüsselungsverfahren sehr langsam, haben jedoch den Vorteil, dass kein
@@ -238,7 +238,7 @@ zu Nutzen. Bevor *Alice* und *Bob* Kommunizieren könne, tauschen Sie mittels
 Public--Key--Kryptographie den *gemeinsamen* Schlüssel, welchen Sie
 anschließend für die symmetrische Verschlüsselung verwenden, aus.
 
-## Diffie--Hellmann--Schlüsseltausch
+## Diffie--Hellmann--Schlüsseltausch {#sec:SEC04_DIFFIE_HELLMANN_SCHLUESSELAUSTAUSCH}
 
 Aus dem Diffie--Hellman--Schlüsselaustausch (kurz *DH*) geht das
 ElGamal--Verschlüsselungsverfahren hervor. *DH*  ist ein
@@ -263,9 +263,9 @@ Beide haben den gleichen Schlüssel berechnet, da gilt:
 
 $$ K_{1} = B^{a} = (g^{b})^{a} = (g^{a})^{b} = A^{b} = K_{2} $$
 
-## Hashfunktionen
+## Hashfunktionen {#sec:SEC04_HASHFUNKTIONEN}
 
-### Kryptographische Hashfunktionen
+### Kryptographische Hashfunktionen {#sec:SEC04_KRYPTOGRAPHISCHE_HASHFUNKTIONEN}
 
 Hashfunktionen werden in der Informatik verwendet um eine beliebige endliche
 Eingabemenge auf einer Prüfsumme (Hashwert) einer bestimmten Länge abzubilden.
@@ -283,7 +283,7 @@ folgende Eigenschaften bieten:
   Eingabewerte $x$ und $x'$ mit dem gleichen Hashwert zu finden $h(x) = h(x'), x
   \ne x'$ zu finden.
 
-### Message Authentification Codes
+### Message Authentification Codes {#sec:SEC04_MESSAGE_AUTHENTIFICATION_CODES}
 
 Um nicht nur die Integrität der von Daten, sondern auch deren Quelle zu
 validieren werden so genannten Message Authentification Codes (kurz MAC)
@@ -293,7 +293,7 @@ Daten mit einer *HMAC*.
 
 ![Messageübertragung mit HMAC.](images/hmac.png){#fig:img-hmac width=85%}
 
-## Authentifizierungsverfahren
+## Authentifizierungsverfahren {#sec:SEC04_AUTHENTIFIZIERUNGSVERFAHREN}
 
 Bei den praktischen Authentifizierungsverfahren ist das Passwort immer noch ein
 sehr weit verbreitete Möglichkeit der Authentifizierung. Passwörter sind eine
@@ -318,21 +318,21 @@ das man weiß) und die Chipkarte (etwas das man hat) benötigt. Eine
 erfolgreiche Authentifizierung findet in dem Fall nur bei korrekter *PIN* unter
 Verwendung der Chipkarte der Bank statt.
 
-## Keymanagement
+## Keymanagement {#sec:SEC04_KEYMANAGEMENT}
 
-### Sichere Speicherung von Schlüsseln
+### Sichere Speicherung von Schlüsseln {#sec:SEC04_SICHERE_SPEICHERUNG_VON_SCHLUESSELN}
 
 Das Keymanagement (Schlüsselverweltung) ist eine der größten sensibelsten
 Bereiche bei der Implementierung eines System. Sind die Schlüssel unzureichend
 geschützt oder die Einsatzweise der Schlüssel fraglich, so kann ein System
 meist einfach kompromittiert werden.
 
-### Key--Seperation
+### Key--Seperation {#sec:SEC04_KEY_SEPERATION}
 
 Neben sicherer Verwaltung der Schlüssel, ist auch die Beschränkung auf einen
 bestimmten Einsatzzweck essentiell.
 
-## Weiteres
+## Weiteres {#sec:SEC04_WEITERES}
 
 Die Sicherheit des Systems hängt in diesem Fall nicht alleine vom Schlüssel ab.
 Nach Kerckhoffs' Prinzip sollte die »Sicherheit« nur von der Geheimhaltung des
@@ -340,9 +340,3 @@ Schlüssel abhängen. Die Vergangenheit hat beispielsweise beim GSM--Standard
 oder DVD--Kopierschutz gezeigt, dass durch die Geheimhaltung von
 Systemkomponenten erfolgreiche Angriffe nicht unterbunden werden können (vgl.
 [@spitz2011kryptographie], [@ertel2012angewandte, S. 23]).
-
-## Softwareentwicklungmodel
-
-* Trusted User
-* Signierter Code/Downloads
-* Audits

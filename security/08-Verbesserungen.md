@@ -1,12 +1,12 @@
-# Verbesserungen und Erweiterungen
+# Verbesserungen und Erweiterungen {#sec:SEC08_VERBESSERUNGEN_UND_ERWEITERUNGEN}
 
 Auf Basis der Evaluation von »brig« sollen nun mögliche Konzepte vorgestellt
 werden um die in der Evaluation identifizierten Schwächen abzumildern
 beziehungsweise zu beheben.
 
-## Sicherheitstechnische Anpassungen
+## Sicherheitstechnische Anpassungen {#sec:SEC08_SICHERHEITSTECHNISCHE_ANPASSUNGEN}
 
-### Datenverschlüsselung
+### Datenverschlüsselung {#sec:SEC08_DATENVERSCHLUESSELUNG}
 
 Aktuell verwendet der Datenverschlüsselungsschicht bei der Generierung der
 *MAC* xy bit. Laut *BSI* werden hierfür zz bit empfohlen. BSI--Richtlinie für GCM.
@@ -15,12 +15,12 @@ Wie unter yy zu sehen sind aktuell die *IPFS*--Schlüssel in der `config`--Datei
 von *IPFS* im Klartext hinterlegt. »brig« verschlüsselt diese Datei zum
 aktuellen Zeitpunkt nicht. Hier wäre eine Verschlüsselung mit einem
 *Repository*--Key möglich, welcher wiederrum durch einen Masterschlüssel
-geschützt werden sollte (siehe [@sec:keymanagement]). Eine weitere Überlegung
+geschützt werden sollte (siehe [@sec:SEC08_KEYMANAGEMENT]). Eine weitere Überlegung
 wäre das gesamte *Repository* mittels eines externen Masterschlüssel zu
 verschlüsseln.
 
-Wie unter [@sec:schluesselgenerierung] erläutert, wird aktuell für jede Datei
-ein zufälliger Schlüssel generiert. Mit diesem Ansatz wird die
+Wie unter [@sec:SEC07_SCHLUESSELGENERIERUNG] erläutert, wird aktuell für jede
+Datei ein zufälliger Schlüssel generiert. Mit diesem Ansatz wird die
 Deduplizierungsfunktinalität von *IPFS* weitgehend nutzlos gemacht.
 
 Ein Ansatz dieses »Problem« zum Umgehen ist die sogenannte »Convergent
@@ -56,9 +56,9 @@ Angreifer möglich ist durch das Verschlüsseln eigener Dateien darauf zu
 schließen was beispielsweise ein anderer Benutzer in seinem Repository
 gespeichert hat.
 
-## Keymanagement {#sec:keymanagement}
+## Keymanagement {#sec:SEC08_KEYMANAGEMENT}
 
-### Sicherung und Bindung der kryptographischen Schlüssel an eine Identität {#sec:SEC_IDENTITY}
+### Sicherung und Bindung der kryptographischen Schlüssel an eine Identität {#sec:SEC08_SICHERUNG_UND_BINDUNG_DER_KRYPTOGRAPHISCHEN_SCHLUESSEL_AN_EINE_IDENTITAET}
 
 Das asymmetrische Schlüsselpaar von *IPFS* ist standardmäßig in keinster Weise
 gesichert und muss daher besonders geschützt werden, da diese die Identität
@@ -96,19 +96,21 @@ Datei im Arbeitsspeicher entschlüsselt und anschließen *IPFS* über einen
 Zugriffsadapter bereitgestellt. Dabei wird der komplette Zugriff über das *VFS*
 von »brig« verwaltet. 
 
-### GnuPG als Basis für »externe Identität«
+### GnuPG als Basis für »externe Identität« {#sec:SEC08_GNUPG_ALS_BASIS_FUER_EXTERNE_IDENTITAET}
 
-#### Einleitung
+#### Einleitung {#sec:SEC08_EINLEITUNG_GNUPG}
 
-Für die Erstellung einer »externen Identität« ([@sec:SEC_IDENTITY]) kann
-beispielsweise *GnuPG* verwendet werden. *GnuPG* ist eine freie Implementierung
-vom OpenPGP--Standard (RFC4880[^FN_RFC4880]). Die Implementierung ist
-heutzutage auf den gängigen Plattformen (Windows, MacOS, Linux, *BSD)
-vorhanden. Die Implementierung für Windows (*Gpg4win*[^FN_GPG4WIN]) wurde vom
-Bundesamt für Sicherheit in der Informationstechnik in Auftrag gegeben. Neben
-den Einsatz der sicheren E--Mail--Kommunikation, wird *GnuPG* heute unter
-vielen unixoiden Betriebssystemen zur vertrauenswürdigen Paketverwaltung
-verwendet. Distributionen wie beispielsweise *Debian*[^FN_DEBIAN_GPG],
+Für die Erstellung einer »externen Identität«
+([@sec:SEC08_SICHERUNG_UND_BINDUNG_DER_KRYPTOGRAPHISCHEN_SCHLUESSEL_AN_EINE_IDENTITAET])
+kann beispielsweise *GnuPG* verwendet werden. *GnuPG* ist eine freie
+Implementierung vom OpenPGP--Standard (RFC4880[^FN_RFC4880]). Die
+Implementierung ist heutzutage auf den gängigen Plattformen (Windows, MacOS,
+Linux, *BSD) vorhanden. Die Implementierung für Windows
+(*Gpg4win*[^FN_GPG4WIN]) wurde vom Bundesamt für Sicherheit in der
+Informationstechnik in Auftrag gegeben. Neben den Einsatz der sicheren
+E--Mail--Kommunikation, wird *GnuPG* heute unter vielen unixoiden
+Betriebssystemen zur vertrauenswürdigen Paketverwaltung verwendet.
+Distributionen wie beispielsweise *Debian*[^FN_DEBIAN_GPG],
 *OpenSuse*[^FN_OPENSUSE_GPG], *Arch Linux*[^FN_ARCH_GPG] und weitere verwenden
 *GnuPG* zum signieren von Paketen.
 
@@ -119,12 +121,12 @@ verwendet. Distributionen wie beispielsweise *Debian*[^FN_DEBIAN_GPG],
 [^FN_GNUPG]: Internetpräsentation GnuPG: <www.gnupg.org>
 [^FN_RFC4880]: RFC4880: <https://www.ietf.org/rfc/rfc4880.txt>
 
-#### Grundlagen
+#### Grundlagen {#sec:SEC08_GRUNDLAGEN}
 
 Das theoretische Prinzip der asymmetrischen Verschlüsselung ist unter
-[@sec:SEC_ASYNC_ENCRYPTION] anschaulich erläutert, in der Praxis ergeben sich
-jedoch nennenswerte Unterschiede, welche direkten Einfluss auf dich Sicherheit
-des Verfahrens haben können. 
+[@sec:SEC04_ASYMMETRISCHE_VERSCHLUESSELUNGSVERFAHREN] anschaulich erläutert, in
+der Praxis ergeben sich jedoch nennenswerte Unterschiede, welche direkten
+Einfluss auf dich Sicherheit des Verfahrens haben können.
 
 Von *GnuPG* werden aktuell die folgenden drei Versionen gepflegt:
 
@@ -207,7 +209,7 @@ dieser in der Lage ist neu erstellte Schlüssel und Unterschlüssel zu signieren
 Lage im Namen des Benutzers neue Schlüssel zu erstellen und Schlüssel von
 anderen Teilnehmern zu signieren. 
 
-#### Offline Hauptschlüssel
+#### Offline Hauptschlüssel {#sec:SEC08_OFFLINE_HAUPTSCHLUESSEL}
 
 Die privaten Schlüssel sind bei *GnuPG*  mit einer Passphrase geschützt.
 Zusätzlich bietet *GnuPG* für den Schutz dieses Schlüssels eine Funktionalität
@@ -265,7 +267,7 @@ gut druckbare Form.
 Die *Offline Hauptschlüssel*--Funktionalität ist eine zusätzliche
 Funktionalität von *GnuPG* und *nicht* Teil des RFC4880--Standards.
 
-#### Unterschlüssel und Key Seperation
+#### Unterschlüssel und Key Seperation {#sec:SEC08_UNTERSCHLUESSEL_UND_KEYSEPERATION}
 
 Eine weitere Maßnahme und »Best Practise« im Bereich der Kryptographie ist die
 sogenannte »Key Seperation«. Das heißt, dass kryptographische Schlüssel an
@@ -289,7 +291,7 @@ von Unterschlüsseln für den täglichen Gebrauch.
 
 ![GPG--Schlüsselbund mit Unterschlüsseln für den »täglichen« Einsatz. Jeder Unterschlüssel ist an einen bestimmten Einsatzzweck gebunden.](images/gpg_subkey_keypair.png){#fig:IMG_KEYSEPERATION width=100%}
 
-#### GPG--Agent
+#### GPG--Agent {#sec:SEC08_GPG_AGENT}
 
 *GnuPG* hat einen `gpg-agent`, welcher für das Management der vom Benutzer
 eingegebenen Passphrase zuständig ist (gewisse Zeit Speichern, bei Bedarf
@@ -312,16 +314,17 @@ konfiguriert sein, dass er lediglich zum Signieren/Zertifizieren und Anlegen
 neuer Subkeys verwendet wird.
 
 Eine weitere Empfehlung an dieser Stelle wäre es die *Subkeys* zusätzlich auf
-eine *Smartcard* auszulagern (siehe [@sec:SEC_SMARTCARD]).
+eine *Smartcard* auszulagern (siehe
+[@sec:SEC08_KRYPTOGRAPHISCHE_SCHLUESSEL_AUF_YUBIKEY_UEBERTRAGEN]).
 
 [^FN_DEBIAN_SUBKEY]: Debian Wiki Subkeys: <https://wiki.debian.org/Subkeys>
 
 http://groups.csail.mit.edu/cis/crypto/classes/6.857/papers/secret-shamir.pdf
 https://github.com/jcushman/libgfshare
 
-## Authentifizierungskonzept
+## Authentifizierungskonzept {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT}
 
-### Authentifizierungkonzept mit IPFS--Bordmitteln
+### Authentifizierungkonzept mit IPFS--Bordmitteln {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT_MIT_IPFS_BOARDMITTELN}
 
 Unter [birg-Auth] wurde die aktuelle Situation evaluiert. Zum aktuellen
 Zeitpunkt hat »brig« keine Authentifizierungsmechanismus, der kommunizierenden
@@ -336,7 +339,7 @@ welcher die Identität eines Kommunikationspartners eindeutig klassifiziert.
 Beispielsweise auf Visitenkaten gedurckte QR--Codes lassen den Benutzer seinen
 Synchronisationspartner mit wenig Aufwand über ein Smartphone--App
 verifizieren. Bei Anwendung eines »Masterschlüssels«, welcher für das Signieren
-der »brig«--ID verwendet werden kann --- wie unter [@sec:keymanagement]
+der »brig«--ID verwendet werden kann --- wie unter [@sec:SEC08_KEYMANAGEMENT]
 vorgeschlagen --- würde der Datensatz zur Verifikation wie folgt aussehen:
 
 * IPFS--ID: `QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2qv5BW7HNhCkpL`
@@ -408,7 +411,7 @@ stelle die Nonce weglassen, so wäre ein *Replay*--Angriff möglich.
 
 TODO: Anforderungen an Authentifizierung validieren. 
 
-### Authentifizierungkonzept auf Basis des Web--of--Trust
+### Authentifizierungkonzept auf Basis des Web--of--Trust {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT_AUF_BASIS_DES_WEB_OF_TRUST}
 
 ![Authentifizierung auf Basis des Web--Of--Trust.](images/web-of-trust.png){#fig:img-web-of-trust width=100%}
 
@@ -456,9 +459,9 @@ geleistet haben (vgl. [@wot1], [@wot2]).
 [^FN_CACERT]: CAcert: <https://de.wikipedia.org/wiki/CAcert>
 [^FN_CTCRYPTO]: Krypto-Kampagne: <https://www.heise.de/security/dienste/Krypto-Kampagne-2111.html>
 
-## Smartcards und RSA--Token als 2F--Authentifizierung {#sec:SEC_SMARTCARD}
+## Smartcards und RSA--Token als 2F--Authentifizierung {#sec:SEC08_SMARTCARDS_UND_RSA_TOKEN_ALS_ZWEI_FAKTOR_AUTHENTIFIZIERUNG}
 
-### Allgemein
+### Allgemein {#sec:SEC08_ALLGEMEIN_SMARTCARD}
 
 Wie bereits erwähnt, ist die Authentifizierung über ein Passwort oft der
 Schwachpunkt eines zu sichernden Systems. Ist das Passwort oder die
@@ -484,12 +487,12 @@ zwei--Faktor--Authentifizierung beziehungsweise zur hardwarebasierten
 Speicherung kryptographischer Schlüssel (persönliche Identität,
 RSA--Schlüsselpaar) geraten (vgl. [@martin2012everyday]).
 
-### OpenPGP Smartcard
+### OpenPGP Smartcard {#sec:SEC08_OPENPGP_SMARTCARD}
 
 Für die Speicherung von kryptographischen Schlüsseln eignen sich beispielsweise
 Chipkarten, welche die Speicherung kryptographischer Schlüssel ermöglichen.
 
-![Von g20 code vertrieben Smartcard für den Einsatz mit *GnuPG*.](images/newcard-b.jpg){#fig:IMG_OPENPGP_CARD width=50%}
+![Von g20 code vertrieben Smartcard für den Einsatz mit *GnuPG*.](images/newcard-b.jpg){#fig:IMG_G10_SMARTCARD width=50%}
 
 [@fig:IMG_G10_SMARTCARD] zeigt die *OpenPGP--Card* Chipkarte[^FN_OPENPGP_CARD]
 von von *ZeitControl*, welche über *g20 code* vertrieben wird. Der Anbieter der
@@ -507,7 +510,7 @@ Die Problematik bei Smartcards ist jedoch, dass man zusätzlich ein Lesegerät
 benötigt. Dieser Umstand schränkt die Benutzung stark ein und ist deswegen
 weniger für den privaten Einsatzzweck weniger geeignet.
 
-### Zwei--Faktor--Authentifizierung
+### Zwei--Faktor--Authentifizierung  {#sec:SEC08_ZWEI_FAKTOR_AUTHENTIFIZIERUNG}
 
 Bei der Zwei--Faktor--Authentifizierung gibt es verschiedene Varianten, welche
 in der Regel ein Passwort mit einem weiterem Element wie einer Bankkarte oder
@@ -545,7 +548,7 @@ aufgrund der Umfangreichen Programmier--API --- des Herstellers *Yubico*
 beschafft. Alle weiteren Ausführungen und Demonstrationen beziehen sich auf
 dieses Modell.
 
-### Yubikey--NEO Einleitung
+### Yubikey--NEO Einleitung {#sec:SEC08_YUBIKEY_NEO_EINLEITUNG}
 
 [^FN_YUBIKEY_PNG]: Bild--Quelle: <https://hao0uteruy2io8071pzyqz13-wpengine.netdna-ssl.com/wp-content/uploads/2015/04/YubiKey-NEO-1000-2016-444x444.png>
 
@@ -584,7 +587,7 @@ Personalisation Tool* möglich.
 
 ![GUI des YubiKey Personalisation Tool. Das Konfigurationswerkzeug ist eine QT--Anwendung, diese wird von den gängigen Betriebssystemen (Linux, MacOs, Windows) unterstützt.](images/ykgui2.png){#fig:img-ykgui width=75%}
 
-### Yubico OTP Zwei--Faktor--Authentifizierung
+### Yubico OTP Zwei--Faktor--Authentifizierung {#sec:SEC08_YUBICO_OTP_ZWEI_FAKTOR_AUTHENTIFIZIERUNG}
 
 Der YubiKey ist im Auslieferungszustand so konfiguriert dass er sich gegenüber
 der YubiCloud mittels Yubico OTP authentifizieren kann. [@fig:img-otp-details]
@@ -636,7 +639,7 @@ Zwei--Faktor--Authentifizierungstest mit Passwort durchführen.
 [^FN_YUBICO_DEMO_OTP]: Yubico OTP--Demopage: <https://demo.yubico.com>
 [^FN_YUBICO_DEMO_U2F]: Yubico U2F--Demopage: <https://demo.yubico.com/u2f>
 
-### Konzept Zwei--Faktor--Authentifizierung von »brig« mit YubiCloud
+### Konzept Zwei--Faktor--Authentifizierung von »brig« mit YubiCloud {#sec:SEC08_KONZEPT_ZWEI_FAKTOR_AUTHENTIFIZIERUNG_VON_BRIG_MIT_YUBICLOUD}
 
 Für die Proof--of--concept Implementierung der Zwei--Faktor--Authentifizierung
 wird die *yubigo*--Bibliothek[^FN_YUBIGO] verwendet.
@@ -737,9 +740,9 @@ this error, you might be the victim of a man-in-the-middle attack.
 [Yubico Auth valid? : No] ++++ [YubiKey known by brig? : Yes] ++++ [Password valid? : No]
 ~~~
 
-#### Konzept mit eigener Serverinfrastruktur
+#### Konzept mit eigener Serverinfrastruktur {#sec:SEC08_KONZEPT_MIT_EIGENER_SERVERINFRASTRUKTUR}
 
-#### Allgemein
+#### Allgemein {#sec:SEC08_ALLGEMEIN_SERVERINFRASTRUKTUR}
 
 Neben der Möglichkeit das *YubiKey* One--Time--Password gegen die *YubiCloud*
 validieren zu lassen gibt es auch die Möglichkeit eine eigene Infrastruktur für
@@ -752,7 +755,7 @@ einem externen Dienst besteht. Weiterhin bekommt das Unternehmen dadurch mehr
 Kontrolle und kann den *YubiKey* feingranularer als Sicherheitstoken nicht nur
 für »brig« sondern die gesamte Infrastruktur nutzen.
 
-#### Einrichtung 
+#### Einrichtung  {#sec:SEC08_EINRICHTUNG}
 
 Als Vorbereitung hierfür muss der *YubiKey* mit einer neuen »Identität«
 programmiert werden. Für die Programmierung wird das
@@ -790,7 +793,7 @@ $ ./yubikey-server -s
 
 ~~~
 
-#### Validierung des Validierungsservers
+#### Validierung des Validierungsservers {#sec:SEC08_VALIDIERUNG_DES_VALIDIERUNGSSERVERS}
 
 Der folgende Konsolenauszug zeigt die Validierung am lokalen
 Validierungsserver. Für den Zugriff wird das Kommandozielen--Tool
@@ -826,7 +829,7 @@ t=2016-12-08T19:35:18+01:00
 h=JqO407mZWS4Us/J/n2jCtbSnRFk=
 ~~~
 
-#### Sicherheit 
+#### Sicherheit {#sec:SEC08_SICHERHEIT}
 
 Beim Betreiben eines eigenen Validierungsserver muss besonderen Wert auf die
 Sicherheit dieses geachtet werden, da dieser die *AES*--Schlüssel der
@@ -844,12 +847,12 @@ aufgewiesen.
 [^FN_YUBISERVER_DEBIAN_VULNERABILITY_1]:Yubico-YubiServer CVE-2015-0842 SQL Injection Vulnerability: <https://security-tracker.debian.org/tracker/CVE-2015-0842>
 [^FN_YUBISERVER_DEBIAN_VULNERABILITY_2]:Yubico-YubiServer CVE-2015-0842 Buffer Overflow Vulnerability: <https://security-tracker.debian.org/tracker/CVE-2015-0843>
 
-[@fig:img-reverseproxy-auth] zeigt einen Ansatz bei welchem der
+[@fig:IMG_REVERSE_PROXY] zeigt einen Ansatz bei welchem der
 Validierungsserver hinter einem »Reverse--Proxy« betrieben wird. Alle an
 One--Time--Passwöter werden über einen »normalen« Webserver entgegengenommen
 und an den *YubiKey*--Validierungsserver weitergeleitet. 
 
-![Validierungsserver welcher über einen Reverse--Proxy angesprochen wird.](images/reverse-proxy.png){#fig:img-reverseproxy width=95%}
+![Validierungsserver welcher über einen Reverse--Proxy angesprochen wird.](images/reverse-proxy.png){#fig:IMG_REVERSE_PROXY width=95%}
 
 Der Vorteil an dieser Stelle ist, dass je nach Organisation und
 Unternehmensgröße ein anderer Validierungsserver im »Hintergrund« eingesetzt
@@ -879,21 +882,22 @@ Websserver--Zertifikate eignen.
 
 [^FN_LETSECNRYPT_HP]: Let's Encrypt--Homepage: <https://letsencrypt.org/about/>
 
-### YubiKey für Passworthärtung
+### YubiKey für Passworthärtung {#sec:SEC08_YUBIKEY_FUER_PASSWORTHAERTUNG}
 
 ... static password
 
-### Yubikey als Smartcard
+### Yubikey als Smartcard {#sec:SEC08_YUBIKEY_ALS_SMARTCARD}
 
-#### Einleitung
+#### Einleitung {#sec:SEC08_EINLEITUNG_SMARTCARD}
 
-Wie unter [@sec:SEC_SMARTCARD] erwähnt hat der der *YubiKey* die Möglichkeit
-als Smartcard zu fungieren. Die *Chip Card Interface Device (CCID)*[^FN_CCID]
-ist beim *YubiKey Neo* ab Werk deaktiviert. Für die Aktivierung kann mit dem
-Kommandozeilen--Werkzeug `ykpersonalize` aktiviert werden. Standardmäßig ist
-beim *YubiKey Neo* nur die *OTP*--Funktionalität aktiviert. In welchem
-Betriebsmodi sich der *YubiKey* befinden kann man beispielsweise nach dem
-anstecken über das System/Kernel--Logging mittels `dmesg` herausfinden (gekürzte Ausgabe):
+Wie unter [@sec:SEC08_EINLEITUNG_SMARTCARD] erwähnt hat der der *YubiKey* die
+Möglichkeit als Smartcard zu fungieren. Die *Chip Card Interface Device
+(CCID)*[^FN_CCID] ist beim *YubiKey Neo* ab Werk deaktiviert. Für die
+Aktivierung kann mit dem Kommandozeilen--Werkzeug `ykpersonalize` aktiviert
+werden. Standardmäßig ist beim *YubiKey Neo* nur die *OTP*--Funktionalität
+aktiviert. In welchem Betriebsmodi sich der *YubiKey* befinden kann man
+beispielsweise nach dem anstecken über das System/Kernel--Logging mittels
+`dmesg` herausfinden (gekürzte Ausgabe):
 
 [^FN_CCID]:CCID (protocol): <https://en.wikipedia.org/wiki/CCID_(protocol)>
 
@@ -912,14 +916,14 @@ Modi --- Einzelmodi und Kombinations--Modi --- wählen[^FN_YUBIKEY_MODES]:
 
 [^FN_YUBIKEY_MODES]: YubiKey Neo Modes: <https://developers.yubico.com/libu2f-host/Mode_switch_YubiKey.html>
 
-#### Aktivierung des OpenGPG--Applets
+#### Aktivierung des OpenGPG--Applets {#sec:SEC08_AKTIVIERUNG_DES_OPENGPG_APPLETS}
 
 Da der *YubiKey* im Falle von »brig« oder als Authentifizierungs--
 und Signiertoken für die Entwickler dienen soll (REF: ), bietet sich der `OTP/CCID` Kombimodus an.
 Dieser kann mit dem Kommandozeilenprogramm `ykpersonalize` wie folgt aktiviert werden:
 
 ~~~sh
-$ ykpersonalize -m2       
+$ ykpersonalize -m2
 Firmware version 3.4.1 Touch level 1551 Program sequence 3
 
 The USB mode will be set to: 0x2
@@ -938,7 +942,7 @@ dmesg | tail -n 2
 USB HID v1.10 Keyboard [Yubico Yubikey NEO OTP+CCID] on usb-0000:00:1d.0-1.8.1.3/input0
 ~~~
 
-#### Krypographische Schlüssel auf YubiKey übertragen
+#### Krypographische Schlüssel auf YubiKey übertragen {#sec:SEC08_KRYPTOGRAPHISCHE_SCHLUESSEL_AUF_YUBIKEY_UEBERTRAGEN}
 
 Nach der Aktivierung des *OpenGPG*--Applets kann der *YubiKey* wie eine
 Standard--OpenPGP--Smartcard mit *GnuPG* verwendet werden. 
@@ -1115,11 +1119,11 @@ ebenso mit `gpg2 --card-edit` im Untermenü `admin/passwd` getätigt werden.
 
 Absatz V zeigt das Signieren von Daten die mit und ohne Smartcard.
 
-## »Sichere« Entwicklung und Entwicklungsumgebung
+## »Sichere« Entwicklung und Entwicklungsumgebung {#sec:SEC08_SICHERE_ENTWICKLUNG_UND_ENTWICKLUNGSUMGEBUNG}
 
-### Bereitstellung der Software
+### Bereitstellung der Software {#sec:SEC08_BEREITSTELLUNG_DER_SOFTWARE}
 
-#### Erstellen und Validieren von Signaturen
+#### Erstellen und Validieren von Signaturen {#sec:SEC08_ERSTELLEN_UND_VALIDIEREN_VON_SIGNATUREN}
 
 Um die Applikation »sicher« an den Benutzer ausliefern zu können gibt es
 verschiedene Möglichkeiten. Die für dem Benutzer einfachste Möglichkeit ist im
@@ -1190,7 +1194,7 @@ gpg:                using RSA key 7CD8DB88FBF822E1300566D12CC4F84BE43F54ED
 gpg: BAD signature from "Christoph Piechula <christoph@nullcat.de>" [ultimate]
 ~~~
 
-### Updatemanagement
+### Updatemanagement {#sec:SEC08_UPDATEMANAGEMENT}
 
 Auch bei Updates wäre in erster Linie die Bereitstellung über den Paketmanager
 die sinnvollste Variante der Auslieferung von »brig«. Um auch Betriebssysteme
@@ -1215,7 +1219,7 @@ Bibliothek wie *openpgp*[^FN_OPENPGP_GO] realisieren lassen.
 
 [^FN_OPENPGP_GO]: Go OpenPGP--Bibliothek: <https://godoc.org/golang.org/x/crypto/openpgp>
 
-### Signieren von Quellcode
+### Signieren von Quellcode {#sec:SEC08_SIGNIEREN_VON_QUELLCODE}
 
 Um die Verantwortlichkeit sowie den Urheber bestimmter Quellcodeteile besser
 identifizieren zu können und dadurch die Entwickler auch vor Manipulationen am
@@ -1266,7 +1270,7 @@ ein, so signalisiert das Label eine verifizierte Signatur des jeweiligen
 
 ![Verifiziertes *GitHub*--Signatur--Label eines Commit/Tag welches aufgeklappt wurde.](images/signed2.png){#fig:img-signed width=70%}
 
-### Sichere Authentifizierung für Entwickler
+### Sichere Authentifizierung für Entwickler {#sec:SEC08_SICHERE_AUTHENTIFIZIERUNG_FUER_ENTWICKLER}
 
 Um sich als Entwickler beispielsweise sicher gegenüber der *GitHub*--Plattform
 zu authentifizieren bietet die *GitHub*[^FN_GITHUB_U2F] Universal--2--Faktor
@@ -1354,6 +1358,12 @@ wählen, mehr hierzu siehe `man sshd_config` unter `AuthenticationMethods`. TODO
 
 Für die Einrichtung der zweiten Variante (`gpg--agent` fungiert als
 `ssh-agent`) muss lediglich ergänzend ein generierter *SSH*--Schlüssel mit
-`ssh-add` dem `gpg-agent` bekannt gemacht werden. Der `gpg-agent` schützt den
+`ssh-add <identity>` dem `gpg-agent` bekannt gemacht werden. Der `gpg-agent` schützt den
 Key anschließend mit einer vom Nutzer vergebenen Passphrase und ersetzt somit
-einen separat laufenden `ssh-agent`.
+einen separat laufenden `ssh-agent`. Mit `ssh-add -l` können die aktuell
+verwalteten Schlüssel--Fingerprint überprüft werden:
+
+~~~sh
+2048 SHA256:eoOgD/8ri0RCblmJgTbPx/Ci6pBBssLtjMulpX4brlY cardno:000600000011 (RSA)
+2048 SHA256:V00F8adokJZljo1WD+XPjSP51rTl/GVS3bh5YfJOLtk /home/qitta/.ssh/id_rsa (RSA)
+~~~

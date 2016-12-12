@@ -1,8 +1,8 @@
-# Sicherheit und Angriffsszenarien
+# Sicherheit und Angriffsszenarien {#sec:SEC05_SICHERHEIT_UND_ANGRIFFSSZENARIEN}
 
-## Beurteilung von Sicherheit
+## Beurteilung von Sicherheit {#sec:SEC05_BEURTEILUNG_VON_SICHERHEIT}
 
-Wie bereits in der Einleitung von [@sec:CAP_CRYPTOGRAPHY] erwähnt ist das
+Wie bereits in der Einleitung von [@sec:SEC04_EINLEITUNG] erwähnt ist das
 Entwickeln von »sicherer« Software kein trivialer Prozess. Auch Systeme die von
 Experten entwickelt wurden, können gravierende Sicherheitsmängel aufweisen.
 
@@ -51,7 +51,7 @@ welches beispielsweise nur Daten im Wert von ein paar tausend Euro schützt.
 Weiterhin ist es auch wichtig »realistische« Gefahren zu identifizieren und
 nicht unnötig Ressourcen in sicherheitstechnische Details zu investieren.
 
-## Angriffsfläche bei »brig«
+## Angriffsfläche bei »brig« {#sec:SEC05_ANGRIFFSFLAECHE_BEI_BRIG}
 
 Ziel dieser Arbeit ist es praxisrelevante Gefahren/Risiken für ein
 Software--Produkt und einen Entwicklungsprozess wie er bei »brig« vorliegt zu

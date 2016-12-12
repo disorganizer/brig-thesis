@@ -1,6 +1,6 @@
-# Einleitung
+# Einleitung {#sec:SEC01_EINLEITUNG}
 
-## Motivation
+## Motivation {#sec:SEC02_MOTIVATION}
 
 Der Austausch von Dokumenten beziehungsweise Dateien wurde früher hauptsächlich
 über Datenträger (Diskette, USB--Stick) oder E--Mail durchgeführt. Mit dem
@@ -80,7 +80,7 @@ Kommilitonen, Christopher Pahl, wurde die Entwicklung an dem dezentralen
 Dateisynchronisationswerkzeug *brig* gestartet, welches aktuelle Situation
 verbessern soll.
 
-## Organisation und Schwerpunkt der Arbeit
+## Organisation und Schwerpunkt der Arbeit {#sec:SEC01_ORGANISATION_UND_SCHWERPUNKT_DER_ARBEIT}
 
 **Projektschwerpunkte:** Ziel ist es eine Software zu entwickeln, welche
 aktuelle Sicherheitsstandards und Usability möglichst gut vereint und dabei
@@ -127,7 +127,7 @@ Schwerpunkte:
   Verbesserungen, welche in die Weiterentwicklung und in den
   Entwicklungsprozess einfließen sollen.
 
-## Zielgruppen und Einsatzszenarien
+## Zielgruppen und Einsatzszenarien {#sec:SEC01_ZIELGRUPPEN_UND_EINSATZSZENARIEN}
 
 Da die Software nicht auf ein bestimmtes Fachgebiet begrenzt werden kann, ist
 die Nutzung sowohl durch Individuen, Unternehmen als auch öffentliche
@@ -144,7 +144,7 @@ beispielsweise:
 
 TODO: Ref Elch.
 
-## Projektname und Lizenzierung
+## Projektname und Lizenzierung {#sec:SEC01_PROJEKTNAME_UND_LIZENZIERUNG}
 
 Der Name brig stellt eine Anlehnung an das zweimastige Handelsschiff
 *brigg*[^FN_BRIGG], welches gegen Ende des 18. Jahrhunderts zum Einsatz kam.
@@ -154,6 +154,6 @@ Die Namensanlehnung soll analog den dezentralen Transport von Daten darstellen.
 
 Aufgrund der Projektziele kommt als Lizenzierung die Open--Source--die
 Open--Source--Lizenz *AGPLv3*[^FN_AGPL] zum Einsatz. Denkbar wären jedoch im
-späteren Verlauf des Projektes kombinierte Lizenzen für Unternehmen.
+späteren Verlauf des Projektes kombinierte Lizenzen für Unternehmen. 
 
 [^FN_AGPL]: AGPLv3 Lizenz: <https://www.gnu.org/licenses/agpl-3.0.de.html>

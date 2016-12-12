@@ -1,4 +1,4 @@
-# Anforderungen {#sec:CAP_REQUIREMENTS}
+# Anforderungen {#sec:SEC03_ANFORDERUNGEN}
 
 Die Betrachtung des aktuellen wissenschaftlichen und technischen Standes zeigt,
 dass die Thematik im Detail komplex und kompliziert ist. Nichtsdestotrotz
@@ -9,11 +9,11 @@ der Softwareentwicklungsprozess gewissen Mindestanforderungen genügen. Da die
 Anforderungen von der Zielgruppe abhängig sind, werden folgend grundsätzliche
 Anforderungen definiert, welche Zielgruppen--übergreifend sind.
 
-## Anforderungen an die Software {#sec:requirements}
+## Anforderungen an die Software {#sec:SEC03_ANFORDERUNGEN_AN_DIE_SOFTWARE}
 
-### Sicherheit
+### Sicherheit {#sec:SEC03_SICHERHEIT}
 
-Wie bereits unter [@sec:sicherheit] erwähnt, ist »Sicherheit« ein sehr
+Wie bereits unter [@sec:SEC02_DER_SICHERHEITSBEGRIFF] erwähnt, ist »Sicherheit« ein sehr
 weitläufiger Begriff und immer von einem bestimmten »Angriffsszenario«
 abhängig.
 
@@ -27,7 +27,7 @@ welche folgende Punkte gewährleisten:
 Weiterhin sollen sich die Anforderungen an die Sicherheit an den aktuell
 vorherrschenden und bewährten »Sicherheitsstandards« orientieren.
 
-### Usability
+### Usability {#sec:SEC03_USABILITY}
 
 Die Usability von Software ist teilweise subjektiv und ist stark von den
 Erfahrungshorizont des Nutzers abhängig. Bereits bekannte Konzepte werden oft
@@ -63,7 +63,7 @@ Dies ermöglicht eine gezielte Synchronisation bestimmter Daten und ermöglicht
 dem Benutzer so Ressourcen (Speicherplatz und Zeit) zu sparen. Dabei sollen die
 Daten bei der Übertragung und Speicherung verschlüsselt sein.
 
-## Weitere Anforderungen an die Software und Softwareentwicklung
+## Weitere Anforderungen an die Software und Softwareentwicklung {#sec:SEC03_WEITERE_ANFORDERUNGEN_AN_DIE_SOFTWARE_UND_SOFTWAREENTWICKLUNG}
 
 **Transparentes Entwicklungsmodell:** Es soll für den Verbraucher
 nachvollziehbar sein unter welchen Umständen die Software entsteht, sprich

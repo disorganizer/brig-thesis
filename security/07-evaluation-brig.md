@@ -1,13 +1,13 @@
-# Evaluation von Brig
+# Evaluation von Brig {#sec:SEC07_EVALUATION_VON_BRIG}
 
-## Einleitung
+## Einleitung {#sec:SEC07_EINLEITUNG}
 
 Parallel zu der Arbeit wird der »brig«--Prototyp entwickelt. Das Ziel dieses
 Kapitels ist es die bisherige Arbeit aus Sicht der Sicherheit erneut zu
 evaluieren und bisher gemachte Fehler zu identifizieren. Für weitere allgemeine
 Details zur Architektur von »brig« siehe die Arbeit vom Herrn Pahl[@cpahl].
 
-## Getestete Version
+## Getestete Version {#sec:SEC07_GETESTETE_VERSION}
 
 Für die Evaluation wird die Softwareversion mit dem größten Testumfang verwendet:
 
@@ -20,41 +20,44 @@ Zum aktuellen Zeitpunkt gibt es zwar bereits eine weitere Iteration in der
 Entwicklung von »brig«, bei welchem das interne »Store«--Handling geändert
 wurde.
 
-## Einleitung »brig«
+## Einleitung »brig« {#sec:SEC07_EINLEITUNG_BRIG}
 
 Das Ziel ist es, mit »brig« ein dezentrales Dateisynchronisationswerkzeug zu
 entwickeln welches eine gute Balance zwischen Sicherheit und Usability
 bietet. Die Entwicklung eines gut funktionierenden dezentralen
 Protokolls/Dateisystems ist nicht trivial.
 
-In [@sec:CAP_DEC_SERVICES] wurden bereits verschiedene dezentrale Protokolle
-genannt. Diese sind jedoch hauptsächlich für den generellen Dateiaustausch
-ausgelegt. Um die in [@sec:CAP_REQUIREMENTS] aufgeführten Anforderungen zu
-realisieren, müssen die genannten Protokolle beziehungsweise das Verhalten des
-Peer--To--Peer--Netzwerks an die gesetzten Anforderungen angepasst werden. Als
-Basis für die Implementierung eines Prototypen standen die beiden Protokolle
-*BitTorrent* und *IPFS* in der engeren Auswahl. Aufgrund der unter
-[@sec:CAP_SUMMARY] genannten Funktionalitäten wurde *IPFS* als Basis bevorzugt.
+In [@sec:SEC02_FUNKTIONSWEISE_DEZENTRALER_DIENSTE] wurden bereits verschiedene
+dezentrale Protokolle genannt. Diese sind jedoch hauptsächlich für den
+generellen Dateiaustausch ausgelegt. Um die in [@sec:SEC03_ANFORDERUNGEN]
+aufgeführten Anforderungen zu realisieren, müssen die genannten Protokolle
+beziehungsweise das Verhalten des Peer--To--Peer--Netzwerks an die gesetzten
+Anforderungen angepasst werden. Als Basis für die Implementierung eines
+Prototypen standen die beiden Protokolle *BitTorrent* und *IPFS* in der engeren
+Auswahl. Aufgrund der unter [@sec:SEC06_ZUSAMMENFASSUNG_IPFS_EVALUATION]
+genannten Funktionalitäten wurde *IPFS* als Basis bevorzugt.
 
 ![»brig« als Overlay--Netwerk für *IPFS*](images/brigoverlay.png){#fig:img-brig-overlay width=80%}
 
 [@fig:img-brig-overlay] zeigt die Funktionsweise von »brig« als sogenanntes
-Overlay--Netzwerk. »brig« wird verwendet um die in [@sec:CAP_SUMMARY] fehlenden
-Eigenschaften des *IPFS*--Protokolls zu ergänzen.
+Overlay--Netzwerk. »brig« wird verwendet um die in
+[@sec:SEC06_ZUSAMMENFASSUNG_IPFS_EVALUATION] fehlenden Eigenschaften des
+*IPFS*--Protokolls zu ergänzen.
 
-## Datenverschlüsselung
+## Datenverschlüsselung {#sec:SEC07_DATENVERSCHLUESSELUNG}
 
 Standardmäßig werden die Daten bei *IPFS* unverschlüsselt gespeichert.
 Weiterhin basiert die aktuelle Transportverschlüsselung der Daten auf einem
 nicht standardisiertem Protokoll.
 
-### Datenverschlüsselungsschicht
+### Datenverschlüsselungsschicht {#sec:SEC07_DATENVERSCHLUESSELUNGSSCHICHT}
 
-Um die gesetzten Anforderungen (Vertraulichkeit von Daten, [@sec:requirements])
-zu erreichen muss »brig« die Funktionalität von *IPFS* so erweitern, dass die
-Authentizität und Vertraulichkeit der Daten bei lokaler Speicherung aber auch
-bei der Übertragung gewährleistet ist. Für diesen Einsatzzweck wurde eine
-Verschlüsselungsschicht vor das *IPFS*--Backend [@fig:img-enclayer] eingeführt.
+Um die gesetzten Anforderungen (Vertraulichkeit von Daten,
+[@sec:SEC03_ANFORDERUNGEN_AN_DIE_SOFTWARE]) zu erreichen muss »brig« die
+Funktionalität von *IPFS* so erweitern, dass die Authentizität und
+Vertraulichkeit der Daten bei lokaler Speicherung aber auch bei der Übertragung
+gewährleistet ist. Für diesen Einsatzzweck wurde eine Verschlüsselungsschicht
+vor das *IPFS*--Backend [@fig:img-enclayer] eingeführt.
 
 ![»brig« Verschlüsselungsschicht mit Datenverschlüsselung mit Authenzität.](images/encbackend.png){#fig:img-enclayer width=40%}
 
@@ -80,7 +83,7 @@ Schwächen bei einem bestimmten Algorithmus auftauchen sollten, kann die
 Vertraulichkeit der Daten durch den Wechseln auf einen noch sicheren
 Algorithmus gewährleistet werden.
 
-### Verwendete Algorithmen
+### Verwendete Algorithmen {#sec:SEC07_VERWENDETE_ALGORITHMEN}
 
 Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEDA*--Blockchiffren[^AEAD]:
 
@@ -97,7 +100,7 @@ http://security.stackexchange.com/questions/2202/lessons-learned-and-misconcepti
 Der *AEAD*--Betriebsmodi wurde gewählt, weil er den Vorteil hat, dass er neben
 der Vertraulichkeit auch Authentizität und Integrität sicherstellt.
 
-### Geschwindigkeitsevaluation
+### Geschwindigkeitsevaluation {#sec:SEC07_GESCHWINDIGKEITSEVALUATION}
 
 Der bisherigen »brig«--Benchmarks unter [@cpahl] haben die Performance von
 »brig« mit *IPFS* verglichen. Hierbei ist auffällig gewesen, dass die
@@ -123,7 +126,7 @@ scheinen jedoch bereits die Patches von *Cloudflare* jedoch mittlerweile in
 [^FN_AESNI_MERGE]: Go AES--NI--Patch--Merge: <https://go-review.googlesource.com/#/c/10484/>
 [^FN_ECDSA_MERGE]: Go ECDSA--P256--Patch--Merge: <https://go-review.googlesource.com/#/c/8968/>
 
-### Testumgebung
+### Testumgebung {#sec:SEC07_TESTUMGEBUNG}
 
 Im Folgenden soll die Verschlüsselungsschicht separiert betrachtet werden um
 genauere Aussagen über die Ressourcennutzung machen zu können. Weiterhin soll
@@ -177,9 +180,9 @@ oder die Netzwerkanbindung der limitierende Faktor sein. Ob sich dies bei der
 Verschlüsselungsschicht jedoch pauschal, auch bei *low--end*--Systemen der Fall
 ist, ist unklar.
 
-### Benchmarks
+### Benchmarks {#sec:SEC07_BENCHMARKS}
 
-#### Einfluss der Blockgröße beim Ver-- und Entschlüsseln
+#### Einfluss der Blockgröße beim Ver-- und Entschlüsseln {#sec:SEC07_EINFLUSS_DER_BLOCKGROESSE_BEIM_VER_UND_ENTSCHLUESSELN}
 
 Die Verschlüsselungsschicht arbeitet aktuell mit einer Blockgröße von *64KiB*.
 Diese Blockgröße wurde mehr oder weniger für den ersten Prototypen willkürlich
@@ -213,7 +216,7 @@ beim Intel System mit AES Algorithmus ab ungefähr *64kB* zusammen.
 mit hier der Geschwindigkeitseinbruch mit dem
 Speichermanagement/Speicherallokierung zusammenhängen könnte.
 
-#### Einfluss des AES--NI--Befehlserweiterungssatzes beim Ver-- und Entschlüsseln
+#### Einfluss des AES--NI--Befehlserweiterungssatzes beim Ver-- und Entschlüsseln {#sec:SEC07_EINFLUSS_DES_AES_NI_BEFEHLSERWEITERUNGSSATZES_BEIM_VER_UND_ENTSCHLUESSELN}
 
 [@fig:img-aesni] zeigt den Geschwindigkeitszugewinn der durch die Nutzung des
 *AES--NI*--Befehlserweiterungssatzes zustande kommt. Hier wurde die
@@ -232,7 +235,7 @@ hingegen hat beim AMD--System jedoch einen Geschwindigkeitszuwachs von ~15%,
 das Intel--System kann seine Geschwindigkeit jedoch aufgrund der
 funktionierenden AES--NI--Beschleunigung um ~750% (!) steigern.
 
-#### Low--end--Systeme
+#### Low--end--Systeme {#sec:SEC07_LOW_END_SYSTEME}
 
 Neben »aktuelleren« Systemen soll auch die Performance von schwächeren Systemen
 wie beispielsweise dem weit verbreiteten *Raspberry Pi* evaluiert werden. 
@@ -260,7 +263,7 @@ Weiterhin ist in der Grafik ersichtlich, dass der
 Chacha20/Poly1305--Algorithmus bei diesen schwachen Systemen, verglichen mit
 AES/GCM, bessere Ver-- und Entschlüsselungsgeschwindigkeiten liefert.
 
-#### Schlüsselgenerierung {#sec:schluesselgenerierung}
+#### Schlüsselgenerierung {#sec:SEC07_SCHLUESSELGENERIERUNG}
 
 Aktuell wird für jede Datei ein Schlüssel zufällig generiert. Dieser wird in
 den Metadaten abgelegt. Durch das zufällige generieren eines Schlüssels wird
@@ -292,12 +295,12 @@ zustande kommt.
 
 ![Keygeneration overhead.](images/keygenoverhead-profile.json.svg.pdf){#fig:img-keyoverhead width=100%}
 
-#### Zusammenfassung Geschwindigkeitsevaluation 
+#### Zusammenfassung Geschwindigkeitsevaluation  {#sec:SEC07_ZUSAMMENFASSUNG_GESCHWINDIGKEITSEVALUATION}
 
 Zusammengefasst kann gesagt werden, dass die Blockgröße beim Verschlüsseln und
 Entschlüsseln sich im Bereich von 16KiByte bis wenigen MiByte bewegen sollte.
 
-## Metadatenverschlüsselung
+## Metadatenverschlüsselung {#sec:SEC07_METADATENVERSCHLUESSELUNG}
 
 Neben dem Nutzdaten, die von *IPFS* verwaltet werden, werden weiterhin die
 sogenannten »Stores« verschlüsselt. Diese beinhalten den Metadatenstand der
@@ -338,7 +341,7 @@ unverschlüsselt. Dies würde diverse Modifikationen am erlauben wie
 beispielsweise die Manipulation der *Peer--ID* von *IPFS*. Der `master.key` hat
 aktuell keine Verwendung.
 
-## »brig«--Identifier
+## »brig«--Identifier {#sec:SEC07_BRIG_IDENTIFIER}
 
 Da *IPFS* an sich keinen Authentifizierungsmechanismus bietet, muss dieser von
 »brig« bereitgestellt werden. Im *IPFS*--Netzwerk haben die *Peers* durch die
@@ -369,7 +372,7 @@ welchem die Zeichenkette des Nutzernamen als Block dem *IPFS*--Netzwerk bekannt
 gemacht wird (vgl. [@cpahl]). Dieser Block selbst ist nicht eindeutig und
 könnte auch von einem Angreifer selbst erstellt worden sein. Um eine
 Eindeutigkeit herzustellen, wird der Benutzername direkt an die öffentliche
-*ID* (siehe [@sec:CAP_IPFS_ID]) geknüpft.
+*ID* (siehe [@sec:SEC06_IPFS_ID]) geknüpft.
 
 Folgende Daten werden kombiniert um einen Benutzer eindeutig zu identifizieren:
 
@@ -383,7 +386,7 @@ Funktionsweise siehe auch [@cpahl].
 
 ![User lookup mittels »brig«-ID (gekürzter Peer--Fingerprint + User--ID). Nur bei Übereinstimmung vom Peer--Fingerprint und Benutzernamen--Fingerprint wird der Benutzer als valide erkannt.](images/userlookup.png){#fig:img-userlookup width=100%}
 
-## Authentifizierung
+## Authentifizierung {#sec:SEC07_AUTHENTIFIZIERUNG}
 
 Eine Schwierigkeit die sich im Voraus stellt, ist die »sichere«
 Authentifizierung. Mit der »brig«--ID ist es aufgrund des *Multihash* vom
@@ -404,7 +407,7 @@ brig remote add bob@jabber.nullcat.de/desktop QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2q
 Analog dazu muss auch Alice von Bob als Synchronisationspartner hinzugefügt
 werden.
 
-## Repository--Zugriff
+## Repository--Zugriff {#sec:SEC07_REPOSITORY_ZUGRIFF}
 
 Um Zugriff auf das »brig«--Repository zu erhalten muss sich der Benutzer »brig«
 gegenüber mit einem Passwort authentifizieren. Schlechte Passwörter (TODO: Ref)
@@ -431,7 +434,7 @@ Komplexe Passwörter auf) eine Schwachstelle. Weiterhin ist auch problematisch,
 dass die Public/Private--Key--Schlüsselpaar von *IPFS* nicht verschlüsselt ist.
 Dieser Umstand ermöglicht beispielsweise Identitätsdiebstahl.
 
-### Aufbau einer verschlüsselten Verbindung
+### Aufbau einer verschlüsselten Verbindung {#sec:SEC07_AUFBAU_EINER_VERSCHLUESSELTEN_VERBINDUNG}
 
 [@fig:img-keyexchange] zeigt den Ablauf beim Aufbau einer Verschlüsselten
 Verbindung zwischen zwei Synchronisationspartnern.
@@ -465,9 +468,9 @@ Die aktuelle Softwareversion bietet hier keinen Automatismus und auch keinen
 Authentifizierungsmechanismus wie er beispielsweise bei *Pidgin*--Messenger mit
 *OTR*--Verschlüsselung.
 
-## Entwicklung und Entwicklungsumgebung
+## Entwicklung und Entwicklungsumgebung {#sec:SEC07_EINTWICKLUNG_UND_ENTWICKLUNGSUMGEBUNG}
 
-### Sichere Softwareentwicklung
+### Sichere Softwareentwicklung {#sec:SEC07_SICHERE_SOFTWAREENTWICKLUNG}
 
 Bei Software, welche das Augenmerk auf einen gewissen »Sicherheitsstandard«
 legt, sollte neben dem korrekten Einsatz von kryptographischen Elemente bereits
@@ -478,7 +481,7 @@ Da ein Hauptaugenmerk von »brig« der sichere und dezentrale Austausch von Date
 ist und es zusätzlich als Open--Source--Projekt angelegt ist, ist ein
 detaillierter Überblick über Entwicklung beziehungswiese die Projektbeteiligten wichtig.
 
-### »brig«--Quellcode--Repository
+### »brig«--Quellcode--Repository {#sec:SEC07_BRIG_QUELLCODE_REPOSITORY}
 
 Aktuell wird »brig« mit der Quelltext--Versionsverwaltungssoftware `git`
 verwaltet. Da es sich um ein Open--Souce--Projekt handelt, ist das Repository
@@ -496,7 +499,7 @@ direkt authentifiziert werden können. Durch dieser Umstand macht es Personen
 (Angreifern) einfacher sich als Entwickler unter einer falschen Identität
 auszugeben.
 
-### Update--Mechanismus
+### Update--Mechanismus {#sec:SEC07_UPDATE_MECHANISMUS}
 
 Im aktuellen Stadion kann »brig« über das beziehen des Quelltextes von *GitHub*
 installiert werden. Ein Update--Mechanismus existiert nicht, die Validierung
