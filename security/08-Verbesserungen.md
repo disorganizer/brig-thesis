@@ -1293,15 +1293,15 @@ Varianten:
 2. GnuPG--Agent als SSH--Agent laufen lassen und sich mit den bisherigen SSH--Schlüsseln authentifizieren
 
 Bei der ersten Variante kann der `gpg-agent` so konfiguriert werden, damit er
-*SSH* direkt unterstützt. Dazu muss die *SSH* in der Konfigurationsdatei vom
-*gpg--agent* aktiviert werden:
+die *SSH*--Anwendung direkt unterstützt. Dazu muss die *SSH*--Unterstützung in der
+Konfigurationsdatei vom *gpg--agent* aktiviert werden:
 
 ~~~sh
 echo "enable-ssh-support" >> ~/.gnupg/gpg-agent.conf
 ~~~
 
-Weiterhin müssen der `gpg-agent` der *SSH*--Anwendung bekannt gemacht werden
-(Auszug aus `man gpg-agent`) Initialisierung:
+Weiterhin muss die Kommunikationsschnittstelle zwischen `gpg-agent` und
+*SSH*--Anwendung bekannt gemacht werden (Auszug aus `man gpg-agent`):
 
 ~~~sh
 unset SSH_AGENT_PID
@@ -1309,6 +1309,10 @@ if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
   export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 fi
 ~~~
+
+Der öffentliche Schlüssel kann mit dem `ssh-add`--Befehl extrahiert werden.
+Dieser muss anschließend wahlweise auf der *GitHub*--Plattform hinterlegt
+werden. 
 
 ~~~sh
 $ ssh-add -L
@@ -1319,11 +1323,37 @@ MaaHPhC7m1cLjPdcXgTXPE6Bui3AP78xc/z5zGeUrlN5DLygTkqy8
 BnZTB0UX8xMXUKtGSunPbHdjn7rStXX9LDX6BP32XvTHeseI0BYa/
 2A1KRzxXhH9rHmpKLmMXVp9fRYmZ/51cVVR+XIBR23WBIJrmOvj3a
 /Uh54ylZ3zKIql7E8PH8rpljQ9Uw/5dLSltotFOlw2zjF1t5lEQrj
-fViXwnf9l cardno:000603814567
+fViXwnf9l cardno:000600000011
 ~~~
 
-Für die Einrichtung der zweiten Variante muss lediglich ergänzend ein
-generierter *SSH*--Schlüssel mit `ssh-add` dem `gpg-agent` bekannt gemacht
-werden. Dieser schützt den Key anschließend mit einer vom Nutzer vergebenen
-Passphrase.
+Bei einem typischen unixoiden System mit *OpenSSH* sollte dieser in der
+`~/.ssh/authorized_keys`--Datei hinterlegt werden und das PublicKey--Verfahren
+in der sshd--Konfigurationsdatei aktiviert werden.
 
+Ob die Authentifizierung über die Smartcard funktioniert kann beim *SSH*--Login
+mittels Verbose--Flag validiert werden. Dieses ist auch für Debuggingzwecke
+empfehlenswert. Folgender gekürzter Auszug zeigt die eine erfolgreich konfigurierte
+SSH--Smartcard--Authentifizierung, cardno:000600000011 zeigt hierbei die
+erfolgreich verwendete Smartcard--ID:
+
+~~~sh
+$ ssh christoph@nullcat.de
+[...]
+debug1: Authentications that can continue: publickey,password
+debug1: Offering RSA public key: cardno:000600000011
+debug2: we sent a publickey packet, wait for reply
+debug1: Server accepts key: pkalg ssh-rsa blen 279
+debug2: input_userauth_pk_ok: fp SHA256:eoOgD/8ri0RCblmJgTbPx/Ci6pBBssLtjMulpX4brlY
+debug1: Authentication succeeded (publickey).
+[...]
+~~~
+
+Ohne Smartcard/Pin schlägt der Login versuch fehl. Alternativ ist es hier
+empfehlenswert eine Fallback--Loginmethode in der sshd--Konfigurationsdatei zu
+wählen, mehr hierzu siehe `man sshd_config` unter `AuthenticationMethods`. TODO SSH BUCH zitieren.
+
+Für die Einrichtung der zweiten Variante (`gpg--agent` fungiert als
+`ssh-agent`) muss lediglich ergänzend ein generierter *SSH*--Schlüssel mit
+`ssh-add` dem `gpg-agent` bekannt gemacht werden. Der `gpg-agent` schützt den
+Key anschließend mit einer vom Nutzer vergebenen Passphrase und ersetzt somit
+einen separat laufenden `ssh-agent`.
