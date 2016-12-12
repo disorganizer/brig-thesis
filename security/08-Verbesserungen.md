@@ -885,43 +885,318 @@ Websserver--Zertifikate eignen.
 
 ### Yubikey als Smartcard
 
+#### Einleitung
+
 Wie unter [@sec:SEC_SMARTCARD] erwähnt hat der der *YubiKey* die Möglichkeit
 als Smartcard zu fungieren. Die *Chip Card Interface Device (CCID)*[^FN_CCID]
 ist beim *YubiKey Neo* ab Werk deaktiviert. Für die Aktivierung kann mit dem
 Kommandozeilen--Werkzeug `ykpersonalize` aktiviert werden. Standardmäßig ist
-beim *YubiKey Neo* nur die *OTP*--Funktionalität aktiviert.
+beim *YubiKey Neo* nur die *OTP*--Funktionalität aktiviert. In welchem
+Betriebsmodi sich der *YubiKey* befinden kann man beispielsweise nach dem
+anstecken über das System/Kernel--Logging mittels `dmesg` herausfinden (gekürzte Ausgabe):
 
 [^FN_CCID]:CCID (protocol): <https://en.wikipedia.org/wiki/CCID_(protocol)>
 
+~~~sh
+freya :: code/brig-thesis/security ‹master*› » dmesg | tail -n 2
+[324606.823079] input: Yubico Yubikey NEO OTP as /devices/pci[...]
+[324606.877786] hid-generic 0003:1050:0110.023F: input,hidraw5: \ 
+USB HID v1.10 Keyboard [Yubico Yubikey NEO OTP] on usb-0000:00:1d.0-1.8.1.3/input0
+~~~
 
-* Speicherung von Schlüsseln auf YubiKey möglich? Wie?
+Beim Aktivieren kann man beim *YubiKey Neo* zwischen insgesamt sieben verschiedenen
+Modi --- Einzelmodi und Kombinations--Modi --- wählen[^FN_YUBIKEY_MODES]:
 
-## Schlüsselhierarchie-- und Authentifizierungskonzept
+* Einzelmodi: `OTP`, `CCID`, `U2F`
+* Kombinations--Modi: `OTP/CCID`, `OTP/U2F`, `U2F/CCID`,  `OTP/U2F/CCID`
 
-* Master--Key auf Yubikey
-* Subkeys für Daten, Sitzung, Repo?
-* Backup--Keys für Hierarchie?
-* Dateiverschlüsselung mittels Ableitung?
+[^FN_YUBIKEY_MODES]: YubiKey Neo Modes: <https://developers.yubico.com/libu2f-host/Mode_switch_YubiKey.html>
 
-Mit einem Ansatz wie »Convergent encryption« würde es die Möglichkeit geben die
-kryptographischen Schlüsseln von den zu verschlüsselten Dateien abzuleiten.
-Diese Verfahren bringt Vor-- und Nachteile mit sich, welche weiter unter XY
-beleuchtet werden.
+#### Aktivierung des OpenGPG--Applets
 
-## Repository--Backup--Konzept
+Da der *YubiKey* im Falle von »brig« oder als Authentifizierungs--
+und Signiertoken für die Entwickler dienen soll (REF: ), bietet sich der `OTP/CCID` Kombimodus an.
+Dieser kann mit dem Kommandozeilenprogramm `ykpersonalize` wie folgt aktiviert werden:
 
-Ein weiterer Punkt der für eine »benutzerfreundliche« 
-* Key/Identify--Backup.
+~~~sh
+$ ykpersonalize -m2       
+Firmware version 3.4.1 Touch level 1551 Program sequence 3
+
+The USB mode will be set to: 0x2
+
+Commit? (y/n) [n]: y
+~~~
+
+Nach dem erneuten Anstecken des *YubiKeys* meldet sich dieser am System als
+*Human--Interface--Device (HID)* mit *OTP+CCID*--Funktionalität an (gekürzte
+Ausgabe):
+
+~~~sh
+dmesg | tail -n 2
+[324620.832438] input: Yubico Yubikey NEO OTP+CCID as /devices/pci[...]
+[324620.888719] hid-generic 0003:1050:0111.0240: input,hidraw5: \ 
+USB HID v1.10 Keyboard [Yubico Yubikey NEO OTP+CCID] on usb-0000:00:1d.0-1.8.1.3/input0
+~~~
+
+#### Krypographische Schlüssel auf YubiKey übertragen
+
+Nach der Aktivierung des *OpenGPG*--Applets kann der *YubiKey* wie eine
+Standard--OpenPGP--Smartcard mit *GnuPG* verwendet werden. 
+
+`gpg2 --card-status` zeigt den aktuellen Inhalt des *YubiKey OpenGPG--Applets*:
+
+~~~sh
+$ gpg --card-status
+Reader ...........: 0000:0000:0:0
+Application ID ...: 00000000000000000000000000000000
+Version ..........: 2.0
+Manufacturer .....: Yubico
+Serial number ....: 00000000
+Name of cardholder: [not set]
+Language prefs ...: [not set]
+Sex ..............: unspecified
+URL of public key : [not set]
+Login data .......: [not set]
+Signature PIN ....: forced
+Key attributes ...: rsa2048 rsa2048 rsa2048
+Max. PIN lengths .: 127 127 127
+PIN retry counter : 3 3 3
+Signature counter : 0
+Signature key ....: [none]
+Encryption key....: [none]
+Authentication key: [none]
+General key info..: [none]
+~~~
+
+Wie die Ausgabe zeigt gibt es die Möglichkeit drei verschiedene
+*RSA*--Schlüssel (2048) bit zum Signieren, Ver--/Entschlüsseln und
+Authentifizieren zu speichern. Der Authentifizierungsschlüssel der hier gesetzt
+werden kann, wird nicht von `gpg` genutzt, jedoch von anderen `PAM`--basierten
+Anwendungen. Für weitere Informationen zum Aufbau des Applets und zu den
+Funktionalitäten (*Pin-Counter* et cetera) siehe
+*GnuPG*--Administrationsdokumentation zur Smartcard[^FN_GNUPG_SMARTCARD_DOC].
+
+[^FN_GNUPG_SMARTCARD_DOC]: Chapter 3. Administrating the Card: <https://www.gnupg.org/howtos/card-howto/en/ch03.html>
+
+Es gibt zwei Möglichkeiten die Smartcard mit kryptographischen Schlüsseln zu befüllen. 
+
+1. Schlüssel direkt auf Smartcard generieren lassen 
+2. Schlüssel extern auf PC generieren und auf Smartcard verschieben/kopieren
+
+**Variante 1:**
+
+Die Schlüssel lassen sich direkt mit `gpg2 --card-edit` auf der Smartcard
+generieren. Hier muss man in den `admin`--Modus wechseln und kann anschließend
+mit dem Befehl `generate` die Schlüssel generieren lassen. Anhang Z zeigt den
+kompletten Vorgang. Beim generieren der Schlüssel wird man von der Anwendung gefragt ob ein
+Schlüssel »off--card«--Backup gemacht werden soll, weiterhin werden
+Revocation--Zertifikate generiert (früher mussten diese manuell erstellt
+werden, aktuelle gpg Versionen erstellen diese automatisch).
+
+Auszug aus Anhang Z:
+
+~~~sh
+gpg: Note: backup of card key saved to '/home/qitta/.gnupg/sk_E5A1965037A8E37C.gpg'
+gpg: key 932AEBFDD72FE59C marked as ultimately trusted
+gpg: revocation certificate stored as '/home/qitta/.gnupg/openpgp-revocs.d/D61CEE19369B9C330A4A482D932AEBFDD72FE59C.rev'
+~~~
+
+Der Hinweis dass der Schlüssel `sk_E5A1965037A8E37C.gpg` (sk == secret key)
+gespeichert wurde ist an dieser Stelle irreführend. Es würde hier lediglich nur
+ein sogenannter *Stub* erstellt, welcher den eigentlichen privaten Schlüssel
+*nicht* enthält. Bei Schlüsseln die auf der Smartcard generiert wurden, gibt es
+*keine* Möglichkeit des Backups der privaten Schlüssel. Dies hat zur Folge,
+dass man bei einem Defekt oder Verlust auch die auf der Smartcard erstellte
+Identität verliert.
+
+**Variante 2:**
+
+Die zweite Variante ermöglicht es dem Benutzer ein »echtes« Backup der privaten
+Schlüssel anzulegen. Ein Schlüsselpaar kann hier mit den Standardbefehlen `gpg2
+--gen-key` angelegt werden.  Wird der Expertenmodus nicht verwendet, so legt *GnuPG*
+standardmäßig einen Haupt-- und einen Unterschlüsseln an (siehe Absatz Z).
+
+Wie unter Absatz X erwähnt ist es sinnvoll für den täglichen Einsatz
+Unterschlüssel zu generieren, da diese das Keymanagement erheblich erleichtern.
+Für die Evaluation sowie die Evaluation der Authentifizierung über die
+Smartcard wird der bereits in Absatz x gezeigte Entwicklerschlüssel erweitert:
+
+~~~sh
+$ gpg2 --list-keys --fingerprint --fingerprint \
+  E9CD5AB4075551F6F1D6AE918219B30B103FB091
+pub   rsa2048 2013-02-09 [SC] [expires: 2017-01-31]
+      E9CD 5AB4 0755 51F6 F1D6  AE91 8219 B30B 103F B091
+uid           [ultimate] Christoph Piechula <christoph@nullcat.de>
+sub   rsa2048 2013-02-09 [E] [expires: 2017-01-31]
+      6258 6E4C D843 F566 0488  0EB0 0B81 E5BF 8582 1570
+~~~
+
+Die Erweiterung um einen Unterschlüssel zum Signieren und Authentifizieren wird
+in Anhang L  gezeigt. Weiterhin wurde der Hauptschlüssel um 10 Jahre Laufzeit
+erweitert. Die Ver--/Entschlüsselungs--Unterschlüssel wurde um 2 Jahre erweitert
+(siehe Anhang O). Nach dem Anpassen schaut der für die Smartcard vorbereitete
+Schlüssel wie folgt aus:
+
+~~~sh
+$ gpg2 --list-keys --fingerprint --fingerprint \
+  E9CD5AB4075551F6F1D6AE918219B30B103FB091
+pub   rsa2048 2013-02-09 [SC] [expires: 2026-12-09]
+      E9CD 5AB4 0755 51F6 F1D6  AE91 8219 B30B 103F B091
+uid           [ultimate] Christoph Piechula <christoph@nullcat.de>
+sub   rsa2048 2013-02-09 [E] [expires: 2018-12-11]
+      6258 6E4C D843 F566 0488  0EB0 0B81 E5BF 8582 1570
+sub   rsa2048 2016-12-11 [S] [expires: 2018-12-11]
+      7CD8 DB88 FBF8 22E1 3005  66D1 2CC4 F84B E43F 54ED
+sub   rsa2048 2016-12-11 [A] [expires: 2018-12-11]
+      2BC3 8804 4699 B83F DEA0  A323 74B0 50CC 5ED6 4D18
+~~~
+
+Beim verschieben der Schlüssel auf die Smartcard werden von *GnuPG* sogenannte
+*Stubs* für die privaten Schlüssel erstellt. Deshalb sollte spätestens jetzt
+ein Backup von den privaten Haupt-- und Unterschlüssel erfolgen. Dies kann am
+einfachsten über das kopieren des `.gnupg`--Konfigurationsordners
+bewerkstelligt werden. Dieser enthält die `pubring.gpg` und `secring.gpg`
+Dateien welche die öffentlichen und privaten Schlüssel enthalten. Eine
+alternative Methode einen bestimmten Schlüssel zu sicheren Zeigt Anhang Z.
+Verfahren zur Offline--Speicherung von Schlüsseln wurden bereits unter Absatz A
+behandelt.
+
+Nach dem Verschieben der Schlüssel schaut die Ausgabe der privaten Schlüssel im
+Schlüsselbund wie folgt aus:
+
+~~~sh
+$ gpg --list-secret-keys --fingerprint --fingerprint \
+  E9CD5AB4075551F6F1D6AE918219B30B103FB091
+sec   rsa2048 2013-02-09 [SC] [expires: 2026-12-09]
+      E9CD 5AB4 0755 51F6 F1D6  AE91 8219 B30B 103F B091
+uid           [ultimate] Christoph Piechula <christoph@nullcat.de>
+ssb>  rsa2048 2013-02-09 [E] [expires: 2018-12-11]
+      6258 6E4C D843 F566 0488  0EB0 0B81 E5BF 8582 1570
+      Card serial no. = 0006 00000000
+ssb>  rsa2048 2016-12-11 [S] [expires: 2018-12-11]
+      7CD8 DB88 FBF8 22E1 3005  66D1 2CC4 F84B E43F 54ED
+      Card serial no. = 0006 00000000
+ssb>  rsa2048 2016-12-11 [A] [expires: 2018-12-11]
+      2BC3 8804 4699 B83F DEA0  A323 74B0 50CC 5ED6 4D18
+      Card serial no. = 0006 00000000
+~~~
+
+*GnuPG* teilt mit `Card serial no. = 0006 00000000` dem Benutzer mit auf
+welcher Smartcard sich die Schlüssel befinden. Am »**>**«--Symbol erkennt der
+Benutzer, dass für die mit diesem Zeichen gekennzeichneten Schlüssel nur ein
+*Stub* existiert. Der Auffällige Teil an dieser Stelle ist, dass der
+Hauptschlüssel weiterhin existiert. Dies hängt damit zusammen, dass nur die
+Unterschlüssel auf den *YubiKey* übertragen wurden. Die gekürzte Variante von
+`gpg2 --card-status` zeigt die Schlüssel auf der Smartcard.
+
+~~~sh
+ $ gpg2 --expert --card-status | head -n 21 | tail -n 6 
+
+Signature key ....: 7CD8 DB88 FBF8 22E1 3005  66D1 2CC4 F84B E43F 54ED
+      created ....: 2016-12-11 16:32:58
+Encryption key....: 6258 6E4C D843 F566 0488  0EB0 0B81 E5BF 8582 1570
+      created ....: 2013-02-09 23:18:50
+Authentication key: 2BC3 8804 4699 B83F DEA0  A323 74B0 50CC 5ED6 4D18
+      created ....: 2016-12-11 16:34:21
+~~~
+
+Um den in Absatz F vorgeschlagenen weg zu gehen und den Hauptschlüssel nur zum
+Signieren neuer Schlüssel zu verwenden, sollte dieser am Schluss aus dem
+Schlüsselbund gelöscht werden. Dies kann mit ` gpg --delete-secret-keys
+E9CD5AB4075551F6F1D6AE918219B30B103FB091` erledigt werden. Wird der
+Hauptschlüssel gelöscht, so erscheint beim Hauptschlüssel das »**#**«--Symbol, um
+anzuzeigen dass es sich nur um einen *Sub* handelt. Anschließend können die
+neuen öffentlichen Unterschlüssel dem *Web--of--trust* mit `gpg2 --send-keys
+E9CD5AB4075551F6F1D6AE918219B30B103FB091` bekannt gemacht werden.
+
+Anschließend sollte noch die Standard--Pin `123456` und das
+Standard--Admin--Pin `12345678` auf geändert werden. Diese Einstellung kann
+ebenso mit `gpg2 --card-edit` im Untermenü `admin/passwd` getätigt werden.
+
+Absatz V zeigt das Signieren von Daten die mit und ohne Smartcard.
 
 ## »Sichere« Entwicklung und Entwicklungsumgebung
 
-### Signiertes Updatemanagement
+### Bereitstellung der Software
 
-.. Signatur und Update der Binaries
+#### Erstellen und Validieren von Signaturen
 
-1.) Signieren wie das Tor Projekt?
-2.) Update Proof of concept mit Public-Key aufbauend?
+Um die Applikation »sicher« an den Benutzer ausliefern zu können gibt es
+verschiedene Möglichkeiten. Die für dem Benutzer einfachste Möglichkeit ist im
+Falle einer Linux--Distribution über signierte Pakete des jeweiligen
+Distributors. In diesem Fall muss sich der Paketierer der Applikation um die
+Auslieferung unmodifizierten Version kümmern.
 
+Eine weitere Möglichkeit die dem Benutzer mehr Kontrolle gibt ist das direkte
+Herunterladen auf der Entwickler/Anbieter--Webpage. Diese Art der
+Bereitstellung von Software bietet beispielsweise auch das *GnuPG* und das
+*Tor--Projekt* an.
+
+Hier gibt es die Möglichkeit die Daten direkt zu signieren oder eine separate
+Signatur zu erstellen. Für die Bereitstellung von Binärdaten ist die
+Bereitstellung einer separaten Signatur empfehlenswert, da die eigentlichen
+Daten dabei nicht modifiziert werden.
+
+Signieren der Daten ohne Entwickler--*YubiKey*:
+
+~~~sh
+$ gpg2 --armor --output brig-version-1.0.tar.gz.asc --detach-sign brig-version-1.0.tar.gz
+gpg: signing failed: Card error
+gpg: signing failed: Card error
+
+~~~
+
+Signieren der Daten mit Einsatz des *YubiKey* und der korrekten Pin können die
+Daten wie folgt signiert werden. Die `--armor`--Option bewirkt dass eine
+Signatur im *ASCII*--Format anstatt im Binär--Format erstellt wird. Diese lässt
+sich beispielsweise auf der Download beziehungsweise Entwicklerseite neben dem
+Fingerprints der Signierschlüssel publizieren.
+
+~~~sh
+$ gpg2 --armor --output brig-v1.0.tar.gz.asc --detach-sign brig-v1.0.tar.gz
+$ cat brig-v1.0.tar.gz.asc 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEfNjbiPv4IuEwBWbRLMT4S+Q/VO0FAlhNuggACgkQLMT4S+Q/
+VO1DDQgAkAlF3yl6rvwQjRgkWyAL1ujeWrecxdplNjde44zToBuFNutP66wUKnqr
+ZohLP3TEdCuEJtvxzv7ahEw8ICOv4375IvyediKjXV+f8t8Kau64bqCoZOHijYWy
+tbMwuOrG+rgP38crZSEfRjLSc2ZgUntvmQRI103Id9K8XZtLPx8NK8qUvfyI8D5c
+27oLmGrfGcgniywr+2dqUWhdCRa7J176vmRl25631PBU8O7k5mew1L7hXMRFnwBZ
+mNgj91cAGJETaKJIMjnxl+GI4u0BNAszKXzmQfYE3sm+VBvJ89vkNvc1C8wx+eva
+VOotfneAcQoRgHOpouNpHew+uJO/eg==
+=N0vn
+-----END PGP SIGNATURE-----
+~~~
+
+Der Benutzer kann durch diesen Ansatz die heruntergeladenen Daten auf einfache
+Art und Weise verifizieren. 
+
+~~~sh
+$ gpg2 --verify brig-v1.0.tar.gz.asc
+gpg: assuming signed data in 'brig-v1.0.tar.gz'
+gpg: Signature made So 11 Dez 2016 21:41:44 CET
+gpg:                using RSA key 7CD8DB88FBF822E1300566D12CC4F84BE43F54ED
+gpg: Good signature from "Christoph Piechula <christoph@nullcat.de>" [ultimate]
+
+~~~
+
+Wurde eine Manipulation an den Daten --- beispielsweise durch einen Angreifer
+oder Malware durchgeführt --- so schlägt die Verifizierung fehl:
+
+~~~sh
+$ gpg2 --verify brig-v1.0.tar.gz.asc
+gpg: assuming signed data in 'brig-v1.0.tar.gz'
+gpg: Signature made So 11 Dez 2016 21:41:44 CET
+gpg:                using RSA key 7CD8DB88FBF822E1300566D12CC4F84BE43F54ED
+gpg: BAD signature from "Christoph Piechula <christoph@nullcat.de>" [ultimate]
+~~~
+
+### Updatemanagement
+
+Auch bei Updates wäre in erster Linie die Bereitstellung über den Paketmanager
+die sinnvollste Variante der Auslieferung von »brig«. Um auch Betriebssysteme
+ohne Paketmanager unterstützen zu können würde sich ein integrierter
+Updatemechanismus besser eignen.
 
 ### Signieren von Quellcode
 
@@ -934,12 +1209,13 @@ Manipulationssicherheit, jedoch ermöglicht *SHA--1* keine Authentifizierung der
 Quelle.
 
 Eine Quelle zu Authentifizieren ist keine einfache Aufgabe. Gerade bei
-Open--Source--Projekten, bei welchen im Grunde jeder (auch Angreifer) Quellcode
-zum Projekt beitragen können, ist eine Authentifizierung um so wichtiger. 
+Open--Source--Projekten, bei welchen im Grunde jeder --- auch Angreifer ---
+Quellcode zum Projekt beitragen können, ist eine Authentifizierung um so
+wichtiger.
 
 Eine weit verbreitete Möglichkeit zur Authentifizierung, ist hierbei die
 *Digitale Signatur*. Quelltext beziehungsweise *Commits* (Beitrag u. Änderungen
-an einem Projekt) können auf eine ähnliche Art signiert werden. 
+an einem Projekt) können auf eine ähnliche Art signiert werden.
 
 `git` bietet im Fall von »brig«, welches über *GitHub* entwickelt wird, das
 Signieren und Verifizieren von *Commits* und *Tags*. Hierzu kann beispielsweise
@@ -948,23 +1224,16 @@ der Quelltext in Zukunft signiert werden soll:
 Anschließend kann mit dem zusätzlichen Parameter (`-S[<keyid>],
 --gpg-sign[=<keyid>]`) ein digital unterschriebener *Commit* abgesetzt werden:
 
+Für signierte *Commits* unter `git` sollte die Key--ID/Fingerprint in der
+git--Konfigurationsdatei hinterlegt werden:
+
 ~~~sh
-# Schlüssel-ID des Entwicklers über Fingerprint ausfindig machen
-$ gpg --list-keys christoph@nullcat.de
-	pub   rsa2048 2013-02-09 [SC] [expires: 2017-01-31]
-		  E9CD5AB4075551F6F1D6AE918219B30B103FB091
-	uid           [ultimate] Christoph Piechula <christoph@nullcat.de>
-	sub   rsa2048 2013-02-09 [E] [expires: 2017-01-31]
-
-$ gpg --list-sig E9CD5AB4075551F6F1D6AE918219B30B103FB091 | tail -n 4
-sig     P    D2BB0D0165D0FD58 2016-11-29  CA Cert Signing Authority (Root CA) <gpg@cacert.org>
-sub   rsa2048 2013-02-09 [E] [expires: 2017-01-31]
-sig          8219B30B103FB091 2016-02-01  Christoph Piechula <christoph@nullcat.de>
-
-# Signier-Schlüssel git mitteilen
 $ git config --global user.signingkey  8219B30B103FB091
+~~~
 
-# Signierten Commit absetzen
+Anschließen kann mit der `-S`--Option ein signierter *Commit* abgesetzt werden:
+
+~~~sh
 $ git commit -S -m 'Brig evaluation update. Signed.'
 ~~~
 
@@ -979,3 +1248,65 @@ ein, so signalisiert das Label eine verifizierte Signatur des jeweiligen
 *Commits* beziehungsweise *Tags*, siehe [@fig:img-signed].
 
 ![Verifiziertes *GitHub*--Signatur--Label eines Commit/Tag welches aufgeklappt wurde.](images/signed2.png){#fig:img-signed width=70%}
+
+### Sichere Authentifizierung für Entwickler
+
+Um sich als Entwickler beispielsweise sicher gegenüber der *GitHub*--Plattform
+zu authentifizieren bietet die *GitHub*[^FN_GITHUB_U2F] Universal--2--Faktor
+an, welche auch mit dem *YubiKey* genutzt werden kann.
+
+[^FN_GITHUB_U2F]: GitHub U2F: <https://github.com/blog/2071-github-supports-universal-2nd-factor-authentication>
+
+Weiterhin ist für die tägliche Arbeit --- das Hochladen von Quellcode --- ein
+Zugriff über *SSH* sinnvoll. Hier gibt es wie bei anderen Plattformen die
+Möglichkeit sich mit dem Passwort zu authentifizieren. Eine erweiterte
+Möglichkeit ist es, sich über einen *SSH*-Schlüssel zu authentifizieren.
+
+[^FN_GITHUB_SSHLOGIN]: GitHub--SSH--Login: <https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/>
+
+Diese Konzept lässt sich durch die Nutzung einer Smartcard erweitern. Die
+Vorteile hier liegen in erster Linie beim Schutz der kryptographischen
+Schlüssel.
+
+Für die SSH--Authentifizierung mit Smartcard gegenüber *GitHub* --- oder auch
+andere Entwicklersystemen --- gibt es in dieser Kombination die folgenden zwei
+Varianten:
+
+1. OpenPGP--Schlüssel als SSH--Schlüssel verwenden
+2. GnuPG--Agent als SSH--Agent laufen lassen und sich mit den bisherigen SSH--Schlüsseln authentifizieren
+
+Bei der ersten Variante kann der `gpg-agent` so konfiguriert werden, damit er
+*SSH* direkt unterstützt. Dazu muss die *SSH* in der Konfigurationsdatei vom
+*gpg--agent* aktiviert werden:
+
+~~~sh
+echo "enable-ssh-support" >> ~/.gnupg/gpg-agent.conf
+~~~
+
+Weiterhin müssen der `gpg-agent` der *SSH*--Anwendung bekannt gemacht werden
+(Auszug aus `man gpg-agent`) Initialisierung:
+
+~~~sh
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
+~~~
+
+~~~sh
+$ ssh-add -L
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKLhnN7pTVB6YHn
+7H5swJcJ+gABK6AtpPQlHqMBQHi9byXTPmtyrKBVo0yUfHkMphkyV
+tFo6a892NfPSHDXxv0Ks3rZ36LdJ88K8VgT3FO8NlnRlVh1gIQzfr
+MaaHPhC7m1cLjPdcXgTXPE6Bui3AP78xc/z5zGeUrlN5DLygTkqy8
+BnZTB0UX8xMXUKtGSunPbHdjn7rStXX9LDX6BP32XvTHeseI0BYa/
+2A1KRzxXhH9rHmpKLmMXVp9fRYmZ/51cVVR+XIBR23WBIJrmOvj3a
+/Uh54ylZ3zKIql7E8PH8rpljQ9Uw/5dLSltotFOlw2zjF1t5lEQrj
+fViXwnf9l cardno:000603814567
+~~~
+
+Für die Einrichtung der zweiten Variante muss lediglich ergänzend ein
+generierter *SSH*--Schlüssel mit `ssh-add` dem `gpg-agent` bekannt gemacht
+werden. Dieser schützt den Key anschließend mit einer vom Nutzer vergebenen
+Passphrase.
+
