@@ -53,7 +53,7 @@ nicht standardisiertem Protokoll.
 ### Datenverschlüsselungsschicht {#sec:SEC07_DATENVERSCHLUESSELUNGSSCHICHT}
 
 Um die gesetzten Anforderungen (Vertraulichkeit von Daten,
-[@sec:SEC03_ANFORDERUNGEN_AN_DIE_SOFTWARE]) zu erreichen muss »brig« die
+[@sec:SEC03_SICHERHEIT]) zu erreichen muss »brig« die
 Funktionalität von *IPFS* so erweitern, dass die Authentizität und
 Vertraulichkeit der Daten bei lokaler Speicherung aber auch bei der Übertragung
 gewährleistet ist. Für diesen Einsatzzweck wurde eine Verschlüsselungsschicht
@@ -87,11 +87,8 @@ Algorithmus gewährleistet werden.
 
 Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEDA*--Blockchiffren[^AEAD]:
 
-* AES--GCM
-*userlookup  ChaCha20/Poly1305 (externe Bibliothek[^FN_CHACHA20])
-
-TODO: encrypt-than-mac vs GCM/Poly1305, key reuse?
-http://security.stackexchange.com/questions/2202/lessons-learned-and-misconceptions-regarding-encryption-and-cryptology
+* AES--GCM [@gcm] mit 256 bit Schlüssellänge  mit 256 bit Schlüssellänge
+* ChaCha20/Poly1305 mit 256 bit Schlüssellänge (externe Bibliothek[^FN_CHACHA20])
 
 [^FN_SYMALGO]: Aktuell von »brig« unterstützte symmetrische Verschlüsselungsverfahren: <https://github.com/disorganizer/brig/blob/fa9bb634b4b83aaabaa967ac523123ce67aa217d/store/encrypt/format.go>
 [^FN_CHACHA20]: ChaCha20/Poly1305--Bibliothek: <https://github.com/codahale/chacha20poly1305>

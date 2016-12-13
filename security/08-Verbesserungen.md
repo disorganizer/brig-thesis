@@ -1429,4 +1429,3 @@ verwalteten Schlüssel--Fingerprint überprüft werden:
 2048 SHA256:eoOgD/8ri0RCblmJgTbPx/Ci6pBBssLtjMulpX4brlY cardno:000600000011 (RSA)
 2048 SHA256:V00F8adokJZljo1WD+XPjSP51rTl/GVS3bh5YfJOLtk /home/qitta/.ssh/id_rsa (RSA)
 ~~~
-
