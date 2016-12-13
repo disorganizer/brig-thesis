@@ -26,9 +26,12 @@ oft von den folgenden fünf Sicherheitsaspekten:
 * Verfügbarkeit: Dienste stehen legitimen Benutzern tatsächlich zur Verfügung.
 
 Dies sind auch die Sicherheitsaspekte die bei der Verwendung von
-Cloud--Speicher--Anbietern zu tragen kommen. Um diese zu auf technischer Ebene
-realisieren, müssen neben unterschiedliche Kryptographische Komponenten
-verwendet werden.
+Cloud--Speicher--Anbietern zu tragen kommen. Zur Umsetzung der genannten
+Sicherheitsaspekte reicht in der Regel die alleinige Implementierung
+technischer Komponenten nicht aus. Es muss viel mehr ein Prozess entwickelt
+werden der Sicherheit permanent sicherstellt und evaluiert. Hierzu gehört auch
+im großen Maße eine gewisse Sensibilität, für welche der Anwender geschult
+werden muss.
 
 ### Angriffe und Bedrohungen {#sec:SEC02_ANGRIFFE_UND_BEDROHUNGEN}
 
@@ -762,5 +765,3 @@ weiterhin als problematisch anzusehen:
 * Software Wipe--Tools bei *SSDs*[^FN_SSD] problematisch (vgl. [@BIB_SSD_ERASE])
 
 [^FN_SSD]: Solid--Sate--Drive: <https://de.wikipedia.org/wiki/Solid-State-Drive>
-
-TODO: https://turkeyblocks.org/2016/10/08/google-drive-dropbox-blocked-in-turkey/
