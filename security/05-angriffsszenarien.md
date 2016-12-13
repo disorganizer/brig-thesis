@@ -1,5 +1,8 @@
 # Sicherheit und Angriffsszenarien {#sec:SEC05_SICHERHEIT_UND_ANGRIFFSSZENARIEN}
 
+>> *Security is a process, not a product.* 
+                         --- Bruce Schneier
+
 ## Beurteilung von Sicherheit {#sec:SEC05_BEURTEILUNG_VON_SICHERHEIT}
 
 Wie bereits in der Einleitung von [@sec:SEC04_EINLEITUNG] erwähnt ist das
@@ -9,9 +12,9 @@ Experten entwickelt wurden, können gravierende Sicherheitsmängel aufweisen.
 Ein wichtiger Punkt, welcher von Experten oft geraten wird, ist die Verwendung
 bekannter und bewährter Algorithmen und Protokolle wie beispielsweise AES,
 RSA/DSA, TLS et cetera. Die Entwicklung neuer kryptographischer Algorithmen und
-Protokolle sollte vermieden werden. Weiterhin werden Details von
+Protokolle sollte nach Möglichkeit vermieden werden. Weiterhin werden Details von
 kryptographische Elementen oftmals missverstanden oder es werden für den
-Einsatz von Sicherheit die falschen Werkzeuge eingesetzt. Beispiele hierfür
+Einsatz von Sicherheit die falschen Techniken eingesetzt. Beispiele hierfür
 wären (vlg. [@evertythin1hour]):
 
 * Google Keyczar (timing side channel)[^FN_KEYCZAR_BUG]
@@ -32,10 +35,10 @@ es nicht für jeden Anwendungsfall eine konkrete Empfehlung geben kann. Manchmal
 muss auch zwischen Sicherheit und Geschwindigkeit abgewogen werden. Ein
 Beispiel hierfür wäre die Abwägung ob man Betriebsmodi verwendet die
 Authentifikation und Verschlüsselung unterstützen wie beispielsweise *GCM* oder
-doch besser eine »Encrypt--than--MAC«--Komposition (vgl auch [@encryptthanmac]).
+doch besser eine »Encrypt--than--MAC«--Komposition (vgl. auch [@encryptthanmac]).
 
 Ein weiteres Beispiel welches die Komplexität der Lage darstellt, ist eine
-aktuelle  Warnung vom *BSI*[^FN_BSI_NORTON] bei welcher »Sicherheitssoftware«
+aktuelle Warnung vom *BSI*[^FN_BSI_NORTON] bei welcher »Sicherheitssoftware«
 aufgrund von gravierenden Sicherheitslücken als Einfallstor für Schadsoftware
 missbraucht werden kann.
 
@@ -52,6 +55,8 @@ Weiterhin ist es auch wichtig »realistische« Gefahren zu identifizieren und
 nicht unnötig Ressourcen in sicherheitstechnische Details zu investieren.
 
 ## Angriffsfläche bei »brig« {#sec:SEC05_ANGRIFFSFLAECHE_BEI_BRIG}
+
+### Allgemein
 
 Ziel dieser Arbeit ist es praxisrelevante Gefahren/Risiken für ein
 Software--Produkt und einen Entwicklungsprozess wie er bei »brig« vorliegt zu
@@ -75,12 +80,16 @@ Sybil--Attacke[^FN_IPFS_SYBIL_ATTACK] durchzuführen. Unter [@BIB_SKADEMLIA]
 wird *S/Kademlia* genauer bezüglich der Angriffe auf dezentrale Architekturen
 untersucht.
 
+[^FN_IPFS_SYBIL_ATTACK]: IPFS -- Content Addressed, Versioned, P2P File System: <https://blog.acolyer.org/2015/10/05/ipfs-content-addressed-versioned-p2p-file-system/>
+
+### Praxisorientierte Herausforderungen an die Software
+
 Zu den praxisorientierten Problemen bei der Entwicklung einer Software wie
 »brig« gehören in erster Linie folgende Punkte, auf welche primär in der Arbeit
 eingegangen wird:
 
 **Passwormanagement:** Menschen sind schlecht darin gute Passwörter vergeben.
-Erweiterte Technologien ermöglichen es immer Schneller gestohlene
+Erweiterte Technologien ermöglichen es immer schneller gestohlene
 Passwörter--Datenbanken zu knacken in Systeme einzubrechen. Bruce Schneier
 beschreibt im Artikel »A Really Good Article on How Easy it Is to Crack
 Passwords«[^FN_BRUCE_PW] die Problematik detailierter und gibt Empfehlungen.
@@ -88,11 +97,11 @@ Passwords«[^FN_BRUCE_PW] die Problematik detailierter und gibt Empfehlungen.
 [^FN_BRUCE_PW]: A Really Good Article on How Easy it Is to Crack Passwords: <https://www.schneier.com/blog/archives/2013/06/a_really_good_a.html>
 
 **Schlüsselmanagement:** Die sichere Kommunikation von krypographischen
-Schlüsseln stellt eins der größten Probleme im digitalen Zeitalter dar. (TODO:
-REF). In der Vergangenheit gab es immer wieder Zwischenfälle bei welchen in
-Systeme mit gestohlenen krypographischen Schlüsseln eingebrochen
-wurde[^FN_FREEBSD_SSH_MALWARE]. Laut
-Berichten[^FN_SSH_MALWARE][FN_PRIV_KEY_MALWARE] expandiert der Malware--Markt
+Schlüsseln stellt eins der größten Probleme im digitalen Zeitalter dar.
+(@martin2012everyday, S. 326 ff.). In der Vergangenheit gab es immer wieder
+Zwischenfälle bei welchen in Systeme mit gestohlenen krypographischen
+Schlüsseln eingebrochen wurde[^FN_FREEBSD_SSH_MALWARE]. Laut
+Berichten[^FN_SSH_MALWARE][^FN_PRIV_KEY_MALWARE] expandiert der Malware--Markt
 in dieser Richtung, es wird zunehmend Malware für das ausspähen
 kryptographischer Schlüssel entwickelt.
 
