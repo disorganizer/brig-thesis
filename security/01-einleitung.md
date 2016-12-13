@@ -105,27 +105,36 @@ Cloud--Dienste.
 
 Die Basis für die Entwicklung der Software, Validierung einzelner Komponenten
 und Prozesse, sowie die Ausarbeitung möglicher zukünftiger Konzepte stellen die
-beiden Arbeiten
+folgenden Arbeiten dar:
 
 1) »brig«: Ein Werkzeug zur sicheren und verteilten Dateisynchronisation,
    *Christopher Pahl*
 2) Sicherheitskonzepte und Evaluation dezentraler Dateisynchronisationssysteme
    am Beispiel »brig«, *Christoph Piechula*
 
-an der Hochschule Augsburg bei *Prof. Dr.-Ing. Honorary Doctor of ONPU Thorsten
-Schöler* dar.
+Aktuell wird Software im Rahmen der genannten Masterarbeiten bei *Prof.
+Dr.-Ing. Thorsten Schöler* in der *Distributed--Systems--Group*[^FN_DSG] der
+Hochschule Augsburg entwickelt.
 
-Die vorliegende Arbeit hat aufgrund des Umfangs des Gesamtprojekts folgende
-Schwerpunkte:
+[^FN_DSG]: Distributed--Systems--Group: <http://dsg.hs-augsburg.de>
 
-* Betrachtung von Sicherheitskonzepten (hier wird zwischen Datensicherheit und
-  Datenintegrität unterschieden) zentraler und dezentraler Lösungen.
+Die vorliegende Arbeit hat dabei aufgrund des Umfangs des Gesamtprojekts
+folgende Schwerpunkte, Fragestellungen und Ziele:
+
+* Sensibilisierung von Entwicklern und Benutzern für die Thematik der sicheren
+  Software. Warum ist sichere Software und Kryptographie für unsere Gesellschaft
+  wichtig? Worauf ist bei der Implementierung zu Achten, wie sind die Zusammenhänge?
+* »Sichere« beziehungsweise transparente Softwareentwicklung. Insbesondere
+  sollen hierbei am Beispiel »brig« die Herausforderungen an die Benutzer und
+  Entwickler dieses Projekts aufgezeigt werden. 
+* Zusammenhängende Betrachtung der Sicherheit von Software
+* Betrachtung von Sicherheitskonzepten zentraler und dezentraler Lösungen.
 * Betrachtung der Vor-- und Nachteile zentraler und dezentraler Lösungen.
-* Betrachtung von Sicherheitskonzepten welche für eine »sichere« und
-  »vertrauenswürdige« Softwareentwicklung essentiell sind
 * Evaluation bisherige Ansätze (Sicherheit, Usability) und Definition möglicher
   Verbesserungen, welche in die Weiterentwicklung und in den
   Entwicklungsprozess einfließen sollen.
+* Betrachtung von Sicherheitskonzepten welche für eine sichere, transparente
+  und vertrauenswürdige Softwareentwicklung essentiell sind
 
 ## Zielgruppen und Einsatzszenarien {#sec:SEC01_ZIELGRUPPEN_UND_EINSATZSZENARIEN}
 
@@ -141,8 +150,6 @@ beispielsweise:
 * Journalisten, Aktivisten
 * Medizinischer Bereich
 * Öffentliche Einrichtungen
-
-TODO: Ref Elch.
 
 ## Projektname und Lizenzierung {#sec:SEC01_PROJEKTNAME_UND_LIZENZIERUNG}
 
