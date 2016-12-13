@@ -97,7 +97,8 @@ beispielsweise:
 Obwohl die Technologien mit steigenden Kapazitäten verbessert wurden, ist die
 Fehlerrate bisher konstant geblieben. Analysen haben ergeben, dass die
 Wahrscheinlichkeit von *Silent Data Corruption* höher ist wie bisher angenommen
-(vgl TODO:REF).
+
+[^FN_DATA_CORRUPTION]: Data corruption: <https://en.wikipedia.org/wiki/Data_corruption>
 
 Gängige Dateisysteme wie beispielsweise *NTFS*[^FN_NTFS] oder *EXT4*[^FN_EXT4]
 können Fehler verursacht durch *Silent Data Corruption* nicht erkennen und den
@@ -114,9 +115,9 @@ während der Lese-- und Schreibvorgänge mittels Prüfsummen. Durch dieses
 »spezielle« Feature kann die Verarbeitungskette beim Lesen-- und Speichern der
 Daten bezüglich ihrer Integrität validiert werden. Bei der Benutzung eines
 *RAID*--System können die Daten sogar automatisiert ohne Zutun des Benutzers
-korrigiert werden.
+korrigiert[^FN_ZFS_HEALING_VIDEO] werden.
 
-TODO: ZFS Beispiel?
+[^FN_ZFS_HEALING_VIDEO]:FreeBSD/ZFS - self-healing example: <https://www.youtube.com/watch?v=VlFGTtU65Xo>
 
 [^FN_NTFS]: NTFS Dateisystem: <https://en.wikipedia.org/w/index.php?title=NTFS&oldid=743913107>
 [^FN_EXT4]: EXT4 Dateisystem: <https://en.wikipedia.org/w/index.php?title=Ext4&oldid=738311553>
@@ -368,11 +369,9 @@ in Zukunft auf TLS1.3 zu migrieren.
 
 [^FN_SECIO]: Github IPFS Secio--Verschlüsselung: <https://github.com/libp2p/go-libp2p-secio>
 
-TODO: IPFS--Subnetz test?
-
 ## Zusammenfassung IPFS--Evaluation {#sec:SEC06_ZUSAMMENFASSUNG_IPFS_EVALUATION}
 
-Aus Datenhaltungs-- und Netzwerksicht (TODO: Ref Elch.) stellt *IPFS* zum
+Aus Datenhaltungs-- und Netzwerksicht stellt *IPFS* zum
 aktuellen Zeitpunkt eine attraktive Basis für die Entwicklung des
 »brig«--Prototypen dar. Aus Datenhaltungssicht sind insbesondere folgende
 Features Interessant:

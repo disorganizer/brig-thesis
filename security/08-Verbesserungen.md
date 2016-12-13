@@ -407,9 +407,12 @@ Nutzung eines gemeinsamen Geheimnisses.
 Bei beiden Abläufen wurde jeweils ein zufällige Nonce verschlüsselt und
 signiert versendet. Dies soll in beiden Fällen das Abgreifen der Nonce
 verhindern und die bisherige Quelle Authentifizieren. Würde man an dieser
-stelle die Nonce weglassen, so wäre ein *Replay*--Angriff möglich.
+stelle die Nonce weglassen, so wäre ein *Replay*--Angriff möglich. Die Anforderungen richten sich hierbei nach den Prinzipien (vgl. [@martin2012everyday], S. 295 ff):
 
-TODO: Anforderungen an Authentifizierung validieren. 
+* Nachrichtenauthentifizierung, durch Signatur bereit gestellt
+* Gültigkeit (engl. *freshness*), durch Nonce bereit gestellt
+* Bezug zur korrekten Anfrage. Frage wird in der Antwort mitgesendet
+
 
 ### Authentifizierungkonzept auf Basis des Web--of--Trust {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT_AUF_BASIS_DES_WEB_OF_TRUST}
 
@@ -1416,7 +1419,7 @@ debug1: Authentication succeeded (publickey).
 
 Ohne Smartcard/Pin schlägt der Login versuch fehl. Alternativ ist es hier
 empfehlenswert eine Fallback--Loginmethode in der sshd--Konfigurationsdatei zu
-wählen, mehr hierzu siehe `man sshd_config` unter `AuthenticationMethods`. TODO SSH BUCH zitieren.
+wählen, mehr hierzu siehe `man sshd_config` unter `AuthenticationMethods`. Für weitere Details zum Thema *OpenSSH*--Authentifizierung siehe [@BIB_OPENSSH].
 
 Für die Einrichtung der zweiten Variante (`gpg--agent` fungiert als
 `ssh-agent`) muss lediglich ergänzend ein generierter *SSH*--Schlüssel mit

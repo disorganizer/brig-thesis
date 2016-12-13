@@ -57,7 +57,7 @@ verschaffen.
 Beim nicht--technischen »Angriff« wird der Benutzer auf »psychologischer Ebene«
 manipuliert und mit sogenannten »Social Hacking«--, auch »Social
 Engineering«--Methoden dazu verleitet beispielsweise sein Passwort
-weiterzugeben. Auch der Einsatz von »Phishing« (TODO: Ref), ist eine Variante
+weiterzugeben. Auch der Einsatz von »Phishing«, ist eine Variante
 von »Social Engineering«. [@fig:img-security] zeigt scherzhaft eine weitere
 Variante für welche Menschen anfällig sind.
 
@@ -156,8 +156,7 @@ Zugangsdaten[^FN_DROPBOX_DATALEAK] entwendet haben. Hat ein Angreifer also die
 Zugangsdaten erbeutet, bringt die Verschlüsselung die der Cloud--Dienst
 betreibt in diesem Fall nichts. Die gestohlenen Passwörter waren nicht im
 Klartext einsehbar, moderne Angriffsmöglichkeiten auf Passwörter zeigen jedoch,
-dass das nichtsdestotrotz ein großes Problem ist. (siehe hierzu TODO:
-Sicherheit von Passwörtern)
+dass das nichtsdestotrotz ein großes Problem ist (siehe auch @sec:SEC05_SICHERHEIT_UND_ANGRIFFSSZENARIEN)
 
 [^FN_DROPBOX_DATALEAK]: Dropbox <http://www.telegraph.co.uk/technology/2016/08/31/dropbox-hackers-stole-70-million-passwords-and-email-addresses/>
 
@@ -558,8 +557,6 @@ Neben der Verschlüsselung von *git remotes* mit *gcrypt* gibt es auch die
 Möglichkeit die Daten auf *special remotes* zu verschlüsseln. Hierfür gibt es
 die drei Verfahren:
 
-TODO: Validate once more
-
 * **hybrid encryption:** Gemeinsamer »shared key« wird im mit einen »public
   key«  verschlüsselt im Repository gespeichert
 * **shared encryption:** Gemeinsamer »shared key« wird im Klartext im
@@ -567,7 +564,7 @@ TODO: Validate once more
 * **public key encryption:** Hierbei wird der »public key« verwendet, zum
   entschlüsseln benötigt man den »private key«
 * **shared public key encryption:** Wie beim »public key«--Verfahren, jedoch
-  mit einem gemeinsam genutztem Schlüsselpaar
+  Besitzer des geheimen Schlüssel dürfen die Daten von einem »Special Remote« beziehen
 
 [^FN_GIT_ANNEX_SPECIALREMOTES]: *git--annex* special remotes: <https://git-annex.branchable.com/special_remotes/>
 [^FN_GIT_ANNEX_ENCRYPTION]: *git--annex* encryption: <http://git-annex.branchable.com/design/encryption/>

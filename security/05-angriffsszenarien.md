@@ -35,12 +35,14 @@ es nicht für jeden Anwendungsfall eine konkrete Empfehlung geben kann. Manchmal
 muss auch zwischen Sicherheit und Geschwindigkeit abgewogen werden. Ein
 Beispiel hierfür wäre die Abwägung ob man Betriebsmodi verwendet die
 Authentifikation und Verschlüsselung unterstützen wie beispielsweise *GCM* oder
-doch besser eine »Encrypt--than--MAC«--Komposition (vgl. auch [@encryptthanmac]).
+doch besser eine »Encrypt--than--MAC«--Komposition (vgl. auch [@encryptthanmac]). Weiterhin macht die Kryptoanalyse Fortschritte und kommt beispielsweise zu neuen Erkenntnissen[^FN_PRIME_BACKDOOR], dass Primzahlen Hintertüren enthalten können.
+
+[^FN_PRIME_BACKDOOR]: Cryptanalysis of 1024-bit trapdoored primes: <http://caramba.inria.fr/hsnfs1024.html>
 
 Ein weiteres Beispiel welches die Komplexität der Lage darstellt, ist eine
 aktuelle Warnung vom *BSI*[^FN_BSI_NORTON] bei welcher »Sicherheitssoftware«
 aufgrund von gravierenden Sicherheitslücken als Einfallstor für Schadsoftware
-missbraucht werden kann.
+missbraucht werden kann. 
 
 [^FN_BSI_NORTON]:  BSI Warn-- und Informationsdienste: <https://www.cert-bund.de/advisoryshort/CB-K16-1797>
 

@@ -277,7 +277,7 @@ generierten Schlüssel haben die verschlüsselten Dateien und Datenblöcke ---
 auch bei gleichem Input --- einen unterschiedlichen Output. Dies hat zur Folge,
 dass *IPFS* die Daten nicht mehr sinnvoll Deduplizieren kann wie unter (REF
 IPFS DEDUP) abgebildet. Eine möglicher Ansatz dieses »Problem« zu umgehen oder
-abzumildern ist Convergent Encryption, siehe TODO: REF Verbesserugen.
+abzumildern ist Convergent Encryption, siehe @sec:SEC08_DATENVERSCHLUESSELUNG.
 
 Beim Benchmark--Tool wurde beim Ver-- und Entschlüsseln, bei Verwendung der
 eine Geschwindigkeits--Anomalie beim verschlüsseln verschiedenen Dateigrößen
@@ -407,9 +407,9 @@ werden.
 ## Repository--Zugriff {#sec:SEC07_REPOSITORY_ZUGRIFF}
 
 Um Zugriff auf das »brig«--Repository zu erhalten muss sich der Benutzer »brig«
-gegenüber mit einem Passwort authentifizieren. Schlechte Passwörter (TODO: Ref)
-sind ein großes Problem im Informationszeitalter, da von ihnen die Sicherheit
-eines gesamten Systems abhängen kann. Menschen sind schlecht darin die
+gegenüber mit einem Passwort authentifizieren. Schlechte Passwörter sind ein
+großes Problem im Informationszeitalter, da von ihnen die Sicherheit eines
+gesamten Systems abhängen kann. Menschen sind schlecht darin die
 *Entropie*[^FN_ENTROPY] von Passwörter richtig einzuschätzen. »brig« verwendet
 für die Bestimmung der Passwort--Entropie *zxcvb*--Bibliothek, welche von
 *Dropbox* entwickelt wurde. Laut einer Studie [@Carnavalet] wird die
@@ -417,7 +417,7 @@ Bibliothek, im Vergleich zu den getesteten Konkurrenten, als akkurater in ihrer
 Funktionsweise bezeichnet. Eine Schwäche, welche bei den
 Entropie--Schätzungswerkzeugen auftritt ist, dass diese ohne Basis eines
 Wörterbuchs arbeiten und somit bei Zeichenketten *Brute--Force* als schnellsten
-Ansatz annehmen (TODO: Ref Passwortcracking.).
+Ansatz annehmen.
 
 Ein weiteres Problem dass bei der Definition einer minimalen Entropie besteht
 ist, dass Benutzer bei komplexen Passwörtern dazu neigen werden diese

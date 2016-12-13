@@ -17,8 +17,6 @@ ist es ein Hinweis dafür, dass man hätte Experten aus dem Bereich der
 Kryptographie einbeziehen sollen um solche Fehler zu vermeiden (vgl. auch
 [@martin2012everyday], S. 430).
 
-TODO: http://www.golem.de/news/dsa-diffie-hellman-primzahlen-koennen-hintertuer-enthalten-1610-123778.html
-
 [^FN_WEP_ANALYSIS]: WEP Analysis: <http://www.isaac.cs.berkeley.edu/isaac/wep-faq.html>
 
 Sogar bei Unternehmen welche explizit mit *starker Kryptographie* für ihre
