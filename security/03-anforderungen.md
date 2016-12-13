@@ -1,33 +1,15 @@
 # Anforderungen {#sec:SEC03_ANFORDERUNGEN}
 
+## Einleitung {#sec:SEC03_EINLEITUNG}
+
 Die Betrachtung des aktuellen wissenschaftlichen und technischen Standes zeigt,
 dass die Thematik im Detail komplex und kompliziert ist. Nichtsdestotrotz
 ergeben sich gewissen Mindestanforderungen, die für die Entwicklung einer
 »sicheren« und dezentralen Dateisynchronisationslösung nötig sind. Um eine
 möglichst gute Sicherheit und Usability zu gewährleisten, muss die Software und
-der Softwareentwicklungsprozess gewissen Mindestanforderungen genügen. Da die
-Anforderungen von der Zielgruppe abhängig sind, werden folgend grundsätzliche
-Anforderungen definiert, welche Zielgruppen--übergreifend sind.
+der Softwareentwicklungsprozess gewissen Mindestanforderungen genügen.
 
-## Anforderungen an die Software {#sec:SEC03_ANFORDERUNGEN_AN_DIE_SOFTWARE}
-
-### Sicherheit {#sec:SEC03_SICHERHEIT}
-
-Wie bereits unter [@sec:SEC02_DER_SICHERHEITSBEGRIFF] erwähnt, ist »Sicherheit« ein sehr
-weitläufiger Begriff und immer von einem bestimmten »Angriffsszenario«
-abhängig.
-
-Eine Software zur dezentralen Dateiverteilung benötigt Sicherheitskonzepte
-welche folgende Punkte gewährleisten:
-
-* Vertraulichkeit: Kein Zugriff auf Daten durch unbefugte Personen.
-* Integrität: Manipulation von Daten erkennen.
-* Authentizität: Kommunikationspartner eindeutig identifizierbar.
-
-Weiterhin sollen sich die Anforderungen an die Sicherheit an den aktuell
-vorherrschenden und bewährten »Sicherheitsstandards« orientieren.
-
-### Usability {#sec:SEC03_USABILITY}
+## Usability {#sec:SEC03_USABILITY}
 
 Die Usability von Software ist teilweise subjektiv und ist stark von den
 Erfahrungshorizont des Nutzers abhängig. Bereits bekannte Konzepte werden oft
@@ -35,9 +17,9 @@ als »intuitiv« empfunden, neue Konzepte hingegen oft nur mühsam vom Benutzer
 angenommen. Die Umstellung des »User Interfaces« von Windows 7 zu Windows 8
 (vgl. [@nielsen2012windows]) ist hierfür ein gutes Beispiel.
 
-Ein weiteren Punkt zeigt die Praxis. Zwar gibt es seit Jahrzehnten Software zur
-»sicheren« Kommunikation, wie beispielsweise OpenPGP, jedoch hat sich das
-Konzept nicht durchgesetzt. Über die genauen Gründe, warum sich PGP nicht
+Einen weiteren Punkt zeigt die Praxis. Zwar gibt es seit Jahrzehnten Software
+zur »sicheren« Kommunikation, wie beispielsweise OpenPGP, jedoch hat sich das
+Konzept wenig durchgesetzt. Über die genauen Gründe, warum sich PGP nicht
 durchgesetzt hat, kann man sich streiten. Laut Meinung des Autors, liegt es
 einerseits an der hohen Komplexität beziehungsweise Einstiegshürde,
 andererseits zeigen Umfragen, dass eine gewisse Gleichgültigkeit gegenüber dem
@@ -63,18 +45,47 @@ Dies ermöglicht eine gezielte Synchronisation bestimmter Daten und ermöglicht
 dem Benutzer so Ressourcen (Speicherplatz und Zeit) zu sparen. Dabei sollen die
 Daten bei der Übertragung und Speicherung verschlüsselt sein.
 
-## Weitere Anforderungen an die Software und Softwareentwicklung {#sec:SEC03_WEITERE_ANFORDERUNGEN_AN_DIE_SOFTWARE_UND_SOFTWAREENTWICKLUNG}
+## Sicherheit {#sec:SEC03_SICHERHEIT}
 
-**Transparentes Entwicklungsmodell:** Es soll für den Verbraucher
-nachvollziehbar sein unter welchen Umständen die Software entsteht, sprich
-welche Technologien verwendet werden.
+Wie bereits unter [@sec:SEC02_DER_SICHERHEITSBEGRIFF] erwähnt, ist »Sicherheit«
+ein sehr weitläufiger Begriff und stark von einem bestimmten »Angriffsszenario«
+abhängig.
 
-**»Sichere« Softwareentwicklung:** Neben der »Usability« liegt ein
-Hauptaugenmerk auf der »Sicherheit«, das heißt, dass gewisse »Mindeststandards«
-(Schlüsselmanagement, bewährte Sicherheitsalgorithmen, et cetera) erfüllt
-werden müssen um ein »sicheres« Produkt zu gewährleisten. Weiterhin sollte bei
-der Softwareentwicklung eine Authentifizierung der Entwickler möglich sein. 
+Eine Software zur dezentralen Dateiverteilung benötigt Sicherheitskonzepte
+welche folgende Punkte gewährleisten:
 
-**»Sicheres« Update-- und Patch--Mechanismus:** Softwareupdates und
-sicherheitskritische Patches müssen den Verbraucher »schnell« und »sicher«
-erreichen.
+* Vertraulichkeit: Kein Zugriff auf Daten durch unbefugte Personen.
+* Integrität: Manipulation von Daten erkennen.
+* Authentizität: Kommunikationspartner eindeutig identifizierbar.
+
+Weiterhin sollen sich die Anforderungen an die Sicherheit an den aktuell
+vorherrschenden und bewährten »Sicherheitsstandards« orientieren.
+
+Die Entwicklung einer sicheren Software setzt einen sicheren und transparenten
+Entwicklungsprozess voraus. Wird eine Software produktiv eingesetzt, so ist ein
+stetiges Patchmanagement essentiell. Bei einer dezentralen »sicheren«
+Synchronisationslösung wie »brig« ist es weiterhin essentiell, dass ein
+durchdachtes Sicherheitskonzept existiert.
+
+Bei Open--Source--Projekten kommt erschwerend hinzu, dass Benutzern und
+Entwicklern neben dem Vertrauen in die Software auch eine akzeptable Möglichkeit
+geboten werden muss, den Entwicklungsprozess sicher und transparent
+mitgestalten zu können.
+
+Aus diesen Herausforderungen ergeben sich bezogen auf das Projekt folgende
+Mindestanforderungen sowie Fragestellungen:
+
+* Passwortmanagement -- Wie sieht für Benutzer und Entwickler ein »sicheres«
+  Passwortmanagement aus?
+* Schlüsselmanagement -- Welche Konzepte sollen für die Verwaltung
+  kryptographische Schlüssel verwendet werden?
+* Authentifizierung -- Wie kann eine sichere Authentifizierung von Benutzer in
+  einem dezentralen Netzwerk erfolgen?
+* Sichere Softwareverteilung -- Wie kann der Benutzer/Entwickler sicherstellen
+  keine Schadsoftware erhalten zu haben?
+* Sichere und transparente Entwicklungsumgebung -- Wie sieht eine transparente
+  und sichere Entwicklungsumgebung aus?
+
+Diese Fragestellungen ergeben weiterhin aus Herausforderungen an die Sicherheit
+--- bezüglich verschiedener Angriffsszenarien --- welche im
+@sec:SEC05_ANGRIFFSFLAECHE_BEI_BRIG detaillierter Behandelt werden.
