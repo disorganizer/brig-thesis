@@ -5,17 +5,17 @@
 
 ## Beurteilung von Sicherheit {#sec:SEC05_BEURTEILUNG_VON_SICHERHEIT}
 
-Wie bereits in der Einleitung von [@sec:SEC04_EINLEITUNG] erwähnt ist das
-Entwickeln von »sicherer« Software kein trivialer Prozess. Auch Systeme die von
+Wie bereits in der Einleitung von [@sec:SEC04_EINLEITUNG] erwähnt, ist das
+Entwickeln von sicherer Software kein trivialer Prozess. Auch Systeme, die von
 Experten entwickelt wurden, können gravierende Sicherheitsmängel aufweisen.
 
 Ein wichtiger Punkt, welcher von Experten oft geraten wird, ist die Verwendung
 bekannter und bewährter Algorithmen und Protokolle wie beispielsweise AES,
 RSA/DSA, TLS et cetera. Die Entwicklung neuer kryptographischer Algorithmen und
 Protokolle sollte nach Möglichkeit vermieden werden. Weiterhin werden Details von
-kryptographische Elementen oftmals missverstanden oder es werden für den
+kryptographischen Elementen oftmals missverstanden oder es werden für den
 Einsatz von Sicherheit die falschen Techniken eingesetzt. Beispiele hierfür
-wären (vlg. [@evertythin1hour]):
+wären (vgl. [@evertythin1hour]):
 
 * Google Keyczar (timing side channel)[^FN_KEYCZAR_BUG]
 * SSL (session renegotiation)[^FN_SSL_BUG]
@@ -33,8 +33,8 @@ Erschwert kommt bei der Auswahl kryptographischer Algorithmen/Protokolle hinzu,
 dass sich Experten nicht immer einig sind oder es kommt erschwerend hinzu, dass
 es nicht für jeden Anwendungsfall eine konkrete Empfehlung geben kann. Manchmal
 muss auch zwischen Sicherheit und Geschwindigkeit abgewogen werden. Ein
-Beispiel hierfür wäre die Abwägung ob man Betriebsmodi verwendet die
-Authentifikation und Verschlüsselung unterstützen wie beispielsweise *GCM* oder
+Beispiel hierfür wäre die Abwägung ob man Betriebsmodi verwendet, die
+Authentifikation und Verschlüsselung unterstützen, wie beispielsweise *GCM*, oder
 doch besser eine »Encrypt--than--MAC«--Komposition (vgl. auch [@encryptthanmac]). Weiterhin macht die Kryptoanalyse Fortschritte und kommt beispielsweise zu neuen Erkenntnissen[^FN_PRIME_BACKDOOR], dass Primzahlen Hintertüren enthalten können.
 
 [^FN_PRIME_BACKDOOR]: Cryptanalysis of 1024-bit trapdoored primes: <http://caramba.inria.fr/hsnfs1024.html>
@@ -49,10 +49,9 @@ missbraucht werden kann.
 Weiterhin macht es keinen Sinn und ist auch oft wirtschaftlich untragbar alle
 finanziellen Mittel in die Sicherheit eines Softwareproduktes zu investieren.
 Laut [@martin2012everyday] ist es in der Regel eine Abwägung zwischen möglichen
-Risikofaktoren und finanziellem sowie zeitlichen Aufwand. Es macht so gesehen
-keinen Sinn mehrere Millionen Euro in ein Softwareprodukt zu investieren,
+Risikofaktoren und finanziellem sowie zeitlichem Aufwand. Es macht so gesehen
+keinen Sinn, mehrere Millionen Euro in ein Softwareprodukt zu investieren,
 welches beispielsweise nur Daten im Wert von ein paar tausend Euro schützt.
-
 Weiterhin ist es auch wichtig »realistische« Gefahren zu identifizieren und
 nicht unnötig Ressourcen in sicherheitstechnische Details zu investieren.
 
@@ -65,22 +64,22 @@ Software--Produkt und einen Entwicklungsprozess wie er bei »brig« vorliegt zu
 definieren und mögliche Verbesserungskonzepte zu erarbeiten.
 
 Hierbei wird in erster Linie angenommen, dass die meisten Sicherheitsprobleme durch
-Benutzerfehler oder durch mangelnde Kenntnis/Sicherheitvorkehrungen zustande
+Benutzerfehler oder durch mangelnde Kenntnis/Sicherheitsvorkehrungen zustande
 kommen. Primär spielen in der Arbeit praxisorientierte Ansätze eine wichtige
-Rolle, theoretische Sicherheitsmängel sind diese untergeordnet nur werden, auf
+Rolle, theoretische Sicherheitsmängel sind diesen untergeordnet und werden, auf
 Grund der hohen Komplexität der Thematik, nur am Rande behandelt.
 
 Zu den theoretischen Problemen gehören im Umfeld dezentraler Softwaresysteme
-primär Angriffe wie beispielsweise die Sybil--Attacke, bei welcher es für einem
-Angreifer möglich mit einer großen Anzahl von Pseudonymen einen
+primär Angriffe wie beispielsweise die Sybil--Attacke, bei welcher es für einen
+Angreifer möglich ist, mit einer großen Anzahl von Pseudonymen einen
 überproportional großen Einfluss in einem dezentralen Netzwerk zu erlangen.
-Möglichkeiten die diesem Angriff entgegenwirken sind in erster Line zentrale
-Aufhentifizierungsinstanzen. Der Angriff wird unter [@BIB_SYBIL_ATTACK] genauer
+Möglichkeiten, die diesen Angriff entgegenwirken sind in erster Linie zentrale
+Authentifizierungsinstanzen. Der Angriff wird unter [@BIB_SYBIL_ATTACK] genauer
 erläutert. Das von »brig« verwendete *IPFS*--Netzwerk verwendet Teile des
-*S/Kademlia*--Protokolls, welches es Prinzipiell erschwert eine
+*S/Kademlia*--Protokolls, welches es prinzipiell erschwert eine
 Sybil--Attacke[^FN_IPFS_SYBIL_ATTACK] durchzuführen. Unter [@BIB_SKADEMLIA]
-wird *S/Kademlia* genauer bezüglich der Angriffe auf dezentrale Architekturen
-untersucht.
+wird *S/Kademlia* bezüglich der Angriffe auf dezentrale Architekturen
+genauer untersucht.
 
 [^FN_IPFS_SYBIL_ATTACK]: IPFS -- Content Addressed, Versioned, P2P File System: <https://blog.acolyer.org/2015/10/05/ipfs-content-addressed-versioned-p2p-file-system/>
 
@@ -90,21 +89,21 @@ Zu den praxisorientierten Problemen bei der Entwicklung einer Software wie
 »brig« gehören in erster Linie folgende Punkte, auf welche primär in der Arbeit
 eingegangen wird:
 
-**Passwormanagement:** Menschen sind schlecht darin gute Passwörter vergeben.
-Erweiterte Technologien ermöglichen es immer schneller gestohlene
-Passwörter--Datenbanken zu knacken in Systeme einzubrechen. Bruce Schneier
+**Passwortmanagement:** Menschen sind schlecht darin, gute Passwörter zu vergeben.
+Erweiterte Technologien ermöglichen es, immer schneller gestohlene
+Passwörter--Datenbanken zu knacken und in Systeme einzubrechen. Bruce Schneier
 beschreibt im Artikel »A Really Good Article on How Easy it Is to Crack
-Passwords«[^FN_BRUCE_PW] die Problematik detailierter und gibt Empfehlungen.
+Passwords«[^FN_BRUCE_PW] die Problematik detaillierter und gibt Empfehlungen.
 
 [^FN_BRUCE_PW]: A Really Good Article on How Easy it Is to Crack Passwords: <https://www.schneier.com/blog/archives/2013/06/a_really_good_a.html>
 
 **Schlüsselmanagement:** Die sichere Kommunikation von kryptographischen
-Schlüsseln stellt eins der größten Probleme im digitalen Zeitalter dar.
+Schlüsseln stellt eines der größten Probleme im digitalen Zeitalter dar.
 (@martin2012everyday, S. 326 ff.). In der Vergangenheit gab es immer wieder
 Zwischenfälle bei welchen in Systeme mit gestohlenen kryptographischen
 Schlüsseln eingebrochen wurde[^FN_FREEBSD_SSH_MALWARE]. Laut
 Berichten[^FN_SSH_MALWARE][^FN_PRIV_KEY_MALWARE] expandiert der Malware--Markt
-in dieser Richtung, es wird zunehmend Malware für das ausspähen
+in dieser Richtung, es wird zunehmend Malware für das Ausspähen
 kryptographischer Schlüssel entwickelt.
 
 [^FN_FREEBSD_SSH_MALWARE]:Hackers break into FreeBSD with stolen SSH key: <http://www.theregister.co.uk/2012/11/20/freebsd_breach/>
@@ -113,11 +112,11 @@ kryptographischer Schlüssel entwickelt.
 
 **Authentifizierung:** Wie weiss der Benutzer, dass sein Kommunikationspartner
 der ist für den er sich ausgibt? Hier sollen mögliche Konzepte erarbeitet
-werden um »fremde« Kommunikationspartner identifizieren zu können.
+werden, um Angriffe durch »fremde« Kommunikationspartner identifizieren zu können.
 
-**Softwareverteilung:** Der Benutzer sicherstellen
+**Softwareverteilung:** Der Benutzer muss sicherstellen
 können, dass die aus dem Internet bezogene Open--Source--Software keine Malware
-ist. Weiterhin ist es wichtig Software auf einem aktuellen Stand zu halten um
+ist. Weiterhin ist es wichtig, Software auf einem aktuellen Stand zu halten, um
 bekannte Sicherheitslücken zu schließen.
 
 **Entwicklungsumgebung bei Open--Source--Projekten:**  Wie können
