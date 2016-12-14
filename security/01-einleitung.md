@@ -9,65 +9,63 @@ Aufkommen der Cloud--Lösungen der letzten Jahre, werden Dateien immer öfters
 OneDrive« oder »Google--Drive« ausgetauscht.
 
 Diese Dienste basieren auf einer zentralen Architektur und ermöglichen dem
-
 Benutzer seine Dateien über mehrere Computer hinweg zu synchronisieren und mit
 Freunden --- oder im geschäftlichen Umfeld mit Partnern --- auszutauschen.
-Hierbei ist man in der Regel stets auf die Verfügbarkeit des jeweiligen
-Dienstes angewiesen --- fällt der Dienst aus oder wird beispielsweise
-Strafverfolgungsbehörden geschlossen (Megaupload[^FN_MEGAUPLOAD_TAKEDOWN]),
-bleibt einem der Zugriff auf die eigenen Dateien verwehrt.
+Hierbei ist man in der Regel auf die Verfügbarkeit des jeweiligen Dienstes
+angewiesen. Fällt der Dienst aus oder wird beispielsweise von
+Strafverfolgungsbehörden geschlossen
+(Megaupload--Schließung[^FN_MEGAUPLOAD_TAKEDOWN]), bleibt einem der Zugriff auf
+die eigenen Dateien verwehrt.
 
 [^FN_MEGAUPLOAD_TAKEDOWN]: Hinweise zur Schließung: <https://de.wikipedia.org/wiki/Megaupload>
 
 Auch wenn das Aufkommen dieser Dienste auf den ersten Blick eine Abhilfe sein
-mag, so werden beim genaueren Hinsehen Risiken und Nachteile --- welche erst
-durch Aufkommen dieser Dienste entstanden sind --- deutlich sichtbar. Eins der
+mag, so werden beim genaueren Hinsehen Risiken und Nachteile, welche erst
+durch Aufkommen dieser Dienste entstanden sind, deutlich sichtbar. Eins der
 Hauptprobleme ist, aufgrund mangelnder Transparenz, der Schutz der Daten
 beziehungswiese der Privatsphäre.
 
 Hier muss dem Dienstanbieter vollständig vertraut werden, da nicht bekannt ist
 welche Drittparteien Zugriff auf die Daten haben. Dies mag bei der persönlichen
-Musik--Sammlung --- im im Gegensatz zur Speicherung sensibler medizinischer
-oder finanzieller Unterlagen --- weniger ein Problem sein. Spätestens seit den
+Musik--Sammlung --- im Gegensatz zur Speicherung sensibler medizinischer oder
+finanzieller Unterlagen --- weniger ein Problem sein. Spätestens seit den
 Snowden--Enthüllungen und der Bekanntheit des PRISM--Überwachungsprogramms ist
 offiziell bekannt[@bibgreenwald2013nsa], dass der Zugriff auf persönliche Daten
-durch Drittparteien erfolgt ist beziehungswiese erzwungen wurde. Neben dem
+durch Drittparteien erfolgt ist, beziehungswiese erzwungen wurde. Neben dem
 geduldeten oder rechtlich erzwungenen Zugriff durch Drittparteien, haben
 Cloud--Storage--Anbieter wie beispielsweise »Dropbox« in der Vergangenheit
-immer wieder für Schlagzeilen gesorgt.
-
-Durch diverse Softwarefehler war beispielsweise der Zugriff über mehrere
-Stunden mit beliebigen Passwörtern möglich[^FN_DROPBOX_AUTH_BUG]. Ein weiterer
-Softwarefehler hat bei der Aktivierung bestimmter Features Daten unwiderruflich
+immer wieder für Schlagzeilen gesorgt. Durch diverse Softwarefehler war
+beispielsweise der Zugriff über mehrere Stunden mit beliebigen Passwörtern
+möglich[^FN_DROPBOX_AUTH_BUG]. Ein weiterer Softwarefehler hat bei der
+Aktivierung bestimmter Features Daten unwiderruflich
 gelöscht[^FN_DROPBOX_DATA_CORRUPTION]. Daneben wird die Sicherheit von
 Cloud--Storage--Services in Studien bemängelt[@bibfisitcloudsec].
 
 [^FN_DROPBOX_AUTH_BUG]: Authentifizierungs--Bug: <https://blogs.dropbox.com/dropbox/2011/06/yesterdays-authentication-bug/>
 [^FN_DROPBOX_DATA_CORRUPTION]: Selective--Sync--Bug: <https://plus.google.com/+MichaelArmogan/posts/E9sVnrLTB5C>
 
-Will man Daten privat oder geschäftlich austauschen so muss man sich in der
+Will man Daten privat oder geschäftlich austauschen, so muss man sich in der
 Regel auf einen Anbieter einigen. Hierbei stellt die
 Fragmentierung[^FN_PROVIDER_FRAGMENTATION] der Cloud--Storage--Anbieter den
 Benutzer oft vor weitere Herausforderungen.
 
 [^FN_PROVIDER_FRAGMENTATION]: Übersicht Online--Backup--Provider: <https://en.wikipedia.org/wiki/Comparison_of_online_backup_services>
 
-Will man persönlichen Bedenken auf den Einsatz von Cloud--Storage--Anbietern
+Will man aus persönlichen Bedenken auf den Einsatz von Cloud--Storage--Anbietern
 verzichten, bleibt einem immer noch die Möglichkeit Dateien über E--Mail zu
 versenden. Hier erschließt sich aber bei näherer Betrachtung ein ähnliches
-Problem wie bei den Cloud--Storage--Anbietern, die Privatsphäre beziehungswiese
-der Schutz der Daten vorm Zugriff durch Dritte, sind mangelhaft. Es gibt die
-Möglichkeit E-Mails beispielsweise mittels *Pretty Good Privacy* zu
+Problem wie bei den Cloud--Storage--Anbietern. Die Privatsphäre, beziehungsweise
+der Schutz der Daten vor dem Zugriff durch Dritte, ist mangelhaft. Es gibt die
+Möglichkeit E-Mails beispielsweise mittels *Pretty Good Privacy (PGP)* zu
 verschlüsseln, jedoch ist der Einsatz und Aufwand für den Otto
 Normalverbraucher schlichtweg zu kompliziert und wird daher kaum genutzt.
 
 Der Austausch über Cloud--Storage--Service oder E-Mail ist nichtsdestotrotz der
-Quasi--Standard. Es gibt zwar technisch gesehen weitere Möglichkeiten Daten,
-auch ohne eine zentrale Instanz, auszutauschen, jedoch sind diese entweder
+Quasi--Standard. Es gibt zwar technisch gesehen weitere Möglichkeiten, Daten
+auch ohne eine zentrale Instanz auszutauschen, diese sind jedoch entweder
 recht unbekannt, für den Otto Normalverbraucher unbenutzbar oder unsicher. Zu
 den bekanntesten Vertretern gehören hier wahrscheinlich
-*Syncthing*[^FN_SYNCTHING], *git--annex*[^FN_GIT_ANNEX] oder auch
-*Resilio*[^FN_RESILIO].
+*Syncthing*[^FN_SYNCTHING], *git--annex*[^FN_GIT_ANNEX] oder auch *Resilio*[^FN_RESILIO].
 
 [^FN_SYNCTHING]: Syncthing: <https://syncthing.net/>
 [^FN_RESILIO]: Resilio: <https://getsync.com/>
@@ -77,31 +75,32 @@ Diese Ausgangssituation hat letztendlich nicht nur aus persönlichem Interesse
 und mangels Alternativen dazu geführt, sich mit der Thematik näher zu befassen
 und weitere Möglichkeiten zu erschließen. In Zusammenarbeit mit meinem
 Kommilitonen, Christopher Pahl, wurde die Entwicklung an dem dezentralen
-Dateisynchronisationswerkzeug *brig* gestartet, welches aktuelle Situation
+Dateisynchronisationswerkzeug »brig« gestartet, welches die aktuelle Situation
 verbessern soll.
 
-## Organisation und Schwerpunkt der Arbeit {#sec:SEC01_ORGANISATION_UND_SCHWERPUNKT_DER_ARBEIT}
+## Organisation und Schwerpunkte der Arbeit {#sec:SEC01_ORGANISATION_UND_SCHWERPUNKT_DER_ARBEIT}
 
-**Projektschwerpunkte:** Ziel ist es eine Software zu entwickeln, welche
-aktuelle Sicherheitsstandards und Usability möglichst gut vereint und dabei
-ohne zentrale Instanzen auskommt.
+**Projektschwerpunkte:** 
+
+Ziel ist es eine Software zu entwickeln, welche aktuelle Sicherheitsstandards
+und Usability möglichst gut vereint und dabei ohne zentrale Instanz auskommt.
 
 Aufgegliedert liegen die Schwerpunkte wie folgt:
 
-**Vollständige Transparenz:** Der Benutzer soll vollständige Transparenz
-bezüglich die Software und den Entwicklungsprozess haben --- nur so lässt ich
+*Vollständige Transparenz:* Der Benutzer soll vollständige Transparenz
+bezüglich der Software und dem Entwicklungsprozess haben. Nur so lässt ich
 eine vertrauenswürdige Implementierung gewährleisten.
 
-**Aktuelle Sicherheitsstandards:** Die Software soll die Daten des Benutzers zu
+*Aktuelle Sicherheitsstandards:* Die Software soll die Daten des Benutzers zu
 jeder Zeit möglichst gut schützen. Hierzu sollen bewährte Sicherheitsstandards
 verwendet werden.
 
-**Möglichst intuitive Benutzung:** Der Benutzer soll von der
-Sicherheitskomplexität so wenig wie nötig mitbekommen. Die Software soll dabei
-jedoch mindestens so einfach nutzbar sein wie die heutzutage gängige
+*Möglichst intuitive Benutzung:* Der Benutzer soll von der
+Sicherheitskomplexität so wenig wie möglich mitbekommen. Die Software soll dabei
+jedoch mindestens so einfach nutzbar sein wie die heutzutage gängigen
 Cloud--Dienste.
 
-**Organisation:**
+**Organisation:** 
 
 Die Basis für die Entwicklung der Software, Validierung einzelner Komponenten
 und Prozesse, sowie die Ausarbeitung möglicher zukünftiger Konzepte stellen die
@@ -113,28 +112,25 @@ folgenden Arbeiten dar:
    am Beispiel »brig«, *Christoph Piechula*
 
 Aktuell wird Software im Rahmen der genannten Masterarbeiten bei *Prof.
-Dr.-Ing. Thorsten Schöler* in der *Distributed--Systems--Group*[^FN_DSG] der
+Dr.-Ing. Thorsten Schöler* in der *Distributed Systems Group*[^FN_DSG] der
 Hochschule Augsburg entwickelt.
 
-[^FN_DSG]: Distributed--Systems--Group: <http://dsg.hs-augsburg.de>
+[^FN_DSG]: Distributed Systems Group: <http://dsg.hs-augsburg.de>
 
 Die vorliegende Arbeit hat dabei aufgrund des Umfangs des Gesamtprojekts
 folgende Schwerpunkte, Fragestellungen und Ziele:
 
 * Sensibilisierung von Entwicklern und Benutzern für die Thematik der sicheren
   Software. Warum ist sichere Software und Kryptographie für unsere Gesellschaft
-  wichtig? Worauf ist bei der Implementierung zu Achten, wie sind die Zusammenhänge?
-* »Sichere« beziehungsweise transparente Softwareentwicklung. Insbesondere
-  sollen hierbei am Beispiel »brig« die Herausforderungen an die Benutzer und
-  Entwickler dieses Projekts aufgezeigt werden. 
-* Zusammenhängende Betrachtung der Sicherheit von Software
-* Betrachtung von Sicherheitskonzepten zentraler und dezentraler Lösungen.
-* Betrachtung der Vor-- und Nachteile zentraler und dezentraler Lösungen.
-* Evaluation bisherige Ansätze (Sicherheit, Usability) und Definition möglicher
+  wichtig? Worauf ist bei der Implementierung zu achten, wie sind die Zusammenhänge?
+* Zusammenhängende Betrachtung der Sicherheit von Software.
+* Betrachtung der Sicherheitskonzepte, Vor-- und Nachteile zentraler und
+  dezentraler Lösungen.
+* Evaluation bisheriger Ansätze (Sicherheit, Usability) und Definition möglicher
   Verbesserungen, welche in die Weiterentwicklung und in den
   Entwicklungsprozess einfließen sollen.
 * Betrachtung von Sicherheitskonzepten welche für eine sichere, transparente
-  und vertrauenswürdige Softwareentwicklung essentiell sind
+  und vertrauenswürdige Softwareentwicklung und Softwareverteilung essentiell sind.
 
 ## Zielgruppen und Einsatzszenarien {#sec:SEC01_ZIELGRUPPEN_UND_EINSATZSZENARIEN}
 
@@ -147,20 +143,20 @@ erhöhten Sicherheitsanforderungen von der Software profitieren. Hierzu gehören
 neben einzelnen Individuen vor allem bestimmte Personengruppen wie
 beispielsweise:
 
-* Journalisten, Aktivisten
-* Medizinischer Bereich
-* Öffentliche Einrichtungen
+* Journalisten und Aktivisten
+* Fachkräfte im medizinischen Bereich
+* Fachkräfte in öffentlichen Einrichtungen
 
 ## Projektname und Lizenzierung {#sec:SEC01_PROJEKTNAME_UND_LIZENZIERUNG}
 
-Der Name brig stellt eine Anlehnung an das zweimastige Handelsschiff
+Der Name »brig« ist eine Anlehnung an das zweimastige Handelsschiff
 *brigg*[^FN_BRIGG], welches gegen Ende des 18. Jahrhunderts zum Einsatz kam.
 Die Namensanlehnung soll analog den dezentralen Transport von Daten darstellen.
 
 [^FN_BRIGG]: Brigg Handelsschiff: <https://de.wikipedia.org/wiki/Brigg>
 
-Aufgrund der Projektziele kommt als Lizenzierung die Open--Source--die
-Open--Source--Lizenz *AGPLv3*[^FN_AGPL] zum Einsatz. Denkbar wären jedoch im
-späteren Verlauf des Projektes kombinierte Lizenzen für Unternehmen. 
+Aufgrund der Projektziele kommt als Lizenzierung die Open--Source--Lizenz
+*AGPLv3*[^FN_AGPL] zum Einsatz. Denkbar wären jedoch im späteren Verlauf des
+Projektes kombinierte Lizenzen für Unternehmen. 
 
 [^FN_AGPL]: AGPLv3 Lizenz: <https://www.gnu.org/licenses/agpl-3.0.de.html>
