@@ -97,6 +97,8 @@ Verfahren zur Authentifizierung (Zwei--Faktor--Authentifizierung,
 Public--Key/Smartcard--Authentifizierung) gegenüber der *GitHub*--Plattform
 evaluiert (siehe @sec:SEC08_SICHERE_AUTHENTIFIZIERUNG_FUER_ENTWICKLER). 
 
+TODO: ssh mit github und file signing etc  mit verbose mode
+
 ## Selbstkritik {#sec:SEC09_SELBSTKRITIK}
 
 Einige der unter @sec:SEC03_ANFORDERUNGEN gesetzten Anforderungen wurden schon
