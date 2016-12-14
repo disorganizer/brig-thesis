@@ -9,14 +9,15 @@ solide Basis für ein Synchronisationswerkzeug entstanden.
 
 Die übergreifende Anforderung an das Projekt, eine gute Balance zwischen
 Sicherheit und Usability zu finden, kann noch nicht endgültig bewertet werden.
-Die bisher getroffenen Entscheidungen bezüglich der *IPFS* können zum großen
-Teil positiv bewertet werden, siehe @sec:SEC06_ZUSAMMENFASSUNG_IPFS_EVALUATION.
-Die Datenhaltungsschicht bietet Aufgrund des Merkle--DAG eine solide Basis mit
+Die bisher getroffenen Entscheidungen bezüglich der *IPFS* können durchaus
+positiv bewertet werden, siehe @sec:SEC06_ZUSAMMENFASSUNG_IPFS_EVALUATION. Die
+Datenhaltungsschicht bietet Aufgrund des Merkle--DAG eine solide Basis mit
 Fehlererkennung, die Netzwerkschicht auf CAN--Basis setzt den dezentralen
-Ansatz von »brig« gut um.
-
-Die aktuell von »brig« umgesetzten Erweiterungen machen aus dem
-*IPFS*--Unterbau eine vollständig dezentrale Synchronisationslösung.
+Ansatz von »brig« gut um. Die aktuell von »brig« umgesetzten Erweiterungen
+machen aus dem *IPFS*--Unterbau eine vollständig dezentrale
+Synchronisationslösung. Weiterhin wurden durch die Evaluation Fehler behoben
+und Verbesserungen zu bisher getroffenen Implementierung identifiziert (siehe
+@sec:SEC08_VERBESSERUNGEN_UND_ERWEITERUNGEN).
 
 ### Schlüsselverwaltung
 
@@ -88,9 +89,13 @@ Synchronisationspartners durchführen lässt.
 ### Softwareentwicklung und Verteilung
 
 Abschließend wurden Konzepte zur sicheren Verteilung der Software evaluiert.
-Hierbei wurden neben Konzepten zu einem sicherheitsbewussten
-Softwareentwicklungprozess auch mögliche Konzepte für ein Updatemanagement der
-Software selbst vorgestellt.
+Hierbei wurden neben Konzepten zum Updatemanagement (siehe
+@sec:SEC08_UPDATEMANAGEMENT), auch Konzepte eines sicherheitsbewussten
+Softwareentwicklungprozess evaluiert (siehe
+@sec:SEC08_SIGNIEREN_VON_QUELLCODE). Weiterhin wurden unterschiedliche
+Verfahren zur Authentifizierung (Zwei--Faktor--Authentifizierung,
+Public--Key/Smartcard--Authentifizierung) gegenüber der *GitHub*--Plattform
+evaluiert (siehe @sec:SEC08_SICHERE_AUTHENTIFIZIERUNG_FUER_ENTWICKLER). 
 
 ## Selbstkritik {#sec:SEC09_SELBSTKRITIK}
 
