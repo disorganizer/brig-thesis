@@ -126,16 +126,22 @@ zufallszahlengenerator:
 
 ## Auffälligkeiten 
 
-* GPG: Passphrase 1234567890 sicher?
-* yubikey private gpg schlüssel werden gecached?
-* Dropbox-Library--Passwort--Problem?
+Auffälligkeiten beim aktuellen *GnuPG*[@fig:IMG_WEAK_PASS].
 
-Nachtrag:
+GPG: Passphrase 1234567890 sicher?
 
 TODO: Validierung der Entropie problematisch:
-https://www.dropbox.com/de/login
-https://www.bennish.net/password-strength-checker/
-https://apps.cygnius.net/passtest/
-https://www.schneier.com/blog/archives/2016/08/frequent_passwo.html
-https://www.schneier.com/blog/archives/2014/03/choosing_secure_1.html
+
+![GnuPG Passwort Richtlinie fraglich](images/weakgpgpass.png){#fig:IMG_WEAK_PASS width=42%}
+
+* yubikey private gpg schlüssel werden gecached?
+
+Dropbox-Library--Passwort--Entropievalidierung Problem?
+
+* <https://www.dropbox.com/de/login>
+* <https://www.bennish.net/password-strength-checker/>
+* <https://apps.cygnius.net/passtest/>
+* <https://www.schneier.com/blog/archives/2016/08/frequent_passwo.html>
+* <https://www.schneier.com/blog/archives/2014/03/choosing_secure_1.html>
+
 

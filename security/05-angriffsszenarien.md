@@ -98,10 +98,10 @@ Passwords«[^FN_BRUCE_PW] die Problematik detailierter und gibt Empfehlungen.
 
 [^FN_BRUCE_PW]: A Really Good Article on How Easy it Is to Crack Passwords: <https://www.schneier.com/blog/archives/2013/06/a_really_good_a.html>
 
-**Schlüsselmanagement:** Die sichere Kommunikation von krypographischen
+**Schlüsselmanagement:** Die sichere Kommunikation von kryptographischen
 Schlüsseln stellt eins der größten Probleme im digitalen Zeitalter dar.
 (@martin2012everyday, S. 326 ff.). In der Vergangenheit gab es immer wieder
-Zwischenfälle bei welchen in Systeme mit gestohlenen krypographischen
+Zwischenfälle bei welchen in Systeme mit gestohlenen kryptographischen
 Schlüsseln eingebrochen wurde[^FN_FREEBSD_SSH_MALWARE]. Laut
 Berichten[^FN_SSH_MALWARE][^FN_PRIV_KEY_MALWARE] expandiert der Malware--Markt
 in dieser Richtung, es wird zunehmend Malware für das ausspähen

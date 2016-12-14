@@ -153,6 +153,9 @@ Referenzwert dienen.
 
 Table: Evaluierte Testsysteme mit und ohne AES--NI--Befehlserweiterungssatz. {#tbl:TAB_HIGH_SYS} 
 
+TODO: `dd` Lese und Schreibperformance mit in Tabelle aufnehmen.
+TODO: Blocksize--Benchmarkgraphik aufnehmen
+
 Der Benchmark soll die maximal mögliche Performance des jeweiligen Systems beim
 Ver-- und Entschlüsseln evaluieren. Daher wird der Benchmark vollständig in
 einer RAM--Disk durchgeführt. [@fig:img-ramdisk] zeigt grafisch den Aufbau
