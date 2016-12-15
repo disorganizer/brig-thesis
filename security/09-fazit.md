@@ -98,6 +98,7 @@ Public--Key/Smartcard--Authentifizierung) gegenüber der *GitHub*--Plattform
 evaluiert (siehe @sec:SEC08_SICHERE_AUTHENTIFIZIERUNG_FUER_ENTWICKLER). 
 
 TODO: ssh mit github und file signing etc  mit verbose mode
+https://www.gnupg.org/related_software/gpgme/
 
 ## Selbstkritik {#sec:SEC09_SELBSTKRITIK}
 
@@ -132,14 +133,6 @@ zufallszahlengenerator:
 <https://www.heise.de/security/artikel/Digitale-Signaturen-und-Zertifikate-270982.html>
 
 ## Auffälligkeiten 
-
-Auffälligkeiten beim aktuellen *GnuPG*[@fig:IMG_WEAK_PASS].
-
-GPG: Passphrase 1234567890 sicher?
-
-TODO: Validierung der Entropie problematisch:
-
-![GnuPG Passwort Richtlinie fraglich](images/weakgpgpass.png){#fig:IMG_WEAK_PASS width=42%}
 
 * yubikey private gpg schlüssel werden gecached?
 
