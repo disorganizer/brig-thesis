@@ -222,7 +222,7 @@ anderer Schlüssel verwendet wird, und somit nicht für den täglichen Gebrauch
 benötigt wird --- zu Exportieren und beispielsweise auf einem sicheren externen
 Datenträger zu speichern. Für die »sichere« externe Speicherung kann
 beispielsweise ein Verfahren wie *Shamir's Secret Sharing* (vgl.
-[@martin2012everyday], S. 337f.) verwendet werden. Bei diesem Verfahren wird
+[@martin2012everyday], S. 337f. und [@BIB_SHAMIR_SECRET]) verwendet werden. Bei diesem Verfahren wird
 ein Geheimnis auf mehrere Instanzen aufgeteilt, zur Rekonstruktion des
 Geheimnisses ist jedoch nur eine gewisse Teilmenge nötig. Das *Shamir's Secret
 Sharing*--Verfahren wird von *libgfshare*[^FN_GITHUB_LIBGFSHARE] implementiert.
@@ -231,6 +231,7 @@ eine einfache Möglichkeit den privaten Schlüssel auf mehrere Instanzen
 aufzuteilen. Im Standardfall wir der Schlüssel auf fünf Dateien aufgeteilt von
 welchen mindestens drei benötigt werden um den Schlüssel wieder zu
 rekonstruieren.
+
 
 Der folgende Kommandozeilenauszüge zeigen die Funktionsweise im Erfolgs-- und Fehlerfall.
 
@@ -322,8 +323,20 @@ eine *Smartcard* auszulagern (siehe
 
 [^FN_DEBIAN_SUBKEY]: Debian Wiki Subkeys: <https://wiki.debian.org/Subkeys>
 
-http://groups.csail.mit.edu/cis/crypto/classes/6.857/papers/secret-shamir.pdf
-https://github.com/jcushman/libgfshare
+#### Weiteres
+
+Bei der Evaluation einer sinnvollen Schlüsselverwaltung ist augefallen, dass die Passwortabfragen beim Generieren des *GnuPG*--Schlüssls eine für den Benutzer fragliche Rückmeldung bezüglich der Passwortqualität liefert. 
+
+![Fragwürdiger *GnuPG*--Pinentry Dialog.](images/weakgpgpass.png){#fig:IMG_GNUPG_PWMETER width=50%}
+
+Hier wird in der aktuellen *GnuPG*--Version *Arch Linux* anscheinend jedes
+Passwort mit einer Zeichenlänge von 10 Zeichen als *Qualität 100%* definiert
+(siehe beispielhaft @fig:IMG_GNUPG_PWMETER). Dieser Ansatz ist bei einer
+Sicherheitssoftware wie *GnuPG*, welche wichtige kryptographische Schlüssel
+Schützen muss fragwürdig, da ein Passwort dieser Komplexität als definitiv
+unsicher angesehen werden sollte (siehe auch @sec:SEC07_REPOSITORY_ZUGRIFF).
+Weiterhin vermittelt dieser Dialog dem Benutzer ein Gefühl von falscher
+Sicherheit und »erzieht« ihn zu schlechten Gewohnheiten.
 
 ## Authentifizierungskonzept {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT}
 
@@ -933,7 +946,7 @@ beispielsweise nach dem anstecken über das System/Kernel--Logging mittels
 [^FN_CCID]:CCID (protocol): <https://en.wikipedia.org/wiki/CCID_(protocol)>
 
 ~~~sh
-freya :: code/brig-thesis/security ‹master*› » dmesg | tail -n 2
+$ dmesg | tail -n 2
 [324606.823079] input: Yubico Yubikey NEO OTP as /devices/pci[...]
 [324606.877786] hid-generic 0003:1050:0110.023F: input,hidraw5: \ 
 USB HID v1.10 Keyboard [Yubico Yubikey NEO OTP] on usb-0000:00:1d.0-1.8.1.3/input0
@@ -950,8 +963,10 @@ Modi --- Einzelmodi und Kombinations--Modi --- wählen[^FN_YUBIKEY_MODES]:
 #### Aktivierung des OpenGPG--Applets {#sec:SEC08_AKTIVIERUNG_DES_OPENGPG_APPLETS}
 
 Da der *YubiKey* im Falle von »brig« oder als Authentifizierungs--
-und Signiertoken für die Entwickler dienen soll (REF: ), bietet sich der `OTP/CCID` Kombimodus an.
-Dieser kann mit dem Kommandozeilenprogramm `ykpersonalize` wie folgt aktiviert werden:
+und Signiertoken für die Entwickler dienen soll (siehe
+@sec:SEC08_SIGNIEREN_VON_QUELLCODE), bietet sich der `OTP/CCID` Kombimodus an.
+Dieser kann mit dem Kommandozeilenprogramm `ykpersonalize` wie folgt aktiviert
+werden:
 
 ~~~sh
 $ ykpersonalize -m2
@@ -1327,7 +1342,7 @@ Für diesen Einsatzzweck muss *Universal--2--Faktor* auf dem *YubiKey* aktiviert
 sein, dies kann nach dem Anstecken des *YubiKey* mit `dmesg` validiert werden:
 
 ~~~sh
-freya :: code/brig-thesis/security ‹master*› » dmesg | tail -n 2
+$ dmesg | tail -n 2
 [448904.638703] input: Yubico Yubikey NEO OTP+U2F+CCID as /devices/pci[...]
 [448904.694278] hid-generic 0003:1050:0116.0364: input,hidraw4: USB HID[...]
 ~~~
