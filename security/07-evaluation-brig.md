@@ -95,7 +95,7 @@ Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEDA*--Blockchiffren[^
 [^AEAD]: Authenticated encryption: <https://en.wikipedia.org/wiki/Authenticated_encryption>
 
 Der *AEAD*--Betriebsmodi wurde gewählt, weil er den Vorteil hat, dass er neben
-der Vertraulichkeit auch Authentizität und Integrität sicherstellt.
+der Vertraulichkeit auch Authentizität und Integrität sicherstellt. 
 
 ### Geschwindigkeitsevaluation {#sec:SEC07_GESCHWINDIGKEITSEVALUATION}
 
@@ -278,9 +278,10 @@ Ein großer Nachteil der aktuell zum Tragen kommt, ist dass die
 [@fig:img-dedupbroken] zeigt den aktuellen Ansatz. Durch den zufällig
 generierten Schlüssel haben die verschlüsselten Dateien und Datenblöcke ---
 auch bei gleichem Input --- einen unterschiedlichen Output. Dies hat zur Folge,
-dass *IPFS* die Daten nicht mehr sinnvoll Deduplizieren kann wie unter (REF
-IPFS DEDUP) abgebildet. Eine möglicher Ansatz dieses »Problem« zu umgehen oder
-abzumildern ist Convergent Encryption, siehe @sec:SEC08_DATENVERSCHLUESSELUNG.
+dass *IPFS* die Daten nicht mehr sinnvoll Deduplizieren kann wie unter (siehe
+@sec:SEC07_SCHLUESSELGENERIERUNG)) abgebildet. Eine möglicher Ansatz dieses
+»Problem« zu umgehen oder abzumildern ist Convergent Encryption, siehe
+@sec:SEC08_DATENVERSCHLUESSELUNG.
 
 Beim Benchmark--Tool wurde beim Ver-- und Entschlüsseln, bei Verwendung der
 eine Geschwindigkeits--Anomalie beim verschlüsseln verschiedenen Dateigrößen
@@ -420,19 +421,74 @@ Bibliothek, im Vergleich zu den getesteten Konkurrenten, als akkurater in ihrer
 Funktionsweise bezeichnet. Eine Schwäche, welche bei den
 Entropie--Schätzungswerkzeugen auftritt ist, dass diese ohne Basis eines
 Wörterbuchs arbeiten und somit bei Zeichenketten *Brute--Force* als schnellsten
-Ansatz annehmen.
+Ansatz annehmen. Weiterhin ist die Schätzung einer »sicheren Entropie« schwierig, da diese stark vom Angriffsszenario abhängt. Die Schätzspanne für ein sicheres Passwort liegt zwischen 29 bit (Online--Passwörter) -- 128 bit oder mehr (Sicherung kryptographischer Schlüssel)[^FN_RANDOM_REQUIREMENTS_FOR_SECURITY]. 
 
-Ein weiteres Problem dass bei der Definition einer minimalen Entropie besteht
-ist, dass Benutzer bei komplexen Passwörtern dazu neigen werden diese
-aufzuschreiben.
+[^FN_RANDOM_REQUIREMENTS_FOR_SECURITY]:Randomness Requirements for Security: <https://tools.ietf.org/html/rfc4086#section-8.2>
 
+Wie bereits unterm Punkt *Passwortmanagement*,
+@sec:SEC05_BEURTEILUNG_VON_SICHERHEIT erwähnt ist der Einsatz von Passwörtern
+problematisch. In dem Berichten von *Bruce Schneier* und *Dan Goodin* wird
+erwähnt, dass heutzutage mit modernen Methoden und moderner Hardware auch
+Passwörter die bisher von vielen Benutzern »gut« angesehen waren, nicht mehr
+verwendet werden sollten. Dazu gehören insbesondere Passwörter, bei welchen
+Buchstaben durch Sonderzeichen oder Zahlen ausgetauscht wurden.
+[@tab:TAB_PASSWORD_CRACK] zeigt listet einen Teil der Passwörter die laut
+*Bruce Schneier* während der sogenannten *cracking session* »gecrackt« wurden.
+Diese Passwörter sind definitiv als unsicher anzusehen. Die Tabelle zeigt die
+geschätzte Entropie und Crackzeit (hier ist leider die genaue Hardware nicht
+bekannt) der genannten Passwörter. In die Cygnius--Schätzungen fließen neben
+der zxcvb--Bibiothek noch erweitere Prüfungen(Länge, Kleinbuchstaben,
+Großbuchstaben, Zahlen, Sonderzeichen), welche eine zusätzliche
+Passwortakzeptanz--Aussage machen.
+
++-------------------+-----------------------+--------------------------------+
+| Passwort          | zxcvbn (Entopie/Zeit) | Cygnius(Entropie/Zeit/Akzept.) |
++===================+=======================+================================+
+| k1araj0hns0n,     | 19.868/instant        | 21.372/4 minutes/no            |
++-------------------+-----------------------+--------------------------------+
+| Sh1a+labe0uf,     | 63.847/centuries      | 53.613/centuries/yes           |
++-------------------+-----------------------+--------------------------------+
+| Apr!l221973,      | 31.154/3 days         | 27.835/5 hours/no              |
++-------------------+-----------------------+--------------------------------+
+| Qbesancon321,     | 45.326/70 years       | 41.625/7 years/yes             |
++-------------------+-----------------------+--------------------------------+
+| DG091101%,        | 44.116/31 years       | 34.936/21 days/no              |
++-------------------+-----------------------+--------------------------------+
+| \@Yourmom69,      | 35.049/22 days        | 35.904/3 months/no             |
++-------------------+-----------------------+--------------------------------+
+| tmdmmj17,         | 43.413/20 years       | 41.921/8 years/no              |
++-------------------+-----------------------+--------------------------------+
+| iloveyousomuch,   | 24.256/18 minutes     | 27.902/5 hours                 |
++-------------------+-----------------------+--------------------------------+
+| Philippians4:6+7, | 60.662/centuries      | 39.915/3 years/no              |
++-------------------+-----------------------+--------------------------------+
+| qeadzcwrsfxv1331. | 83.148/centuries      | 78.795/centuries/no            |
++-------------------+-----------------------+--------------------------------+
+
+Table: Geschätzte Passwort--Entropie und »Crackdauer« von *unsicheren*
+Passwörtern zweiter Online--Passwort--Testplattformen
+(www.bennish.net[^FN_PASSWORD_STRENGHTH_CHECKER],
+Cygnius[^FN_PASSWORD_STRENGHTH_CHECKER_2]) auf der Basis der
+*zxcvbn*--Bibliothek. Cygnius verwendet laut eigenen Aussagen zusätzliche
+Prüfungen. {#tbl:TAB_PASSWORD_CRACK}
+
+[^FN_PASSWORD_STRENGHTH_CHECKER]:Password Strength Checker: <https://www.bennish.net/password-strength-checker/>
+[^FN_PASSWORD_STRENGHTH_CHECKER_2]:Cygnius Password Strength Test: https://apps.cygnius.net/passtest/>
+
+Betrachtet man die Tabelle, so würde sie dem Benutzer nach Aussagen der
+Entropie--Schätzwerkzeugen ein falsches Sicherheitsgefühl vermitteln. Eine
+Empfehlung an dieser Stelle wäre ein zufällig generiertes Passwort wie
+beispielsweise *iyLGBu\<tmr\"6!w-s.1fT* und die Verwendung eines Passwormanagers[^FN_SECURE_PASSWORD].
+
+[^FN_SECURE_PASSWORD]:The secret to online safety: Lies, random characters, and a password manager: <http://arstechnica.com/information-technology/2013/06/the-secret-to-online-safety-lies-random-characters-and-a-password-manager/>
 [^FN_ENTROPY]: Password--Entropy: <https://en.wikipedia.org/wiki/Password_strength#Entropy_as_a_measure_of_password_strength>
 
 **Einschätzung**: Bei der aktuellen Authentifikation gegenüber dem Repository
-ist ein schlechtes Passwort oder die erzwungene Komplexität (Benutzer schreiben
-Komplexe Passwörter auf) eine Schwachstelle. Weiterhin ist auch problematisch,
-dass die Public/Private--Key--Schlüsselpaar von *IPFS* nicht verschlüsselt ist.
-Dieser Umstand ermöglicht beispielsweise Identitätsdiebstahl.
+ist ein (schlechtes) Passwort oder die erzwungene Komplexität (Benutzer
+schreiben komplexe Passwörter auf Post--it's auf) eine Schwachstelle. Weiterhin
+ist auch problematisch, dass die Public/Private--Key--Schlüsselpaar von *IPFS*
+nicht verschlüsselt ist. Dieser Umstand ermöglicht beispielsweise
+Identitätsdiebstahl.
 
 ### Aufbau einer verschlüsselten Verbindung {#sec:SEC07_AUFBAU_EINER_VERSCHLUESSELTEN_VERBINDUNG}
 
