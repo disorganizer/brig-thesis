@@ -1193,8 +1193,6 @@ Daten dabei nicht modifiziert werden.
 
 Signieren der Daten ohne Entwickler--*YubiKey*:
 
-TODO: mit verbose 
-
 ~~~sh
 $ gpg2 --armor --output brig-version-1.0.tar.gz.asc \
   --detach-sign brig-version-1.0.tar.gz
@@ -1208,10 +1206,23 @@ Signatur im *ASCII*--Format anstatt im Binär--Format erstellt wird. Diese läss
 sich beispielsweise auf der Download beziehungsweise Entwicklerseite neben dem
 Fingerprints der Signierschlüssel publizieren.
 
-TODO: mit verbose 
+~~~sh
+$ gpg2 -v --armor --output brig-v1.0.tar.gz.asc --detach-sign brig-v1.0.tar.gz
+gpg: using pgp trust model
+gpg: using subkey 2CC4F84BE43F54ED instead of primary key 8219B30B103FB091
+gpg: writing to 'brig-v1.0.tar.gz.asc'
+gpg: pinentry launched (pid 26215, flavor gtk2, version 1.0.0)
+gpg: RSA/SHA256 signature from: "2CC4F84BE43F54ED Christoph Piechula <christoph@nullcat.de>"
+~~~
+
+Die `-v`--Option visualisiert den Signiervorgang detaillierter. Zusätzlich zu
+sehen ist beispielsweise, dass als Schlüssel zum Signieren ein Unterschlüssel
+mit der `ID 2CC4F84BE43F54ED` anstelle des Hauptschlüssels mit der `ID
+8219B30B103FB091` verwendet wird.
+
+Nach dem Signiervorgang entsteht folgende Signaturdatei:
 
 ~~~sh
-$ gpg2 --armor --output brig-v1.0.tar.gz.asc --detach-sign brig-v1.0.tar.gz
 $ cat brig-v1.0.tar.gz.asc 
 -----BEGIN PGP SIGNATURE-----
 
@@ -1227,21 +1238,24 @@ VOotfneAcQoRgHOpouNpHew+uJO/eg==
 ~~~
 
 Der Benutzer kann durch diesen Ansatz die heruntergeladenen Daten auf einfache
-Art und Weise verifizieren. 
-
-TODO: mit verbose 
+Art und Weise verifizieren. Bei Angabe des Verbose--Flags sieht dieser auch,
+dass die Datei mit einem Unterschlüssel signiert wurde und zu welchem
+Hauptschlüssel dieser gehört.
 
 ~~~sh
-$ gpg2 --verify brig-v1.0.tar.gz.asc
+$ gpg2 -v --verify brig-v1.0.tar.gz.asc
 gpg: assuming signed data in 'brig-v1.0.tar.gz'
-gpg: Signature made So 11 Dez 2016 21:41:44 CET
+gpg: Signature made Do 15 Dez 2016 16:55:28 CET
 gpg:                using RSA key 7CD8DB88FBF822E1300566D12CC4F84BE43F54ED
+gpg: using subkey 2CC4F84BE43F54ED instead of primary key 8219B30B103FB091
+gpg: using pgp trust model
 gpg: Good signature from "Christoph Piechula <christoph@nullcat.de>" [ultimate]
-
+gpg: binary signature, digest algorithm SHA256, key algorithm rsa2048
 ~~~
 
-Wurde eine Manipulation an den Daten oder an der Signatur --- beispielsweise durch einen Angreifer
-oder Malware --- durchgeführt, so schlägt die Verifizierung fehl:
+Wurde eine Manipulation an den Daten oder an der Signatur --- beispielsweise
+durch einen Angreifer oder Malware --- durchgeführt, so schlägt die
+Verifizierung fehl:
 
 ~~~sh
 $ gpg2 --verify brig-v1.0.tar.gz.asc
@@ -1424,7 +1438,7 @@ fi
 
 Der öffentliche Schlüssel kann mit dem `ssh-add`--Befehl extrahiert werden.
 Dieser muss anschließend wahlweise auf der *GitHub*--Plattform hinterlegt
-werden. 
+werden.
 
 ~~~sh
 $ ssh-add -L
@@ -1453,7 +1467,7 @@ erfolgreich verwendete Smartcard--ID:
 $ GIT_SSH_COMMAND="ssh -vv" git push
 [...]
 debug1: Authentications that can continue: publickey,password
-debug1: Offering RSA public key: cardno:000600000011
+debug1: Offering RSA public key: cardno:000600000011 # vom gpg-agent verwaltete Smartcard
 debug2: we sent a publickey packet, wait for reply
 debug1: Server accepts key: pkalg ssh-rsa blen 279
 debug2: input_userauth_pk_ok: fp SHA256:eoOgD/8ri0RCblmJgTbPx/Ci6pBBssLtjMulpX4brlY
@@ -1489,7 +1503,7 @@ $ GIT_SSH_COMMAND="ssh -vv" git push
 [...]
 debug1: Authentications that can continue: publickey
 debug1: Next authentication method: publickey
-debug1: Offering RSA public key: /home/qitta/.ssh/id_rsa
+debug1: Offering RSA public key: /home/qitta/.ssh/id_rsa # vom gpg-agent verwalteter Schlüssel
 debug2: we sent a publickey packet, wait for reply
 debug1: Server accepts key: pkalg ssh-rsa blen 279
 debug2: input_userauth_pk_ok: fp SHA256:V00F8adokJZljo1WD+XPjSP51rTl/GVS3bh5YfJOLtk
@@ -1498,3 +1512,4 @@ Authenticated to github.com ([192.30.253.112]:22).
 [...]
 ~~~
 
+TODO: Noch OpenSSH--seitige 2FA hinzufügen.
