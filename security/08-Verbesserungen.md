@@ -1193,6 +1193,8 @@ Daten dabei nicht modifiziert werden.
 
 Signieren der Daten ohne Entwickler--*YubiKey*:
 
+TODO: mit verbose 
+
 ~~~sh
 $ gpg2 --armor --output brig-version-1.0.tar.gz.asc \
   --detach-sign brig-version-1.0.tar.gz
@@ -1205,6 +1207,8 @@ Daten wie folgt signiert werden. Die `--armor`--Option bewirkt dass eine
 Signatur im *ASCII*--Format anstatt im Binär--Format erstellt wird. Diese lässt
 sich beispielsweise auf der Download beziehungsweise Entwicklerseite neben dem
 Fingerprints der Signierschlüssel publizieren.
+
+TODO: mit verbose 
 
 ~~~sh
 $ gpg2 --armor --output brig-v1.0.tar.gz.asc --detach-sign brig-v1.0.tar.gz
@@ -1224,6 +1228,8 @@ VOotfneAcQoRgHOpouNpHew+uJO/eg==
 
 Der Benutzer kann durch diesen Ansatz die heruntergeladenen Daten auf einfache
 Art und Weise verifizieren. 
+
+TODO: mit verbose 
 
 ~~~sh
 $ gpg2 --verify brig-v1.0.tar.gz.asc
@@ -1323,11 +1329,30 @@ siehe [@fig:img-signunveri].
 
 ![Nach dem Absetzen eines signierten Commits/Tags erscheint auf der *GitHub*--Plattform ein zusätzliches Label verifiziert, wenn der öffentliche Schlüssel des Entwicklers bei Github nicht hinterlegt ist.](images/signed-unverified2.png){#fig:img-signunveri width=65%}
 
-Pflegen die Entwickler zusätzlich ihren privaten Schlüssel im *GitHub*--Account
+Pflegen die Entwickler zusätzlich ihren öffentlichen Schlüssel im *GitHub*--Account
 ein, so signalisiert das Label eine verifizierte Signatur des jeweiligen
 *Commits* beziehungsweise *Tags*, siehe [@fig:img-signed].
 
 ![Verifiziertes *GitHub*--Signatur--Label eines Commit/Tag welches aufgeklappt wurde.](images/signed2.png){#fig:img-signed width=70%}
+
+Auf der Kommandozeile kann eine *Signatur* einfach mit der
+`--show-signature`--Option von *git* angezeigt werden (gekürzte Ausgabe):
+
+~~~sh
+# git log --show-signature
+[...]
+commit 9fefd0e69791dfacade4bb1c9930776dcf73b8bc
+gpg: Signature made Do 15 Dez 2016 16:23:02 CET
+gpg:                using RSA key 7CD8DB88FBF822E1300566D12CC4F84BE43F54ED
+gpg: Good signature from "Christoph Piechula <christoph@nullcat.de>" [ultimate]
+Author: qitta <christoph@nullcat.de>
+Date:   Thu Dec 15 16:23:02 2016 +0100
+
+    Bibliography updated.
+
+[...]
+
+~~~
 
 ### Sichere Authentifizierung für Entwickler {#sec:SEC08_SICHERE_AUTHENTIFIZIERUNG_FUER_ENTWICKLER}
 
@@ -1413,18 +1438,19 @@ BnZTB0UX8xMXUKtGSunPbHdjn7rStXX9LDX6BP32XvTHeseI0BYa/
 fViXwnf9l cardno:000600000011
 ~~~
 
-Bei einem typischen unixoiden System mit *OpenSSH* sollte dieser in der
-`~/.ssh/authorized_keys`--Datei hinterlegt werden und das PublicKey--Verfahren
-in der sshd--Konfigurationsdatei aktiviert werden.
+Bei einem typischen unixoiden System mit *OpenSSH* sollte dieser auf dem Server
+in der `~/.ssh/authorized_keys`--Datei hinterlegt werden und das
+PublicKey--Verfahren in der sshd--Konfigurationsdatei aktiviert werden.
 
 Ob die Authentifizierung über die Smartcard funktioniert kann beim *SSH*--Login
 mittels Verbose--Flag validiert werden. Dieses ist auch für Debuggingzwecke
 empfehlenswert. Folgender gekürzter Auszug zeigt die eine erfolgreich konfigurierte
-SSH--Smartcard--Authentifizierung, cardno:000600000011 zeigt hierbei die
+GitHub--SSH--Smartcard--Authentifizierung, cardno:000600000011 zeigt hierbei die
 erfolgreich verwendete Smartcard--ID:
 
 ~~~sh
-$ ssh christoph@nullcat.de
+#GIT_SSH_COMMAND wird benötigt um die Verbose Option von SSH zu aktivieren
+$ GIT_SSH_COMMAND="ssh -vv" git push
 [...]
 debug1: Authentications that can continue: publickey,password
 debug1: Offering RSA public key: cardno:000600000011
@@ -1432,6 +1458,7 @@ debug2: we sent a publickey packet, wait for reply
 debug1: Server accepts key: pkalg ssh-rsa blen 279
 debug2: input_userauth_pk_ok: fp SHA256:eoOgD/8ri0RCblmJgTbPx/Ci6pBBssLtjMulpX4brlY
 debug1: Authentication succeeded (publickey).
+Authenticated to github.com ([192.30.253.113]:22).
 [...]
 ~~~
 
@@ -1450,3 +1477,24 @@ verwalteten Schlüssel--Fingerprint überprüft werden:
 2048 SHA256:eoOgD/8ri0RCblmJgTbPx/Ci6pBBssLtjMulpX4brlY cardno:000600000011 (RSA)
 2048 SHA256:V00F8adokJZljo1WD+XPjSP51rTl/GVS3bh5YfJOLtk /home/qitta/.ssh/id_rsa (RSA)
 ~~~
+
+Lädt man anschließend seine Änderungen bei GitHub über *SSH* hoch, so wird
+primär der vom `gpg--agent` verwaltete Schlüssel mittels Passwortabfrage
+freigegeben. Würde man diese Abbrechen, so verwendet der Agent den öffentlichen
+Schlüssel auf der Smartcard. *SSH*--PublicKey--Authentifizierung über
+`gpg-agent` verwalteten Schlüssel:
+
+~~~sh
+$ GIT_SSH_COMMAND="ssh -vv" git push
+[...]
+debug1: Authentications that can continue: publickey
+debug1: Next authentication method: publickey
+debug1: Offering RSA public key: /home/qitta/.ssh/id_rsa
+debug2: we sent a publickey packet, wait for reply
+debug1: Server accepts key: pkalg ssh-rsa blen 279
+debug2: input_userauth_pk_ok: fp SHA256:V00F8adokJZljo1WD+XPjSP51rTl/GVS3bh5YfJOLtk
+debug1: Authentication succeeded (publickey).
+Authenticated to github.com ([192.30.253.112]:22).
+[...]
+~~~
+
