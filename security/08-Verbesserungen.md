@@ -1,62 +1,62 @@
 # Verbesserungen und Erweiterungen {#sec:SEC08_VERBESSERUNGEN_UND_ERWEITERUNGEN}
 
 Auf Basis der Evaluation von »brig« sollen nun mögliche Konzepte vorgestellt
-werden um die in der Evaluation identifizierten Schwächen abzumildern
+werden, um die in der Evaluation identifizierten Schwächen abzumildern
 beziehungsweise zu beheben.
 
 ## Sicherheitstechnische Anpassungen {#sec:SEC08_SICHERHEITSTECHNISCHE_ANPASSUNGEN}
 
 ### Datenverschlüsselung {#sec:SEC08_DATENVERSCHLUESSELUNG}
 
-Aktuell verwendet die Implementierung der Datenverschlüsselungsschicht 8 bytes
-große *Noncen*. Der *MAC* ist inklusive *Padding* 16 bytes groß (siehe
+Aktuell verwendet die Implementierung der Datenverschlüsselungsschicht 8 Bytes
+große *Noncen*. Die *MAC* ist inklusive *Padding* 16 Bytes groß (siehe
 @sec:SEC07_DATENVERSCHLUESSELUNGSSCHICHT). Hier muss laut BSI--Richtlinie
-nachgebessert werden. Die empfohlene *Noncen*-- und *Prüfsummen*--Größe ist mit
-96 Bit angegeben (vgl. [@bsi], S. 24).
+nachgebessert werden. Die empfohlene *Noncen*--Größe ist mit 96 Bit angegeben
+(vgl. [@bsi], S. 24). TODO: Nochmal schauen 
 
-Wie unter @sec:SEC06_IPFS_ID zu sehen sind aktuell die *IPFS*--Schlüssel in der
+Wie unter @sec:SEC06_IPFS_ID zu sehen, sind die *IPFS*--Schlüssel aktuell in der
 `config`--Datei von *IPFS* im Klartext hinterlegt. »brig« verschlüsselt diese
 Datei zum aktuellen Zeitpunkt nicht. Hier wäre eine Verschlüsselung mit einem
-*Repository*--Key möglich, welcher wiederrum durch einen Masterschlüssel
+*Repository*--Key möglich, welcher wiederrum durch einen Hautpschlüssel
 geschützt werden sollte (siehe [@sec:SEC08_KEYMANAGEMENT]). Eine weitere
-Überlegung wäre das gesamte *Repository* mittels eines externen Masterschlüssel
+Überlegung wäre, das gesamte *Repository* mittels eines externen Hauptschlüssels
 zu verschlüsseln.
 
 Wie unter [@sec:SEC07_SCHLUESSELGENERIERUNG] erläutert, wird aktuell für jede
 Datei ein zufälliger Schlüssel generiert. Mit diesem Ansatz wird die
-Deduplizierungsfunktinalität von *IPFS* weitgehend nutzlos gemacht.
+Deduplizierungsfunktionalität von *IPFS* weitestgehend nutzlos gemacht.
 
-Ein Ansatz dieses »Problem« zum Umgehen ist die sogenannte »Convergent
+Ein Ansatz dieses Problem zu umgehen, ist die sogenannte »Convergent
 Encryption«. Diese Technik wird beispielsweise von *Cloud--Storage*--Anbietern
-verwendet um verschlüsselte Daten deduplizieren zu können, ohne dabei auf den
-eigentlichen Inhalt zugreifen zu müssen (vgl. [@convergent-encryption]). 
+verwendet, um verschlüsselte Daten deduplizieren zu können, ohne dabei auf den
+eigentlichen Inhalt zugreifen zu müssen (vgl. [@convergent-encryption]).
 
 ![Bei Convergent Encryption resultiert aus gleichem Klartext der gleiche Geheimtext da der Schlüssel zur Verschlüsselung vom Klartext selbst abgeleitet wird.](images/convergent-encryption.png){#fig:img-convergent-encryption width=80%}
 
 Wie in [@fig:img-convergent-encryption] zu sehen, wird hierbei beispielsweise
-der Schlüssel zum verschlüsseln einer Datei von dieser selbst mittels einer
+der Schlüssel zum Verschlüsseln einer Datei von dieser selbst mittels einer
 kryptographischen Hashfunktion abgeleitet.
 
 Diese Verfahren lässt sich jedoch bei der aktuellen Architektur (separate
 Verschlüsselungsschicht) nur eingeschränkt realisieren, da die Prüfsumme der
 Daten erst nach dem Hinzufügen zum *IPFS* bekannt ist. Um die Daten zu
-verschlüsseln müssten diese vor dem Hinzufügen komplett *gehasht* werden. Dies
-würde bedeuten dass man die Daten insgesamt zwei mal einlesen müsste (1.
+verschlüsseln, müssten diese vor dem Hinzufügen komplett *gehasht* werden. Dies
+würde bedeuten, dass man die Daten insgesamt zweimal einlesen müsste (1.
 Prüfsumme generieren, 2. `brig stage`), was bei vielen und/oder großen Dateien
-sehr ineffizient wäre.
+ineffizient wäre.
 
-Ein Kompromiss beispielsweise wäre anstatt der kompletten Prüfsumme über die
-ganze Datei, nur die Prüfsumme über einen Teil (beispielsweise 1024Bytes vom
-Anfang der Datei) der Datei zu machen und zusätzlich die Dateigröße mit in die
-Berechnung des »Schlüssels« einfließen zu lassen. Dies hätte den Nachteil, dass
-man auch viele Unterschiedliche Dateien mit dem gleichen Schlüssel
+Ein Kompromiss wäre beispielsweise anstatt der kompletten Prüfsumme über die
+ganze Datei, nur die Prüfsumme über einen Teil (beispielsweise 1024 Bytes vom
+Anfang der Datei) der Datei zu bilden und zusätzlich die Dateigröße mit in die
+Berechnung des Schlüssels einfließen zu lassen. Dies hätte den Nachteil, dass
+man auch viele unterschiedliche Dateien mit dem gleichen Schlüssel
 verschlüsseln würde, da mehrere unterschiedliche Dateien mit einer gewissen
-Wahrscheinlichkeit fälschlicherweise die gleiche »Prüfsumme« generieren würden.
+Wahrscheinlichkeit fälschlicherweise die gleiche Prüfsumme generieren würden.
 
 Ein weiteres Problem der *Convergent Encryption* ist, dass dieses Verfahren für
 den »confirmation of a file«--Angriff anfällig ist. Das heißt, dass es einem
-Angreifer möglich ist durch das Verschlüsseln eigener Dateien darauf zu
-schließen was beispielsweise ein anderer Benutzer in seinem Repository
+Angreifer möglich ist, durch das Verschlüsseln eigener Dateien darauf zu
+schließen, was beispielsweise ein anderer Benutzer in seinem Repository
 gespeichert hat.
 
 ## Keymanagement {#sec:SEC08_KEYMANAGEMENT}
@@ -65,37 +65,37 @@ gespeichert hat.
 
 Das asymmetrische Schlüsselpaar von *IPFS* ist standardmäßig in keinster Weise
 gesichert und muss daher besonders geschützt werden, da diese die Identität
-eines Individuums oder eine Institution darstellt. Bei Diebstahl des Schlüssels
+eines Individuums oder einer Institution darstellt. Beim Diebstahl des Schlüssels
 (Malware, Laptop--Verlust/Diebstahl) kann die jeweilige Identität nicht mehr
 als vertrauenswürdig betrachtet werden.
 
-Die *IPFS*--Identität ist eng mit dem *IPFS*--Netzwerk und verwoben. Da das
+Die *IPFS*--Identität ist eng mit dem *IPFS*--Netzwerk verwoben. Da das
 Softwaredesign und auch die Sicherheitskomponenten sich aktuell in keinem
-finalen Stadium befinden, ist für »brig« sinnvoll eine eigene
+finalen Stadium befinden, ist es für »brig« sinnvoll eine eigene
 Schlüsselhierarchie umzusetzen, welche die Komponenten von *IPFS* schützt. So
 haben auch zukünftige Änderungen an *IPFS* selbst keinen oder nur wenig
 Einfluss auf das Sicherheitskonzept von »brig«.
 
-[@fig:img-externalkey] zeigt ein Konzept, bei welchem ein »externes« und vom
-Benutzer kontrolliertes Schlüsselpaar als Master--Schlüsseln für die
+[@fig:img-externalkey] zeigt ein Konzept, bei welchem ein externes und vom
+Benutzer kontrolliertes Schlüsselpaar als Hauptschlüssel für die
 Absicherung des *IPFS*--Repository dient.
 
-![Externes asymmetrisches Schlüsselpaar dient als »Master--Key« zur Sicherung der ungesicherten IPFS--Daten. Das Signieren der öffentlichen IPFS--ID ermöglich eine Zusätzliche Schicht der Authentifizierung.](images/external-key.png){#fig:img-externalkey width=70%}
+![Externes asymmetrisches Schlüsselpaar dient als Hauptschlüssel zur Sicherung der ungesicherten IPFS--Daten. Das Signieren der öffentlichen IPFS--ID ermöglicht eine zusätzliche Schicht der Authentifizierung.](images/external-key.png){#fig:img-externalkey width=70%}
 
-Diese »externe« Identität muss dabei besonders vor Diebstahl geschützt werden
-um Missbrauch zu vermeiden. Auf üblichen »Endverbrauchergeräten« ist der
+Diese externe Identität muss dabei besonders vor Diebstahl geschützt werden, um
+einen Missbrauch zu vermeiden. Auf üblichen Endverbrauchergeräten ist der
 Passwortschutz dieses Schlüsselpaars ein absolutes Minimalkriterium. Weiterhin
 könnte »brig« den Ansatz fahren und die kryptographischen Schlüssel
 (`config`--Datei von *IPFS*) selbst nur »on demand« im Speicher beispielsweise
-über ein *VFS* (Virtual Filesystem) *IPFS* bereitstellen. [@fig:img-vfs] zeigt
+über ein *VFS* (Virtual Filesystem) TODO:Ref *IPFS* bereitstellen. [@fig:img-vfs] zeigt
 ein Konzept bei welchem »brig« über einen *VFS*--Adapter die
 Konfigurationsdateien und somit auch die kryptographischen Schlüssel *IPFS*
-bereit stellt. 
+bereitstellt. 
 
 ![»brig« stellt mittels VFS eine Zugriffsschnittstelle für *IPFS* dar.](images/vfs.png){#fig:img-vfs width=60%}
 
 Dabei wird beim Starten des »brig«--Daemon die verschlüsselte
-Datei im Arbeitsspeicher entschlüsselt und anschließen *IPFS* über einen
+Datei im Arbeitsspeicher entschlüsselt und anschließend *IPFS* über einen
 Zugriffsadapter bereitgestellt. Dabei wird der komplette Zugriff über das *VFS*
 von »brig« verwaltet. 
 
@@ -103,19 +103,19 @@ von »brig« verwaltet.
 
 #### Einleitung {#sec:SEC08_EINLEITUNG_GNUPG}
 
-Für die Erstellung einer »externen Identität«
+Für die Erstellung einer externen Identität
 ([@sec:SEC08_SICHERUNG_UND_BINDUNG_DER_KRYPTOGRAPHISCHEN_SCHLUESSEL_AN_EINE_IDENTITAET])
 kann beispielsweise *GnuPG* verwendet werden. *GnuPG* ist eine freie
-Implementierung vom OpenPGP--Standard (RFC4880[^FN_RFC4880]). Die
+Implementierung des OpenPGP--Standards (RFC4880[^FN_RFC4880]). Die
 Implementierung ist heutzutage auf den gängigen Plattformen (Windows, MacOS,
-Linux, *BSD) vorhanden. Die Implementierung für Windows
+Linux, BSD) vorhanden. Die Implementierung für Windows
 (*Gpg4win*[^FN_GPG4WIN]) wurde vom Bundesamt für Sicherheit in der
-Informationstechnik in Auftrag gegeben. Neben den Einsatz der sicheren
+Informationstechnik in Auftrag gegeben. Neben dem Einsatz der sicheren
 E--Mail--Kommunikation, wird *GnuPG* heute unter vielen unixoiden
 Betriebssystemen zur vertrauenswürdigen Paketverwaltung verwendet.
 Distributionen wie beispielsweise *Debian*[^FN_DEBIAN_GPG],
 *OpenSuse*[^FN_OPENSUSE_GPG], *Arch Linux*[^FN_ARCH_GPG] und weitere verwenden
-*GnuPG* zum signieren von Paketen.
+*GnuPG* zum Signieren von Paketen.
 
 [^FN_GPG4WIN]: Gpg4win: <https://de.wikipedia.org/wiki/Gpg4win>
 [^FN_ARCH_GPG]: Pacman/Package Signing: <https://wiki.archlinux.org/index.php/Pacman/Package_signing>
@@ -127,17 +127,17 @@ Distributionen wie beispielsweise *Debian*[^FN_DEBIAN_GPG],
 #### Grundlagen {#sec:SEC08_GRUNDLAGEN}
 
 Das theoretische Prinzip der asymmetrischen Verschlüsselung ist unter
-[@sec:SEC04_ASYMMETRISCHE_VERSCHLUESSELUNGSVERFAHREN] anschaulich erläutert, in
+[@sec:SEC04_ASYMMETRISCHE_VERSCHLUESSELUNGSVERFAHREN] anschaulich erläutert. In
 der Praxis ergeben sich jedoch nennenswerte Unterschiede, welche direkten
-Einfluss auf dich Sicherheit des Verfahrens haben können.
+Einfluss auf die Sicherheit des Verfahrens haben können.
 
 Von *GnuPG* werden aktuell die folgenden drei Versionen gepflegt:
 
 
 * *GnuPG* modern 2.1 -- neuer Entwicklungzweig mit erweiterten Funktionalitäten
-  und neuen kryptographischen Algorithmen beispielsweise für Elliptische Kurven
-* *GnuPG* stable 2.0 -- modularisierte Version von *GnuPG* (Support bis 2017-12-31)
-* *GnuPG* classic -- obsolete nicht modulare Version, diese wird aus Kompitabilitätsgründen zu alten Systemen gepflegt
+  und neuen kryptographischen Algorithmen beispielsweise für elliptische Kurven.
+* *GnuPG* stable 2.0 -- modularisierte Version von *GnuPG* (Support bis 2017-12-31).
+* *GnuPG* classic -- obsolete nicht modulare Version, diese wird aus Kompatibilitätsgründen zu alten Systemen gepflegt.
 
 Für die hier vorgestellten Konzepte wird *GnuPG* modern in der version 2.1 als
 Kommandozeilen--Werkzeug verwendet, dieses ist unter Linux über die
@@ -161,27 +161,27 @@ Hash: SHA1, RIPEMD160, SHA256, SHA384, SHA512, SHA224
 Compression: Uncompressed, ZIP, ZLIB, BZIP2
 ~~~
 
-Für den *GnuPG*--Neugling gibt es verschiedene Frontends[^FN_GNUPG_FRONTENDS]
-und Anwendungen welche als *GnuPG*--Aufsatz verwendet werden können.
+Für den *GnuPG*--Neuling gibt es verschiedene Frontends[^FN_GNUPG_FRONTENDS]
+und Anwendungen, welche als *GnuPG*--Aufsatz verwendet werden können.
 
 [^FN_GNUPG_FRONTENDS]:*GnuPG*--Frontends: <https://www.gnupg.org/related_software/frontends.html>
 
 Beim Erstellen eines Schlüsselpaars wird bei *GnuPG* standardmäßig ein
-Hauptschlüssel-- und ein Unterschlüsselpaar angelegt. Dies hat einerseits
+Hauptschlüssel- und ein Unterschlüsselpaar angelegt. Dies hat einerseits
 historische Gründe (auf Grund von Patenten konnten frühere Versionen von GnuPG
 kein RSA/RSA Schlüsselpaar zum Signieren und Ver-- und Entschlüsseln anlegen,
 es wurde standardmäßig ein *DSA* Schlüssel zum Signieren und ein *ElGamal*
 Schlüssel zum Ver-- und Entschlüsseln angelegt), andererseits ermöglicht es
-*GnuPG* Schlüssel mit unterschiedlichem »Schutzbedarf« anders zu behandeln. 
+*GnuPG*, Schlüssel mit unterschiedlichem »Schutzbedarf« anders zu behandeln.
 
-![GnuPG--Schlüsselpaar RSA/RSA bestehend aus einem Haupt-- und Unterschlüssel. Beide Schlüssel haben unterschiedliche Fähigkeiten und bestehen jeweils aus einem öffentlichen und pirvaten Schlüssel.](images/gpg_keypair.png){#fig:IMG_GNUPG_KEYPAIR width=90%}
+![GnuPG--Schlüsselpaar RSA/RSA bestehend aus einem Haupt- und Unterschlüssel. Beide Schlüssel haben unterschiedliche Fähigkeiten und bestehen jeweils aus einem öffentlichen und einem privaten Schlüssel.](images/gpg_keypair.png){#fig:IMG_GNUPG_KEYPAIR width=90%}
 
-Der »Schlüsselbund« bei Anlage eines neuen Schlüssels mit `gpg --gen-key`
-besteht aus einem Hauptschlüssel-- und einem Unterschlüsselpaar. Beide
-Schlüssel besitzen jeweils einen öffentlichen und einen privaten Schlüssel
-(siehe [@fig:IMG_GNUPG_KEYPAIR]). Der folgende Kommandozeilenauszug zeigt
-beispielhaft einen mit dem oben genannten Befehl angelegten Schlüssel, welcher
-von den Daten mit der Abbildung übereinstimmt.
+Der »Schlüsselbund« besteht bei Anlage eines neuen Schlüssels mit `gpg
+--gen-key` aus einem Hauptschlüssel- und einem Unterschlüsselpaar. Beide
+Schlüsselpaare bestehen jeweils aus einem öffentlichen und einem privaten
+Schlüssel (siehe [@fig:IMG_GNUPG_KEYPAIR]). Der folgende Kommandozeilenauszug
+zeigt beispielhaft einen mit dem oben genannten Befehl angelegten Schlüssel,
+welcher mit den Daten der Abbildung übereinstimmt.
 
 ~~~sh
 $ gpg --list-keys --fingerprint --fingerprint christoph@nullcat.de
@@ -193,49 +193,51 @@ sub   rsa2048 2013-02-09 [E] [expires: 2017-01-31]
 ~~~
 
 Hier ist in der ersten Zeile der öffentliche Teil des Hauptschlüssels (pub =
-public key) zu sehen. Es handelt sich um einen RSA--Schlüssel mit 2048 bit. Im
+public key) zu sehen. Es handelt sich um einen RSA--Schlüssel mit 2048 Bit. Im
 unteren Bereich ist der Unterschlüssel (sub = public subkey) zu sehen, hierbei
 handelt es sich ebenso wie beim Hauptschlüssel um einen RSA--Schlüssel mit 2048
-bit. Die Fähigkeit eines Schlüssel wird durch die Flags in eckigen Klammern
+Bit. Die Fähigkeit eines Schlüssel wird durch die Flags in eckigen Klammern
 angezeigt (Hauptschlüssel `[SC]`, Unterschlüssel `[E]`). 
 
 Schlüssel können unter *GnuPG* folgende Fähigkeiten besitzen:
 
-* `C` (certify): Dieser Schlüssel ist zum *Signieren von anderen/neuen Schlüsseln* geeignet
-* `S` (sign): Dieser Schlüssel ist zum *Signieren von Daten* geeignet
-* `E` (encrypt): Dieser Schlüssel ist zum *Ver-- und Entschlüsseln* geeignet
-* `A` (auth): Dieser Schlüssel ist zum *Authentifizieren* geeignet
+* `C` (certify): Dieser Schlüssel ist zum *Signieren von anderen/neuen
+  Schlüsseln* fähig.
+* `S` (sign): Dieser Schlüssel ist zum *Signieren von Daten* fähig.
+* `E` (encrypt): Dieser Schlüssel ist zum *Ver-- und Entschlüsseln* fähig. 
+* `A` (auth): Dieser Schlüssel ist zum *Authentifizieren* fähig.
 
 Einen besonderen Schutzbedarf hat an dieser Stelle der Hauptschlüssel, da
-dieser in der Lage ist neu erstellte Schlüssel und Unterschlüssel zu signieren
+dieser in der Lage ist, neu erstellte Schlüssel und Unterschlüssel zu signieren
 (`[C]`). Fällt einem Angreifer dieser Schlüssel in die Hände, so wäre er in der
 Lage im Namen des Benutzers neue Schlüssel zu erstellen und Schlüssel von
-anderen Teilnehmern zu signieren. 
+anderen Teilnehmern zu signieren.
 
 #### Offline Hauptschlüssel {#sec:SEC08_OFFLINE_HAUPTSCHLUESSEL}
 
 Die privaten Schlüssel sind bei *GnuPG*  mit einer Passphrase geschützt.
 Zusätzlich bietet *GnuPG* für den Schutz dieses Schlüssels eine Funktionalität
-namens *Offline Master Key*, diese Funktionalität ermöglicht dem Benutzer den
-privaten Teil des Hauptschlüssels --- welcher zum Zertifizieren/Signieren
-anderer Schlüssel verwendet wird, und somit nicht für den täglichen Gebrauch
-benötigt wird --- zu Exportieren und beispielsweise auf einem sicheren externen
-Datenträger zu speichern. Für die »sichere« externe Speicherung kann
+namens *Offline Master Key*. Diese Funktionalität ermöglicht dem Benutzer den
+privaten Teil des Hauptschlüssels zu exportieren und beispielsweise auf einem
+sicheren externen Datenträger zu speichern. Dieser Schlüssel wird zum
+Zertifizieren/Signieren anderer Schlüssel verwendet und wird nicht für den
+täglichen Gebrauch benötigt. Für die sichere externe Speicherung kann
 beispielsweise ein Verfahren wie *Shamir's Secret Sharing* (vgl.
-[@martin2012everyday], S. 337f. und [@BIB_SHAMIR_SECRET]) verwendet werden. Bei diesem Verfahren wird
-ein Geheimnis auf mehrere Instanzen aufgeteilt, zur Rekonstruktion des
-Geheimnisses ist jedoch nur eine gewisse Teilmenge nötig. Das *Shamir's Secret
-Sharing*--Verfahren wird von *libgfshare*[^FN_GITHUB_LIBGFSHARE] implementiert.
-Diese bietet mit dem beiden Kommandozeilenwerkzeugen `gfsplit` und `gfcombine`
-eine einfache Möglichkeit den privaten Schlüssel auf mehrere Instanzen
-aufzuteilen. Im Standardfall wir der Schlüssel auf fünf Dateien aufgeteilt von
-welchen mindestens drei benötigt werden um den Schlüssel wieder zu
-rekonstruieren.
+[@martin2012everyday], S. 337f. und [@BIB_SHAMIR_SECRET]) verwendet werden. Bei
+diesem Verfahren wird ein Geheimnis auf mehrere Instanzen aufgeteilt, zur
+Rekonstruktion des Geheimnisses ist jedoch nur eine gewisse Teilmenge nötig.
+Das *Shamir's Secret Sharing*--Verfahren wird von
+*libgfshare*[^FN_GITHUB_LIBGFSHARE] implementiert. Diese bietet mit dem beiden
+Kommandozeilenwerkzeugen `gfsplit` und `gfcombine` eine einfache Möglichkeit,
+den privaten Schlüssel auf mehrere Instanzen aufzuteilen. Im Standardfall wird
+der Schlüssel auf fünf Dateien aufgeteilt, von welchen mindestens drei benötigt
+werden, um den Schlüssel wieder zu rekonstruieren.
 
+Die folgende Kommandozeilenauszüge zeigen die Funktionsweise im Erfolgs-- und
+Fehlerfall.
 
-Der folgende Kommandozeilenauszüge zeigen die Funktionsweise im Erfolgs-- und Fehlerfall.
-
-Prüfsumme des zu sichernden privaten Schlüssels und Aufteilung mittels `gfsplit`:
+Gezeigt wird die Prüfsumme des zu sichernden privaten Schlüssels und die
+Aufteilung mittels `gfsplit`:
 
 ~~~sh
 $ sha256sum private.key 
@@ -246,7 +248,7 @@ private.key  private.key.022  private.key.064  \
 private.key.076  private.key.153  private.key.250
 ~~~
 
-Das Zusammensetzen mit genügend (recovered1.key)und ungenügend (recovered2.key)
+Das Zusammensetzen mit genügend (recovered1.key) und ungenügend (recovered2.key)
 vielen Teilgeheimnissen und die anschließende Validierung über die Prüfsumme:
 
 ~~~sh
@@ -258,85 +260,85 @@ d90dc1dbb96387ef25995ada677c59f909a9249eafcb32fc7a4f5eae91c82b42  recovered2.key
 d90dc1dbb96387ef25995ada677c59f909a9249eafcb32fc7a4f5eae91c82b42  private.key
 ~~~
 
-Eine Möglichkeit den privaten Schlüssel analog zu sichern bietet die
+Eine Möglichkeit, den privaten Schlüssel analog zu sichern, bietet die
 Applikation *Paperkey*[^FN_PAPERKEY]. *Paperkey* »extrahiert« nur die
-benötigten Daten für Sicherung des privaten Schlüssels und bringt Sie in eine
+benötigten Daten zur Sicherung des privaten Schlüssels und bringt diese in eine
 gut druckbare Form.
 
 
 [^FN_GITHUB_LIBGFSHARE]: GitHub libgfshare: <https://github.com/jcushman/libgfshare>
 [^FN_PAPERKEY]: Paperkey Homepage: <http://www.jabberwocky.com/software/paperkey/>
 
-
 Die *Offline Hauptschlüssel*--Funktionalität ist eine zusätzliche
 Funktionalität von *GnuPG* und *nicht* Teil des RFC4880--Standards.
 
-#### Unterschlüssel und Key Seperation {#sec:SEC08_UNTERSCHLUESSEL_UND_KEYSEPERATION}
+#### Unterschlüssel und Key Separation {#sec:SEC08_UNTERSCHLUESSEL_UND_KEYSEPERATION}
 
 Eine weitere Maßnahme und »Best Practise« im Bereich der Kryptographie ist die
-sogenannte »Key Seperation«. Das heißt, dass kryptographische Schlüssel an
-einen bestimmten Zweck gebunden sein sollen, einen Schlüssel für mehrere
-Verschiedene Zwecke zu verwendet ist sicherheitstechnisch bedenklich.
+sogenannte »Key Separation«. Das heißt, dass kryptographische Schlüssel an
+einen bestimmten Zweck gebunden sein sollen. Einen Schlüssel für mehrere
+verschiedene Zwecke zu verwenden, ist sicherheitstechnisch bedenklich.
 
-Obwohl es mit *GnuPG* möglich ist ein Schlüsselpaar zu erstellen, welches zum
+Obwohl es mit *GnuPG* möglich, ist ein Schlüsselpaar zu erstellen, welches zum
 Signieren, Zertifizieren und Ver-- und Entschlüsseln verwendet werden kann
 (Flags `[SCE]`), ist dies aus Gründen der Sicherheit nicht empfehlenswert. Beim
 Anlegen eines neuen Schlüssels wird standardmäßig bereits ein Schlüsselpaar
-bestehend aus Haupt-- und Unterschlüssel angelegt. In der Standardkonfiguration
-würde der Hauptschlüssel auf Grund seiner Flags neben dem signieren von
-Schlüsseln `[C]` auf für das Signieren von Daten `[S]` Verwendung finden.
-Dieser Umstand würde auch verhindern dass der Benutzer beim Einsatz der
-*Offline Hauptschlüssel* Funktionalität Daten signieren kann. 
+bestehend aus Haupt- und Unterschlüssel angelegt. In der Standardkonfiguration
+würde der Hauptschlüssel auf Grund seiner Flags neben dem Signieren von
+Schlüsseln `[C]` auch für das Signieren von Daten `[S]` Verwendung finden.
+Dieser Umstand würde auch verhindern, dass der Benutzer beim Einsatz der
+*Offline Hauptschlüssel*--Funktionalität Daten signieren kann.
 
-Die Umsetzung einer »Key Seperation« kann mit *GnuPG* beim anlegen (`gpg2
+Die Umsetzung einer »Key Separation« kann mit *GnuPG* beim Anlegen (`gpg2
 --full-gen-key --expert`) oder nachträglich (`gpg2 --edit-key <keyid>`)
-realisiert werden. [@fig:IMG_KEYSEPERATION] zeigt eine Möglichkeit der Anlage
-von Unterschlüsseln für den täglichen Gebrauch.
+realisiert werden. [@fig:IMG_KEYSEPERATION] zeigt das Möglichkeit der Anlage
+von Unterschlüsseln für den regulären Gebrauch.
 
-![GPG--Schlüsselbund mit Unterschlüsseln für den »täglichen« Einsatz. Jeder Unterschlüssel ist an einen bestimmten Einsatzzweck gebunden.](images/gpg_subkey_keypair.png){#fig:IMG_KEYSEPERATION width=100%}
+![GPG--Schlüsselbund mit Unterschlüsseln für den regulären Einsatz. Jeder Unterschlüssel ist an einen bestimmten Einsatzzweck gebunden.](images/gpg_subkey_keypair.png){#fig:IMG_KEYSEPERATION width=100%}
 
 #### GPG--Agent {#sec:SEC08_GPG_AGENT}
 
-*GnuPG* hat einen `gpg-agent`, welcher für das Management der vom Benutzer
-eingegebenen Passphrase zuständig ist (gewisse Zeit Speichern, bei Bedarf
-Abfragen). Weiterhin bietet der Agent seit Version 2.0.x die Möglichkeit auf
-Smartcards zuzugreifen. Zusätzlich ist es seit Version 2 möglich GPG--Schlüssel
-für die SSH--Authentifizierung zu verwenden.
+*GnuPG* hat einen `gpg-agent`. Dieser übernimmt das Management der vom Benutzer
+eingegebenen Passphrasen und kann diese für eine gewisse Zeit speichern und bei
+Bedarf abfragen. Weiterhin bietet der Agent seit Version 2.0.x die Möglichkeit,
+auf Smartcards (TODO: Ref) zuzugreifen. Zusätzlich ist es seit Version 2 möglich,
+GPG--Schlüssel für die SSH--Authentifizierung zu verwenden.
 
-Beim erstellen eines Schlüsselpaars mit *GPG* wird standardmäßig ein
-Masterschlüssel (zum Signieren von Daten und Zertifizieren Subkeys) und ein
-*Subkey* für das Verschlüsseln von Daten erstellt[^FN_DEBIAN_SUBKEY].
+Beim Erstellen eines Schlüsselpaars mit *GPG* wird standardmäßig ein
+Hauptschlüssel zum Signieren von Daten und Zertifizieren von Schlüsseln und ein
+Unterschlüssel für das Verschlüsseln von Daten erstellt[^FN_DEBIAN_SUBKEY].
 
-Der Vorteil von *Subkeys* ist, dass diese an einen bestimmten Einsatzzweck
-gebunden sind und auch unabhängig vom eigentlich Master--Schlüsselpaar
-widerrufen werden können --- was eine sehr wichtige Eigenschaft bei der
-Verwaltung von Schlüsseln darstellt.
+Der Vorteil von Unterschlüsseln ist, dass diese an einen bestimmten
+Einsatzzweck gebunden werden können und auch unabhängig vom eigentlichen
+Hauptschlüssel widerrufen werden können --- was eine sehr wichtige Eigenschaft
+bei der Verwaltung von Schlüsseln darstellt.
 
-*GnuPG* bietet neben dem RFC4880--Standard die Möglichkeit den privaten
+*GnuPG* bietet neben dem RFC4880--Standard die Möglichkeit, den privaten
 Hauptschlüssel offline zu speichern. Dieser sollte in der Regel so
 konfiguriert sein, dass er lediglich zum Signieren/Zertifizieren und Anlegen
-neuer Subkeys verwendet wird.
+neuer Unterschlüssel (TODO Ref) verwendet wird.
 
-Eine weitere Empfehlung an dieser Stelle wäre es die *Subkeys* zusätzlich auf
-eine *Smartcard* auszulagern (siehe
+Eine weitere Empfehlung an dieser Stelle wäre es, die Unterschlüssel zusätzlich
+auf eine *Smartcard* auszulagern (siehe
 [@sec:SEC08_KRYPTOGRAPHISCHE_SCHLUESSEL_AUF_YUBIKEY_UEBERTRAGEN]).
 
 [^FN_DEBIAN_SUBKEY]: Debian Wiki Subkeys: <https://wiki.debian.org/Subkeys>
 
 #### Weiteres
 
-Bei der Evaluation einer sinnvollen Schlüsselverwaltung ist augefallen, dass die Passwortabfragen beim Generieren des *GnuPG*--Schlüssls eine für den Benutzer fragliche Rückmeldung bezüglich der Passwortqualität liefert. 
+Bei der Evaluation einer sinnvollen Schlüsselverwaltung ist aufgefallen, dass die Passwortabfrage beim Generieren des *GnuPG*--Schlüssls eine für den Benutzer fragliche Rückmeldung bezüglich der Passwortqualität liefert. 
 
-![Fragwürdiger *GnuPG*--Pinentry Dialog.](images/weakgpgpass.png){#fig:IMG_GNUPG_PWMETER width=50%}
+![Fragwürdige Entropieschätzung im *GnuPG*--Pinentry Dialog.](images/weakgpgpass.png){#fig:IMG_GNUPG_PWMETER width=50%}
 
-Hier wird in der aktuellen *GnuPG*--Version *Arch Linux* anscheinend jedes
-Passwort mit einer Zeichenlänge von 10 Zeichen als *Qualität 100%* definiert
-(siehe beispielhaft @fig:IMG_GNUPG_PWMETER). Dieser Ansatz ist bei einer
-Sicherheitssoftware wie *GnuPG*, welche wichtige kryptographische Schlüssel
-Schützen muss fragwürdig, da ein Passwort dieser Komplexität als definitiv
-unsicher angesehen werden sollte (siehe auch @sec:SEC07_REPOSITORY_ZUGRIFF).
-Weiterhin vermittelt dieser Dialog dem Benutzer ein Gefühl von falscher
-Sicherheit und »erzieht« ihn zu schlechten Gewohnheiten.
+Hier wird in der aktuellen *GnuPG*--Version 2.1.16 unter *Arch Linux*
+anscheinend jedes Passwort mit einer Zeichenlänge von 10 Zeichen als *Qualität
+100%* definiert (siehe beispielhaft @fig:IMG_GNUPG_PWMETER). Dieser Ansatz ist
+bei einer Sicherheitssoftware wie *GnuPG*, welche wichtige kryptographische
+Schlüssel schützen muss fragwürdig, da ein Passwort dieser Komplexität als
+definitiv unsicher angesehen werden sollte (siehe auch
+@sec:SEC07_REPOSITORY_ZUGRIFF). Weiterhin vermittelt dieser Dialog dem Benutzer
+ein Gefühl von falscher Sicherheit und »erzieht« ihn zu schlechten
+Gewohnheiten.
 
 ## Authentifizierungskonzept {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT}
 
