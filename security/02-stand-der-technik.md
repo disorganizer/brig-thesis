@@ -498,7 +498,7 @@ und ein selbst signiertes Zertifikat. Der private Schlüssel scheint nicht
 geschützt zu sein:
 
 ~~~bash
-freya :: ~/.config/syncthing » cat key.pem
+$ ~/.config/syncthing » cat key.pem
 	-----BEGIN EC PRIVATE KEY-----
 	MIGkAgEBBDCQIMwVr730vKzoyHCbIqDoxNxAjKvdFYL+XnKk65GurCc9q2qiZJEU
 	zMNWSD+N/eCgBwYFK4EEACKhZANiAASJ0YZUMQVAuW8tT7DvuLFkanCw2gpgD1DE
