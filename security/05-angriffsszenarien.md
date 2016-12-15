@@ -89,26 +89,31 @@ Zu den praxisorientierten Problemen bei der Entwicklung einer Software wie
 »brig« gehören in erster Linie folgende Punkte, auf welche primär in der Arbeit
 eingegangen wird:
 
-**Passwortmanagement:** Menschen sind schlecht darin, gute Passwörter zu vergeben.
-Erweiterte Technologien ermöglichen es, immer schneller gestohlene
-Passwörter--Datenbanken zu knacken und in Systeme einzubrechen. Bruce Schneier
-beschreibt im Artikel »A Really Good Article on How Easy it Is to Crack
-Passwords«[^FN_BRUCE_PW] die Problematik detaillierter und gibt Empfehlungen.
+**Passwortmanagement:** Menschen sind schlecht darin, gute Passwörter zu
+vergeben. Erweiterte Technologien ermöglichen es, immer schneller gestohlene
+Passwörter--Datenbanken zu knacken und in Systeme einzubrechen. *Bruce
+Schneier* und *Dan Goodin* beschreiben in ihren Artikeln »A Really Good Article
+on How Easy it Is to Crack Passwords«[^FN_BRUCE_PW] und »Why passwords have
+never been weaker --- and crackers have never been stronger«[^FN_CRACKHARDWARE]
+die Problematik detaillierter und geben Empfehlungen. Für weitere Details siehe
+auch @sec:SEC07_REPOSITORY_ZUGRIFF.
 
 [^FN_BRUCE_PW]: A Really Good Article on How Easy it Is to Crack Passwords: <https://www.schneier.com/blog/archives/2013/06/a_really_good_a.html>
+[^FN_CRACKHARDWARE]: Why passwords have never been weaker --- and crackers have never been stronger: <http://arstechnica.com/security/2012/08/passwords-under-assault/>
 
 **Schlüsselmanagement:** Die sichere Kommunikation von kryptographischen
 Schlüsseln stellt eines der größten Probleme im digitalen Zeitalter dar.
-(@martin2012everyday, S. 326 ff.). In der Vergangenheit gab es immer wieder
-Zwischenfälle bei welchen in Systeme mit gestohlenen kryptographischen
-Schlüsseln eingebrochen wurde[^FN_FREEBSD_SSH_MALWARE]. Laut
-Berichten[^FN_SSH_MALWARE][^FN_PRIV_KEY_MALWARE] expandiert der Malware--Markt
-in dieser Richtung, es wird zunehmend Malware für das Ausspähen
-kryptographischer Schlüssel entwickelt.
+(@martin2012everyday, S. 326 ff.). In jüngster Vergangenheit wurde
+beispielsweise beim *FreeBSD*--Projekt mittels gestohlener kryptographischer
+Schlüssel eingebrochen[^FN_FREEBSD_SSH_MALWARE]. Laut
+Berichten[^FN_SSH_MALWARE][^FN_PRIV_KEY_MALWARE][^FN_PRIV_KEY_MALWARE_2]
+expandiert der Malware--Markt in dieser Richtung, es wird zunehmend Malware für
+das Ausspähen kryptographischer Schlüssel entwickelt.
 
 [^FN_FREEBSD_SSH_MALWARE]: Hackers break into FreeBSD with stolen SSH key: <http://www.theregister.co.uk/2012/11/20/freebsd_breach/>
 [^FN_SSH_MALWARE]: Malware & Hackers Collect SSH Keys to Spread Attacks: <https://www.ssh.com/malware/>
 [^FN_PRIV_KEY_MALWARE]: Are Your Private Keys and Digital Certificates a Risk to You?: <https://www.venafi.com/blog/are-your-private-keys-and-digital-certificates-a-risk-to-you>
+[^FN_PRIV_KEY_MALWARE_2]: Active attacks using stolen SSH keys: <https://isc.sans.edu/forums/diary/Active+attacks+using+stolen+SSH+keys+UPDATED/4937/>
 
 **Authentifizierung:** Wie weiss der Benutzer, dass sein Kommunikationspartner
 der ist für den er sich ausgibt? Hier sollen mögliche Konzepte erarbeitet
