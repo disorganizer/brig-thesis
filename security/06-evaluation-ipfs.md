@@ -21,7 +21,7 @@ möglich.
 Es wurde folgende Version aus den *Arch Linux*--Repository evaluiert:
 
 ~~~sh
-freya :: ~ » ipfs version
+$ ipfs version
 ipfs version 0.4.3
 ~~~
 
@@ -59,7 +59,7 @@ Nutzung von *IPFS*. Beim initialisieren von *IPFS* wird ein
 Repository angelegt.
 
 ~~~sh
-freya :: ~ » ipfs init
+$ ipfs init
 initializing ipfs node at /home/qitta/.ipfs
 generating 2048-bit RSA keypair...done
 peer identity: QmbEg4fJd3oaM9PrpcMHcn6QR2HMdhRXz5YyL5fHnqNAET
@@ -144,7 +144,7 @@ bei Datenblocks ist `Base32`.
 [^FN_MULTIHASH]: Github Multihash: <https://github.com/multiformats/multihash>
 
 ~~~sh
-freya :: ~ » tree .ipfs
+$ tree .ipfs
 .ipfs
 |--- blocks
 |   |--- CIQBE
@@ -177,14 +177,14 @@ Integritätsprüfung von *IPFS* die Änderung der Daten erkennt:
 
 ~~~sh
 # Validierung der Integrität der Daten
-freya :: ~ » ipfs repo verify
+$ ipfs repo verify
 verify complete, all blocks validated.
 
 # Unerwünschte Modifikation der Daten.
-freya :: ~ » echo "Trüffelkauz" >> .ipfs/blocks/CIQBED3K6YA[..]JENZ5B5HJ5R3A.data
+$ echo "Trüffelkauz" >> .ipfs/blocks/CIQBED3K6YA[..]JENZ5B5HJ5R3A.data
 
 # Erneute Validierung der Integrität der Daten
-freya :: ~ » ipfs repo verify
+$ ipfs repo verify
 block QmPZ9gcCEpqKTo6aq61g2nXGUhM4iCL3ewB6LDXZCtioEB \
 was corrupt (block in storage has different hash than requested)
 Error: verify complete, some blocks were corrupt.
@@ -237,7 +237,7 @@ Das generierte Schlüsselpaar wird im Klartext auf der Festplatte abgelegt. Der
 folgende Ausgabe (gekürzt):
 
 ~~~sh
-freya :: ~ » ipfs id
+$ ipfs id
 {
         "ID": "QmbEg4fJd3oaM9PrpcMHcn6QR2HMdhRXz5YyL5fHnqNAET",
 		"PublicKey":
@@ -262,7 +262,7 @@ in der `~/.ipfs/config`--Datei zu finden, welche beim anlegen des Repositories
 automatisch erstellt wird.
 
 ~~~sh
-freya :: ~ » cat .ipfs/config | grep PrivKey
+$ cat .ipfs/config | grep PrivKey
 	"PrivKey":
 	"CAASpwkwggSjAgEAAoIBAQDGDgKtgJ9FW/EL1qY0OhznGGh7dPAszDDpC3fhHcF7rI9iyLp
 	 5ei0T9gjfvsj+ULhxKqXHU9qoD7LjiUPUHQKPnND1YvWzpBIZNUhaiuo107J5MztPvroQ8/
@@ -289,13 +289,13 @@ anbietenden Knoten die *Peer--ID* des Rechners im lokalen Netzwerk:
 
 ~~~sh
 # Suche nach Providern für die `readme` Datei des IPFS--Werkzeugs
-freya :: ~ » ipfs dht findprovs QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
+$ ipfs dht findprovs QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG
 Qmadh19kRmg1SufioE8ipNvyESd3fwKqqiMdRdFHBJxseH
 [...]
 QmPKBHmwWJbin2BuzE3zvua9JxsrsEGm6rn69CgWTEU5wn
 
 # Suche nach Provider für eine »persönliche« Datei im lokalem Netzwerk
-freya :: ~ » ipfs dht findprovs QmagF4CPz5LCwSwkwhYwn1uZHhJXoXQJDWeV65fcuTyqP1
+$ ipfs dht findprovs QmagF4CPz5LCwSwkwhYwn1uZHhJXoXQJDWeV65fcuTyqP1
 QmW2jc7k5Ug987QEkUx6tJUTdZov7io39MDCiKKp2f57mD
 ~~~
 
@@ -350,7 +350,7 @@ Installation eine Reihe von sogenannten *Bootstrapnodes* eingetragen, welche
 einen initialen »Einstiegspunkt« bieten (gekürzt):
 
 ~~~sh
-freya :: ~ » ipfs bootstrap list
+$ ipfs bootstrap list
 /ip4/104.131.131.82/tcp/4001/ipfs/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ
 [..]
 /ip4/178.62.61.185/tcp/4001/ipfs/QmSoLMeWqB7YGVLJN3pNLQpmmEk35v6wYtsMGLzSr5QBU3

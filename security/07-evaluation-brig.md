@@ -5,20 +5,14 @@
 Parallel zu der Arbeit wird der »brig«--Prototyp entwickelt. Das Ziel dieses
 Kapitels ist es die bisherige Arbeit aus Sicht der Sicherheit erneut zu
 evaluieren und bisher gemachte Fehler zu identifizieren. Für weitere allgemeine
-Details zur Architektur von »brig« siehe die Arbeit vom Herrn Pahl[@cpahl].
-
-## Getestete Version {#sec:SEC07_GETESTETE_VERSION}
-
-Für die Evaluation wird die Softwareversion mit dem größten Testumfang verwendet:
+Details zur Architektur von »brig« siehe die Arbeit vom Herrn Pahl[@cpahl]. Für
+die Evaluation wird die folgende Softwareversion *brig v0.1.0* verwendet:
 
 ~~~sh
-freya :: code/brig-thesis/security ‹master*› » brig --version
+$  brig --version
 brig version v0.1.0-alpha+0d4b404 [buildtime: 2016-10-10T10:05:10+0000]
 ~~~
 
-Zum aktuellen Zeitpunkt gibt es zwar bereits eine weitere Iteration in der
-Entwicklung von »brig«, bei welchem das interne »Store«--Handling geändert
-wurde.
 
 ## Einleitung »brig« {#sec:SEC07_EINLEITUNG_BRIG}
 
@@ -311,7 +305,7 @@ Folgend die Struktur eines neu initialisierten eines »brig«--Repositories (vgl
 auch [@cpahl]):
 
 ~~~sh
-freya :: tree -al alice
+$ tree -al alice
 alice
 |-- .brig
     |-- index # Stores der Synchronisationspartner
@@ -358,7 +352,7 @@ Folgendes Beispiel mit dem *Multihash*--Tool vom *IPFS*--Projekt zeigt die
 Generierung einer User--ID aus dem Benutzernamen.
 
 ~~~sh
-freya :: ~ » echo 'brig#user:alice@university.cc' | multihash -
+$ echo 'brig#user:alice@university.cc' | multihash -
 QmYRofJVzXGsL4njv5BW7HNhCkpLCiCjQvrqesbm7TWUCe
 ~~~
 
