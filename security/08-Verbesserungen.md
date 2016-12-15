@@ -8,16 +8,19 @@ beziehungsweise zu beheben.
 
 ### Datenverschlüsselung {#sec:SEC08_DATENVERSCHLUESSELUNG}
 
-Aktuell verwendet der Datenverschlüsselungsschicht bei der Generierung der
-*MAC* xy bit. Laut *BSI* werden hierfür zz bit empfohlen. BSI--Richtlinie für GCM.
+Aktuell verwendet die Implementierung der Datenverschlüsselungsschicht 8 bytes
+große *Noncen*. Der *MAC* ist inklusive *Padding* 16 bytes groß (siehe
+@sec:SEC07_DATENVERSCHLUESSELUNGSSCHICHT). Hier muss laut BSI--Richtlinie
+nachgebessert werden. Die empfohlene *Noncen*-- und *Prüfsummen*--Größe ist mit
+96 Bit angegeben (vgl. [@bsi], S. 24).
 
-Wie unter yy zu sehen sind aktuell die *IPFS*--Schlüssel in der `config`--Datei
-von *IPFS* im Klartext hinterlegt. »brig« verschlüsselt diese Datei zum
-aktuellen Zeitpunkt nicht. Hier wäre eine Verschlüsselung mit einem
+Wie unter @sec:SEC06_IPFS_ID zu sehen sind aktuell die *IPFS*--Schlüssel in der
+`config`--Datei von *IPFS* im Klartext hinterlegt. »brig« verschlüsselt diese
+Datei zum aktuellen Zeitpunkt nicht. Hier wäre eine Verschlüsselung mit einem
 *Repository*--Key möglich, welcher wiederrum durch einen Masterschlüssel
-geschützt werden sollte (siehe [@sec:SEC08_KEYMANAGEMENT]). Eine weitere Überlegung
-wäre das gesamte *Repository* mittels eines externen Masterschlüssel zu
-verschlüsseln.
+geschützt werden sollte (siehe [@sec:SEC08_KEYMANAGEMENT]). Eine weitere
+Überlegung wäre das gesamte *Repository* mittels eines externen Masterschlüssel
+zu verschlüsseln.
 
 Wie unter [@sec:SEC07_SCHLUESSELGENERIERUNG] erläutert, wird aktuell für jede
 Datei ein zufälliger Schlüssel generiert. Mit diesem Ansatz wird die
