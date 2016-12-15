@@ -4,7 +4,7 @@
 Da *IPFS* teilweise andere Ziele als »brig« hat, ist es wichtig, dass die
 Anforderungen von »brig« durch die *IPFS*--Basis nicht verletzt werden. Im
 Folgenden wird *IPFS* bezüglich bestimmter sicherheitstechnischer Anforderungen
-genauer beleuchtet, um Diskrepanzen zwischen den Zielen von »brig« zu
+genauer beleuchtet, um Diskrepanzen zu den Zielen von »brig« zu
 identifizieren.
 
 ## Projektumfang und getestete Version {#sec:SEC06_PROJEKTUMFANG_UND_GETESTETE_VERSION}

@@ -426,7 +426,7 @@ erwähnt, dass heutzutage mit modernen Methoden und moderner Hardware auch
 Passwörter die bisher von vielen Benutzern »gut« angesehen waren, nicht mehr
 verwendet werden sollten. Dazu gehören insbesondere Passwörter, bei welchen
 Buchstaben durch Sonderzeichen oder Zahlen ausgetauscht wurden.
-[@tab:TAB_PASSWORD_CRACK] zeigt listet einen Teil der Passwörter die laut
+Tabelle zeigt listet einen Teil der Passwörter die laut
 *Bruce Schneier* während der sogenannten *cracking session* »gecrackt« wurden.
 Diese Passwörter sind definitiv als unsicher anzusehen. Die Tabelle zeigt die
 geschätzte Entropie und Crackzeit (hier ist leider die genaue Hardware nicht
@@ -459,12 +459,8 @@ Passwortakzeptanz--Aussage machen.
 | qeadzcwrsfxv1331. | 83.148/centuries      | 78.795/centuries/no            |
 +-------------------+-----------------------+--------------------------------+
 
-Table: Geschätzte Passwort--Entropie und »Crackdauer« von *unsicheren*
-Passwörtern zweiter Online--Passwort--Testplattformen
-(www.bennish.net[^FN_PASSWORD_STRENGHTH_CHECKER],
-Cygnius[^FN_PASSWORD_STRENGHTH_CHECKER_2]) auf der Basis der
-*zxcvbn*--Bibliothek. Cygnius verwendet laut eigenen Aussagen zusätzliche
-Prüfungen. {#tbl:TAB_PASSWORD_CRACK}
+
+Table: Geschätzte Passwort--Entropie und »Crackdauer« von *unsicheren* Passwörtern. {#tbl:xxx}
 
 [^FN_PASSWORD_STRENGHTH_CHECKER]:Password Strength Checker: <https://www.bennish.net/password-strength-checker/>
 [^FN_PASSWORD_STRENGHTH_CHECKER_2]:Cygnius Password Strength Test: https://apps.cygnius.net/passtest/>
