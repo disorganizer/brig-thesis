@@ -1,7 +1,5 @@
 # Evaluation von »brig« {#sec:SEC07_EVALUATION_VON_BRIG}
 
-## Einleitung {#sec:SEC07_EINLEITUNG}
-
 Parallel zu dieser Arbeit wird der »brig«--Prototyp entwickelt. Das Ziel dieses
 Kapitels ist es, die bisherige Arbeit aus Sicht der Sicherheit erneut zu
 evaluieren und bisher gemachte Fehler zu identifizieren. Für weitere allgemeine
@@ -495,7 +493,7 @@ ist auch problematisch, dass das der geheime Schlüssel von *IPFS* nicht
 verschlüsselt abgelegt ist. Dieser Umstand ermöglicht beispielsweise
 einen Identitätsdiebstahl.
 
-### Aufbau einer verschlüsselten Verbindung {#sec:SEC07_AUFBAU_EINER_VERSCHLUESSELTEN_VERBINDUNG}
+## Aufbau einer verschlüsselten Verbindung {#sec:SEC07_AUFBAU_EINER_VERSCHLUESSELTEN_VERBINDUNG}
 
 [@fig:img-keyexchange] zeigt den Ablauf beim Aufbau einer verschlüsselten
 Verbindung zwischen zwei Synchronisationspartnern.

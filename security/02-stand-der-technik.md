@@ -683,8 +683,6 @@ Volume--Schlüssel aus dem Speicher entfernt, kann man sich den Quelltext auf
 
 ## Gesellschaftliche und Politische Aspekte {#sec:SEC02_GESELLSCHAFTLICHE_UND_POLITISCHE_ASPEKTE}
 
-### Gefahr für die Demokratie {#sec:SEC02_GEFAHR_FUER_DEMOKRATIE}
-
 Seit den Snowden--Enthüllungen[^FN_SNOWDEN_LEAK] ist offiziell bekannt, dass
 Unternehmen rechtlich gezwungen werden können, personenbezogene Daten an
 Behörden weiter zu geben. Betrachtet man die großflächige Verbreitung von

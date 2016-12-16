@@ -320,8 +320,6 @@ Verwendung der Chipkarte der Bank statt.
 
 ## Keymanagement {#sec:SEC04_KEYMANAGEMENT}
 
-### Sichere Speicherung von Schlüsseln {#sec:SEC04_SICHERE_SPEICHERUNG_VON_SCHLUESSELN}
-
 Das Keymanagement (Schlüsselverwaltung) ist einer der sensibelsten Bereiche bei
 der Implementierung eines Systems. Sind die Schlüssel unzureichend geschützt
 oder die Einsatzweise der Schlüssel fraglich, so kann ein System meist einfach

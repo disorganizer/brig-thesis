@@ -4,9 +4,7 @@ Auf Basis der Evaluation von »brig« sollen nun mögliche Konzepte vorgestellt
 werden, um die in der Evaluation identifizierten Schwächen abzumildern
 beziehungsweise zu beheben.
 
-## Sicherheitstechnische Anpassungen {#sec:SEC08_SICHERHEITSTECHNISCHE_ANPASSUNGEN}
-
-### Datenverschlüsselung {#sec:SEC08_DATENVERSCHLUESSELUNG}
+## Datenverschlüsselung {#sec:SEC08_DATENVERSCHLUESSELUNG}
 
 Aktuell verwendet die Implementierung der Datenverschlüsselungsschicht 8 Bytes
 große *Noncen*. Die *MAC* ist inklusive *Padding* 16 Bytes groß (siehe

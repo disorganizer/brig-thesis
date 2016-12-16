@@ -7,8 +7,6 @@ Folgenden wird *IPFS* bezüglich bestimmter sicherheitstechnischer Anforderungen
 genauer beleuchtet, um Diskrepanzen zu den Zielen von »brig« zu
 identifizieren.
 
-## Projektumfang und getestete Version {#sec:SEC06_PROJEKTUMFANG_UND_GETESTETE_VERSION}
-
 Die *IPFS*--Codebasis umfasst aktuell $\approx{900.000}$ *LoC* (siehe
 [@sec:APP_IPFS_LOC]). Davon gehören $\approx{100.000}$ *LoC* direkt dem
 *IPFS*--Projekt an, $\approx{800.000}$ *LoC* stammen aus Drittanbieter--Bibliotheken.
