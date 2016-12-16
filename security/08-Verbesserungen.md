@@ -729,42 +729,45 @@ If you receive this error, you might be the victim of a man-in-the-middle attack
 [yubico: X, brig : X, password: X]
 ~~~
 
-#### Konzept mit eigener Serverinfrastruktur {#sec:SEC08_KONZEPT_MIT_EIGENER_SERVERINFRASTRUKTUR}
+### Konzept mit eigener Serverinfrastruktur {#sec:SEC08_KONZEPT_MIT_EIGENER_SERVERINFRASTRUKTUR}
 
 #### Allgemein {#sec:SEC08_ALLGEMEIN_SERVERINFRASTRUKTUR}
 
-Neben der Möglichkeit das *YubiKey* One--Time--Password gegen die *YubiCloud*
-validieren zu lassen gibt es auch die Möglichkeit eine eigene Infrastruktur für
-die Validierung bereit zu stellen[^FN_YUBICO_VAL_SERVER].
+Neben der Möglichkeit, das *YubiKey* One--Time--Password gegen die *YubiCloud*
+validieren zu lassen, gibt es auch die Möglichkeit, eine eigene Infrastruktur für
+die Validierung bereitzustellen[^FN_YUBICO_VAL_SERVER].
 
 [^FN_YUBICO_VAL_SERVER]:YubiCloud Validation Servers: <https://developers.yubico.com/Software_Projects/Yubico_OTP/YubiCloud_Validation_Servers/>
 
-Dies ist in erster Linie für Unternehmen interessant, das keine Abhängigkeit zu
+Dies ist in erster Linie für Unternehmen interessant, da keine Abhängigkeit zu
 einem externen Dienst besteht. Weiterhin bekommt das Unternehmen dadurch mehr
-Kontrolle und kann den *YubiKey* feingranularer als Sicherheitstoken nicht nur
-für »brig« sondern die gesamte Infrastruktur nutzen.
+Kontrolle über den Verwendungszweck und Einsatz und kann den *YubiKey*
+feingranularer als Sicherheitstoken nicht nur für »brig«, sondern die gesamte
+Unternehmensinfrastruktur nutzen.
 
 #### Einrichtung  {#sec:SEC08_EINRICHTUNG}
 
-Als Vorbereitung hierfür muss der *YubiKey* mit einer neuen »Identität«
-programmiert werden. Für die Programmierung wird das
-Yubikey--Personalisation--Tool verwendet. Hier kann unter *Yubico OTP->Quick*
-eine neue Identität »autogeneriert werden. Die hier erstellte *Public--ID*
-sowie der *AES*--Schlüssel müssen anschließend dem Validierungsserver bekannt
-gemacht werden. Für die Registrierung einer neuen »Identität« an der
-*YubiCloud* stellt *Yubico* eine Seite[^FN_AESKEY_UPLOAD] bereit über welche
-der *AES*--Schlüssel an die *Yubico* Validierungsserver geschickt werden kann.
+Als Vorbereitung muss der *YubiKey* mit einer neuen »Identität« programmiert
+werden. Für die Programmierung wird das YubiKey--Personalization--Tool
+verwendet. Hier kann unter dem Menüpunkt *Yubico OTP/Quick* eine neue Identität
+autogeneriert werden. Die hier erstellte *Public--ID*, sowie der
+*AES*--Schlüssel müssen anschließend dem Validierungsserver bekannt gemacht
+werden.
+
+Für die Registrierung einer neuen »Identität« für die *YubiCloud* stellt
+*Yubico* eine Seite[^FN_AESKEY_UPLOAD] bereit, über welche der *AES*--Schlüssel
+an die *Yubico* Validierungsserver geschickt werden kann. TODO: Server listen
 
 [^FN_AESKEY_UPLOAD]: Yubico AES--Key--Upload: <https://upload.yubico.com/>
 
-Registrierung einer neuen Applikation am Validierungsserver:
+Registrierung einer neuen Applikation am eigenen Validierungsserver:
 
 ~~~sh
 $ ./yubikey-server -app "brig"
 app created, id: 1 key: Q0w7RkvWxL/lvCynBh+TYiuhZKg=
 ~~~
 
-Registrierung eine *YubiKey* unter dem Namen `Christoph` und übergabe der
+Registrierung eines *YubiKey* unter dem Benutzernamen `Christoph` und Übergabe der
 Public-- und Secret--ID des *YubiKeys*:
 
 ~~~sh
@@ -782,13 +785,15 @@ $ ./yubikey-server -s
 
 ~~~
 
-#### Validierung des Validierungsservers {#sec:SEC08_VALIDIERUNG_DES_VALIDIERUNGSSERVERS}
+#### Testen des Validierungsservers {#sec:SEC08_VALIDIERUNG_DES_VALIDIERUNGSSERVERS}
 
 Der folgende Konsolenauszug zeigt die Validierung am lokalen
-Validierungsserver. Für den Zugriff wird das Kommandozielen--Tool
+Validierungsserver. Für den Zugriff wird das Kommandozeilen--Tool
 *cURL*[^FN_CURL] verwendet.
 
 [^FN_CURL]: cURL Homepage: <https://curl.haxx.se/>
+
+TODO URL AUfbau
 
 ~~~sh
 # Validierung des YubiKey OTP
@@ -801,8 +806,8 @@ t=2016-12-08T19:29:20+01:00
 h=7DJyK6NZOIeCcs9lHcH+K8RFaYY=
 ~~~
 
-Beim wiederholten einspielen des gleichen OTP verhält sich der eigene
-Validierungsserver genauso wie die Yubicloud und meldet die erwartete 
+Beim wiederholten Einspielen des gleichen OTP verhält sich der eigene
+Validierungsserver genauso wie die YubiCloud und meldet die erwartete 
 Fehlermeldung `REPLAYED_OTP`. 
 
 ~~~sh
@@ -819,40 +824,39 @@ h=JqO407mZWS4Us/J/n2jCtbSnRFk=
 
 #### Sicherheit {#sec:SEC08_SICHERHEIT}
 
-Beim Betreiben eines eigenen Validierungsserver muss besonderen Wert auf die
-Sicherheit dieses geachtet werden, da dieser die *AES*--Schlüssel der
-registrierten *YubiKeys* enthält.
+Beim Betreiben eines eigenen Validierungsservers muss besonderer Wert auf die
+Sicherheit gelegt werden, da der Server die *AES*--Schlüssel der registrierten
+*YubiKeys* enthält.
 
-Es ist für Unternehmen empfehlenswert den Validierungsserver nicht direkt am
+Es ist für Unternehmen empfehlenswert, den Validierungsserver nicht direkt am
 Netz, sondern über einen Reverse--Proxy zu betreiben. Neben der
 *GO*--Implementierung haben andere Validierungsserver auf
 Python--[^FN_YUBICO_YUBISERVE_VULNERABILITY] und
 C--Basis[^FN_YUBISERVER_DEBIAN_VULNERABILITY_1][^FN_YUBISERVER_DEBIAN_VULNERABILITY_2]
-haben in der Vergangenheit immer wieder kritische Sicherheitslücken
-aufgewiesen. 
+in der Vergangenheit kritische Sicherheitslücken aufgewiesen.
 
 [^FN_YUBICO_YUBISERVE_VULNERABILITY]:Yubico-YubiServe SQL Injection Vulnerability: <https://code.google.com/archive/p/yubico-yubiserve/issues/38>
 [^FN_YUBISERVER_DEBIAN_VULNERABILITY_1]:Yubico-YubiServer CVE-2015-0842 SQL Injection Vulnerability: <https://security-tracker.debian.org/tracker/CVE-2015-0842>
 [^FN_YUBISERVER_DEBIAN_VULNERABILITY_2]:Yubico-YubiServer CVE-2015-0842 Buffer Overflow Vulnerability: <https://security-tracker.debian.org/tracker/CVE-2015-0843>
 
 [@fig:IMG_REVERSE_PROXY] zeigt einen Ansatz bei welchem der
-Validierungsserver hinter einem »Reverse--Proxy« betrieben wird. Alle an
-One--Time--Passwöter werden über einen »normalen« Webserver entgegengenommen
-und an den *YubiKey*--Validierungsserver weitergeleitet. 
+Validierungsserver hinter einem »Reverse--Proxy« betrieben wird. Alle
+One--Time--Passwöter werden über einen »normalen Webserver« entgegengenommen
+und an den *YubiKey*--Validierungsserver weitergeleitet.
 
-![Validierungsserver welcher über einen Reverse--Proxy angesprochen wird.](images/reverse-proxy.png){#fig:IMG_REVERSE_PROXY width=95%}
+![Validierungsserver, welcher über einen Reverse--Proxy angesprochen wird.](images/reverse-proxy.png){#fig:IMG_REVERSE_PROXY width=95%}
 
 Der Vorteil an dieser Stelle ist, dass je nach Organisation und
-Unternehmensgröße ein anderer Validierungsserver im »Hintergrund« eingesetzt
-werden kann. Es ist zusätzlich weiterhin davon auszugehen dass kritische
+Unternehmensgröße ein anderer Validierungsserver im Hintergrund eingesetzt
+werden kann. Es ist zusätzlich weiterhin davon auszugehen, dass kritische
 Sicherheitslücken in weit verbreiteten Webservern wie *NGINX*[^FN_NGINX] oder
-*Apache*[^FN_APACHE] schneller gefunden und behoben werden wie bei einem
+*Apache*[^FN_APACHE] schneller gefunden und behoben werden, wie bei einem
 spezifischen Server--Produkt. Weiterhin kann der Webserver feingranulat
 konfiguriert werden und Sicherheitsfeatures wie beispielsweise
 *X-XSS-Protection* oder *HTTP Strict Transport Security (HSTS)* aktiviert
 werden. Wichtig an dieser Stelle ist auch der ausschließliche Einsatz von
 *HTTPS* mit einem validen Zertifikat als Transportprotokoll um mögliche
-*Man--in--the--Middle*--Angriffe zu verhindern. 
+*Man--in--the--Middle*--Angriffe zu verhindern.
 
 Da der Webserver besonders gut gesichert sein muss, würde sich an dieser Stelle
 neben der architektonischen Trennung auch die Umsetzung einer internen
