@@ -344,60 +344,60 @@ Gewohnheiten.
 
 ### Authentifizierungkonzept mit IPFS--Bordmitteln {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT_MIT_IPFS_BOARDMITTELN}
 
-Unter [birg-Auth] wurde die aktuelle Situation evaluiert. Zum aktuellen
-Zeitpunkt hat »brig« keine Authentifizierungsmechanismus, der kommunizierenden
-Parteien müssen im Grunde ihre »brig«--Fingerabdrücke gegenseitig validieren
-und auf dieser Basis manuell Ihrer Liste mit Kommunikationspartnern hinzufügen.
-Neben der Möglichkeit den Fingerabdruck über einen Seitenkanal (Telefonat,
-E--Mail) auszutauschen, sollen nun benutzerfreundlichere Konzepte vorgestellt
-werden.
+Unter @sec:SEC07_AUTHENTIFIZIERUNG wurde die aktuelle Situation evaluiert. Zum
+aktuellen Zeitpunkt hat »brig« keinen Authentifizierungsmechanismus. Die
+kommunizierenden Parteien müssen ihre »brig«--Fingerabdrücke gegenseitig
+validieren und auf dieser Basis manuell ihrer Liste aus
+Synchronisationspartnern hinzufügen. Neben der Möglichkeit, den Fingerabdruck
+über einen Seitenkanal (Telefonat, E--Mail) auszutauschen, sollen nun
+benutzerfreundlichere Konzepte vorgestellt werden.
 
 Eine sinnvolle Erweiterung an dieser Stelle wäre die Einführung eines QR--Codes
-welcher die Identität eines Kommunikationspartners eindeutig klassifiziert.
-Beispielsweise auf Visitenkaten gedurckte QR--Codes lassen den Benutzer seinen
-Synchronisationspartner mit wenig Aufwand über ein Smartphone--App
-verifizieren. Bei Anwendung eines »Masterschlüssels«, welcher für das Signieren
+welcher die Identität eines Synchronisationspartners eindeutig bestimmt.
+Auf Visitenkaten gedruckte QR--Codes lassen den Benutzer beispielsweise seinen
+Synchronisationspartner mit wenig Aufwand über eine Smartphone--Applikation
+verifizieren. Bei Anwendung einer externen Identität welche für das Signieren
 der »brig«--ID verwendet werden kann --- wie unter [@sec:SEC08_KEYMANAGEMENT]
-vorgeschlagen --- würde der Datensatz zur Verifikation wie folgt aussehen:
+vorgeschlagen --- würde der Datensatz zur Verifikation wie folgt aussehen
 
 * IPFS--ID: `QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2qv5BW7HNhCkpL`
-* GPG--Key--ID (16Byte[^FN_EVIL32]): `D3B2 790F BAC0 7EAC`, wenn keine GPG--Key--ID
+* GPG--Key--ID (16 Byte): `D3B2 790F BAC0 7EAC`, falls keine GPG--Key--ID
   existiert: `0000 0000 0000 0000`
 
-und könnte beispielsweise in folgender Form auf untergebracht werden:
+und könnte beispielsweise in folgender Form realisiert werden:
 
 * `QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2qv5BW7HNhCkpL | D3B2790FBAC07EAC`
 
-[@fig:img-qrcode] zeigt den definieren Datensatz als QR--Code.
+[@fig:img-qrcode] zeigt den definierten Datensatz als QR--Code. (TODO: Ref Quellcode) Es sollte bei der GPG--Key--ID darauf geachtet werden, dass hier mindestens 16 Byte des Fingerprints verwendet werden, da die 8 Byte Repräsentation Angriffsfläche[^FN_EVIL32] bietet.
 
-![»brig« QR--Code um einen Synchronisationspatner auf einfache Art und Weise zu authentifizieren.](images/qrcode.png){#fig:img-qrcode width=30%}
+![»brig« QR--Code um einen Synchronisationspartner auf einfache Art und Weise zu authentifizieren.](images/qrcode.png){#fig:img-qrcode width=30%}
 
-[^FN_EVIL32]: Evil32. Check Your GPG Fingerprints: <https://evil32.com/>
+[^FN_EVIL32]: Evil32--Schwachstelle: <https://evil32.com/>
 
-Da *IPFS* bereits ein *Public/Private*--Schlüsselpaar mitbringt würde sich im
-einfachste Falle nach dem ersten Verbindungsaufbau die Möglichkeit bieten den
-sein Gegenüber anhand eines *Gemeinsamen Geheimnis* oder anhand eines
+Da *IPFS* bereits ein *Public/Private*--Schlüsselpaar mitbringt, würde sich im
+einfachsten Falle nach dem ersten Verbindungsaufbau die Möglichkeit bieten,
+seinen Synchronisationspatner anhand eines *gemeinsamen Geheimnises* oder anhand eines
 *Frage--Antwort--Dialogs* zu verifizieren. [@fig:img-question-answer] zeigt den
-Ablauf einer Authentifizierung des Synchronisationspartners, welcher in Folgenden Schritten abläuft:
+Ablauf einer Authentifizierung des Synchronisationspartners, welcher in folgenden Schritten abläuft:
 
 ![Frage--Antwort--Authentifizierung. Alice stellt Bob eine Frage auf die nur er die Antwort wissen kann.](images/question-answer.png){#fig:img-question-answer width=95%}
 
-1. Alice generiert eine zufällige Nonce, Frage und Antwort
-2. Alice verschlüsselt Nonce + Antwort, signiert mit ihrem privaten Schlüssel
-   und schickt sie an Bob
+1. Alice generiert eine zufällige Nonce, Frage und Antwort.
+2. Alice verschlüsselt Nonce + Antwort, signiert diese mit ihrem privaten Schlüssel
+   und schickt diese an Bob.
 3. Bob prüft die Signatur, ist diese ungültig, wird abgebrochen, bei
-   Gültigkeit entschlüsselt Bob die Nachricht
+   Gültigkeit entschlüsselt Bob die Nachricht.
 4. Bob inkrementiert die Nonce von Alice um eins und erstellt ein Antwortpaket
-   bestehend aus Nonce, Frage und Antwort und schickt dieses an Alice
+   bestehend aus Nonce, Frage und Antwort und schickt dieses an Alice.
 5. Alice prüft die Signatur, ist diese ungültig wird abgebrochen, bei
-   Gültigkeit entschlüsselt Alice die Nachricht
+   Gültigkeit entschlüsselt Alice die Nachricht.
 6. Alice prüft ob Nonce um eins inkrementiert wurde, ob die Frage zur
-   gestellten Frage passt und ob die Antwort die erwartete Antwort ist
+   gestellten Frage passt und ob die Antwort die erwartete Antwort ist.
 7. Stimmen alle drei Parameter überein, dann wird Bob von Alice als
-   vertrauenswürdig eingestuft und kann somit Bobs ID als vertrauenswürdig
-   hinterlegen
+   vertrauenswürdig eingestuft und Alice kann somit Bob's ID als vertrauenswürdig
+   hinterlegen.
 8. Um Alice gegenüber Bob zu verifizieren, muss das Protokoll von Bob aus
-   initialisiert werden
+   initialisiert werden.
 
 Eine weitere Möglichkeit wäre auch wie beim OTR--Plugin des
 *Pidgin*--Messengers das Teilen eines gemeinsamen Geheimnisses.
@@ -406,40 +406,41 @@ Nutzung eines gemeinsamen Geheimnisses.
 
 ![Authentifizierung über ein gemeinsames Geheimnis.](images/shared-secret.png){#fig:img-shared-secret width=95%}
 
-1. Alice und Bob generieren jeweils eine zufälligen Nonce (NA und NB)
+1. Alice und Bob generieren jeweils eine zufällige Nonce (NA und NB).
 2. NA und NB werden mit dem Public Key des Gegenübers verschlüsselt,
-   signiert und an den Kommunikationspartner versendet
-3. Die Kommunikationspartner validieren die Signatur und entschlüsseln jeweils die erhaltene Nonce N(A|B)
-4. Die Kommunikationspartner inkrementieren die erhaltene Nonce fügen eine
+   signiert und an den Synchronisationspatner versendet.
+3. Die Synchronisationspatner validieren die Signatur und entschlüsseln jeweils
+   die erhaltene Nonce NA beziehungsweise NB.
+4. Die Synchronisationspatner inkrementieren die erhaltene Nonce, fügen eine
    Prüfsumme ihres gemeinsamen geglaubten Geheimnisses hinzu, verschlüsseln,
-   signieren und versenden diese an den Kommunikationspartner
-5. Alice und Bob erhalten die inkrementierte Nonce und Prüfsumme (in
-   verschlüsselter Form) des gemeinsam geglaubten Geheimnisses des Gegenübers
-   Beide prüfen wieder die Signatur, entschlüsseln das Paket und Prüfen ob die
+   signieren und versenden diese an den Synchronisationspatner.
+5. Alice und Bob erhalten die inkrementierte Nonce und die Prüfsumme (in
+   verschlüsselter Form) des gemeinsam geglaubten Geheimnisses des Synchronisationspartners.
+   Beide prüfen wieder die Signatur, entschlüsseln das Paket und prüfen, ob die
    Nonce inkrementiert wurde und ob die Prüfsumme ihres Geheimnisses mit dem des
-   Gegenübers übereinstimmt
-6. Bei gültiger Nonce und Prüfsumme sind beide Kommunikationspartner
-   Gegenseitig authentifiziert und können Ihren Kommunikationspartner jeweils als
-   vertrauenswürdig einstufen
+   Synchronisationspartners übereinstimmt.
+6. Bei valider Nonce und Prüfsumme sind beide Kommunikationspartner
+   gegenseitig authentifiziert und können ihren Synchronisationspatner jeweils als
+   vertrauenswürdig einstufen.
 
-Bei beiden Abläufen wurde jeweils ein zufällige Nonce verschlüsselt und
+Bei beiden Abläufen wurde jeweils eine zufällige Nonce verschlüsselt und
 signiert versendet. Dies soll in beiden Fällen das Abgreifen der Nonce
-verhindern und die bisherige Quelle Authentifizieren. Würde man an dieser
+verhindern und die bisherige Quelle authentifizieren. Würde man an dieser
 stelle die Nonce weglassen, so wäre ein *Replay*--Angriff möglich. Die Anforderungen richten sich hierbei nach den Prinzipien (vgl. [@martin2012everyday], S. 295 ff):
 
-* Nachrichtenauthentifizierung, durch Signatur bereit gestellt
-* Gültigkeit (engl. *freshness*), durch Nonce bereit gestellt
-* Bezug zur korrekten Anfrage. Frage wird in der Antwort mitgesendet
+* Nachrichtenauthentifizierung, durch Signatur bereitgestellt.
+* Gültigkeit (engl. *freshness*), durch Nonce bereit gestellt.
+* Bezug zur korrekten Anfrage. Frage wird in der Antwort mitgesendet.
 
 
-### Authentifizierungkonzept auf Basis des Web--of--Trust {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT_AUF_BASIS_DES_WEB_OF_TRUST}
+### Authentifizierungskonzept auf Basis des Web--of--Trust {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT_AUF_BASIS_DES_WEB_OF_TRUST}
 
 ![Authentifizierung auf Basis des Web--Of--Trust.](images/web-of-trust.png){#fig:img-web-of-trust width=100%}
 
 Eine weitere Möglichkeit einer Authentifizierung ist auf Basis des
 *Web--of--trust*.  Dieses beschreibt einen typischen dezentralen PKI--Ansatz,
-welcher mittels der aktuell mittels der GnuPG--Software umgesetzt wird.
-*IPFS--ID* kann hierbei mit dem privaten Schlüssel signiert werden und über
+welcher aktuell mittels der GnuPG--Software umgesetzt wird.
+Die *IPFS--ID* kann hierbei mit dem privaten Schlüssel signiert werden und über das 
 »Web--of--trust--Overlay--Network« von den jeweiligen Benutzer validiert
 werden. [@fig:img-web-of-trust] stellt das Konzept grafisch dar. 
 
@@ -454,26 +455,26 @@ klassischen Vertrauensmodells dar (vgl. [@gpg-probabilistic]).
 
 **Kurze Erläuterung:**
 
-1. Alice und Bob sie Teilnehmer des *Web--of--trust*, ihre öffentlichen Schlüssel
+1. Alice und Bob sind Teilnehmer des *Web--of--trust*, ihre öffentlichen Schlüssel
    sind von weiteren Personen (Freunden) signiert.
 2. Alice und Bob signieren ihre *IPFS--ID* vor dem Austausch mit dem jeweiligen
-   Synchronisationspartner
+   Synchronisationspartner.
 3. Alice und Bob beschaffen sich den öffentlichen Schlüssel des
-   Synchronisationspartners aus dem *Web--of--trust* um die Signatur der *IPFS--ID* damit zu prüfen
-4. Da die öffentlichen Schlüssel der jeweiligen Parteien von bereits anderen
+   Synchronisationspartners aus dem *Web--of--trust*, um damit die Signatur der *IPFS--ID* damit zu prüfen.
+4. Da die öffentlichen Schlüssel der jeweiligen Parteien bereits von anderen
    vertrauenswürdigen Parteien unterschrieben sind, akzeptieren beide
-   Synchronisationspartner die Signatur und somit die *IPFS--ID*
+   Synchronisationspartner die Signatur und somit die *IPFS--ID*.
 
 Dieses Konzept ist um so vertrauenswürdiger, je mehr vertrauenswürdige Parteien
-einen öffentlichen Schlüssel unterschreiben. Durch zusätzlichen Instanzen wie
+einen öffentlichen Schlüssel unterschreiben. Durch zusätzliche Instanzen, wie
 beispielsweise die Zertifizierungsstelle CAcert[^FN_CACERT] und die *c't*
 Krypto--Kampagne[^FN_CTCRYPTO], kann das Vertrauen in die Identität einer Partei
 weiter erhöht werden.
 
-Wissenschaftliche Untersuchen haben weiterhin ergeben das ein großteil der
-Web--of--trust Teilnehmer zum sogenanntem *Strong Set* gehören. Diese Teilmenge
+Wissenschaftliche Untersuchungen haben weiterhin ergeben, dass ein Großteil der
+Web--of--trust--Teilnehmer zum sogenanntem *Strong Set* gehören. Diese Teilmenge
 repräsentiert Benutzer/Schlüssel welche durch gegenseitige Bestätigung
-vollständig mit einander verbunden sind. Projekte wie die c't Krypto--Kampagne
+vollständig miteinander verbunden sind. Projekte wie die c't Krypto--Kampagne
 oder auch das *Debian*--Projekt sollen hierzu einen deutlichen Beitrag
 geleistet haben (vgl. [@wot1], [@wot2]).
 
@@ -485,21 +486,21 @@ geleistet haben (vgl. [@wot1], [@wot2]).
 ### Allgemein {#sec:SEC08_ALLGEMEIN_SMARTCARD}
 
 Wie bereits erwähnt, ist die Authentifizierung über ein Passwort oft der
-Schwachpunkt eines zu sichernden Systems. Ist das Passwort oder die
-Passwort--Richtlinien zu komplex, so neigen Benutzer oft dazu dieses
-aufzuschreiben. Ist die Komplexität beziehungsweise Entropie zu niedrig so ist
-es mit modernen Methoden vergleichsweise einfach das Passwort »berechnen«.
+Schwachpunkt eines zu sichernden Systems. Ist das Passwort oder die  
+Passwort--Richtlinien zu komplex, so neigen Benutzer oft dazu die Passwörter
+aufzuschreiben. Ist die Komplexität beziehungsweise Entropie zu niedrig, so ist
+es mit modernen Methoden vergleichsweise einfach, das Passwort zu berechnen (TODO: Ref).
 
-Ein weiterer Schwachpunkt der oft ausgenutzt wird ist die »unsichere«
+Ein weiterer Schwachpunkt, der oft ausgenutzt wird, ist die unsichere
 Speicherung von kryptographischen Schlüsseln. Passwörter sowie kryptographische
-Schlüssel können bei handelsüblichen Endanwendersystemen wie beispielsweise PC
-oder Smartphone relativ einfach mitgeloggt beziehungswiese entwendet werden
-können. Neben dem *FreeBSD*--Projekt welches dem Diebstahl von
-kryptographischen Schlüsseln zum Opfer fiel gibt es laut Berichten zunehmend
-Schadsoftware welcher explizit für diesen Einsatzzweck konzipiert wurde.
+Schlüssel können bei handelsüblichen Endanwendersystemen, wie beispielsweise PC
+oder Smartphone relativ einfach mitgeloggt beziehungswiese entwendet werden.
+Neben dem *FreeBSD*--Projekt, welches dem Diebstahl von
+kryptographischen Schlüsseln zum Opfer fiel, gibt es laut Berichten zunehmend
+Schadsoftware welche explizit für diesen Einsatzzweck konzipiert wurde (TODO: Ref).
 
-Um hier die Sicherheit zu steigern wird von Sicherheitsexperten oft zur
-zwei--Faktor--Authentifizierung beziehungsweise zur hardwarebasierten
+Um hier die Sicherheit zu steigern, wird von Sicherheitsexperten oft zur
+Zwei--Faktor--Authentifizierung beziehungsweise zur hardwarebasierten
 Speicherung kryptographischer Schlüssel (persönliche Identität,
 RSA--Schlüsselpaar) geraten (vgl. [@martin2012everyday]).
 
@@ -508,15 +509,15 @@ RSA--Schlüsselpaar) geraten (vgl. [@martin2012everyday]).
 Für die Speicherung von kryptographischen Schlüsseln eignen sich beispielsweise
 Chipkarten, welche die Speicherung kryptographischer Schlüssel ermöglichen.
 
-![Von g20 code vertrieben Smartcard für den Einsatz mit *GnuPG*.](images/newcard-b.jpg){#fig:IMG_G10_SMARTCARD width=50%}
+![Von g10 code vertriebene Smartcard für den Einsatz mit *GnuPG*.](images/newcard-b.jpg){#fig:IMG_G10_SMARTCARD width=50%}
 
 [@fig:IMG_G10_SMARTCARD] zeigt die *OpenPGP--Card* Chipkarte[^FN_OPENPGP_CARD]
-von von *ZeitControl*, welche über *g20 code* vertrieben wird. Der Anbieter der
+von *ZeitControl*, welche über *g10 code* vertrieben wird. Der Anbieter der
 Smartcard ist gleichzeitig der Entwickler hinter dem *GnuPG*--Projekt. Auf der
-OpenPGP Version 2.0 Karte lassen sich drei RSA--Schlüssel (Signieren,
-Ver--/Entschlüsseln, Authentifizieren) mit jeweils 2048 bit speichern. Der
+OpenPGP--Chipkarte Version 2.0 lassen sich drei RSA--Schlüssel (Signieren,
+Ver--/Entschlüsseln, Authentifizieren) mit jeweils 2048 Bit speichern. Der
 Vorteil bei der Smartcard ist, dass die kryptographischen Schlüssel die Karte
-selbst nie verlassen, alle kryptographischen Operationen werden auf der Karte
+selbst nie verlassen. Alle kryptographischen Operationen werden auf der Karte
 selbst durchgeführt. Dieser Ansatz schafft eine sichere Aufbewahrung der
 kryptographischen Schlüssel.
 
@@ -524,34 +525,36 @@ kryptographischen Schlüssel.
 
 Die Problematik bei Smartcards ist jedoch, dass man zusätzlich ein Lesegerät
 benötigt. Dieser Umstand schränkt die Benutzung stark ein und ist deswegen
-weniger für den privaten Einsatzzweck weniger geeignet.
+weniger für den privaten Einsatzzweck geeignet.
 
 ### Zwei--Faktor--Authentifizierung  {#sec:SEC08_ZWEI_FAKTOR_AUTHENTIFIZIERUNG}
 
 Bei der Zwei--Faktor--Authentifizierung gibt es verschiedene Varianten, welche
-in der Regel ein Passwort mit einem weiterem Element wie einer Bankkarte oder
+in der Regel ein Passwort mit einem weiteren Element wie einer Bankkarte oder
 einem Hardware--Token wie beispielsweise der RSA SecureID[^FN_SECUREID] verknüpfen.
 
 [^FN_SECUREID]: RSA--SecureID: <https://de.wikipedia.org/wiki/SecurID>
 
 Ein Problem hierbei ist wieder die Umsetzung im privaten Bereich.
 
-Eine relativ »neue« Möglichkeit bieten beispielsweise die Hardware--Token von
-*Yubico*[^FN_YUBICO] (siehe [@fig:img-yubikey]) und *Nitrokey*[^FN_NITROKEY]. Diese Hardware--Token haben
-zudem den Vorteil, dass sie die Funktionalität einer Smartcard und eines
-Hardware--Token für Zwei--Faktor--Authentifizierung vereinen.
+Eine relativ »neue« Möglichkeit bieten die Hardware--Token von
+*Yubico*[^FN_YUBICO] (siehe [@fig:img-yubikey]) und *Nitrokey*[^FN_NITROKEY].
+Diese Hardware--Token haben zudem den Vorteil, dass sie die Funktionalität
+einer Smartcard und eines Hardware--Token für Zwei--Faktor--Authentifizierung
+vereinen.
 
-![YubKey Neo mit USB--Kontaktschnittstelle und »Push--Button«, welcher auf Berühung reagiert.](images/yubikeyneo.png){#fig:img-yubikey width=35%}
+![YubiKey Neo mit USB--Kontaktschnittstelle und »Push--Button«, welcher bei Berühung reagiert.](images/yubikeyneo.png){#fig:img-yubikey width=35%}
 
-Der besondere bei diesen Hardware--Komponenten ist, dass sie sich über die
-USB--Schnittstelle als HID (Human--Interface--Device) ausgeben und somit keine
-weitere Zusatzhardware wie beispielsweise ein Lesegerät benötigt wird.
+Das Besondere bei diesen Hardware--Komponenten ist, dass sie sich über die
+USB--Schnittstelle als HID (Human--Interface--Device) (TODO:Ref) ausgeben und
+somit keine weitere Zusatzhardware wie beispielsweise ein Lesegerät benötigt
+wird. Weiterhin müssen keine zusätzlichen Treiber, beispielsweise für ein Lesegerät, installiert werden.
 
 [^FN_NITROKEY]: Nitrokey: <https://www.nitrokey.com/>
 [^FN_YUBICO]: Yubico: <https://www.yubico.com>
 
 Bei beiden Herstellern gibt es die Hardware--Token in verschiedenen
-Ausführungen. Bekannte Institutionen welche den *YubiKey* verwenden sind
+Ausführungen. Bekannte Institutionen, welche den *YubiKey* verwenden sind
 beispielsweise die Universität von Auckland[^FN_YK_UNIVERSITY_AUCKLAND], das
 *CERN*[^FN_YK_CERN] oder auch das Massachusetts Institute of Technology[^FN_YK_MIT].
 
@@ -560,7 +563,7 @@ beispielsweise die Universität von Auckland[^FN_YK_UNIVERSITY_AUCKLAND], das
 [^FN_YK_CERN]: CERN YubiKey--Benutzeranweisung: <http://kb.mit.edu/confluence/pages/viewpage.action?pageId=151109106>
 
 Für die Entwicklung von »brig« wurden *Yubico Neo*--Hardware--Token ---
-aufgrund der Umfangreichen Programmier--API --- des Herstellers *Yubico*
+aufgrund der umfangreichen Programmier--API --- des Herstellers *Yubico*
 beschafft. Alle weiteren Ausführungen und Demonstrationen beziehen sich auf
 dieses Modell.
 
@@ -568,12 +571,12 @@ dieses Modell.
 
 [^FN_YUBIKEY_PNG]: Bild--Quelle: <https://hao0uteruy2io8071pzyqz13-wpengine.netdna-ssl.com/wp-content/uploads/2015/04/YubiKey-NEO-1000-2016-444x444.png>
 
-Der *Yubikey Neo* hat folgende Funktionalitäten beziehugnsweise Eigenschaften:
+Der *Yubikey Neo* hat folgende Funktionalitäten beziehungsweise Eigenschaften:
 
 * Yubico OTP, One--Time--Password--Verfahren des Herstellers. Standardmäßig
-  kann jeder YubiKey gegen die YubiCloud--Authentifizierungdienst mittels OTP
-  authentifiziert werden
-* OATH–Kompitabilität (HMAC--Based--OTP-- und Time--Based--OTP--Verfahren, für weitere Details vgl. [@oath])
+  kann jeder YubiKey gegen den YubiCloud--Authentifizierungdienst mittels One--Time--Passwort authentifiziert werden.
+* OATH–Kompatibilität (HMAC--Based--OTP-- und Time--Based--OTP--Verfahren, für
+  weitere Details vgl. [@oath])
 * Challange--Response--Verfahren (HMAC-SHA1, Yubico OTP)
 * FIDO U2F (Universal Second Factor)
 * Statische Passwörter
@@ -591,53 +594,54 @@ Weitere Eigenschaften sind im Datenblatt[^FN_YUBIKEY_NEO] des YubiKey--Neo zu fi
 [^FN_YUBIKEY_NEO]: YubiKey--Neo: <https://www.yubico.com/wp-content/uploads/2016/02/Yubico_YubiKeyNEO_ProductSheet.pdf>
 
 Der *YubiKey--NEO* bietet mit zwei Konfigurationsslots (siehe GUI--Screenshot
-[@fig:img-ykgui]) die Möglichkeit an mehrere Verfahren gleichzeitig nutzen zu
-können. Ein beispielhafte Konfiguration wäre den ersten Konfigurationsslot mit
+[@fig:img-ykgui]) die Möglichkeit, mehrere Verfahren gleichzeitig nutzen zu
+können. Eine beispielhafte Konfiguration wäre den ersten Konfigurationsslot mit
 einem statischen Passwort und den zweiten mit einem One--Time--Passwort zu
-belegen. 
+belegen. TODO: Stlottime
 
 [^FN_YUBICO_PERSON_TOOL]: Yubico Personalization Tool: <https://www.yubico.com/products/services-software/personalization-tools/use/>
 
 Die grundlegende Konfiguration des *YubiKey* ist mit dem *YubiKey
-Personalisation Tool* möglich.  
+Personalization Tool* möglich.  
 
-![GUI des YubiKey Personalisation Tool. Das Konfigurationswerkzeug ist eine QT--Anwendung, diese wird von den gängigen Betriebssystemen (Linux, MacOs, Windows) unterstützt.](images/ykgui2.png){#fig:img-ykgui width=75%}
+![GUI des YubiKey Personalization Tool. Das Konfigurationswerkzeug ist eine QT--Anwendung, diese wird von den gängigen Betriebssystemen (Linux, MacOs, Windows) unterstützt.](images/ykgui2.png){#fig:img-ykgui width=75%}
 
 ### Yubico OTP Zwei--Faktor--Authentifizierung {#sec:SEC08_YUBICO_OTP_ZWEI_FAKTOR_AUTHENTIFIZIERUNG}
 
-Der YubiKey ist im Auslieferungszustand so konfiguriert dass er sich gegenüber
+Der YubiKey ist im Auslieferungszustand so konfiguriert, dass er sich gegenüber
 der YubiCloud mittels Yubico OTP authentifizieren kann. [@fig:img-otp-details]
 zeigt den Ablauf des Authentifizierungsprozesses. Das One--Time--Passwort ist
 insgesamt 44 Zeichen lang und besteht dabei aus zwei Teilkomponenten. Die
 ersten 12 Zeichen repräsentieren eine statische öffentliche *ID* mit welcher
 sich die YubiKey Hardware identifizieren lässt. Die verbleibenden Zeichen
-repräsentieren das dynamisch generierten Teil des One--Time--Passwort.
+repräsentieren den dynamisch generierten Teil des One--Time--Passworts.
 [@fig:IMG_OTP_STRING] zeigt ein vollständiges valides One--Time--Password.
 
 ![Yubico OTP Aufbau](images/otp_string.png){#fig:IMG_OTP_STRING width=100%}
 
-1. Öffentliche ID (6 bytes), statisch Teil des One--Time--Password
-2. Geheime ID (6 bytes), dynamisch erzeugt, wird von der validierenden Instanz geprüft
-3. Interner Zähler (2 bytes), ein nichtflüchtiger Zähler der beim »power up/reset« um eins inkrementiert wird
-4. Zeitstempel (3 bytes)
-5. Sitzungszähler (1 byte), beim »power up« wird dieser Zähler auf null gesetzt und bei jedem *OTP* inkrementiert
-6. Zufällig generierte Nonce (2 bytes), wird vom internen Random--Number--Generator erstellt um weitere Entropie hinzuzufügen
-7. CRC16 Prüfsumme (2 bytes)
+1. Öffentliche ID (6 Bytes), statischer Teil des One--Time--Password.
+2. Geheime ID (6 Bytes), dynamisch erzeugt, wird von der validierenden Instanz
+   geprüft.
+3. Interner Zähler (2 Bytes), ein nichtflüchtiger Zähler, der beim »power up/reset« um eins inkrementiert wird.
+4. Zeitstempel (3 Bytes)
+5. Sitzungszähler (1 Byte), beim »power up« wird dieser Zähler auf null gesetzt und bei jedem *One--Time--Password* inkrementiert.
+6. Zufällig generierte Nonce (2 Bytes), wird vom internen Random--Number--Generator erstellt, um weitere Entropie hinzuzufügen.
+7. CRC16 Prüfsumme (2 Bytes).
 
 Der dynamische Teil besteht aus mehreren verschiedenen Einzelkomponenten die
 beispielsweise eine zufällige Nonce, Sitzungsschlüssel und Zähler beinhalten.
 Weiterhin fließt ein AES--Schlüssel in die Generierung des One--Time--Password
 ein, es ist für einen Angreifer somit nicht möglich die eigentlichen Daten
-auszuwerten. 
+auszuwerten.
 
 ![Yubico OTP--Authentifizierungsprozess an der *YubiCloud*[^FN_YUBICO_OTP]](images/otp-details.png){#fig:img-otp-details width=75%}
 
-Das One--Time--Password ist nur ein Mal gültig. Zur Validierung werden am
+Das One--Time--Password ist nur einmal gültig. Zur Validierung werden am
 Server Sitzung und Zähler jeweils mit den zuvor gespeicherten Daten überprüft.
-Stimmen diese nicht --- da beispielsweise der aktuelle Zähler kleiner ist als
+Stimmen diese nicht --- da beispielsweise der aktuelle Zähler kleiner ist, als
 der zuletzt gespeicherte --- so wird das One--Time--Password nicht akzeptiert.
 
-[^FN_YUBICO_OTP]: OTPs Explained: <https://developers.yubico.com/OTP/OTPs_Explained.html>
+[^FN_YUBICO_OTP]: Bildquelle OTPs Explained: <https://developers.yubico.com/OTP/OTPs_Explained.html>
 
 Für das Testen der korrekten Funktionalität stellt *Yubico* eine Demoseite für
 *OTP*[^FN_YUBICO_DEMO_OTP] und *U2F*[^FN_YUBICO_DEMO_U2F] bereit. Über diese
@@ -648,58 +652,51 @@ zeigt die Authentifizierungsantwort der *YubiCloud*.
 ![YubiCloud Response bei Zwei--Faktor--Authentifizierung. Seriennummer des YubiKeys wurde retuschiert.](images/response-noserial.png){#fig:img-otp-response width=65%}
 
 Die Demoseite bietet hier neben dem einfachen Authentifizierungstest, bei
-welchem nur das One--Time--Passwort validiert wird, auch noch die Möglichkeit
-einen Zwei--Faktor--Authentifizierungstest und einen
-Zwei--Faktor--Authentifizierungstest mit Passwort durchführen.
+welchem nur das One--Time--Passwort validiert wird, auch noch die Möglichkeit,
+einen einfachen Zwei--Faktor--Authentifizierungstest und einen
+Zwei--Faktor--Authentifizierungstest mit Passwort durchzuführen.
 
 [^FN_YUBICO_DEMO_OTP]: Yubico OTP--Demopage: <https://demo.yubico.com>
 [^FN_YUBICO_DEMO_U2F]: Yubico U2F--Demopage: <https://demo.yubico.com/u2f>
 
-### Konzept Zwei--Faktor--Authentifizierung von »brig« mit YubiCloud {#sec:SEC08_KONZEPT_ZWEI_FAKTOR_AUTHENTIFIZIERUNG_VON_BRIG_MIT_YUBICLOUD}
+### Konzept zur Zwei--Faktor--Authentifizierung von »brig« mit der YubiCloud {#sec:SEC08_KONZEPT_ZWEI_FAKTOR_AUTHENTIFIZIERUNG_VON_BRIG_MIT_YUBICLOUD}
 
-Für die Proof--of--concept Implementierung der Zwei--Faktor--Authentifizierung
+Für die Proof--of--concept--Implementierung der Zwei--Faktor--Authentifizierung
 wird die *yubigo*--Bibliothek[^FN_YUBIGO] verwendet.
 
 [^FN_YUBIGO]: Yubigo Dokumentation: <https://godoc.org/github.com/GeertJohan/yubigo>
 
-besteht aus einer *Client--ID*, welche beispielsweise die Applikation repräsentieren
-Für den Einsatz unter »brig« wird ein *API*--Key von *Yubico* benötigt. Diese
-kann und einem *Secret--Key* über welchen der Anwendung genehmigt wird den
-Dienst zu verwenden. Die Beantragung erfolgt online[^FN_APIKEY] und erfordert
-einen YubiKey.
+Für den Einsatz unter »brig« wird ein *API*--Key und ein *Secret--Key* von
+*Yubico* benötigt. Dieser wird für die Authentifizierung der Bibliothek
+gegenüber dem Yubico--Dienst verwendet. Die Beantragung erfolgt
+online[^FN_APIKEY] und erfordert einen YubiKey. Die minimale Implementierung in
+@sec:APP_YUBICLOUD_AUTHENTIFIZIERUNG zeigt einen voll funktionsfähigen
+Authentifizierungs--Client,  welcher einen *YubiKey* am *YubiCloud*--Dienst
+authentifiziert. [@fig:img-poc-brig-2fa] zeigt schematisch den
+Zwei--Faktor--Authentifizierung--Vorgang mit einem *YubiKey* über die
+*YubiCloud*. Um auf das »brig«--Repository Zugriff zu erhalten, müssen folgende
+Informationen validiert werden:
 
 [^FN_APIKEY]: Yubico API--Key beantragen: <https://upgrade.yubico.com/getapikey/>
 
-Das folgende minimale Implementierung zeigt eine voll funktionsfähigen
-Authentifizierung eine *Yubikey* am *YubiCloud*--Service.
-
 ![Schematische Darstellung der Zwei--Faktor--Authentifizierung gegenüber einem »brig«--Repository.](images/poc-2fa-auth.png){#fig:img-poc-brig-2fa width=85%}
 
-[@fig:img-poc-brig-2fa] zeigt schematisch den Zwei--Faktor--Authentifizierung
-mit einem *YubiKey* über die *YubiCloud*. Um auf das »brig«--Repository Zugriff
-zu erhalten müssen folgende Informationen validiert werden:
-
-1. »brig« prüft das Passwort von Alice
-2. »brig« prüft anhand der *Public--ID* ob der *YubiKey* von Alice dem Repository bekannt ist
-3. »brig« lässt das One--Time--Passwort des *YubiKey* von der *YubiCloud* validieren
+1. »brig« prüft das Passwort von Alice.
+2. »brig« prüft anhand der *Public--ID*, ob der *YubiKey* von Alice dem Repository bekannt ist.
+3. »brig« lässt das One--Time--Passwort des *YubiKey* von der *YubiCloud* validieren.
 
 Eine essentiell wichtige Komponente an dieser Stelle ist der Zusammenhang
 zwischen dem Repository und dem *YubiKey*. Der *YubiKey* muss beim
 Initialisieren dem System genauso wie das Passwort bekannt gemacht werden.
-
-Dies kann bei der Initialisierung durch ein One--Time--Password gegenüber
-»brig« gemacht werden.
-
-Bei der Implementierung des Hardwaretokens als zweiten Faktor, ist es wichtig
-darauf zu achten, dass die *Public--ID* des *YubiKey* »brig« bekannt ist. Passiert dies
-nicht, so könnte sich jeder Benutzer mit einem gültigen *YubiKey* gegenüber
-»brig« authentifizieren. 
+Passiert dies nicht, so könnte sich jeder Benutzer mit einem gültigen *YubiKey*
+gegenüber »brig« authentifizieren. Der *YubiKey* kann bei der Initialisierung
+durch ein One--Time--Password gegenüber »brig« bekannt gemacht werden.
 
 Beim Ausführen des Code--Snippets (@sec:APP_YUBICLOUD_AUTHENTIFIZIERUNG) wird
-das Passwort als erster Parameter übergeben, der *Yubikey*--OTP--Schlüssel  ist
+das Passwort als erster Parameter übergeben. Der *Yubikey*--OTP--Schlüssel  ist
 der zweite übergebene Parameter. Die *Proof--of--concept*--Implementierung hat
 aktuell einen *YubiKey* registriert und das Passwort *Katzenbaum* als valide
-registriert.
+anerkannt.
 
 Authentifizierung mit korrektem Passwort und *YubiKey*:
 
@@ -708,21 +705,21 @@ $ ./twofac katzenbaum cccccceleflifuccbfruutuudkntjhbkfjevbhndbcrk
 [yubico: OK, brig? : OK, password: OK]
 ~~~
 
-Authentifizierung mit falschen Passwort und korrektem *YubiKey*:
+Authentifizierung mit falschem Passwort und korrektem *YubiKey*:
 
 ~~~sh
 $ ./twofac elchwald ccccccelefliujnnnjbllkhrfeklifntfknicfbilced  
 [yubico: OK, brig : OK, password: X]
 ~~~
 
-Authentifizierung mit falschen Passwort und falschen *YubiKey*:
+Authentifizierung mit falschem Passwort und falschem *YubiKey*:
 
 ~~~sh
 $ ./twofac elchwald ccccccejjegnjrvnbbthinvbvrbjerljknbeteluugut
 [yubico: OK, brig : X, password: X]
 ~~~
 
-Authentifizierung mit falschen Passwort und dem zuletzt wiederholten
+Authentifizierung mit falschem Passwort und dem zuletzt wiederholten
 One--Time--Passwort des falschen *YubiKey*:
 
 ~~~sh
