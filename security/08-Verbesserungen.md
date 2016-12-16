@@ -350,6 +350,8 @@ Synchronisationspartnern hinzufügen. Neben der Möglichkeit, den Fingerabdruck
 über einen Seitenkanal (Telefonat, E--Mail) auszutauschen, sollen nun
 benutzerfreundlichere Konzepte vorgestellt werden.
 
+#### Manuelle Authentifizierung über QR--Code
+
 Eine sinnvolle Erweiterung an dieser Stelle wäre die Einführung eines QR--Codes
 welcher die Identität eines Synchronisationspartners eindeutig bestimmt.
 Auf Visitenkaten gedruckte QR--Codes lassen den Benutzer beispielsweise seinen
@@ -372,11 +374,13 @@ und könnte beispielsweise in folgender Form realisiert werden:
 
 [^FN_EVIL32]: Evil32--Schwachstelle: <https://evil32.com/>
 
+#### Authentifizierung über Frage--Antwort--Dialog
+
 Da *IPFS* bereits ein *Public/Private*--Schlüsselpaar mitbringt, würde sich im
 einfachsten Falle nach dem ersten Verbindungsaufbau die Möglichkeit bieten,
 seinen Synchronisationspatner anhand eines *gemeinsamen Geheimnises* oder anhand eines
 *Frage--Antwort--Dialogs* zu verifizieren. [@fig:img-question-answer] zeigt den
-Ablauf einer Authentifizierung des Synchronisationspartners, welcher in folgenden Schritten abläuft:
+Ablauf einer Authentifizierung des Synchronisationspartners mittels Frage--Antwort--Dialog, welcher in folgenden Schritten abläuft:
 
 ![Frage--Antwort--Authentifizierung. Alice stellt Bob eine Frage auf die nur er die Antwort wissen kann.](images/question-answer.png){#fig:img-question-answer width=95%}
 
@@ -397,38 +401,38 @@ Ablauf einer Authentifizierung des Synchronisationspartners, welcher in folgende
 8. Um Alice gegenüber Bob zu verifizieren, muss das Protokoll von Bob aus
    initialisiert werden.
 
-Eine weitere Möglichkeit wäre auch wie beim OTR--Plugin des
-*Pidgin*--Messengers das Teilen eines gemeinsamen Geheimnisses.
-[@fig:img-shared-secret] zeigt den Ablauf der Authentifizierungsphase bei der
-Nutzung eines gemeinsamen Geheimnisses.
-
-![Authentifizierung über ein gemeinsames Geheimnis.](images/shared-secret.png){#fig:img-shared-secret width=95%}
-
-1. Alice und Bob generieren jeweils eine zufällige Nonce (NA und NB).
-2. NA und NB werden mit dem Public Key des Gegenübers verschlüsselt,
-   signiert und an den Synchronisationspatner versendet.
-3. Die Synchronisationspatner validieren die Signatur und entschlüsseln jeweils
-   die erhaltene Nonce NA beziehungsweise NB.
-4. Die Synchronisationspatner inkrementieren die erhaltene Nonce, fügen eine
-   Prüfsumme ihres gemeinsamen geglaubten Geheimnisses hinzu, verschlüsseln,
-   signieren und versenden diese an den Synchronisationspatner.
-5. Alice und Bob erhalten die inkrementierte Nonce und die Prüfsumme (in
-   verschlüsselter Form) des gemeinsam geglaubten Geheimnisses des Synchronisationspartners.
-   Beide prüfen wieder die Signatur, entschlüsseln das Paket und prüfen, ob die
-   Nonce inkrementiert wurde und ob die Prüfsumme ihres Geheimnisses mit dem des
-   Synchronisationspartners übereinstimmt.
-6. Bei valider Nonce und Prüfsumme sind beide Kommunikationspartner
-   gegenseitig authentifiziert und können ihren Synchronisationspatner jeweils als
-   vertrauenswürdig einstufen.
-
-Bei beiden Abläufen wurde jeweils eine zufällige Nonce verschlüsselt und
-signiert versendet. Dies soll in beiden Fällen das Abgreifen der Nonce
-verhindern und die bisherige Quelle authentifizieren. Würde man an dieser
-stelle die Nonce weglassen, so wäre ein *Replay*--Angriff möglich. Die Anforderungen richten sich hierbei nach den Prinzipien (vgl. [@martin2012everyday], S. 295 ff):
+Die Anforderungen des Protokolls richten sich hierbei nach den Prinzipien (vgl. [@martin2012everyday], S. 295 ff):
 
 * Nachrichtenauthentifizierung, durch Signatur bereitgestellt.
 * Gültigkeit (engl. *freshness*), durch Nonce bereit gestellt.
 * Bezug zur korrekten Anfrage. Frage wird in der Antwort mitgesendet.
+
+#### Authentifizierung über gemeinsames Geheimnis (Socialist Millionaire Protocol)
+
+Eine weitere Möglichkeit wäre auch wie beim OTR--Plugin des
+*Pidgin*--Messengers das Teilen eines gemeinsamen Geheimnisses.
+[@fig:img-shared-secret] zeigt den Ablauf der Authentifizierungsphase bei der
+Nutzung eines gemeinsamen Geheimnisses unter Verwendung des Socialist
+Millionaires Protocol.
+
+[^FN_PIDGIN_SMP]: Socialist Millionaires' Protocol (SMP): <https://otr.cypherpunks.ca/Protocol-v3-4.0.0.html>
+
+![Authentifizierung über ein gemeinsames Geheimnis. Socialist Millionaires' Protocol.](images/smp.png){#fig:img-shared-secret width=95%}
+
+1. Alice generiert zwei zufällige Exponenten $a_{2}$ und $a_{3}$. Anschließend
+   berechnet sie $g_{2a}$ und $g_{3a}$ und sendet diese an Bob.
+2. Bob generiert zwei zufällige Exponenten $b_{2}$ und $b_{3}$. Anschließend berechnet
+   Bob $g_{2b}$, $g_{3b}$, $g_{2}$ und $g_{3}$. Bob wählt eine zufälligen exponenten $r$. Bob Berechnet
+   $P_{b}$ und $Q_{b}$ (hier fließt das gemeinsames Geheimnis $r$ von Bob ein) und sendet
+   $g_{2b}$, $g_{3b}$, $P_{b}$ und $Q_{b}$ an Alice.
+3. Alice berechnet $g_{2}$, $g_{3}$, wählt einen zufälligen Exponenten $s$,
+   berechnet $P_{a}$,
+   $Q_{a}$ (hier fließt das gemeinsame Geheimnis $s$ von Alice ein), $R_{a}$ und sendet $P_{a}$, $Q_{a}$ und $R_{a}$ an Bob.
+4. Bob berechnet $R_{b}$, $R_{ab}$ und prüft ob $R_{ab} == (P_{a}/P_{b})$. Anschließend sendet er $R_{b}$
+   an Alice.
+5. Alice berechnet $R_{ab}$ und prüft ob $R_{ab} == (P_{a}/P_{b})$.
+
+Konnten Alice und Bob jeweils $R_{ab} = (P_{a}/P_{b})$ als korrekt validieren, so haben sie sich gegenseitig authentifiziert (vgl. [@SMP1], [@SMP2]).
 
 
 ### Authentifizierungskonzept auf Basis des Web--of--Trust {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT_AUF_BASIS_DES_WEB_OF_TRUST}
