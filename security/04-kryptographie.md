@@ -238,7 +238,7 @@ Public--Key--Kryptographie (asymmetrische Kryptographie) den *gemeinsamen*
 Schlüssel, welchen Sie anschließend für die symmetrische Verschlüsselung
 verwenden, aus.
 
-## Diffie--Hellmann--Schlüsseltausch {#sec:SEC04_DIFFIE_HELLMANN_SCHLUESSELAUSTAUSCH}
+## Diffie--Hellman--Schlüsseltausch {#sec:SEC04_DIFFIE_HELLMANN_SCHLUESSELAUSTAUSCH}
 
 Aus dem Diffie--Hellman--Schlüsselaustausch (kurz *DH*) geht das
 ElGamal--Verschlüsselungsverfahren hervor. *DH* ist ein
