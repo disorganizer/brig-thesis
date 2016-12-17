@@ -340,7 +340,7 @@ Gewohnheiten.
 
 ## Authentifizierungskonzept {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT}
 
-### Authentifizierungkonzept mit IPFS--Bordmitteln {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT_MIT_IPFS_BOARDMITTELN}
+### Authentifizierungskonzept mit IPFS--Bordmitteln {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT_MIT_IPFS_BOARDMITTELN}
 
 Unter @sec:SEC07_AUTHENTIFIZIERUNG wurde die aktuelle Situation evaluiert. Zum
 aktuellen Zeitpunkt hat »brig« keinen Authentifizierungsmechanismus. Die
@@ -378,7 +378,7 @@ und könnte beispielsweise in folgender Form realisiert werden:
 
 Da *IPFS* bereits ein *Public/Private*--Schlüsselpaar mitbringt, würde sich im
 einfachsten Falle nach dem ersten Verbindungsaufbau die Möglichkeit bieten,
-seinen Synchronisationspatner anhand eines *gemeinsamen Geheimnises* oder anhand eines
+seinen Synchronisationspartner anhand eines *gemeinsamen Geheimnises* oder anhand eines
 *Frage--Antwort--Dialogs* zu verifizieren. [@fig:img-question-answer] zeigt den
 Ablauf einer Authentifizierung des Synchronisationspartners mittels Frage--Antwort--Dialog, welcher in folgenden Schritten abläuft:
 
