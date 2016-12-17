@@ -172,7 +172,7 @@ es wurde standardmäßig ein *DSA* Schlüssel zum Signieren und ein *ElGamal*
 Schlüssel zum Ver-- und Entschlüsseln angelegt), andererseits ermöglicht es
 *GnuPG*, Schlüssel mit unterschiedlichem »Schutzbedarf« anders zu behandeln.
 
-![GnuPG--Schlüsselpaar RSA/RSA bestehend aus einem Haupt- und Unterschlüssel. Beide Schlüssel haben unterschiedliche Fähigkeiten und bestehen jeweils aus einem öffentlichen und einem privaten Schlüssel. In Hexadezimal ist jeweils der Fingerprint eines Schlüssels dargestellt. Der Fingerprint ist 20 Bytes. Die »Long--Key--ID« entspricht den letzten 8 Bytes, die »Short--Key--ID« entspricht den letzten 4 Bytes.](images/gpg_keypair.png){#fig:IMG_GNUPG_KEYPAIR width=90%}
+![GnuPG--Schlüsselpaar RSA/RSA bestehend aus einem Haupt- und Unterschlüssel. Beide Schlüssel haben unterschiedliche Fähigkeiten und bestehen jeweils aus einem öffentlichen und einem privaten Schlüssel. In Hexadezimal ist jeweils der Fingerprint eines Schlüssels dargestellt. Der Fingerprint ist 20 Bytes groß. Die »Long--Key--ID« entspricht den letzten 8 Bytes, die »Short--Key--ID« entspricht den letzten 4 Bytes.](images/gpg_keypair.png){#fig:IMG_GNUPG_KEYPAIR width=90%}
 
 Der »Schlüsselbund« besteht bei Anlage eines neuen Schlüssels mit `gpg
 --gen-key` aus einem Hauptschlüssel- und einem Unterschlüsselpaar. Beide
@@ -382,7 +382,7 @@ seinen Synchronisationspartner anhand eines *gemeinsamen Geheimnises* oder anhan
 *Frage--Antwort--Dialogs* zu verifizieren. [@fig:img-question-answer] zeigt den
 Ablauf einer Authentifizierung des Synchronisationspartners mittels Frage--Antwort--Dialog, welcher in folgenden Schritten abläuft:
 
-![Frage--Antwort--Authentifizierung. Alice stellt Bob eine Frage auf die nur er die Antwort wissen kann.](images/question-answer.png){#fig:img-question-answer width=100%}
+![Frage--Antwort--Authentifizierung. Alice stellt Bob eine persönliche Frage auf die Bob die Antwort weiß.](images/question-answer.png){#fig:img-question-answer width=100%}
 
 1. Alice generiert eine zufällige Nonce, Frage und Antwort.
 2. Alice verschlüsselt Nonce + Antwort, signiert diese mit ihrem privaten Schlüssel
@@ -398,8 +398,9 @@ Ablauf einer Authentifizierung des Synchronisationspartners mittels Frage--Antwo
 7. Stimmen alle drei Parameter überein, dann wird Bob von Alice als
    vertrauenswürdig eingestuft und Alice kann somit Bob's ID als vertrauenswürdig
    hinterlegen.
-8. Um Alice gegenüber Bob zu verifizieren, muss das Protokoll von Bob aus
-   initialisiert werden.
+
+Um Alice gegenüber Bob zu verifizieren, muss das Protokoll von Bob aus
+initialisiert werden.
 
 Die Anforderungen des Protokolls richten sich hierbei nach den Prinzipien (vgl. [@martin2012everyday], S. 295 ff):
 
@@ -700,9 +701,12 @@ Informationen validiert werden:
 
 ![Schematische Darstellung der Zwei--Faktor--Authentifizierung gegenüber einem »brig«--Repository.](images/poc-2fa-auth.png){#fig:img-poc-brig-2fa width=85%}
 
-1. »brig« prüft das Passwort von Alice.
-2. »brig« prüft anhand der *Public--ID*, ob der *YubiKey* von Alice dem Repository bekannt ist.
-3. »brig« lässt das One--Time--Passwort des *YubiKey* von der *YubiCloud* validieren.
+1. Alice startet mit ihrem Passwort und YubiKey einen Loginvorgang.
+2. »brig« prüft das Passwort von Alice.
+3. »brig« prüft anhand der *Public--ID*, ob der *YubiKey* von Alice dem
+   Repository bekannt ist.
+4. »brig« lässt das One--Time--Passwort des *YubiKey* von der *YubiCloud* validieren.
+5. Ist das One--Time--Passwort korrekt, so bekommt Alice Zugriff auf das Repository.
 
 Eine essentiell wichtige Komponente an dieser Stelle ist der Zusammenhang
 zwischen dem Repository und dem *YubiKey*. Der *YubiKey* muss beim
