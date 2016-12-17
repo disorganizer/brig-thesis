@@ -11,6 +11,15 @@
 \RequirePackage{ccicons}
 \pagenumbering{roman}
 
+\usepackage{float}
+\let\origfigure=\figure
+\let\endorigfigure=\endfigure
+\renewenvironment{figure}[1][]{%
+  \origfigure[H]
+}{%
+  \endorigfigure
+}
+
 % Provide a new Listing reference target:
 \crefname{Listing}{Listing}{Listings}
 
