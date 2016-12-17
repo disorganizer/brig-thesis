@@ -382,7 +382,7 @@ seinen Synchronisationspartner anhand eines *gemeinsamen Geheimnises* oder anhan
 *Frage--Antwort--Dialogs* zu verifizieren. [@fig:img-question-answer] zeigt den
 Ablauf einer Authentifizierung des Synchronisationspartners mittels Frage--Antwort--Dialog, welcher in folgenden Schritten abläuft:
 
-![Frage--Antwort--Authentifizierung. Alice stellt Bob eine Frage auf die nur er die Antwort wissen kann.](images/question-answer.png){#fig:img-question-answer width=90%}
+![Frage--Antwort--Authentifizierung. Alice stellt Bob eine Frage auf die nur er die Antwort wissen kann.](images/question-answer.png){#fig:img-question-answer width=100%}
 
 1. Alice generiert eine zufällige Nonce, Frage und Antwort.
 2. Alice verschlüsselt Nonce + Antwort, signiert diese mit ihrem privaten Schlüssel
