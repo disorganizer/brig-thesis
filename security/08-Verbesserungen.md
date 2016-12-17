@@ -10,7 +10,7 @@ Aktuell verwendet die Implementierung der Datenverschlüsselungsschicht 8 Bytes
 große *Noncen*. Die *MAC* ist inklusive *Padding* 16 Bytes groß (siehe
 @sec:SEC07_DATENVERSCHLUESSELUNGSSCHICHT). Hier muss laut BSI--Richtlinie
 nachgebessert werden. Die empfohlene *Noncen*--Größe ist mit 96 Bit angegeben
-(vgl. [@bsi], S. 24). TODO: Nochmal schauen 
+(vgl. [@bsi], S. 24).
 
 Wie unter @sec:SEC06_IPFS_ID zu sehen, sind die *IPFS*--Schlüssel aktuell in der
 `config`--Datei von *IPFS* im Klartext hinterlegt. »brig« verschlüsselt diese
@@ -85,10 +85,12 @@ einen Missbrauch zu vermeiden. Auf üblichen Endverbrauchergeräten ist der
 Passwortschutz dieses Schlüsselpaars ein absolutes Minimalkriterium. Weiterhin
 könnte »brig« den Ansatz fahren und die kryptographischen Schlüssel
 (`config`--Datei von *IPFS*) selbst nur »on demand« im Speicher beispielsweise
-über ein *VFS* (Virtual Filesystem) TODO:Ref *IPFS* bereitstellen. [@fig:img-vfs] zeigt
-ein Konzept bei welchem »brig« über einen *VFS*--Adapter die
-Konfigurationsdateien und somit auch die kryptographischen Schlüssel *IPFS*
+über ein *VFS* (Virtual Filesystem)[^FN_VFS] *IPFS* bereitstellen.
+[@fig:img-vfs] zeigt ein Konzept bei welchem »brig« über einen *VFS*--Adapter
+die Konfigurationsdateien und somit auch die kryptographischen Schlüssel *IPFS*
 bereitstellt. 
+
+[^FN_VFS]: Virtual file system Wikipedia: <https://en.wikipedia.org/wiki/Virtual_file_system>
 
 ![»brig« stellt mittels VFS eine Zugriffsschnittstelle für *IPFS* dar.](images/vfs.png){#fig:img-vfs width=60%}
 
@@ -299,7 +301,7 @@ von Unterschlüsseln für den regulären Gebrauch.
 *GnuPG* hat einen `gpg-agent`. Dieser übernimmt das Management der vom Benutzer
 eingegebenen Passphrasen und kann diese für eine gewisse Zeit speichern und bei
 Bedarf abfragen. Weiterhin bietet der Agent seit Version 2.0.x die Möglichkeit,
-auf Smartcards (TODO: Ref) zuzugreifen. Zusätzlich ist es seit Version 2 möglich,
+auf Smartcards zuzugreifen. Zusätzlich ist es seit Version 2 möglich,
 GPG--Schlüssel für die SSH--Authentifizierung zu verwenden.
 
 Beim Erstellen eines Schlüsselpaars mit *GPG* wird standardmäßig ein
@@ -314,7 +316,7 @@ bei der Verwaltung von Schlüsseln darstellt.
 *GnuPG* bietet neben dem RFC4880--Standard die Möglichkeit, den privaten
 Hauptschlüssel offline zu speichern. Dieser sollte in der Regel so
 konfiguriert sein, dass er lediglich zum Signieren/Zertifizieren und Anlegen
-neuer Unterschlüssel (TODO Ref) verwendet wird.
+neuer Unterschlüssel verwendet wird.
 
 Eine weitere Empfehlung an dieser Stelle wäre es, die Unterschlüssel zusätzlich
 auf eine *Smartcard* auszulagern (siehe
@@ -368,7 +370,10 @@ und könnte beispielsweise in folgender Form realisiert werden:
 
 * `QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2qv5BW7HNhCkpL | D3B2790FBAC07EAC`
 
-[@fig:img-qrcode] zeigt den definierten Datensatz als QR--Code. (TODO: Ref Quellcode) Es sollte bei der GPG--Key--ID darauf geachtet werden, dass hier mindestens 16 Byte des Fingerprints verwendet werden, da die 8 Byte Repräsentation Angriffsfläche[^FN_EVIL32] bietet.
+[@fig:img-qrcode] zeigt den definierten Datensatz als QR--Code. Es sollte bei
+der GPG--Key--ID darauf geachtet werden, dass hier mindestens 16 Byte des
+Fingerprints verwendet werden, da die 8 Byte Repräsentation
+Angriffsfläche[^FN_EVIL32] bietet.
 
 ![»brig« QR--Code um einen Synchronisationspartner auf einfache Art und Weise zu authentifizieren.](images/qrcode.png){#fig:img-qrcode width=30%}
 
@@ -408,26 +413,26 @@ Die Anforderungen des Protokolls richten sich hierbei nach den Prinzipien (vgl. 
 * Gültigkeit (engl. *freshness*), durch Nonce bereit gestellt.
 * Bezug zur korrekten Anfrage. Frage wird in der Antwort mitgesendet.
 
-Weiterhin wäre diese Art der Authentifizierung auch unter Verwendung des Socialist--Millionaire--Protokolls möglich, siehe folgendes Kapitel.
+Weiterhin wäre diese Art der Authentifizierung auch unter Verwendung des *Socialist Millionaire*--Protokolls möglich, siehe folgendes Kapitel.
 
-#### Authentifizierung über gemeinsames Geheimnis (Socialist Millionaire Protocol)
+#### Authentifizierung über gemeinsames Geheimnis (Socialist Millionaire--Protokoll)
 
 Eine weitere Möglichkeit der Authentifizierung des Synchronisationspartners
 wäre, wie beim OTR--Plugin des *Pidgin*--Messengers, das Teilen eines
 gemeinsamen Geheimnisses. Das Off--the--Record--Messaging--Protokoll
-verwendet hierbei das *Socialist--Millionaire*--Protokoll. Das Protokoll
+verwendet hierbei das *Socialist Millionaire*--Protokoll. Das Protokoll
 erlaubt es Alice und Bob ein gemeinsam geglaubtes Geheimnis $x$ (Alice) und $y$
 (Bob) auf Gleichheit zu prüfen ohne es austauschen zu müssen. Weiterhin ist
 das Protokoll nicht für einen Man--in--the--Middle--Angriff anfällig. Beim
 Off--the--Record--Messaging--Protokoll[^FN_PIDGIN_SMP] werden alle Operationen
 modulo einer bestimmten 1536 Bit Primzahl genommen, $g_{1}$ ist hier das
 erzeugende Element dieser Gruppe. [@fig:img-shared-secret] zeigt den
-grundlegenden Ablauf des *Socialist--Millionaire*--Protokoll.
+grundlegenden Ablauf des *Socialist Millionaire*--Protokoll.
 
-![Authentifizierung über ein gemeinsames Geheimnis unter Verwendung des Socialist--Millionaire--Protokoll.](images/smp.png){#fig:img-shared-secret width=90%}
+![Authentifizierung über ein gemeinsames Geheimnis unter Verwendung des Socialist Millionaire--Protokoll.](images/smp.png){#fig:img-shared-secret width=90%}
 
 
-[^FN_PIDGIN_SMP]: Socialist Millionaires' Protocol (SMP): <https://otr.cypherpunks.ca/Protocol-v3-4.0.0.html>
+[^FN_PIDGIN_SMP]: Socialist Millionaire Protocol (SMP): <https://otr.cypherpunks.ca/Protocol-v3-4.0.0.html>
 
 
 1. Alice generiert zwei zufällige Exponenten $a_{2}$ und $a_{3}$. Anschließend
@@ -451,23 +456,23 @@ Go--Standardbibliothek[^FN_SMP1] oder andere Implementierungen[^FN_SMP2] als
 Referenz hergenommen werden.
 
 [^FN_SMP1]: Go--Standardbibliothek Off--The--Record--Protokoll: <https://godoc.org/golang.org/x/crypto/otr>
-[^FN_SMP2]: Socialist Millionaire Implementierung auf GitHub: <https://github.com/cowlicks/socialist-millionaire-go>
+[^FN_SMP2]: Socialist Millionaire--Implementierung auf GitHub: <https://github.com/cowlicks/socialist-millionaire-go>
 
-### Authentifizierungskonzept auf Basis des Web--of--Trust {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT_AUF_BASIS_DES_WEB_OF_TRUST}
+### Authentifizierungskonzept auf Basis des Web of Trust {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT_AUF_BASIS_DES_WEB_OF_TRUST}
 
-![Authentifizierung auf Basis des Web--Of--Trust.](images/web-of-trust.png){#fig:img-web-of-trust width=100%}
+![Authentifizierung auf Basis des Web of Trust.](images/web-of-trust.png){#fig:img-web-of-trust width=100%}
 
 Eine weitere Möglichkeit einer Authentifizierung ist auf Basis des
-*Web--of--trust*.  Dieses beschreibt einen typischen dezentralen PKI--Ansatz,
+*Web of Trust*.  Dieses beschreibt einen typischen dezentralen PKI--Ansatz,
 welcher aktuell mittels der GnuPG--Software umgesetzt wird.
 Die *IPFS--ID* kann hierbei mit dem privaten Schlüssel signiert werden und über das 
-»Web--of--trust--Overlay--Network« von den jeweiligen Benutzer validiert
+»Web of Trust--Overlay--Network« von den jeweiligen Benutzer validiert
 werden. [@fig:img-web-of-trust] stellt das Konzept grafisch dar. 
 
 Die Authentifizierung von Kommunikationspartnern ist für den Benutzer keine
 triviale Aufgabe. Die in [@fig:img-web-of-trust] dargestellte Situation stellt
-jedoch eine ideale Sichtweise des *Web--of--trust*--Vertrauensmodells dar. Das
-Vertrauen zwischen den verschiedenen Parteien des *Web--of--trust* ist nicht
+jedoch eine ideale Sichtweise des *Web of Trust*--Vertrauensmodells dar. Das
+Vertrauen zwischen den verschiedenen Parteien des *Web of Trust* ist nicht
 generell übertragbar, da es lediglich auf Empfehlungen einzelner Individuen
 basiert (vgl. [@pgp-trust-model]). »A Probabilistic Trust Model for GnuPG«
 stellt eine interessante wahrscheinlichkeitstheoretische Erweiterung des
@@ -475,12 +480,12 @@ klassischen Vertrauensmodells dar (vgl. [@gpg-probabilistic]).
 
 **Kurze Erläuterung:**
 
-1. Alice und Bob sind Teilnehmer des *Web--of--trust*, ihre öffentlichen Schlüssel
+1. Alice und Bob sind Teilnehmer des *Web of Trust*, ihre öffentlichen Schlüssel
    sind von weiteren Personen (Freunden) signiert.
 2. Alice und Bob signieren ihre *IPFS--ID* vor dem Austausch mit dem jeweiligen
    Synchronisationspartner.
 3. Alice und Bob beschaffen sich den öffentlichen Schlüssel des
-   Synchronisationspartners aus dem *Web--of--trust*, um damit die Signatur der *IPFS--ID* damit zu prüfen.
+   Synchronisationspartners aus dem *Web of Trust*, um damit die Signatur der *IPFS--ID* damit zu prüfen.
 4. Da die öffentlichen Schlüssel der jeweiligen Parteien bereits von anderen
    vertrauenswürdigen Parteien unterschrieben sind, akzeptieren beide
    Synchronisationspartner die Signatur und somit die *IPFS--ID*.
@@ -492,7 +497,7 @@ Krypto--Kampagne[^FN_CTCRYPTO], kann das Vertrauen in die Identität einer Parte
 weiter erhöht werden.
 
 Wissenschaftliche Untersuchungen haben weiterhin ergeben, dass ein Großteil der
-Web--of--trust--Teilnehmer zum sogenanntem *Strong Set* gehören. Diese Teilmenge
+*Web of Trust*--Teilnehmer zum sogenanntem *Strong Set* gehören. Diese Teilmenge
 repräsentiert Benutzer/Schlüssel welche durch gegenseitige Bestätigung
 vollständig miteinander verbunden sind. Projekte wie die c't Krypto--Kampagne
 oder auch das *Debian*--Projekt sollen hierzu einen deutlichen Beitrag
@@ -509,7 +514,7 @@ Wie bereits erwähnt, ist die Authentifizierung über ein Passwort oft der
 Schwachpunkt eines zu sichernden Systems. Ist das Passwort oder die  
 Passwort--Richtlinien zu komplex, so neigen Benutzer oft dazu die Passwörter
 aufzuschreiben. Ist die Komplexität beziehungsweise Entropie zu niedrig, so ist
-es mit modernen Methoden vergleichsweise einfach, das Passwort zu berechnen (TODO: Ref).
+es mit modernen Methoden vergleichsweise einfach, das Passwort zu berechnen (siehe @sec:SEC05_ANGRIFFSFLAECHE_BEI_BRIG).
 
 Ein weiterer Schwachpunkt, der oft ausgenutzt wird, ist die unsichere
 Speicherung von kryptographischen Schlüsseln. Passwörter sowie kryptographische
@@ -517,7 +522,7 @@ Schlüssel können bei handelsüblichen Endanwendersystemen, wie beispielsweise 
 oder Smartphone relativ einfach mitgeloggt beziehungswiese entwendet werden.
 Neben dem *FreeBSD*--Projekt, welches dem Diebstahl von
 kryptographischen Schlüsseln zum Opfer fiel, gibt es laut Berichten zunehmend
-Schadsoftware welche explizit für diesen Einsatzzweck konzipiert wurde (TODO: Ref).
+Schadsoftware welche explizit für diesen Einsatzzweck konzipiert wurde (siehe @sec:SEC05_ANGRIFFSFLAECHE_BEI_BRIG).
 
 Um hier die Sicherheit zu steigern, wird von Sicherheitsexperten oft zur
 Zwei--Faktor--Authentifizierung beziehungsweise zur hardwarebasierten
@@ -566,10 +571,11 @@ vereinen.
 ![YubiKey Neo mit USB--Kontaktschnittstelle und »Push--Button«, welcher bei Berühung reagiert.](images/yubikeyneo.png){#fig:img-yubikey width=35%}
 
 Das Besondere bei diesen Hardware--Komponenten ist, dass sie sich über die
-USB--Schnittstelle als HID (Human--Interface--Device) (TODO:Ref) ausgeben und
+USB--Schnittstelle als HID (Human--Interface--Device[^FN_HID]) ausgeben und
 somit keine weitere Zusatzhardware wie beispielsweise ein Lesegerät benötigt
 wird. Weiterhin müssen keine zusätzlichen Treiber, beispielsweise für ein Lesegerät, installiert werden.
 
+[^FN_HID]: Human Interface Device Wikipedia: <https://en.wikipedia.org/wiki/Human_interface_device>
 [^FN_NITROKEY]: Nitrokey: <https://www.nitrokey.com/>
 [^FN_YUBICO]: Yubico: <https://www.yubico.com>
 
@@ -617,8 +623,10 @@ Der *YubiKey--NEO* bietet mit zwei Konfigurationsslots (siehe GUI--Screenshot
 [@fig:img-ykgui]) die Möglichkeit, mehrere Verfahren gleichzeitig nutzen zu
 können. Eine beispielhafte Konfiguration wäre den ersten Konfigurationsslot mit
 einem statischen Passwort und den zweiten mit einem One--Time--Passwort zu
-belegen. TODO: Stlottime
+belegen. Slot 1 lässt sich mit einem kurzen Drücken (0,3--1,5 Sekunden)
+ansprechen, Slot 2 mit einem längeren Drücken (2,5--5 Sekunden). Für weitere Details siehe »The YubiKey Manual«[^FN_YK_MANUAL].
 
+[^FN_YK_MANUAL]: The YubiKey Manual <https://www.yubico.com/wp-content/uploads/2015/03/YubiKeyManual_v3.4.pdf>
 [^FN_YUBICO_PERSON_TOOL]: Yubico Personalization Tool: <https://www.yubico.com/products/services-software/personalization-tools/use/>
 
 Die grundlegende Konfiguration des *YubiKey* ist mit dem *YubiKey
@@ -654,7 +662,7 @@ Weiterhin fließt ein AES--Schlüssel in die Generierung des One--Time--Password
 ein, es ist für einen Angreifer somit nicht möglich die eigentlichen Daten
 auszuwerten.
 
-![Yubico OTP--Authentifizierungsprozess an der *YubiCloud*[^FN_YUBICO_OTP]](images/otp-details.png){#fig:img-otp-details width=75%}
+![Yubico OTP--Authentifizierungsprozess an der *YubiCloud*[^FN_YUBICO_OTP].](images/otp-details.png){#fig:img-otp-details width=75%}
 
 Das One--Time--Password ist nur einmal gültig. Zur Validierung werden am
 Server Sitzung und Zähler jeweils mit den zuvor gespeicherten Daten überprüft.
@@ -775,11 +783,15 @@ werden. Für die Programmierung wird das YubiKey--Personalization--Tool
 verwendet. Hier kann unter dem Menüpunkt *Yubico OTP/Quick* eine neue Identität
 autogeneriert werden. Die hier erstellte *Public--ID*, sowie der
 *AES*--Schlüssel müssen anschließend dem Validierungsserver bekannt gemacht
-werden.
+werden. Zum Testen wird folgend ein in *Go* geschriebener Validierungsserver
+verwendet.
+
+[^FN_YKVS_GITHUB]:YubiKey Validation Server GitHub: <https://github.com/stumpyfr/yubikey-server>
+
 
 Für die Registrierung einer neuen »Identität« für die *YubiCloud* stellt
 *Yubico* eine Seite[^FN_AESKEY_UPLOAD] bereit, über welche der *AES*--Schlüssel
-an die *Yubico* Validierungsserver geschickt werden kann. TODO: Server listen
+an die *Yubico* Validierungsserver geschickt werden kann.
 
 [^FN_AESKEY_UPLOAD]: Yubico AES--Key--Upload: <https://upload.yubico.com/>
 
@@ -810,13 +822,19 @@ $ ./yubikey-server -s
 
 #### Testen des Validierungsservers {#sec:SEC08_VALIDIERUNG_DES_VALIDIERUNGSSERVERS}
 
-Der folgende Konsolenauszug zeigt die Validierung am lokalen
-Validierungsserver. Für den Zugriff wird das Kommandozeilen--Tool
-*cURL*[^FN_CURL] verwendet.
+Der folgende Konsolenauszug zeigt die Validierung am lokalen Server. Für den
+Zugriff wird das Kommandozeilen--Tool *cURL*[^FN_CURL] verwendet. Die URL für
+die Anfrage ist wie folgt aufgebaut:
 
 [^FN_CURL]: cURL Homepage: <https://curl.haxx.se/>
 
-TODO URL AUfbau
+~~~sh
+http://<ip>:<port>/wsapi/2.0/verify?otp=<otp>&id=<app id>&nonce=<nonce>
+~~~
+
+Auf der Kommandozeile werden die Platzhalter durch ein valides
+One--Time--Passwort, eine valide Applikations--ID und eine zufällige Nonce
+ersetzt. Der Server läuft standardmäßig auf *localhost*, Port *4242*:
 
 ~~~sh
 # Validierung des YubiKey OTP
@@ -830,8 +848,8 @@ h=7DJyK6NZOIeCcs9lHcH+K8RFaYY=
 ~~~
 
 Beim wiederholten Einspielen des gleichen OTP verhält sich der eigene
-Validierungsserver genauso wie die YubiCloud und meldet die erwartete 
-Fehlermeldung `REPLAYED_OTP`. 
+Validierungsserver genauso wie die YubiCloud und gibt die erwartete 
+Fehlermeldung `REPLAYED_OTP` aus. 
 
 ~~~sh
 # Widerholtes OTP
@@ -876,10 +894,12 @@ Sicherheitslücken in weit verbreiteten Webservern wie *NGINX*[^FN_NGINX] oder
 *Apache*[^FN_APACHE] schneller gefunden und behoben werden, wie bei einem
 spezifischen Server--Produkt. Weiterhin kann der Webserver feingranularer
 konfiguriert werden und Sicherheitsfeatures, wie beispielsweise
-*X-XSS-Protection* oder *HTTP Strict Transport Security (HSTS)* (TODO: Ref) aktiviert
-werden. Wichtig an dieser Stelle ist auch der ausschließliche Einsatz von
-*HTTPS* mit einem validen Zertifikat als Transportprotokoll, um mögliche
+*X-XSS-Protection* oder *HTTP Strict Transport Security (HSTS)*[^FN_XXSS_FSTS]
+aktiviert werden. Wichtig an dieser Stelle ist auch der ausschließliche Einsatz
+von *HTTPS* mit einem validen Zertifikat als Transportprotokoll, um mögliche
 *Man--in--the--Middle*--Angriffe zu verhindern.
+
+[^FN_XXSS_FSTS]:Hardening Your HTTP Security Headers: <https://www.keycdn.com/blog/http-security-headers/>
 
 Da der Webserver besonders gut gesichert sein muss, würde sich an dieser Stelle
 neben der architektonischen Trennung auch die Umsetzung einer internen
@@ -906,8 +926,9 @@ ein bis zu 32--Zeichen langes Passwort zu hinterlegen. Der *YubiKey* arbeitet
 aus Kompatibilitätsgründen mit einem *Modhex*--Alphabet[^FN_MODHEX_YUBICO]. Die
 Konfiguration kann entweder bequem vom Benutzer mit der
 *yubikey-personalization-gui* erfolgen oder unter Linux beispielsweise auch mit
-mit dem `ykpersonalize`--Werkzeug mit Hilfe des
-*ModHex*--Converters[^FN_GITHUB_MOD_HEX] von Michael Stapelberg:
+mit dem `ykpersonalize`--Werkzeug (dieses ist Teil des YubiKey Personalization
+Tool) mit Hilfe des *ModHex*--Converters[^FN_GITHUB_MOD_HEX] von Michael
+Stapelberg:
 
 [^FN_GITHUB_MOD_HEX]: GitHub pw-to-yubi.pl: <https://github.com/stapelberg/pw-to-yubi/blob/master/pw-to-yubi.pl>
 [^FN_MODHEX_YUBICO]: YubiKey Static Password Function :<https://www.yubico.com/wp-content/uploads/2015/11/Yubico_WhitePaper_Static_Password_Function.pdf>
@@ -1081,11 +1102,13 @@ D61CEE19369B9C330A4A482D932AEBFDD72FE59C.rev'
 
 Der Hinweis, dass der Schlüssel `sk_E5A1965037A8E37C.gpg` (sk == secret key)
 gespeichert wurde, ist an dieser Stelle irreführend. Es wurde hier lediglich
-ein sogenannter *Stub* (TODO: Ref) erstellt, welcher den eigentlichen
+ein sogenannter *Stub*[^FN_STUB] erstellt, welcher den eigentlichen
 privaten Schlüssel *nicht* enthält. Bei Schlüsseln, die auf der Smartcard
 generiert wurden, gibt es *keine* Möglichkeit des Backups der privaten
 Schlüssel. Dies hat zur Folge, dass man bei einem Defekt oder Verlust auch die
 auf der Smartcard erstellte Identität verliert.
+
+[^FN_STUB]:gpg(1) - Linux man page: <https://linux.die.net/man/1/gpg>
 
 **Variante 2:**
 
@@ -1187,7 +1210,7 @@ Schlüsselbund gelöscht werden. Dies kann mit ` gpg --delete-secret-keys
 E9CD5AB4075551F6F1D6AE918219B30B103FB091` erledigt werden. Wird der
 Hauptschlüssel gelöscht, so erscheint beim Hauptschlüssel das »**#**«--Symbol, um
 anzuzeigen, dass es sich nur um einen *Stub* handelt. Anschließend können die
-neuen öffentlichen Unterschlüssel dem *Web--of--trust* mit `gpg2 --send-keys
+neuen öffentlichen Unterschlüssel dem *Web of Trust* mit `gpg2 --send-keys
 E9CD5AB4075551F6F1D6AE918219B30B103FB091` bekannt gemacht werden.
 
 Anschließend sollte noch die Standard--Pin `123456` und die

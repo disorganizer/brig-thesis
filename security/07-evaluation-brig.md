@@ -131,9 +131,8 @@ Um das Verhalten auf verschiedenen Klassen von Rechnern testen zu können,
 wurden zwei »Systemklassen« in die Performance--Analyse mit einbezogen.
 [@tbl:TAB_HIGH_SYS] zeigt die getesteten Prozessorarchitekturen, die
 »schwächeren« Systeme sollen hierbei ersatzweise für mobile Plattformen als
-Referenzwert dienen.
-
-TODO: Proc info als anhang
+Referenzwert dienen. Für genauere Informationen zur jeweiligen CPU siehe
+@sec:APP_CPUARCH.
 
 |                 	| Intel i5--3320M  	| AMD Phenom X4 955  | Intel Atom N270   | Raspberry Pi Zero            |
 |-----------------	|------------------	|------------------- |-----------------	 |---------------------------	|
@@ -148,7 +147,8 @@ TODO: Proc info als anhang
 Table: Evaluierte Testsysteme mit und ohne AES--NI--Befehlserweiterungssatz. {#tbl:TAB_HIGH_SYS} 
 
 TODO: `dd` Lese und Schreibperformance mit in Tabelle aufnehmen.
-TODO: Blocksize--Benchmarkgraphik aufnehmen
+TODO: Blocksize--Benchmarkgrafik für Low-End-Systeme aufnehmen.
+TODO: Grafiken mit Tabellen ergänzen.
 
 Der Benchmark soll die maximal mögliche Performance des jeweiligen Systems beim
 Ver-- und Entschlüsseln evaluieren. Daher wird der Benchmark vollständig in
@@ -222,7 +222,7 @@ Verschlüsselungsschicht mit verschiedenen Go--Versionen kompiliert, um zu sehen
 wie stark sich die Geschwindigkeit ab Go Version 1.6 (Merge des
 *Cloudflare--AES--NI*--Patches [^FN_AESNI_MERGE]) verändert hat.
 
-![Geschwindigkeitszuwachs durch AES--NI](images/aesni-impact.json.svg.pdf){#fig:img-aesni width=100%}
+![Geschwindigkeitszuwachs durch AES--NI.](images/aesni-impact.json.svg.pdf){#fig:img-aesni width=100%}
 
 Weiterhin wurde das AMD--System, welches kein AES--NI unterstützt zum Vergleich
 mit in die Auswertung aufgenommen. Hier zeigt sich ein großer Unterschied beim
@@ -438,17 +438,20 @@ erwähnt, dass heutzutage mit modernen Methoden und moderner Hardware auch
 Passwörter, die bisher von vielen Benutzern als »hinreichend sicher« angesehen
 waren, nicht mehr verwendet werden sollten. Dazu gehören insbesondere
 Passwörter, bei welchen Buchstaben durch Sonderzeichen oder Zahlen ausgetauscht
-wurden. TODO: Tabelle listet einen Teil der Passwörter, die laut *Bruce
+wurden. Tabelle @tbl:TAB_PASSWD listet einen Teil der Passwörter, die laut *Bruce
 Schneier* während der sogenannten *cracking session* »gecrackt« wurden. Diese
 Passwörter sind definitiv als unsicher anzusehen. Die Tabelle zeigt die
 geschätzte Entropie und Crackzeit (hier ist leider die genaue Hardware nicht
-bekannt) der genannten Passwörter. In die Cygnius--Schätzungen fließen neben
-der zxcvbn--Bibiothek noch weitere Prüfungen (Länge, Kleinbuchstaben,
+bekannt) der genannten Passwörter. In die
+Cygnius--Schätzungen[^FN_PASSWORD_STRENGHTH_CHECKER_2] fließen neben der
+zxcvbn--Bibiothek noch weitere Prüfungen (Länge, Kleinbuchstaben,
 Großbuchstaben, Zahlen, Sonderzeichen), welche eine zusätzliche
-Passwortakzeptanz--Aussage machen, ein.
+Passwortakzeptanz--Aussage machen, ein. Die
+*bennish*--Plattform[^FN_PASSWORD_STRENGHTH_CHECKER] arbeitet ebenso mit der
+zxcvbn--Bibliothek.
 
 +-------------------+------------------------+--------------------------------+
-| Passwort          | zxcvbn (Entropie/Zeit) | Cygnius(Entropie/Zeit/Akzept.) |
+| Passwort          | bennish(Entropie/Zeit) | Cygnius(Entropie/Zeit/Akzept.) |
 +===================+========================+================================+
 | k1araj0hns0n,     | 19.868/instant         | 21.372/4 minutes/no            |
 +-------------------+------------------------+--------------------------------+
@@ -472,7 +475,7 @@ Passwortakzeptanz--Aussage machen, ein.
 +-------------------+------------------------+--------------------------------+
 
 
-Table: Geschätzte Passwort--Entropie und »Crackdauer« von *unsicheren* Passwörtern. {#tbl:xxx}
+Table: Geschätzte Passwort--Entropie und »Crackdauer« von *unsicheren* Passwörtern. {#tbl:TAB_PASSWD}
 
 [^FN_PASSWORD_STRENGHTH_CHECKER]:Password Strength Checker: <https://www.bennish.net/password-strength-checker/>
 [^FN_PASSWORD_STRENGHTH_CHECKER_2]:Cygnius Password Strength Test: https://apps.cygnius.net/passtest/>
@@ -523,7 +526,7 @@ vorherige Authentifizierung des jeweiligen Synchronisationspartner voraus. Wäre
 dieser nicht authentifiziert, so wäre in diesem Fall ein
 *Man--In--The--Middle*--Angriff denkbar. Weiterhin wäre bei der aktuellen
 Implementierung ein Replay--Angriff wahrscheinlich möglich, da die *freshness*
-der Nonce nicht gegeben ist. TODO Fix.
+der Nonce nicht gegeben ist (vgl. [@martin2012everyday], S. 259 ff.).
 
 Die aktuelle Softwareversion bietet hier keinen Automatismus und auch keinen
 Authentifizierungsmechanismus wie er beispielsweise beim *Pidgin*--Messenger mit

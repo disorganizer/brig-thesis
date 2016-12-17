@@ -105,7 +105,7 @@ jeweiligen Cloud--Speicher--Anbieter abhängig.
 Mittlerweile werben die Anbieter mit »starker Verschlüsselung« und dass die
 Daten in der »Cloud« »sicher« sind. Spätestens seit den Snowden--Enthüllungen
 ist es jedoch klar, dass die Anbieter dazu gezwungen werden können die Daten
-eines Benutzers herauszugeben TODO: Ref.
+eines Benutzers herauszugeben (vgl. [@bibgreenwald2013nsa]).
 
 #### Synchronisations--Software {#sec:SEC02_SYNCHRONISATIONS_SOFTWARE}
 
@@ -446,13 +446,14 @@ Kommunikationspartner zu authentifizieren.
 
 **Resilio--Sync** (ehemals Bittorrent--Sync), verwendet eine modifizierte
 Variante des BitTorrent--Protokolls[^FN_RESILIO_PROTOCOL]. Alle Daten werden
-laut Hersteller zusätzlich symmetrisch mit AES--128[TODO: Ref] verschlüsselt
-übertragen. Die getestete Version entspricht der Standardversion welche
-kostenfrei benutzbar ist, jedoch nur einen eingeschränkten Funktionsumfang
-bietet. Weiterhin gibt es eine »Pro«--Version welche »selektive und
-kollaborative Synchronisation« ermöglicht.
+laut Hersteller zusätzlich symmetrisch mit AES--128 (siehe
+@sec:SEC04_SYMMETRISCHE_VERSCHLUESSELUNGSVERFAHREN) verschlüsselt übertragen.
+Die getestete Version entspricht der Standardversion welche kostenfrei
+benutzbar ist, jedoch nur einen eingeschränkten Funktionsumfang bietet.
+Weiterhin gibt es eine »Pro«--Version welche »selektive und kollaborative
+Synchronisation« ermöglicht.
 
-[^FN_RESILIO_PROTOCOL]:Inoffizielle Protokoll Spezifikation <https://forum.resilio.com/topic/21338-inofficial-protocol-specification/>
+[^FN_RESILIO_PROTOCOL]:Inoffizielle Protokoll--Spezifikation <https://forum.resilio.com/topic/21338-inofficial-protocol-specification/>
 
 Bei Resilio (Webbasierte GUI[^FN_GUI]) werden Daten mittels verschiedener »Schlüssel«
 synchronisiert. Beim Anlegen eines Synchronisationsordners erscheinen dem
@@ -498,10 +499,12 @@ only« läuft.
 [^FN_BEP]: Block exchange protocol: <https://docs.syncthing.net/specs/bep-v1.html>
 
 Die Peers werden durch eine eindeutige *Device ID* identifiziert. Diese leitet
-sich aus einen asymmetrischen Schlüsselpaar (3072 bit RSA, TODO Ref) ab, welches beim
-ersten Start der Anwendung erstellt wird. Abgelegt wird ein privater Schlüssel
-und ein selbst signiertes Zertifikat. Der private Schlüssel scheint nicht
-geschützt zu sein:
+sich aus einen asymmetrischen Schlüsselpaar (3072 bit RSA[^FN_SYNCTHING_KEYS])
+ab, welches beim ersten Start der Anwendung erstellt wird. Abgelegt wird ein
+privater Schlüssel und ein selbst signiertes Zertifikat. Der private Schlüssel
+scheint nicht geschützt zu sein:
+
+[^FN_SYNCTHING_KEYS]: Syncthing Keys: <https://docs.syncthing.net/dev/device-ids.html#keys>
 
 ~~~bash
 $ ~/.config/syncthing » cat key.pem
@@ -514,20 +517,24 @@ $ ~/.config/syncthing » cat key.pem
 ~~~
 
 Das selbst signierte Zertifikat bringt keine zusätzliche Sicherheit, ermöglicht
-jedoch die Nutzung von Transport Layer Security (TLS) TODO:Ref. Diese *ID* ist
+jedoch die Nutzung von Transport Layer Security (TLS)[^FN_TLS]. Diese *ID* ist
 für jeden Teilnehmer eindeutig (aufgrund der asymmetrischen Kryptographie). Sie
-besteht aus einer kryptographischen Prüfsumme (SHA--256 TODO:Ref) eines eindeutigen
-kryptographischen Zertifikates, welches für die verschlüsselte Kommunikation
-und Authentifizierung zwischen den einzelnen Peers verwendet wird.
+besteht aus einer kryptographischen Prüfsumme (SHA--256, siehe
+@sec:SEC04_HASHFUNKTIONEN) eines eindeutigen kryptographischen Zertifikates,
+welches für die verschlüsselte Kommunikation und Authentifizierung zwischen den
+einzelnen Peers verwendet wird.
 
-Weiterhin ist das aktuelle Design für *Discovery Spoofing* TODO: Ref anfällig.
-Das heißt, dass ein Angreifer der im Netzwerk mitliest, *Device IDs* mitlesen
-kann und sich somit als ein bestimmter Peer ausgeben kann. Das würde einem
-Angreifer die Information liefern, mit welchem Peers sich eine bestimmte
-*Device ID* synchronisiert. Mehr zu *Device IDs* sowie möglichen damit in
-Verbindung stehenden Problemen findet sich in der offiziellen
-Syncthing--Dokumentation[^FN_SYNCTHING_DEVID].
+[^FN_TLS]: Transport Layer Security Wikipedia: <https://de.wikipedia.org/wiki/Transport_Layer_Security>
 
+Weiterhin ist das aktuelle Design für *Discovery
+Spoofing*[^FN_SYNCTHING_SPOOFING] anfällig. Das heißt, dass ein Angreifer der
+im Netzwerk mitliest, *Device IDs* mitlesen kann und sich somit als ein
+bestimmter Peer ausgeben kann. Das würde einem Angreifer die Information
+liefern, mit welchen Peers sich eine bestimmte *Device ID* synchronisiert. Mehr
+zu *Device IDs* sowie möglichen damit in Verbindung stehenden Problemen findet
+sich in der offiziellen Syncthing--Dokumentation[^FN_SYNCTHING_DEVID].
+
+[^FN_SYNCTHING_SPOOFING]: Problems and Vulnerabilities: <https://docs.syncthing.net/dev/device-ids.html#problems-and-vulnerabilities> 
 [^FN_SYNCTHING_DEVID]: Understanding Device--IDs: <https://docs.syncthing.net/dev/device-ids.html>
 
 Eine lokale Verschlüsselung der Daten finden nicht statt. Schlüssel, welche die
@@ -639,8 +646,10 @@ genannten dezentralen Synchronisationswerkzeuge angesehen werden.
 Es ist schwierig zu beantworten, ob Open--Source--Software als sicherer
 anzusehen ist. Es spielen hierbei sehr viele Faktoren eine Rolle, weswegen eine
 eindeutige Aussage nicht möglich ist. Oft wird mit »Linus's Law« --- *Given
-enough eyeballs, all bugs are shallow.*[TODO Ref] --- für die Sicherheit *Freier
+enough eyeballs, all bugs are shallow.*[^FN_LINUS_LAW] --- für die Sicherheit *Freier
 Software* argumentiert. Software--Bugs wie
+
+[^FN_LINUS_LAW]:Linus's Law Wikipedia: <https://en.wikipedia.org/wiki/Linus's_Law>
 
 * *Debian Random Number Generator Bug*[^FN_DEBIAN_RNG_BUG]
 * *Open--SSL Heartbleed--Bug*[^FN_HEARTBLEED]

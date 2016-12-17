@@ -268,8 +268,7 @@ $ cat .ipfs/config | grep PrivKey
 Für weitere Details zur Erstellung der *Identität* sollte der
 Quelltext[^FN_IPFS_CODE_INIT] zu Rate gezogen werden.
 
-TODO: Nicht auf Master refen
-[^FN_IPFS_CODE_INIT]: IPFS Schlüsselgenerierung: <https://github.com/ipfs/go-ipfs/blob/master/repo/config/init.go#L95>
+[^FN_IPFS_CODE_INIT]: IPFS Schlüsselgenerierung: <https://github.com/ipfs/go-ipfs/blob/e2ba43c12dd7076357d5627ef02ed56bf2a55c30/repo/config/init.go#L95>
 
 ### Authentifizierung {#sec:SEC06_AUTHENTIFIZIERUNG}
 
