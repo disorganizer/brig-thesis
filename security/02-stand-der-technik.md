@@ -86,10 +86,10 @@ benötigt wird. Dies sind in den meisten Fällen die Server des
 Cloud--Speicher--Anbieters, welche für die Synchronisation und Speicherung der
 Daten verantwortlich sind.
 
-![Datensynchronisation über zentrale Cloud--Speicher--Dienste, wie beispielsweise *Dropbox*.](images/cloud.png){#fig:img-cloud width=80%}
+![Datensynchronisation über zentrale Cloud--Speicher--Dienste, wie beispielsweise *Dropbox*. Alice und Bob teilen gemeinsam Dateien über das »shared storage« aus. Mallory stellt einen potentiellen Angreifer dar. Mallory kann ein externer Angreifer oder auch ein interner Mitarbeiter sein, der Zugriff auf die Daten hat.](images/cloud.png){#fig:img-cloud width=80%}
 
 [@fig:img-cloud] zeigt schematisch das Konzept beim Austausch von Daten über
-einen Cloud--Speicher--Dienst. Die Daten des Benutzers, werden hierbei mit
+einen Cloud--Speicher--Dienst. Die Daten des Benutzers werden hierbei mit
 einer »zentralen Stelle« synchronisiert. In der Regel legt der Benutzer einen
 Account beim Cloud--Storage--Anbieter an, installiert dessen Client--Software,
 legt einen Ordner zur Synchronisation fest und registriert sich abschließend
@@ -212,7 +212,7 @@ benötigt, welcher ebenfalls vom Client--PC extrahiert werden kann.
 Mittels dieser beiden Werte kann die Zwei--Faktor--Authentifizierung (2FA), wie
 sie von *Dropbox* implementiert ist, umgangen werden. Die Client--API verwendet
 anscheinend keine Zwei--Faktor--Authentifizierung. Darüber hinaus lassen sich auf Basis
-der beiden  Parameter sogenannte »Autologin--URLs« generieren. Den Forschren ist
+der beiden  Parameter sogenannte »Autologin--URLs« generieren. Den Forschern ist
 es auch gelungen, einen Open--Source--Prototypen zu entwickeln. Für weitere
 Details vgl. [@kholia2013looking], beziehungsweise siehe Vortag *USENIX Open
 Access Content*[^FN_USENIX].
@@ -230,7 +230,7 @@ welches in der Lage ist, ein Authentifizierungs--Token auf dem Computer des
 potentiellen Opfers auszutauschen. [@fig:img-mitc] zeigt den Ablauf eines
 möglichen »Man--In--The--Cloud«--Angriffs.
 
-![»Quick Double Switch Attack Flow«--Man in the Cloud--Angriff.](images/mitc.png){#fig:img-mitc width=90%}
+![»Quick Double Switch Attack Flow«--Man in the Cloud--Angriff. Die Buchstaben a, b, c und d repräsentieren dabei jeweils die Synchronisationsvorgänge.](images/mitc.png){#fig:img-mitc width=90%}
 
 1. Der Angreifer platziert den »Switcher« auf dem Rechner des Opfers
    (beispielsweise mittels Social Engineering oder Phishing--Methoden)
@@ -374,9 +374,11 @@ nach eingesetztem Protokoll, variiert die Funktionsweise und Sicherheit.
 
 Die dezentralen Systeme unterliegen in der Regel keiner Regulierung durch eine
 zentrale Instanz. Je nach verwendeter Technologie zum Datenaustausch,
-existieren sogenannte »rendezvous hosts«, welche für die initiale Konfiguration
-und als »Einstiegspunkt« benötigt werden. Hier unterscheiden sich die
-verschiedenen Protokolle und Netzwerke voneinander.
+existieren sogenannte »rendezvous hosts«[^FN_RENDEZVOUS_HOST], welche für die
+initiale Konfiguration und als »Einstiegspunkt« benötigt werden. Hier
+unterscheiden sich die verschiedenen Protokolle und Netzwerke voneinander.
+
+[^FN_RENDEZVOUS_HOST]: Rendezvous Host/Bootstrapping node Wikipedia: <https://en.wikipedia.org/wiki/Bootstrapping_node>
 
 Ein bekannter Vertreter der P2P--Protokolle ist BitTorrent[^FN_BITTORRENT].
 Das Protokoll kommt beispielsweise bei der Verbreitung von Software,
@@ -388,7 +390,7 @@ Spieleherstellern und auch anderen Anwendungen zum Einsatz[^FN_BTUSAGE].
 [^FN_BTUSAGE]: BitTorrent Einsatzgebiete: <https://en.wikipedia.org/wiki/BitTorrent#Adoption>
 
 Ein Vorteil bei den dezentralen Systemen ist, dass es im Vergleich zu zentralen
-Architekturen keinen »Single--Point--Of--Failure« gibt. Ein weiterer
+Architekturen keinen »Single Point Of Failure«[^FN_SPOF] gibt. Ein weiterer
 Unterschied zur zentralen Lösung ist bei dezentralen Netzwerken der
 »Datenfluss«. Die Daten werden nicht von einer zentralen Instanz »besorgt«,
 sondern liegen im jeweiligen Netzwerk, verteilt auf die Netzwerkteilnehmer
@@ -396,6 +398,8 @@ sondern liegen im jeweiligen Netzwerk, verteilt auf die Netzwerkteilnehmer
 als Server. Daten werden beim Austausch nicht zwangsläufig von einem
 einzelnem Teilnehmer geladen, sondern von einer Gruppe aus Teilnehmern, welche
 die gleiche Datei besitzen, siehe [@fig:img-swarm].
+
+[^FN_SPOF]: Single Point of Failure Wikipedia: <https://de.wikipedia.org/wiki/Single_Point_of_Failure>
 
 ![Zeigt einen »Swarm«. *Alice* lädt die Datei »image.iso« von mehreren Teilnehmern gleichzeitig, die Datei »mydog.png« jedoch nur von *Dan*.](images/distsync.png){#fig:img-swarm width=80%}
 
@@ -450,11 +454,13 @@ kollaborative Synchronisation« ermöglicht.
 
 [^FN_RESILIO_PROTOCOL]:Inoffizielle Protokoll Spezifikation <https://forum.resilio.com/topic/21338-inofficial-protocol-specification/>
 
-Bei Resilio (Webbasierte GUI) werden Daten mittels verschiedener »Schlüssel«
+Bei Resilio (Webbasierte GUI[^FN_GUI]) werden Daten mittels verschiedener »Schlüssel«
 synchronisiert. Beim Anlegen eines Synchronisationsordners erscheinen dem
 Benutzer folgende »Schlüssel«, über welche er den Synchronisationsordner mit
 anderen Synchronisationspartnern teilen kann. Anhand des gewählten Schlüssels,
 wird folgende Funktionalität beim Synchronisieren realisiert:
+
+[^FN_GUI]: Grafische Benutzeroberfläche Wikipedia: <https://de.wikipedia.org/wiki/Grafische_Benutzeroberfl%C3%A4che>
 
 * Nur Leserechte
 * Lese-- und Schreibrechte
