@@ -1299,16 +1299,17 @@ ohne Paketmanager unterstützen zu können, würde sich eine integrierte
 Updatefunktion besser eignen.
 
 Diese könnte innerhalb von »brig« das oben genannte Verfahren mit der manuellen
-Überprüfung einer Signatur aufgreifen und automatisieren. Bei erfolgreicher
+Überprüfung einer Signatur aufgreifen und automatisieren.
+[@fig:IMG_UPDATEPROCESS] visualisiert den Updateprozess. Bei erfolgreicher
 initialer Validierung der Signatur nach dem ersten Herunterladen der Software
-kann davon ausgegangen werden, dass die Integrität gewährleistet ist und
-Softwareinternas nicht verändert wurden. [@fig:IMG_UPDATEPROCESS] visualisiert den Updateprozess.
+(Schritt 1.1--1.3) kann davon ausgegangen werden, dass die Integrität
+gewährleistet ist und Softwareinternas nicht verändert wurden.
 
 ![Updateprozess zur sicheren Softwareverteilung.](images/updateprocess.png){#fig:IMG_UPDATEPROCESS width=95%}
 
 Auf dieser Basis könnte die Software intern ein Schlüsselmanagement (revoked
 keys, valid keys) verwalten, anhand welchem sie Updates von der
-Entwicklerquelle lädt und automatisiert validiert (Schritt 1--5). Bei
+Entwicklerquelle lädt und automatisiert validiert (Schritt 2.1--2.5). Bei
 erfolgreicher Ausführung/Validierung aller Teilschritte kann die Software ein
 Update durchführen, ansonsten wird der Benutzer gewarnt und ein Update
 verweigert. Dies sollte sich beispielsweise mit einer High--Level
