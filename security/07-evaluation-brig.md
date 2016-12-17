@@ -357,7 +357,7 @@ XMPP--Standard, der Präfix wird intern von »brig« angehängt, um die Benutzer
 des »brig«--Netzwerks identifizieren zu können.
 
 Folgendes Beispiel mit dem *Multihash*--Tool vom *IPFS*--Projekt zeigt die
-Generierung einer User--ID aus dem Benutzernamen.
+Generierung einer User--Hash aus dem Benutzernamen.
 
 ~~~sh
 $ echo 'brig#user:alice@university.cc' | multihash -
@@ -380,14 +380,14 @@ Eindeutigkeit herzustellen, wird der Benutzername direkt an die eindeutige,
 Folgende Daten werden kombiniert, um einen Benutzer eindeutig zu identifizieren:
 
 * **Peer--ID:** Prüfsumme über den öffentlichen *IPFS*--Schlüssel.
-* **User--ID:** Prüfsumme über die »brig«--ID, welche einen vom Benutzer gewählten
+* **User--Hash:** Prüfsumme über die »brig«--ID, welche einen vom Benutzer gewählten
   Identifier darstellt.
 
 [@fig:img-userlookup] zeigt das Auffinden von einem Benutzer im
 *IPFS*--Netzwerk. Für weitere Details zur Softwarearchitektur und
 Funktionsweise siehe auch [@cpahl].
 
-![User lookup mittels »brig«-ID (gekürzter Peer--Fingerprint + User--ID). Nur bei Übereinstimmung vom Peer--Fingerprint und Benutzernamen--Fingerprint wird der Benutzer als valide erkannt.](images/userlookup.png){#fig:img-userlookup width=100%}
+![User lookup mittels »brig«-ID (gekürzter Peer--Fingerprint + User--Hash). Nur bei Übereinstimmung vom Peer--Fingerprint und Benutzernamen--Fingerprint wird der Benutzer als valide erkannt.](images/userlookup.png){#fig:img-userlookup width=100%}
 
 ## Authentifizierung {#sec:SEC07_AUTHENTIFIZIERUNG}
 
