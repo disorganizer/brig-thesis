@@ -412,18 +412,18 @@ Weiterhin wäre diese Art der Authentifizierung auch unter Verwendung des Social
 #### Authentifizierung über gemeinsames Geheimnis (Socialist Millionaire Protocol)
 
 Eine weitere Möglichkeit der Authentifizierung des Synchronisationspartners
-wäre, wie beim OTR--Plugin des *Pidgin*--Messengers, über das Teilen eines
-gemeinsamen Geheimnisses möglich. Das Off--the--Record--Messaging--Protokoll
+wäre, wie beim OTR--Plugin des *Pidgin*--Messengers, das Teilen eines
+gemeinsamen Geheimnisses. Das Off--the--Record--Messaging--Protokoll
 verwendet hierbei das *Socialist--Millionaire*--Protokoll. Das Protokoll
 erlaubt es Alice und Bob ein gemeinsam geglaubtes Geheimnis $x$ (Alice) und $y$
-(Bob) auf Gleichheit zu prüfen ohne diese austauschen zu müssen. Weiterhin ist
-das Protokoll nicht Man--in--the--Middle--Angriffe anfällig. Beim
+(Bob) auf Gleichheit zu prüfen ohne es austauschen zu müssen. Weiterhin ist
+das Protokoll nicht für einen Man--in--the--Middle--Angriff anfällig. Beim
 Off--the--Record--Messaging--Protokoll[^FN_PIDGIN_SMP] werden alle Operationen
-modulo einer bestimmten 1536 Bit Primzahl genommen, $g_{1}$ hier ist das
+modulo einer bestimmten 1536 Bit Primzahl genommen, $g_{1}$ ist hier das
 erzeugende Element dieser Gruppe. [@fig:img-shared-secret] zeigt den
-grundlegenden Ablauf des Socialist Millionaires Protocol.
+grundlegenden Ablauf des *Socialist--Millionaire*--Protokoll.
 
-![Authentifizierung über ein gemeinsames Geheimnis unter Verwendung des Socialist Millionaires Protocol.](images/smp.png){#fig:img-shared-secret width=90%}
+![Authentifizierung über ein gemeinsames Geheimnis unter Verwendung des Socialist--Millionaire--Protokoll.](images/smp.png){#fig:img-shared-secret width=90%}
 
 
 [^FN_PIDGIN_SMP]: Socialist Millionaires' Protocol (SMP): <https://otr.cypherpunks.ca/Protocol-v3-4.0.0.html>
@@ -432,12 +432,12 @@ grundlegenden Ablauf des Socialist Millionaires Protocol.
 1. Alice generiert zwei zufällige Exponenten $a_{2}$ und $a_{3}$. Anschließend
    berechnet sie $g_{2a}$ und $g_{3a}$ und sendet diese an Bob.
 2. Bob generiert zwei zufällige Exponenten $b_{2}$ und $b_{3}$. Anschließend berechnet
-   Bob $g_{2b}$, $g_{3b}$, $g_{2}$ und $g_{3}$. Bob wählt eine zufälligen Exponenten $r$. Bob Berechnet
-   $P_{b}$ und $Q_{b}$ (hier fließt das gemeinsames Geheimnis $r$ von Bob ein) und sendet
+   Bob $g_{2b}$, $g_{3b}$, $g_{2}$ und $g_{3}$. Bob wählt einen zufälligen Exponenten $r$. Bob berechnet
+   $P_{b}$ und $Q_{b}$ (hier fließt das gemeinsame Geheimnis $y$ von Bob ein) und sendet
    $g_{2b}$, $g_{3b}$, $P_{b}$ und $Q_{b}$ an Alice.
 3. Alice berechnet $g_{2}$, $g_{3}$, wählt einen zufälligen Exponenten $s$,
    berechnet $P_{a}$,
-   $Q_{a}$ (hier fließt das gemeinsame Geheimnis $s$ von Alice ein), $R_{a}$ und sendet $P_{a}$, $Q_{a}$ und $R_{a}$ an Bob.
+   $Q_{a}$ (hier fließt das gemeinsame Geheimnis $x$ von Alice ein), $R_{a}$ und sendet $P_{a}$, $Q_{a}$ und $R_{a}$ an Bob.
 4. Bob berechnet $R_{b}$, $R_{ab}$ und prüft ob $R_{ab} == (P_{a}/P_{b})$. Anschließend sendet er $R_{b}$
    an Alice.
 5. Alice berechnet $R_{ab}$ und prüft ob $R_{ab} == (P_{a}/P_{b})$.
@@ -446,8 +446,8 @@ Konnten Alice und Bob jeweils $R_{ab} = (P_{a}/P_{b})$ als korrekt validieren,
 so haben sie sich gegenseitig authentifiziert (vgl. [@SMP1], [@SMP2]).
 
 Für eine Implementierung in »brig« kann hier beispielsweise die
-Standardbibliothek oder andere Implementierungen als Referenz hergenommen
-werden.
+Go--Standardbibliothek[^FN_SMP1] oder andere Implementierungen[^FN_SMP2] als
+Referenz hergenommen werden.
 
 [^FN_SMP1]: Go--Standardbibliothek Off--The--Record--Protokoll: <https://godoc.org/golang.org/x/crypto/otr>
 [^FN_SMP2]: Socialist Millionaire Implementierung auf GitHub: <https://github.com/cowlicks/socialist-millionaire-go>
@@ -1426,24 +1426,53 @@ man nach der Eingabe seines persönlichen Passworts um den zweiten Faktor
 
 #### Arbeiten über Secure--Shell (SSH)
 
-Weiterhin ist für die tägliche Arbeit --- das Hochladen von Quellcode --- ein
-Zugriff über *SSH* sinnvoll. Grundsätzlich gibt es, wie bei anderen Plattformen, die
-Möglichkeit sich mit dem Benutzernamen und dem Passwort gegenüber der Plattform zu
-authentifizieren. Eine erweiterte Möglichkeit ist es, sich über einen
-*SSH*-Schlüssel zu authentifizieren.
+Grundsätzlich gibt es, wie bei anderen Plattformen die Möglichkeit, sich mit
+dem Benutzernamen und dem Passwort gegenüber einer Plattform wie beispielsweise
+*GitHub* zu authentifizieren. 
+
+**Public--Key--Authentifizierung:**
+
+Eine erweiterte Möglichkeit ist es, sich über
+einen *SSH*-Schlüssel zu authentifizieren. [@fig:img-sshauth] zeigt schematisch
+den Ablauf einer Authentifizierung mittels Public--Key--Verfahren (vgl.
+[@BIB_SSH_SECURE_SHELL], S. 58 ff.).
 
 [^FN_GITHUB_SSHLOGIN]: GitHub--SSH--Login: <https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/>
 
-Diese Konzept lässt sich durch die Nutzung einer Smartcard erweitern. Die
+![SSH--Authentifizierungsvorgang mittels Public--Key--Verfahren.](images/sshauth.png){#fig:img-sshauth width=100%}
+
+1. Der Client sendet eine Authentifizierungsanfrage und sendet dabei seinen öffentlichen Schlüssel an den Server.
+2. Der Server validiert ob der öffentliche Schlüssel in der Authorisierungsdatei des Accounts
+   zu finden ist. Ist dies der Fall, so wird eine zufällige Challenge generiert,
+   mit dem öffentlichen Schlüssel des Clients verschlüsselt und an diesen
+   gesendet.
+3. Der Client entschlüsselt die Challenge, bildet eine Prüfsumme von dieser und
+   sendet diese an den Server zurück.
+4. Der Server generiert auch eine Prüfsumme der Challenge, prüft ob seine
+   generierte Prüfsumme mit der vom Client generierten Prüfsumme übereinstimmt.
+   Ist dies der Fall, so erfolgt die Authentifizierung.
+
+Der Client sendet an dieser Stelle nur die Prüfsumme der Challenge als Antwort
+zurück. Somit wird sichergestellt, dass ein kompromittierter Server nicht
+beliebig Daten wie beispielsweise verschlüsselte E-Mails an den Client schicken
+kann, damit dieser die Daten entschlüsselt. Bei der Authentifizierung über
+Public--Key--Verfahren liegen die Schlüssel in der Regel auf der Festplatte des
+Client--PC. Es besteht so die Gefahr, dass diese entwendet werden.
+
+**Public--Key--Authentifizierung mit Smartcard und GnuPG:**
+
+Das genannte Konzept lässt sich durch die Nutzung einer Smartcard erweitern. Die
 Vorteile liegen hier in erster Linie beim Schutz der kryptographischen
 Schlüssel.
 
-Für die SSH--Authentifizierung mit Smartcard gegenüber *GitHub* --- oder auch
+Für die SSH--Authentifizierung mit einer Smartcard/*GnuPG* gegenüber *GitHub* --- oder auch
 anderen Entwicklerplattformen --- gibt es in dieser Kombination die folgenden zwei
 Varianten:
 
-1. OpenPGP--Schlüssel als SSH--Schlüssel verwenden.
-2. GnuPG--Agent als SSH--Agent laufen lassen und sich mit den bisherigen SSH--Schlüsseln authentifizieren.
+1. OpenPGP--Schlüssel als SSH--Schlüssel verwenden (Schlüssel liegen auf Smartcard).
+2. GnuPG--Agent als SSH--Agent laufen lassen und sich mit den bisherigen
+   SSH--Schlüsseln authentifizieren. Hierbei werden die SSH--Schlüssel vom
+   `gpg-agent` geschützt verwaltet.
 
 Bei der ersten Variante kann der `gpg-agent` so konfiguriert werden, dass er
 die *SSH*--Anwendung direkt unterstützt. Dazu muss die *SSH*--Unterstützung in der
@@ -1479,9 +1508,10 @@ BnZTB0UX8xMXUKtGSunPbHdjn7rStXX9LDX6BP32XvTHeseI0BYa/
 fViXwnf9l cardno:000600000011
 ~~~
 
-Bei einem typischen unixoiden System mit *OpenSSH* sollte dieser auf dem Server
-in der `~/.ssh/authorized_keys`--Datei hinterlegt werden und das
-PublicKey--Verfahren in der sshd--Konfigurationsdatei aktiviert werden.
+Betreibt man einen eigenen Server, so muss bei einem typischen unixoiden
+System mit *OpenSSH* der Public--Key auf dem Server in der
+`~/.ssh/authorized_keys`--Datei hinterlegt werden und das Public--Key--Verfahren
+in der sshd--Konfigurationsdatei aktiviert werden.
 
 Ob die Authentifizierung über die Smartcard funktioniert, kann beim *SSH*--Login
 mittels Verbose--Flag validiert werden. Dieses ist auch für Debuggingzwecke
@@ -1494,7 +1524,8 @@ erfolgreich verwendete Smartcard--ID:
 $ GIT_SSH_COMMAND="ssh -vv" git push
 [...]
 debug1: Authentications that can continue: publickey,password
-debug1: Offering RSA public key: cardno:000600000011 # vom gpg-agent verwaltete Smartcard
+        # vom gpg-agent verwalteter Schlüssel auf Smartcard
+debug1: Offering RSA public key: cardno:000600000011 
 debug2: we sent a publickey packet, wait for reply
 debug1: Server accepts key: pkalg ssh-rsa blen 279
 debug2: input_userauth_pk_ok: fp SHA256:eoOgD/8ri0RCblmJgTbPx/Ci6pBBssLtjMulpX4brlY
@@ -1503,15 +1534,16 @@ Authenticated to github.com ([192.30.253.113]:22).
 [...]
 ~~~
 
-Ohne Smartcard/Pin schlägt der Loginversuch fehl. Alternativ ist es hier
-empfehlenswert, eine Fallback--Loginmethode in der sshd--Konfigurationsdatei zu
-wählen, mehr hierzu siehe `man sshd_config` unter `AuthenticationMethods`. Für
-weitere Details zum Thema *OpenSSH*--Authentifizierung siehe [@BIB_OPENSSH]. 
+Ohne Smartcard/Pin schlägt der Loginversuch fehl. Bei der Verwendung eines
+eigenen Servers ist es empfehlenswert, eine Fallback--Loginmethode in der
+sshd--Konfigurationsdatei des Servers zu aktivieren, mehr hierzu siehe `man
+sshd_config` unter `AuthenticationMethods`. Für weitere Details zum Thema
+*OpenSSH*--Authentifizierung siehe [@BIB_OPENSSH]. 
 
 Für die Einrichtung der zweiten Variante (`gpg--agent` fungiert als
 `ssh-agent`) muss lediglich ergänzend ein generierter *SSH*--Schlüssel mit
 `ssh-add <identity>` dem `gpg-agent` bekannt gemacht werden. Der `gpg-agent`
-schützt den Key anschließend mit einer vom Nutzer vergebenen Passphrase und
+schützt den Schlüssel anschließend mit einer vom Nutzer vergebenen Passphrase und
 ersetzt somit einen separat laufenden `ssh-agent`. Mit `ssh-add -l` können die
 aktuell verwalteten Schlüssel--Fingerprints überprüft werden:
 
@@ -1524,7 +1556,7 @@ Lädt man anschließend seine Änderungen bei GitHub über *SSH* hoch, so wird
 primär der vom `gpg--agent` verwaltete Schlüssel mittels Passwortabfrage
 freigegeben. Würde man diese abbrechen, so verwendet der Agent den öffentlichen
 Schlüssel auf der Smartcard. Im Folgenden wird die
-*SSH*--PublicKey--Authentifizierung über den vom `gpg-agent` verwalteten
+*SSH*--Public--Key--Authentifizierung über den vom `gpg-agent` verwalteten
 *SSH*--Schlüssel gezeigt:
 
 ~~~sh
@@ -1532,7 +1564,8 @@ $ GIT_SSH_COMMAND="ssh -vv" git push
 [...]
 debug1: Authentications that can continue: publickey
 debug1: Next authentication method: publickey
-debug1: Offering RSA public key: /home/qitta/.ssh/id_rsa # vom gpg-agent verwalteter Schlüssel
+        # vom gpg-agent verwalteter Schlüssel
+debug1: Offering RSA public key: /home/qitta/.ssh/id_rsa 
 debug2: we sent a publickey packet, wait for reply
 debug1: Server accepts key: pkalg ssh-rsa blen 279
 debug2: input_userauth_pk_ok: fp SHA256:V00F8adokJZljo1WD+XPjSP51rTl/GVS3bh5YfJOLtk
@@ -1541,4 +1574,4 @@ Authenticated to github.com ([192.30.253.112]:22).
 [...]
 ~~~
 
-TODO: Noch OpenSSH--seitige 2FA hinzufügen.
+TODO: Noch OpenSSH mit 2FA hinzufügen?
