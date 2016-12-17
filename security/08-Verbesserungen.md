@@ -172,7 +172,7 @@ es wurde standardmäßig ein *DSA* Schlüssel zum Signieren und ein *ElGamal*
 Schlüssel zum Ver-- und Entschlüsseln angelegt), andererseits ermöglicht es
 *GnuPG*, Schlüssel mit unterschiedlichem »Schutzbedarf« anders zu behandeln.
 
-![GnuPG--Schlüsselpaar RSA/RSA bestehend aus einem Haupt- und Unterschlüssel. Beide Schlüssel haben unterschiedliche Fähigkeiten und bestehen jeweils aus einem öffentlichen und einem privaten Schlüssel.](images/gpg_keypair.png){#fig:IMG_GNUPG_KEYPAIR width=90%}
+![GnuPG--Schlüsselpaar RSA/RSA bestehend aus einem Haupt- und Unterschlüssel. Beide Schlüssel haben unterschiedliche Fähigkeiten und bestehen jeweils aus einem öffentlichen und einem privaten Schlüssel. In Hexadezimal ist jeweils der Fingerprint eines Schlüssels dargestellt. Der Fingerprint ist 20 Bytes. Die »Long--Key--ID« entspricht den letzten 8 Bytes, die »Short--Key--ID« entspricht den letzten 4 Bytes.](images/gpg_keypair.png){#fig:IMG_GNUPG_KEYPAIR width=90%}
 
 Der »Schlüsselbund« besteht bei Anlage eines neuen Schlüssels mit `gpg
 --gen-key` aus einem Hauptschlüssel- und einem Unterschlüsselpaar. Beide
