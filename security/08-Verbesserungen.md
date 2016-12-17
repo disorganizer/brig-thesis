@@ -382,7 +382,7 @@ seinen Synchronisationspatner anhand eines *gemeinsamen Geheimnises* oder anhand
 *Frage--Antwort--Dialogs* zu verifizieren. [@fig:img-question-answer] zeigt den
 Ablauf einer Authentifizierung des Synchronisationspartners mittels Frage--Antwort--Dialog, welcher in folgenden Schritten abläuft:
 
-![Frage--Antwort--Authentifizierung. Alice stellt Bob eine Frage auf die nur er die Antwort wissen kann.](images/question-answer.png){#fig:img-question-answer width=95%}
+![Frage--Antwort--Authentifizierung. Alice stellt Bob eine Frage auf die nur er die Antwort wissen kann.](images/question-answer.png){#fig:img-question-answer width=90%}
 
 1. Alice generiert eine zufällige Nonce, Frage und Antwort.
 2. Alice verschlüsselt Nonce + Antwort, signiert diese mit ihrem privaten Schlüssel
@@ -407,22 +407,32 @@ Die Anforderungen des Protokolls richten sich hierbei nach den Prinzipien (vgl. 
 * Gültigkeit (engl. *freshness*), durch Nonce bereit gestellt.
 * Bezug zur korrekten Anfrage. Frage wird in der Antwort mitgesendet.
 
+Weiterhin wäre diese Art der Authentifizierung auch unter Verwendung des Socialist--Millionaire--Protokolls möglich, siehe folgendes Kapitel.
+
 #### Authentifizierung über gemeinsames Geheimnis (Socialist Millionaire Protocol)
 
-Eine weitere Möglichkeit wäre auch wie beim OTR--Plugin des
-*Pidgin*--Messengers das Teilen eines gemeinsamen Geheimnisses.
-[@fig:img-shared-secret] zeigt den Ablauf der Authentifizierungsphase bei der
-Nutzung eines gemeinsamen Geheimnisses unter Verwendung des Socialist
-Millionaires Protocol.
+Eine weitere Möglichkeit der Authentifizierung des Synchronisationspartners
+wäre, wie beim OTR--Plugin des *Pidgin*--Messengers, über das Teilen eines
+gemeinsamen Geheimnisses möglich. Das Off--the--Record--Messaging--Protokoll
+verwendet hierbei das *Socialist--Millionaire*--Protokoll. Das Protokoll
+erlaubt es Alice und Bob ein gemeinsam geglaubtes Geheimnis $x$ (Alice) und $y$
+(Bob) auf Gleichheit zu prüfen ohne diese austauschen zu müssen. Weiterhin ist
+das Protokoll nicht Man--in--the--Middle--Angriffe anfällig. Beim
+Off--the--Record--Messaging--Protokoll[^FN_PIDGIN_SMP] werden alle Operationen
+modulo einer bestimmten 1536 Bit Primzahl genommen, $g_{1}$ hier ist das
+erzeugende Element dieser Gruppe. [@fig:img-shared-secret] zeigt den
+grundlegenden Ablauf des Socialist Millionaires Protocol.
+
+![Authentifizierung über ein gemeinsames Geheimnis unter Verwendung des Socialist Millionaires Protocol.](images/smp.png){#fig:img-shared-secret width=90%}
+
 
 [^FN_PIDGIN_SMP]: Socialist Millionaires' Protocol (SMP): <https://otr.cypherpunks.ca/Protocol-v3-4.0.0.html>
 
-![Authentifizierung über ein gemeinsames Geheimnis. Socialist Millionaires' Protocol.](images/smp.png){#fig:img-shared-secret width=95%}
 
 1. Alice generiert zwei zufällige Exponenten $a_{2}$ und $a_{3}$. Anschließend
    berechnet sie $g_{2a}$ und $g_{3a}$ und sendet diese an Bob.
 2. Bob generiert zwei zufällige Exponenten $b_{2}$ und $b_{3}$. Anschließend berechnet
-   Bob $g_{2b}$, $g_{3b}$, $g_{2}$ und $g_{3}$. Bob wählt eine zufälligen exponenten $r$. Bob Berechnet
+   Bob $g_{2b}$, $g_{3b}$, $g_{2}$ und $g_{3}$. Bob wählt eine zufälligen Exponenten $r$. Bob Berechnet
    $P_{b}$ und $Q_{b}$ (hier fließt das gemeinsames Geheimnis $r$ von Bob ein) und sendet
    $g_{2b}$, $g_{3b}$, $P_{b}$ und $Q_{b}$ an Alice.
 3. Alice berechnet $g_{2}$, $g_{3}$, wählt einen zufälligen Exponenten $s$,
@@ -432,8 +442,15 @@ Millionaires Protocol.
    an Alice.
 5. Alice berechnet $R_{ab}$ und prüft ob $R_{ab} == (P_{a}/P_{b})$.
 
-Konnten Alice und Bob jeweils $R_{ab} = (P_{a}/P_{b})$ als korrekt validieren, so haben sie sich gegenseitig authentifiziert (vgl. [@SMP1], [@SMP2]).
+Konnten Alice und Bob jeweils $R_{ab} = (P_{a}/P_{b})$ als korrekt validieren,
+so haben sie sich gegenseitig authentifiziert (vgl. [@SMP1], [@SMP2]).
 
+Für eine Implementierung in »brig« kann hier beispielsweise die
+Standardbibliothek oder andere Implementierungen als Referenz hergenommen
+werden.
+
+[^FN_SMP1]: Go--Standardbibliothek Off--The--Record--Protokoll: <https://godoc.org/golang.org/x/crypto/otr>
+[^FN_SMP2]: Socialist Millionaire Implementierung auf GitHub: <https://github.com/cowlicks/socialist-millionaire-go>
 
 ### Authentifizierungskonzept auf Basis des Web--of--Trust {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT_AUF_BASIS_DES_WEB_OF_TRUST}
 
