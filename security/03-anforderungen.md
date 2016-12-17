@@ -12,10 +12,15 @@ der Softwareentwicklungsprozess gewissen Mindestanforderungen genügen.
 ## Usability {#sec:SEC03_USABILITY}
 
 Die Usability von Software ist teilweise subjektiv und ist stark von dem
-Erfahrungshorizont des Nutzers abhängig. Bereits bekannte Konzepte werden oft
-als »intuitiv« empfunden, neue Konzepte hingegen oft nur mühsam vom Benutzer
-angenommen. Die Umstellung des »User Interfaces« von Windows 7 zu Windows 8
-(vgl. [@nielsen2012windows]) ist hierfür ein gutes Beispiel.
+Erfahrungshorizont des Nutzers abhängig. Unter Usability ist im Allgemeinen die
+Gebrauchstauglichkeit/Benutzerfreundlichkeit[^FN_BENUTZERFREUNDLICHKEIT][^FN_GEBRAUCHSTAUGLICHKEIT]
+eines Systems zu verstehen. Bereits bekannte Konzepte werden oft als »intuitiv«
+empfunden, neue Konzepte hingegen oft nur mühsam vom Benutzer angenommen. Die
+Umstellung des »User Interfaces« von Windows 7 zu Windows 8 (vgl.
+[@nielsen2012windows]) ist hierfür ein gutes Beispiel.
+
+[^FN_BENUTZERFREUNDLICHKEIT]: Benutzerfreundlichkeit Wikipedia: <https://de.wikipedia.org/wiki/Benutzerfreundlichkeit>
+[^FN_GEBRAUCHSTAUGLICHKEIT]: Gebrauchstauglichkeit Wikipedia: <https://de.wikipedia.org/wiki/Gebrauchstauglichkeit_(Produkt)>
 
 Einen weiteren Punkt zeigt die Praxis. Zwar gibt es seit Jahrzehnten Software
 zur sicheren Kommunikation, wie beispielsweise OpenPGP, jedoch hat sich das
