@@ -1,655 +1,552 @@
-# Anhang F: Benchmarktool und Skripte
-~~~go
-package main
+# Schlüsselgenerierung auf der Karte {#sec:APP_SCHLUESSELGENERIERUNG_AUF_DER_KARTE}
 
-import (
-	"crypto/rand"
-	"flag"
-	"fmt"
-	"io"
-	"log"
-	"os"
-	"time"
+~~~sh
+gpg/card> admin
+Admin commands are allowed
 
-	"github.com/disorganizer/brig/store/compress"
-	"github.com/disorganizer/brig/store/encrypt"
-	"golang.org/x/crypto/scrypt"
-)
+gpg/card> generate
+Make off-card backup of encryption key? (Y/n) Y
+gpg: error checking the PIN: Card error
 
-const (
-	aeadCipherChaCha = iota
-	aeadCipherAES
-)
+gpg/card> generate
+Make off-card backup of encryption key? (Y/n) Y
+Please specify how long the key should be valid.
+         0 = key does not expire
+      <n>  = key expires in n days
+      <n>w = key expires in n weeks
+      <n>m = key expires in n months
+      <n>y = key expires in n years
+Key is valid for? (0) 5y
+Key expires at Fr 10 Dez 2021 13:44:18 CET
+Is this correct? (y/N) y
 
-type options struct {
-	zipalgo           string
-	encalgo           string
-	keyderiv          string
-	output            string
-	args              []string
-	write             bool
-	read              bool
-	maxblocksize      int64
-	useDevNull        bool
-	forceDstOverwrite bool
-}
+GnuPG needs to construct a user ID to identify your key.
 
-func withTime(fn func()) time.Duration {
-	now := time.Now()
-	fn()
-	return time.Since(now)
-}
+Real name: Christoph Piechula
+Email address: christoph@nullcat.de
+Comment:
+You selected this USER-ID:
+    "Christoph Piechula <christoph@nullcat.de>"
 
-func openDst(dest string, overwrite bool) *os.File {
-	if !overwrite {
-		if _, err := os.Stat(dest); !os.IsNotExist(err) {
-			log.Fatalf("Opening destination failed, %v exists.\n", dest)
-		}
-	}
-
-	fd, err := os.OpenFile(dest, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0755)
-	if err != nil {
-		log.Fatalf("Opening destination %v failed: %v\n", dest, err)
-	}
-	return fd
-}
-
-func openSrc(src string) *os.File {
-	fd, err := os.Open(src)
-	if err != nil {
-		log.Fatalf("Opening source %v failed: %v\n", src, err)
-	}
-	return fd
-}
-
-func dstFilename(compressor bool, src, algo string) string {
-	if compressor {
-		return fmt.Sprintf("%s.%s", src, algo)
-	}
-	return fmt.Sprintf("%s.%s", src, "uncompressed")
-}
-
-func dieWithUsage() {
-	fmt.Printf("Usage of %s:\n", os.Args[0])
-	flag.PrintDefaults()
-	os.Exit(-1)
-
-}
-
-func die(err error) {
-	log.Fatal(err)
-	os.Exit(-1)
-}
-
-func parseFlags() options {
-	read := flag.Bool("r", false, "Read mode.")
-	write := flag.Bool("w", false, "Write mode.")
-	maxblocksize := flag.Int64("b", 64*1024, "BlockSize.")
-	zipalgo := flag.String("c", "none", "Possible compression algorithms: none, snappy, lz4.")
-	output := flag.String("o", "", "User defined output file destination.")
-	encalgo := flag.String("e", "aes", "Possible encryption algorithms: aes, chacha.")
-	keyderiv := flag.String("k", "none", "Use random or scrypt as key derivation: random, scrypt")
-	forceDstOverwrite := flag.Bool("f", false, "Force overwriting destination file.")
-	useDevNull := flag.Bool("D", false, "Write to /dev/null.")
-	flag.Parse()
-	return options{
-		read:              *read,
-		write:             *write,
-		zipalgo:           *zipalgo,
-		encalgo:           *encalgo,
-		output:            *output,
-		keyderiv:          *keyderiv,
-		maxblocksize:      *maxblocksize,
-		forceDstOverwrite: *forceDstOverwrite,
-		useDevNull:        *useDevNull,
-		args:              flag.Args(),
-	}
-}
-
-func derivateAesKey(pwd, salt []byte, keyLen int) []byte {
-	key, err := scrypt.Key(pwd, salt, 16384, 8, 1, keyLen)
-	if err != nil {
-		panic("Bad scrypt parameters: " + err.Error())
-	}
-	return key
-}
-
-func main() {
-	opts := parseFlags()
-	if len(opts.args) != 1 {
-		dieWithUsage()
-	}
-	if opts.read && opts.write {
-		dieWithUsage()
-	}
-	if !opts.read && !opts.write {
-		dieWithUsage()
-	}
-
-	srcPath := opts.args[0]
-	algo, err := compress.FromString(opts.zipalgo)
-	if err != nil {
-		die(err)
-	}
-
-	src := openSrc(srcPath)
-	defer src.Close()
-
-	if opts.useDevNull && opts.output != "" {
-		fmt.Printf("%s\n", "dev/null (-D) and outputfile (-o) may not be set at the same time.")
-		os.Exit(-1)
-	}
-
-	dstPath := dstFilename(opts.write, srcPath, opts.zipalgo)
-	if opts.useDevNull {
-		dstPath = os.DevNull
-	}
-
-	if opts.output != "" {
-		dstPath = opts.output
-	}
-
-	dst := openDst(dstPath, opts.forceDstOverwrite)
-	defer dst.Close()
-
-	var cipher uint16 = aeadCipherAES
-	if opts.encalgo == "chacha" {
-		cipher = aeadCipherChaCha
-	}
-
-	if opts.encalgo == "aes" {
-		cipher = aeadCipherAES
-	}
-
-	if opts.encalgo != "aes" && opts.encalgo != "chacha" && opts.encalgo != "none" {
-		opts.encalgo = "none"
-	}
-
-	key := make([]byte, 32)
-
-	if opts.keyderiv == "scrypt" {
-		fmt.Printf("%s\n", "Using scrypt key derivation.")
-		key = derivateAesKey([]byte("defaultpassword"), nil, 32)
-		if key == nil {
-			die(err)
-		}
-	}
-
-	if opts.keyderiv == "random" {
-		fmt.Printf("%s\n", "Using random key derivation.")
-		if _, err := io.ReadFull(rand.Reader, key); err != nil {
-			die(err)
-		}
-	}
-
-	// Writing
-	if opts.write {
-		ew := io.WriteCloser(dst)
-		// Encryption is enabled
-		if opts.encalgo != "none" {
-			ew, err = encrypt.NewWriterWithTypeAndBlockSize(dst, key, cipher, opts.maxblocksize)
-			if err != nil {
-				die(err)
-			}
-		}
-		zw, err := compress.NewWriter(ew, algo)
-		if err != nil {
-			die(err)
-		}
-		_, err = io.Copy(zw, src)
-		if err != nil {
-			die(err)
-		}
-		if err := zw.Close(); err != nil {
-			die(err)
-		}
-		if err := ew.Close(); err != nil {
-			die(err)
-		}
-	}
-	// Reading
-	if opts.read {
-		var reader io.ReadSeeker = src
-		// Decryption is enabled
-		if opts.encalgo != "none" {
-			er, err := encrypt.NewReader(src, key)
-			if err != nil {
-				die(err)
-			}
-			reader = er
-		}
-		zr := compress.NewReader(reader)
-		_, err = io.Copy(dst, zr)
-		if err != nil {
-			die(err)
-		}
-	}
-}
+Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? o
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+gpg: Note: backup of card key saved to '/home/qitta/.gnupg/sk_E5A1965037A8E37C.gpg'
+gpg: key 932AEBFDD72FE59C marked as ultimately trusted
+gpg: revocation certificate stored as '/home/qitta/.gnupg/openpgp-revocs.d/D61CEE19369B9C330A4A482D932AEBFDD72FE59C.rev'
+public and secret key created and signed.
 ~~~
-~~~python
-#!/usr/bin/env python
-# encoding: utf-8
 
-import sys
-import json
-import time
-import timeit
-import getpass
-import subprocess
-from statistics import mean
-
-BINARY="./data/main"
-
-def get_write_dummy(filesize):
-    return "./data/movie_{0}".format(filesize)
-
-def get_read_dummy(filesize):
-    return "./movie_{0}".format(filesize)
-
-def get_blocksizes(filesize):
-    return [64 * 1024]
-    #return [(2**x) for x in range(30) if 2**x >= 64 and (2**x)/1024**2 <= filesize]
-
-def benchmark_preprocessing(config):
-    print(config)
-    if config["type"] == "write":
-        path = get_write_dummy(config["filesize"])
-
-    if config["type"] == "read":
-        path = get_read_dummy(config["filesize"])
-
-    for cmd in [
-        "mkdir -p data",
-        "sudo mount -t ramfs -o size=2G ramfs data",
-        "sudo chmod 0777 data",
-        "sudo dd if=/dev/urandom of={0} bs=1M count={1} conv=sync".format(path, config["filesize"]),
-        "sudo chown -R {user}:users data".format(user=getpass.getuser()),
-        "go build main.go",
-        "cp ./main ./data/main"
-    ]:
-        print(cmd)
-        if subprocess.call(cmd.split(), shell=False) != 0:
-            return -1, "Error occured during setup of read benchmark."
-
-    return 0, ""
-
-def teardown(data):
-    cmds = ["sudo umount -l data", "sudo rm data -rv"]
-    if data["type"] == "read":
-        cmds += ["sudo rm {0}".format(get_read_dummy(data["filesize"]))]
-    for cmd in cmds:
-        if subprocess.call(cmd.split(), shell=False) != 0:
-            print("Error occured during teardown.")
-            sys.exit(-1)
-
-def build_write_cmd(data, block):
-    cmd = "{binary} -k {keyderiv} -w -b {block} -D -e {enc} -f {inputfile}".format(
-            keyderiv=data["kgfunc"],
-            binary=BINARY,
-            block=block,
-            enc=data["encryption"],
-            inputfile=get_write_dummy(data["filesize"])
-        )
-    return cmd.split()
-
-def build_read_cmd(data, block):
-    cmd = "{binary} -k {keyderiv} -r -b {block} -D -e {enc} -f {inputfile}".format(
-            keyderiv=data["kgfunc"],
-            binary=BINARY,
-            block=block,
-            enc=data["encryption"],
-            inputfile=get_write_dummy(data["filesize"])
-        )
-    return cmd.split()
-
-def build_prepare_read_cmd(data, block):
-    cmd = "{binary} -k {keyderiv} -w -b {block} -e {enc} -o {outputfile} -f {inputfile}".format(
-            keyderiv=data["kgfunc"],
-            binary=BINARY,
-            block=block,
-            enc=data["encryption"],
-            inputfile=get_read_dummy(data["filesize"]),
-	    outputfile=get_write_dummy(data["filesize"])
-        )
-    return cmd.split()
-
-def write_bench_data(data):
-    filename = "{sys}_{type}_{enc}_{zip}_{fs}_{kd}.json".format(
-        sys=data["system"],
-        type=data["type"],
-        enc=data["encryption"],
-        zip=data["compression"],
-        fs=data["filesize"],
-        kd=data["kgfunc"]
-    ).replace(" ", "_").replace("(", "[").replace(")", "]")
-    with open(filename, "w") as fd:
-        print("Writing {0}".format(filename))
-        fd.write(json.dumps(data))
-
-def benchmark(data):
-    print("** Running {0} bench using {1} runs. **".format(data["type"], data["runs"]))
-    print("Parameters for this run: {0}.".format(data))
-
-    if data["type"] != "read" and data["type"] != "write":
-        return -1, "Preparing read cmd failed."
-
-    for blocksize in get_blocksizes(data.get("filesize")):
-
-        if data["type"] == "read":
-            pre_cmd = build_prepare_read_cmd(data, blocksize)
-            if subprocess.call(pre_cmd) != 0:
-                return -1, "Preparing read cmd failed."
-
-            plaincmd = build_read_cmd(data, blocksize)
-            cmd = "subprocess.call({cmd})".format(
-                cmd=plaincmd
-            )
-            print("BS: {0} \t CMD:{1} ".format(blocksize, plaincmd))
-            run = timeit.timeit(cmd, number=data["runs"], setup="import subprocess")
-
-        if data["type"] == "write":
-            cmd = "subprocess.call({cmd})".format(
-                cmd=build_write_cmd(data, blocksize)
-            )
-            print("{0} bytes blocksize run...".format(blocksize))
-            run = timeit.timeit(cmd, number=data["runs"], setup="import subprocess")
-
-        data["results"].append(round(run/data["runs"]*1000))
-
-    data["result-max"] = max(data["results"])
-    data["result-min"] = min(data["results"])
-    data["result-avg"] = mean(data["results"])
-    return 0, data
-
-def initialize(algo, runs, filesize):
-    run_data = []
-    enc, title = config["algos"]
-    if enc in ["aes", "chacha", "none"]:
-        run_config = {
-            "encryption": enc,
-            "compression": "none",
-            "title": title,
-            "runs": runs,
-            "results": [],
-            "kgfunc": config["kgfunc"],
-            "system": config["system"],
-            "filesize": filesize,
-            "type": config["type"]
-        }
-        run_data.append(run_config)
-    return run_data
-
-def run_benchmark(config, runs=5, filesize=128):
-    bench_inputs = initialize(config, runs, filesize)
-    for bench_input in bench_inputs:
-        err, msg = benchmark_preprocessing(bench_input)
-        if err != 0:
-            print(msg)
-            sys.exit(err)
-        err, output = benchmark(bench_input)
-        if err != 0:
-            print(output)
-            sys.exit(err)
-        write_bench_data(output)
-        teardown(bench_input)
-
-if __name__ == '__main__':
-
-    for fs in [1, 2, 4, 8, 16, 32, 64, 128]:
-        runs = [("aes", "AES/GCM"), ("chacha", "ChaCha20/Poly1305")]
-        kgfuncs = ["none", "scrypt", "random"]
-        for run in runs:
-            for kgfunc in kgfuncs:
-                for type in ["write"]:
-                    config = {
-                        "algos": run,
-                        "kgfunc": kgfunc,
-                        "system" : sys.argv[1],
-                        "type": type
-                    }
-                    run_benchmark(config, runs=10, filesize=fs)
+Generierte Schlüssel Anzeigen lassen
 
 ~~~
-~~~python
-#!/usr/bin/env python
-# encoding: utf-8
+gpg/card> list
 
-import json
-import os
-import sys
-import pygal
-import pygal.style
-from collections import OrderedDict
-from collections import defaultdict
-from math import log
-from statistics import mean
-import subprocess
-import pprint
+Reader ...........: 0000:0000:X:0
+Application ID ...: 00000000000000000000000000000000
+Version ..........: 2.0
+Manufacturer .....: Yubico
+Serial number ....: 00000000
+Name of cardholder: Christoph Piechula
+Language prefs ...: [not set]
+Sex ..............: male
+URL of public key : [not set]
+Login data .......: [not set]
+Signature PIN ....: forced
+Key attributes ...: rsa2048 rsa2048 rsa2048
+Max. PIN lengths .: 127 127 127
+PIN retry counter : 3 3 3
+Signature counter : 4
+Signature key ....: D61C EE19 369B 9C33 0A4A  482D 932A EBFD D72F E59C
+      created ....: 2016-12-11 12:44:36
+Encryption key....: DD5E 14EE D04D 58AB 85D7  0AB3 E5A1 9650 37A8 E37C
+      created ....: 2016-12-11 12:44:36
+Authentication key: 4E45 FC88 A1B1 292F 6CFA  B577 4CE8 E35B 8002 9F6E
+      created ....: 2016-12-11 12:44:36
+General key info..: pub  rsa2048/932AEBFDD72FE59C 2016-12-11 Christoph Piechula <christoph@nullcat.de>
+sec>  rsa2048/932AEBFDD72FE59C  created: 2016-12-11  expires: 2021-12-10
+                                card-no: 0006 00000000
+ssb>  rsa2048/4CE8E35B80029F6E  created: 2016-12-11  expires: 2021-12-10
+                                card-no: 0006 00000000
+ssb>  rsa2048/E5A1965037A8E37C  created: 2016-12-11  expires: 2021-12-10
+                                card-no: 0006 00000000
 
-LEGEND_MAP = {
-    'aesread': 'AES/GCM [R]',
-    'aeswrite': 'AES/GCM [W]',
-    'chacharead': 'ChaCha20/Poly1305 [R]',
-    'chachawrite': 'ChaCha20/Poly1305 [W]',
-    'noneread': 'Base (no crypto) [R]',
-    'nonewrite': 'Base (no crypto) [W]'
-      }
+gpg/card>
+~~~
 
-LEGEND_MAP_SCRYPT = {
-    'random': 'Dev Random generated key',
-    'none': 'Static key',
-    'scrypt': 'Scrypt generated key'
-      }
+Schlüssel mit *GnuPG* anzeigen lassen:
 
-LEGEND_SYS_MAP = {
-    "Intel i5 (Go 1.7.1)": "Intel i5",
-    "Intel i5 (Go 1.5.3)": "Intel i5",
-    "Intel i5 (Go  1.6)": "Intel",
-    "AMD Phenom II X4 (Go 1.5.3)": "AMD Phenom",
-    "AMD Phenom II X4 (Go 1.7.1)": "AMD Phenom",
-    "ARM11 (Go 1.7.1)": "RPi Zero",
-    "Intel Atom N270 SSE2 (Go 1.7.1)": "Intel Atom",
-    "Intel Atom N270 387fpu (Go 1.7.1)": "Intel Atom (387FPU)"
-      }
+~~~sh
+freya :: code/brig-thesis/security ‹master*› » gpg --list-keys 932AEBFDD72FE59C
+pub   rsa2048 2016-12-11 [SC] [expires: 2021-12-10]
+      D61CEE19369B9C330A4A482D932AEBFDD72FE59C
+uid           [ultimate] Christoph Piechula <christoph@nullcat.de>
+sub   rsa2048 2016-12-11 [A] [expires: 2021-12-10]
+sub   rsa2048 2016-12-11 [E] [expires: 2021-12-10]
 
-def get_blocksizes(filesize):
-    return [(2**x) for x in range(30) if 2**x >= 64 and (2**x)/1024**2 <= filesize]
+freya :: code/brig-thesis/security ‹master*› » gpg --list-secret-keys 932AEBFDD72FE59C
+sec>  rsa2048 2016-12-11 [SC] [expires: 2021-12-10]
+      D61CEE19369B9C330A4A482D932AEBFDD72FE59C
+      Card serial no. = 0006 00000000
+uid           [ultimate] Christoph Piechula <christoph@nullcat.de>
+ssb>  rsa2048 2016-12-11 [A] [expires: 2021-12-10]
+ssb>  rsa2048 2016-12-11 [E] [expires: 2021-12-10]
+~~~
 
-# http://stackoverflow.com/questions/1094841/
-# reusable-library-to-get-human-readable-version-of-file-size
-def pretty_size(n,pow=0,b=1024,u='B',pre=['']+[p+'i'for p in'KMGTPEZY']):
-    pow,n=min(int(log(max(n*b**pow,1),b)),len(pre)-1),n*b**pow
-    return "%%.%if %%s%%s"%abs(pow%(-pow-1))%(n/b**float(pow),pre[pow],u)
+\newpage
 
-def render_line_plot_scrypt(data):
-    line_chart = pygal.Line(
-        legend_at_bottom=True,
-        logarithmic=data["logarithmic"],
-        style=pygal.style.LightSolarizedStyle,
-        x_label_rotation=25,
-        interpolate='cubic'
-    )
-    filesizes = set()
+# Unterschlüssel erstellen {#sec:APP_UNTERSCHLUESSEL_ERSTELLEN}
 
-    plot_data = data["plot-data"]
-    for item in plot_data:
-        filesizes.add(item["filesize"])
+~~~sh
+$ gpg --expert --edit-key E9CD5AB4075551F6F1D6AE918219B30B103FB091
+gpg (GnuPG) 2.1.16; Copyright (C) 2016 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
 
-    line_chart.title = data["title"]
-    line_chart.x_labels = [pretty_size(x * 1024**2) for x in sorted(list(filesizes))]
-    line_chart.x_title = data["x-title"]
-    line_chart.y_title = data["y-title"]
+Secret key is available.
 
-    plot_data = sorted(plot_data, key=lambda d: d["system"],  reverse=False)
-    print(plot_data)
+sec  rsa2048/8219B30B103FB091
+     created: 2013-02-09  expires: 2017-01-31  usage: SC
+     trust: ultimate      validity: ultimate
+ssb  rsa2048/0B81E5BF85821570
+     created: 2013-02-09  expires: 2017-01-31  usage: E
+[ultimate] (1). Christoph Piechula <christoph@nullcat.de>
 
-    sys1 = [s for s in plot_data if s["system"] == "Intel Keygen (Go 1.7.1)" and s["kgfunc"] == "scrypt"]
-    sys1 = sorted(sys1, key=lambda d: d["filesize"],  reverse=False)
+gpg> addkey
+Please select what kind of key you want:
+   (3) DSA (sign only)
+   (4) RSA (sign only)
+   (5) Elgamal (encrypt only)
+   (6) RSA (encrypt only)
+   (7) DSA (set your own capabilities)
+   (8) RSA (set your own capabilities)
+  (10) ECC (sign only)
+  (11) ECC (set your own capabilities)
+  (12) ECC (encrypt only)
+  (13) Existing key
+Your selection? 4
+RSA keys may be between 1024 and 4096 bits long.
+What keysize do you want? (2048)
+Requested keysize is 2048 bits
+Please specify how long the key should be valid.
+         0 = key does not expire
+      <n>  = key expires in n days
+      <n>w = key expires in n weeks
+      <n>m = key expires in n months
+      <n>y = key expires in n years
 
+Key is valid for? (0) 2y
+Key expires at Di 11 Dez 2018 17:33:54 CET
+Is this correct? (y/N) y
+Really create? (y/N) y
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
 
-    sys2 = [s for s in plot_data if s["system"] == "Intel Keygen (Go 1.7.1)" and s["kgfunc"] == "random"]
-    sys2 = sorted(sys2, key=lambda d: d["filesize"],  reverse=False)
+sec  rsa2048/8219B30B103FB091
+     created: 2013-02-09  expires: 2017-01-31  usage: SC
+     trust: ultimate      validity: ultimate
+ssb  rsa2048/0B81E5BF85821570
+     created: 2013-02-09  expires: 2017-01-31  usage: E
+ssb  rsa2048/2CC4F84BE43F54ED
+     created: 2016-12-11  expires: 2018-12-11  usage: S
+[ultimate] (1). Christoph Piechula <christoph@nullcat.de>
 
-    sys3 = [s for s in plot_data if s["system"] == "Intel Keygen (Go 1.7.1)" and s["kgfunc"] == "none"]
-    sys3 = sorted(sys3, key=lambda d: d["filesize"],  reverse=False)
-    print(sys3)
+gpg> addkey
+Please select what kind of key you want:
+   (3) DSA (sign only)
+   (4) RSA (sign only)
+   (5) Elgamal (encrypt only)
+   (6) RSA (encrypt only)
+   (7) DSA (set your own capabilities)
+   (8) RSA (set your own capabilities)
+  (10) ECC (sign only)
+  (11) ECC (set your own capabilities)
+  (12) ECC (encrypt only)
+  (13) Existing key
+Your selection? 8
 
-    d1 = {}
-    for item in sys1 + sys2 + sys3:
-        d1.setdefault(item["kgfunc"], []).append(item["results"])
+Possible actions for a RSA key: Sign Encrypt Authenticate
+Current allowed actions: Sign Encrypt
 
-    for v in d1:
-        line_chart.add(LEGEND_MAP_SCRYPT[v], [round(x.pop()) for x in d1[v]])
-        line_chart.render_to_file(data["outputfile"])
+   (S) Toggle the sign capability
+   (E) Toggle the encrypt capability
+   (A) Toggle the authenticate capability
+   (Q) Finished
 
-def format_min(values, min, filesize):
-    values_str = []
-    for v in values:
-        val = str(v) + " ms; " + str(pretty_size((filesize) / (v/1000)) + "/s")
-        if v == min:
-            values_str.append("**" + val + "**")
-        else:
-            values_str.append(val)
-    return values_str
+Your selection? e
 
+Possible actions for a RSA key: Sign Encrypt Authenticate
+Current allowed actions: Sign
 
-def render_table(table, header, filesize):
-    print("||" + "|".join([str(pretty_size(h)) + " [ms, B/s]" for h in header]) + "|")
-    for title, row in table.items():
-        print("|" + title + "|", end="")
-        row = [999999 if v is None else v for v in row ]
-        n = format_min(row, min(row), filesize)
-        print("|".join(n))
+   (S) Toggle the sign capability
+   (E) Toggle the encrypt capability
+   (A) Toggle the authenticate capability
+   (Q) Finished
 
-def render_line_plot(data):
-    line_chart = pygal.Line(
-        legend_at_bottom=True,
-        logarithmic=data["logarithmic"],
-        style=pygal.style.LightSolarizedStyle,
-        x_label_rotation=25,
-        interpolate='cubic'
-    )
-    line_chart.title = data["title"]
-    line_chart.x_labels = [pretty_size(x) for x in get_blocksizes(data["needs"]["filesize"])]
-    line_chart.x_title = data["x-title"]
-    line_chart.y_title = data["y-title"]
+Your selection? s
 
-    table = {}
-    plot_data = data["plot-data"]
-    #print("|System|" + "|".join(x for x in line_chart.x_labels) + "|")
-    header = get_blocksizes(data["needs"]["filesize"])
-    for item in plot_data:
-        avg_sec = mean(item["results"]) / 1000
-        fs_bytes = megabytes_to_bytes(item["filesize"])
-        avg_mb_sec = round(fs_bytes/avg_sec, 2)
-        op = item["type"][0]
-        #title =LEGEND_SYS_MAP[item["system"]] + "(" + LEGEND_MAP[item["encryption"] + item["type"]] + " (" + pretty_size(avg_mb_sec)  + "/s) [{0})".format(op.upper())
-        title =LEGEND_SYS_MAP[item["system"]] + " (" + LEGEND_MAP[item["encryption"] + item["type"]]  + ")"
-        #if item["filesize"] == 32:
-        #    item["results"] += [None, None]
-        table[title]= item["results"]
-        line_chart.add(title, item["results"])
-        line_chart.render_to_file(data["outputfile"])
-    render_table(table, header, fs_bytes)
+Possible actions for a RSA key: Sign Encrypt Authenticate
+Current allowed actions:
 
-def megabytes_to_bytes(bytes):
-    return bytes * 1024 ** 2
+   (S) Toggle the sign capability
+   (E) Toggle the encrypt capability
+   (A) Toggle the authenticate capability
+   (Q) Finished
 
-def render_bar_plot(data):
-    line_chart = pygal.HorizontalBar(
-        print_values=True,
-        value_formatter=lambda x: '{}/s'.format(pretty_size(x)),
-        truncate_legend=220,
-        legend_at_bottom=True,
-        logarithmic=data["logarithmic"],
-        style=pygal.style.LightSolarizedStyle,
-        x_label_rotation=60,
-        y_label_rotation=300,
-        interpolate='cubic'
-    )
-    line_chart.title = data["title"]
+Your selection? a
 
-    plot_data = data["plot-data"]
-    plot_data = sorted(plot_data, key=lambda d: d["system"] + d["encryption"] + d["type"], reverse=False)
+Possible actions for a RSA key: Sign Encrypt Authenticate
+Current allowed actions: Authenticate
 
-    line_chart.x_labels = list(sorted(set([x["system"] for x in plot_data])))
-    line_chart.x_title = data["x-title"]
-    line_chart.y_title = data["y-title"]
+   (S) Toggle the sign capability
+   (E) Toggle the encrypt capability
+   (A) Toggle the authenticate capability
+   (Q) Finished
 
-    d = {}
-    for item in plot_data:
-        # mbytes to bytes, and mseconds to seconds
-        fs = item["filesize"] * 1024**2
-        s = item["results"][10] / 1000
-        d.setdefault(item["encryption"] + item["type"], []).append(fs/s)
-        print(item["filesize"], min(item["results"])/1000)
+Your selection? q
+RSA keys may be between 1024 and 4096 bits long.
+What keysize do you want? (2048)
+Requested keysize is 2048 bits
+Please specify how long the key should be valid.
+         0 = key does not expire
+      <n>  = key expires in n days
+      <n>w = key expires in n weeks
+      <n>m = key expires in n months
+      <n>y = key expires in n years
+Key is valid for? (0) 2y
+Key expires at Di 11 Dez 2018 17:35:18 CET
+Is this correct? (y/N) y
+Really create? (y/N) y
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
 
-    for k in sorted(d):
-        line_chart.add(LEGEND_MAP[k], [round(v) for v in d[k]])
-        line_chart.render_to_file(data["outputfile"])
+sec  rsa2048/8219B30B103FB091
+     created: 2013-02-09  expires: 2017-01-31  usage: SC
+     trust: ultimate      validity: ultimate
+ssb  rsa2048/0B81E5BF85821570
+     created: 2013-02-09  expires: 2017-01-31  usage: E
+ssb  rsa2048/2CC4F84BE43F54ED
+     created: 2016-12-11  expires: 2018-12-11  usage: S
+ssb  rsa2048/74B050CC5ED64D18
+     created: 2016-12-11  expires: 2018-12-11  usage: A
+[ultimate] (1). Christoph Piechula <christoph@nullcat.de>
 
+gpg> save
 
-def is_valid(jdir, metadata):
-    if jdir.get("system") not in metadata["needs"]["system"]:
-        return False
+~~~
 
-    if jdir.get("type") not in metadata["needs"]["type"]:
-        return False
+# Ablaufdatum ändern {#sec:APP_ABLAUFDATUM_AENDERN}
 
-    #if jdir.get("filesize") != metadata["needs"]["filesize"]:
-    #    return False
+Ablaufdatum für den Hauptschlüssel und für den Unterschlüssel zum
+Ver--/Entschlüsseln ändern:
 
-    if jdir.get("encryption") not in metadata["needs"]["algo"]:
-        return False
+~~~sh
+$ gpg --expert --edit-key E9CD5AB4075551F6F1D6AE918219B30B103FB091
+gpg (GnuPG) 2.1.16; Copyright (C) 2016 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
 
-    return True
+Secret key is available.
 
-def get_input_data(path):
-    with open(path, 'r') as fd:
-        metadata = json.loads(fd.read())
-        metadata["input-data"] = os.path.abspath(metadata["input-data"])
+sec  rsa2048/8219B30B103FB091
+     created: 2013-02-09  expires: 2017-01-31  usage: SC
+     trust: ultimate      validity: ultimate
+ssb  rsa2048/0B81E5BF85821570
+     created: 2013-02-09  expires: 2017-01-31  usage: E
+ssb  rsa2048/2CC4F84BE43F54ED
+     created: 2016-12-11  expires: 2018-12-11  usage: S
+ssb  rsa2048/74B050CC5ED64D18
+     created: 2016-12-11  expires: 2018-12-11  usage: A
+[ultimate] (1). Christoph Piechula <christoph@nullcat.de>
 
-    # Load all benchmark files
-    benchmark_files = []
-    for file in sorted(os.listdir(metadata["input-data"])):
-        jfile = os.path.abspath(os.path.join(metadata["input-data"], file))
-        if not os.path.isdir(jfile) and jfile.endswith("json"):
-            with open(jfile, "r") as fd:
-                benchmark_files.append(json.loads(fd.read()))
+gpg> expire
+Changing expiration time for the primary key.
+Please specify how long the key should be valid.
+         0 = key does not expire
+      <n>  = key expires in n days
+      <n>w = key expires in n weeks
+      <n>m = key expires in n months
+      <n>y = key expires in n years 
+Key is valid for? (0) 10y
+Key expires at Mi 09 Dez 2026 17:45:52 CET
+Is this correct? (y/N) y
 
-    # Filter only needed files
-    needed_files = []
-    for jfile in benchmark_files:
-        if is_valid(jfile, metadata):
-            metadata["plot-data"].append(jfile)
-    return metadata
+sec  rsa2048/8219B30B103FB091
+     created: 2013-02-09  expires: 2026-12-09  usage: SC
+     trust: ultimate      validity: ultimate
+ssb  rsa2048/0B81E5BF85821570
+     created: 2013-02-09  expires: 2017-01-31  usage: E
+ssb  rsa2048/2CC4F84BE43F54ED
+     created: 2016-12-11  expires: 2018-12-11  usage: S
+ssb  rsa2048/74B050CC5ED64D18
+     created: 2016-12-11  expires: 2018-12-11  usage: A
+[ultimate] (1). Christoph Piechula <christoph@nullcat.de>
 
-if __name__ == '__main__':
-    config_path = os.path.abspath(sys.argv[1])
-    dir_path = os.path.dirname(config_path)
-    input_data = get_input_data(config_path)
-    input_data["outputfile"] = os.path.join(dir_path, os.path.basename(config_path) + ".svg")
+gpg> key 1
 
-    if input_data["plot-data"] == []:
-        print("No Plot data found with this attributes.")
-        sys.exit(0)
+sec  rsa2048/8219B30B103FB091
+     created: 2013-02-09  expires: 2026-12-09  usage: SC
+     trust: ultimate      validity: ultimate
+ssb* rsa2048/0B81E5BF85821570
+     created: 2013-02-09  expires: 2017-01-31  usage: E
+ssb  rsa2048/2CC4F84BE43F54ED
+     created: 2016-12-11  expires: 2018-12-11  usage: S
+ssb  rsa2048/74B050CC5ED64D18
+     created: 2016-12-11  expires: 2018-12-11  usage: A
+[ultimate] (1). Christoph Piechula <christoph@nullcat.de>
 
-    #with open('/tmp/input.json', "w") as fd:
-    #    fd.write(json.dumps(input_data))
-    #    sys.exit(-1)
-    if input_data["type"] == "line":
-        render_line_plot(input_data)
+gpg> expire
+Changing expiration time for a subkey.
+Please specify how long the key should be valid.
+         0 = key does not expire
+      <n>  = key expires in n days
+      <n>w = key expires in n weeks
+      <n>m = key expires in n months
+      <n>y = key expires in n years
+Key is valid for? (0) 2y
+Key expires at Di 11 Dez 2018 17:46:03 CET
+Is this correct? (y/N) y
 
-    if input_data["type"] == "bar":
-        render_bar_plot(input_data)
+sec  rsa2048/8219B30B103FB091
+     created: 2013-02-09  expires: 2026-12-09  usage: SC
+     trust: ultimate      validity: ultimate
+ssb* rsa2048/0B81E5BF85821570
+     created: 2013-02-09  expires: 2018-12-11  usage: E
+ssb  rsa2048/2CC4F84BE43F54ED
+     created: 2016-12-11  expires: 2018-12-11  usage: S
+ssb  rsa2048/74B050CC5ED64D18
+     created: 2016-12-11  expires: 2018-12-11  usage: A
+[ultimate] (1). Christoph Piechula <christoph@nullcat.de>
 
-    if input_data["type"] == "scrypt":
-        render_line_plot_scrypt(input_data)
+gpg> save
+~~~
 
-    subprocess.call(
-        ["inkscape", "{0}".format(input_data["outputfile"]),  "--export-pdf={0}.pdf".format(input_data["outputfile"])]
-    )
-    subprocess.call(
-        ["chromium", "{0}".format(input_data["outputfile"]), "&"]
-    )
+# Exportieren der privaten und öffentlichen Schlüssel {#sec:APP_EXPORTIEREN_DER_PRIVATEN_UND_OEFFENTLICHEN_SCHLUESSEL}
+
+Exportieren der privaten Schlüssel:
+
+~~~sh
+$ gpg --armor --export E9CD5AB4075551F6F1D6AE918219B30B103FB091 \
+  > E9CD5AB4075551F6F1D6AE918219B30B103FB091.pub
+$ gpg --armor --export-secret-keys \
+  > E9CD5AB4075551F6F1D6AE918219B30B103FB091.sec
+$ gpg --armor --export-secret-subkeys \
+  > E9CD5AB4075551F6F1D6AE918219B30B103FB091.secsub
+~~~
+
+# Schlüssel auf die Smartcard verschieben {#sec:APP_SCHLUESSEL_AUF_SMARTCARD_VERSCHIEBEN}
+
+~~~sh
+$ gpg --expert --edit-key E9CD5AB4075551F6F1D6AE918219B30B103FB091
+gpg (GnuPG) 2.1.16; Copyright (C) 2016 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Secret key is available.
+
+sec  rsa2048/8219B30B103FB091
+     created: 2013-02-09  expires: 2026-12-09  usage: SC
+     trust: ultimate      validity: ultimate
+ssb  rsa2048/0B81E5BF85821570
+     created: 2013-02-09  expires: 2018-12-11  usage: E
+ssb  rsa2048/2CC4F84BE43F54ED
+     created: 2016-12-11  expires: 2018-12-11  usage: S
+ssb  rsa2048/74B050CC5ED64D18
+     created: 2016-12-11  expires: 2018-12-11  usage: A
+[ultimate] (1). Christoph Piechula <christoph@nullcat.de>
+
+gpg> key 1
+
+sec  rsa2048/8219B30B103FB091
+     created: 2013-02-09  expires: 2026-12-09  usage: SC
+     trust: ultimate      validity: ultimate
+ssb* rsa2048/0B81E5BF85821570
+     created: 2013-02-09  expires: 2018-12-11  usage: E
+ssb  rsa2048/2CC4F84BE43F54ED
+     created: 2016-12-11  expires: 2018-12-11  usage: S
+ssb  rsa2048/74B050CC5ED64D18
+     created: 2016-12-11  expires: 2018-12-11  usage: A
+[ultimate] (1). Christoph Piechula <christoph@nullcat.de>
+
+gpg> keytocard
+Please select where to store the key:
+   (2) Encryption key
+Your selection? 2
+
+sec  rsa2048/8219B30B103FB091
+     created: 2013-02-09  expires: 2026-12-09  usage: SC
+     trust: ultimate      validity: ultimate
+ssb* rsa2048/0B81E5BF85821570
+     created: 2013-02-09  expires: 2018-12-11  usage: E
+ssb  rsa2048/2CC4F84BE43F54ED
+     created: 2016-12-11  expires: 2018-12-11  usage: S
+ssb  rsa2048/74B050CC5ED64D18
+     created: 2016-12-11  expires: 2018-12-11  usage: A
+[ultimate] (1). Christoph Piechula <christoph@nullcat.de>
+
+gpg> key 2
+
+sec  rsa2048/8219B30B103FB091
+     created: 2013-02-09  expires: 2026-12-09  usage: SC
+     trust: ultimate      validity: ultimate
+ssb* rsa2048/0B81E5BF85821570
+     created: 2013-02-09  expires: 2018-12-11  usage: E
+ssb* rsa2048/2CC4F84BE43F54ED
+     created: 2016-12-11  expires: 2018-12-11  usage: S
+ssb  rsa2048/74B050CC5ED64D18
+     created: 2016-12-11  expires: 2018-12-11  usage: A
+[ultimate] (1). Christoph Piechula <christoph@nullcat.de>
+
+gpg> keytocard
+You must select exactly one key.
+
+gpg> key 1
+
+sec  rsa2048/8219B30B103FB091
+     created: 2013-02-09  expires: 2026-12-09  usage: SC
+     trust: ultimate      validity: ultimate
+ssb  rsa2048/0B81E5BF85821570
+     created: 2013-02-09  expires: 2018-12-11  usage: E
+ssb* rsa2048/2CC4F84BE43F54ED
+     created: 2016-12-11  expires: 2018-12-11  usage: S
+ssb  rsa2048/74B050CC5ED64D18
+     created: 2016-12-11  expires: 2018-12-11  usage: A
+[ultimate] (1). Christoph Piechula <christoph@nullcat.de>
+
+gpg> keytocard
+Please select where to store the key:
+   (1) Signature key
+   (3) Authentication key
+Your selection? 1
+
+sec  rsa2048/8219B30B103FB091
+     created: 2013-02-09  expires: 2026-12-09  usage: SC
+     trust: ultimate      validity: ultimate
+ssb  rsa2048/0B81E5BF85821570
+     created: 2013-02-09  expires: 2018-12-11  usage: E
+ssb* rsa2048/2CC4F84BE43F54ED
+     created: 2016-12-11  expires: 2018-12-11  usage: S
+ssb  rsa2048/74B050CC5ED64D18
+     created: 2016-12-11  expires: 2018-12-11  usage: A
+[ultimate] (1). Christoph Piechula <christoph@nullcat.de>
+
+gpg> key 2
+
+sec  rsa2048/8219B30B103FB091
+     created: 2013-02-09  expires: 2026-12-09  usage: SC
+     trust: ultimate      validity: ultimate
+ssb  rsa2048/0B81E5BF85821570
+     created: 2013-02-09  expires: 2018-12-11  usage: E
+ssb  rsa2048/2CC4F84BE43F54ED
+     created: 2016-12-11  expires: 2018-12-11  usage: S
+ssb  rsa2048/74B050CC5ED64D18
+     created: 2016-12-11  expires: 2018-12-11  usage: A
+[ultimate] (1). Christoph Piechula <christoph@nullcat.de>
+
+gpg> key 3
+
+sec  rsa2048/8219B30B103FB091
+     created: 2013-02-09  expires: 2026-12-09  usage: SC
+     trust: ultimate      validity: ultimate
+ssb  rsa2048/0B81E5BF85821570
+     created: 2013-02-09  expires: 2018-12-11  usage: E
+ssb  rsa2048/2CC4F84BE43F54ED
+     created: 2016-12-11  expires: 2018-12-11  usage: S
+ssb* rsa2048/74B050CC5ED64D18
+     created: 2016-12-11  expires: 2018-12-11  usage: A
+[ultimate] (1). Christoph Piechula <christoph@nullcat.de>
+
+gpg> keytocard
+Please select where to store the key:
+   (3) Authentication key
+Your selection? 3
+
+sec  rsa2048/8219B30B103FB091
+     created: 2013-02-09  expires: 2026-12-09  usage: SC
+     trust: ultimate      validity: ultimate
+ssb  rsa2048/0B81E5BF85821570
+     created: 2013-02-09  expires: 2018-12-11  usage: E
+ssb  rsa2048/2CC4F84BE43F54ED
+     created: 2016-12-11  expires: 2018-12-11  usage: S
+ssb* rsa2048/74B050CC5ED64D18
+     created: 2016-12-11  expires: 2018-12-11  usage: A
+[ultimate] (1). Christoph Piechula <christoph@nullcat.de>
+
+gpg> save
+~~~
+
+# User-- und Admin--Pin ändern {#sec:APP_USER_UND_ADMIN_PIN_AENDERN}
+
+~~~sh
+freya :: code/brig-thesis/security ‹master*› » gpg --card-edit
+
+Reader ...........: 0000:0000:X:0
+Application ID ...: 00000000000000000000000000000000
+Version ..........: 2.0
+Manufacturer .....: Yubico
+Serial number ....: 00000000
+Name of cardholder: [not set]
+Language prefs ...: [not set]
+Sex ..............: unspecified
+URL of public key : [not set]
+Login data .......: [not set]
+Signature PIN ....: forced
+Key attributes ...: rsa2048 rsa2048 rsa2048
+Max. PIN lengths .: 127 127 127
+PIN retry counter : 3 3 3
+Signature counter : 1
+Signature key ....: 7CD8 DB88 FBF8 22E1 3005  66D1 2CC4 F84B E43F 54ED
+      created ....: 2016-12-11 16:32:58
+Encryption key....: 6258 6E4C D843 F566 0488  0EB0 0B81 E5BF 8582 1570
+      created ....: 2013-02-09 23:18:50
+Authentication key: 2BC3 8804 4699 B83F DEA0  A323 74B0 50CC 5ED6 4D18
+      created ....: 2016-12-11 16:34:21
+General key info..: sub  rsa2048/2CC4F84BE43F54ED 2016-12-11 Christoph Piechula <christoph@nullcat.de>
+sec   rsa2048/8219B30B103FB091  created: 2013-02-09  expires: 2026-12-09
+ssb>  rsa2048/0B81E5BF85821570  created: 2013-02-09  expires: 2018-12-11
+                                card-no: 0006 00000000
+ssb>  rsa2048/2CC4F84BE43F54ED  created: 2016-12-11  expires: 2018-12-11
+                                card-no: 0006 00000000
+ssb>  rsa2048/74B050CC5ED64D18  created: 2016-12-11  expires: 2018-12-11
+                                card-no: 0006 00000000
+
+gpg/card> admin
+Admin commands are allowed
+
+gpg/card> passwd
+gpg: OpenPGP card no. 00000000000000000000000000000000 detected
+
+1 - change PIN
+2 - unblock PIN
+3 - change Admin PIN
+4 - set the Reset Code
+Q - quit
+
+Your selection? 1
+PIN changed.
+
+1 - change PIN
+2 - unblock PIN
+3 - change Admin PIN
+4 - set the Reset Code
+Q - quit
+
+Your selection? 3
+PIN changed.
+
+1 - change PIN
+2 - unblock PIN
+3 - change Admin PIN
+4 - set the Reset Code
+Q - quit
+
+Your selection? Q
+
+gpg/card> quit
 ~~~

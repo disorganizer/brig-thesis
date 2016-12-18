@@ -429,7 +429,7 @@ modulo einer bestimmten 1536 Bit Primzahl genommen, $g_{1}$ ist hier das
 erzeugende Element dieser Gruppe. [@fig:img-shared-secret] zeigt den
 grundlegenden Ablauf des *Socialist Millionaire*--Protokoll.
 
-![Authentifizierung über ein gemeinsames Geheimnis unter Verwendung des Socialist Millionaire--Protokoll.](images/smp.png){#fig:img-shared-secret width=90%}
+![Authentifizierung über ein gemeinsames Geheimnis unter Verwendung des Socialist Millionaire--Protokoll.](images/smp.png){#fig:img-shared-secret width=100%}
 
 
 [^FN_PIDGIN_SMP]: Socialist Millionaire Protocol (SMP): <https://otr.cypherpunks.ca/Protocol-v3-4.0.0.html>
@@ -1601,5 +1601,3 @@ debug1: Authentication succeeded (publickey).
 Authenticated to github.com ([192.30.253.112]:22).
 [...]
 ~~~
-
-TODO: Noch OpenSSH mit 2FA hinzufügen?

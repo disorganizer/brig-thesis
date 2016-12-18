@@ -42,7 +42,7 @@ sicher ist. Auch ein System das aus kryptographischer Sicht als »sicher« zu
 betrachten wäre, kann im einfachsten Fall, durch die Weitergabe von
 Zugangsdaten an Dritte, kompromittiert werden.
 
-![Scherzhafte Darstellung eines möglichen Angriff auf eine Festplattenverschlüsselung mit optimalem Kosten/Nutzen--Verhältnis.[^FN_XKCD_ENC_COMIC]](images/security.png){#fig:img-security width=70%} 
+![Scherzhafte Darstellung eines möglichen Angriff auf eine Festplattenverschlüsselung mit optimalem Kosten/Nutzen--Verhältnis.[^FN_XKCD_ENC_COMIC]](images/security.png){#fig:img-security width=66%} 
 
 [^FN_XKCD_ENC_COMIC]:Quelle: <http://imgs.xkcd.com/comics/security.png>
 
@@ -230,7 +230,7 @@ welches in der Lage ist, ein Authentifizierungs--Token auf dem Computer des
 potentiellen Opfers auszutauschen. [@fig:img-mitc] zeigt den Ablauf eines
 möglichen »Man--In--The--Cloud«--Angriffs.
 
-![»Quick Double Switch Attack Flow«--Man in the Cloud--Angriff. Die Buchstaben a, b, c und d repräsentieren dabei jeweils die Synchronisationsvorgänge.](images/mitc.png){#fig:img-mitc width=90%}
+![»Quick Double Switch Attack Flow«--Man in the Cloud--Angriff. Die Buchstaben a, b, c und d repräsentieren dabei jeweils die Synchronisationsvorgänge.](images/mitc.png){#fig:img-mitc width=80%}
 
 1. Der Angreifer platziert den »Switcher« auf dem Rechner des Opfers
    (beispielsweise mittels Social Engineering oder Phishing--Methoden)
@@ -401,7 +401,7 @@ die gleiche Datei besitzen, siehe [@fig:img-swarm].
 
 [^FN_SPOF]: Single Point of Failure Wikipedia: <https://de.wikipedia.org/wiki/Single_Point_of_Failure>
 
-![Zeigt einen »Swarm«. *Alice* lädt die Datei »image.iso« von mehreren Teilnehmern gleichzeitig, die Datei »mydog.png« jedoch nur von *Dan*.](images/distsync.png){#fig:img-swarm width=80%}
+![Zeigt einen »Swarm«. *Alice* lädt die Datei »image.iso« von mehreren Teilnehmern gleichzeitig, die Datei »mydog.png« jedoch nur von *Dan*.](images/distsync.png){#fig:img-swarm width=70%}
 
 Aktuell verbreitete Peer--to--peer Protokolle:
 

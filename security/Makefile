@@ -1,14 +1,14 @@
 all:
-	echo "# Anhang F: Benchmarktool und Skripte" > appendix/F-zzz-anhang.md
-	echo "~~~go" >> appendix/F-zzz-anhang.md
-	cat scripts/main.go >> appendix/F-zzz-anhang.md
-	echo "~~~" >> appendix/F-zzz-anhang.md
-	echo "~~~python" >> appendix/F-zzz-anhang.md
-	cat scripts/benchmark.py >> appendix/F-zzz-anhang.md
-	echo "~~~" >> appendix/F-zzz-anhang.md
-	echo "~~~python" >> appendix/F-zzz-anhang.md
-	cat scripts/plot.py >> appendix/F-zzz-anhang.md
-	echo "~~~" >> appendix/F-zzz-anhang.md
+	echo "# Anhang E: Benchmarktool und Skripte" > appendix/E-zzz-anhang.md
+	echo "~~~go" >> appendix/E-zzz-anhang.md
+	cat scripts/main.go >> appendix/E-zzz-anhang.md
+	echo "~~~" >> appendix/E-zzz-anhang.md
+	echo "~~~python" >> appendix/E-zzz-anhang.md
+	cat scripts/benchmark.py >> appendix/E-zzz-anhang.md
+	echo "~~~" >> appendix/E-zzz-anhang.md
+	echo "~~~python" >> appendix/E-zzz-anhang.md
+	cat scripts/plot.py >> appendix/E-zzz-anhang.md
+	echo "~~~" >> appendix/E-zzz-anhang.md
 	pandoc \
 		--filter pandoc-fignos \
 		--filter pandoc-tablenos \

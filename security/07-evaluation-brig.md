@@ -152,13 +152,13 @@ Ver-- und Entschlüsseln evaluieren. Daher wird der Benchmark vollständig in
 einer RAM--Disk durchgeführt. [@fig:img-ramdisk] zeigt grafisch den Aufbau
 der Testumgebung.
 
-![Testablauf in der RAMDISK bei der Erhebung der Messdaten.](images/ramdisk.png){#fig:img-ramdisk width=90%}
+![Testablauf in der RAMDISK bei der Erhebung der Messdaten.](images/ramdisk.png){#fig:img-ramdisk width=80%}
 
 Beim Erheben der Daten wurde wie folgt vorgegangen:
 
 * Swap--Datei wurde mit `swapoff -a` deaktiviert, um ein Auslagern der Daten aus dem
   *RAM* auf die Festplatte zu verhindern.
-* Eine RAM--Disk wurde mittels Skript angelegt. REF
+* Eine RAM--Disk wurde mittels Skript angelegt. TODO: REF
 * Verschlüsselte und entschlüsselte Daten werden mittels Skript erstellt.
 * Daten werden verschlüsselt (Schreibvorgang) nach `/dev/null` geschrieben,
   Daten werden entschlüsselt (Lesevorgang) nach `/dev/null` geschrieben.

@@ -79,7 +79,7 @@ im Alphastadium befindet. Weiterhin gibt es in der Datei `security-notes` Detail
 Die Speicherung von Daten mag auf den ersten Blick simpel erscheinen.
 Betrachtet man jedoch die »Rahmenbedingungen«, die zu beachten sind, um Daten
 sicher zu speichern, wird die Thematik komplizierter. Das Hauptproblem an
-dieser Stelle ist die sogenannte »Silent Data Corruption«(REF), oft auch
+dieser Stelle ist die sogenannte »Silent Data Corruption«(vgl. [@BIB_CERN], [@BIB_SILENT_DATA_CORRUPTION]), oft auch
 »Bitrot« genannt. Der Begriff beschreibt den Umstand, dass Fehler in Daten im
 Laufe der Zeit auftreten. Für die Fehlerursache können verschiedene Gründe verantwortlich sein, wie beispielsweise:
 
@@ -88,12 +88,6 @@ Laufe der Zeit auftreten. Für die Fehlerursache können verschiedene Gründe ve
 * Fehler in der Controller--Firmware
 * Fehler in der Software (Kernel, Dateisystem)
 * Schadsoftware
-
-Obwohl die Technologien mit steigenden Kapazitäten verbessert wurden, ist die
-Fehlerrate bisher konstant geblieben (Ref). Analysen haben ergeben, dass die
-Wahrscheinlichkeit von *Silent Data Corruption* höher ist wie bisher angenommen.
-
-[^FN_DATA_CORRUPTION]: Data corruption: <https://en.wikipedia.org/wiki/Data_corruption>
 
 Gängige Dateisysteme wie beispielsweise *NTFS*[^FN_NTFS] oder *EXT4*[^FN_EXT4]
 können Fehler, verursacht durch *Silent Data Corruption*, nicht erkennen und den
@@ -105,15 +99,17 @@ wurde, so sind die Daten mit hoher Wahrscheinlichkeit korrekt an den Benutzer
 zurückgegeben worden. Diese Art der Validierung der Integrität ist jedoch
 aufgrund des hohen Aufwands nicht praxistauglich.
 
-Dateisysteme wie *BTRFS*(REF) oder *ZFS* validieren die Daten und Metadaten 
+Dateisysteme wie *BTRFS*[^FN_BTRFS] oder *ZFS*[^FN_ZFS] validieren die Daten und Metadaten 
 während der Lese-- und Schreibvorgänge mittels Prüfsummen. Durch dieses
 spezielle Feature kann die Verarbeitungskette beim Lesen-- und Speichern der
 Daten bezüglich ihrer Integrität validiert werden. Bei der Benutzung eines
-*RAID*--System(Ref) können die Daten sogar automatisiert ohne Zutun des Benutzers
+*RAID*--System[^FN_RAID] können die Daten sogar automatisiert ohne Zutun des Benutzers
 korrigiert[^FN_ZFS_HEALING_VIDEO] werden.
 
+[^FN_ZFS]: ZFS Dateisystem: <https://en.wikipedia.org/wiki/ZFS>
+[^FN_BTRFS]: Btrfs Dateisystem: <https://en.wikipedia.org/wiki/Btrfs>
+[^FN_RAID]: RAID Wikipedia: <https://en.wikipedia.org/wiki/RAID>
 [^FN_ZFS_HEALING_VIDEO]:FreeBSD/ZFS - self-healing example: <https://www.youtube.com/watch?v=VlFGTtU65Xo>
-
 [^FN_NTFS]: NTFS Dateisystem: <https://en.wikipedia.org/w/index.php?title=NTFS&oldid=743913107>
 [^FN_EXT4]: EXT4 Dateisystem: <https://en.wikipedia.org/w/index.php?title=Ext4&oldid=738311553>
 
