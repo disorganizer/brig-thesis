@@ -696,7 +696,7 @@ Volume--Schlüssel aus dem Speicher entfernt, kann man sich den Quelltext auf
 
 [^FN_LUKS_VK_MEMSET]: Luks Volume--Key Free--Funktion: <https://github.com/mhfan/cryptsetup/blob/ae9c9cf369cb24ac5267376401c80c2c40ada6a2/lib/volumekey.c#L46>
 
-## Gesellschaftliche und Politische Aspekte {#sec:SEC02_GESELLSCHAFTLICHE_UND_POLITISCHE_ASPEKTE}
+## Gesellschaftliche und politische Aspekte {#sec:SEC02_GESELLSCHAFTLICHE_UND_POLITISCHE_ASPEKTE}
 
 Seit den Snowden--Enthüllungen[^FN_SNOWDEN_LEAK] ist offiziell bekannt, dass
 Unternehmen rechtlich gezwungen werden können, personenbezogene Daten an

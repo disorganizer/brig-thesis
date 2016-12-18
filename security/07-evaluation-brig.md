@@ -158,7 +158,7 @@ Beim Erheben der Daten wurde wie folgt vorgegangen:
 
 * Swap--Datei wurde mit `swapoff -a` deaktiviert, um ein Auslagern der Daten aus dem
   *RAM* auf die Festplatte zu verhindern.
-* Eine RAM--Disk wurde mittels Skript angelegt. TODO: REF
+* Eine RAM--Disk wurde mittels Skript angelegt. 
 * Verschlüsselte und entschlüsselte Daten werden mittels Skript erstellt.
 * Daten werden verschlüsselt (Schreibvorgang) nach `/dev/null` geschrieben,
   Daten werden entschlüsselt (Lesevorgang) nach `/dev/null` geschrieben.
@@ -167,6 +167,8 @@ Beim Erheben der Daten wurde wie folgt vorgegangen:
   Ausreißer zu minimieren. Hier wurde bewusst der Mittelwert anstatt des
   maximal möglichen Werts genommen, um eine möglichst praxisnahe Abbildung zu
   erhalten.
+
+Die Benchmark--Skripte sind unter @sec:APP_SCRIPTE zu finden.
 
 In der Praxis wird in der Regel beim Ver-- und Entschlüsseln die Festplatte
 oder die Netzwerkanbindung der limitierende Faktor sein. Ob dies bei der
