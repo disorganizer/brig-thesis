@@ -88,7 +88,7 @@ Konzepte vorgestellt (siehe @sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT), über welche
 sich eine manuelle und automatisierte Authentifizierung des
 Synchronisationspartners durchführen lässt.
 
-### Softwareentwicklung und Verteilung
+### Softwareentwicklung und Softwareverteilung
 
 Abschließend wurden Konzepte zur sicheren Verteilung der Software evaluiert.
 Hierbei wurden neben Konzepten zum Updatemanagement (siehe
@@ -123,11 +123,11 @@ Anwendersicht sprechen kann, so wurden
 https://www.nccgroup.trust/globalassets/newsroom/us/news/documents/2013/ritter_samuel_stamos_bh_2013_cryptopocalypse.pdf
 
 
-## Ausbilck {#sec:SEC09_AUSBLICK}
+## Ausblick {#sec:SEC09_AUSBLICK}
 
 Wie gut lässt sich keybase.io als Authentifizierungsumgebung integrieren?
 
-* Yubikey mit PIV sinnvoll? <https://developers.yubico.com/PIV/Introduction/YubiKey_and_PIV.html>
+* YubiKey mit PIV sinnvoll? <https://developers.yubico.com/PIV/Introduction/YubiKey_and_PIV.html>
 * Protokolle wie https://github.com/stealth/opmsg sinnvoll?
 
 * Weitere Algorithmen überdenken? * Verbesserungen vllt mit Assembler

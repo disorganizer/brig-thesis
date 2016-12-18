@@ -593,11 +593,11 @@ aufgrund der umfangreichen Programmier--API --- des Herstellers *Yubico*
 beschafft. Alle weiteren Ausführungen und Demonstrationen beziehen sich auf
 dieses Modell.
 
-### Yubikey--NEO Einleitung {#sec:SEC08_YUBIKEY_NEO_EINLEITUNG}
+### YubiKey--NEO Einleitung {#sec:SEC08_YUBIKEY_NEO_EINLEITUNG}
 
 [^FN_YUBIKEY_PNG]: Bild--Quelle: <https://hao0uteruy2io8071pzyqz13-wpengine.netdna-ssl.com/wp-content/uploads/2015/04/YubiKey-NEO-1000-2016-444x444.png>
 
-Der *Yubikey Neo* hat folgende Funktionalitäten beziehungsweise Eigenschaften:
+Der *YubiKey Neo* hat folgende Funktionalitäten beziehungsweise Eigenschaften:
 
 * Yubico OTP, One--Time--Password--Verfahren des Herstellers. Standardmäßig
   kann jeder YubiKey gegen den YubiCloud--Authentifizierungdienst mittels One--Time--Passwort authentifiziert werden.
@@ -724,7 +724,7 @@ gegenüber »brig« authentifizieren. Der *YubiKey* kann bei der Initialisierung
 durch ein One--Time--Password gegenüber »brig« bekannt gemacht werden.
 
 Beim Ausführen des Code--Snippets (@sec:APP_YUBICLOUD_AUTHENTIFIZIERUNG) wird
-das Passwort als erster Parameter übergeben. Der *Yubikey*--OTP--Schlüssel  ist
+das Passwort als erster Parameter übergeben. Der *YubiKey*--OTP--Schlüssel  ist
 der zweite übergebene Parameter. Die *Proof--of--concept*--Implementierung hat
 aktuell einen *YubiKey* registriert und das Passwort *Katzenbaum* als valide
 anerkannt.
@@ -994,9 +994,9 @@ System/Kernel--Logging mittels `dmesg` herausfinden (gekürzte Ausgabe):
 
 ~~~sh
 $ dmesg | tail -n 2
-[324606.823079] input: Yubico Yubikey NEO OTP as /devices/pci[...]
+[324606.823079] input: Yubico YubiKey NEO OTP as /devices/pci[...]
 [324606.877786] hid-generic 0003:1050:0110.023F: input,hidraw5: \ 
-USB HID v1.10 Keyboard [Yubico Yubikey NEO OTP] on usb-0000:00:1d.0-1.8.1.3/input0
+USB HID v1.10 Keyboard [Yubico YubiKey NEO OTP] on usb-0000:00:1d.0-1.8.1.3/input0
 ~~~
 
 Beim Aktivieren kann man beim *YubiKey Neo* zwischen insgesamt sieben verschiedenen
@@ -1030,9 +1030,9 @@ Ausgabe):
 
 ~~~sh
 dmesg | tail -n 2
-[324620.832438] input: Yubico Yubikey NEO OTP+CCID as /devices/pci[...]
+[324620.832438] input: Yubico YubiKey NEO OTP+CCID as /devices/pci[...]
 [324620.888719] hid-generic 0003:1050:0111.0240: input,hidraw5: \ 
-USB HID v1.10 Keyboard [Yubico Yubikey NEO OTP+CCID] on usb-0000:00:1d.0[...]
+USB HID v1.10 Keyboard [Yubico YubiKey NEO OTP+CCID] on usb-0000:00:1d.0[...]
 ~~~
 
 #### Übertragung kryptographischer Schlüssel auf den YubiKey {#sec:SEC08_KRYPTOGRAPHISCHE_SCHLUESSEL_AUF_YUBIKEY_UEBERTRAGEN}
@@ -1437,7 +1437,7 @@ sein, dies kann nach dem Anstecken des *YubiKey* mit `dmesg` validiert werden:
 
 ~~~sh
 $ dmesg | tail -n 2
-[448904.638703] input: Yubico Yubikey NEO OTP+U2F+CCID as /devices/pci[...]
+[448904.638703] input: Yubico YubiKey NEO OTP+U2F+CCID as /devices/pci[...]
 [448904.694278] hid-generic 0003:1050:0116.0364: input,hidraw4: USB HID[...]
 ~~~
 

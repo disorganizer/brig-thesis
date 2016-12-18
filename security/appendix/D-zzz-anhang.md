@@ -1,4 +1,4 @@
-# Anhang D: Destails zur CPU--Architektur {#sec:APP_CPUARCH}
+# Anhang D: Details zur CPU--Architektur {#sec:APP_CPUARCH}
 
 **System 1:**
 
