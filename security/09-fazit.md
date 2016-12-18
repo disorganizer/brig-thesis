@@ -118,7 +118,7 @@ Anwendersicht sprechen kann, so wurden
 * Ist *IPFS* gute Wahl?
 * Keymanagement in IPFS besser aufgehoben?
 * Validierung der aktuellen Konzepte durch weitere Experten
-* Performance auf kleinen Systemen Untragbar  aes-128 bit algorithmen?  alternativen zu chacha.
+* Performance auf kleinen Systemen Untragbar  aes-128 Bit algorithmen?  alternativen zu chacha.
 * Aktuell auf RSA/DSA basierend auf ECC umsteigen?
 https://www.nccgroup.trust/globalassets/newsroom/us/news/documents/2013/ritter_samuel_stamos_bh_2013_cryptopocalypse.pdf
 

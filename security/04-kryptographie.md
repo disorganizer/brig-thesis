@@ -134,7 +134,7 @@ Verschlüsselungsalgorithmen. {#tbl:t-betriebsarten}
 #### Gängige Algorithmen, Schlüssellängen und Blockgrößen {#sec:SEC04_GAENGIGE_ALGORITHMEN_SCHLUESSELLAENGEN_UND_BLOCKGROESSEN}
 
 Der ursprünglich seit Ende der 70er--Jahre verwendete *DES (Data Encryption
-Standard)*, welcher eine effektive Schlüssellänge von 56--Bit hatte, war Ende
+Standard)*, welcher eine effektive Schlüssellänge von 56  Bit hatte, war Ende
 der 90er--Jahre nicht mehr ausreichend sicher gegen *Brute--Force*--Angriffe.
 In einer öffentlichen Ausschreibung wurde ein Nachfolger, der Advanced
 Encryption Standard (kurz *AES*) bestimmt. Gewinner des Wettbewerbs sowie der
@@ -190,7 +190,7 @@ elliptischen Kurven aufwendiger zu berechnen sind als Operationen in
 vergleichbar großen endlichen Körpern.
 
 Heutzutage typische Schlüssellängen bei asymmetrischer Verschlüsselung sind
-1024 bit, 2048 bit und 4096 bit. Die Schlüssellängen sind nicht direkt mit den
+1024 Bit, 2048 Bit und 4096 Bit. Die Schlüssellängen sind nicht direkt mit den
 der symmetrischen Verschlüsselungsverfahren vergleichbar. [@tbl:t-keys] zeigt
 die Schlüssellängen der verschiedenen Verschlüsselungsverfahren im Vergleich zu
 ihren äquivalenten Vertretern der symmetrischen Verfahren. Die Daten

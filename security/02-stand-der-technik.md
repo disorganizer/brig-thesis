@@ -499,7 +499,7 @@ only« läuft.
 [^FN_BEP]: Block exchange protocol: <https://docs.syncthing.net/specs/bep-v1.html>
 
 Die Peers werden durch eine eindeutige *Device ID* identifiziert. Diese leitet
-sich aus einen asymmetrischen Schlüsselpaar (3072 bit RSA[^FN_SYNCTHING_KEYS])
+sich aus einen asymmetrischen Schlüsselpaar (3072 Bit RSA[^FN_SYNCTHING_KEYS])
 ab, welches beim ersten Start der Anwendung erstellt wird. Abgelegt wird ein
 privater Schlüssel und ein selbst signiertes Zertifikat. Der private Schlüssel
 scheint nicht geschützt zu sein:

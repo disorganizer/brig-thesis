@@ -79,8 +79,8 @@ Algorithmus gewährleistet werden.
 
 Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEAD*--Betriebsmodi[^AEAD]:
 
-* AES--GCM [@gcm] mit 256 bit Schlüssellänge 
-* ChaCha20/Poly1305 mit 256 bit Schlüssellänge (externe Bibliothek[^FN_CHACHA20])
+* AES--GCM [@gcm] mit 256 Bit Schlüssellänge 
+* ChaCha20/Poly1305 mit 256 Bit Schlüssellänge (externe Bibliothek[^FN_CHACHA20])
 
 [^FN_SYMALGO]: Aktuell von »brig« unterstützte symmetrische Verschlüsselungsverfahren: <https://github.com/disorganizer/brig/blob/fa9bb634b4b83aaabaa967ac523123ce67aa217d/store/encrypt/format.go>
 [^FN_CHACHA20]: ChaCha20/Poly1305--Bibliothek: <https://github.com/codahale/chacha20poly1305>
@@ -518,7 +518,7 @@ Entropie--Schätzungswerkzeugen auftritt, ist, dass diese ohne Basis eines
 Wörterbuchs arbeiten und somit bei Zeichenketten *Brute--Force* als schnellsten
 Angriff annehmen. Weiterhin ist die Schätzung einer »sicheren Entropie«
 schwierig, da diese stark vom Angriffsszenario abhängt. Die Schätzspanne für
-ein sicheres Passwort liegt zwischen 29 bit (Online--Passwörter) -- 128 bit
+ein sicheres Passwort liegt zwischen 29 Bit (Online--Passwörter) -- 128 Bit
 oder mehr (Sicherung kryptographischer
 Schlüssel)[^FN_RANDOM_REQUIREMENTS_FOR_SECURITY]. 
 
