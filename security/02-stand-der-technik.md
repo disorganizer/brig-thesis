@@ -720,8 +720,8 @@ vergleichbar?
    because you have nothing to say.* -- Edward Snowden
 
 Die eigene Privatsphäre aus der »Ich habe nichts zu verbergen«--Perspektive zu
-betrachten, ist ein problematischer Ansatz. Es geht bei der Privatsphäre nicht
-darum irgend etwas »Illegales« zu verbergen, es geht um den Schutz der eigenen
+betrachten, ist ein diskussionswürdiger Ansatz. Es geht bei der Privatsphäre nicht
+darum, irgend etwas »Illegales« zu verbergen, es geht um den Schutz der eigenen
 Persönlichkeit und um die Wahrung der eigenen Persönlichkeitsrechte. Die
 Privatsphäre stellt ein Grundrecht dar und ist in allen modernen Demokratien
 verankert[^FN_WP_PRIVACY].
@@ -735,7 +735,7 @@ politischer Ebene kann eine vorher als »unschuldig« geglaubte Person plötzlic
 aufgrund ihrer politischen Einstellung, ihrem Glauben oder der sexuellen
 Orientierung zu einer politisch verfolgten Minderheit gehören.
 
-Dass ein Datensatz über Leben und Tod entscheiden, kann zeigt die Geschichte.
+Dass ein Datensatz über Leben und Tod entscheiden kann, zeigt die Geschichte.
 Anfang des 19ten Jahrhunderts wurden in Amsterdam alle Bürger bereitwillig in
 einem »Bevölkerungsregister« erfasst. Die dort gespeicherten Informationen
 enthielten Beziehungsstatus, Beruf und Religionszugehörigkeit. Die Bürger der

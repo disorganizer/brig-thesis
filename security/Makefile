@@ -1,5 +1,6 @@
 all:
 	echo "# Anhang E: Benchmarktool und Skripte {#sec:APP_SCRIPTE}" > appendix/E-zzz-anhang.md
+	echo "" >> appendix/E-zzz-anhang.md
 	echo "~~~go" >> appendix/E-zzz-anhang.md
 	cat scripts/main.go >> appendix/E-zzz-anhang.md
 	echo "~~~" >> appendix/E-zzz-anhang.md
