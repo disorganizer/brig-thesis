@@ -15,7 +15,7 @@
     "outputfile": "",
     "x-title": "Blocksize used by encryption layer",
     "logarithmic": true,
-    "title": "Write performance impact of blocksize while encrypting 128MiB.",
+    "title": "Write performance impact of blocksize while encrypting 32MiB.",
     "plot-data": [],
     "needs": {
         "system": [
