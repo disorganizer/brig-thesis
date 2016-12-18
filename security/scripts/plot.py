@@ -22,6 +22,12 @@ LEGEND_MAP = {
     'nonewrite': 'Base (no crypto) [W]'
       }
 
+LEGEND_MAP_SCRYPT = {
+    'random': 'Dev Random generated key',
+    'none': 'Static key',
+    'scrypt': 'Scrypt generated key'
+      }
+
 LEGEND_SYS_MAP = {
     "Intel i5 (Go 1.7.1)": "Intel i5",
     "Intel i5 (Go 1.5.3)": "Intel i5",
@@ -80,7 +86,7 @@ def render_line_plot_scrypt(data):
         d1.setdefault(item["kgfunc"], []).append(item["results"])
 
     for v in d1:
-        line_chart.add(v, [round(x.pop()) for x in d1[v]])
+        line_chart.add(LEGEND_MAP_SCRYPT[v], [round(x.pop()) for x in d1[v]])
         line_chart.render_to_file(data["outputfile"])
 
 def format_min(values, min, filesize):
