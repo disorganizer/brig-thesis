@@ -387,24 +387,24 @@ seinen Synchronisationspartner anhand eines *gemeinsamen Geheimnises* oder anhan
 *Frage--Antwort--Dialogs* zu verifizieren. [@fig:img-question-answer] zeigt den
 Ablauf einer Authentifizierung des Synchronisationspartners mittels Frage--Antwort--Dialog, welcher in folgenden Schritten abläuft:
 
-![Frage--Antwort--Authentifizierung. Alice stellt Bob eine persönliche Frage auf die Bob die Antwort weiß.](images/question-answer.png){#fig:img-question-answer width=100%}
+![Frage--Antwort--Authentifizierung. *Alice* stellt *Bob* eine persönliche Frage auf die *Bob* die Antwort weiß.](images/question-answer.png){#fig:img-question-answer width=100%}
 
-1. Alice generiert eine zufällige Nonce, Frage und Antwort.
-2. Alice verschlüsselt Nonce + Antwort, signiert diese mit ihrem privaten Schlüssel
+1. *Alice* generiert eine zufällige Nonce, Frage und Antwort.
+2. *Alice* verschlüsselt Nonce + Antwort, signiert diese mit ihrem privaten Schlüssel
    und schickt diese an Bob.
-3. Bob prüft die Signatur, ist diese ungültig, wird abgebrochen, bei
-   Gültigkeit entschlüsselt Bob die Nachricht.
-4. Bob inkrementiert die Nonce von Alice um eins und erstellt ein Antwortpaket
+3. *Bob* prüft die Signatur, ist diese ungültig, wird abgebrochen, bei
+   Gültigkeit entschlüsselt *Bob* die Nachricht.
+4. *Bob* inkrementiert die Nonce von *Alice* um eins und erstellt ein Antwortpaket
    bestehend aus Nonce, Frage und Antwort und schickt dieses an Alice.
-5. Alice prüft die Signatur, ist diese ungültig wird abgebrochen, bei
-   Gültigkeit entschlüsselt Alice die Nachricht.
-6. Alice prüft ob Nonce um eins inkrementiert wurde, ob die Frage zur
+5. *Alice* prüft die Signatur, ist diese ungültig wird abgebrochen, bei
+   Gültigkeit entschlüsselt *Alice* die Nachricht.
+6. *Alice* prüft ob Nonce um eins inkrementiert wurde, ob die Frage zur
    gestellten Frage passt und ob die Antwort die erwartete Antwort ist.
-7. Stimmen alle drei Parameter überein, dann wird Bob von Alice als
-   vertrauenswürdig eingestuft und Alice kann somit Bob's ID als vertrauenswürdig
+7. Stimmen alle drei Parameter überein, dann wird *Bob* von *Alice* als
+   vertrauenswürdig eingestuft und *Alice* kann somit Bob's ID als vertrauenswürdig
    hinterlegen.
 
-Um Alice gegenüber Bob zu verifizieren, muss das Protokoll von Bob aus
+Um *Alice* gegenüber *Bob* zu verifizieren, muss das Protokoll von *Bob* aus
 initialisiert werden.
 
 Die Anforderungen des Protokolls richten sich hierbei nach den Prinzipien (vgl. [@martin2012everyday], S. 295 ff):
@@ -421,7 +421,7 @@ Eine weitere Möglichkeit der Authentifizierung des Synchronisationspartners
 wäre, wie beim OTR--Plugin des *Pidgin*--Messengers, das Teilen eines
 gemeinsamen Geheimnisses. Das Off--the--Record--Messaging--Protokoll
 verwendet hierbei das *Socialist Millionaire*--Protokoll. Das Protokoll
-erlaubt es Alice und Bob ein gemeinsam geglaubtes Geheimnis $x$ (Alice) und $y$
+erlaubt es *Alice* und *Bob* ein gemeinsam geglaubtes Geheimnis $x$ (Alice) und $y$
 (Bob) auf Gleichheit zu prüfen ohne es austauschen zu müssen. Weiterhin ist
 das Protokoll nicht für einen Man--in--the--Middle--Angriff anfällig. Beim
 Off--the--Record--Messaging--Protokoll[^FN_PIDGIN_SMP] werden alle Operationen
@@ -435,20 +435,20 @@ grundlegenden Ablauf des *Socialist Millionaire*--Protokoll.
 [^FN_PIDGIN_SMP]: Socialist Millionaire Protocol (SMP): <https://otr.cypherpunks.ca/Protocol-v3-4.0.0.html>
 
 
-1. Alice generiert zwei zufällige Exponenten $a_{2}$ und $a_{3}$. Anschließend
+1. *Alice* generiert zwei zufällige Exponenten $a_{2}$ und $a_{3}$. Anschließend
    berechnet sie $g_{2a}$ und $g_{3a}$ und sendet diese an Bob.
-2. Bob generiert zwei zufällige Exponenten $b_{2}$ und $b_{3}$. Anschließend berechnet
-   Bob $g_{2b}$, $g_{3b}$, $g_{2}$ und $g_{3}$. Bob wählt einen zufälligen Exponenten $r$. Bob berechnet
-   $P_{b}$ und $Q_{b}$ (hier fließt das gemeinsame Geheimnis $y$ von Bob ein) und sendet
+2. *Bob* generiert zwei zufällige Exponenten $b_{2}$ und $b_{3}$. Anschließend berechnet
+   *Bob* $g_{2b}$, $g_{3b}$, $g_{2}$ und $g_{3}$. *Bob* wählt einen zufälligen Exponenten $r$. *Bob* berechnet
+   $P_{b}$ und $Q_{b}$ (hier fließt das gemeinsame Geheimnis $y$ von *Bob* ein) und sendet
    $g_{2b}$, $g_{3b}$, $P_{b}$ und $Q_{b}$ an Alice.
-3. Alice berechnet $g_{2}$, $g_{3}$, wählt einen zufälligen Exponenten $s$,
+3. *Alice* berechnet $g_{2}$, $g_{3}$, wählt einen zufälligen Exponenten $s$,
    berechnet $P_{a}$,
-   $Q_{a}$ (hier fließt das gemeinsame Geheimnis $x$ von Alice ein), $R_{a}$ und sendet $P_{a}$, $Q_{a}$ und $R_{a}$ an Bob.
-4. Bob berechnet $R_{b}$, $R_{ab}$ und prüft ob $R_{ab} == (P_{a}/P_{b})$. Anschließend sendet er $R_{b}$
+   $Q_{a}$ (hier fließt das gemeinsame Geheimnis $x$ von *Alice* ein), $R_{a}$ und sendet $P_{a}$, $Q_{a}$ und $R_{a}$ an Bob.
+4. *Bob* berechnet $R_{b}$, $R_{ab}$ und prüft ob $R_{ab} == (P_{a}/P_{b})$. Anschließend sendet er $R_{b}$
    an Alice.
-5. Alice berechnet $R_{ab}$ und prüft ob $R_{ab} == (P_{a}/P_{b})$.
+5. *Alice* berechnet $R_{ab}$ und prüft ob $R_{ab} == (P_{a}/P_{b})$.
 
-Konnten Alice und Bob jeweils $R_{ab} = (P_{a}/P_{b})$ als korrekt validieren,
+Konnten *Alice* und *Bob* jeweils $R_{ab} = (P_{a}/P_{b})$ als korrekt validieren,
 so haben sie sich gegenseitig authentifiziert (vgl. [@SMP1], [@SMP2]).
 
 Für eine Implementierung in »brig« kann hier beispielsweise die
@@ -480,11 +480,11 @@ klassischen Vertrauensmodells dar (vgl. [@gpg-probabilistic]).
 
 **Kurze Erläuterung:**
 
-1. Alice und Bob sind Teilnehmer des *Web of Trust*, ihre öffentlichen Schlüssel
+1. *Alice* und *Bob* sind Teilnehmer des *Web of Trust*, ihre öffentlichen Schlüssel
    sind von weiteren Personen (Freunden) signiert.
-2. Alice und Bob signieren ihre *IPFS--ID* vor dem Austausch mit dem jeweiligen
+2. *Alice* und *Bob* signieren ihre *IPFS--ID* vor dem Austausch mit dem jeweiligen
    Synchronisationspartner.
-3. Alice und Bob beschaffen sich den öffentlichen Schlüssel des
+3. *Alice* und *Bob* beschaffen sich den öffentlichen Schlüssel des
    Synchronisationspartners aus dem *Web of Trust*, um damit die Signatur der *IPFS--ID* damit zu prüfen.
 4. Da die öffentlichen Schlüssel der jeweiligen Parteien bereits von anderen
    vertrauenswürdigen Parteien unterschrieben sind, akzeptieren beide
@@ -709,12 +709,12 @@ Informationen validiert werden:
 
 ![Schematische Darstellung der Zwei--Faktor--Authentifizierung gegenüber einem »brig«--Repository.](images/poc-2fa-auth.png){#fig:img-poc-brig-2fa width=85%}
 
-1. Alice startet mit ihrem Passwort und YubiKey einen Loginvorgang.
+1. *Alice* startet mit ihrem Passwort und YubiKey einen Loginvorgang.
 2. »brig« prüft das Passwort von Alice.
-3. »brig« prüft anhand der *Public--ID*, ob der *YubiKey* von Alice dem
+3. »brig« prüft anhand der *Public--ID*, ob der *YubiKey* von *Alice* dem
    Repository bekannt ist.
 4. »brig« lässt das One--Time--Passwort des *YubiKey* von der *YubiCloud* validieren.
-5. Ist das One--Time--Passwort korrekt, so bekommt Alice Zugriff auf das Repository.
+5. Ist das One--Time--Passwort korrekt, so bekommt *Alice* Zugriff auf das Repository.
 
 Eine essentiell wichtige Komponente an dieser Stelle ist der Zusammenhang
 zwischen dem Repository und dem *YubiKey*. Der *YubiKey* muss beim

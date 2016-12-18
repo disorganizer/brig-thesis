@@ -494,13 +494,13 @@ vorab austauschen. Anschließend können beide Synchronisationspartner ihre
 Repositories synchronisieren.
 
 ~~~sh
-# Alice fügt Bob (Bob's brig-ID:bob@jabber.nullcat.de/desktop,
+# *Alice* fügt *Bob* (Bob's brig-ID:bob@jabber.nullcat.de/desktop,
 # Bob's IPFS-Fingerabdruck: QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2q)
 # als Synchronisationspartner hinzu
 brig remote add bob@jabber.nullcat.de/desktop QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2q
 ~~~
 
-Analog dazu muss auch Alice von Bob als Synchronisationspartner hinzugefügt
+Analog dazu muss auch *Alice* von *Bob* als Synchronisationspartner hinzugefügt
 werden.
 
 ## Repository--Zugriff {#sec:SEC07_REPOSITORY_ZUGRIFF}

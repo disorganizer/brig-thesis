@@ -313,23 +313,23 @@ Authentifizierung einer gesicherten Verbindung:
 [^FN_PIDGIN]: Instant--Messaging--Client Pidgin: <https://de.wikipedia.org/w/index.php?title=Pidgin_(Instant_Messenger)&oldid=155942615>
 [^FN_OTR]: Off--the--Record: https://en.wikipedia.org/w/index.php?title=Off-the-Record_Messaging&oldid=741588882
 
-* *Frage und Antwort--Authentifizierung:* Alice stellt Bob eine Frage zu einem
-  gemeinsamen Geheimnis. Beantwortet Bob diese Frage korrekt, so wird er vom
-  System gegenüber Alice authentifiziert --- das heißt, der Fingerabdruck
-  (Prüfsumme über eine ID, die Bob eindeutig kennzeichnet) wird in Kombination mit
-  dem Benutzernamen von Bob vom System als valide klassifiziert und
+* *Frage und Antwort--Authentifizierung:* *Alice* stellt *Bob* eine Frage zu einem
+  gemeinsamen Geheimnis. Beantwortet *Bob* diese Frage korrekt, so wird er vom
+  System gegenüber *Alice* authentifiziert --- das heißt, der Fingerabdruck
+  (Prüfsumme über eine ID, die *Bob* eindeutig kennzeichnet) wird in Kombination mit
+  dem Benutzernamen von *Bob* vom System als valide klassifiziert und
   abgespeichert.
 
-* *Shared--Secret--Authentifizierung*: Alice weist Bob an, das gemeinsam bekannte
+* *Shared--Secret--Authentifizierung*: *Alice* weist *Bob* an, das gemeinsam bekannte
   Geheimnis in einem entsprechenden Programmdialogfenster einzutragen. Alice
   trägt das gemeinsame Geheimnis ebenso in einem Programmdialogfenster ein. Bei
-  Übereinstimmung des gemeinsamen Geheimnisses wird Bob gegenüber Alice vom
+  Übereinstimmung des gemeinsamen Geheimnisses wird *Bob* gegenüber *Alice* vom
   System authentifiziert --- analog zur Frage und Antwort--Authentifizierung wird
   der Fingerabdruck vom System als valide klassifiziert und abgespeichert.
 
-* *Manuelle Verifizierung vom Fingerabdruck:* Alice verifiziert den ihr vom System
+* *Manuelle Verifizierung vom Fingerabdruck:* *Alice* verifiziert den ihr vom System
   angezeigten Fingerabdruck (Prüfsumme über eine eindeutige ID) von Bob. Dazu kann
-  sie beispielsweise Bob anweisen, ihr über einen Seitenkanal (beispielsweise
+  sie beispielsweise *Bob* anweisen, ihr über einen Seitenkanal (beispielsweise
   Telefon) die Korrektheit des Fingerabdruck zu bestätigen.
 
 Die genannten Verfahren erlauben eine initiale Authentifizierung zwischen den

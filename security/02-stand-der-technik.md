@@ -86,7 +86,7 @@ benötigt wird. Dies sind in den meisten Fällen die Server des
 Cloud--Speicher--Anbieters, welche für die Synchronisation und Speicherung der
 Daten verantwortlich sind.
 
-![Datensynchronisation über zentrale Cloud--Speicher--Dienste, wie beispielsweise *Dropbox*. Alice und Bob teilen gemeinsam Dateien über das »shared storage« aus. Mallory stellt einen potentiellen Angreifer dar. Mallory kann ein externer Angreifer oder auch ein interner Mitarbeiter sein, der Zugriff auf die Daten hat.](images/cloud.png){#fig:img-cloud width=80%}
+![Datensynchronisation über zentrale Cloud--Speicher--Dienste, wie beispielsweise *Dropbox*. *Alice* und *Bob* teilen gemeinsam Dateien über das »shared storage« aus. *Mallory* stellt einen potentiellen Angreifer dar. *Mallory* kann ein externer Angreifer oder auch ein interner Mitarbeiter sein, der Zugriff auf die Daten hat.](images/cloud.png){#fig:img-cloud width=80%}
 
 [@fig:img-cloud] zeigt schematisch das Konzept beim Austausch von Daten über
 einen Cloud--Speicher--Dienst. Die Daten des Benutzers werden hierbei mit
