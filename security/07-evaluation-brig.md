@@ -91,9 +91,9 @@ der Vertraulichkeit auch die Authentizität und die Integrität sicherstellt.
 
 ### Geschwindigkeitsevaluation {#sec:SEC07_GESCHWINDIGKEITSEVALUATION}
 
-Die bisherigen »brig«--Benchmarks unter [@cpahl] haben die Performance von
+Die bisherigen »brig«--Benchmarks unter [@cpahl] haben die Geschwindigkeit von
 »brig« mit *IPFS* verglichen. Hierbei ist auffällig gewesen, dass die
-Performance bei Verschlüsselung vergleichsweise stark eingebrochen ist.
+Geschwindigkeit bei Verschlüsselung vergleichsweise stark eingebrochen ist.
 
 Um Verschlüsselungsoperationen zu beschleunigen, gibt es neben der Wahl
 verschiedener Blockcipher, auch die Möglichkeit einer hardwarebasierten
@@ -128,7 +128,7 @@ damit die Nutzung der Algorithmen und Ressourcen besser klassifiziert werden
 kann.
 
 Um das Verhalten auf verschiedenen Klassen von Rechnern testen zu können,
-wurden zwei »Systemklassen« in die Performance--Analyse mit einbezogen.
+wurden zwei »Systemklassen« in die Geschwindigkeitsanalyse mit einbezogen.
 [@tbl:TAB_HIGH_SYS] zeigt die getesteten Prozessorarchitekturen, die
 »schwächeren« Systeme sollen hierbei ersatzweise für mobile Plattformen als
 Referenzwert dienen. Für genauere Informationen zur jeweiligen CPU siehe
@@ -141,16 +141,13 @@ Referenzwert dienen. Für genauere Informationen zur jeweiligen CPU siehe
 | Arbeitsspeicher 	|       16 GB      	|        8 GB        | 1.5 GB          	 | 512 MB                    	|
 | Taktfrequenz    	|  3.30 GHz (max)  	|      3.2 GHz       | 1.6 GHz         	 | 1 GHz                     	|
 | AES--NI         	|        ja        	|        nein        | nein            	 | nein                      	|
-| Kernel          	|   4.8.12       	|   4.8.12           | -               	 | 4.4.30                    	|
+| Kernel          	|   4.8.12       	|   4.8.12           | TODO              | 4.4.30                    	|
+| HDD-Perform. (dd) |   TODO         	|   TODO             | TODO            	 | TODO                         |
 
 
 Table: Evaluierte Testsysteme mit und ohne AES--NI--Befehlserweiterungssatz. {#tbl:TAB_HIGH_SYS} 
 
-TODO: `dd` Lese und Schreibperformance mit in Tabelle aufnehmen.
-TODO: Blocksize--Benchmarkgrafik für Low-End-Systeme aufnehmen.
-TODO: Grafiken mit Tabellen ergänzen.
-
-Der Benchmark soll die maximal mögliche Performance des jeweiligen Systems beim
+Der Benchmark soll die maximal mögliche Geschwindigkeit des jeweiligen Systems beim
 Ver-- und Entschlüsseln evaluieren. Daher wird der Benchmark vollständig in
 einer RAM--Disk durchgeführt. [@fig:img-ramdisk] zeigt grafisch den Aufbau
 der Testumgebung.
@@ -187,28 +184,60 @@ Verschlüsselungspuffer, welcher zum Ver-- und Entschlüsseln im Speicher
 allokiert wird.
 
 Die beiden Auswertungen [@fig:img-read-block] (Lesegeschwindigkeit) und
-[@fig:img-write-block] (Schreibgeschwindigkeit) zeigen welchen Einfluss die Wahl
-der Blockgröße auf die Geschwindigkeit hat. Das Verschlüsselungsmodul wurde
-hierfür mit der aktuellen Go Version 1.7.1 kompiliert.
+[@fig:img-write-block] (Schreibgeschwindigkeit) zeigen welchen Einfluss die
+Wahl der Blockgröße auf die Geschwindigkeit hat. Unter Tabelle
+@tbl:TAB_READ_BLOCK_HIGH (Lesegeschwindigkeit) und Tabelle @tbl:TAB_WRITE_BLOCK_HIGH
+(Schreibgeschwindigkeit) ist jeweils die effizienteste Blockgrößen der Systeme zu entnehmen.
+Das Verschlüsselungsmodul wurde hierfür mit der aktuellen Go Version 1.7.1
+kompiliert.
 
-![Lese--Geschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/read-performance-blocksize.json.svg.pdf){#fig:img-read-block width=100%}
+![Lesegeschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/read-performance-blocksize.json.svg.pdf){#fig:img-read-block width=100%}
+
++-------------------+----------------------+----------------------+---------------------+
+|                   | 32.0 KiByte          | 64.0 KiByte          | 4.0 MiByte          |
++===================+======================+======================+=====================+
+| AMD (ChaCha20)    | 1222; 104.7          | 1187; 107.8          | **1133; 113.0 **    |
++-------------------+----------------------+----------------------+---------------------+
+| Intel (AES)       | 175; 731.4           | **158; 810.1 **      | 190; 673.7          |
++-------------------+----------------------+----------------------+---------------------+
+| Intel (ChaCha20)  | **872; 146.8 **      | 991; 129.2           | 1055; 121.3         |
++-------------------+----------------------+----------------------+---------------------+
+| AMD (AES)         | **3383; 37.8 **      | **3383; 37.8 **      | 3539; 36.2          |
++-------------------+----------------------+----------------------+---------------------+
+
+Table: Zeigt die effizientesten Blockgrößen beim Entschlüsseln. Der erste Wert entspricht der Zeit in Millisekunden, der zweite Wert der Geschwindigkeit in MiByte/s beim Lesen einer 128 MiByte großen Datei. {#tbl:TAB_READ_BLOCK_HIGH}
 
 Hierbei wurden die Systeme mit einer Datei der Größe von *128 MiByte* getestet.
 Diese Datei wurde jeweils komplett mehrmals in der RAM--DISK mit verschiedenen
 Blockgrößen verschlüsselt und wieder entschlüsselt.
 
 Beim Entschlüsseln [@fig:img-read-block] ist erkennbar, dass die
-Performance bei beiden Algorithmen unterhalb *4 KiByte* einbricht. Im
+Geschwindigkeit bei beiden Algorithmen unterhalb *4 KiByte* einbricht. Im
 Mittelfeld ist die Geschwindigkeit stabil, ab einer Blockgröße von oberhalb
-*32MiByte* scheint die Performance wieder zu degenerieren.
+*32 MiByte* scheint die Geschwindigkeit wieder zu degenerieren.
 
 Ähnlich wie beim Entschlüsseln, zeigt die Verschlüsselung einen vergleichbaren
 Verlauf. Hier ist die Geschwindigkeit unterhalb *4 KiByte* Blockgröße rückläufig.
 Der obere Grenzwert für die Blockgröße ist beim Verschlüsseln weniger gut
-erkennbar. Hier bricht die Performance verglichen mit dem Entschlüsseln nur
-beim Intel System mit AES Algorithmus ab ungefähr *64 KiByte* ein. 
+erkennbar. Hier bricht die Geschwindigkeit verglichen mit dem Entschlüsseln nur
+beim Intel System mit *AES*--Algorithmus ab ungefähr *64 KiByte* ein.
 
-![Schreib--Geschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/write-performance-blocksize.json.svg.pdf){#fig:img-write-block width=100%}
+![Schreibgeschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/write-performance-blocksize.json.svg.pdf){#fig:img-write-block width=100%}
+
+
++------------------+----------------+----------------+----------------+-----------------+
+|                  | 32.0 KiByte    | 64.0 KiByte    | 256.0 KiByte   | 2.0 MiByte      |
++==================+================+================+================+=================+
+| AMD (AES)        | 3381; 37.9     | **3378; 37.9** | 3397; 37.7     | 3464; 37.0      |
++------------------+----------------+----------------+----------------+-----------------+
+| AMD (ChaCha20)   | 1422; 90.0     | 1397; 91.6     | 1559; 82.1     | **1200; 106.7** |
++------------------+----------------+----------------+----------------+-----------------+
+| Intel (AES)      | **158; 810.1** | 168; 761.9     | 173; 739.9     | 178; 719.1      |
++------------------+----------------+----------------+----------------+-----------------+
+| Intel (ChaCha20) | 838; 152.7     | 872; 146.8     | **818; 156.5** | 1027; 124.6     |
++------------------+----------------+----------------+----------------+-----------------+
+
+Table: Zeigt die effizientesten Blockgrößen beim Verschlüsseln. Der erste Wert entspricht der Zeit in Millisekunden, der Zweite Wert der Geschwindigkeit in MiByte/s beim Schreiben einer 128 MiByte großen Datei. {#tbl:TAB_WRITE_BLOCK_HIGH}
 
 Über die Faktoren bei den großen Blockgrößen kann nur gemutmaßt werden, dass
 hier der Geschwindigkeitseinbruch mit dem
@@ -228,14 +257,14 @@ Weiterhin wurde das AMD--System, welches kein AES--NI unterstützt zum Vergleich
 mit in die Auswertung aufgenommen. Hier zeigt sich ein großer Unterschied beim
 AES/GCM--Verfahren zwischen den beiden Systemen wenn man die Go--Version 1.5.3 mit
 der Version 1.7.1 vergleicht. Die Chacha20/Poly1305--Implementierungen weisen
-einen Performance Zugewinn von ~20--30% auf, die AES/GCM--Implementierung
+einen Geschwindigkeitszugewinn von ~20--30% auf, die AES/GCM--Implementierung
 hingegen hat beim AMD--System jedoch einen Geschwindigkeitszuwachs von nur ~15%,
 das Intel--System hingegen kann seine Geschwindigkeit jedoch aufgrund der
 funktionierenden AES--NI--Beschleunigung um ~750% (!) steigern.
 
 #### Low--end--Systeme {#sec:SEC07_LOW_END_SYSTEME}
 
-Neben leistungsfähigeren Systemen soll auch die Performance von schwächeren Systemen
+Neben leistungsfähigeren Systemen soll auch die Geschwindigkeit von schwächeren Systemen
 wie beispielsweise dem weit verbreiteten *Raspberry Pi* evaluiert werden. 
 
 Für das Erstellen der Benchmark--Binary für die »low--end«--Systeme wurde die
@@ -251,14 +280,66 @@ beiden Systeme (Intel Atom, Raspberry Pi) im Vergleich zum Intel i5/AMD
 Phenom so langsam sind, dass eine Durchführung des Benchmarks mit den gleichen
 Parametern in keiner akzeptablen Zeit durchgeführt werden kann. Aus diesem
 Grund wurde die Anzahl der Durchläufe auf drei, und die zu verarbeitende
-Dateigröße auf *32MiByte* reduziert. [@fig:img-lowend] zeigt den Einbruch der
-Geschwindigkeit der beiden Systeme.
+Dateigröße auf *32MiByte* reduziert. 
 
-![Low end systeme.](images/low-end-performance.json.svg.pdf){#fig:img-lowend width=100%}
+@fig:img-readblock-low zeigt den Einfluss der Blockgröße beim
+Lesen/Entschlüsseln auf den schwächeren Systemen. In der Tabelle
+@tbl:TAB_READ_BLOCK_LOW sind jeweils die effizientesten Blockgrößen beim
+Entschlüsseln zu entnehmen. Hier zeigt sich ein vergleichbares Verhalten wie
+bei den stärkeren Systemen. Unterhalb *4 KiByte* bricht die Lesegeschwindigkeit
+stark ein. Verglichen zu den stärkeren Systemen bricht hier die
+Lesegeschwindigkeit bereits ab einer Blockgröße von ungefähr 2 MiByte ein.
+
+![Lesegeschwindigkeit der Verschlüsselungsschicht auf schwächeren Systemen bei der Benutzung verschiedener Blockgrößen.](images/read-performance-blocksize-low.json.svg.pdf){#fig:img-readblock-low width=100%}
+
++------------------------+---------------+-----------------+---------------+
+|                        | 32.0 KiByte   | 128.0 KiByte    | 256.0 KiByte  |
++========================+===============+=================+===============+
+| Intel Atom (AES)       | **9167; 3.5** | 9193; 3.5       | 9217; 3.5     |
++------------------------+---------------+-----------------+---------------+
+| Intel Atom (ChaCha20)  | 7109; 4.5     | **7074; 4.5**   | 7089; 4.5     |
++------------------------+---------------+-----------------+---------------+
+| RPi Zero (AES)         | 21183; 1.5    | **21155; 1.5**  | 21183; 1.5    |
++------------------------+---------------+-----------------+---------------+
+| RPi Zero (ChaCha20)    | 6460; 5.0     | 6332; 5.1       | **6267; 5.1** |
++------------------------+---------------+-----------------+---------------+
+
+Table: Zeigt die effizientesten Blockgrößen beim Entschlüsseln. Der erste Wert entspricht der Zeit in Millisekunden, der Zweite Wert der Geschwindigkeit in MiByte/s beim Schreiben einer 32 MiByte großen Datei. {#tbl:TAB_READ_BLOCK_LOW}
+
+@fig:IMG_BLOCKSIZE_WRITE_LOW zeigt den Einfluss der Blockgröße beim
+Schreiben/Verschlüsseln auf auf schwächeren Systemen. Unter Tabelle
+@tbl:TAB_WRITE_BLOCK_LOW sind jeweils die effizientesten Blockgrößen beim
+Verschlüsseln auf den schwächeren Systemen zu finden. Hier bricht die
+Geschwindigkeit, wie bei den restlichen getesteten System, unterhab der *4
+KiByte*  stark ein. Eine obere Blockgröße ist bei den schwächeren Systemen
+weniger gut erkennbar.
+
+![Schreibgeschwindigkeit der Verschlüsselungsschicht auf schwächeren Systemen bei der Benutzung verschiedener Blockgrößen.](images/write-performance-blocksize-low.json.svg.pdf){#fig:IMG_BLOCKSIZE_WRITE_LOW width=100%}
+
++-----------------------+-------------------+-------------------+-----------------+
+|                       | 256.0 KiByte      | 512.0 KiByte      | 1.0 MiByte      |
++=======================+===================+===================+=================+
+| Intel Atom (AES)      | **9143; 3.5 **    | 9148; 3.5         | 9160; 3.5       |
++-----------------------+-------------------+-------------------+-----------------+
+| Intel Atom (ChaCha20) | **5081; 6.3 **    | 5140; 6.2         | 5125; 6.2       |
++-----------------------+-------------------+-------------------+-----------------+
+| RPi Zero (AES)        | 21029; 1.5        | **20969; 1.5 **   | 20978; 1.5      |
++-----------------------+-------------------+-------------------+-----------------+
+| RPi Zero (ChaCha20)   | 6514; 4.9         | 6452; 5.0         | **6399; 5.0**   |
++-----------------------+-------------------+-------------------+-----------------+
+
+Table: Zeigt die effizientesten Blockgrößen beim Verschlüsseln. Der erste Wert entspricht der Zeit in Millisekunden, der Zweite Wert der Geschwindigkeit in MiByte/s beim Lesen einer 32 MiByte großen Datei. {#tbl:TAB_WRITE_BLOCK_LOW}
 
 Trotz des reduzierten Benchmarkaufwandes lagen die Zeiten für die Durchführung
 des Benchmarks bei 1 Stunde 30 Minuten (*Raspberry Pi*) und 40 Minuten (*Intel
-Atom*).
+Atom*). [@fig:img-lowend] zeigt den Einbruch der Geschwindigkeit beim Ver-- und
+Entschlüsseln auf den schwächeren Systemen. Der Wert *Base* zeigt hier die
+Lese-- und Schreibgeschwindigkeit der Systeme ohne Verschlüsselungsschicht. Auf
+beiden Systemen ist ein starker Geschwindigkeitseinbruch unter Verwendung von
+Verschlüsselung zu verzeichnen. Auffällig ist auch, dass beim *Intel
+Atom*--System ohne *SSE2*--Optimierungen langsamer ist.
+
+![Low end systeme.](images/low-end-performance.json.svg.pdf){#fig:img-lowend width=100%}
 
 Weiterhin ist in der Grafik ersichtlich, dass der
 Chacha20/Poly1305--Algorithmus bei diesen schwachen Systemen, verglichen mit
@@ -287,17 +368,28 @@ sehr unwahrscheinlich.
 
 Beim Benchmark--Tool wurde beim Verschlüsseln eine Geschwindigkeits--Anomalie
 bei der Verwendung verschiedener Dateigrößen festgestellt. Nach eingehender
-Recherche wurde hierfür die Ableitung des Schlüssels mittels »scrypt« (Ref) als
-Ursache identifiziert. [@fig:img-keyoverhead] zeigt den
-Geschwindigkeitseinbruch beim Verschlüsseln kleiner Dateien, welcher bei der
-Nutzung der Key--derivation--function »scrypt« zustande kommt.
+Recherche wurde hierfür die Ableitung des Schlüssels mittels
+*scrypt*[^FN_SCRYPT]  als Ursache identifiziert.
 
-![Keygeneration overhead.](images/keygenoverhead-profile.json.svg.pdf){#fig:img-keyoverhead width=100%}
+[^FN_SCRYPT]: Scrypt Wikipedia: <https://de.wikipedia.org/wiki/Scrypt>
+
+![Geschwindigkeitseinbruch verursacht durch Schlüsselableitung mittels der *scrypt*--Schlüsselableitungsfunktion.](images/keygenoverhead-profile.json.svg.pdf){#fig:img-keyoverhead width=100%}
+
+[@fig:img-keyoverhead] zeigt den Verlauf des *Overheads* bei verschiedenen
+Dateigrößen verglichen mit zwei weiteren Varianten. Die
+*scrypt*--Schlüsselableitungsfunktion fällt bei kleinen Dateien stark ins
+Gewicht. »brig« verwendet aktuell einen zufällig generierten Schlüssel (in
+@fig:img-keyoverhead Dev Random generated key).
+
 
 #### Zusammenfassung Geschwindigkeitsevaluation  {#sec:SEC07_ZUSAMMENFASSUNG_GESCHWINDIGKEITSEVALUATION}
 
 Zusammengefasst kann gesagt werden, dass sich die Blockgröße beim Verschlüsseln und
-Entschlüsseln im Bereich von 16 KiByte bis wenigen MiByte bewegen sollte.
+Entschlüsseln im Bereich von 32 KiByte bis wenigen MiByte bewegen sollte.
+Blockgrößen außerhalb dieses Bereiches haben laut den Benchmarkregebnissen
+einen negativen Einfluss auf die Geschwindigkeit der Verschlüsselungsschicht.
+Weiterhin scheint der *ChaCha20/Poly1405*--Algorithmus für schwächere Systeme
+besser als *AES/GCM* geeignet zu sein.
 
 ## Metadatenverschlüsselung {#sec:SEC07_METADATENVERSCHLUESSELUNG}
 
