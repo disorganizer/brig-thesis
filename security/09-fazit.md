@@ -91,49 +91,38 @@ Synchronisationspartners durchführen lässt.
 ### Softwareentwicklung und Softwareverteilung
 
 Abschließend wurden Konzepte zur sicheren Verteilung der Software evaluiert.
-Hierbei wurden neben Konzepten zum Updatemanagement (siehe
+Hierbei wurden neben Konzepten zum Update--Management (siehe
 @sec:SEC08_UPDATEMANAGEMENT), auch Konzepte eines sicherheitsbewussten
-Softwareentwicklungprozesses evaluiert (siehe
+Softwareentwicklungsprozesses evaluiert (siehe
 @sec:SEC08_SIGNIEREN_VON_QUELLCODE). Weiterhin wurden unterschiedliche
 Verfahren zur Authentifizierung (Zwei--Faktor--Authentifizierung,
 Public--Key/Smartcard--Authentifizierung) gegenüber der *GitHub*--Plattform
 evaluiert (siehe @sec:SEC08_SICHERE_AUTHENTIFIZIERUNG_FUER_ENTWICKLER). 
 
 
-TODO: ssh mit github und file signing etc  mit verbose mode
-https://www.gnupg.org/related_software/gpgme/ als empfohlene Library
-
 ## Selbstkritik und aktuelle Probleme {#sec:SEC09_SELBSTKRITIK_AKTUELLE_PROBLEME}
 
 Einige der unter @sec:SEC03_ANFORDERUNGEN gesetzten Anforderungen wurden schon
-teilweise umgesetzt, teilweise existieren bereits Konzepte und Verbesserungsvor
+teilweise umgesetzt, teilweise existieren bereits Konzepte und ...
 
 Auch wenn man bei der aktuellen Version weniger von einem Prototypen aus
-Anwendersicht sprechen kann, so wurden 
+Anwendersicht sprechen kann, so wurden  ...
 
+TODO: Ausformulieren
 
 * Ungelöst: Convergent Encryption
 * Benutzerfreundlichkeit?
-
 * Ist *IPFS* gute Wahl?
 * Keymanagement in IPFS besser aufgehoben?
-* Validierung der aktuellen Konzepte durch weitere Experten
-* Performance auf kleinen Systemen Untragbar  aes-128 Bit algorithmen?  alternativen zu chacha.
-* Aktuell auf RSA/DSA basierend auf ECC umsteigen?
-https://www.nccgroup.trust/globalassets/newsroom/us/news/documents/2013/ritter_samuel_stamos_bh_2013_cryptopocalypse.pdf
+* Performance auf kleinen Systemen untragbar  aes-128 Bit Algorithmen?  Alternativen zu chacha.
+* Nicht strikt an BSI gehalten
 
 
 ## Ausblick {#sec:SEC09_AUSBLICK}
 
-Wie gut lässt sich keybase.io als Authentifizierungsumgebung integrieren?
-
+* Evaluation der Konzepte und Implementierungsdetails von Experten
+* Wie gut lässt sich keybase.io als Authentifizierungsumgebung integrieren?
 * YubiKey mit PIV sinnvoll? <https://developers.yubico.com/PIV/Introduction/YubiKey_and_PIV.html>
-* Protokolle wie https://github.com/stealth/opmsg sinnvoll?
-
-* Weitere Algorithmen überdenken? * Verbesserungen vllt mit Assembler
-optimierter Variante: <https://git.schwanenlied.me/yawning/chacha20>? 
-
-RSA empfohlen dass DSA kompromitiert werden kann wenn schlechte
-zufallszahlengenerator:
-<https://www.heise.de/security/artikel/Digitale-Signaturen-und-Zertifikate-270982.html>
-
+* Weitere Algorithmen überdenken?
+* Verbesserungen vllt mit Assembler optimierter Variante: <https://git.schwanenlied.me/yawning/chacha20>? 
+* Mehr Systeme benchmarken um bessere Aussagen machen zu können.
