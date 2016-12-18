@@ -19,13 +19,13 @@
     "plot-data": [],
     "needs": {
         "system": [
-        "Intel i5 (Go 1.7.1)",
-        "AMD Phenom II X4 (Go 1.7.1)"
+        "ARM11 (Go 1.7.1)",
+		"Intel Atom N270 SSE2 (Go 1.7.1)"
         ],
         "type": [
             "read"
         ],
-        "filesize": 128,
+        "filesize": 32,
         "algo": [
             "aes",
 			"chacha"

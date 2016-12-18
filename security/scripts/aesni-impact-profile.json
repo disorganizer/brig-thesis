@@ -10,20 +10,24 @@
 		"Intel Atom N270 387fpu (Go 1.7.1)"
     ],
     "input-data": "benchdata/",
-    "type": "line",
-    "y-title": "Time in milliseconds",
+    "type": "bar",
+    "y-title": "Benchmarked system",
     "outputfile": "",
-    "x-title": "Blocksize used by encryption layer",
-    "logarithmic": true,
-    "title": "Read performance impact of blocksize while decrypting 128MiB.",
+    "x-title": "Performance in bytes/s",
+    "logarithmic": false,
+    "title": "AES-NI impact on encryption performance.",
     "plot-data": [],
     "needs": {
         "system": [
         "Intel i5 (Go 1.7.1)",
-        "AMD Phenom II X4 (Go 1.7.1)"
+        "Intel i5 (Go  1.6)",
+        "Intel i5 (Go 1.5.3)",
+        "AMD Phenom II X4 (Go 1.7.1)",
+        "AMD Phenom II X4 (Go 1.5.3)"
         ],
         "type": [
-            "read"
+            "write",
+			"read"
         ],
         "filesize": 128,
         "algo": [

@@ -15,7 +15,7 @@
     "outputfile": "",
     "x-title": "Performance in MiByte/s",
     "logarithmic": true,
-    "title": "Cryptography layer read and write throughput on low-end systems.",
+    "title": "Encryption layer read and write throughput on low-end systems.",
     "plot-data": [],
     "needs": {
         "system": [

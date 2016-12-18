@@ -13,9 +13,9 @@
     "type": "line",
     "y-title": "Time in milliseconds",
     "outputfile": "",
-    "x-title": "Blocksize used by cryptography layer",
+    "x-title": "Blocksize used by encryption layer",
     "logarithmic": true,
-    "title": "Write performance influence using different blocksize while encrypting 128MiB.",
+    "title": "Write performance impact of blocksize while encrypting 128MiB.",
     "plot-data": [],
     "needs": {
         "system": [
