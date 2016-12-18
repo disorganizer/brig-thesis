@@ -427,23 +427,29 @@ import subprocess
 import pprint
 
 LEGEND_MAP = {
-    'aesread': 'AES [R]',
-    'aeswrite': 'AES [W]',
-    'chacharead': 'Chacha20 [R]',
-    'chachawrite': 'Chacha20 [W]',
-    'noneread': 'Base [R]',
-    'nonewrite': 'Base [W]'
+    'aesread': 'AES/GCM [R]',
+    'aeswrite': 'AES/GCM [W]',
+    'chacharead': 'ChaCha20/Poly1305 [R]',
+    'chachawrite': 'ChaCha20/Poly1305 [W]',
+    'noneread': 'Base (no crypto) [R]',
+    'nonewrite': 'Base (no crypto) [W]'
+      }
+
+LEGEND_MAP_SCRYPT = {
+    'random': 'Dev Random generated key',
+    'none': 'Static key',
+    'scrypt': 'Scrypt generated key'
       }
 
 LEGEND_SYS_MAP = {
-    "Intel i5 (Go 1.7.1)": "Intel",
-    "Intel i5 (Go 1.5.3)": "Intel",
+    "Intel i5 (Go 1.7.1)": "Intel i5",
+    "Intel i5 (Go 1.5.3)": "Intel i5",
     "Intel i5 (Go  1.6)": "Intel",
-    "AMD Phenom II X4 (Go 1.5.3)": "AMD",
-    "AMD Phenom II X4 (Go 1.7.1)": "AMD",
-    "ARM11 (Go 1.7.1)": "ARM11",
-    "Intel Atom N270 SSE2 (Go 1.7.1)": "Atom",
-    "Intel Atom N270 387fpu (Go 1.7.1)": "Atom"
+    "AMD Phenom II X4 (Go 1.5.3)": "AMD Phenom",
+    "AMD Phenom II X4 (Go 1.7.1)": "AMD Phenom",
+    "ARM11 (Go 1.7.1)": "RPi Zero",
+    "Intel Atom N270 SSE2 (Go 1.7.1)": "Intel Atom",
+    "Intel Atom N270 387fpu (Go 1.7.1)": "Intel Atom (387FPU)"
       }
 
 def get_blocksizes(filesize):
@@ -493,8 +499,27 @@ def render_line_plot_scrypt(data):
         d1.setdefault(item["kgfunc"], []).append(item["results"])
 
     for v in d1:
-        line_chart.add(v, [round(x.pop()) for x in d1[v]])
+        line_chart.add(LEGEND_MAP_SCRYPT[v], [round(x.pop()) for x in d1[v]])
         line_chart.render_to_file(data["outputfile"])
+
+def format_min(values, min, filesize):
+    values_str = []
+    for v in values:
+        val = str(v) + " ms; " + str(pretty_size((filesize) / (v/1000)) + "/s")
+        if v == min:
+            values_str.append("**" + val + "**")
+        else:
+            values_str.append(val)
+    return values_str
+
+
+def render_table(table, header, filesize):
+    print("||" + "|".join([str(pretty_size(h)) + " [ms, B/s]" for h in header]) + "|")
+    for title, row in table.items():
+        print("|" + title + "|", end="")
+        row = [999999 if v is None else v for v in row ]
+        n = format_min(row, min(row), filesize)
+        print("|".join(n))
 
 def render_line_plot(data):
     line_chart = pygal.Line(
@@ -509,19 +534,26 @@ def render_line_plot(data):
     line_chart.x_title = data["x-title"]
     line_chart.y_title = data["y-title"]
 
+    table = {}
     plot_data = data["plot-data"]
-
+    #print("|System|" + "|".join(x for x in line_chart.x_labels) + "|")
+    header = get_blocksizes(data["needs"]["filesize"])
     for item in plot_data:
         avg_sec = mean(item["results"]) / 1000
-        fs_bytes = item["filesize"] * (1024**2)
+        fs_bytes = megabytes_to_bytes(item["filesize"])
         avg_mb_sec = round(fs_bytes/avg_sec, 2)
         op = item["type"][0]
-        title =LEGEND_SYS_MAP[item["system"]] + "/" + item["encryption"] + " (" + pretty_size(avg_mb_sec)  + "/s) [{0}]".format(op.upper())
-        if item["filesize"] == 32:
-            item["results"] += [None, None]
-        print(item["system"], len(item["results"]), item["results"])
+        #title =LEGEND_SYS_MAP[item["system"]] + "(" + LEGEND_MAP[item["encryption"] + item["type"]] + " (" + pretty_size(avg_mb_sec)  + "/s) [{0})".format(op.upper())
+        title =LEGEND_SYS_MAP[item["system"]] + " (" + LEGEND_MAP[item["encryption"] + item["type"]]  + ")"
+        #if item["filesize"] == 32:
+        #    item["results"] += [None, None]
+        table[title]= item["results"]
         line_chart.add(title, item["results"])
         line_chart.render_to_file(data["outputfile"])
+    render_table(table, header, fs_bytes)
+
+def megabytes_to_bytes(bytes):
+    return bytes * 1024 ** 2
 
 def render_bar_plot(data):
     line_chart = pygal.HorizontalBar(
