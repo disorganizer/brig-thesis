@@ -17,7 +17,7 @@ Strafverfolgungsbehörden geschlossen
 (Megaupload--Schließung[^FN_MEGAUPLOAD_TAKEDOWN]), bleibt einem der Zugriff auf
 die eigenen Dateien verwehrt.
 
-[^FN_MEGAUPLOAD_TAKEDOWN]: Hinweise zur Schließung: <https://de.wikipedia.org/wiki/Megaupload>
+[^FN_MEGAUPLOAD_TAKEDOWN]: Hinweise zur Schließung: <https://de.wikipedia.org/w/index.php?title=Megaupload&oldid=161927073>
 
 Auch wenn das Aufkommen dieser Dienste auf den ersten Blick eine Abhilfe sein
 mag, so werden beim genaueren Hinsehen Risiken und Nachteile, welche erst
@@ -49,7 +49,7 @@ Regel auf einen Anbieter einigen. Hierbei stellt die
 Fragmentierung[^FN_PROVIDER_FRAGMENTATION] der Cloud--Storage--Anbieter den
 Benutzer oft vor weitere Herausforderungen.
 
-[^FN_PROVIDER_FRAGMENTATION]: Übersicht Online--Backup--Provider: <https://en.wikipedia.org/wiki/Comparison_of_online_backup_services>
+[^FN_PROVIDER_FRAGMENTATION]: Übersicht Online--Backup--Provider: <https://en.wikipedia.org/w/index.php?title=Comparison_of_online_backup_services&oldid=760247797>
 
 Will man aus persönlichen Bedenken auf den Einsatz von Cloud--Storage--Anbietern
 verzichten, bleibt einem immer noch die Möglichkeit Dateien über E--Mail zu
@@ -153,7 +153,7 @@ Der Name »brig« ist eine Anlehnung an das zweimastige Handelsschiff
 *brigg*[^FN_BRIGG], welches gegen Ende des 18. Jahrhunderts zum Einsatz kam.
 Die Namensanlehnung soll analog den dezentralen Transport von Daten darstellen.
 
-[^FN_BRIGG]: Brigg Handelsschiff: <https://de.wikipedia.org/wiki/Brigg>
+[^FN_BRIGG]: Brigg Handelsschiff: <https://de.wikipedia.org/w/index.php?title=Brigg&oldid=155265558>
 
 Aufgrund der Projektziele kommt als Lizenzierung die Open--Source--Lizenz
 *AGPLv3*[^FN_AGPL] zum Einsatz. Denkbar wären jedoch im späteren Verlauf des

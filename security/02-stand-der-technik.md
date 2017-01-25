@@ -168,7 +168,7 @@ aufgrund von Fehlern in der Implementierung nicht optimal geeignet (EncFS
 Audit[^FN_ENCFS_AUDIT]) oder proprietär (Boxcryptor[^FN_BOXCRYPTOR]).
 
 [^FN_ENCFS_AUDIT]:  EncFS Audit: <https://defuse.ca/audits/encfs.htm>
-[^FN_BOXCRYPTOR]: Boxcryptor: <https://de.wikipedia.org/wiki/Boxcryptor>
+[^FN_BOXCRYPTOR]: Boxcryptor: <https://de.wikipedia.org/w/index.php?title=Boxcryptor&oldid=161953026>
 
 Den meisten Anbietern muss man vertrauen, dass diese mit den Daten und
 Schlüsseln sorgsam umgehen. Auch wenn sich viele Anbieter wie beispielsweise
@@ -179,7 +179,7 @@ integrieren, bleibt jedoch die Krux der Intransparenz und der proprietären
 Software. Es ist für den Benutzer nicht ohne weiteres möglich, die Sicherheit der
 Client--Software zu validieren.
 
-[^FN_TWO_FACTOR_AUTH]: Zwei--Faktor--Authentifizierung: <https://de.wikipedia.org/wiki/Zwei-Faktor-Authentifizierung>
+[^FN_TWO_FACTOR_AUTH]: Zwei--Faktor--Authentifizierung: <https://de.wikipedia.org/w/index.php?title=Zwei-Faktor-Authentifizierung&oldid=160891860>
 
 2011 hat der Sicherheitsforscher *Derek Newton* den
 Authentifizierungsmechanismus von *Dropbox* kritisiert. Nach einmaligem
@@ -311,7 +311,7 @@ letzter Zeit:
 * Dropbox akzeptiert beliebige Passwörter über mehrere Stunden[^FN_DROPBOX_ACCESS]
 * Ausfallzeit über zwei Stunden[^FN_DROPBOX_DOS]
 
-[^FN_FAPPENING]: iCloud--Hack: <https://de.wikipedia.org/wiki/Hackerangriff_auf_private_Fotos_von_Prominenten_2014> 
+[^FN_FAPPENING]: iCloud--Hack: <https://de.wikipedia.org/w/index.php?title=Hackerangriff_auf_private_Fotos_von_Prominenten_2014&oldid=159942418> 
 [^FN_BITLOCKER_CLOUD]: Bitlocker Cloud--Sync: <http://arstechnica.com/information-technology/2015/12/microsoft-may-have-your-encryption-key-heres-how-to-take-it-back/>
 [^FN_DROPBOX_ACCESS]: Dropbox--Auth--Bug: <https://www.heise.de/security/meldung/Dropbox-akzeptierte-vier-Stunden-lang-beliebige-Passwoerter-1264100.html>
 [^FN_MS_DATALEAK]: OneDrive Datenleck: <https://www.heise.de/security/meldung/Microsoft-dichtet-OneDrive-Links-ab-2227485.html>
@@ -378,7 +378,7 @@ existieren sogenannte »rendezvous hosts«[^FN_RENDEZVOUS_HOST], welche für die
 initiale Konfiguration und als »Einstiegspunkt« benötigt werden. Hier
 unterscheiden sich die verschiedenen Protokolle und Netzwerke voneinander.
 
-[^FN_RENDEZVOUS_HOST]: Rendezvous Host/Bootstrapping node Wikipedia: <https://en.wikipedia.org/wiki/Bootstrapping_node>
+[^FN_RENDEZVOUS_HOST]: Rendezvous Host/Bootstrapping node Wikipedia: <https://en.wikipedia.org/w/index.php?title=Bootstrapping_node&oldid=693889298>
 
 Ein bekannter Vertreter der P2P--Protokolle ist BitTorrent[^FN_BITTORRENT].
 Das Protokoll kommt beispielsweise bei der Verbreitung von Software,
@@ -386,8 +386,8 @@ Computerspielen (HumblieIndieBundle.com), dem Blender Movie--Projekten,
 Linux--Distributionen, der Verteilung von Updates (Windows 10), bei diversen
 Spieleherstellern und auch anderen Anwendungen zum Einsatz[^FN_BTUSAGE].
 
-[^FN_BITTORRENT]: BitTorrent: <https://de.wikipedia.org/wiki/BitTorrent>
-[^FN_BTUSAGE]: BitTorrent Einsatzgebiete: <https://en.wikipedia.org/wiki/BitTorrent#Adoption>
+[^FN_BITTORRENT]: BitTorrent: <https://de.wikipedia.org/w/index.php?title=BitTorrent&oldid=160095352>
+[^FN_BTUSAGE]: BitTorrent Einsatzgebiete: <https://en.wikipedia.org/w/index.php?title=BitTorrent&oldid=761280798#Adoption>
 
 Ein Vorteil bei den dezentralen Systemen ist, dass es im Vergleich zu zentralen
 Architekturen keinen »Single Point Of Failure«[^FN_SPOF] gibt. Ein weiterer
@@ -399,7 +399,7 @@ als Server. Daten werden beim Austausch nicht zwangsläufig von einem
 einzelnem Teilnehmer geladen, sondern von einer Gruppe aus Teilnehmern, welche
 die gleiche Datei besitzen, siehe [@fig:img-swarm].
 
-[^FN_SPOF]: Single Point of Failure Wikipedia: <https://de.wikipedia.org/wiki/Single_Point_of_Failure>
+[^FN_SPOF]: Single Point of Failure Wikipedia: <https://de.wikipedia.org/w/index.php?title=Single_Point_of_Failure&oldid=156306981>
 
 ![Zeigt einen »Swarm«. *Alice* lädt die Datei »image.iso« von mehreren Teilnehmern gleichzeitig, die Datei »mydog.png« jedoch nur von *Dan*.](images/distsync.png){#fig:img-swarm width=70%}
 
@@ -461,7 +461,7 @@ Benutzer folgende »Schlüssel«, über welche er den Synchronisationsordner mit
 anderen Synchronisationspartnern teilen kann. Anhand des gewählten Schlüssels,
 wird folgende Funktionalität beim Synchronisieren realisiert:
 
-[^FN_GUI]: Grafische Benutzeroberfläche Wikipedia: <https://de.wikipedia.org/wiki/Grafische_Benutzeroberfl%C3%A4che>
+[^FN_GUI]: Grafische Benutzeroberfläche Wikipedia: <https://de.wikipedia.org/w/index.php?title=Grafische_Benutzeroberfl%C3%A4che&oldid=155859783>
 
 * Nur Leserechte
 * Lese-- und Schreibrechte
@@ -524,7 +524,7 @@ besteht aus einer kryptographischen Prüfsumme (SHA--256, siehe
 welches für die verschlüsselte Kommunikation und Authentifizierung zwischen den
 einzelnen Peers verwendet wird.
 
-[^FN_TLS]: Transport Layer Security Wikipedia: <https://de.wikipedia.org/wiki/Transport_Layer_Security>
+[^FN_TLS]: Transport Layer Security Wikipedia: <https://de.wikipedia.org/w/index.php?title=Transport_Layer_Security&oldid=160767422>
 
 Weiterhin ist das aktuelle Design für *Discovery
 Spoofing*[^FN_SYNCTHING_SPOOFING] anfällig. Das heißt, dass ein Angreifer der
@@ -611,7 +611,7 @@ abmildern oder gar vermeiden. In der aktuellen Implementierung ist das
 Projekt jedoch eher als fortgeschrittener Prototyp anzusehen. Aufgrund des
 vielversprechenden Ansatzes, ist *IPFS* die Grundlage von »brig«.
 
-[^FN_IPFS]: InterPlanetary--File System: <https://en.wikipedia.org/wiki/InterPlanetary_File_System>
+[^FN_IPFS]: InterPlanetary--File System: <https://en.wikipedia.org/w/index.php?title=InterPlanetary_File_System&oldid=757419434>
 
 ## Markt und Wettbewerber {#sec:SEC02_MARKT_UND_WETTBEWERBER}
 
@@ -649,7 +649,7 @@ eindeutige Aussage nicht möglich ist. Oft wird mit »Linus's Law« --- *Given
 enough eyeballs, all bugs are shallow.*[^FN_LINUS_LAW] --- für die Sicherheit *Freier
 Software* argumentiert. Software--Bugs wie
 
-[^FN_LINUS_LAW]:Linus's Law Wikipedia: <https://en.wikipedia.org/wiki/Linus's_Law>
+[^FN_LINUS_LAW]:Linus's Law Wikipedia: <https://en.wikipedia.org/w/index.php?title=Linus%27s_Law&oldid=761677049>
 
 * *Debian Random Number Generator Bug*[^FN_DEBIAN_RNG_BUG]
 * *Open--SSL Heartbleed--Bug*[^FN_HEARTBLEED]
@@ -707,7 +707,7 @@ sichere Alternativen oder macht Personen auf den problematischen Datenschutz
 von zentralen Diensten wie *Facebook*, *Dropbox* und Co. aufmerksam, bekommt
 man oft das Argument »Ich habe nichts zu verbergen!« zu hören.
 
-[^FN_SNOWDEN_LEAK]: Globale Überwachungs-- und Spionageaffäre: <https://de.wikipedia.org/wiki/Globale_Überwachungs-_und_Spionageaffäre> \_
+[^FN_SNOWDEN_LEAK]: Globale Überwachungs-- und Spionageaffäre: <https://de.wikipedia.org/w/index.php?title=Globale_%C3%9Cberwachungs-_und_Spionageaff%C3%A4re&oldid=161594120> \_
 
 Edward Snowden sagte, dass dies der falsche Ansatz ist, weil dadurch das
 Grundprinzip der Demokratie »umgedreht« wird. Alle Macht geht vom Volke aus, aber
@@ -726,7 +726,7 @@ Persönlichkeit und um die Wahrung der eigenen Persönlichkeitsrechte. Die
 Privatsphäre stellt ein Grundrecht dar und ist in allen modernen Demokratien
 verankert[^FN_WP_PRIVACY].
 
-[^FN_WP_PRIVACY]: Privatsphäre: <https://de.wikipedia.org/wiki/Privatsph%C3%A4re>
+[^FN_WP_PRIVACY]: Privatsphäre: <https://de.wikipedia.org/w/index.php?title=Privatsph%C3%A4re&oldid=161564657>
 
 Ob man etwas zu verbergen hat, wird weiterhin durch den »Beobachter«
 entschieden. In unserem heutigen gesellschaftlichen Kontext heißt das, dass
@@ -768,4 +768,4 @@ korrekt sein mag, sind folgende Fälle weiterhin als problematisch anzusehen:
 * Garantiefall (»defekte« Festplatte kann vielleicht nicht mehr gelöscht werden)
 * Software Wipe--Tools bei *SSDs*[^FN_SSD] sind problematisch (vgl. [@BIB_SSD_ERASE])
 
-[^FN_SSD]: Solid--Sate--Drive: <https://de.wikipedia.org/wiki/Solid-State-Drive>
+[^FN_SSD]: Solid--Sate--Drive: <https://de.wikipedia.org/w/index.php?title=Solid-State-Drive&oldid=160808976>

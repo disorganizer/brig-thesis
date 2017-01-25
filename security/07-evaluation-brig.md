@@ -84,7 +84,7 @@ Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEAD*--Betriebsmodi[^A
 
 [^FN_SYMALGO]: Aktuell von »brig« unterstützte symmetrische Verschlüsselungsverfahren: <https://github.com/disorganizer/brig/blob/fa9bb634b4b83aaabaa967ac523123ce67aa217d/store/encrypt/format.go>
 [^FN_CHACHA20]: ChaCha20/Poly1305--Bibliothek: <https://github.com/codahale/chacha20poly1305>
-[^AEAD]: Authenticated encryption: <https://en.wikipedia.org/wiki/Authenticated_encryption>
+[^AEAD]: Authenticated encryption: <https://en.wikipedia.org/w/index.php?title=Authenticated_encryption&oldid=760384391>
 
 Der *AEAD*--Betriebsmodus wurde gewählt, weil er den Vorteil hat, dass er neben
 der Vertraulichkeit auch die Authentizität und die Integrität sicherstellt. 
@@ -383,7 +383,7 @@ bei der Verwendung verschiedener Dateigrößen festgestellt. Nach eingehender
 Recherche wurde hierfür die Ableitung des Schlüssels mittels
 *scrypt*[^FN_SCRYPT]  als Ursache identifiziert.
 
-[^FN_SCRYPT]: Scrypt Wikipedia: <https://de.wikipedia.org/wiki/Scrypt>
+[^FN_SCRYPT]: Scrypt Wikipedia: <https://de.wikipedia.org/w/index.php?title=Scrypt&oldid=158788414>
 
 [@fig:img-keyoverhead] zeigt den Verlauf des *Overheads* bei verschiedenen
 Dateigrößen verglichen mit zwei weiteren Verfahren. Die
@@ -590,7 +590,7 @@ beispielsweise *iyLGBu\<tmr\"6!w-s.1fT* und die Verwendung eines
 Passwort--Manager[^FN_SECURE_PASSWORD].
 
 [^FN_SECURE_PASSWORD]:The secret to online safety: Lies, random characters, and a password manager: <http://arstechnica.com/information-technology/2013/06/the-secret-to-online-safety-lies-random-characters-and-a-password-manager/>
-[^FN_ENTROPY]: Password--Entropy: <https://en.wikipedia.org/wiki/Password_strength#Entropy_as_a_measure_of_password_strength>
+[^FN_ENTROPY]: Password--Entropy: <https://en.wikipedia.org/w/index.php?title=Password_strength&oldid=761771461#Entropy_as_a_measure_of_password_strength>
 
 **Einschätzung**: Bei der aktuellen Authentifikation gegenüber dem Repository
 ist ein (schlechtes) Passwort oder die erzwungene Komplexität (Benutzer

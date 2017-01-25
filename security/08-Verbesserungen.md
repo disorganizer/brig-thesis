@@ -90,7 +90,7 @@ könnte »brig« den Ansatz fahren und die kryptographischen Schlüssel
 die Konfigurationsdateien und somit auch die kryptographischen Schlüssel *IPFS*
 bereitstellt. 
 
-[^FN_VFS]: Virtual file system Wikipedia: <https://en.wikipedia.org/wiki/Virtual_file_system>
+[^FN_VFS]: Virtual file system Wikipedia: <https://en.wikipedia.org/w/index.php?title=Virtual_file_system&oldid=758011055>
 
 ![»brig« stellt mittels VFS eine Zugriffsschnittstelle für *IPFS* dar.](images/vfs.png){#fig:img-vfs width=60%}
 
@@ -117,7 +117,7 @@ Distributionen wie beispielsweise *Debian*[^FN_DEBIAN_GPG],
 *OpenSuse*[^FN_OPENSUSE_GPG], *Arch Linux*[^FN_ARCH_GPG] und weitere verwenden
 *GnuPG* zum Signieren von Paketen.
 
-[^FN_GPG4WIN]: Gpg4win: <https://de.wikipedia.org/wiki/Gpg4win>
+[^FN_GPG4WIN]: Gpg4win: <https://de.wikipedia.org/w/index.php?title=Gpg4win&oldid=159789331>
 [^FN_ARCH_GPG]: Pacman/Package Signing: <https://wiki.archlinux.org/index.php/Pacman/Package_signing>
 [^FN_DEBIAN_GPG]: Archive Signing Keys: <https://ftp-master.debian.org/keys.html>
 [^FN_OPENSUSE_GPG]: RPM -- der Paket--Manager: <http://www.mpipks-dresden.mpg.de/~mueller/docs/suse10.3/opensuse-manual_de/manual/cha.rpm.html>
@@ -503,7 +503,7 @@ vollständig miteinander verbunden sind. Projekte wie die c't Krypto--Kampagne
 oder auch das *Debian*--Projekt sollen hierzu einen deutlichen Beitrag
 geleistet haben (vgl. [@wot1], [@wot2]).
 
-[^FN_CACERT]: CAcert: <https://de.wikipedia.org/wiki/CAcert>
+[^FN_CACERT]: CAcert: <https://de.wikipedia.org/w/index.php?title=CAcert&oldid=161320822>
 [^FN_CTCRYPTO]: Krypto-Kampagne: <https://www.heise.de/security/dienste/Krypto-Kampagne-2111.html>
 
 ## Smartcards und RSA--Token als 2F--Authentifizierung {#sec:SEC08_SMARTCARDS_UND_RSA_TOKEN_ALS_ZWEI_FAKTOR_AUTHENTIFIZIERUNG}
@@ -558,7 +558,7 @@ Bei der Zwei--Faktor--Authentifizierung gibt es verschiedene Varianten, welche
 in der Regel ein Passwort mit einem weiteren Element wie einer Bankkarte oder
 einem Hardware--Token wie beispielsweise der RSA SecureID[^FN_SECUREID] verknüpfen.
 
-[^FN_SECUREID]: RSA--SecureID: <https://de.wikipedia.org/wiki/SecurID>
+[^FN_SECUREID]: RSA--SecureID: <https://de.wikipedia.org/w/index.php?title=SecurID&oldid=159759136>
 
 Ein Problem hierbei ist wieder die Umsetzung im privaten Bereich.
 
@@ -575,7 +575,7 @@ USB--Schnittstelle als HID (Human--Interface--Device[^FN_HID]) ausgeben und
 somit keine weitere Zusatzhardware wie beispielsweise ein Lesegerät benötigt
 wird. Weiterhin müssen keine zusätzlichen Treiber, beispielsweise für ein Lesegerät, installiert werden.
 
-[^FN_HID]: Human Interface Device Wikipedia: <https://en.wikipedia.org/wiki/Human_interface_device>
+[^FN_HID]: Human Interface Device Wikipedia: <https://en.wikipedia.org/w/index.php?title=Human_interface_device&oldid=746909537>
 [^FN_NITROKEY]: Nitrokey: <https://www.nitrokey.com/>
 [^FN_YUBICO]: Yubico: <https://www.yubico.com>
 
@@ -614,8 +614,8 @@ Smartcard--Funktionalität:
 
 Weitere Eigenschaften sind im Datenblatt[^FN_YUBIKEY_NEO] des YubiKey--Neo zu finden.
 
-[^FN_HOTP]: HOTP: <https://en.wikipedia.org/wiki/HMAC-based_One-time_Password_Algorithm>
-[^FN_TOTP]: TOTP: <https://en.wikipedia.org/wiki/Time-based_One-time_Password_Algorithm>
+[^FN_HOTP]: HOTP: <https://en.wikipedia.org/w/index.php?title=HMAC-based_One-time_Password_Algorithm&oldid=760975706>
+[^FN_TOTP]: TOTP: <https://en.wikipedia.org/w/index.php?title=Time-based_One-time_Password_Algorithm&oldid=760189874>
 [^FN_NISTPIV]: PIV--Standard: <http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.201-2.pdf>
 [^FN_YUBIKEY_NEO]: YubiKey--Neo: <https://www.yubico.com/wp-content/uploads/2016/02/Yubico_YubiKeyNEO_ProductSheet.pdf>
 
@@ -990,7 +990,7 @@ verwendet werden. Standardmäßig ist beim *YubiKey Neo* nur die
 befindet, kann man beispielsweise nach dem Anstecken über das
 System/Kernel--Logging mittels `dmesg` herausfinden (gekürzte Ausgabe):
 
-[^FN_CCID]:CCID (protocol): <https://en.wikipedia.org/wiki/CCID_(protocol)>
+[^FN_CCID]:CCID (protocol): <https://en.wikipedia.org/w/index.php?title=CCID_(protocol)&oldid=745448227>
 
 ~~~sh
 $ dmesg | tail -n 2

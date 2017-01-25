@@ -106,9 +106,9 @@ Daten bezüglich ihrer Integrität validiert werden. Bei der Benutzung eines
 *RAID*--System[^FN_RAID] können die Daten sogar automatisiert ohne Zutun des Benutzers
 korrigiert[^FN_ZFS_HEALING_VIDEO] werden.
 
-[^FN_ZFS]: ZFS Dateisystem: <https://en.wikipedia.org/wiki/ZFS>
-[^FN_BTRFS]: Btrfs Dateisystem: <https://en.wikipedia.org/wiki/Btrfs>
-[^FN_RAID]: RAID Wikipedia: <https://en.wikipedia.org/wiki/RAID>
+[^FN_ZFS]: ZFS Dateisystem: <https://en.wikipedia.org/w/index.php?title=ZFS&oldid=761908184>
+[^FN_BTRFS]: Btrfs Dateisystem: <https://en.wikipedia.org/w/index.php?title=Btrfs&oldid=761911810>
+[^FN_RAID]: RAID Wikipedia: <https://en.wikipedia.org/w/index.php?title=RAID&oldid=761073220>
 [^FN_ZFS_HEALING_VIDEO]:FreeBSD/ZFS - self-healing example: <https://www.youtube.com/watch?v=VlFGTtU65Xo>
 [^FN_NTFS]: NTFS Dateisystem: <https://en.wikipedia.org/w/index.php?title=NTFS&oldid=743913107>
 [^FN_EXT4]: EXT4 Dateisystem: <https://en.wikipedia.org/w/index.php?title=Ext4&oldid=738311553>

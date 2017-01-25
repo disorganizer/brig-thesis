@@ -59,8 +59,8 @@ Manipulationen (Substitutionen, Permutationen[^FN_SUB_PERM_NETWORK] oder
 Feistelrunden[^FN_FEISTEL]) auf Bit--Ebene dar, welche ohne Schlüssel nicht
 effizient umkehrbar sind.
 
-[^FN_FEISTEL]: Feistelchiffre: <https://de.wikipedia.org/wiki/Feistelchiffre>
-[^FN_SUB_PERM_NETWORK]: Substitutions--Permutations--Netzwerk: <https://de.wikipedia.org/wiki/Substitutions-Permutations-Netzwerk>
+[^FN_FEISTEL]: Feistelchiffre: <https://de.wikipedia.org/w/index.php?title=Feistelchiffre&oldid=159236443>
+[^FN_SUB_PERM_NETWORK]: Substitutions--Permutations--Netzwerk: <https://de.wikipedia.org/w/index.php?title=Substitutions-Permutations-Netzwerk&oldid=150385470>
 
 Das grundsätzliche Problem, welches bei der Anwendung symmetrischer Verschlüsselung
 besteht, ist der *sichere* Schlüsselaustausch.
@@ -99,7 +99,7 @@ des gleichen Schlüssels, ergeben. [@fig:img-ecbvschaining] zeigt eine
 
 ![Bild zur graphischen Verdeutlichung des ECB--Modus im Vergleich zu einem block chaining cipher.[^FN_TUX_ECB]](images/ecbvschaining.png){#fig:img-ecbvschaining width=80%}
 
-[^FN_TUX_ECB]:Bildquelle *ECB*: <https://de.wikipedia.org/wiki/Electronic_Code_Book_Mode>
+[^FN_TUX_ECB]:Bildquelle *ECB*: <https://de.wikipedia.org/w/index.php?title=Electronic_Code_Book_Mode&oldid=159557291>
 
 **Cipher Feedback Mode (CFB):** Beim *CFB*--Modus fließt, neben dem Schlüssel,
 der Geheimtextblock vom Vorgänger ein. Durch diese Arbeitsweise haben im
@@ -325,3 +325,8 @@ der Implementierung eines Systems. Sind die Schlüssel unzureichend geschützt
 oder die Einsatzweise der Schlüssel fraglich, so kann ein System meist einfach
 kompromittiert werden. Neben sicherer Verwaltung der Schlüssel, ist auch die
 Beschränkung auf einen bestimmten Einsatzzweck essentiell.
+
+TODO: 
+Note:
+https://oss.oracle.com/%7Emkp/docs/data-integrity-webcast.pdf
+https://www.reddit.com/r/DataHoarder/comments/25y2n0/zfs_vs_snapraid/
