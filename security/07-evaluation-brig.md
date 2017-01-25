@@ -132,17 +132,21 @@ wurden zwei »Systemklassen« in die Geschwindigkeitsanalyse mit einbezogen.
 [@tbl:TAB_HIGH_SYS] zeigt die getesteten Prozessorarchitekturen, die
 »schwächeren« Systeme sollen hierbei ersatzweise für mobile Plattformen als
 Referenzwert dienen. Für genauere Informationen zur jeweiligen CPU siehe
-@sec:APP_CPUARCH.
+@sec:APP_CPUARCH. Weiterhin wurde mit dem `dd`--Kommandozeilen--Werkzeug ein
+Lese-- und Schreibtest durchgeführt, um die Geschwindigkeit der Festplatte (in
+der Regel langsamste Komponente) zu identifizieren. Der `dd`--Benchmark dient
+lediglich als grober Orientierungswert für die jeweiligen Systeme.
 
-|                 	| Intel i5--3320M  	| AMD Phenom X4 955  | Intel Atom N270   | Raspberry Pi Zero            |
-|-----------------	|------------------	|------------------- |-----------------	 |---------------------------	|
-| Architektur     	|      x86_64      	|       x86_64       | x86             	 | ARM                       	|
-| Betriebsmodus   	|      64-bit       |       64-bit       | 32-bit          	 | 32-bit                    	|
-| Arbeitsspeicher 	|       16 GB      	|        8 GB        | 1.5 GB          	 | 512 MB                    	|
-| Taktfrequenz    	|  3.30 GHz (max)  	|      3.2 GHz       | 1.6 GHz         	 | 1 GHz                     	|
-| AES--NI         	|        ja        	|        nein        | nein            	 | nein                      	|
-| Kernel          	|   4.8.12       	|   4.8.12           | TODO              | 4.4.30                    	|
-| HDD-Perform. (dd) |   TODO         	|   TODO             | TODO            	 | TODO                         |
+|                 	| Intel i5--3320M  	| AMD Phenom X4      | Intel Atom N270   | Raspberry Pi Zero    |
+|-----------------	|------------------	|------------------- |-----------------	 |--------------------	|
+| Architektur     	|      x86_64      	|       x86_64       | x86             	 | ARM                	|
+| Betriebsmodus   	|      64-bit       |       64-bit       | 32-bit          	 | 32-bit             	|
+| Arbeitsspeicher 	|       16 GB      	|        8 GB        | 1.5 GB          	 | 512 MB             	|
+| Taktfrequenz    	|  3.30 GHz (max)  	|      3.2 GHz       | 1.6 GHz         	 | 1 GHz              	|
+| AES--NI         	|        ja        	|        nein        | nein            	 | nein               	|
+| Kernel          	|   4.8.12       	|   4.8.12           | 4.4.25            | 4.4.30             	|
+| `dd`--Lesen       |   470.7 MB/s   	|   409.2 MB/s       | 55.6 MB/s       	 | 21.8 MB/s            |
+| `dd`--Schreiben   |   181.7 MB/s   	|   146.4 MB/s       | 10.7 MB/s       	 | 10.1 MB/s            |
 
 
 Table: Evaluierte Testsysteme mit und ohne AES--NI--Befehlserweiterungssatz. {#tbl:TAB_HIGH_SYS} 
@@ -340,7 +344,11 @@ Atom*). [@fig:img-lowend] zeigt den Einbruch der Geschwindigkeit beim Ver-- und
 Entschlüsseln auf den schwächeren Systemen. Der Wert *Base* zeigt hier die
 Lese-- und Schreibgeschwindigkeit der Systeme ohne Verschlüsselungsschicht. Auf
 beiden Systemen ist ein starker Geschwindigkeitseinbruch unter Verwendung von
-Verschlüsselung zu verzeichnen. Auffällig ist auch, dass das *Intel
+Verschlüsselung zu verzeichnen. Betrachtet man die tatsächliche Geschwindigkeit
+beim Lesen und Schreiben auf die Festplatte mit dem
+`dd`--Kommandozeilen--Werkzeug ([@tbl:TAB_HIGH_SYS] ), so fällt weiterhin auf,
+dass bei den beiden Systemen die Verschlüsselung und nicht die »langsame«
+Festplatte der limitierende Faktor ist. Auffällig ist auch, dass das *Intel
 Atom*--System ohne *SSE2*--Optimierungen schneller ist.
 
 ![Geschwindigkeitseinbruch unter Verwendung von Verschlüsselung bei schwächeren Systemen.](images/low-end-performance.json.svg.pdf){#fig:img-lowend width=100%}
