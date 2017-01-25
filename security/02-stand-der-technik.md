@@ -138,7 +138,10 @@ Metadaten und kryptographischen Schlüssel verwaltet Apple auf seinen eigenen
 Servern. Dropbox hat laut Medienberichten mittlerweile von der *Amazon*--Cloud
 auf eine eigene Infrastruktur migriert[^FN_DROPBOX_S3_OWN].
 
-[^FN_DROPBOX_S3_OWN]:Dropbox Exodus Amazon Cloud Empire: <http://www.wired.com/2016/03/epic-story-dropboxs-exodus-amazon-cloud-empire/>
+[^FN_DROPBOX_S3_OWN]:Dropbox Exodus Amazon Cloud Empire: 
+
+	<http://www.wired.com/2016/03/epic-story-dropboxs-exodus-amazon-cloud-empire/>
+
 [^FN_IOS_SECGUIDE]: Apple iOS Security: <http://www.apple.com/business/docs/iOS_Security_Guide.pdf>
 
 Das Problem hierbei ist die Umsetzung der Datenverschlüsselung der gängigen
@@ -160,7 +163,9 @@ nicht im Klartext einsehbar, moderne Angriffsmöglichkeiten auf Passwörter
 zeigen jedoch, dass das nichtsdestotrotz ein großes Problem ist (siehe auch
 @sec:SEC05_SICHERHEIT_UND_ANGRIFFSSZENARIEN).
 
-[^FN_DROPBOX_DATALEAK]: Dropbox <http://www.telegraph.co.uk/technology/2016/08/31/dropbox-hackers-stole-70-million-passwords-and-email-addresses/>
+[^FN_DROPBOX_DATALEAK]: Dropbox hackers stole 68 million passwords:
+
+	<http://www.telegraph.co.uk/technology/2016/08/31/dropbox-hackers-stole-70-million-passwords-and-email-addresses/>
 
 Abhilfe könnte in diesem Fall eine zusätzliche Verschlüsselung auf Seiten des
 Nutzers schaffen. Diese ist jedoch für den Endverbraucher oft zu kompliziert,
@@ -179,7 +184,9 @@ integrieren, bleibt jedoch die Krux der Intransparenz und der proprietären
 Software. Es ist für den Benutzer nicht ohne weiteres möglich, die Sicherheit der
 Client--Software zu validieren.
 
-[^FN_TWO_FACTOR_AUTH]: Zwei--Faktor--Authentifizierung: <https://de.wikipedia.org/w/index.php?title=Zwei-Faktor-Authentifizierung&oldid=160891860>
+[^FN_TWO_FACTOR_AUTH]: Zwei--Faktor--Authentifizierung: 
+
+	<https://de.wikipedia.org/w/index.php?title=Zwei-Faktor-Authentifizierung&oldid=160891860>
 
 2011 hat der Sicherheitsforscher *Derek Newton* den
 Authentifizierungsmechanismus von *Dropbox* kritisiert. Nach einmaligem
@@ -217,7 +224,9 @@ es auch gelungen, einen Open--Source--Prototypen zu entwickeln. Für weitere
 Details vgl. [@kholia2013looking], beziehungsweise siehe Vortag *USENIX Open
 Access Content*[^FN_USENIX].
 
-[^FN_USENIX]: USENIX Vortrag »Looking Inside the (Drop) Box«:<https://www.usenix.org/conference/woot13/workshop-program/presentation/kholia>
+[^FN_USENIX]: USENIX Vortrag »Looking Inside the (Drop) Box«:
+
+	<https://www.usenix.org/conference/woot13/workshop-program/presentation/kholia>
 
 2015 wurde bekannt, dass die vorherrschenden Cloud--Speicher--Anbieter für
 sogenannte »Man--In--The--Cloud«--Angriffe anfällig sind. Die bereits im Jahr
@@ -311,14 +320,32 @@ letzter Zeit:
 * Dropbox akzeptiert beliebige Passwörter über mehrere Stunden[^FN_DROPBOX_ACCESS]
 * Ausfallzeit über zwei Stunden[^FN_DROPBOX_DOS]
 
-[^FN_FAPPENING]: iCloud--Hack: <https://de.wikipedia.org/w/index.php?title=Hackerangriff_auf_private_Fotos_von_Prominenten_2014&oldid=159942418> 
-[^FN_BITLOCKER_CLOUD]: Bitlocker Cloud--Sync: <http://arstechnica.com/information-technology/2015/12/microsoft-may-have-your-encryption-key-heres-how-to-take-it-back/>
-[^FN_DROPBOX_ACCESS]: Dropbox--Auth--Bug: <https://www.heise.de/security/meldung/Dropbox-akzeptierte-vier-Stunden-lang-beliebige-Passwoerter-1264100.html>
+[^FN_FAPPENING]: iCloud--Hack: 
+
+	<https://de.wikipedia.org/w/index.php?title=Hackerangriff_auf_private_Fotos_von_Prominenten_2014&oldid=159942418> 
+
+[^FN_BITLOCKER_CLOUD]: Bitlocker Cloud--Sync: 
+
+	<http://arstechnica.com/information-technology/2015/12/microsoft-may-have-your-encryption-key-heres-how-to-take-it-back/>
+
+[^FN_DROPBOX_ACCESS]: Dropbox--Auth--Bug: 
+
+	<https://techcrunch.com/2011/06/20/dropbox-security-bug-made-passwords-optional-for-four-hours/>
+
 [^FN_MS_DATALEAK]: OneDrive Datenleck: <https://www.heise.de/security/meldung/Microsoft-dichtet-OneDrive-Links-ab-2227485.html>
-[^FN_GDRIVE_DATALEAK]: Google Drive Datenleck: <https://www.heise.de/security/meldung/Auch-Google-schliesst-Datenleck-im-Cloud-Speicher-2243366.html>
+[^FN_GDRIVE_DATALEAK]: Google Drive Datenleck: 
+
+	<https://www.heise.de/security/meldung/Auch-Google-schliesst-Datenleck-im-Cloud-Speicher-2243366.html>
+
 [^FN_DROPBOX_DATALEAK_4]: Dropbox Datenleck: <https://www.heise.de/security/meldung/Dropbox-bestaetigt-Datenleck-1656798.html>
-[^FN_DROPBOX_DATALEAK_3]: 7 Mio. Zugangsdaten im Umlauf: <https://www.heise.de/security/meldung/Angeblich-7-Millionen-Dropbox-Passwoerter-im-Umlauf-2423684.html>
-[^FN_DROPBOX_SPY]: Dropbox--Schnüffelverdacht: <http://www.heise.de/security/meldung/Dropbox-unter-Schnueffelverdacht-2565990.html>
+[^FN_DROPBOX_DATALEAK_3]: 7 Mio. Zugangsdaten im Umlauf: 
+
+	<https://www.heise.de/security/meldung/Angeblich-7-Millionen-Dropbox-Passwoerter-im-Umlauf-2423684.html>
+
+[^FN_DROPBOX_SPY]: Dropbox--Schnüffelverdacht: 
+
+	<http://www.heise.de/security/meldung/Dropbox-unter-Schnueffelverdacht-2565990.html>
+
 [^FN_DROPBOX_DOS]: Dropbox--Ausfall: <https://www.heise.de/security/meldung/Dropbox-Ausfall-war-kein-Angriff-2083688.html>
 
 Auch wenn viele Unternehmen ihre Priorität nicht in der Sicherung ihrer Daten
@@ -378,7 +405,9 @@ existieren sogenannte »rendezvous hosts«[^FN_RENDEZVOUS_HOST], welche für die
 initiale Konfiguration und als »Einstiegspunkt« benötigt werden. Hier
 unterscheiden sich die verschiedenen Protokolle und Netzwerke voneinander.
 
-[^FN_RENDEZVOUS_HOST]: Rendezvous Host/Bootstrapping node Wikipedia: <https://en.wikipedia.org/w/index.php?title=Bootstrapping_node&oldid=693889298>
+[^FN_RENDEZVOUS_HOST]: Rendezvous Host/Bootstrapping node Wikipedia: 
+
+	<https://en.wikipedia.org/w/index.php?title=Bootstrapping_node&oldid=693889298>
 
 Ein bekannter Vertreter der P2P--Protokolle ist BitTorrent[^FN_BITTORRENT].
 Das Protokoll kommt beispielsweise bei der Verbreitung von Software,
@@ -461,7 +490,9 @@ Benutzer folgende »Schlüssel«, über welche er den Synchronisationsordner mit
 anderen Synchronisationspartnern teilen kann. Anhand des gewählten Schlüssels,
 wird folgende Funktionalität beim Synchronisieren realisiert:
 
-[^FN_GUI]: Grafische Benutzeroberfläche Wikipedia: <https://de.wikipedia.org/w/index.php?title=Grafische_Benutzeroberfl%C3%A4che&oldid=155859783>
+[^FN_GUI]: Grafische Benutzeroberfläche Wikipedia: 
+
+	<https://de.wikipedia.org/w/index.php?title=Grafische_Benutzeroberfl%C3%A4che&oldid=155859783>
 
 * Nur Leserechte
 * Lese-- und Schreibrechte
@@ -475,7 +506,9 @@ Eindruck. Eine 2014 durchgeführte Analyse von *BitTorrent*--Sync auf der
 Einschätzung[^FN_HACKITO], dass *BitTorrent*--Sync nicht für sensitive Daten
 verwendet werden sollte.
 
-[^FN_HACKITO]: Security analysis of BTsync: <http://2014.hackitoergosum.org/bittorrentsync-security-privacy-analysis-hackito-session-results/>
+[^FN_HACKITO]: Security analysis of BTsync: 
+
+	<http://2014.hackitoergosum.org/bittorrentsync-security-privacy-analysis-hackito-session-results/>
 
 **Infinit** ist eine weitere proprietäre Lösung, welche es ermöglicht, Dateien
 zwischen verschiedenen Benutzern, ohne Server--Instanz, auszutauschen. Die
@@ -524,7 +557,9 @@ besteht aus einer kryptographischen Prüfsumme (SHA--256, siehe
 welches für die verschlüsselte Kommunikation und Authentifizierung zwischen den
 einzelnen Peers verwendet wird.
 
-[^FN_TLS]: Transport Layer Security Wikipedia: <https://de.wikipedia.org/w/index.php?title=Transport_Layer_Security&oldid=160767422>
+[^FN_TLS]: Transport Layer Security Wikipedia: 
+
+	<https://de.wikipedia.org/w/index.php?title=Transport_Layer_Security&oldid=160767422>
 
 Weiterhin ist das aktuelle Design für *Discovery
 Spoofing*[^FN_SYNCTHING_SPOOFING] anfällig. Das heißt, dass ein Angreifer der
@@ -625,7 +660,9 @@ größten« Cloud--Speicher--Anbietern:
 * Microsoft OneDrive
 * Google Drive
 
-[^FN_CLOUDSTORAGE]: Größten Cloud--Speicher Anbieter: <http://www.wiwo.de/unternehmen/it/cloud-wer-sind-die-groessten-cloud-anbieter-und-was-kosten-sie/11975400-7.html>
+[^FN_CLOUDSTORAGE]: Größten Cloud--Speicher Anbieter: 
+
+	<http://www.wiwo.de/unternehmen/it/cloud-wer-sind-die-groessten-cloud-anbieter-und-was-kosten-sie/11975400-7.html>
 
 In Deutschland gehört *Dropbox* zu den bekannteren Anbietern, Apples *iCloud* ist
 in erster Linie für Mac--Benutzer interessant.
@@ -667,7 +704,9 @@ verwendet werden, um automatisiert nach Sicherheitslücken im Quelltext auf
 Cook* verweist auf diese Problematik auf dem aktuellsten *Linux Security Summit
 2016*[^FN_LINUX_SEC_SUMMIT].
 
-[^FN_LINUX_SEC_SUMMIT]: Status of the Kernel Self Protection Project: <http://events.linuxfoundation.org/sites/events/files/slides/KernelSelfProtectionProject-2016.pdf>
+[^FN_LINUX_SEC_SUMMIT]: Status of the Kernel Self Protection Project: 
+
+	<http://events.linuxfoundation.org/sites/events/files/slides/KernelSelfProtectionProject-2016.pdf>
 
 Untersuchungen von Closed-- und Open--Source--Projekten haben gezeigt, dass es
 keine signifikanten Unterschiede bezüglich der Sicherheit zwischen den beiden
@@ -694,7 +733,9 @@ Volume--Schlüssel aus dem Speicher entfernt, kann man sich den Quelltext auf
 *Github* anschauen. Im Fall von *LUKS* wir der Speicherbereich mit Nullen
 überschrieben[^FN_LUKS_VK_MEMSET].
 
-[^FN_LUKS_VK_MEMSET]: Luks Volume--Key Free--Funktion: <https://github.com/mhfan/cryptsetup/blob/ae9c9cf369cb24ac5267376401c80c2c40ada6a2/lib/volumekey.c#L46>
+[^FN_LUKS_VK_MEMSET]: Luks Volume--Key Free--Funktion: 
+
+	<https://github.com/mhfan/cryptsetup/blob/ae9c9cf369cb24ac5267376401c80c2c40ada6a2/lib/volumekey.c#L46>
 
 ## Gesellschaftliche und politische Aspekte {#sec:SEC02_GESELLSCHAFTLICHE_UND_POLITISCHE_ASPEKTE}
 
@@ -707,7 +748,9 @@ sichere Alternativen oder macht Personen auf den problematischen Datenschutz
 von zentralen Diensten wie *Facebook*, *Dropbox* und Co. aufmerksam, bekommt
 man oft das Argument »Ich habe nichts zu verbergen!« zu hören.
 
-[^FN_SNOWDEN_LEAK]: Globale Überwachungs-- und Spionageaffäre: <https://de.wikipedia.org/w/index.php?title=Globale_%C3%9Cberwachungs-_und_Spionageaff%C3%A4re&oldid=161594120> \_
+[^FN_SNOWDEN_LEAK]: Globale Überwachungs-- und Spionageaffäre: 
+
+	<https://de.wikipedia.org/w/index.php?title=Globale_%C3%9Cberwachungs-_und_Spionageaff%C3%A4re&oldid=161594120> \_
 
 Edward Snowden sagte, dass dies der falsche Ansatz ist, weil dadurch das
 Grundprinzip der Demokratie »umgedreht« wird. Alle Macht geht vom Volke aus, aber

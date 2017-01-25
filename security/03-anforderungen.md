@@ -19,8 +19,13 @@ empfunden, neue Konzepte hingegen oft nur mühsam vom Benutzer angenommen. Die
 Umstellung des »User Interfaces« von Windows 7 zu Windows 8 (vgl.
 [@nielsen2012windows]) ist hierfür ein gutes Beispiel.
 
-[^FN_BENUTZERFREUNDLICHKEIT]: Benutzerfreundlichkeit Wikipedia: <https://de.wikipedia.org/w/index.php?title=Benutzerfreundlichkeit&oldid=159056605>
-[^FN_GEBRAUCHSTAUGLICHKEIT]: Gebrauchstauglichkeit Wikipedia: <https://de.wikipedia.org/w/index.php?title=Gebrauchstauglichkeit_(Produkt)&oldid=159056626>
+[^FN_BENUTZERFREUNDLICHKEIT]: Benutzerfreundlichkeit Wikipedia: 
+
+	<https://de.wikipedia.org/w/index.php?title=Benutzerfreundlichkeit&oldid=159056605>
+
+[^FN_GEBRAUCHSTAUGLICHKEIT]: Gebrauchstauglichkeit Wikipedia: 
+
+	<https://de.wikipedia.org/w/index.php?title=Gebrauchstauglichkeit_(Produkt)&oldid=159056626>
 
 Einen weiteren Punkt zeigt die Praxis. Zwar gibt es seit Jahrzehnten Software
 zur sicheren Kommunikation, wie beispielsweise OpenPGP, jedoch hat sich das

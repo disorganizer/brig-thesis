@@ -61,7 +61,10 @@ Geschwindigkeitsvorteile[^FN_CHACHA20_PERF1][^FN_CHACHA20_PERF2] auf
 schwächerer und mobiler Hardware, insbesondere bei Hardware ohne
 kryptographischer Beschleunigung.
 
-[^FN_CHACHA20_PERF1]:Do the ChaCha: better mobile performance with cryptography: <https://blog.cloudflare.com/do-the-chacha-better-mobile-performance-with-cryptography/>
+[^FN_CHACHA20_PERF1]:Do the ChaCha: better mobile performance with cryptography: 
+
+	<https://blog.cloudflare.com/do-the-chacha-better-mobile-performance-with-cryptography/>
+
 [^FN_CHACHA20_PERF2]: AES-NI SSL Performance: <https://calomel.org/aesni_ssl_performance.html>
 
 [@fig:img-aesgcm] zeigt das Container--Format, welches für »brig« entwickelt wurde,
@@ -82,7 +85,10 @@ Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEAD*--Betriebsmodi[^A
 * AES--GCM [@gcm] mit 256 Bit Schlüssellänge 
 * ChaCha20/Poly1305 mit 256 Bit Schlüssellänge (externe Bibliothek[^FN_CHACHA20])
 
-[^FN_SYMALGO]: Aktuell von »brig« unterstützte symmetrische Verschlüsselungsverfahren: <https://github.com/disorganizer/brig/blob/fa9bb634b4b83aaabaa967ac523123ce67aa217d/store/encrypt/format.go>
+[^FN_SYMALGO]: Aktuell von »brig« unterstützte symmetrische Verschlüsselungsverfahren: 
+
+	<https://github.com/disorganizer/brig/blob/fa9bb634b4b83aaabaa967ac523123ce67aa217d/store/encrypt/format.go>
+
 [^FN_CHACHA20]: ChaCha20/Poly1305--Bibliothek: <https://github.com/codahale/chacha20poly1305>
 [^AEAD]: Authenticated encryption: <https://en.wikipedia.org/w/index.php?title=Authenticated_encryption&oldid=760384391>
 
@@ -581,7 +587,7 @@ zxcvbn--Bibliothek.
 Table: Geschätzte Passwort--Entropie und »Crackdauer« von *unsicheren* Passwörtern. {#tbl:TAB_PASSWD}
 
 [^FN_PASSWORD_STRENGHTH_CHECKER]:Password Strength Checker: <https://www.bennish.net/password-strength-checker/>
-[^FN_PASSWORD_STRENGHTH_CHECKER_2]:Cygnius Password Strength Test: https://apps.cygnius.net/passtest/>
+[^FN_PASSWORD_STRENGHTH_CHECKER_2]:Cygnius Password Strength Test: <https://apps.cygnius.net/passtest/>
 
 Betrachtet man die Tabelle, so würde sie dem Benutzer nach Aussagen der
 Entropie--Schätzwerkzeuge ein falsches Sicherheitsgefühl vermitteln. Eine
@@ -589,7 +595,8 @@ Empfehlung an dieser Stelle wäre ein zufällig generiertes Passwort wie
 beispielsweise *iyLGBu\<tmr\"6!w-s.1fT* und die Verwendung eines
 Passwort--Manager[^FN_SECURE_PASSWORD].
 
-[^FN_SECURE_PASSWORD]:The secret to online safety: Lies, random characters, and a password manager: <http://arstechnica.com/information-technology/2013/06/the-secret-to-online-safety-lies-random-characters-and-a-password-manager/>
+[^FN_SECURE_PASSWORD]:The secret to online safety: Lies, random characters, and a password manager: \url{http://arstechnica.com/information-technology/2013/06/the-secret-to-online-safety-lies-random-characters-and-a-password-manager/}
+
 [^FN_ENTROPY]: Password--Entropy: <https://en.wikipedia.org/w/index.php?title=Password_strength&oldid=761771461#Entropy_as_a_measure_of_password_strength>
 
 **Einschätzung**: Bei der aktuellen Authentifikation gegenüber dem Repository

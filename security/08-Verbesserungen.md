@@ -120,7 +120,10 @@ Distributionen wie beispielsweise *Debian*[^FN_DEBIAN_GPG],
 [^FN_GPG4WIN]: Gpg4win: <https://de.wikipedia.org/w/index.php?title=Gpg4win&oldid=159789331>
 [^FN_ARCH_GPG]: Pacman/Package Signing: <https://wiki.archlinux.org/index.php/Pacman/Package_signing>
 [^FN_DEBIAN_GPG]: Archive Signing Keys: <https://ftp-master.debian.org/keys.html>
-[^FN_OPENSUSE_GPG]: RPM -- der Paket--Manager: <http://www.mpipks-dresden.mpg.de/~mueller/docs/suse10.3/opensuse-manual_de/manual/cha.rpm.html>
+[^FN_OPENSUSE_GPG]: RPM -- der Paket--Manager: 
+
+	<http://www.mpipks-dresden.mpg.de/~mueller/docs/suse10.3/opensuse-manual_de/manual/cha.rpm.html>
+
 [^FN_GNUPG]: Internetpräsentation GnuPG: <www.gnupg.org>
 [^FN_RFC4880]: RFC4880: <https://www.ietf.org/rfc/rfc4880.txt>
 
@@ -575,7 +578,10 @@ USB--Schnittstelle als HID (Human--Interface--Device[^FN_HID]) ausgeben und
 somit keine weitere Zusatzhardware wie beispielsweise ein Lesegerät benötigt
 wird. Weiterhin müssen keine zusätzlichen Treiber, beispielsweise für ein Lesegerät, installiert werden.
 
-[^FN_HID]: Human Interface Device Wikipedia: <https://en.wikipedia.org/w/index.php?title=Human_interface_device&oldid=746909537>
+[^FN_HID]: Human Interface Device Wikipedia: 
+
+	<https://en.wikipedia.org/w/index.php?title=Human_interface_device&oldid=746909537>
+
 [^FN_NITROKEY]: Nitrokey: <https://www.nitrokey.com/>
 [^FN_YUBICO]: Yubico: <https://www.yubico.com>
 
@@ -584,8 +590,14 @@ Ausführungen. Bekannte Institutionen, welche den *YubiKey* verwenden sind
 beispielsweise die Universität von Auckland[^FN_YK_UNIVERSITY_AUCKLAND], das
 *CERN*[^FN_YK_CERN] oder auch das Massachusetts Institute of Technology[^FN_YK_MIT].
 
-[^FN_YK_UNIVERSITY_AUCKLAND]: Auckland University YubiKey--Benutzeranweisung: <https://www.auckland.ac.nz/en/about/the-university/how-university-works/policy-and-administration/computing/use/twostepverification.html>
-[^FN_YK_MIT]: Massachusetts Institute of Technology YubiKey--Benutzeranweisung: <https://security.web.cern.ch/security/recommendations/en/2FA.shtml>
+[^FN_YK_UNIVERSITY_AUCKLAND]: Auckland University YubiKey--Benutzeranweisung: 
+
+	<https://www.auckland.ac.nz/en/about/the-university/how-university-works/policy-and-administration/computing/use/twostepverification.html>
+
+[^FN_YK_MIT]: Massachusetts Institute of Technology YubiKey--Benutzeranweisung: 
+
+	<https://security.web.cern.ch/security/recommendations/en/2FA.shtml>
+
 [^FN_YK_CERN]: CERN YubiKey--Benutzeranweisung: <http://kb.mit.edu/confluence/pages/viewpage.action?pageId=151109106>
 
 Für die Entwicklung von »brig« wurden *Yubico Neo*--Hardware--Token ---
@@ -768,7 +780,9 @@ Neben der Möglichkeit, das *YubiKey* One--Time--Password gegen die *YubiCloud*
 validieren zu lassen, gibt es auch die Möglichkeit, eine eigene Infrastruktur für
 die Validierung bereitzustellen[^FN_YUBICO_VAL_SERVER].
 
-[^FN_YUBICO_VAL_SERVER]:YubiCloud Validation Servers: <https://developers.yubico.com/Software_Projects/Yubico_OTP/YubiCloud_Validation_Servers/>
+[^FN_YUBICO_VAL_SERVER]:YubiCloud Validation Servers: 
+
+	<https://developers.yubico.com/Software_Projects/Yubico_OTP/YubiCloud_Validation_Servers/>
 
 Dies ist in erster Linie für Unternehmen interessant, da keine Abhängigkeit zu
 einem externen Dienst besteht. Weiterhin bekommt das Unternehmen dadurch mehr
@@ -877,8 +891,13 @@ C--Basis[^FN_YUBISERVER_DEBIAN_VULNERABILITY_1][^FN_YUBISERVER_DEBIAN_VULNERABIL
 in der Vergangenheit kritische Sicherheitslücken aufgewiesen.
 
 [^FN_YUBICO_YUBISERVE_VULNERABILITY]:Yubico-YubiServe SQL Injection Vulnerability: <https://code.google.com/archive/p/yubico-yubiserve/issues/38>
-[^FN_YUBISERVER_DEBIAN_VULNERABILITY_1]:Yubico-YubiServer CVE-2015-0842 SQL Injection Vulnerability: <https://security-tracker.debian.org/tracker/CVE-2015-0842>
-[^FN_YUBISERVER_DEBIAN_VULNERABILITY_2]:Yubico-YubiServer CVE-2015-0842 Buffer Overflow Vulnerability: <https://security-tracker.debian.org/tracker/CVE-2015-0843>
+[^FN_YUBISERVER_DEBIAN_VULNERABILITY_1]:Yubico-YubiServer CVE-2015-0842 SQL Injection Vulnerability: 
+
+	<https://security-tracker.debian.org/tracker/CVE-2015-0842>
+
+[^FN_YUBISERVER_DEBIAN_VULNERABILITY_2]:Yubico-YubiServer CVE-2015-0842 Buffer Overflow Vulnerability: 
+
+	<https://security-tracker.debian.org/tracker/CVE-2015-0843>
 
 [@fig:IMG_REVERSE_PROXY] zeigt einen Ansatz bei welchem der
 Validierungsserver hinter einem »Reverse--Proxy« betrieben wird. Alle
@@ -931,7 +950,9 @@ Tool) mit Hilfe des *ModHex*--Converters[^FN_GITHUB_MOD_HEX] von Michael
 Stapelberg:
 
 [^FN_GITHUB_MOD_HEX]: GitHub pw-to-yubi.pl: <https://github.com/stapelberg/pw-to-yubi/blob/master/pw-to-yubi.pl>
-[^FN_MODHEX_YUBICO]: YubiKey Static Password Function :<https://www.yubico.com/wp-content/uploads/2015/11/Yubico_WhitePaper_Static_Password_Function.pdf>
+[^FN_MODHEX_YUBICO]: YubiKey Static Password Function:
+
+	<https://www.yubico.com/wp-content/uploads/2015/11/Yubico_WhitePaper_Static_Password_Function.pdf>
 
 ~~~sh
 $ $(perl pw-to-yubi.pl MyVeryLongPasswordYouWontGuessToday)
@@ -1428,7 +1449,6 @@ Date:   Thu Dec 15 16:23:02 2016 +0100
 Um sich als Entwickler, beispielsweise sicher gegenüber der *GitHub*--Plattform
 zu authentifizieren, bietet die *GitHub*--Plattform Universal--2--Faktor an,
 welches auch mit dem *YubiKey* genutzt werden kann[^FN_GITHUB_U2F].
-[^FN_GITHUB_U2F]: GitHub U2F:
 
 [^FN_GITHUB_U2F]: GitHub U2F: <https://github.com/blog/2071-github-supports-universal-2nd-factor-authentication>
 

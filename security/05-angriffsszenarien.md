@@ -81,7 +81,9 @@ Sybil--Attacke[^FN_IPFS_SYBIL_ATTACK] durchzuführen. Unter [@BIB_SKADEMLIA]
 wird *S/Kademlia* bezüglich der Angriffe auf dezentrale Architekturen
 genauer untersucht.
 
-[^FN_IPFS_SYBIL_ATTACK]: IPFS -- Content Addressed, Versioned, P2P File System: <https://blog.acolyer.org/2015/10/05/ipfs-content-addressed-versioned-p2p-file-system/>
+[^FN_IPFS_SYBIL_ATTACK]: IPFS -- Content Addressed, Versioned, P2P File System: 
+
+	<https://blog.acolyer.org/2015/10/05/ipfs-content-addressed-versioned-p2p-file-system/>
 
 ### Praxisorientierte Herausforderungen an die Software
 
@@ -98,8 +100,13 @@ never been weaker --- and crackers have never been stronger«[^FN_CRACKHARDWARE]
 die Problematik detaillierter und geben Empfehlungen. Für weitere Details siehe
 auch @sec:SEC07_REPOSITORY_ZUGRIFF.
 
-[^FN_BRUCE_PW]: A Really Good Article on How Easy it Is to Crack Passwords: <https://www.schneier.com/blog/archives/2013/06/a_really_good_a.html>
-[^FN_CRACKHARDWARE]: Why passwords have never been weaker --- and crackers have never been stronger: <http://arstechnica.com/security/2012/08/passwords-under-assault/>
+[^FN_BRUCE_PW]: A Really Good Article on How Easy it Is to Crack Passwords: 
+
+	<https://www.schneier.com/blog/archives/2013/06/a_really_good_a.html>
+
+[^FN_CRACKHARDWARE]: Why passwords have never been weaker --- and crackers have never been stronger: 
+
+	<http://arstechnica.com/security/2012/08/passwords-under-assault/>
 
 **Schlüsselmanagement:** Die sichere Kommunikation von kryptographischen
 Schlüsseln stellt eines der größten Probleme im digitalen Zeitalter dar.
@@ -112,8 +119,13 @@ das Ausspähen kryptographischer Schlüssel entwickelt.
 
 [^FN_FREEBSD_SSH_MALWARE]: Hackers break into FreeBSD with stolen SSH key: <http://www.theregister.co.uk/2012/11/20/freebsd_breach/>
 [^FN_SSH_MALWARE]: Malware & Hackers Collect SSH Keys to Spread Attacks: <https://www.ssh.com/malware/>
-[^FN_PRIV_KEY_MALWARE]: Are Your Private Keys and Digital Certificates a Risk to You?: <https://www.venafi.com/blog/are-your-private-keys-and-digital-certificates-a-risk-to-you>
-[^FN_PRIV_KEY_MALWARE_2]: Active attacks using stolen SSH keys: <https://isc.sans.edu/forums/diary/Active+attacks+using+stolen+SSH+keys+UPDATED/4937/>
+[^FN_PRIV_KEY_MALWARE]: Are Your Private Keys and Digital Certificates a Risk to You?: 
+
+	<https://www.venafi.com/blog/are-your-private-keys-and-digital-certificates-a-risk-to-you>
+
+[^FN_PRIV_KEY_MALWARE_2]: Active attacks using stolen SSH keys: 
+
+	<https://isc.sans.edu/forums/diary/Active+attacks+using+stolen+SSH+keys+UPDATED/4937/>
 
 **Authentifizierung:** Wie weiss der Benutzer, dass sein Kommunikationspartner
 der ist für den er sich ausgibt? Hier sollen mögliche Konzepte erarbeitet

@@ -264,7 +264,9 @@ $ cat .ipfs/config | grep PrivKey
 Für weitere Details zur Erstellung der *Identität* sollte der
 Quelltext[^FN_IPFS_CODE_INIT] zu Rate gezogen werden.
 
-[^FN_IPFS_CODE_INIT]: IPFS Schlüsselgenerierung: <https://github.com/ipfs/go-ipfs/blob/e2ba43c12dd7076357d5627ef02ed56bf2a55c30/repo/config/init.go#L95>
+[^FN_IPFS_CODE_INIT]: IPFS Schlüsselgenerierung: 
+
+	<https://github.com/ipfs/go-ipfs/blob/e2ba43c12dd7076357d5627ef02ed56bf2a55c30/repo/config/init.go#L95>
 
 ### Authentifizierung {#sec:SEC06_AUTHENTIFIZIERUNG}
 
@@ -306,8 +308,11 @@ Authentifizierung. Der Instant--Messaging--Client *Pidgin*[^FN_PIDGIN] bietet
 beispielsweise mit dem *OTR*--Plugin[^FN_OTR] folgende Möglichkeiten für die
 Authentifizierung einer gesicherten Verbindung:
 
-[^FN_PIDGIN]: Instant--Messaging--Client Pidgin: <https://de.wikipedia.org/w/index.php?title=Pidgin_(Instant_Messenger)&oldid=155942615>
-[^FN_OTR]: Off--the--Record: https://en.wikipedia.org/w/index.php?title=Off-the-Record_Messaging&oldid=741588882
+[^FN_PIDGIN]: Instant--Messaging--Client Pidgin: 
+
+	<https://de.wikipedia.org/w/index.php?title=Pidgin_(Instant_Messenger)&oldid=155942615>
+
+[^FN_OTR]: Off--the--Record: <https://en.wikipedia.org/w/index.php?title=Off-the-Record_Messaging&oldid=741588882>
 
 * *Frage und Antwort--Authentifizierung:* *Alice* stellt *Bob* eine Frage zu einem
   gemeinsamen Geheimnis. Beantwortet *Bob* diese Frage korrekt, so wird er vom

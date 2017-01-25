@@ -49,7 +49,9 @@ Regel auf einen Anbieter einigen. Hierbei stellt die
 Fragmentierung[^FN_PROVIDER_FRAGMENTATION] der Cloud--Storage--Anbieter den
 Benutzer oft vor weitere Herausforderungen.
 
-[^FN_PROVIDER_FRAGMENTATION]: Übersicht Online--Backup--Provider: <https://en.wikipedia.org/w/index.php?title=Comparison_of_online_backup_services&oldid=760247797>
+[^FN_PROVIDER_FRAGMENTATION]: Übersicht Online--Backup--Provider: 
+
+	<https://en.wikipedia.org/w/index.php?title=Comparison_of_online_backup_services&oldid=760247797>
 
 Will man aus persönlichen Bedenken auf den Einsatz von Cloud--Storage--Anbietern
 verzichten, bleibt einem immer noch die Möglichkeit Dateien über E--Mail zu

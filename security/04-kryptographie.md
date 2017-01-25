@@ -60,7 +60,9 @@ Feistelrunden[^FN_FEISTEL]) auf Bit--Ebene dar, welche ohne Schlüssel nicht
 effizient umkehrbar sind.
 
 [^FN_FEISTEL]: Feistelchiffre: <https://de.wikipedia.org/w/index.php?title=Feistelchiffre&oldid=159236443>
-[^FN_SUB_PERM_NETWORK]: Substitutions--Permutations--Netzwerk: <https://de.wikipedia.org/w/index.php?title=Substitutions-Permutations-Netzwerk&oldid=150385470>
+[^FN_SUB_PERM_NETWORK]: Substitutions--Permutations--Netzwerk: 
+
+	<https://de.wikipedia.org/w/index.php?title=Substitutions-Permutations-Netzwerk&oldid=150385470>
 
 Das grundsätzliche Problem, welches bei der Anwendung symmetrischer Verschlüsselung
 besteht, ist der *sichere* Schlüsselaustausch.
@@ -221,7 +223,9 @@ entsprechen der empfohlenen ECRYPTII--Einschätzung[^FN_ECRYPTII].
 Table: Auf ECRYPTII--Einschätzung basierende effektive Schlüsselgrößen
 asymmetrischer und symmetrischer Verfahren im direkten Vergleich. {#tbl:t-keys}
 
-[^FN_ECRYPTII]:ECRYPT II Yearly Report on Algorithms and Key Lengths (2012): <http://www.ecrypt.eu.org/ecrypt2/documents/D.SPA.20.pdf>
+[^FN_ECRYPTII]:ECRYPT II Yearly Report on Algorithms and Key Lengths (2012): 
+
+	<http://www.ecrypt.eu.org/ecrypt2/documents/D.SPA.20.pdf>
 
 ### Hybride Verschlüsselungsverfahren {#sec:SEC04_HYBRIDE_VERSCHLUESSELUNGSVERFAHREN}
 
