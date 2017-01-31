@@ -389,7 +389,7 @@ bei der Verwendung verschiedener Dateigrößen festgestellt. Nach eingehender
 Recherche wurde hierfür die Ableitung des Schlüssels mittels
 *scrypt*[^FN_SCRYPT]  als Ursache identifiziert.
 
-[^FN_SCRYPT]: Scrypt Wikipedia: <https://de.wikipedia.org/w/index.php?title=Scrypt&oldid=158788414>
+[^FN_SCRYPT]: Scrypt: <https://de.wikipedia.org/w/index.php?title=Scrypt&oldid=158788414>
 
 [@fig:img-keyoverhead] zeigt den Verlauf des *Overheads* bei verschiedenen
 Dateigrößen verglichen mit zwei weiteren Verfahren. Die
@@ -595,7 +595,7 @@ Empfehlung an dieser Stelle wäre ein zufällig generiertes Passwort wie
 beispielsweise *iyLGBu\<tmr\"6!w-s.1fT* und die Verwendung eines
 Passwort--Manager[^FN_SECURE_PASSWORD].
 
-[^FN_SECURE_PASSWORD]:The secret to online safety: Lies, random characters, and a password manager: \url{http://arstechnica.com/information-technology/2013/06/the-secret-to-online-safety-lies-random-characters-and-a-password-manager/}
+[^FN_SECURE_PASSWORD]:The secret to online safety - Lies, random characters, and a password manager: <http://arstechnica.com/information-technology/2013/06/the-secret-to-online-safety-lies-random-characters-and-a-password-manager/>
 
 [^FN_ENTROPY]: Password--Entropy: <https://en.wikipedia.org/w/index.php?title=Password_strength&oldid=761771461#Entropy_as_a_measure_of_password_strength>
 

@@ -23,11 +23,16 @@ wären (vgl. [@evertythin1hour]):
 * Flickr API signatures (hash length-extension)[^FN_FLICKR_VUL]
 * Intel HyperThreading (architectural side channel)[^FN_INTEL_VUL]
 
-[^FN_KEYCZAR_BUG]: <https://rdist.root.org/2009/05/28/timing-attack-in-google-keyczar-library/>
-[^FN_SSL_BUG]: <https://blog.ivanristic.com/2009/11/ssl-and-tls-authentication-gap-vulnerability-discovered.html>
-[^FN_AMAZON_AWS_BUG]: <https://rdist.root.org/2009/05/20/amazon-web-services-signature-vulnerability/>
-[^FN_FLICKR_VUL]: <http://netifera.com/research/flickr_api_signature_forgery.pdf>
-[^FN_INTEL_VUL]: <http://www.daemonology.net/hyperthreading-considered-harmful/>
+
+[^FN_KEYCZAR_BUG]: Keyczar Vulnerability: <https://rdist.root.org/2009/05/28/timing-attack-in-google-keyczar-library/>
+
+[^FN_SSL_BUG]: SSL Vulnerability: <https://blog.ivanristic.com/2009/11/ssl-and-tls-authentication-gap-vulnerability-discovered.html>
+
+[^FN_AMAZON_AWS_BUG]: AWS Signature Vulnerability: <https://rdist.root.org/2009/05/20/amazon-web-services-signature-vulnerability/>
+
+[^FN_FLICKR_VUL]: Flickr Signature Vulnerability: <http://netifera.com/research/flickr_api_signature_forgery.pdf>
+
+[^FN_INTEL_VUL]:Intel HyperThreading Vulnerability: <http://www.daemonology.net/hyperthreading-considered-harmful/>
 
 Erschwert kommt bei der Auswahl kryptographischer Algorithmen/Protokolle hinzu,
 dass sich Experten nicht immer einig sind oder es kommt erschwerend hinzu, dass

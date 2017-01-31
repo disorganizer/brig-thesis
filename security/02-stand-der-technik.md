@@ -44,7 +44,7 @@ Zugangsdaten an Dritte, kompromittiert werden.
 
 ![Scherzhafte Darstellung eines möglichen Angriff auf eine Festplattenverschlüsselung mit optimalem Kosten/Nutzen--Verhältnis.[^FN_XKCD_ENC_COMIC]](images/security.png){#fig:img-security width=66%} 
 
-[^FN_XKCD_ENC_COMIC]:Quelle: <http://imgs.xkcd.com/comics/security.png>
+[^FN_XKCD_ENC_COMIC]:Bildquelle: <http://imgs.xkcd.com/comics/security.png>
 
 Neben dem technischen Ansatz beim Angriff auf ein System, gibt es auch die
 psychologische Komponente, beim Menschen, welche wahrscheinlich die größte
@@ -324,11 +324,11 @@ letzter Zeit:
 
 	<https://de.wikipedia.org/w/index.php?title=Hackerangriff_auf_private_Fotos_von_Prominenten_2014&oldid=159942418> 
 
-[^FN_BITLOCKER_CLOUD]: Bitlocker Cloud--Sync: 
+[^FN_BITLOCKER_CLOUD]: Bitlocker--Schlüssel werden standardmäßig in die Cloud synchronisiert: 
 
-	<http://arstechnica.com/information-technology/2015/12/microsoft-may-have-your-encryption-key-heres-how-to-take-it-back/>
+	<https://theintercept.com/2015/12/28/recently-bought-a-windows-computer-microsoft-probably-has-your-encryption-key/>
 
-[^FN_DROPBOX_ACCESS]: Dropbox--Auth--Bug: 
+[^FN_DROPBOX_ACCESS]: Dropbox--Authentifizierungs--Bug: 
 
 	<https://techcrunch.com/2011/06/20/dropbox-security-bug-made-passwords-optional-for-four-hours/>
 
@@ -405,7 +405,7 @@ existieren sogenannte »rendezvous hosts«[^FN_RENDEZVOUS_HOST], welche für die
 initiale Konfiguration und als »Einstiegspunkt« benötigt werden. Hier
 unterscheiden sich die verschiedenen Protokolle und Netzwerke voneinander.
 
-[^FN_RENDEZVOUS_HOST]: Rendezvous Host/Bootstrapping node Wikipedia: 
+[^FN_RENDEZVOUS_HOST]: Rendezvous Host/Bootstrapping node: 
 
 	<https://en.wikipedia.org/w/index.php?title=Bootstrapping_node&oldid=693889298>
 
@@ -428,7 +428,7 @@ als Server. Daten werden beim Austausch nicht zwangsläufig von einem
 einzelnem Teilnehmer geladen, sondern von einer Gruppe aus Teilnehmern, welche
 die gleiche Datei besitzen, siehe [@fig:img-swarm].
 
-[^FN_SPOF]: Single Point of Failure Wikipedia: <https://de.wikipedia.org/w/index.php?title=Single_Point_of_Failure&oldid=156306981>
+[^FN_SPOF]: Single Point of Failure: <https://de.wikipedia.org/w/index.php?title=Single_Point_of_Failure&oldid=156306981>
 
 ![Zeigt einen »Swarm«. *Alice* lädt die Datei »image.iso« von mehreren Teilnehmern gleichzeitig, die Datei »mydog.png« jedoch nur von *Dan*.](images/distsync.png){#fig:img-swarm width=70%}
 
@@ -490,7 +490,7 @@ Benutzer folgende »Schlüssel«, über welche er den Synchronisationsordner mit
 anderen Synchronisationspartnern teilen kann. Anhand des gewählten Schlüssels,
 wird folgende Funktionalität beim Synchronisieren realisiert:
 
-[^FN_GUI]: Grafische Benutzeroberfläche Wikipedia: 
+[^FN_GUI]: Grafische Benutzeroberfläche: 
 
 	<https://de.wikipedia.org/w/index.php?title=Grafische_Benutzeroberfl%C3%A4che&oldid=155859783>
 
@@ -557,9 +557,7 @@ besteht aus einer kryptographischen Prüfsumme (SHA--256, siehe
 welches für die verschlüsselte Kommunikation und Authentifizierung zwischen den
 einzelnen Peers verwendet wird.
 
-[^FN_TLS]: Transport Layer Security Wikipedia: 
-
-	<https://de.wikipedia.org/w/index.php?title=Transport_Layer_Security&oldid=160767422>
+[^FN_TLS]: Transport Layer Security: <https://de.wikipedia.org/w/index.php?title=Transport_Layer_Security&oldid=160767422>
 
 Weiterhin ist das aktuelle Design für *Discovery
 Spoofing*[^FN_SYNCTHING_SPOOFING] anfällig. Das heißt, dass ein Angreifer der
@@ -686,7 +684,7 @@ eindeutige Aussage nicht möglich ist. Oft wird mit »Linus's Law« --- *Given
 enough eyeballs, all bugs are shallow.*[^FN_LINUS_LAW] --- für die Sicherheit *Freier
 Software* argumentiert. Software--Bugs wie
 
-[^FN_LINUS_LAW]:Linus's Law Wikipedia: <https://en.wikipedia.org/w/index.php?title=Linus%27s_Law&oldid=761677049>
+[^FN_LINUS_LAW]:Linus's Law: <https://en.wikipedia.org/w/index.php?title=Linus%27s_Law&oldid=761677049>
 
 * *Debian Random Number Generator Bug*[^FN_DEBIAN_RNG_BUG]
 * *Open--SSL Heartbleed--Bug*[^FN_HEARTBLEED]

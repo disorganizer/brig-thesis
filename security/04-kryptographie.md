@@ -329,8 +329,3 @@ der Implementierung eines Systems. Sind die Schlüssel unzureichend geschützt
 oder die Einsatzweise der Schlüssel fraglich, so kann ein System meist einfach
 kompromittiert werden. Neben sicherer Verwaltung der Schlüssel, ist auch die
 Beschränkung auf einen bestimmten Einsatzzweck essentiell.
-
-TODO: 
-Note:
-https://oss.oracle.com/%7Emkp/docs/data-integrity-webcast.pdf
-https://www.reddit.com/r/DataHoarder/comments/25y2n0/zfs_vs_snapraid/

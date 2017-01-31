@@ -90,7 +90,7 @@ könnte »brig« den Ansatz fahren und die kryptographischen Schlüssel
 die Konfigurationsdateien und somit auch die kryptographischen Schlüssel *IPFS*
 bereitstellt. 
 
-[^FN_VFS]: Virtual file system Wikipedia: <https://en.wikipedia.org/w/index.php?title=Virtual_file_system&oldid=758011055>
+[^FN_VFS]: Virtual file system: <https://en.wikipedia.org/w/index.php?title=Virtual_file_system&oldid=758011055>
 
 ![»brig« stellt mittels VFS eine Zugriffsschnittstelle für *IPFS* dar.](images/vfs.png){#fig:img-vfs width=60%}
 
@@ -578,9 +578,7 @@ USB--Schnittstelle als HID (Human--Interface--Device[^FN_HID]) ausgeben und
 somit keine weitere Zusatzhardware wie beispielsweise ein Lesegerät benötigt
 wird. Weiterhin müssen keine zusätzlichen Treiber, beispielsweise für ein Lesegerät, installiert werden.
 
-[^FN_HID]: Human Interface Device Wikipedia: 
-
-	<https://en.wikipedia.org/w/index.php?title=Human_interface_device&oldid=746909537>
+[^FN_HID]: Human Interface Device: <https://en.wikipedia.org/w/index.php?title=Human_interface_device&oldid=746909537>
 
 [^FN_NITROKEY]: Nitrokey: <https://www.nitrokey.com/>
 [^FN_YUBICO]: Yubico: <https://www.yubico.com>
@@ -780,9 +778,7 @@ Neben der Möglichkeit, das *YubiKey* One--Time--Password gegen die *YubiCloud*
 validieren zu lassen, gibt es auch die Möglichkeit, eine eigene Infrastruktur für
 die Validierung bereitzustellen[^FN_YUBICO_VAL_SERVER].
 
-[^FN_YUBICO_VAL_SERVER]:YubiCloud Validation Servers: 
-
-	<https://developers.yubico.com/Software_Projects/Yubico_OTP/YubiCloud_Validation_Servers/>
+[^FN_YUBICO_VAL_SERVER]:Validation Servers: <https://developers.yubico.com/Software_Projects/Yubico_OTP/YubiCloud_Validation_Servers/>
 
 Dies ist in erster Linie für Unternehmen interessant, da keine Abhängigkeit zu
 einem externen Dienst besteht. Weiterhin bekommt das Unternehmen dadurch mehr
@@ -891,13 +887,8 @@ C--Basis[^FN_YUBISERVER_DEBIAN_VULNERABILITY_1][^FN_YUBISERVER_DEBIAN_VULNERABIL
 in der Vergangenheit kritische Sicherheitslücken aufgewiesen.
 
 [^FN_YUBICO_YUBISERVE_VULNERABILITY]:Yubico-YubiServe SQL Injection Vulnerability: <https://code.google.com/archive/p/yubico-yubiserve/issues/38>
-[^FN_YUBISERVER_DEBIAN_VULNERABILITY_1]:Yubico-YubiServer CVE-2015-0842 SQL Injection Vulnerability: 
-
-	<https://security-tracker.debian.org/tracker/CVE-2015-0842>
-
-[^FN_YUBISERVER_DEBIAN_VULNERABILITY_2]:Yubico-YubiServer CVE-2015-0842 Buffer Overflow Vulnerability: 
-
-	<https://security-tracker.debian.org/tracker/CVE-2015-0843>
+[^FN_YUBISERVER_DEBIAN_VULNERABILITY_1]:YubiServer CVE-2015-0842 SQL Injection Vulnerability: <https://security-tracker.debian.org/tracker/CVE-2015-0842>
+[^FN_YUBISERVER_DEBIAN_VULNERABILITY_2]:YubiServer CVE-2015-0842 Buffer Overflow Vulnerability: <https://security-tracker.debian.org/tracker/CVE-2015-0843>
 
 [@fig:IMG_REVERSE_PROXY] zeigt einen Ansatz bei welchem der
 Validierungsserver hinter einem »Reverse--Proxy« betrieben wird. Alle

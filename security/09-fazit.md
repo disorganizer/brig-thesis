@@ -75,7 +75,7 @@ einiger Optimierungen.
 Die aktuelle Implementierung über die *zxcvbn*--Bibliothek setzt eine robuste
 Passwortvalidierung um. Das Problem hierbei ist die schlechte Usability,
 andererseits die alleinige Authentifizierung über ein Passwort --- bei einem System
-mit Fokus auf Sicherheit --- als negativ zu bewerten (TODO: Ref).
+mit Fokus auf Sicherheit --- als negativ zu bewerten (siehe @sec:SEC07_REPOSITORY_ZUGRIFF).
 
 Hier wurden erweiterte Konzepte der Zwei--Faktor--Authentifizierung mit dem
 *YubiKey* für Privatpersonen und Institutionen evaluiert (siehe
