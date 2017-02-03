@@ -39,7 +39,7 @@ beispielsweise der Zugriff über mehrere Stunden mit beliebigen Passwörtern
 möglich[^FN_DROPBOX_AUTH_BUG]. Ein weiterer Softwarefehler hat bei der
 Aktivierung bestimmter Features Daten unwiderruflich
 gelöscht[^FN_DROPBOX_DATA_CORRUPTION]. Daneben wird die Sicherheit von
-Cloud--Storage--Services in Studien bemängelt[@bibfisitcloudsec].
+Cloud--Storage--Services in Studien bemängelt, vgl. [@bibfisitcloudsec].
 
 [^FN_DROPBOX_AUTH_BUG]: Authentifizierungs--Bug: <https://blogs.dropbox.com/dropbox/2011/06/yesterdays-authentication-bug/>
 [^FN_DROPBOX_DATA_CORRUPTION]: Selective--Sync--Bug: <https://plus.google.com/+MichaelArmogan/posts/E9sVnrLTB5C>

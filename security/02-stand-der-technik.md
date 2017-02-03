@@ -7,16 +7,16 @@
 Zentrale und dezentrale Systeme sind die Basis für den Austausch von
 Informationen. Ob ein System zentral oder dezentral fungiert ist nicht immer
 klar abgrenzbar. Oft kommen auch hybride Systeme zum Einsatz, welche zwar
-dezentral funktionieren, jedoch teilweise zentrale Instanzen benötigen. Hier wäre
-beispielsweise das *Torrent*--Konzept zu nennen. Weitere Informationen hierzu
-sind unter [@cpahl] zu finden.
+dezentral funktionieren, jedoch teilweise zentrale Instanzen benötigen. Hier
+wäre beispielsweise das *Torrent*--Konzept zu nennen. Weitere Informationen
+hierzu, vgl. [@peer2peer], S. 232 ff.
 
 ### Der »Sicherheitsbegriff« {#sec:SEC02_DER_SICHERHEITSBEGRIFF}
 
 Betrachten man die »Sicherheit« von Dateiverteilungssystemen, so müssen
 verschiedene Teilaspekte betrachten werden. Leider ist das Umfeld der
 Sicherheit sehr groß und die Begrifflichkeiten nicht immer eindeutig definiert.
-In der Fachliteratur (vgl. [@pauly2004netzwerk]) spricht man bei »Sicherheit«
+In der Fachliteratur (vgl. [@pauly2004netzwerk], S. 21 f.) spricht man bei »Sicherheit«
 oft von den folgenden fünf Sicherheitsaspekten:
 
 * Vertraulichkeit: Schutz der Daten vor Zugriff durch Dritte.
@@ -150,8 +150,7 @@ Aussage die Daten in der Cloud nach aktuellen Sicherheitsstandards. Das Problem
 im Fall von *Dropbox* ist jedoch, dass *Dropbox* und nicht der Endbenutzer der
 Schlüsselinhaber ist. Es ist also, auch wenn es laut internen
 Dropbox--Richtlinien verboten ist, möglich, dass Mitarbeiter beziehungsweise
-dritte Parteien die Daten des Nutzers einsehen können (vgl. [@ko2015cloud] S.
-103 ff.).
+dritte Parteien die Daten des Nutzers einsehen können (vgl. [@ko2015cloud] S. 103).
 
 Ein weiteres Problem ist, dass ein Cloud--Speicher--Anbieter aufgrund seiner
 zentralen Rolle ein gutes Angriffsziel bildet. Erst kürzlich wurde bekannt,
@@ -289,8 +288,8 @@ Geheimhaltung des Schlüssels, jedoch nicht von der Geheimhaltung weiterer
 Systemelemente abhängen sollte. Die Vergangenheit hat beispielsweise beim
 GSM--Standard oder beim DVD--Kopierschutz »CSS«[^FN_CSS] gezeigt, dass durch die
 Geheimhaltung von Systemkomponenten erfolgreiche Angriffe, höchstens erschwert,
-jedoch nicht unterbunden werden können (vgl. [@spitz2011kryptographie],
-[@ertel2012angewandte, S. 23]).
+jedoch nicht unterbunden werden können (vgl. [@2009understanding], S. 11 und
+[@ertel2012angewandte], S. 23).
 
 [^FN_CSS]: Cryptanalysis of Contents Scrambling System: <http://www.cs.cmu.edu/~dst/DeCSS/FrankStevenson/analysis.html>
 [^FN_SCHNEIER_1]: Defending Against Crypto Backdoors: <https://www.schneier.com/blog/archives/2013/09/how_to_remain_s.html>
