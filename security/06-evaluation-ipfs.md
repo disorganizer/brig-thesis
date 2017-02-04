@@ -200,7 +200,7 @@ würde normalerweise bei 16MiByte liegen, da die Daten auf gewöhnlichen
 Dateisystemen wie beispielsweise *ext4* oder *NTFS* redundant abgespeichert
 werden. *IPFS* teilt diese Datei --- in diesem Fall nur beispielhaft --- in
 1 MiByte große Blöcke auf und speichert nur Datenblöcke, welche dem
-*IPFS*--Backend noch nicht bekannt sind (vgl. auch [@cpahl]). Alle bekannten
+*IPFS*--Backend noch nicht bekannt sind (vgl. auch [@cpahl], S. 27 f.). Alle bekannten
 *Blöcke* werden vom Merkle--DAG nur referenziert. Durch diesen Ansatz reduziert
 sich im Beispiel der benötigte Speicherplatz auf 6 MiByte.
 
@@ -209,14 +209,13 @@ sich im Beispiel der benötigte Speicherplatz auf 6 MiByte.
 ### IPFS--Daten und IPFS--Blöcke {#sec:SEC06_IPFS_DATEN_UND_IPFS_BLOECKE}
 
 Das *IPFS*--Kommandozeilentool kann mittels des `ipfs
-add`--Befehl[^FN_IPFS_ADD] Daten dem *IPFS*--Netzwerk hinzufügen. Wie bereits
+add`--Befehl Daten dem *IPFS*--Netzwerk hinzufügen. Wie bereits
 erwähnt werden die Daten blockweise abgelegt. Weiterhin existiert auch die
 Möglichkeit, *IPFS* auf unterster Ebene Blöcke direkt hinzuzufügen. Hierzu wird
-das Subkommando `ipfs block`[^FN_IPFS_BLOCK] verwendet. Für weitere Details
-siehe [@cpahl].
+das Subkommando `ipfs block` verwendet. Für weitere Details siehe IPFS--Dokumentation[^FN_IPFS_DOC].
 
-[^FN_IPFS_BLOCK]: Block Subkommando: <https://ipfs.io/docs/commands/#ipfs-block>
-[^FN_IPFS_ADD]: Add Kommando: <https://ipfs.io/docs/commands/#ipfs-add>
+
+[^FN_IPFS_DOC]: IPFS--Dokumentation: <https://ipfs.io/docs/commands/>
 
 ## IPFS--ID {#sec:SEC06_IPFS_ID}
 

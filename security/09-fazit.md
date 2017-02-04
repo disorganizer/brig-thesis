@@ -4,7 +4,7 @@
 
 ### Allgemein
 
-Wie bereits unter [@cpahl] erwähnt, ist mit dem aktuellen Stand von »brig« eine
+Wie bereits unter [@cpahl], S. 104 erwähnt, ist mit dem aktuellen Stand von »brig« eine
 solide Basis für ein sicheres und dezentrales Synchronisationswerkzeug entstanden.
 
 Die übergreifende Anforderung an das Projekt, eine gute Balance zwischen

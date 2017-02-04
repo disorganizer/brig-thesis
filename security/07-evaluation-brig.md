@@ -3,7 +3,7 @@
 Parallel zu dieser Arbeit wird der »brig«--Prototyp entwickelt. Das Ziel dieses
 Kapitels ist es, die bisherige Arbeit aus Sicht der Sicherheit erneut zu
 evaluieren und bisher gemachte Fehler zu identifizieren. Für weitere allgemeine
-Details zur Architektur von »brig« siehe, die Arbeit von Herrn Pahl[@cpahl]. Für
+Details zur Architektur von »brig« siehe, die Arbeit von Herrn Pahl [@cpahl]. Für
 die Evaluation wird die Softwareversion *brig v0.1.0* verwendet:
 
 ~~~sh
@@ -97,7 +97,7 @@ der Vertraulichkeit auch die Authentizität und die Integrität sicherstellt.
 
 ### Geschwindigkeitsevaluation {#sec:SEC07_GESCHWINDIGKEITSEVALUATION}
 
-Die bisherigen »brig«--Benchmarks unter [@cpahl] haben die Geschwindigkeit von
+Die bisherigen »brig«--Benchmarks unter [@cpahl], S. 96 ff. haben die Geschwindigkeit von
 »brig« mit *IPFS* verglichen. Hierbei ist auffällig gewesen, dass die
 Geschwindigkeit bei Verschlüsselung vergleichsweise stark eingebrochen ist.
 
@@ -415,7 +415,7 @@ sogenannten »Stores« verschlüsselt. Diese beinhalten den Metadatenstand der
 jeweiligen Synchronisationspartner.
 
 Folgend ist die Struktur eines neu initialisierten »brig«--Repositories (vgl.
-auch [@cpahl]) abgebildet:
+auch [@cpahl], S. 73 ff.) abgebildet:
 
 ~~~sh
 $ tree -al alice
@@ -481,7 +481,7 @@ eine E-Mail--Adresse auch einen korrekten Benutzernamen darstellen würde.
 
 Um diese Funktionalität bereitzustellen, wird ein »Trick« angewendet, bei
 welchem die Zeichenkette des Nutzernamens als Block dem *IPFS*--Netzwerk bekannt
-gemacht wird (vgl. [@cpahl]). Dieser Block selbst ist nicht eindeutig und
+gemacht wird (vgl. [@cpahl], S. 62). Dieser Block selbst ist nicht eindeutig und
 könnte auch von einem Angreifer selbst erstellt worden sein. Um eine
 Eindeutigkeit herzustellen, wird der Benutzername direkt an die eindeutige,
 öffentliche *ID* (siehe [@sec:SEC06_IPFS_ID]) geknüpft.
@@ -527,7 +527,7 @@ großes Problem im Informationszeitalter, da von ihnen die Sicherheit eines
 gesamten Systems abhängen kann. Menschen sind schlecht darin, die
 *Entropie*[^FN_ENTROPY] von Passwörtern richtig einzuschätzen. »brig« verwendet
 für die Bestimmung der Passwort--Entropie die *zxcvbn*--Bibliothek, welche von
-*Dropbox* entwickelt wurde. Laut einer Studie [@Carnavalet] wird die
+*Dropbox* entwickelt wurde. Laut einer Studie [@Carnavalet], S. 11 wird die
 Bibliothek, im Vergleich zu den getesteten Konkurrenten, in ihrer
 Funktionsweise als akkurater bezeichnet. Eine Schwäche, welche bei den
 Entropie--Schätzungswerkzeugen auftritt, ist, dass diese ohne Basis eines

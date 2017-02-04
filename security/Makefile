@@ -13,6 +13,7 @@ all:
 	pandoc \
 		--filter pandoc-fignos \
 		--filter pandoc-tablenos \
+		--metadata link-citations \
 		--filter pandoc-crossref \
 		--smart \
 		--number-sections \

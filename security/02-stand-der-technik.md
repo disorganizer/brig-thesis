@@ -783,7 +783,7 @@ Stadt glaubten sicherlich an ihre »Unschuld« und hatten nichts zu verbergen.
 Als im Mai 1940 die deutschen Besatzer einmarschierten, konnten sie anhand des
 *Registers* alle jüdischen Bürger in kürzester Zeit identifizieren. Diese
 wurden in Konzentrationslager deportiert. In diesem Fall hat ein einfacher
-Datensatz über Leben und Tod entschieden (vgl. [@ct-juden]).
+Datensatz über Leben und Tod entschieden (vgl. [@ct-juden], S. 3).
 
 Nicht nur Daten, die von öffentlichen Einrichtungen erhoben werden sind als
 problematisch anzusehen. Auch Daten, die wir jeden Tag unfreiwillig in der

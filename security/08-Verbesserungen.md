@@ -226,7 +226,7 @@ sicheren externen Datenträger zu speichern. Dieser Schlüssel wird zum
 Zertifizieren/Signieren anderer Schlüssel verwendet und wird nicht für den
 täglichen Gebrauch benötigt. Für die sichere externe Speicherung kann
 beispielsweise ein Verfahren wie *Shamir's Secret Sharing* (vgl.
-[@martin2012everyday], S. 337f. und [@BIB_SHAMIR_SECRET]) verwendet werden. Bei
+[@martin2012everyday], S. 337 f. und [@BIB_SHAMIR_SECRET]) verwendet werden. Bei
 diesem Verfahren wird ein Geheimnis auf mehrere Instanzen aufgeteilt, zur
 Rekonstruktion des Geheimnisses ist jedoch nur eine gewisse Teilmenge nötig.
 Das *Shamir's Secret Sharing*--Verfahren wird von
@@ -243,7 +243,7 @@ Gezeigt wird die Prüfsumme des zu sichernden privaten Schlüssels und die
 Aufteilung mittels `gfsplit`:
 
 ~~~sh
-$ sha256sum private.key 
+$ sha256sum private.key
 d90dc1dbb96387ef25995ada677c59f909a9249eafcb32fc7a4f5eae91c82b42  private.key
 
 $ gfsplit private.key && ls
@@ -530,7 +530,7 @@ Schadsoftware welche explizit für diesen Einsatzzweck konzipiert wurde (siehe @
 Um hier die Sicherheit zu steigern, wird von Sicherheitsexperten oft zur
 Zwei--Faktor--Authentifizierung beziehungsweise zur hardwarebasierten
 Speicherung kryptographischer Schlüssel (persönliche Identität,
-RSA--Schlüsselpaar) geraten (vgl. [@martin2012everyday]).
+RSA--Schlüsselpaar) geraten (vgl. [@martin2012everyday], S. 350 ff.).
 
 ### OpenPGP Smartcard {#sec:SEC08_OPENPGP_SMARTCARD}
 

@@ -53,7 +53,7 @@ missbraucht werden kann.
 
 Weiterhin macht es keinen Sinn und ist auch oft wirtschaftlich untragbar alle
 finanziellen Mittel in die Sicherheit eines Softwareproduktes zu investieren.
-Laut [@martin2012everyday] ist es in der Regel eine Abwägung zwischen möglichen
+Laut [@martin2012everyday], S. 10 f. ist es in der Regel eine Abwägung zwischen möglichen
 Risikofaktoren und finanziellem sowie zeitlichem Aufwand. Es macht so gesehen
 keinen Sinn, mehrere Millionen Euro in ein Softwareprodukt zu investieren,
 welches beispielsweise nur Daten im Wert von ein paar tausend Euro schützt.
@@ -79,7 +79,7 @@ primär Angriffe wie beispielsweise die Sybil--Attacke, bei welcher es für eine
 Angreifer möglich ist, mit einer großen Anzahl von Pseudonymen einen
 überproportional großen Einfluss in einem dezentralen Netzwerk zu erlangen.
 Möglichkeiten, die diesen Angriff entgegenwirken sind in erster Linie zentrale
-Authentifizierungsinstanzen. Der Angriff wird unter [@BIB_SYBIL_ATTACK] genauer
+Authentifizierungsinstanzen. Der Angriff wird unter [@peer2peer], S. 200 ff. genauer
 erläutert. Das von »brig« verwendete *IPFS*--Netzwerk verwendet Teile des
 *S/Kademlia*--Protokolls, welches es prinzipiell erschwert eine
 Sybil--Attacke[^FN_IPFS_SYBIL_ATTACK] durchzuführen. Unter [@BIB_SKADEMLIA]
