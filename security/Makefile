@@ -1,15 +1,4 @@
 all:
-	echo "# Anhang E: Benchmarktool und Skripte {#sec:APP_SCRIPTE}" > appendix/E-zzz-anhang.md
-	echo "" >> appendix/E-zzz-anhang.md
-	echo "~~~go" >> appendix/E-zzz-anhang.md
-	cat scripts/main.go >> appendix/E-zzz-anhang.md
-	echo "~~~" >> appendix/E-zzz-anhang.md
-	echo "~~~python" >> appendix/E-zzz-anhang.md
-	cat scripts/benchmark.py >> appendix/E-zzz-anhang.md
-	echo "~~~" >> appendix/E-zzz-anhang.md
-	echo "~~~python" >> appendix/E-zzz-anhang.md
-	cat scripts/plot.py >> appendix/E-zzz-anhang.md
-	echo "~~~" >> appendix/E-zzz-anhang.md
 	pandoc \
 		--filter pandoc-fignos \
 		--filter pandoc-tablenos \
@@ -28,8 +17,7 @@ all:
 		-A tex/statement.tex \
 		--highlight-style tango \
 		-o pdf/thesis.tex \
-		*.md \
-	    appendix/*.md
+		*.md
 
 	cd pdf && latexmk -silent -pdf thesis.tex
 
