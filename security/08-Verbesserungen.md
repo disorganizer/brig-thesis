@@ -452,7 +452,7 @@ grundlegenden Ablauf des *Socialist Millionaire*--Protokoll.
 5. *Alice* berechnet $R_{ab}$ und prüft ob $R_{ab} == (P_{a}/P_{b})$.
 
 Konnten *Alice* und *Bob* jeweils $R_{ab} = (P_{a}/P_{b})$ als korrekt validieren,
-so haben sie sich gegenseitig authentifiziert (vgl. [@SMP1], [@SMP2]).
+so haben sie sich gegenseitig authentifiziert. Für weitere Details zum Protokoll vgl. [@SMP1] und [@SMP2].
 
 Für eine Implementierung in »brig« kann hier beispielsweise die
 Go--Standardbibliothek[^FN_SMP1] oder andere Implementierungen[^FN_SMP2] als
@@ -504,7 +504,7 @@ Wissenschaftliche Untersuchungen haben weiterhin ergeben, dass ein Großteil der
 repräsentiert Benutzer/Schlüssel welche durch gegenseitige Bestätigung
 vollständig miteinander verbunden sind. Projekte wie die c't Krypto--Kampagne
 oder auch das *Debian*--Projekt sollen hierzu einen deutlichen Beitrag
-geleistet haben (vgl. [@wot1], [@wot2]).
+geleistet haben (vgl. [@wot1] und [@wot2]).
 
 [^FN_CACERT]: CAcert: <https://de.wikipedia.org/w/index.php?title=CAcert&oldid=161320822>
 [^FN_CTCRYPTO]: Krypto-Kampagne: <https://www.heise.de/security/dienste/Krypto-Kampagne-2111.html>
@@ -612,7 +612,7 @@ Der *YubiKey Neo* hat folgende Funktionalitäten beziehungsweise Eigenschaften:
 * Yubico OTP, One--Time--Password--Verfahren des Herstellers. Standardmäßig
   kann jeder YubiKey gegen den YubiCloud--Authentifizierungdienst mittels One--Time--Passwort authentifiziert werden.
 * OATH–Kompatibilität (HMAC--Based--OTP-- und Time--Based--OTP--Verfahren, für
-  weitere Details vgl. [@oath])
+  weitere Details vgl. [@oath], S. 904 f.)
 * Challange--Response--Verfahren (HMAC-SHA1, Yubico OTP)
 * FIDO U2F (Universal Second Factor)
 * Statische Passwörter
@@ -915,7 +915,7 @@ Da der Webserver besonders gut gesichert sein muss, würde sich an dieser Stelle
 neben der architektonischen Trennung auch die Umsetzung einer internen
 sicherheitsorientierten Systemarchitektur anbieten, um das Risiko bestimmter
 Exploit--Arten zu minimieren. Unter Linux, beispielsweise mittels
-grsecurity(vgl [@BIB_GRSECURITY]), SELinux oder mittels Jails bei einem
+grsecurity, SELinux (vgl. [@BIB_GRSECURITY]) oder mittels Jails bei einem
 *BSD*--Derivat wie *FreeBSD*.
 
 [^FN_NGINX]: NGINX--Webserver Homepage: <https://nginx.org/en/>
@@ -1474,7 +1474,7 @@ dem Benutzernamen und dem Passwort gegenüber einer Plattform wie beispielsweise
 Eine erweiterte Möglichkeit ist es, sich über
 einen *SSH*-Schlüssel zu authentifizieren. [@fig:img-sshauth] zeigt schematisch
 den Ablauf einer Authentifizierung mittels Public--Key--Verfahren (vgl.
-[@BIB_SSH_SECURE_SHELL], S. 58 ff.).
+[@BIB_SSH_SECURE_SHELL], S. 63 f.).
 
 [^FN_GITHUB_SSHLOGIN]: GitHub--SSH--Login: <https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/>
 
@@ -1577,7 +1577,7 @@ Ohne Smartcard/Pin schlägt der Loginversuch fehl. Bei der Verwendung eines
 eigenen Servers ist es empfehlenswert, eine Fallback--Loginmethode in der
 sshd--Konfigurationsdatei des Servers zu aktivieren, mehr hierzu siehe `man
 sshd_config` unter `AuthenticationMethods`. Für weitere Details zum Thema
-*OpenSSH*--Authentifizierung siehe [@BIB_OPENSSH]. 
+Konfiguration und *OpenSSH*--Authentifizierung siehe [@BIB_OPENSSH].
 
 Für die Einrichtung der zweiten Variante (`gpg--agent` fungiert als
 `ssh-agent`) muss lediglich ergänzend ein generierter *SSH*--Schlüssel mit
