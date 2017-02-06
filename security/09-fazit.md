@@ -102,21 +102,50 @@ evaluiert (siehe @sec:SEC08_SICHERE_AUTHENTIFIZIERUNG_FUER_ENTWICKLER).
 
 ## Selbstkritik und aktuelle Probleme {#sec:SEC09_SELBSTKRITIK_AKTUELLE_PROBLEME}
 
-Einige der unter @sec:SEC03_ANFORDERUNGEN gesetzten Anforderungen wurden schon
-teilweise umgesetzt, teilweise existieren bereits Konzepte und ...
+Auch wenn die unter @sec:SEC03_ANFORDERUNGEN gesetzten Anforderungen zum
+größten Teil als prototypischer Ansatz oder als Konzept umgesetzt wurden, sind bei
+der aktuellen Implementierung jedoch ein paar Aspekte nicht vernünftig gelöst
+oder könnten durch bessere Ansätze ergänzt werden.
 
-Auch wenn man bei der aktuellen Version weniger von einem Prototypen aus
-Anwendersicht sprechen kann, so wurden  ...
+Ein weiterhin bestehendes »Problem« ist die Umsetzung der Schlüsselgenerierung
+für das Verschlüsseln der Dateien in einem »brig«--Repository. Die aktuelle
+Implementierung erstellt zufallsgenerierte Schlüssel. Dies hat den Nachteil,
+dass die Deduplizierungsfunktionalität außer Kraft gesetzt wird, siehe
+@sec:SEC07_SCHLUESSELGENERIERUNG. Hingegen die Verwendung von *Convergent
+Encryption* würde »brig« bestimmte Angriffe wie beispielsweise den
+»confirmation of a file«--Angriff anfällig machen. Die Empfehlung an dieser
+Stelle wäre die Schlüsselgenerierung weiterhin auf Zufallsbasis zu realisieren
+und das dadurch entstandene »Problem« (*IPFS* kann Daten nicht mehr sinnvoll
+deduplizieren, siehe @sec:SEC07_SCHLUESSELGENERIERUNG) in Kauf zu nehmen und
+eine abgemilderte Variante der Deduplizierung über Packfiles --- wie vom Herrn Pahl
+vorgeschlagen --- zu realisieren (siehe).
 
-TODO: Ausformulieren
+Weiterhin sind die mit dem GPG--Tool evaluierten Konzepte im aktuellen Stadium aus
+Sicht der *Benutzerfreundlichkeit* verbesserungswürdig. Hier würde sich eine
+vollständige Automatisierung und das Anbieten einer grafischen
+Benuteroberfläche --- wie unter [@cpahl], S. 84 ff. --- anbieten.
 
-* Ungelöst: Convergent Encryption
-* Benutzerfreundlichkeit?
-* Ist *IPFS* gute Wahl?
-* Keymanagement in IPFS besser aufgehoben?
-* Performance auf kleinen Systemen untragbar  aes-128 Bit Algorithmen?  Alternativen zu chacha.
-* Nicht strikt an BSI gehalten
+Ein weiterer diskussionswürdiger Punkt ist die Verwendung von *IPFS* als Basis.
+Zwar erfüllt diese hier die benötigten Anforderungen, jedoch liegt der Fokus
+der Entwicklung des Projektes in erster Linie nicht im Bereich der Sicherheit.
+Auf Grund dieses Umstandes ist die Implementierung von Sicherheitsfeatures
+durch »brig« nicht zwangsläufig optimal. Die Implementierung bestimmter
+Sicherheits--Funktionalität wie beispielsweise Datenverschlüsselung wäre laut
+aktueller Einschätzung besser im *IPFS*--Backend zu realisieren. Weiterhin
+macht beispielsweise auch die seit Monaten andauernde Definition einer
+Spezifikation[^FN_SPEC] für das IPFS--*Keystore* Entwicklungsentscheidung für
+»brig« schwierig.
 
+[^FN_SPEC]: Keystore Spezifikation: <https://github.com/ipfs/specs/tree/25411025e787e12b17f621fca25d636c5684316e/keystore>
+
+Die Evaluation der Performance hat weiterhin gezeigt, dass beispielsweise die
+Geschwindigkeit mit den implementieren Algorithmen auf dem *Raspberry Pi*
+untragbar ist. Hier wäre die Evaluation möglicher Optimierungen bezüglich der
+Geschwindigkeit nötig, wenn man den *Raspberry Pi* als taugliche Plattform ansehen möchte.
+
+Weiterhin wurde die Entwicklung aktuell hauptsächlich problemorientiert
+vorangetrieben. Eine striktere Umsetzung der *BSI*--Richtlinien wäre hier
+sinnvoll, um die Software auch für den öffentlichen Bereich tauglich zu machen.
 
 ## Ausblick {#sec:SEC09_AUSBLICK}
 
@@ -128,8 +157,8 @@ Implementierung und Evaluierung von Sicherheit keine triviale Aufgabe.
 Weiterhin kann auch die Umsetzung kryptographischer Elemente aufgrund von
 Missverständnissen fehlerhaft implementiert sein.
 
-Da »brig« einen Schwerpunkt auf Sicherheit hat, ist es essentiell das in dieser
-Arbeit Evaluierte System und die vorgestellten Konzepte von weiteren
+Da »brig« einen Schwerpunkt auf Sicherheit hat, ist es essentiell dass das in dieser
+Arbeit evaluierte System und die vorgestellten Konzepte von weiteren
 unabhängigen Sicherheitsexperten --- beispielsweise von der HSASec[^FN_HSASEC]
 --- beurteilen zu lassen und die vorgestellten Konzepte kritisch zu
 diskutieren. Zusätzlich sollte unabhängige Sicherheitsaudits der
@@ -145,16 +174,17 @@ Authentifizierungsplattform erwähnenswert.
 
 [^FN_KEYBASE]: Keybase.io: <https://keybase.io/>
 
-Die durchgeführten Benchmarks zur Geschwindigkeit zeigen ein
-tendenzielles Verhalten auf bestimmten Plattformen. Hier wäre die Evaluation
-weiterer Hardware--Systeme nötig um bessere Entscheidungen für Optimierungen
-und bezüglich der Auswahl geeigneter Algorithmen treffen zu können.
+Die durchgeführten Benchmarks zur Geschwindigkeit zeigen nur eine Tendenz
+bezüglich der Geschwindigkeit auf den getesteten Plattformen. Hier wäre die
+Evaluation weiterer Hardware--Systeme nötig um bessere Entscheidungen für
+Optimierungen und bezüglich der Auswahl geeigneter Algorithmen treffen zu
+können.
 
 Abschließend ist es wichtig zu erwähnen, dass unabhängig von den
 Implementierten technischen Maßnahmen, der Mensch eine essentielle Rolle in
-jedem sicherheitskritischen System hat. Für Software--Entwickler dient die
-Arbeit als Einstiegspunkt, der für die Thematik der Sicherheit aber auch der
-sicherheitsorientierten Softwareentwicklung sensibilisieren soll.
+jedem sicherheitskritischen System hat. Diese Arbeit soll
+Software--Entwicklern als Einstiegspunkt für die Thematik der Sicherheit dienen
+und sie weiterhin für die sicherheitsorientierte Softwareentwicklung sensibilisieren.
 
 Der Otto Normalbenutzer sollte immer wieder aufs Neue für das Thema Sicherheit
 und Datenschutz sensibilisiert werden, da gerade in unser heutigen digitalen
