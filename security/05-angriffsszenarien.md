@@ -1,6 +1,6 @@
 # Sicherheit und Angriffsszenarien {#sec:SEC05_SICHERHEIT_UND_ANGRIFFSSZENARIEN}
 
->> *Security is a process, not a product.* 
+>> *Security is a process, not a product.*
                          --- Bruce Schneier
 
 ## Beurteilung von Sicherheit {#sec:SEC05_BEURTEILUNG_VON_SICHERHEIT}
@@ -47,7 +47,7 @@ doch besser eine »Encrypt--than--MAC«--Komposition (vgl. auch [@encryptthanmac
 Ein weiteres Beispiel welches die Komplexität der Lage darstellt, ist eine
 aktuelle Warnung vom *BSI*[^FN_BSI_NORTON] bei welcher »Sicherheitssoftware«
 aufgrund von gravierenden Sicherheitslücken als Einfallstor für Schadsoftware
-missbraucht werden kann. 
+missbraucht werden kann.
 
 [^FN_BSI_NORTON]:  BSI Warn-- und Informationsdienste: <https://www.cert-bund.de/advisoryshort/CB-K16-1797>
 
@@ -86,7 +86,7 @@ Sybil--Attacke[^FN_IPFS_SYBIL_ATTACK] durchzuführen. Unter [@BIB_SKADEMLIA]
 wird *S/Kademlia* bezüglich der Angriffe auf dezentrale Architekturen
 genauer untersucht.
 
-[^FN_IPFS_SYBIL_ATTACK]: IPFS -- Content Addressed, Versioned, P2P File System: 
+[^FN_IPFS_SYBIL_ATTACK]: IPFS -- Content Addressed, Versioned, P2P File System:
 
 	<https://blog.acolyer.org/2015/10/05/ipfs-content-addressed-versioned-p2p-file-system/>
 
@@ -105,11 +105,11 @@ never been weaker --- and crackers have never been stronger«[^FN_CRACKHARDWARE]
 die Problematik detaillierter und geben Empfehlungen. Für weitere Details siehe
 auch @sec:SEC07_REPOSITORY_ZUGRIFF.
 
-[^FN_BRUCE_PW]: A Really Good Article on How Easy it Is to Crack Passwords: 
+[^FN_BRUCE_PW]: A Really Good Article on How Easy it Is to Crack Passwords:
 
 	<https://www.schneier.com/blog/archives/2013/06/a_really_good_a.html>
 
-[^FN_CRACKHARDWARE]: Why passwords have never been weaker --- and crackers have never been stronger: 
+[^FN_CRACKHARDWARE]: Why passwords have never been weaker --- and crackers have never been stronger:
 
 	<http://arstechnica.com/security/2012/08/passwords-under-assault/>
 
@@ -124,11 +124,11 @@ das Ausspähen kryptographischer Schlüssel entwickelt.
 
 [^FN_FREEBSD_SSH_MALWARE]: Hackers break into FreeBSD with stolen SSH key: <http://www.theregister.co.uk/2012/11/20/freebsd_breach/>
 [^FN_SSH_MALWARE]: Malware & Hackers Collect SSH Keys to Spread Attacks: <https://www.ssh.com/malware/>
-[^FN_PRIV_KEY_MALWARE]: Are Your Private Keys and Digital Certificates a Risk to You?: 
+[^FN_PRIV_KEY_MALWARE]: Are Your Private Keys and Digital Certificates a Risk to You?:
 
 	<https://www.venafi.com/blog/are-your-private-keys-and-digital-certificates-a-risk-to-you>
 
-[^FN_PRIV_KEY_MALWARE_2]: Active attacks using stolen SSH keys: 
+[^FN_PRIV_KEY_MALWARE_2]: Active attacks using stolen SSH keys:
 
 	<https://isc.sans.edu/forums/diary/Active+attacks+using+stolen+SSH+keys+UPDATED/4937/>
 

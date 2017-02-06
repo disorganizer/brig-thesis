@@ -60,7 +60,7 @@ Feistelrunden[^FN_FEISTEL]) auf Bit--Ebene dar, welche ohne Schlüssel nicht
 effizient umkehrbar sind.
 
 [^FN_FEISTEL]: Feistelchiffre: <https://de.wikipedia.org/w/index.php?title=Feistelchiffre&oldid=159236443>
-[^FN_SUB_PERM_NETWORK]: Substitutions--Permutations--Netzwerk: 
+[^FN_SUB_PERM_NETWORK]: Substitutions--Permutations--Netzwerk:
 
 	<https://de.wikipedia.org/w/index.php?title=Substitutions-Permutations-Netzwerk&oldid=150385470>
 
@@ -131,7 +131,7 @@ Betriebsarten und ihre Eigenschaften.
 ----------------------------------------------------------
 
 Table: Laut ISO 10116 Standard definierte Betriebsarten für blockorientierte
-Verschlüsselungsalgorithmen. {#tbl:t-betriebsarten} 
+Verschlüsselungsalgorithmen. {#tbl:t-betriebsarten}
 
 #### Gängige Algorithmen, Schlüssellängen und Blockgrößen {#sec:SEC04_GAENGIGE_ALGORITHMEN_SCHLUESSELLAENGEN_UND_BLOCKGROESSEN}
 
@@ -223,7 +223,7 @@ entsprechen der empfohlenen ECRYPTII--Einschätzung[^FN_ECRYPTII].
 Table: Auf ECRYPTII--Einschätzung basierende effektive Schlüsselgrößen
 asymmetrischer und symmetrischer Verfahren im direkten Vergleich. {#tbl:t-keys}
 
-[^FN_ECRYPTII]:ECRYPT II Yearly Report on Algorithms and Key Lengths (2012): 
+[^FN_ECRYPTII]:ECRYPT II Yearly Report on Algorithms and Key Lengths (2012):
 
 	<http://www.ecrypt.eu.org/ecrypt2/documents/D.SPA.20.pdf>
 
@@ -260,8 +260,8 @@ unsicheren Kommunikationskanal austauschen zu müssen.
    entspricht im Grunde einem temporärem *ElGamal* Schlüsselpaar: $a$ = privater
    Schlüssel, $g^a$ = öffentlicher Schlüssel)
 4) *Bob* berechnet $B=g^{b}(\mod p)$ und schickt  $B$ an *Alice*.
-5) *Alice* erhält $B$ von *Bob* und berechnet mit $a$ die Zahl $K_{1}=B^{a} (\mod p)$. 
-6) *Bob* berechnet analog $K_{2}=A^{b}(\mod p)$. 
+5) *Alice* erhält $B$ von *Bob* und berechnet mit $a$ die Zahl $K_{1}=B^{a} (\mod p)$.
+6) *Bob* berechnet analog $K_{2}=A^{b}(\mod p)$.
 
 Beide haben den gleichen Schlüssel berechnet, da gilt:
 

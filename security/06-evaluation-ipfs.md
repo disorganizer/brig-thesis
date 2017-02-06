@@ -99,7 +99,7 @@ wurde, so sind die Daten mit hoher Wahrscheinlichkeit korrekt an den Benutzer
 zurückgegeben worden. Diese Art der Validierung der Integrität ist jedoch
 aufgrund des hohen Aufwands nicht praxistauglich.
 
-Dateisysteme wie *BTRFS*[^FN_BTRFS] oder *ZFS*[^FN_ZFS] validieren die Daten und Metadaten 
+Dateisysteme wie *BTRFS*[^FN_BTRFS] oder *ZFS*[^FN_ZFS] validieren die Daten und Metadaten
 während der Lese-- und Schreibvorgänge mittels Prüfsummen. Durch dieses
 spezielle Feature kann die Verarbeitungskette beim Lesen-- und Speichern der
 Daten bezüglich ihrer Integrität validiert werden. Bei der Benutzung eines
@@ -263,7 +263,7 @@ $ cat .ipfs/config | grep PrivKey
 Für weitere Details zur Erstellung der *Identität* sollte der
 Quelltext[^FN_IPFS_CODE_INIT] zu Rate gezogen werden.
 
-[^FN_IPFS_CODE_INIT]: IPFS Schlüsselgenerierung: 
+[^FN_IPFS_CODE_INIT]: IPFS Schlüsselgenerierung:
 
 	<https://github.com/ipfs/go-ipfs/blob/e2ba43c12dd7076357d5627ef02ed56bf2a55c30/repo/config/init.go#L95>
 
@@ -299,7 +299,7 @@ bestimmten Prüfsumme auch auf einem bestimmten System mit der ihm bekannten
 Parteien ihre *Peer--ID* gegenseitig telefonisch austauschen beziehungsweise
 bestätigen. Diese grundlegende Funktionalität der Authentifizierung einer
 Quelle ist nur bedingt praxistauglich, da eine nicht persönliche Datei durchaus
-mehrere Provider haben kann. 
+mehrere Provider haben kann.
 
 **Einschub:** Im Gegensatz dazu haben beispielsweise andere dezentrale Systeme
 mit einem direkten Kommunikationskanal weitere Möglichkeiten der
@@ -307,7 +307,7 @@ Authentifizierung. Der Instant--Messaging--Client *Pidgin*[^FN_PIDGIN] bietet
 beispielsweise mit dem *OTR*--Plugin[^FN_OTR] folgende Möglichkeiten für die
 Authentifizierung einer gesicherten Verbindung:
 
-[^FN_PIDGIN]: Instant--Messaging--Client Pidgin: 
+[^FN_PIDGIN]: Instant--Messaging--Client Pidgin:
 
 	<https://de.wikipedia.org/w/index.php?title=Pidgin_(Instant_Messenger)&oldid=155942615>
 

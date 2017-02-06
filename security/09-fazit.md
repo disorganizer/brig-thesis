@@ -42,7 +42,7 @@ vorgestellt (siehe
 Die Kontrolle über die Identität ermöglicht eine feingranulare Kontrolle der
 verwendeten kryptographischen Schlüssel. Dies ermöglicht eine Sicherung der
 kryptographischen Schlüssel, beispielsweise auf einer Smartcard (siehe
-@sec:SEC08_KRYPTOGRAPHISCHE_SCHLUESSEL_AUF_YUBIKEY_UEBERTRAGEN). 
+@sec:SEC08_KRYPTOGRAPHISCHE_SCHLUESSEL_AUF_YUBIKEY_UEBERTRAGEN).
 
 Die Thematik der externen Identität wurde weiterhin auf Basis von *GnuPG*
 anhand unterschiedlicher Konzepte und Möglichkeiten im Detail erläutert. Für
@@ -56,7 +56,7 @@ Die Sicherheitsentscheidungen, welche bisher für »brig« getroffen wurden, sin
 größtenteils positiv zu bewerten. Die Datenverschlüsselungsschicht bietet
 aktuell zwar mit der vorhanden *IPFS*--Transportlayerverschlüsselungsschicht
 einen gewissen Overhead, befindet sich mit standardisierten Verfahren
-(AES--GCM, ChaCha20/Poly1305) aber auf der sicheren Seite. 
+(AES--GCM, ChaCha20/Poly1305) aber auf der sicheren Seite.
 
 Die Implementierung einer modularen Verschlüsselungsschicht macht den
 Algorithmus leichter austauschbar. Die bisher gewählte Blockgröße der
@@ -97,7 +97,7 @@ Softwareentwicklungsprozesses evaluiert (siehe
 @sec:SEC08_SIGNIEREN_VON_QUELLCODE). Weiterhin wurden unterschiedliche
 Verfahren zur Authentifizierung (Zwei--Faktor--Authentifizierung,
 Public--Key/Smartcard--Authentifizierung) gegenüber der *GitHub*--Plattform
-evaluiert (siehe @sec:SEC08_SICHERE_AUTHENTIFIZIERUNG_FUER_ENTWICKLER). 
+evaluiert (siehe @sec:SEC08_SICHERE_AUTHENTIFIZIERUNG_FUER_ENTWICKLER).
 
 
 ## Selbstkritik und aktuelle Probleme {#sec:SEC09_SELBSTKRITIK_AKTUELLE_PROBLEME}
@@ -126,7 +126,7 @@ dar. Wie bereits unter @sec:SEC04_KRYPTOGRAPHISCHE_PRIMITIVEN_UND_PROTOKOLLE
 und @sec:SEC05_SICHERHEIT_UND_ANGRIFFSSZENARIEN erläutert, ist die
 Implementierung und Evaluierung von Sicherheit keine triviale Aufgabe.
 Weiterhin kann auch die Umsetzung kryptographischer Elemente aufgrund von
-Missverständnissen fehlerhaft implementiert sein. 
+Missverständnissen fehlerhaft implementiert sein.
 
 Da »brig« einen Schwerpunkt auf Sicherheit hat, ist es essentiell das in dieser
 Arbeit Evaluierte System und die vorgestellten Konzepte von weiteren

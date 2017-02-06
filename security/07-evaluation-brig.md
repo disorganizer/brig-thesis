@@ -61,7 +61,7 @@ Geschwindigkeitsvorteile[^FN_CHACHA20_PERF1][^FN_CHACHA20_PERF2] auf
 schwächerer und mobiler Hardware, insbesondere bei Hardware ohne
 kryptographischer Beschleunigung.
 
-[^FN_CHACHA20_PERF1]:Do the ChaCha: better mobile performance with cryptography: 
+[^FN_CHACHA20_PERF1]:Do the ChaCha: better mobile performance with cryptography:
 
 	<https://blog.cloudflare.com/do-the-chacha-better-mobile-performance-with-cryptography/>
 
@@ -82,10 +82,10 @@ Algorithmus gewährleistet werden.
 
 Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEAD*--Betriebsmodi[^AEAD]:
 
-* AES--GCM [@gcm] mit 256 Bit Schlüssellänge 
+* AES--GCM [@gcm] mit 256 Bit Schlüssellänge
 * ChaCha20/Poly1305 mit 256 Bit Schlüssellänge (externe Bibliothek[^FN_CHACHA20])
 
-[^FN_SYMALGO]: Aktuell von »brig« unterstützte symmetrische Verschlüsselungsverfahren: 
+[^FN_SYMALGO]: Aktuell von »brig« unterstützte symmetrische Verschlüsselungsverfahren:
 
 	<https://github.com/disorganizer/brig/blob/fa9bb634b4b83aaabaa967ac523123ce67aa217d/store/encrypt/format.go>
 
@@ -93,7 +93,7 @@ Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEAD*--Betriebsmodi[^A
 [^AEAD]: Authenticated encryption: <https://en.wikipedia.org/w/index.php?title=Authenticated_encryption&oldid=760384391>
 
 Der *AEAD*--Betriebsmodus wurde gewählt, weil er den Vorteil hat, dass er neben
-der Vertraulichkeit auch die Authentizität und die Integrität sicherstellt. 
+der Vertraulichkeit auch die Authentizität und die Integrität sicherstellt.
 
 ### Geschwindigkeitsevaluation {#sec:SEC07_GESCHWINDIGKEITSEVALUATION}
 
@@ -155,7 +155,7 @@ lediglich als grober Orientierungswert für die jeweiligen Systeme.
 | `dd`--Schreiben   |   181.7 MB/s   	|   146.4 MB/s       | 10.7 MB/s       	 | 10.1 MB/s            |
 
 
-Table: Evaluierte Testsysteme mit und ohne AES--NI--Befehlserweiterungssatz. {#tbl:TAB_HIGH_SYS} 
+Table: Evaluierte Testsysteme mit und ohne AES--NI--Befehlserweiterungssatz. {#tbl:TAB_HIGH_SYS}
 
 Der Benchmark soll die maximal mögliche Geschwindigkeit des jeweiligen Systems beim
 Ver-- und Entschlüsseln evaluieren. Daher wird der Benchmark vollständig in
@@ -168,7 +168,7 @@ Beim Erheben der Daten wurde wie folgt vorgegangen:
 
 * Swap--Datei wurde mit `swapoff -a` deaktiviert, um ein Auslagern der Daten aus dem
   *RAM* auf die Festplatte zu verhindern.
-* Eine RAM--Disk wurde mittels Skript angelegt. 
+* Eine RAM--Disk wurde mittels Skript angelegt.
 * Verschlüsselte und entschlüsselte Daten werden mittels Skript erstellt.
 * Daten werden verschlüsselt (Schreibvorgang) nach `/dev/null` geschrieben,
   Daten werden entschlüsselt (Lesevorgang) nach `/dev/null` geschrieben.
@@ -279,7 +279,7 @@ Go--Version 1.6 langsamer ist als die Go--Version 1.5.3 Variante, die Ursache hi
 #### Schwächere Systeme {#sec:SEC07_LOW_END_SYSTEME}
 
 Neben leistungsfähigeren Systemen soll auch die Geschwindigkeit von schwächeren Systemen,
-wie beispielsweise dem weit verbreiteten *Raspberry Pi* evaluiert werden. 
+wie beispielsweise dem weit verbreiteten *Raspberry Pi* evaluiert werden.
 
 Für das Erstellen der Benchmark--Binary für die schwächeren Systeme wurde die
 Go--Cross--Compiler--Funktionalität verwendet. Hierbei wurden die Binaries für
@@ -294,7 +294,7 @@ beiden Systeme (Intel Atom, Raspberry Pi) im Vergleich zum Intel i5/AMD
 Phenom so langsam sind, dass eine Durchführung des Benchmarks mit den gleichen
 Parametern in keiner akzeptablen Zeit durchgeführt werden kann. Aus diesem
 Grund wurde die Anzahl der Durchläufe auf drei, und die zu verarbeitende
-Dateigröße auf *32MiByte* reduziert. 
+Dateigröße auf *32MiByte* reduziert.
 
 @fig:img-readblock-low zeigt den Einfluss der Blockgröße beim
 Lesen/Entschlüsseln auf den schwächeren Systemen. In der Tabelle
@@ -536,7 +536,7 @@ Angriff annehmen. Weiterhin ist die Schätzung einer »sicheren Entropie«
 schwierig, da diese stark vom Angriffsszenario abhängt. Die Schätzspanne für
 ein sicheres Passwort liegt zwischen 29 Bit (Online--Passwörter) -- 128 Bit
 oder mehr (Sicherung kryptographischer
-Schlüssel)[^FN_RANDOM_REQUIREMENTS_FOR_SECURITY]. 
+Schlüssel)[^FN_RANDOM_REQUIREMENTS_FOR_SECURITY].
 
 [^FN_RANDOM_REQUIREMENTS_FOR_SECURITY]:Randomness Requirements for Security: <https://tools.ietf.org/html/rfc4086#section-8.2>
 

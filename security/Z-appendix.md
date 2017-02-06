@@ -36,7 +36,7 @@ SUM:                           844          19983          10605          97639
 Umfang vom *IPFS*--Projekt genutzter Drittanbieter--Bibliotheken:
 
 ~~~sh
-freya :: src/github.com/ipfs » cloc $(find ./3rd -iname '*.go' -type f | \ 
+freya :: src/github.com/ipfs » cloc $(find ./3rd -iname '*.go' -type f | \
                                grep -v 'pb.go')
     1975 text files.
     1742 unique files.
@@ -990,7 +990,7 @@ if __name__ == '__main__':
 
     subprocess.call(
         [
-			"inkscape", 
+			"inkscape",
 			"{0}".format(input_data["outputfile"]),
 			"--export-pdf={0}.pdf".format(input_data["outputfile"])
 		]

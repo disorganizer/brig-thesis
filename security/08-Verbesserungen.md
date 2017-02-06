@@ -88,7 +88,7 @@ könnte »brig« den Ansatz fahren und die kryptographischen Schlüssel
 über ein *VFS* (Virtual Filesystem)[^FN_VFS] *IPFS* bereitstellen.
 [@fig:img-vfs] zeigt ein Konzept bei welchem »brig« über einen *VFS*--Adapter
 die Konfigurationsdateien und somit auch die kryptographischen Schlüssel *IPFS*
-bereitstellt. 
+bereitstellt.
 
 [^FN_VFS]: Virtual file system: <https://en.wikipedia.org/w/index.php?title=Virtual_file_system&oldid=758011055>
 
@@ -97,7 +97,7 @@ bereitstellt.
 Dabei wird beim Starten des »brig«--Daemon die verschlüsselte
 Datei im Arbeitsspeicher entschlüsselt und anschließend *IPFS* über einen
 Zugriffsadapter bereitgestellt. Dabei wird der komplette Zugriff über das *VFS*
-von »brig« verwaltet. 
+von »brig« verwaltet.
 
 ### GnuPG als Basis für »externe Identität« {#sec:SEC08_GNUPG_ALS_BASIS_FUER_EXTERNE_IDENTITAET}
 
@@ -120,7 +120,7 @@ Distributionen wie beispielsweise *Debian*[^FN_DEBIAN_GPG],
 [^FN_GPG4WIN]: Gpg4win: <https://de.wikipedia.org/w/index.php?title=Gpg4win&oldid=159789331>
 [^FN_ARCH_GPG]: Pacman/Package Signing: <https://wiki.archlinux.org/index.php/Pacman/Package_signing>
 [^FN_DEBIAN_GPG]: Archive Signing Keys: <https://ftp-master.debian.org/keys.html>
-[^FN_OPENSUSE_GPG]: RPM -- der Paket--Manager: 
+[^FN_OPENSUSE_GPG]: RPM -- der Paket--Manager:
 
 	<http://www.mpipks-dresden.mpg.de/~mueller/docs/suse10.3/opensuse-manual_de/manual/cha.rpm.html>
 
@@ -200,14 +200,14 @@ public key) zu sehen. Es handelt sich um einen RSA--Schlüssel mit 2048 Bit. Im
 unteren Bereich ist der Unterschlüssel (sub = public subkey) zu sehen, hierbei
 handelt es sich ebenso wie beim Hauptschlüssel um einen RSA--Schlüssel mit 2048
 Bit. Die Fähigkeit eines Schlüssel wird durch die Flags in eckigen Klammern
-angezeigt (Hauptschlüssel `[SC]`, Unterschlüssel `[E]`). 
+angezeigt (Hauptschlüssel `[SC]`, Unterschlüssel `[E]`).
 
 Schlüssel können unter *GnuPG* folgende Fähigkeiten besitzen:
 
 * `C` (certify): Dieser Schlüssel ist zum *Signieren von anderen/neuen
   Schlüsseln* fähig.
 * `S` (sign): Dieser Schlüssel ist zum *Signieren von Daten* fähig.
-* `E` (encrypt): Dieser Schlüssel ist zum *Ver-- und Entschlüsseln* fähig. 
+* `E` (encrypt): Dieser Schlüssel ist zum *Ver-- und Entschlüsseln* fähig.
 * `A` (auth): Dieser Schlüssel ist zum *Authentifizieren* fähig.
 
 Einen besonderen Schutzbedarf hat an dieser Stelle der Hauptschlüssel, da
@@ -329,7 +329,7 @@ auf eine *Smartcard* auszulagern (siehe
 
 #### Weiteres
 
-Bei der Evaluation einer sinnvollen Schlüsselverwaltung ist aufgefallen, dass die Passwortabfrage beim Generieren des *GnuPG*--Schlüssls eine für den Benutzer fragliche Rückmeldung bezüglich der Passwortqualität liefert. 
+Bei der Evaluation einer sinnvollen Schlüsselverwaltung ist aufgefallen, dass die Passwortabfrage beim Generieren des *GnuPG*--Schlüssls eine für den Benutzer fragliche Rückmeldung bezüglich der Passwortqualität liefert.
 
 ![Fragwürdige Entropieschätzung im *GnuPG*--Pinentry Dialog.](images/weakgpgpass.png){#fig:IMG_GNUPG_PWMETER width=50%}
 
@@ -468,9 +468,9 @@ Referenz hergenommen werden.
 Eine weitere Möglichkeit einer Authentifizierung ist auf Basis des
 *Web of Trust*.  Dieses beschreibt einen typischen dezentralen PKI--Ansatz,
 welcher aktuell mittels der GnuPG--Software umgesetzt wird.
-Die *IPFS--ID* kann hierbei mit dem privaten Schlüssel signiert werden und über das 
+Die *IPFS--ID* kann hierbei mit dem privaten Schlüssel signiert werden und über das
 »Web of Trust--Overlay--Network« von den jeweiligen Benutzer validiert
-werden. [@fig:img-web-of-trust] stellt das Konzept grafisch dar. 
+werden. [@fig:img-web-of-trust] stellt das Konzept grafisch dar.
 
 Die Authentifizierung von Kommunikationspartnern ist für den Benutzer keine
 triviale Aufgabe. Die in [@fig:img-web-of-trust] dargestellte Situation stellt
@@ -514,7 +514,7 @@ geleistet haben (vgl. [@wot1] und [@wot2]).
 ### Allgemein {#sec:SEC08_ALLGEMEIN_SMARTCARD}
 
 Wie bereits erwähnt, ist die Authentifizierung über ein Passwort oft der
-Schwachpunkt eines zu sichernden Systems. Ist das Passwort oder die  
+Schwachpunkt eines zu sichernden Systems. Ist das Passwort oder die
 Passwort--Richtlinien zu komplex, so neigen Benutzer oft dazu die Passwörter
 aufzuschreiben. Ist die Komplexität beziehungsweise Entropie zu niedrig, so ist
 es mit modernen Methoden vergleichsweise einfach, das Passwort zu berechnen (siehe @sec:SEC05_ANGRIFFSFLAECHE_BEI_BRIG).
@@ -588,11 +588,11 @@ Ausführungen. Bekannte Institutionen, welche den *YubiKey* verwenden sind
 beispielsweise die Universität von Auckland[^FN_YK_UNIVERSITY_AUCKLAND], das
 *CERN*[^FN_YK_CERN] oder auch das Massachusetts Institute of Technology[^FN_YK_MIT].
 
-[^FN_YK_UNIVERSITY_AUCKLAND]: Auckland University YubiKey--Benutzeranweisung: 
+[^FN_YK_UNIVERSITY_AUCKLAND]: Auckland University YubiKey--Benutzeranweisung:
 
 	<https://www.auckland.ac.nz/en/about/the-university/how-university-works/policy-and-administration/computing/use/twostepverification.html>
 
-[^FN_YK_MIT]: Massachusetts Institute of Technology YubiKey--Benutzeranweisung: 
+[^FN_YK_MIT]: Massachusetts Institute of Technology YubiKey--Benutzeranweisung:
 
 	<https://security.web.cern.ch/security/recommendations/en/2FA.shtml>
 
@@ -640,7 +640,7 @@ ansprechen, Slot 2 mit einem längeren Drücken (2,5--5 Sekunden). Für weitere 
 [^FN_YUBICO_PERSON_TOOL]: Yubico Personalization Tool: <https://www.yubico.com/products/services-software/personalization-tools/use/>
 
 Die grundlegende Konfiguration des *YubiKey* ist mit dem *YubiKey
-Personalization Tool* möglich.  
+Personalization Tool* möglich.
 
 ![GUI des YubiKey Personalization Tool. Das Konfigurationswerkzeug ist eine QT--Anwendung, diese wird von den gängigen Betriebssystemen (Linux, MacOs, Windows) unterstützt.](images/ykgui2.png){#fig:img-ykgui width=75%}
 
@@ -749,7 +749,7 @@ $ ./twofac katzenbaum cccccceleflifuccbfruutuudkntjhbkfjevbhndbcrk
 Authentifizierung mit falschem Passwort und korrektem *YubiKey*:
 
 ~~~sh
-$ ./twofac elchwald ccccccelefliujnnnjbllkhrfeklifntfknicfbilced  
+$ ./twofac elchwald ccccccelefliujnnnjbllkhrfeklifntfknicfbilced
 [yubico: OK, brig : OK, password: X]
 ~~~
 
@@ -765,7 +765,7 @@ One--Time--Passwort des falschen *YubiKey*:
 
 ~~~sh
 $ ./twofac elchwald ccccccejjegnjrvnbbthinvbvrbjerljknbeteluugut
-2016/12/12 22:41:30 The OTP is valid, but has been used before. \ 
+2016/12/12 22:41:30 The OTP is valid, but has been used before. \
 If you receive this error, you might be the victim of a man-in-the-middle attack.
 [yubico: X, brig : X, password: X]
 ~~~
@@ -848,7 +848,7 @@ ersetzt. Der Server läuft standardmäßig auf *localhost*, Port *4242*:
 
 ~~~sh
 # Validierung des YubiKey OTP
-$ curl "http://localhost:4242/wsapi/2.0/verify \ 
+$ curl "http://localhost:4242/wsapi/2.0/verify \
   ?otp=vvrfglutrrgkkddjfnkjlitiuvfglnbkfghlnjvnkflj&id=1&nonce=test42"
 nonce=test42 otp=vvrfglutrrgkkddjfnkjlitiuvfglnbkfghlnjvnkflj
 name=Christoph
@@ -863,7 +863,7 @@ Fehlermeldung `REPLAYED_OTP` aus.
 
 ~~~sh
 # Wiederholtes OTP
-$ curl "http://localhost:4242/wsapi/2.0/verify \ 
+$ curl "http://localhost:4242/wsapi/2.0/verify \
   ?otp=vvrfglutrrgkkddjfnkjlitiuvfglnbkfghlnjvnkflj&id=1&nonce=test42"
 nonce=test42
 otp=vvrfglutrrgkkddjfnkjlitiuvfglnbkfghlnjvnkflj
@@ -1007,7 +1007,7 @@ System/Kernel--Logging mittels `dmesg` herausfinden (gekürzte Ausgabe):
 ~~~sh
 $ dmesg | tail -n 2
 [324606.823079] input: Yubico YubiKey NEO OTP as /devices/pci[...]
-[324606.877786] hid-generic 0003:1050:0110.023F: input,hidraw5: \ 
+[324606.877786] hid-generic 0003:1050:0110.023F: input,hidraw5: \
 USB HID v1.10 Keyboard [Yubico YubiKey NEO OTP] on usb-0000:00:1d.0-1.8.1.3/input0
 ~~~
 
@@ -1043,14 +1043,14 @@ Ausgabe):
 ~~~sh
 dmesg | tail -n 2
 [324620.832438] input: Yubico YubiKey NEO OTP+CCID as /devices/pci[...]
-[324620.888719] hid-generic 0003:1050:0111.0240: input,hidraw5: \ 
+[324620.888719] hid-generic 0003:1050:0111.0240: input,hidraw5: \
 USB HID v1.10 Keyboard [Yubico YubiKey NEO OTP+CCID] on usb-0000:00:1d.0[...]
 ~~~
 
 #### Übertragung kryptographischer Schlüssel auf den YubiKey {#sec:SEC08_KRYPTOGRAPHISCHE_SCHLUESSEL_AUF_YUBIKEY_UEBERTRAGEN}
 
 Nach der Aktivierung des *OpenPGP*--Applets kann der *YubiKey* wie eine
-Standard--OpenPGP--Smartcard mit *GnuPG* verwendet werden. 
+Standard--OpenPGP--Smartcard mit *GnuPG* verwendet werden.
 
 `gpg2 --card-status` zeigt den aktuellen Inhalt des *YubiKey OpenPGP--Applets*:
 
@@ -1087,7 +1087,7 @@ Funktionalitäten (*Pin-Counter* et cetera) siehe die
 
 [^FN_GNUPG_SMARTCARD_DOC]: Chapter 3. Administrating the Card: <https://www.gnupg.org/howtos/card-howto/en/ch03.html>
 
-Es gibt zwei Möglichkeiten die Smartcard mit kryptographischen Schlüsseln zu befüllen. 
+Es gibt zwei Möglichkeiten die Smartcard mit kryptographischen Schlüsseln zu befüllen.
 
 1. Schlüssel direkt auf Smartcard generieren lassen.
 2. Schlüssel extern auf PC generieren und auf Smartcard verschieben.
@@ -1108,7 +1108,7 @@ Auszug aus @sec:APP_SCHLUESSELGENERIERUNG_AUF_DER_KARTE:
 ~~~sh
 gpg: Note: backup of card key saved to '/home/qitta/.gnupg/sk_E5A1965037A8E37C.gpg'
 gpg: key 932AEBFDD72FE59C marked as ultimately trusted
-gpg: revocation certificate stored as '/home/qitta/.gnupg/openpgp-revocs.d/ \ 
+gpg: revocation certificate stored as '/home/qitta/.gnupg/openpgp-revocs.d/ \
 D61CEE19369B9C330A4A482D932AEBFDD72FE59C.rev'
 ~~~
 
@@ -1206,7 +1206,7 @@ Unterschlüssel auf den *YubiKey* übertragen wurden. Die gekürzte Variante von
 `gpg2 --card-status` zeigt die Schlüssel auf der Smartcard.
 
 ~~~sh
- $ gpg2 --expert --card-status | head -n 21 | tail -n 6 
+ $ gpg2 --expert --card-status | head -n 21 | tail -n 6
 
 Signature key ....: 7CD8 DB88 FBF8 22E1 3005  66D1 2CC4 F84B E43F 54ED
       created ....: 2016-12-11 16:32:58
@@ -1288,7 +1288,7 @@ mit der `ID 2CC4F84BE43F54ED` anstelle des Hauptschlüssels mit der `ID
 Nach dem Signiervorgang entsteht folgende Signaturdatei:
 
 ~~~sh
-$ cat brig-v1.0.tar.gz.asc 
+$ cat brig-v1.0.tar.gz.asc
 -----BEGIN PGP SIGNATURE-----
 
 iQEzBAABCAAdFiEEfNjbiPv4IuEwBWbRLMT4S+Q/VO0FAlhNuggACgkQLMT4S+Q/
@@ -1467,7 +1467,7 @@ man nach der Eingabe seines persönlichen Passworts um den zweiten Faktor
 
 Grundsätzlich gibt es, wie bei anderen Plattformen die Möglichkeit, sich mit
 dem Benutzernamen und dem Passwort gegenüber einer Plattform wie beispielsweise
-*GitHub* zu authentifizieren. 
+*GitHub* zu authentifizieren.
 
 **Public--Key--Authentifizierung:**
 
@@ -1564,7 +1564,7 @@ $ GIT_SSH_COMMAND="ssh -vv" git push
 [...]
 debug1: Authentications that can continue: publickey,password
         # vom gpg-agent verwalteter Schlüssel auf Smartcard
-debug1: Offering RSA public key: cardno:000600000011 
+debug1: Offering RSA public key: cardno:000600000011
 debug2: we sent a publickey packet, wait for reply
 debug1: Server accepts key: pkalg ssh-rsa blen 279
 debug2: input_userauth_pk_ok: fp SHA256:eoOgD/8ri0RCblmJgTbPx/Ci6pBBssLtjMulpX4brlY
@@ -1604,7 +1604,7 @@ $ GIT_SSH_COMMAND="ssh -vv" git push
 debug1: Authentications that can continue: publickey
 debug1: Next authentication method: publickey
         # vom gpg-agent verwalteter Schlüssel
-debug1: Offering RSA public key: /home/qitta/.ssh/id_rsa 
+debug1: Offering RSA public key: /home/qitta/.ssh/id_rsa
 debug2: we sent a publickey packet, wait for reply
 debug1: Server accepts key: pkalg ssh-rsa blen 279
 debug2: input_userauth_pk_ok: fp SHA256:V00F8adokJZljo1WD+XPjSP51rTl/GVS3bh5YfJOLtk

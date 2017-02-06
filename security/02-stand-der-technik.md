@@ -42,7 +42,7 @@ sicher ist. Auch ein System das aus kryptographischer Sicht als »sicher« zu
 betrachten wäre, kann im einfachsten Fall, durch die Weitergabe von
 Zugangsdaten an Dritte, kompromittiert werden.
 
-![Scherzhafte Darstellung eines möglichen Angriff auf eine Festplattenverschlüsselung mit optimalem Kosten/Nutzen--Verhältnis.[^FN_XKCD_ENC_COMIC]](images/security.png){#fig:img-security width=66%} 
+![Scherzhafte Darstellung eines möglichen Angriff auf eine Festplattenverschlüsselung mit optimalem Kosten/Nutzen--Verhältnis.[^FN_XKCD_ENC_COMIC]](images/security.png){#fig:img-security width=66%}
 
 [^FN_XKCD_ENC_COMIC]:Bildquelle: <http://imgs.xkcd.com/comics/security.png>
 
@@ -98,7 +98,7 @@ online beim Cloud--Storage--Anbieter.
 Dieser Ordner lässt sich dann beispielsweise auf weitere Geräte des Benutzer
 synchronisieren. Weiterhin gibt es in der Regel, die Möglichkeit Dateien mit
 anderen Benutzern zu teilen (siehe @fig:img-cloud). Welche genauen
-Einstellungen sich vornehmen lassen und wie feingranular die 
+Einstellungen sich vornehmen lassen und wie feingranular die
 Benutzerverwaltung und die Möglichkeiten beim Synchronisieren sind, ist von dem
 jeweiligen Cloud--Speicher--Anbieter abhängig.
 
@@ -138,7 +138,7 @@ Metadaten und kryptographischen Schlüssel verwaltet Apple auf seinen eigenen
 Servern. Dropbox hat laut Medienberichten mittlerweile von der *Amazon*--Cloud
 auf eine eigene Infrastruktur migriert[^FN_DROPBOX_S3_OWN].
 
-[^FN_DROPBOX_S3_OWN]:Dropbox Exodus Amazon Cloud Empire: 
+[^FN_DROPBOX_S3_OWN]:Dropbox Exodus Amazon Cloud Empire:
 
 	<http://www.wired.com/2016/03/epic-story-dropboxs-exodus-amazon-cloud-empire/>
 
@@ -183,7 +183,7 @@ integrieren, bleibt jedoch die Krux der Intransparenz und der proprietären
 Software. Es ist für den Benutzer nicht ohne weiteres möglich, die Sicherheit der
 Client--Software zu validieren.
 
-[^FN_TWO_FACTOR_AUTH]: Zwei--Faktor--Authentifizierung: 
+[^FN_TWO_FACTOR_AUTH]: Zwei--Faktor--Authentifizierung:
 
 	<https://de.wikipedia.org/w/index.php?title=Zwei-Faktor-Authentifizierung&oldid=160891860>
 
@@ -319,29 +319,29 @@ letzter Zeit:
 * Dropbox akzeptiert beliebige Passwörter über mehrere Stunden[^FN_DROPBOX_ACCESS]
 * Ausfallzeit über zwei Stunden[^FN_DROPBOX_DOS]
 
-[^FN_FAPPENING]: iCloud--Hack: 
+[^FN_FAPPENING]: iCloud--Hack:
 
-	<https://de.wikipedia.org/w/index.php?title=Hackerangriff_auf_private_Fotos_von_Prominenten_2014&oldid=159942418> 
+	<https://de.wikipedia.org/w/index.php?title=Hackerangriff_auf_private_Fotos_von_Prominenten_2014&oldid=159942418>
 
-[^FN_BITLOCKER_CLOUD]: Bitlocker--Schlüssel werden standardmäßig in die Cloud synchronisiert: 
+[^FN_BITLOCKER_CLOUD]: Bitlocker--Schlüssel werden standardmäßig in die Cloud synchronisiert:
 
 	<https://theintercept.com/2015/12/28/recently-bought-a-windows-computer-microsoft-probably-has-your-encryption-key/>
 
-[^FN_DROPBOX_ACCESS]: Dropbox--Authentifizierungs--Bug: 
+[^FN_DROPBOX_ACCESS]: Dropbox--Authentifizierungs--Bug:
 
 	<https://techcrunch.com/2011/06/20/dropbox-security-bug-made-passwords-optional-for-four-hours/>
 
 [^FN_MS_DATALEAK]: OneDrive Datenleck: <https://www.heise.de/security/meldung/Microsoft-dichtet-OneDrive-Links-ab-2227485.html>
-[^FN_GDRIVE_DATALEAK]: Google Drive Datenleck: 
+[^FN_GDRIVE_DATALEAK]: Google Drive Datenleck:
 
 	<https://www.heise.de/security/meldung/Auch-Google-schliesst-Datenleck-im-Cloud-Speicher-2243366.html>
 
 [^FN_DROPBOX_DATALEAK_4]: Dropbox Datenleck: <https://www.heise.de/security/meldung/Dropbox-bestaetigt-Datenleck-1656798.html>
-[^FN_DROPBOX_DATALEAK_3]: 7 Mio. Zugangsdaten im Umlauf: 
+[^FN_DROPBOX_DATALEAK_3]: 7 Mio. Zugangsdaten im Umlauf:
 
 	<https://www.heise.de/security/meldung/Angeblich-7-Millionen-Dropbox-Passwoerter-im-Umlauf-2423684.html>
 
-[^FN_DROPBOX_SPY]: Dropbox--Schnüffelverdacht: 
+[^FN_DROPBOX_SPY]: Dropbox--Schnüffelverdacht:
 
 	<http://www.heise.de/security/meldung/Dropbox-unter-Schnueffelverdacht-2565990.html>
 
@@ -404,7 +404,7 @@ existieren sogenannte »rendezvous hosts«[^FN_RENDEZVOUS_HOST], welche für die
 initiale Konfiguration und als »Einstiegspunkt« benötigt werden. Hier
 unterscheiden sich die verschiedenen Protokolle und Netzwerke voneinander.
 
-[^FN_RENDEZVOUS_HOST]: Rendezvous Host/Bootstrapping node: 
+[^FN_RENDEZVOUS_HOST]: Rendezvous Host/Bootstrapping node:
 
 	<https://en.wikipedia.org/w/index.php?title=Bootstrapping_node&oldid=693889298>
 
@@ -489,7 +489,7 @@ Benutzer folgende »Schlüssel«, über welche er den Synchronisationsordner mit
 anderen Synchronisationspartnern teilen kann. Anhand des gewählten Schlüssels,
 wird folgende Funktionalität beim Synchronisieren realisiert:
 
-[^FN_GUI]: Grafische Benutzeroberfläche: 
+[^FN_GUI]: Grafische Benutzeroberfläche:
 
 	<https://de.wikipedia.org/w/index.php?title=Grafische_Benutzeroberfl%C3%A4che&oldid=155859783>
 
@@ -505,7 +505,7 @@ Eindruck. Eine 2014 durchgeführte Analyse von *BitTorrent*--Sync auf der
 Einschätzung[^FN_HACKITO], dass *BitTorrent*--Sync nicht für sensitive Daten
 verwendet werden sollte.
 
-[^FN_HACKITO]: Security analysis of BTsync: 
+[^FN_HACKITO]: Security analysis of BTsync:
 
 	<http://2014.hackitoergosum.org/bittorrentsync-security-privacy-analysis-hackito-session-results/>
 
@@ -566,7 +566,7 @@ liefern, mit welchen Peers sich eine bestimmte *Device ID* synchronisiert. Mehr
 zu *Device IDs* sowie möglichen damit in Verbindung stehenden Problemen findet
 sich in der offiziellen Syncthing--Dokumentation[^FN_SYNCTHING_DEVID].
 
-[^FN_SYNCTHING_SPOOFING]: Problems and Vulnerabilities: <https://docs.syncthing.net/dev/device-ids.html#problems-and-vulnerabilities> 
+[^FN_SYNCTHING_SPOOFING]: Problems and Vulnerabilities: <https://docs.syncthing.net/dev/device-ids.html#problems-and-vulnerabilities>
 [^FN_SYNCTHING_DEVID]: Understanding Device--IDs: <https://docs.syncthing.net/dev/device-ids.html>
 
 Eine lokale Verschlüsselung der Daten finden nicht statt. Schlüssel, welche die
@@ -657,7 +657,7 @@ größten« Cloud--Speicher--Anbietern:
 * Microsoft OneDrive
 * Google Drive
 
-[^FN_CLOUDSTORAGE]: Größten Cloud--Speicher Anbieter: 
+[^FN_CLOUDSTORAGE]: Größten Cloud--Speicher Anbieter:
 
 	<http://www.wiwo.de/unternehmen/it/cloud-wer-sind-die-groessten-cloud-anbieter-und-was-kosten-sie/11975400-7.html>
 
@@ -701,7 +701,7 @@ verwendet werden, um automatisiert nach Sicherheitslücken im Quelltext auf
 Cook* verweist auf diese Problematik auf dem aktuellsten *Linux Security Summit
 2016*[^FN_LINUX_SEC_SUMMIT].
 
-[^FN_LINUX_SEC_SUMMIT]: Status of the Kernel Self Protection Project: 
+[^FN_LINUX_SEC_SUMMIT]: Status of the Kernel Self Protection Project:
 
 	<http://events.linuxfoundation.org/sites/events/files/slides/KernelSelfProtectionProject-2016.pdf>
 
@@ -724,13 +724,13 @@ als Closed--Source--Projekten (vgl. [@csr2013] und [@csr2014]).
 
 Durch *Freie Software* hat der Verbraucher jedoch immer die Möglichkeit, den
 Quelltext zu validieren und auch an die eigenen Sicherheitsbedürfnisse
-anzupassen. Wenn man beispielsweise wissen möchte, ob und wie die 
+anzupassen. Wenn man beispielsweise wissen möchte, ob und wie die
 Festplattenverschlüsselungssoftware (in diesem Fall *Cryptsetup/LUKS*)  den
 Volume--Schlüssel aus dem Speicher entfernt, kann man sich den Quelltext auf
 *Github* anschauen. Im Fall von *LUKS* wir der Speicherbereich mit Nullen
 überschrieben[^FN_LUKS_VK_MEMSET].
 
-[^FN_LUKS_VK_MEMSET]: Luks Volume--Key Free--Funktion: 
+[^FN_LUKS_VK_MEMSET]: Luks Volume--Key Free--Funktion:
 
 	<https://github.com/mhfan/cryptsetup/blob/ae9c9cf369cb24ac5267376401c80c2c40ada6a2/lib/volumekey.c#L46>
 
@@ -745,7 +745,7 @@ sichere Alternativen oder macht Personen auf den problematischen Datenschutz
 von zentralen Diensten wie *Facebook*, *Dropbox* und Co. aufmerksam, bekommt
 man oft das Argument »Ich habe nichts zu verbergen!« zu hören.
 
-[^FN_SNOWDEN_LEAK]: Globale Überwachungs-- und Spionageaffäre: 
+[^FN_SNOWDEN_LEAK]: Globale Überwachungs-- und Spionageaffäre:
 
 	<https://de.wikipedia.org/w/index.php?title=Globale_%C3%9Cberwachungs-_und_Spionageaff%C3%A4re&oldid=161594120> \_
 

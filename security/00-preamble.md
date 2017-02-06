@@ -2,7 +2,7 @@
 documentclass: scrreprt
 classoption: toc=listof,index=totoc
 include-headers:
-    - \usepackage{url} 
+    - \usepackage{url}
     - \usepackage[ngerman]{babel}
     - \usepackage{csquotes}
     - \usepackage[babel, german=quotes]{csquotes}

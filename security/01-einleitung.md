@@ -49,7 +49,7 @@ Regel auf einen Anbieter einigen. Hierbei stellt die
 Fragmentierung[^FN_PROVIDER_FRAGMENTATION] der Cloud--Storage--Anbieter den
 Benutzer oft vor weitere Herausforderungen.
 
-[^FN_PROVIDER_FRAGMENTATION]: Übersicht Online--Backup--Provider: 
+[^FN_PROVIDER_FRAGMENTATION]: Übersicht Online--Backup--Provider:
 
 	<https://en.wikipedia.org/w/index.php?title=Comparison_of_online_backup_services&oldid=760247797>
 
@@ -82,7 +82,7 @@ verbessern soll.
 
 ## Organisation und Schwerpunkte der Arbeit {#sec:SEC01_ORGANISATION_UND_SCHWERPUNKT_DER_ARBEIT}
 
-**Projektschwerpunkte:** 
+**Projektschwerpunkte:**
 
 Ziel ist es eine Software zu entwickeln, welche aktuelle Sicherheitsstandards
 und Usability möglichst gut vereint und dabei ohne zentrale Instanz auskommt.
@@ -102,7 +102,7 @@ Sicherheitskomplexität so wenig wie möglich mitbekommen. Die Software soll dab
 jedoch mindestens so einfach nutzbar sein wie die heutzutage gängigen
 Cloud--Dienste.
 
-**Organisation:** 
+**Organisation:**
 
 Die Basis für die Entwicklung der Software, Validierung einzelner Komponenten
 und Prozesse, sowie die Ausarbeitung möglicher zukünftiger Konzepte stellen die
@@ -159,6 +159,6 @@ Die Namensanlehnung soll analog den dezentralen Transport von Daten darstellen.
 
 Aufgrund der Projektziele kommt als Lizenzierung die Open--Source--Lizenz
 *AGPLv3*[^FN_AGPL] zum Einsatz. Denkbar wären jedoch im späteren Verlauf des
-Projektes kombinierte Lizenzen für Unternehmen. 
+Projektes kombinierte Lizenzen für Unternehmen.
 
 [^FN_AGPL]: AGPLv3 Lizenz: <https://www.gnu.org/licenses/agpl-3.0.de.html>
