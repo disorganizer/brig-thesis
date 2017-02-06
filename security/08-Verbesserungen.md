@@ -858,11 +858,11 @@ h=7DJyK6NZOIeCcs9lHcH+K8RFaYY=
 ~~~
 
 Beim wiederholten Einspielen des gleichen OTP verhält sich der eigene
-Validierungsserver genauso wie die YubiCloud und gibt die erwartete 
-Fehlermeldung `REPLAYED_OTP` aus. 
+Validierungsserver genauso wie die YubiCloud und gibt die erwartete
+Fehlermeldung `REPLAYED_OTP` aus.
 
 ~~~sh
-# Widerholtes OTP
+# Wiederholtes OTP
 $ curl "http://localhost:4242/wsapi/2.0/verify \ 
   ?otp=vvrfglutrrgkkddjfnkjlitiuvfglnbkfghlnjvnkflj&id=1&nonce=test42"
 nonce=test42
