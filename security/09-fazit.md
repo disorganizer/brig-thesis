@@ -120,9 +120,39 @@ TODO: Ausformulieren
 
 ## Ausblick {#sec:SEC09_AUSBLICK}
 
-* Evaluation der Konzepte und Implementierungsdetails von Experten
-* Wie gut lässt sich keybase.io als Authentifizierungsumgebung integrieren?
-* YubiKey mit PIV sinnvoll? <https://developers.yubico.com/PIV/Introduction/YubiKey_and_PIV.html>
-* Weitere Algorithmen überdenken?
-* Verbesserungen vllt mit Assembler optimierter Variante: <https://git.schwanenlied.me/yawning/chacha20>? 
-* Mehr Systeme benchmarken um bessere Aussagen machen zu können.
+Die Evaluation der Sicherheit von »brig« sowie die evaluierten
+Sicherheitskonzepte für die weitere Entwicklungen stellen einen »Erstentwurf«
+dar. Wie bereits unter @sec:SEC04_KRYPTOGRAPHISCHE_PRIMITIVEN_UND_PROTOKOLLE
+und @sec:SEC05_SICHERHEIT_UND_ANGRIFFSSZENARIEN erläutert, ist die
+Implementierung und Evaluierung von Sicherheit keine triviale Aufgabe.
+Weiterhin kann auch die Umsetzung kryptographischer Elemente aufgrund von
+Missverständnissen fehlerhaft implementiert sein. 
+
+Da »brig« einen Schwerpunkt auf Sicherheit hat, ist es essentiell das in dieser
+Arbeit Evaluierte System und die vorgestellten Konzepte von weiteren
+unabhängigen Sicherheitsexperten --- beispielsweise von der HSASec[^FN_HSASEC]
+--- beurteilen zu lassen und die vorgestellten Konzepte kritisch zu
+diskutieren. Zusätzlich sollte unabhängige Sicherheitsaudits der
+Implementierung vor der ersten offiziellen Veröffentlichung durchgeführt
+werden.
+
+[^FN_HSASEC]: HSASec: <https://www.hsasec.de/>
+
+Weiterhin wäre für anknüpfende Arbeiten im Bereich von »brig« oder allgemein
+von dezentralen und sicherheitsorientierten Dateiverteilungslösungen die
+Evaluation von Plattformen wie *Keybase.io*[^FN_KEYBASE] als
+Authentifizierungsplattform erwähnenswert.
+
+[^FN_KEYBASE]: Keybase.io: <https://keybase.io/>
+
+Die durchgeführten Benchmarks zur Geschwindigkeit zeigen ein
+tendenzielles Verhalten auf bestimmten Plattformen. Hier wäre die Evaluation
+weiterer Hardware--Systeme nötig um bessere Entscheidungen für Optimierungen
+und bezüglich der Auswahl geeigneter Algorithmen treffen zu können.
+
+Abschließend ist es wichtig zu erwähnen, dass unabhängig von den
+Implementierten technischen Maßnahmen, der Benutzer eine essentielle Rolle in
+jedem sicherheitskritischen System hat. Dieser muss immer wieder aufs Neue für
+das Thema Sicherheit und Datenschutz sensibilisiert werden. Gerade in unser
+heutigen digitalen Informationsgesellschaft ist die Auseinandersetzung mit
+Sicherheit und den eigenen Daten wichtiger den je.
