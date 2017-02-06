@@ -151,8 +151,13 @@ weiterer Hardware--Systeme nötig um bessere Entscheidungen für Optimierungen
 und bezüglich der Auswahl geeigneter Algorithmen treffen zu können.
 
 Abschließend ist es wichtig zu erwähnen, dass unabhängig von den
-Implementierten technischen Maßnahmen, der Benutzer eine essentielle Rolle in
-jedem sicherheitskritischen System hat. Dieser muss immer wieder aufs Neue für
-das Thema Sicherheit und Datenschutz sensibilisiert werden. Gerade in unser
-heutigen digitalen Informationsgesellschaft ist die Auseinandersetzung mit
-Sicherheit und den eigenen Daten wichtiger den je.
+Implementierten technischen Maßnahmen, der Mensch eine essentielle Rolle in
+jedem sicherheitskritischen System hat. Für Software--Entwickler dient die
+Arbeit als Einstiegspunkt, der für die Thematik der Sicherheit aber auch der
+sicherheitsorientierten Softwareentwicklung sensibilisieren soll.
+
+Der Otto Normalbenutzer sollte immer wieder aufs Neue für das Thema Sicherheit
+und Datenschutz sensibilisiert werden, da gerade in unser heutigen digitalen
+Informationsgesellschaft Fehleinschätzungen fatale Folgen --- für das
+Individuum selbst aber auch politische und gesellschaftliche Entwicklungen ---
+haben können.
