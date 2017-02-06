@@ -109,12 +109,16 @@ Please note the following:
   If this is a blocking feature for you, please contact us.
 ~~~
 
-# Anfang C: IRC--Logauszug zur Transportverschlüsselung {#sec:APP_IPFS_TRANSPORT_SEC}
+# Anfang C: IRC--Log zur TLS--Verschlüsselung {#sec:APP_IPFS_TRANSPORT_SEC}
 
 IPFS--Entwickler:
 
 * https://github.com/whyrusleeping
 * https://github.com/Kubuxu
+
+Brig--Entickler:
+
+* manny (Christoph Piechula)
 
 IRC--Logauszug vom 14.10.2016
 
@@ -271,7 +275,62 @@ CPU min MHz:           700.0000
 Linux luna 4.4.30-1-ARCH #1 Tue Nov 1 21:44:33 MDT 2016 armv6l GNU/Linux
 ~~~
 
-# Anhang E: Benchmarktool und Skripte {#sec:APP_SCRIPTE}
+# Anhang E: Benchmark--Skripte {#sec:APP_SCRIPTE}
+
+Bash--Skript zur Ermittlung der Lese-- und Schreibgeschwindigkeit mittels `dd`:
+
+~~~sh
+#/bin/sh
+
+BENCHDIR=thisfoldershouldnotexist
+TESTFILE=thisfileshouldnotexist
+
+READACC=0
+WRITEACC=0
+
+function read_bench() {
+	sudo echo 3 > /proc/sys/vm/drop_caches
+	RESULT=`dd if=/boot/$TESTFILE of="$BENCHDIR/$TESTFILE" bs=1M count=256 oflag=sync 2>&1 | tail -n 1| awk '{ gsub(",","."); print $(NF-1) }'`
+	READACC=`python3 -c "print($READACC+$RESULT)"`
+}
+
+function write_bench() {
+	sudo echo 3 > /proc/sys/vm/drop_caches
+	RESULT=`dd if=$BENCHDIR/$TESTFILE of=/boot/$TESTFILE bs=1M count=256 oflag=sync 2>&1 | tail -n 1| awk '{ gsub(",","."); print $(NF-1) }'`
+	WRITEACC=`python3 -c "print($WRITEACC+$RESULT)"`
+}
+
+
+echo "Mounting benchmark dir..."
+sudo swapoff -a
+mkdir -p $BENCHDIR
+sudo mount -t ramfs -o size=260M ramfs $BENCHDIR
+sudo chmod 0777 $BENCHDIR
+sudo dd if=/dev/urandom of=/boot/$TESTFILE bs=1M count=256 oflag=sync
+
+echo "Running read benchmark..."
+for i in `seq 1 10`;
+do
+	read_bench
+done
+echo Read performance: `python3 -c "print($READACC/10)"`
+
+echo "Running write benchmark..."
+for i in `seq 1 10`;
+do
+	write_bench
+done
+echo Write performance: `python3 -c "print($WRITEACC/10)"`
+
+sudo sync
+sudo swapon -a
+echo "Cleaning up..."
+sudo umount $BENCHDIR
+rmdir $BENCHDIR
+sudo rm /boot/$TESTFILE
+~~~
+
+Kommandozeilen--Tool für Ver-- und Entschlüsselung:
 
 ~~~go
 package main
@@ -500,6 +559,10 @@ func main() {
 	}
 }
 ~~~
+
+Python Skript für die Erhebung der Benchmark--Daten im Hilfe des
+Kommandozeilen--Tools zur Ver-- und Entschlüsselung von Dateien:
+
 ~~~python
 #!/usr/bin/env python
 # encoding: utf-8
@@ -684,6 +747,9 @@ if __name__ == '__main__':
                     run_benchmark(config, runs=10, filesize=fs)
 
 ~~~
+
+Python Skript für das Plotten der Benchmark--Daten:
+
 ~~~python
 #!/usr/bin/env python
 # encoding: utf-8
@@ -902,7 +968,9 @@ if __name__ == '__main__':
     config_path = os.path.abspath(sys.argv[1])
     dir_path = os.path.dirname(config_path)
     input_data = get_input_data(config_path)
-    input_data["outputfile"] = os.path.join(dir_path, os.path.basename(config_path) + ".svg")
+    input_data["outputfile"] = os.path.join(
+	    dir_path, os.path.basename(config_path) + ".svg"
+	)
 
     if input_data["plot-data"] == []:
         print("No Plot data found with this attributes.")
@@ -921,7 +989,11 @@ if __name__ == '__main__':
         render_line_plot_scrypt(input_data)
 
     subprocess.call(
-        ["inkscape", "{0}".format(input_data["outputfile"]),  "--export-pdf={0}.pdf".format(input_data["outputfile"])]
+        [
+			"inkscape", 
+			"{0}".format(input_data["outputfile"]),
+			"--export-pdf={0}.pdf".format(input_data["outputfile"])
+		]
     )
     subprocess.call(
         ["chromium", "{0}".format(input_data["outputfile"]), "&"]
@@ -971,7 +1043,7 @@ public and secret key created and signed.
 
 Generierte Schlüssel Anzeigen lassen
 
-~~~
+~~~sh
 gpg/card> list
 
 Reader ...........: 0000:0000:X:0
@@ -1200,7 +1272,7 @@ Please specify how long the key should be valid.
       <n>  = key expires in n days
       <n>w = key expires in n weeks
       <n>m = key expires in n months
-      <n>y = key expires in n years 
+      <n>y = key expires in n years
 Key is valid for? (0) 10y
 Key expires at Mi 09 Dez 2026 17:45:52 CET
 Is this correct? (y/N) y
@@ -1255,7 +1327,7 @@ ssb  rsa2048/74B050CC5ED64D18
 gpg> save
 ~~~
 
-# Exportieren der privaten und öffentlichen Schlüssel {#sec:APP_EXPORTIEREN_DER_PRIVATEN_UND_OEFFENTLICHEN_SCHLUESSEL}
+# Exportieren der GnuPG--Schlüssel {#sec:APP_EXPORTIEREN_DER_PRIVATEN_UND_OEFFENTLICHEN_SCHLUESSEL}
 
 Exportieren der privaten Schlüssel:
 
