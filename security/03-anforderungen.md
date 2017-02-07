@@ -61,9 +61,9 @@ abhängig.
 Eine Software zur dezentralen Dateiverteilung benötigt Sicherheitskonzepte
 welche folgende Punkte gewährleisten:
 
-* Vertraulichkeit: Kein Zugriff auf Daten durch unbefugte Personen.
-* Integrität: Manipulation von Daten sind erkennbar.
-* Authentizität: Kommunikationspartner sind eindeutig identifizierbar.
+* *Vertraulichkeit:* Kein Zugriff auf Daten durch unbefugte Personen.
+* *Integrität:* Manipulation von Daten sind erkennbar.
+* *Authentizität:* Kommunikationspartner sind eindeutig identifizierbar.
 
 Die beiden unter [@sec:SEC02_DER_SICHERHEITSBEGRIFF] gelisteten Punkte
 Autorisierung und Verfügbarkeit stellen keine erfüllbaren Sicherheitsaspekte
@@ -86,15 +86,15 @@ mitgestalten zu können.
 Aus diesen Herausforderungen ergeben sich bezogen auf das Projekt folgende
 Mindestanforderungen sowie Fragestellungen:
 
-* Passwortmanagement -- Wie sieht für Benutzer und Entwickler ein sicheres
+* *Passwortmanagement* -- Wie sieht für Benutzer und Entwickler ein sicheres
   Passwortmanagement aus?
-* Schlüsselmanagement -- Welche Konzepte sollen für die Verwaltung
+* *Schlüsselmanagement* -- Welche Konzepte sollen für die Verwaltung
   kryptographischer Schlüssel verwendet werden?
-* Authentifizierung -- Wie kann eine sichere Authentifizierung von Benutzern in
+* *Authentifizierung* -- Wie kann eine sichere Authentifizierung von Benutzern in
   einem dezentralen Netzwerk erfolgen?
-* Sichere Softwareverteilung -- Wie kann der Benutzer/Entwickler sicherstellen,
+* *Sichere Softwareverteilung* -- Wie kann der Benutzer/Entwickler sicherstellen,
   keine Schadsoftware erhalten zu haben?
-* Sichere und transparente Entwicklungsumgebung -- Wie sieht eine transparente
+* *Sichere und transparente Entwicklungsumgebung* -- Wie sieht eine transparente
   und sichere Entwicklungsumgebung aus?
 
 Diese Anforderungen resultieren aus bestimmten Angriffsszenarien, welche im @sec:SEC05_ANGRIFFSFLAECHE_BEI_BRIG detaillierter behandelt werden.

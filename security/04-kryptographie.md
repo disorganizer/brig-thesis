@@ -2,8 +2,6 @@
 
 ## Einleitung {#sec:SEC04_EINLEITUNG}
 
-Hauptmotivation ist es, die Zusammenhänge klar zu machen!
-
 Software--Entwickler sind in der Regel keine Sicherheitsexperten. Nicht nur
 Fehler in der Software gefährden ganze Systeme und Benutzerdaten, sondern auch
 der fehlerhafte Einsatz von Kryptographie ist immer wieder für katastrophale

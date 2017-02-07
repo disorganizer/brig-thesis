@@ -118,7 +118,7 @@ Stelle wäre die Schlüsselgenerierung weiterhin auf Zufallsbasis zu realisieren
 und das dadurch entstandene »Problem« (*IPFS* kann Daten nicht mehr sinnvoll
 deduplizieren, siehe @sec:SEC07_SCHLUESSELGENERIERUNG) in Kauf zu nehmen und
 eine abgemilderte Variante der Deduplizierung über Packfiles --- wie vom Herrn Pahl
-vorgeschlagen --- zu realisieren (siehe).
+vorgeschlagen --- zu realisieren (siehe [@cpahl], S. 101 f.).
 
 Weiterhin sind die mit dem GPG--Tool evaluierten Konzepte im aktuellen Stadium aus
 Sicht der *Benutzerfreundlichkeit* verbesserungswürdig. Hier würde sich eine
