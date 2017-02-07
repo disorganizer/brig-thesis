@@ -182,9 +182,17 @@ Schlüssel zum Ver-- und Entschlüsseln angelegt), andererseits ermöglicht es
 Der »Schlüsselbund« besteht bei Anlage eines neuen Schlüssels mit `gpg
 --gen-key` aus einem Hauptschlüssel- und einem Unterschlüsselpaar. Beide
 Schlüsselpaare bestehen jeweils aus einem öffentlichen und einem privaten
-Schlüssel (siehe [@fig:IMG_GNUPG_KEYPAIR]). Der folgende Kommandozeilenauszug
-zeigt beispielhaft einen mit dem oben genannten Befehl angelegten Schlüssel,
-welcher mit den Daten der Abbildung übereinstimmt.
+Schlüssel (siehe [@fig:IMG_GNUPG_KEYPAIR]). 
+
+Der Hauptschlüssel dient standardmäßig zum Signieren von Daten und
+Zertifizieren von Schlüsseln. Der Unterschlüssel wird für das Verschlüsseln von
+Daten erstellt[^FN_DEBIAN_SUBKEY].
+
+[^FN_DEBIAN_SUBKEY]: Debian Wiki Subkeys: <https://wiki.debian.org/Subkeys>
+
+Der folgende Kommandozeilenauszug zeigt beispielhaft einen mit dem oben
+genannten Befehl angelegten Schlüssel, welcher mit den Daten der Abbildung
+übereinstimmt.
 
 ~~~sh
 $ gpg --list-keys --fingerprint --fingerprint christoph@nullcat.de
@@ -219,17 +227,18 @@ anderen Teilnehmern zu signieren.
 #### Offline Hauptschlüssel {#sec:SEC08_OFFLINE_HAUPTSCHLUESSEL}
 
 Die privaten Schlüssel sind bei *GnuPG*  mit einer Passphrase geschützt.
-Zusätzlich bietet *GnuPG* für den Schutz dieses Schlüssels eine Funktionalität
-namens *Offline Master Key*. Diese Funktionalität ermöglicht dem Benutzer den
-privaten Teil des Hauptschlüssels zu exportieren und beispielsweise auf einem
-sicheren externen Datenträger zu speichern. Dieser Schlüssel wird zum
-Zertifizieren/Signieren anderer Schlüssel verwendet und wird nicht für den
-täglichen Gebrauch benötigt. Für die sichere externe Speicherung kann
-beispielsweise ein Verfahren wie *Shamir's Secret Sharing* (vgl.
-[@martin2012everyday], S. 337 f. und [@BIB_SHAMIR_SECRET]) verwendet werden. Bei
-diesem Verfahren wird ein Geheimnis auf mehrere Instanzen aufgeteilt, zur
-Rekonstruktion des Geheimnisses ist jedoch nur eine gewisse Teilmenge nötig.
-Das *Shamir's Secret Sharing*--Verfahren wird von
+Zusätzlich bietet *GnuPG* für den Schutz des privaten Hauptschlüssels eine
+Funktionalität namens *Offline Master Key*. Diese Funktionalität ermöglicht dem
+Benutzer den privaten Teil des Hauptschlüssels zu exportieren und
+beispielsweise auf einem sicheren externen Datenträger zu speichern. 
+
+Dieser Schlüssel wird zum Zertifizieren/Signieren anderer Schlüssel verwendet
+und wird nicht für den täglichen Gebrauch benötigt. Für die sichere externe
+Speicherung kann beispielsweise ein Verfahren wie *Shamir's Secret Sharing*
+(vgl. [@martin2012everyday], S. 337 f. und [@BIB_SHAMIR_SECRET]) verwendet
+werden. Bei diesem Verfahren wird ein Geheimnis auf mehrere Instanzen
+aufgeteilt, zur Rekonstruktion des Geheimnisses ist jedoch nur eine gewisse
+Teilmenge nötig. Das *Shamir's Secret Sharing*--Verfahren wird von
 *libgfshare*[^FN_GITHUB_LIBGFSHARE] implementiert. Diese bietet mit dem beiden
 Kommandozeilenwerkzeugen `gfsplit` und `gfcombine` eine einfache Möglichkeit,
 den privaten Schlüssel auf mehrere Instanzen aufzuteilen. Im Standardfall wird
@@ -297,6 +306,10 @@ Die Umsetzung einer »Key Separation« kann mit *GnuPG* beim Anlegen (`gpg2
 realisiert werden. [@fig:IMG_KEYSEPERATION] zeigt das Möglichkeit der Anlage
 von Unterschlüsseln für den regulären Gebrauch.
 
+Eine weitere Empfehlung an dieser Stelle wäre es, die Unterschlüssel zusätzlich
+auf eine *Smartcard* auszulagern (siehe
+[@sec:SEC08_KRYPTOGRAPHISCHE_SCHLUESSEL_AUF_YUBIKEY_UEBERTRAGEN]).
+
 ![GPG--Schlüsselbund mit Unterschlüsseln für den regulären Einsatz. Jeder Unterschlüssel ist an einen bestimmten Einsatzzweck gebunden.](images/gpg_subkey_keypair.png){#fig:IMG_KEYSEPERATION width=100%}
 
 #### GPG--Agent {#sec:SEC08_GPG_AGENT}
@@ -306,26 +319,6 @@ eingegebenen Passphrasen und kann diese für eine gewisse Zeit speichern und bei
 Bedarf abfragen. Weiterhin bietet der Agent seit Version 2.0.x die Möglichkeit,
 auf Smartcards zuzugreifen. Zusätzlich ist es seit Version 2 möglich,
 GPG--Schlüssel für die SSH--Authentifizierung zu verwenden.
-
-Beim Erstellen eines Schlüsselpaars mit *GPG* wird standardmäßig ein
-Hauptschlüssel zum Signieren von Daten und Zertifizieren von Schlüsseln und ein
-Unterschlüssel für das Verschlüsseln von Daten erstellt[^FN_DEBIAN_SUBKEY].
-
-Der Vorteil von Unterschlüsseln ist, dass diese an einen bestimmten
-Einsatzzweck gebunden werden können und auch unabhängig vom eigentlichen
-Hauptschlüssel widerrufen werden können --- was eine sehr wichtige Eigenschaft
-bei der Verwaltung von Schlüsseln darstellt.
-
-*GnuPG* bietet neben dem RFC4880--Standard die Möglichkeit, den privaten
-Hauptschlüssel offline zu speichern. Dieser sollte in der Regel so
-konfiguriert sein, dass er lediglich zum Signieren/Zertifizieren und Anlegen
-neuer Unterschlüssel verwendet wird.
-
-Eine weitere Empfehlung an dieser Stelle wäre es, die Unterschlüssel zusätzlich
-auf eine *Smartcard* auszulagern (siehe
-[@sec:SEC08_KRYPTOGRAPHISCHE_SCHLUESSEL_AUF_YUBIKEY_UEBERTRAGEN]).
-
-[^FN_DEBIAN_SUBKEY]: Debian Wiki Subkeys: <https://wiki.debian.org/Subkeys>
 
 #### Weiteres
 
