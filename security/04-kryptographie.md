@@ -65,7 +65,7 @@ effizient umkehrbar sind.
 Das grundsätzliche Problem, welches bei der Anwendung symmetrischer Verschlüsselung
 besteht, ist der *sichere* Schlüsselaustausch.
 
-![Konzept beim Austausch von Daten über einen unsicheren Kommunikationsweg unter Verwendung symmetrischer Kryptographie. *Alice* und *Bob* teilen einen *gemeinsamen Schlüssel* um die Daten zu ver-- und entschlüsseln.](images/symmetric.png){#fig:img-symmetric width=85%}
+![Konzept beim Austausch von Daten über einen unsicheren Kommunikationsweg unter Verwendung symmetrischer Kryptographie. *Alice* und *Bob* teilen einen *gemeinsamen Schlüssel* um, die Daten zu ver-- und entschlüsseln.](images/symmetric.png){#fig:img-symmetric width=85%}
 
 #### Unterschied zwischen Block-- und Stromverschlüsselung {#sec:SEC04_UNTERSCHIED_ZWISCHEN_BLOCK_UND_STROMVERSCHLUESSELUNG}
 
@@ -82,7 +82,7 @@ Verschlüsselung neben dem Schlüssel mit in die Verschlüsselung einfließen,
 bestimmt die sogenannte Betriebsart. [@fig:img-streamblock] zeigt exemplarisch
 den Unterschied zwischen Strom-- und Blockverschlüsselung.
 
-![Unterschied in der Arbeitsweise zwischen Block-- und Stromchiffre. Der Blockchiffre verschlüsselt die Daten blockweise, ein Stromchiffre hingegen verschlüsselt den Datenstrom »on--the--fly«.](images/streamblock.png){#fig:img-streamblock width=80%}
+![Unterschied in der Arbeitsweise zwischen Block-- und Stromchiffre. Die Blockchiffre verschlüsselt die Daten blockweise, eine Stromchiffre hingegen verschlüsselt den Datenstrom »on--the--fly«.](images/streamblock.png){#fig:img-streamblock width=80%}
 
 #### Betriebsarten der Blockverschlüsselung {#sec:SEC04_BETRIEBSARTEN_DER_BLOCKVERSCHLUESSELUNG}
 
@@ -164,7 +164,7 @@ tauschen beide Parteien den *öffentlichen* Schlüssel aus. Der *private*
 Schlüssel ist geheim und darf nicht weitergegeben werden. [@fig:img-asymmetric]
 zeigt die Funktionsweise bei asymmetrischer Verschlüsselung.
 
-![Prinzip asymmetrischer Verschlüsselung. Verschlüsselt wird mit dem *öffentlichen* Schlüssels des Empfängers. Der Empfänger entschlüsselt mit seinem *privaten* Schlüssel die Nachricht. Die Signatur erfolgt mit dem *privaten* Schlüssel des Senders, validiert wird diese mit dem *öffentlichen* Schlüssel des Senders.](images/asymmetric.png){#fig:img-asymmetric width=100%}
+![Prinzip asymmetrischer Verschlüsselung. Verschlüsselt wird mit dem *öffentlichen* Schlüssel des Empfängers. Der Empfänger entschlüsselt mit seinem *privaten* Schlüssel die Nachricht. Die Signatur erfolgt mit dem *privaten* Schlüssel des Senders, validiert wird diese mit dem *öffentlichen* Schlüssel des Senders.](images/asymmetric.png){#fig:img-asymmetric width=100%}
 
 Im Unterschied zu symmetrischen Verfahren, beruht die asymmetrische
 Verschlüsselung auf der Basis eines mathematischen Problems, welches eine

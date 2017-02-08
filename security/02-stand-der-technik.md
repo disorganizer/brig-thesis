@@ -42,7 +42,7 @@ sicher ist. Auch ein System das aus kryptographischer Sicht als »sicher« zu
 betrachten wäre, kann im einfachsten Fall, durch die Weitergabe von
 Zugangsdaten an Dritte, kompromittiert werden.
 
-![Scherzhafte Darstellung eines möglichen Angriff auf eine Festplattenverschlüsselung mit optimalem Kosten/Nutzen--Verhältnis.[^FN_XKCD_ENC_COMIC]](images/security.png){#fig:img-security width=66%}
+![Scherzhafte Darstellung eines möglichen Angriffs auf eine Festplattenverschlüsselung mit optimalem Kosten--Nutzen--Verhältnis.[^FN_XKCD_ENC_COMIC]](images/security.png){#fig:img-security width=66%}
 
 [^FN_XKCD_ENC_COMIC]:Bildquelle: <http://imgs.xkcd.com/comics/security.png>
 
@@ -675,7 +675,7 @@ Diese zentralen Systeme stellen in gewisser Weise ein indirektes
 Konkurrenz--Produkt dar. Als weitere Wettbewerber können auch die bereits
 genannten dezentralen Synchronisationswerkzeuge angesehen werden.
 
-## Closed--Source vs Open--Source {#sec:SEC02_CLOSEDSOURCE_VS_OPENSOURCE}
+## Closed--Source vs. Open--Source {#sec:SEC02_CLOSEDSOURCE_VS_OPENSOURCE}
 
 Es ist schwierig zu beantworten, ob Open--Source--Software als sicherer
 anzusehen ist. Es spielen hierbei sehr viele Faktoren eine Rolle, weswegen eine

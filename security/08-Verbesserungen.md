@@ -564,7 +564,7 @@ Diese Hardware--Token haben zudem den Vorteil, dass sie die Funktionalität
 einer Smartcard und eines Hardware--Token für Zwei--Faktor--Authentifizierung
 vereinen.
 
-![YubiKey Neo mit USB--Kontaktschnittstelle und »Push--Button«, welcher bei Berühung reagiert.](images/yubikeyneo.png){#fig:img-yubikey width=35%}
+![YubiKey Neo mit USB--Kontaktschnittstelle und »Push--Button«, welcher bei Berührung reagiert.](images/yubikeyneo.png){#fig:img-yubikey width=35%}
 
 Das Besondere bei diesen Hardware--Komponenten ist, dass sie sich über die
 USB--Schnittstelle als HID (Human--Interface--Device[^FN_HID]) ausgeben und
@@ -1404,7 +1404,7 @@ Pflegen die Entwickler zusätzlich ihren öffentlichen Schlüssel im *GitHub*--A
 ein, so signalisiert das Label eine verifizierte Signatur des jeweiligen
 *Commits* beziehungsweise *Tags*, siehe [@fig:img-signed].
 
-![Verifiziertes *GitHub*--Signatur--Label eines Commit/Tag welches aufgeklappt
+![Verifiziertes *GitHub*--Signatur--Label eines Commits/Tags welches aufgeklappt
 wurde.](images/signed2.png){#fig:img-signed width=70%}
 
 Auf der Kommandozeile kann eine *Signatur* einfach mit der

@@ -249,7 +249,7 @@ beim Intel System mit *AES*--Algorithmus ab ungefähr *32 MiByte* ein.
 | Intel (ChaCha20) | 838; 152.7     | 872; 146.8     | **818; 156.5** | 1027; 124.6     |
 +------------------+----------------+----------------+----------------+-----------------+
 
-Table: Zeigt die effizientesten Blockgrößen beim Verschlüsseln. Der erste Wert entspricht der Zeit in Millisekunden, der Zweite Wert der Geschwindigkeit in MiByte/s beim Schreiben einer 128 MiByte großen Datei. {#tbl:TAB_WRITE_BLOCK_HIGH}
+Table: Zeigt die effizientesten Blockgrößen beim Verschlüsseln. Der erste Wert entspricht der Zeit in Millisekunden, der zweite Wert der Geschwindigkeit in MiByte/s beim Schreiben einer 128 MiByte großen Datei. {#tbl:TAB_WRITE_BLOCK_HIGH}
 
 Über die Faktoren bei den großen Blockgrößen kann nur gemutmaßt werden, dass
 hier der Geschwindigkeitseinbruch mit dem

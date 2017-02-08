@@ -1000,7 +1000,7 @@ if __name__ == '__main__':
     )
 ~~~
 
-# Schlüsselgenerierung auf der Karte {#sec:APP_SCHLUESSELGENERIERUNG_AUF_DER_KARTE}
+# Schlüsselgenerierung auf der Smartcard {#sec:APP_SCHLUESSELGENERIERUNG_AUF_DER_KARTE}
 
 ~~~sh
 gpg/card> admin
