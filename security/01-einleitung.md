@@ -4,12 +4,12 @@
 
 Der Austausch von Dokumenten beziehungsweise Dateien wurde früher hauptsächlich
 über Datenträger (Diskette, USB--Stick) oder E--Mail durchgeführt. Mit dem
-Aufkommen der Cloud--Lösungen der letzten Jahre, werden Dateien immer öfters
-über Cloud--Dienste wie beispielsweise »Apple iCloud«, »Dropbox«, »Microsoft
-OneDrive« oder »Google--Drive« ausgetauscht.
+Aufkommen der Cloud--Lösungen der letzten Jahre werden Dateien immer öfters
+über Cloud--Dienste, wie beispielsweise »Apple iCloud«, »Dropbox«, »Microsoft
+OneDrive« oder »Google--Drive«, ausgetauscht.
 
 Diese Dienste basieren auf einer zentralen Architektur und ermöglichen dem
-Benutzer seine Dateien über mehrere Computer hinweg zu synchronisieren und mit
+Benutzer, seine Dateien über mehrere Computer hinweg zu synchronisieren und mit
 Freunden --- oder im geschäftlichen Umfeld mit Partnern --- auszutauschen.
 Hierbei ist man in der Regel auf die Verfügbarkeit des jeweiligen Dienstes
 angewiesen. Fällt der Dienst aus oder wird beispielsweise von
@@ -21,7 +21,7 @@ die eigenen Dateien verwehrt.
 
 Auch wenn das Aufkommen dieser Dienste auf den ersten Blick eine Abhilfe sein
 mag, so werden beim genaueren Hinsehen Risiken und Nachteile, welche erst
-durch Aufkommen dieser Dienste entstanden sind, deutlich sichtbar. Eins der
+durch Aufkommen dieser Dienste entstanden sind, deutlich sichtbar. Eines der
 Hauptprobleme ist, aufgrund mangelnder Transparenz, der Schutz der Daten
 beziehungswiese der Privatsphäre.
 
@@ -29,7 +29,7 @@ Hier muss dem Dienstanbieter vollständig vertraut werden, da nicht bekannt ist
 welche Drittparteien Zugriff auf die Daten haben. Dies mag bei der persönlichen
 Musik--Sammlung --- im Gegensatz zur Speicherung sensibler medizinischer oder
 finanzieller Unterlagen --- weniger ein Problem sein. Spätestens seit den
-Snowden--Enthüllungen und der Bekanntheit des PRISM--Überwachungsprogramms ist
+Snowden--Enthüllungen und des Bekanntwerdens vom PRISM--Überwachungsprogramm ist
 offiziell bekannt[@bibgreenwald2013nsa], dass der Zugriff auf persönliche Daten
 durch Drittparteien erfolgt ist, beziehungswiese erzwungen wurde. Neben dem
 geduldeten oder rechtlich erzwungenen Zugriff durch Drittparteien, haben
@@ -54,7 +54,7 @@ Benutzer oft vor weitere Herausforderungen.
 	<https://en.wikipedia.org/w/index.php?title=Comparison_of_online_backup_services&oldid=760247797>
 
 Will man aus persönlichen Bedenken auf den Einsatz von Cloud--Storage--Anbietern
-verzichten, bleibt einem immer noch die Möglichkeit Dateien über E--Mail zu
+verzichten, bleibt einem immer noch die Möglichkeit, Dateien über E--Mail zu
 versenden. Hier erschließt sich aber bei näherer Betrachtung ein ähnliches
 Problem wie bei den Cloud--Storage--Anbietern. Die Privatsphäre, beziehungsweise
 der Schutz der Daten vor dem Zugriff durch Dritte, ist mangelhaft. Es gibt die
@@ -113,7 +113,7 @@ folgenden Arbeiten dar:
 2) Sicherheitskonzepte und Evaluation dezentraler Dateisynchronisationssysteme
    am Beispiel »brig«, *Christoph Piechula*
 
-Aktuell wird Software im Rahmen der genannten Masterarbeiten bei *Prof.
+Aktuell wird die Software im Rahmen der genannten Masterarbeiten bei *Prof.
 Dr.-Ing. Thorsten Schöler* in der *Distributed Systems Group*[^FN_DSG] der
 Hochschule Augsburg entwickelt.
 
@@ -131,7 +131,7 @@ folgende Schwerpunkte, Fragestellungen und Ziele:
 * Evaluation bisheriger Ansätze (Sicherheit, Usability) und Definition möglicher
   Verbesserungen, welche in die Weiterentwicklung und in den
   Entwicklungsprozess einfließen sollen.
-* Betrachtung von Sicherheitskonzepten welche für eine sichere, transparente
+* Betrachtung von Sicherheitskonzepten, welche für eine sichere, transparente
   und vertrauenswürdige Softwareentwicklung und Softwareverteilung essentiell sind.
 
 ## Zielgruppen und Einsatzszenarien {#sec:SEC01_ZIELGRUPPEN_UND_EINSATZSZENARIEN}
