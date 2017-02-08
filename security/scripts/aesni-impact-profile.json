@@ -20,7 +20,7 @@
     "needs": {
         "system": [
         "Intel i5 (Go 1.7.1)",
-        "Intel i5 (Go  1.6)",
+        "Intel i5 (Go 1.6)",
         "Intel i5 (Go 1.5.3)",
         "AMD Phenom II X4 (Go 1.7.1)",
         "AMD Phenom II X4 (Go 1.5.3)"
