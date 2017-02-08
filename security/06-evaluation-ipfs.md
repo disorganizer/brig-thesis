@@ -204,7 +204,7 @@ werden. *IPFS* teilt diese Datei --- in diesem Fall nur beispielhaft --- in
 *Blöcke* werden vom Merkle--DAG nur referenziert. Durch diesen Ansatz reduziert
 sich im Beispiel der benötigte Speicherplatz auf 6 MiByte.
 
-![*IPFS* Block--Level Deduplizierung von Daten. Eine 4MiB große Textdatei wurde vier mal kopiert und jeweils an verschiedenen Stellen geändert.](images/dedup.png){#fig:img-dedup width=90%}
+![*IPFS* Block--Level Deduplizierung von Daten. Eine 4MiB große Textdatei wurde viermal kopiert und jeweils an verschiedenen Stellen geändert.](images/dedup.png){#fig:img-dedup width=90%}
 
 ### IPFS--Daten und IPFS--Blöcke {#sec:SEC06_IPFS_DATEN_UND_IPFS_BLOECKE}
 

@@ -65,7 +65,7 @@ effizient umkehrbar sind.
 Das grundsätzliche Problem, welches bei der Anwendung symmetrischer Verschlüsselung
 besteht, ist der *sichere* Schlüsselaustausch.
 
-![Konzept beim Austausch von Daten über einen unsicheren Kommunikationsweg unter Verwendung symmetrischer Kryptographie. *Alice* und *Bob* teilen einen *gemeinsamen Schlüssel* um, die Daten zu ver-- und entschlüsseln.](images/symmetric.png){#fig:img-symmetric width=85%}
+![Konzept beim Austausch von Daten über einen unsicheren Kommunikationsweg unter Verwendung symmetrischer Kryptographie. *Alice* und *Bob* teilen einen *gemeinsamen Schlüssel*, um die Daten zu ver-- und entschlüsseln.](images/symmetric.png){#fig:img-symmetric width=85%}
 
 #### Unterschied zwischen Block-- und Stromverschlüsselung {#sec:SEC04_UNTERSCHIED_ZWISCHEN_BLOCK_UND_STROMVERSCHLUESSELUNG}
 

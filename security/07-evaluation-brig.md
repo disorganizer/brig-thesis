@@ -70,7 +70,7 @@ kryptographischer Beschleunigung.
 [@fig:img-aesgcm] zeigt das Container--Format, welches für »brig« entwickelt wurde,
 um diese Anforderungen zu erreichen.
 
-![»brig«-Containerformat für Datenverschlüsselung mit Authentizität.](images/aesgcm.png){#fig:img-aesgcm width=100%}
+![»brig«-Container--Format für Datenverschlüsselung mit Authentizität.](images/aesgcm.png){#fig:img-aesgcm width=100%}
 
 Das Container--Format wurde so angelegt, um wahlfreien Zugriff auf Daten zu
 ermöglichen und den Verschlüsselungsalgorithmus austauschbar zu machen. Falls
@@ -182,7 +182,7 @@ Die Benchmark--Skripte sind unter @sec:APP_SCRIPTE zu finden.
 
 In der Praxis wird in der Regel beim Ver-- und Entschlüsseln die Festplatte
 oder die Netzwerkanbindung der limitierende Faktor sein. Ob dies bei der
-Verschlüsselungsschicht jedoch pauschal, auch bei schwächeren Systemen der Fall
+Verschlüsselungsschicht jedoch pauschal, auch auf schwächeren Systemen der Fall
 ist, ist unklar.
 
 ### Benchmarks {#sec:SEC07_BENCHMARKS}
@@ -257,7 +257,7 @@ Speichermanagement/Speicherallokierung zusammenhängen könnte.
 
 #### Einfluss des AES--NI--Befehlserweiterungssatzes beim Ver-- und Entschlüsseln {#sec:SEC07_EINFLUSS_DES_AES_NI_BEFEHLSERWEITERUNGSSATZES_BEIM_VER_UND_ENTSCHLUESSELN}
 
-[@fig:img-aesni] zeigt den Geschwindigkeitszugewinn, der durch die Nutzung des
+[@fig:img-aesni] zeigt den Geschwindigkeitszuwachs, der durch die Nutzung des
 *AES--NI*--Befehlserweiterungssatzes zustande kommt. Hier wurde die
 Verschlüsselungsschicht mit verschiedenen Go--Versionen kompiliert, um zu sehen,
 wie stark sich die Geschwindigkeit ab Go Version 1.6 (Merge des
@@ -269,12 +269,13 @@ Weiterhin wurde das AMD--System, welches kein AES--NI unterstützt zum Vergleich
 mit in die Auswertung aufgenommen. Hier zeigt sich ein großer Unterschied beim
 AES/GCM--Verfahren zwischen den beiden Systemen wenn man die Go--Version 1.5.3 mit
 der Version 1.7.1 vergleicht. Die Chacha20/Poly1305--Implementierungen weisen
-einen Geschwindigkeitszugewinn von ~20--30% auf, die AES/GCM--Implementierung
+einen Geschwindigkeitszuwachs von ~20--30% auf, die AES/GCM--Implementierung
 hingegen hat beim AMD--System jedoch einen Geschwindigkeitszuwachs von nur ~15%,
 das Intel--System hingegen kann seine Geschwindigkeit jedoch aufgrund der
 funktionierenden AES--NI--Beschleunigung um ~750% (!) steigern. Weiterhin ist
 auffällig, dass der *ChaCha20/Poly1305*--Algorithmus auf dem Intel--System mit
-Go--Version 1.6 langsamer ist als die Go--Version 1.5.3 Variante, die Ursache hierfür ist unklar.
+Go--Version 1.6 langsamer ist als die Go--Version 1.5.3 Variante. Diese
+Regression ist reproduzierbar, die Ursache hierfür ist unklar.
 
 #### Schwächere Systeme {#sec:SEC07_LOW_END_SYSTEME}
 
@@ -357,7 +358,7 @@ dass bei den beiden Systemen die Verschlüsselung und nicht die »langsame«
 Festplatte der limitierende Faktor ist. Auffällig ist auch, dass das *Intel
 Atom*--System ohne *SSE2*--Optimierungen schneller ist.
 
-![Geschwindigkeitseinbruch unter Verwendung von Verschlüsselung bei schwächeren Systemen.](images/low-end-performance.json.svg.pdf){#fig:img-lowend width=100%}
+![Geschwindigkeitseinbruch unter Verwendung von Verschlüsselung auf schwächeren Systemen.](images/low-end-performance.json.svg.pdf){#fig:img-lowend width=100%}
 
 Weiterhin ist in der Grafik ersichtlich, dass der
 Chacha20/Poly1305--Algorithmus bei diesen schwachen Systemen, verglichen mit

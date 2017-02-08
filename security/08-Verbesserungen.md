@@ -391,7 +391,7 @@ Ablauf einer Authentifizierung des Synchronisationspartners mittels Frage--Antwo
 3. *Bob* prüft die Signatur, ist diese ungültig, wird abgebrochen, bei
    Gültigkeit entschlüsselt *Bob* die Nachricht.
 4. *Bob* inkrementiert die Nonce von *Alice* um eins und erstellt ein Antwortpaket
-   bestehend aus Nonce, Frage und Antwort und schickt dieses an Alice.
+   bestehend aus Nonce, Frage und Antwort und schickt dieses verschlüsselt an Alice.
 5. *Alice* prüft die Signatur, ist diese ungültig wird abgebrochen, bei
    Gültigkeit entschlüsselt *Alice* die Nachricht.
 6. *Alice* prüft ob Nonce um eins inkrementiert wurde, ob die Frage zur
@@ -530,7 +530,7 @@ RSA--Schlüsselpaar) geraten (vgl. [@martin2012everyday], S. 350 ff.).
 Für die Speicherung von kryptographischen Schlüsseln eignen sich beispielsweise
 Chipkarten, welche die Speicherung kryptographischer Schlüssel ermöglichen.
 
-![Von g10 code vertriebene Smartcard für den Einsatz mit *GnuPG*.](images/newcard-b.jpg){#fig:IMG_G10_SMARTCARD width=50%}
+![Von g10 code vertriebene Smartcard für den Einsatz mit *GnuPG*[^FN_SC].](images/newcard-b.jpg){#fig:IMG_G10_SMARTCARD width=50%}
 
 [@fig:IMG_G10_SMARTCARD] zeigt die *OpenPGP--Card* Chipkarte[^FN_OPENPGP_CARD]
 von *ZeitControl*, welche über *g10 code* vertrieben wird. Der Anbieter der
@@ -543,6 +543,7 @@ selbst durchgeführt. Dieser Ansatz schafft eine sichere Aufbewahrung der
 kryptographischen Schlüssel.
 
 [^FN_OPENPGP_CARD]: Homepage g10 code: <https://g10code.com/p-card.html>
+[^FN_SC]: Bildquelle: <https://g10code.com/graphics/newcard-b.jpg>
 
 Die Problematik bei Smartcards ist jedoch, dass man zusätzlich ein Lesegerät
 benötigt. Dieser Umstand schränkt die Benutzung stark ein und ist deswegen
@@ -1326,7 +1327,7 @@ gpg:                using RSA key 7CD8DB88FBF822E1300566D12CC4F84BE43F54ED
 gpg: BAD signature from "Christoph Piechula <christoph@nullcat.de>" [ultimate]
 ~~~
 
-### Updatemanagement {#sec:SEC08_UPDATEMANAGEMENT}
+### Update--Management {#sec:SEC08_UPDATEMANAGEMENT}
 
 Auch bei Updates wäre in erster Linie die Bereitstellung über den Paketmanager
 die sinnvollste Variante der Auslieferung von »brig«. Um auch Betriebssysteme

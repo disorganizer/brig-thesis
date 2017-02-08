@@ -9,7 +9,7 @@ solide Basis für ein sicheres und dezentrales Synchronisationswerkzeug entstand
 
 Die übergreifende Anforderung an das Projekt, eine gute Balance zwischen
 Sicherheit und Usability zu finden, kann noch nicht endgültig bewertet werden.
-Die bisher getroffenen Entscheidungen bezüglich *IPFS* können durchaus positiv
+Die bisher getroffenen Entscheidungen bezüglich des Einsatzes von *IPFS* können durchaus positiv
 bewertet werden, siehe @sec:SEC06_ZUSAMMENFASSUNG_IPFS_EVALUATION. Die
 Datenhaltungsschicht bietet aufgrund des Merkle--DAG eine solide Basis mit
 Fehlererkennung, die Netzwerkschicht auf CAN--Basis setzt den dezentralen
@@ -25,7 +25,7 @@ Die erweiterte Evaluation von *IPFS* hat ergeben, dass die *IPFS*--Identität
 (privater Schlüssel) im Klartext in der Konfigurationsdatei gespeichert wird
 (siehe @sec:SEC06_IPFS_ID). Zukünftige Versionen von »brig« müssen diesen
 kryptographischen Schlüssel sichern. Hier wurde ein mögliches Konzept für einen
-transparenten verschlüsselten Zugriff auf Basis des *Virual Filesystem (VFS)*
+transparenten, verschlüsselten Zugriff auf Basis des *Virtual Filesystem (VFS)*
 vorgestellt (siehe @sec:SEC08_SICHERUNG_UND_BINDUNG_DER_KRYPTOGRAPHISCHEN_SCHLUESSEL_AN_EINE_IDENTITAET).
 
 Um die *IPFS*--Identität zu sichern und die zukünftige Schlüsselverwaltung von
@@ -53,8 +53,8 @@ Identität einen hohen Sicherheitszugewinn dar.
 ### Verschlüsselung
 
 Die Sicherheitsentscheidungen, welche bisher für »brig« getroffen wurden, sind
-größtenteils positiv zu bewerten. Die Datenverschlüsselungsschicht bietet
-aktuell zwar mit der vorhanden *IPFS*--Transportlayerverschlüsselungsschicht
+größtenteils positiv zu bewerten. Die Datenverschlüsselungsschicht hat
+aktuell zwar mit der vorhandenen *IPFS*--Transportlayer--Verschlüsselungsschicht
 einen gewissen Overhead, befindet sich mit standardisierten Verfahren
 (AES--GCM, ChaCha20/Poly1305) aber auf der sicheren Seite.
 
@@ -74,7 +74,7 @@ einiger Optimierungen.
 
 Die aktuelle Implementierung über die *zxcvbn*--Bibliothek setzt eine robuste
 Passwortvalidierung um. Das Problem hierbei ist die schlechte Usability,
-andererseits die alleinige Authentifizierung über ein Passwort --- bei einem System
+andererseits ist die alleinige Authentifizierung über ein Passwort --- bei einem System
 mit Fokus auf Sicherheit --- als negativ zu bewerten (siehe @sec:SEC07_REPOSITORY_ZUGRIFF).
 
 Hier wurden erweiterte Konzepte der Zwei--Faktor--Authentifizierung mit dem
@@ -111,19 +111,19 @@ Ein weiterhin bestehendes »Problem« ist die Umsetzung der Schlüsselgenerierun
 für das Verschlüsseln der Dateien in einem »brig«--Repository. Die aktuelle
 Implementierung erstellt zufallsgenerierte Schlüssel. Dies hat den Nachteil,
 dass die Deduplizierungsfunktionalität außer Kraft gesetzt wird, siehe
-@sec:SEC07_SCHLUESSELGENERIERUNG. Hingegen die Verwendung von *Convergent
-Encryption* würde »brig« bestimmte Angriffe wie beispielsweise den
-»confirmation of a file«--Angriff anfällig machen. Die Empfehlung an dieser
-Stelle wäre die Schlüsselgenerierung weiterhin auf Zufallsbasis zu realisieren
+@sec:SEC07_SCHLUESSELGENERIERUNG. Hingegen würde die Verwendung von *Convergent
+Encryption* »brig« für bestimmte Angriffe, wie beispielsweise den
+»confirmation of a file«--Angriff, anfällig machen. Die Empfehlung an dieser
+Stelle wäre, die Schlüsselgenerierung weiterhin auf Zufallsbasis zu realisieren
 und das dadurch entstandene »Problem« (*IPFS* kann Daten nicht mehr sinnvoll
 deduplizieren, siehe @sec:SEC07_SCHLUESSELGENERIERUNG) in Kauf zu nehmen und
-eine abgemilderte Variante der Deduplizierung über Packfiles --- wie vom Herrn Pahl
+eine abgemilderte Variante der Deduplizierung über Packfiles --- wie von Herrn Pahl
 vorgeschlagen --- zu realisieren (siehe [@cpahl], S. 101 f.).
 
-Weiterhin sind die mit dem GPG--Tool evaluierten Konzepte im aktuellen Stadium aus
-Sicht der *Benutzerfreundlichkeit* verbesserungswürdig. Hier würde sich eine
-vollständige Automatisierung und das Anbieten einer grafischen
-Benuteroberfläche --- wie unter [@cpahl], S. 84 ff. --- anbieten.
+Weiterhin sind die mittels GPG--Tool evaluierten Konzepte im aktuellen Stadium aus
+Sicht der Benutzerfreundlichkeit verbesserungswürdig. Hier würde sich eine
+vollständige Automatisierung und die Umsetzung einer grafischen
+Benutzeroberfläche --- wie unter [@cpahl], S. 84 ff. --- anbieten.
 
 Ein weiterer diskussionswürdiger Punkt ist die Verwendung von *IPFS* als Basis.
 Zwar erfüllt diese hier die benötigten Anforderungen, jedoch liegt der Fokus
@@ -133,15 +133,15 @@ durch »brig« nicht zwangsläufig optimal. Die Implementierung bestimmter
 Sicherheits--Funktionalität wie beispielsweise Datenverschlüsselung wäre laut
 aktueller Einschätzung besser im *IPFS*--Backend zu realisieren. Weiterhin
 macht beispielsweise auch die seit Monaten andauernde Definition einer
-Spezifikation[^FN_SPEC] für das IPFS--*Keystore* Entwicklungsentscheidung für
+Spezifikation[^FN_SPEC] für das IPFS--*Keystore* weitere Entwicklungsentscheidungen für
 »brig« schwierig.
 
 [^FN_SPEC]: Keystore Spezifikation: <https://github.com/ipfs/specs/tree/25411025e787e12b17f621fca25d636c5684316e/keystore>
 
 Die Evaluation der Performance hat weiterhin gezeigt, dass beispielsweise die
-Geschwindigkeit mit den implementieren Algorithmen auf dem *Raspberry Pi*
-untragbar ist. Hier wäre die Evaluation möglicher Optimierungen bezüglich der
-Geschwindigkeit nötig, wenn man den *Raspberry Pi* als taugliche Plattform ansehen möchte.
+Geschwindigkeit mit den implementierten Algorithmen auf dem *Raspberry Pi*
+untragbar ist. Hier wäre eine Evaluation möglicher Optimierungen bezüglich der
+Geschwindigkeit nötig, wenn man den *Raspberry Pi* als geeignete Plattform ansehen möchte.
 
 Weiterhin wurde die Entwicklung aktuell hauptsächlich problemorientiert
 vorangetrieben. Eine striktere Umsetzung der *BSI*--Richtlinien wäre hier
@@ -157,11 +157,11 @@ Implementierung und Evaluierung von Sicherheit keine triviale Aufgabe.
 Weiterhin kann auch die Umsetzung kryptographischer Elemente aufgrund von
 Missverständnissen fehlerhaft implementiert sein.
 
-Da »brig« einen Schwerpunkt auf Sicherheit hat, ist es essentiell dass das in dieser
+Da »brig« einen Schwerpunkt auf Sicherheit setzt, ist es essentiell, dass das in dieser
 Arbeit evaluierte System und die vorgestellten Konzepte von weiteren
 unabhängigen Sicherheitsexperten --- beispielsweise von der HSASec[^FN_HSASEC]
 --- beurteilen zu lassen und die vorgestellten Konzepte kritisch zu
-diskutieren. Zusätzlich sollte unabhängige Sicherheitsaudits der
+diskutieren. Zusätzlich sollte ein unabhängiges Sicherheitsaudit der
 Implementierung vor der ersten offiziellen Veröffentlichung durchgeführt
 werden.
 
@@ -176,13 +176,13 @@ Authentifizierungsplattform erwähnenswert.
 
 Die durchgeführten Benchmarks zur Geschwindigkeit zeigen nur eine Tendenz
 bezüglich der Geschwindigkeit auf den getesteten Plattformen. Hier wäre die
-Evaluation weiterer Hardware--Systeme nötig um bessere Entscheidungen für
+Evaluation weiterer Hardware--Systeme nötig, um bessere Entscheidungen für
 Optimierungen und bezüglich der Auswahl geeigneter Algorithmen treffen zu
 können.
 
 Abschließend ist es wichtig zu erwähnen, dass unabhängig von den
-Implementierten technischen Maßnahmen, der Mensch eine essentielle Rolle in
-jedem sicherheitskritischen System hat. Diese Arbeit soll
+implementierten technischen Maßnahmen, der Mensch eine essentielle Rolle in
+jedem sicherheitskritischen System spielt. Diese Arbeit soll
 Software--Entwicklern als Einstiegspunkt für die Thematik der Sicherheit dienen
 und sie weiterhin für die sicherheitsorientierte Softwareentwicklung sensibilisieren.
 
