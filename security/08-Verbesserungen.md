@@ -564,7 +564,7 @@ Diese Hardware--Token haben zudem den Vorteil, dass sie die Funktionalität
 einer Smartcard und eines Hardware--Token für Zwei--Faktor--Authentifizierung
 vereinen.
 
-![YubiKey Neo mit USB--Kontaktschnittstelle und »Push--Button«, welcher bei Berührung reagiert.](images/yubikeyneo.png){#fig:img-yubikey width=35%}
+![YubiKey Neo[^FN_BILD] mit USB--Kontaktschnittstelle und »Push--Button«, welcher bei Berührung reagiert.](images/yubikeyneo.png){#fig:img-yubikey width=35%}
 
 Das Besondere bei diesen Hardware--Komponenten ist, dass sie sich über die
 USB--Schnittstelle als HID (Human--Interface--Device[^FN_HID]) ausgeben und
@@ -587,9 +587,12 @@ beispielsweise die Universität von Auckland[^FN_YK_UNIVERSITY_AUCKLAND], das
 
 [^FN_YK_MIT]: Massachusetts Institute of Technology YubiKey--Benutzeranweisung:
 
-	<https://security.web.cern.ch/security/recommendations/en/2FA.shtml>
+	<http://kb.mit.edu/confluence/pages/viewpage.action?pageId=154177462>
 
-[^FN_YK_CERN]: CERN YubiKey--Benutzeranweisung: <http://kb.mit.edu/confluence/pages/viewpage.action?pageId=151109106>
+
+[^FN_YK_CERN]: CERN YubiKey--Benutzeranweisung: <https://security.web.cern.ch/security/recommendations/en/2FA.shtml>
+
+[^FN_BILD]: Bildquelle: <https://www.yubico.com/wp-content/uploads/2015/04/YubiKey-NEO-1000-2016-444x444.png>
 
 Für die Entwicklung von »brig« wurden *Yubico Neo*--Hardware--Token ---
 aufgrund der umfangreichen Programmier--API --- des Herstellers *Yubico*
@@ -881,7 +884,7 @@ in der Vergangenheit kritische Sicherheitslücken aufgewiesen.
 
 [^FN_YUBICO_YUBISERVE_VULNERABILITY]:Yubico-YubiServe SQL Injection Vulnerability: <https://code.google.com/archive/p/yubico-yubiserve/issues/38>
 [^FN_YUBISERVER_DEBIAN_VULNERABILITY_1]:YubiServer CVE-2015-0842 SQL Injection Vulnerability: <https://security-tracker.debian.org/tracker/CVE-2015-0842>
-[^FN_YUBISERVER_DEBIAN_VULNERABILITY_2]:YubiServer CVE-2015-0842 Buffer Overflow Vulnerability: <https://security-tracker.debian.org/tracker/CVE-2015-0843>
+[^FN_YUBISERVER_DEBIAN_VULNERABILITY_2]:YubiServer CVE-2015-0843 Buffer Overflow Vulnerability: <https://security-tracker.debian.org/tracker/CVE-2015-0843>
 
 [@fig:IMG_REVERSE_PROXY] zeigt einen Ansatz bei welchem der
 Validierungsserver hinter einem »Reverse--Proxy« betrieben wird. Alle

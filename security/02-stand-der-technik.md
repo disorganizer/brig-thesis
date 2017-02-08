@@ -292,8 +292,8 @@ jedoch nicht unterbunden werden können (vgl. [@2009understanding], S. 11 und
 [@ertel2012angewandte], S. 23).
 
 [^FN_CSS]: Cryptanalysis of Contents Scrambling System: <http://www.cs.cmu.edu/~dst/DeCSS/FrankStevenson/analysis.html>
-[^FN_SCHNEIER_1]: Defending Against Crypto Backdoors: <https://www.schneier.com/blog/archives/2013/09/how_to_remain_s.html>
-[^FN_SCHNEIER_2]: How to Remain Secure Against the NSA: <https://www.schneier.com/blog/archives/2013/10/defending_again_1.html>
+[^FN_SCHNEIER_1]: Defending Against Crypto Backdoors: <https://www.schneier.com/blog/archives/2013/10/defending_again_1.html>
+[^FN_SCHNEIER_2]: How to Remain Secure Against the NSA: <https://www.schneier.com/blog/archives/2013/09/how_to_remain_s.html>
 [^FN_WEIS]: Krypto nach Snowden | 19. Netzpolitischer Abend: <https://www.youtube.com/watch?v=T_ojwHReMkM>
 
 Abgesehen von den Snowden--Enthüllungen, gibt es für den Endverbraucher viel
@@ -657,7 +657,7 @@ größten« Cloud--Speicher--Anbietern:
 * Microsoft OneDrive
 * Google Drive
 
-[^FN_CLOUDSTORAGE]: Größten Cloud--Speicher Anbieter:
+[^FN_CLOUDSTORAGE]: Größte Cloud--Speicher Anbieter:
 
 	<http://www.wiwo.de/unternehmen/it/cloud-wer-sind-die-groessten-cloud-anbieter-und-was-kosten-sie/11975400-7.html>
 
@@ -730,7 +730,7 @@ Volume--Schlüssel aus dem Speicher entfernt, kann man sich den Quelltext auf
 *Github* anschauen. Im Fall von *LUKS* wir der Speicherbereich mit Nullen
 überschrieben[^FN_LUKS_VK_MEMSET].
 
-[^FN_LUKS_VK_MEMSET]: Luks Volume--Key Free--Funktion:
+[^FN_LUKS_VK_MEMSET]: LUKS Volume--Key Free--Funktion:
 
 	<https://github.com/mhfan/cryptsetup/blob/ae9c9cf369cb24ac5267376401c80c2c40ada6a2/lib/volumekey.c#L46>
 

@@ -17,7 +17,7 @@ Strafverfolgungsbehörden geschlossen
 (Megaupload--Schließung[^FN_MEGAUPLOAD_TAKEDOWN]), bleibt einem der Zugriff auf
 die eigenen Dateien verwehrt.
 
-[^FN_MEGAUPLOAD_TAKEDOWN]: Hinweise zur Schließung: <https://de.wikipedia.org/w/index.php?title=Megaupload&oldid=161927073>
+[^FN_MEGAUPLOAD_TAKEDOWN]: Hinweise zur Schließung von Megaupload: <https://de.wikipedia.org/w/index.php?title=Megaupload&oldid=161927073>
 
 Auch wenn das Aufkommen dieser Dienste auf den ersten Blick eine Abhilfe sein
 mag, so werden beim genaueren Hinsehen Risiken und Nachteile, welche erst
