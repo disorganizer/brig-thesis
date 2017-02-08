@@ -903,7 +903,7 @@ konfiguriert werden und Sicherheitsfeatures, wie beispielsweise
 *X-XSS-Protection* oder *HTTP Strict Transport Security (HSTS)*[^FN_XXSS_FSTS]
 aktiviert werden. Wichtig an dieser Stelle ist auch der ausschließliche Einsatz
 von *HTTPS* mit einem validen Zertifikat als Transportprotokoll, um mögliche
-*Man--in--the--Middle*--Angriffe zu verhindern.
+Man--in--the--Middle--Angriffe zu verhindern.
 
 [^FN_XXSS_FSTS]:Hardening Your HTTP Security Headers: <https://www.keycdn.com/blog/http-security-headers/>
 
@@ -1078,7 +1078,7 @@ Wie die Ausgabe zeigt, gibt es die Möglichkeit, drei verschiedene
 Authentifizieren zu speichern. Der Authentifizierungsschlüssel, der hier gesetzt
 werden kann, wird nicht von `gpg` genutzt, jedoch von anderen `PAM`--basierten
 Anwendungen. Für weitere Informationen zum Aufbau des Applets und zu den
-Funktionalitäten (*Pin-Counter* et cetera) siehe die
+Funktionalitäten (*PIN-Counter* et cetera) siehe die
 *GnuPG*--Administrationsdokumentation zur Smartcard[^FN_GNUPG_SMARTCARD_DOC].
 
 [^FN_GNUPG_SMARTCARD_DOC]: Chapter 3. Administrating the Card: <https://www.gnupg.org/howtos/card-howto/en/ch03.html>
@@ -1221,8 +1221,8 @@ anzuzeigen, dass es sich nur um einen *Stub* handelt. Anschließend können die
 neuen öffentlichen Unterschlüssel dem *Web of Trust* mit `gpg2 --send-keys
 E9CD5AB4075551F6F1D6AE918219B30B103FB091` bekannt gemacht werden.
 
-Anschließend sollte noch die Standard--Pin `123456` und die
-Standard--Admin--Pin `12345678` geändert werden. Diese Einstellung kann
+Anschließend sollte noch die Standard--PIN `123456` und die
+Standard--Admin--PIN `12345678` geändert werden. Diese Einstellung kann
 ebenso mit `gpg2 --card-edit` im Untermenü `admin/passwd` getätigt werden.
 
 @sec:SEC08_ERSTELLEN_UND_VALIDIEREN_VON_SIGNATUREN zeigt das Signieren von
@@ -1260,7 +1260,7 @@ gpg: signing failed: Card error
 gpg: signing failed: Card error
 ~~~
 
-Unter Einsatz des *YubiKey* und der korrekten Pin können die Daten wie folgt
+Unter Einsatz des *YubiKey* und der korrekten PIN können die Daten wie folgt
 signiert werden. Die `--armor`--Option bewirkt, dass eine Signatur im
 *ASCII*--Format anstatt des Binär--Formates erstellt wird. Diese lässt sich
 beispielsweise auf der Download- beziehungsweise Entwicklerseite neben dem
@@ -1569,7 +1569,7 @@ Authenticated to github.com ([192.30.253.113]:22).
 [...]
 ~~~
 
-Ohne Smartcard/Pin schlägt der Loginversuch fehl. Bei der Verwendung eines
+Ohne Smartcard/PIN schlägt der Loginversuch fehl. Bei der Verwendung eines
 eigenen Servers ist es empfehlenswert, eine Fallback--Loginmethode in der
 sshd--Konfigurationsdatei des Servers zu aktivieren, mehr hierzu siehe `man
 sshd_config` unter `AuthenticationMethods`. Für weitere Details zum Thema

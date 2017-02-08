@@ -1481,7 +1481,7 @@ ssb* rsa2048/74B050CC5ED64D18
 gpg> save
 ~~~
 
-# User-- und Admin--Pin ändern {#sec:APP_USER_UND_ADMIN_PIN_AENDERN}
+# User-- und Admin--PIN ändern {#sec:APP_USER_UND_ADMIN_PIN_AENDERN}
 
 ~~~sh
 freya :: code/brig-thesis/security ‹master*› » gpg --card-edit

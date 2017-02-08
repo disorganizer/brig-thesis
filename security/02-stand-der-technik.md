@@ -238,7 +238,7 @@ welches in der Lage ist, ein Authentifizierungs--Token auf dem Computer des
 potentiellen Opfers auszutauschen. [@fig:img-mitc] zeigt den Ablauf eines
 möglichen »Man--In--The--Cloud«--Angriffs.
 
-![»Quick Double Switch Attack Flow«--Man in the Cloud--Angriff. Die Buchstaben a, b, c und d repräsentieren dabei jeweils die Synchronisationsvorgänge.](images/mitc.png){#fig:img-mitc width=80%}
+![»Quick Double Switch Attack Flow«--Man--in--the--Cloud--Angriff. Die Buchstaben a, b, c und d repräsentieren dabei jeweils die Synchronisationsvorgänge.](images/mitc.png){#fig:img-mitc width=80%}
 
 1. Der Angreifer platziert den »Switcher« auf dem Rechner des Opfers
    (beispielsweise mittels Social Engineering oder Phishing--Methoden)
@@ -695,7 +695,7 @@ haben jedoch gezeigt, dass auch *Freie Software* vor »Sicherheitskatastrophen«
 nicht sicher ist. Die besagten Bugs wurden erst nach mehreren Jahren entdeckt
 und es ist unbekannt, ob und in welchem Ausmaß diese ausgenutzt werden konnten.
 Diese Beispiele zeigen, dass man sich auf das »More eyeballs principle« allein
-nicht verlassen darf. Weiterhin kann das *Open--Source*--Modell auch dazu
+nicht verlassen darf. Weiterhin kann das Open--Source--Modell auch dazu
 verwendet werden, um automatisiert nach Sicherheitslücken im Quelltext auf
 *Github* bei jedem *Commit* zu suchen. Der Google Softwareentwickler *Kees
 Cook* verweist auf diese Problematik auf dem aktuellsten *Linux Security Summit
@@ -708,7 +708,7 @@ Cook* verweist auf diese Problematik auf dem aktuellsten *Linux Security Summit
 Untersuchungen von Closed-- und Open--Source--Projekten haben gezeigt, dass es
 keine signifikanten Unterschiede bezüglich der Sicherheit zwischen den beiden
 Entwicklungsmodellen gibt. Open--Source scheint jedoch ein extrem schlechtes
-Patch--Management seitens des Herstellers zu verhindern (vgl [@Schryen]).
+Patch--Management seitens des Herstellers zu verhindern (vgl. [@Schryen]).
 
 Wenn man davon ausgeht, dass schlechte Quellcode--Qualität zu mehr *Bugs* und
 somit zu mehr Sicherheitslücken führt, kann man auch einen Teil der
@@ -717,7 +717,7 @@ Quellcode--Qualität von vier großen Betriebssystemkerneln (Linux (open source)
 FreeBSD (open source), Solaris (closed source), Windows (closed source)) mit
 Hilfe verschiedener Metriken vergleicht, kommt zum Ergebnis, dass es keine
 signifikanten Unterschiede zwischen dem Closed--Source-- und
-Open--Source--Softwareentwicklungmodell bezüglich Quellcode--Qualität gibt (vgl
+Open--Source--Softwareentwicklungmodell bezüglich Quellcode--Qualität gibt (vgl.
 [@Spi08b]). Neuere Studien widersprechen hier und attestieren
 Open--Source--Software--Projekten eine tendenziell bessere Quellcode--Qualität
 als Closed--Source--Projekten (vgl. [@csr2013] und [@csr2014]).
