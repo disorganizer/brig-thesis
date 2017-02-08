@@ -403,7 +403,7 @@ Ablauf einer Authentifizierung des Synchronisationspartners mittels Frage--Antwo
 Um *Alice* gegenüber *Bob* zu verifizieren, muss das Protokoll von *Bob* aus
 initialisiert werden.
 
-Die Anforderungen des Protokolls richten sich hierbei nach den Prinzipien (vgl. [@martin2012everyday], S. 295 ff):
+Die Anforderungen des Protokolls richten sich hierbei nach den Prinzipien (vgl. [@martin2012everyday], S. 295 ff.):
 
 * Nachrichtenauthentifizierung, durch Signatur bereitgestellt.
 * Gültigkeit (engl. *freshness*), durch Nonce bereit gestellt.

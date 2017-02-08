@@ -79,7 +79,7 @@ im Alphastadium befindet. Weiterhin gibt es in der Datei `security-notes` Detail
 Die Speicherung von Daten mag auf den ersten Blick simpel erscheinen.
 Betrachtet man jedoch die »Rahmenbedingungen«, die zu beachten sind, um Daten
 sicher zu speichern, wird die Thematik komplizierter. Das Hauptproblem an
-dieser Stelle ist die sogenannte »Silent Data Corruption«(vgl. [@BIB_CERN], [@BIB_SILENT_DATA_CORRUPTION]), oft auch
+dieser Stelle ist die sogenannte »Silent Data Corruption« (vgl. [@BIB_CERN], [@BIB_SILENT_DATA_CORRUPTION]), oft auch
 »Bitrot« genannt. Der Begriff beschreibt den Umstand, dass Fehler in Daten im
 Laufe der Zeit auftreten. Für die Fehlerursache können verschiedene Gründe verantwortlich sein, wie beispielsweise:
 
