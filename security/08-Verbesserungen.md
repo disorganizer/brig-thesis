@@ -565,7 +565,7 @@ Diese Hardware--Token haben zudem den Vorteil, dass sie die Funktionalität
 einer Smartcard und eines Hardware--Token für Zwei--Faktor--Authentifizierung
 vereinen.
 
-![YubiKey Neo[^FN_BILD] mit USB--Kontaktschnittstelle und »Push--Button«, welcher bei Berührung reagiert.](images/yubikeyneo.png){#fig:img-yubikey width=35%}
+![YubiKey NEO[^FN_BILD] mit USB--Kontaktschnittstelle und »Push--Button«, welcher bei Berührung reagiert.](images/yubikeyneo.png){#fig:img-yubikey width=35%}
 
 Das Besondere bei diesen Hardware--Komponenten ist, dass sie sich über die
 USB--Schnittstelle als HID (Human--Interface--Device[^FN_HID]) ausgeben und
@@ -595,16 +595,16 @@ beispielsweise die Universität von Auckland[^FN_YK_UNIVERSITY_AUCKLAND], das
 
 [^FN_BILD]: Bildquelle: <https://www.yubico.com/wp-content/uploads/2015/04/YubiKey-NEO-1000-2016-444x444.png>
 
-Für die Entwicklung von »brig« wurden *Yubico Neo*--Hardware--Token ---
+Für die Entwicklung von »brig« wurden YubiKey NEO--Hardware--Token ---
 aufgrund der umfangreichen Programmier--API --- des Herstellers *Yubico*
 beschafft. Alle weiteren Ausführungen und Demonstrationen beziehen sich auf
 dieses Modell.
 
-### YubiKey--NEO Einleitung {#sec:SEC08_YUBIKEY_NEO_EINLEITUNG}
+### YubiKey NEO Einleitung {#sec:SEC08_YUBIKEY_NEO_EINLEITUNG}
 
 [^FN_YUBIKEY_PNG]: Bild--Quelle: <https://hao0uteruy2io8071pzyqz13-wpengine.netdna-ssl.com/wp-content/uploads/2015/04/YubiKey-NEO-1000-2016-444x444.png>
 
-Der *YubiKey Neo* hat folgende Funktionalitäten beziehungsweise Eigenschaften:
+Der *YubiKey NEO* hat folgende Funktionalitäten beziehungsweise Eigenschaften:
 
 * Yubico OTP, One--Time--Password--Verfahren des Herstellers. Standardmäßig
   kann jeder YubiKey gegen den YubiCloud--Authentifizierungdienst mittels One--Time--Passwort authentifiziert werden.
@@ -619,14 +619,14 @@ Smartcard--Funktionalität:
 * PIV (Personal Identity Verification) Standard[^FN_NISTPIV]
 * OpenPGP--Smartcard--Standard
 
-Weitere Eigenschaften sind im Datenblatt[^FN_YUBIKEY_NEO] des YubiKey--Neo zu finden.
+Weitere Eigenschaften sind im Datenblatt[^FN_YUBIKEY_NEO] des YubiKey NEO zu finden.
 
 [^FN_HOTP]: HOTP: <https://en.wikipedia.org/w/index.php?title=HMAC-based_One-time_Password_Algorithm&oldid=760975706>
 [^FN_TOTP]: TOTP: <https://en.wikipedia.org/w/index.php?title=Time-based_One-time_Password_Algorithm&oldid=760189874>
 [^FN_NISTPIV]: PIV--Standard: <http://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.201-2.pdf>
-[^FN_YUBIKEY_NEO]: YubiKey--Neo: <https://www.yubico.com/wp-content/uploads/2016/02/Yubico_YubiKeyNEO_ProductSheet.pdf>
+[^FN_YUBIKEY_NEO]: YubiKey NEO: <https://www.yubico.com/wp-content/uploads/2016/02/Yubico_YubiKeyNEO_ProductSheet.pdf>
 
-Der *YubiKey--NEO* bietet mit zwei Konfigurationsslots (siehe GUI--Screenshot
+Der *YubiKey NEO* bietet mit zwei Konfigurationsslots (siehe GUI--Screenshot
 [@fig:img-ykgui]) die Möglichkeit, mehrere Verfahren gleichzeitig nutzen zu
 können. Eine beispielhafte Konfiguration wäre den ersten Konfigurationsslot mit
 einem statischen Passwort und den zweiten mit einem One--Time--Passwort zu
@@ -928,7 +928,7 @@ Websserver--Zertifikate eignen.
 ### Einsatz des YubiKey zur Passworthärtung {#sec:SEC08_YUBIKEY_FUER_PASSWORTHAERTUNG}
 
 Unter @sec:SEC08_YUBIKEY_NEO_EINLEITUNG wird die Funktionalität »Statische
-Passwörter« erwähnt. Diese Funktionalität ermöglicht es, auf dem *YubiKey Neo*
+Passwörter« erwähnt. Diese Funktionalität ermöglicht es, auf dem *YubiKey NEO*
 ein bis zu 32--Zeichen langes Passwort zu hinterlegen. Der *YubiKey* arbeitet
 aus Kompatibilitätsgründen mit einem *Modhex*--Alphabet[^FN_MODHEX_YUBICO]. Die
 Konfiguration kann entweder bequem vom Benutzer mit der
@@ -959,7 +959,7 @@ extended_flags:
 Commit? (y/n) [n]: y
 ~~~
 
-Im Beispiel wurde der zweite Slot des *YubiKey Neo* mit dem Passwort
+Im Beispiel wurde der zweite Slot des *YubiKey NEO* mit dem Passwort
 *MyVeryLongPasswordYouWontGuessToday* konfiguriert. Beim anschließenden
 zweimaligem Aktivieren des zweiten Slots, liefert der *YubiKey* immer das
 gleiche Passwort: Beim längeren Drücken (Aktivierung von Slot 2) wird das
@@ -992,9 +992,9 @@ jeweiligen Applikation beziehungsweise vom Service--Anbieter angeboten wird.
 
 Wie unter [@sec:SEC08_YUBIKEY_NEO_EINLEITUNG] erwähnt, hat der *YubiKey* die
 Möglichkeit als Smartcard zu fungieren. Die *Chip Card Interface Device
-(CCID)*[^FN_CCID]--Funktionalität ist beim *YubiKey Neo* ab Werk deaktiviert.
+(CCID)*[^FN_CCID]--Funktionalität ist beim *YubiKey NEO* ab Werk deaktiviert.
 Für die Aktivierung kann das Kommandozeilen--Werkzeug `ykpersonalize`
-verwendet werden. Standardmäßig ist beim *YubiKey Neo* nur die
+verwendet werden. Standardmäßig ist beim *YubiKey NEO* nur die
 *OTP*--Funktionalität aktiviert. In welchem Betriebsmodus sich der *YubiKey*
 befindet, kann man beispielsweise nach dem Anstecken über das
 System/Kernel--Logging mittels `dmesg` herausfinden (gekürzte Ausgabe):
@@ -1008,13 +1008,13 @@ $ dmesg | tail -n 2
 USB HID v1.10 Keyboard [Yubico YubiKey NEO OTP] on usb-0000:00:1d.0-1.8.1.3/input0
 ~~~
 
-Beim Aktivieren kann man beim *YubiKey Neo* zwischen insgesamt sieben verschiedenen
+Beim Aktivieren kann man beim *YubiKey NEO* zwischen insgesamt sieben verschiedenen
 Modi --- Einzelmodi und Kombinations--Modi --- wählen[^FN_YUBIKEY_MODES]:
 
 * Einzelmodi: `OTP`, `CCID`, `U2F`
 * Kombinations--Modi: `OTP/CCID`, `OTP/U2F`, `U2F/CCID`,  `OTP/U2F/CCID`
 
-[^FN_YUBIKEY_MODES]: YubiKey Neo Modes: <https://developers.yubico.com/libu2f-host/Mode_switch_YubiKey.html>
+[^FN_YUBIKEY_MODES]: YubiKey NEO Modes: <https://developers.yubico.com/libu2f-host/Mode_switch_YubiKey.html>
 
 #### Aktivierung des OpenPGP--Applets {#sec:SEC08_AKTIVIERUNG_DES_OPENGPG_APPLETS}
 
