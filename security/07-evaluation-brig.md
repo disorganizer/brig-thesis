@@ -497,7 +497,7 @@ Folgende Daten werden kombiniert, um einen Benutzer eindeutig zu identifizieren:
 *IPFS*--Netzwerk. Für weitere Details zur Softwarearchitektur und
 Funktionsweise siehe auch [@cpahl].
 
-![User lookup mittels »brig«-ID (gekürzter Peer--Fingerprint + User--Hash). Nur bei Übereinstimmung vom Peer--Fingerprint und Benutzernamen--Fingerprint wird der Benutzer als valide erkannt.](images/userlookup.png){#fig:img-userlookup width=100%}
+![User--Lookup mittels »brig«-ID (hier bestehend aus gekürzter Peer--ID + User--Hash). Nur bei Übereinstimmung vom Peer--Fingerprint und Benutzernamen--Fingerprint wird der Benutzer als valide erkannt.](images/userlookup.png){#fig:img-userlookup width=100%}
 
 ## Authentifizierung {#sec:SEC07_AUTHENTIFIZIERUNG}
 
