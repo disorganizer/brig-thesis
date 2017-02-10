@@ -69,7 +69,7 @@ Sicherheit des Systems auseinandersetzen. Benutzer sind oft nicht genug
 sensibilisiert was den Datenschutz oder auch die Gefahren und Konsequenzen bei
 einem Sicherheitsproblem angeht.
 
-Weiterhin sollte bedacht werden, dass die Definition eines »sicheren System«, in
+Weiterhin sollte bedacht werden, dass die Definition eines »sicheren Systems«, in
 der Regel ein Kompromiss aus den folgenden Punkten ist:
 
 * Finanzieller Aufwand
