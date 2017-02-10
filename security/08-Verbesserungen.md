@@ -417,8 +417,8 @@ Eine weitere Möglichkeit der Authentifizierung des Synchronisationspartners
 wäre, wie beim OTR--Plugin des *Pidgin*--Messengers, das Teilen eines
 gemeinsamen Geheimnisses. Das Off--the--Record--Messaging--Protokoll
 verwendet hierbei das *Socialist Millionaire*--Protokoll. Das Protokoll
-erlaubt es *Alice* und *Bob* ein gemeinsam geglaubtes Geheimnis $x$ (Alice) und $y$
-(Bob) auf Gleichheit zu prüfen ohne es austauschen zu müssen. Weiterhin ist
+erlaubt es *Alice* und *Bob* ein gemeinsam geglaubtes Geheimnis $x$ (*Alice*) und $y$
+(*Bob*) auf Gleichheit zu prüfen ohne es austauschen zu müssen. Weiterhin ist
 das Protokoll nicht für einen Man--in--the--Middle--Angriff anfällig. Beim
 Off--the--Record--Messaging--Protokoll[^FN_PIDGIN_SMP] werden alle Operationen
 modulo einer bestimmten 1536 Bit Primzahl genommen, $g_{1}$ ist hier das
