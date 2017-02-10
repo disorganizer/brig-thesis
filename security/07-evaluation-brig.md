@@ -24,20 +24,20 @@ generellen Dateiaustausch ausgelegt. Um die in [@sec:SEC03_ANFORDERUNGEN]
 aufgeführten Anforderungen zu realisieren, müssen die genannten Protokolle
 beziehungsweise das Verhalten des Peer--To--Peer--Netzwerks an die gesetzten
 Anforderungen angepasst werden. Als Basis für die Implementierung eines
-Prototypen standen die beiden Protokolle *BitTorrent* und *IPFS* in der engeren
+Prototypen standen die beiden Protokolle *BitTorrent* und IPFS in der engeren
 Auswahl. Aufgrund der unter [@sec:SEC06_ZUSAMMENFASSUNG_IPFS_EVALUATION]
-genannten Funktionalitäten wurde *IPFS* als Basis bevorzugt.
+genannten Funktionalitäten wurde IPFS als Basis bevorzugt.
 
-![»brig« als Overlay--Netzwerk für *IPFS*](images/brigoverlay.png){#fig:img-brig-overlay width=80%}
+![»brig« als Overlay--Netzwerk für IPFS](images/brigoverlay.png){#fig:img-brig-overlay width=80%}
 
 [@fig:img-brig-overlay] zeigt die Funktionsweise von »brig« als sogenanntes
 Overlay--Netzwerk. »brig« wird verwendet, um die in
 [@sec:SEC06_ZUSAMMENFASSUNG_IPFS_EVALUATION] fehlenden Eigenschaften des
-*IPFS*--Protokolls zu ergänzen.
+IPFS--Protokolls zu ergänzen.
 
 ## Datenverschlüsselung {#sec:SEC07_DATENVERSCHLUESSELUNG}
 
-Standardmäßig werden die Daten bei *IPFS* unverschlüsselt gespeichert.
+Standardmäßig werden die Daten bei IPFS unverschlüsselt gespeichert.
 Weiterhin basiert die aktuelle Transportverschlüsselung der Daten auf einem
 nicht standardisierten Protokoll.
 
@@ -45,10 +45,10 @@ nicht standardisierten Protokoll.
 
 Um die gesetzten Anforderungen (Vertraulichkeit von Daten,
 [@sec:SEC03_SICHERHEIT]) zu erreichen, muss »brig« die
-Funktionalität von *IPFS* so erweitern, dass die Authentizität und
+Funktionalität von IPFS so erweitern, dass die Authentizität und
 Vertraulichkeit der Daten bei lokaler Speicherung aber auch bei der Übertragung
 gewährleistet ist. Für diesen Einsatzzweck wurde eine Verschlüsselungsschicht
-vor dem *IPFS*--Backend [@fig:img-enclayer] eingeführt.
+vor dem IPFS--Backend [@fig:img-enclayer] eingeführt.
 
 ![»brig« Verschlüsselungsschicht mit Datenverschlüsselung mit Authentizität.](images/encbackend.png){#fig:img-enclayer width=40%}
 
@@ -98,7 +98,7 @@ der Vertraulichkeit auch die Authentizität und die Integrität sicherstellt.
 ### Geschwindigkeitsevaluation {#sec:SEC07_GESCHWINDIGKEITSEVALUATION}
 
 Die bisherigen »brig«--Benchmarks unter [@cpahl], S. 96 ff. haben die Geschwindigkeit von
-»brig« mit *IPFS* verglichen. Hierbei ist auffällig gewesen, dass die
+»brig« mit IPFS verglichen. Hierbei ist auffällig gewesen, dass die
 Geschwindigkeit bei Verschlüsselung vergleichsweise stark eingebrochen ist.
 
 Um Verschlüsselungsoperationen zu beschleunigen, gibt es neben der Wahl
@@ -370,15 +370,15 @@ Aktuell wird für jede Datei ein Schlüssel zufällig generiert. Dieser wird in
 den Metadaten abgelegt. Durch das zufällige Generieren eines Schlüssels wird
 bei zwei unterschiedlichen Kommunikationspartnern für die gleiche Datei ein
 unterschiedlicher Schlüssel erstellt. Ein großer Nachteil, der aktuell dadurch
-zum Tragen kommt, ist, dass die *IPFS*--Deduplizierung nur noch stark
+zum Tragen kommt, ist, dass die IPFS--Deduplizierung nur noch stark
 eingeschränkt funktioniert.
 
-![Für die gleiche Datei werden aktuell unterschiedliche Schlüssel generiert. Das hat zur Folge, dass die Deduplizierungsfunktionalität von *IPFS* weitestgehend nicht mehr funktioniert.](images/dedupbroken.png){#fig:img-dedupbroken width=95%}
+![Für die gleiche Datei werden aktuell unterschiedliche Schlüssel generiert. Das hat zur Folge, dass die Deduplizierungsfunktionalität von IPFS weitestgehend nicht mehr funktioniert.](images/dedupbroken.png){#fig:img-dedupbroken width=95%}
 
 [@fig:img-dedupbroken] zeigt den aktuellen Ansatz. Durch den zufällig
 generierten Schlüssel haben die verschlüsselten Dateien und Datenblöcke ---
 auch bei gleichem Input --- einen unterschiedlichen Output. Dies hat zur Folge,
-dass *IPFS* die Daten nicht mehr sinnvoll deduplizieren kann, wie unter (siehe
+dass IPFS die Daten nicht mehr sinnvoll deduplizieren kann, wie unter (siehe
 @sec:SEC07_SCHLUESSELGENERIERUNG) abgebildet. Eine möglicher Ansatz dieses
 Problem zu umgehen oder abzumildern ist Convergent Encryption, siehe
 @sec:SEC08_DATENVERSCHLUESSELUNG. Der in der Abbildung gezeigte Fall, dass es
@@ -411,7 +411,7 @@ besser als *AES/GCM* geeignet zu sein.
 
 ## Metadatenverschlüsselung {#sec:SEC07_METADATENVERSCHLUESSELUNG}
 
-Neben den Nutzdaten, die von *IPFS* verwaltet werden, werden weiterhin die
+Neben den Nutzdaten, die von IPFS verwaltet werden, werden weiterhin die
 sogenannten »Stores« verschlüsselt. Diese beinhalten den Metadatenstand der
 jeweiligen Synchronisationspartner.
 
@@ -445,15 +445,15 @@ Die verschlüsselte Remotes--Datei beinhaltet den *Benutzernamen* mit
 dazugehöriger *Peer--ID* und einen *Zeitstempel* (letzter Onlinestatus) für die
 jeweils bekannten (authentifizierten) Synchronisationspartner.
 
-**Einschätzung:** Das *IPFS*--Repository, sowie das Schlüsselpaar von *IPFS*
+**Einschätzung:** Das IPFS--Repository, sowie das Schlüsselpaar von IPFS
 ist aktuell unverschlüsselt. Dies würde diverse Modifikationen am Repository
-erlauben wie beispielsweise die Manipulation der *Peer--ID* von *IPFS*. Der
+erlauben wie beispielsweise die Manipulation der *Peer--ID* von IPFS. Der
 `master.key` hat aktuell keine Verwendung.
 
 ## »brig«--Identifier {#sec:SEC07_BRIG_IDENTIFIER}
 
-Da *IPFS* an sich keinen Authentifizierungsmechanismus bietet, muss dieser von
-»brig« bereitgestellt werden. Im *IPFS*--Netzwerk haben die *Peers* durch die
+Da IPFS an sich keinen Authentifizierungsmechanismus bietet, muss dieser von
+»brig« bereitgestellt werden. Im IPFS--Netzwerk haben die *Peers* durch die
 Prüfsumme über den öffentlichen Schlüssel eine eindeutige Kennung. Diese
 Prüfsumme ist aufgrund des Aufbaues und der Länge als menschenlesbare Kennung
 nicht geeignet. Aus diesem Grund wurde ein »brig«--Identifier (»brig«--*ID*)
@@ -466,7 +466,7 @@ Die eigentliche »brig«--*ID* entspricht hier der Anlehnung an den
 XMPP--Standard, der Präfix wird intern von »brig« angehängt, um die Benutzer
 des »brig«--Netzwerks identifizieren zu können.
 
-Folgendes Beispiel mit dem *Multihash*--Tool vom *IPFS*--Projekt zeigt die
+Folgendes Beispiel mit dem *Multihash*--Tool vom IPFS--Projekt zeigt die
 Generierung einer User--Hash aus dem Benutzernamen.
 
 ~~~sh
@@ -481,7 +481,7 @@ eine E-Mail--Adresse auch einen korrekten Benutzernamen darstellen würde.
 [^FN_XMPPID]: Jabber--ID: <https://de.wikipedia.org/w/index.php?title=Jabber_Identifier&oldid=147048396>
 
 Um diese Funktionalität bereitzustellen, wird ein »Trick« angewendet, bei
-welchem die Zeichenkette des Nutzernamens als Block dem *IPFS*--Netzwerk bekannt
+welchem die Zeichenkette des Nutzernamens als Block dem IPFS--Netzwerk bekannt
 gemacht wird (vgl. [@cpahl], S. 62). Dieser Block selbst ist nicht eindeutig und
 könnte auch von einem Angreifer selbst erstellt worden sein. Um eine
 Eindeutigkeit herzustellen, wird der Benutzername direkt an die eindeutige,
@@ -489,12 +489,12 @@ Eindeutigkeit herzustellen, wird der Benutzername direkt an die eindeutige,
 
 Folgende Daten werden kombiniert, um einen Benutzer eindeutig zu identifizieren:
 
-* **Peer--ID:** Prüfsumme über den öffentlichen *IPFS*--Schlüssel.
+* **Peer--ID:** Prüfsumme über den öffentlichen IPFS--Schlüssel.
 * **User--Hash:** Prüfsumme über die »brig«--ID, welche einen vom Benutzer gewählten
   Identifier darstellt.
 
 [@fig:img-userlookup] zeigt das Auffinden von einem Benutzer im
-*IPFS*--Netzwerk. Für weitere Details zur Softwarearchitektur und
+IPFS--Netzwerk. Für weitere Details zur Softwarearchitektur und
 Funktionsweise siehe auch [@cpahl].
 
 ![User--Lookup mittels »brig«-ID (hier bestehend aus gekürzter Peer--ID + User--Hash). Nur bei Übereinstimmung vom Peer--Fingerprint und Benutzernamen--Fingerprint wird der Benutzer als valide erkannt.](images/userlookup.png){#fig:img-userlookup width=100%}
@@ -503,10 +503,10 @@ Funktionsweise siehe auch [@cpahl].
 
 Eine Schwierigkeit, die sich im Voraus stellt, ist die sichere
 Authentifizierung. Mit der »brig«--ID ist es aufgrund des *Multihash* vom
-öffentlichen *IPFS*--Schlüssel möglich, den Benutzer eindeutig zu
+öffentlichen IPFS--Schlüssel möglich, den Benutzer eindeutig zu
 identifizieren. Bei der aktuellen »brig«--Version muss der Fingerabdruck beim
 Hinzufügen des Synchronisationspartners manuell hinzugefügt werden. Dies setzt
-voraus, dass die Synchronisationspartner ihre *IPFS*--Fingerabdrücke
+voraus, dass die Synchronisationspartner ihre IPFS--Fingerabdrücke
 vorab austauschen. Anschließend können beide Synchronisationspartner ihre
 Repositories synchronisieren.
 
@@ -603,7 +603,7 @@ Passwort--Manager[^FN_SECURE_PASSWORD].
 **Einschätzung**: Bei der aktuellen Authentifikation gegenüber dem Repository
 ist ein (schlechtes) Passwort oder die erzwungene Komplexität (Benutzer
 schreiben komplexe Passwörter auf Post--it's auf) eine Schwachstelle. Weiterhin
-ist auch problematisch, dass das der geheime Schlüssel von *IPFS* nicht
+ist auch problematisch, dass das der geheime Schlüssel von IPFS nicht
 verschlüsselt abgelegt ist. Dieser Umstand ermöglicht beispielsweise
 einen Identitätsdiebstahl.
 

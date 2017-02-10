@@ -2,7 +2,7 @@
 
 # Anhang A: Umfang IPFS--Codebasis {#sec:APP_IPFS_LOC }
 
-Nach einem frischen `git clone` vom *IPFS*--Repository wurde der Umfang des
+Nach einem frischen `git clone` vom IPFS--Repository wurde der Umfang des
 Projekts ermittelt indem alle Abhängigkeiten mit `x install --global=false`
 beschafft wurden. Im Anschluss wurden alle erkenntlichen
 Drittanbieter--Bibliotheken in ein separates *3rd*--Verzeichnis verschoben. Für
@@ -13,7 +13,7 @@ begrenzt.
 
 [^cloc]: Github--Seite des Projektes: <https://github.com/AlDanial/cloc>
 
-Umfang *IPFS*--Projekt:
+Umfang IPFS--Projekt:
 
 ~~~sh
 
@@ -33,7 +33,7 @@ SUM:                           844          19983          10605          97639
 -------------------------------------------------------------------------------
 ~~~
 
-Umfang vom *IPFS*--Projekt genutzter Drittanbieter--Bibliotheken:
+Umfang vom IPFS--Projekt genutzter Drittanbieter--Bibliotheken:
 
 ~~~sh
 freya :: src/github.com/ipfs » cloc $(find ./3rd -iname '*.go' -type f | \
@@ -54,7 +54,7 @@ SUM:                          1742          57033          70893         822177
 
 # Anhang B: IPFS--Grundlagen {#sec:APP_IPFS_SECWARNING}
 
-Die Initialisierung als *IPFS*--Einstiegspunkt (gekürzt):
+Die Initialisierung als IPFS--Einstiegspunkt (gekürzt):
 
 ~~~sh
 freya :: ~ » ipfs cat /ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme
@@ -82,7 +82,7 @@ Check out some of the other files in this directory:
 
 ~~~
 
-Sicherheitshinweis von *IPFS*:
+Sicherheitshinweis von IPFS:
 
 ~~~sh
 freya :: ~ » ipfs cat /ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/security-notes

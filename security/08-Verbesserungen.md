@@ -12,8 +12,8 @@ große *Noncen*. Die *MAC* ist inklusive *Padding* 16 Bytes groß (siehe
 nachgebessert werden. Die empfohlene *Noncen*--Größe ist mit 96 Bit angegeben
 (vgl. [@bsi], S. 24).
 
-Wie unter @sec:SEC06_IPFS_ID zu sehen, sind die *IPFS*--Schlüssel aktuell in der
-`config`--Datei von *IPFS* im Klartext hinterlegt. »brig« verschlüsselt diese
+Wie unter @sec:SEC06_IPFS_ID zu sehen, sind die IPFS--Schlüssel aktuell in der
+`config`--Datei von IPFS im Klartext hinterlegt. »brig« verschlüsselt diese
 Datei zum aktuellen Zeitpunkt nicht. Hier wäre eine Verschlüsselung mit einem
 *Repository*--Key möglich, welcher wiederrum durch einen Hautpschlüssel
 geschützt werden sollte (siehe [@sec:SEC08_KEYMANAGEMENT]). Eine weitere
@@ -22,7 +22,7 @@ zu verschlüsseln.
 
 Wie unter [@sec:SEC07_SCHLUESSELGENERIERUNG] erläutert, wird aktuell für jede
 Datei ein zufälliger Schlüssel generiert. Mit diesem Ansatz wird die
-Deduplizierungsfunktionalität von *IPFS* weitestgehend nutzlos gemacht.
+Deduplizierungsfunktionalität von IPFS weitestgehend nutzlos gemacht.
 
 Ein Ansatz dieses Problem zu umgehen, ist die sogenannte »Convergent
 Encryption«. Diese Technik wird beispielsweise von *Cloud--Storage*--Anbietern
@@ -37,7 +37,7 @@ kryptographischen Hashfunktion abgeleitet.
 
 Diese Verfahren lässt sich jedoch bei der aktuellen Architektur (separate
 Verschlüsselungsschicht) nur eingeschränkt realisieren, da die Prüfsumme der
-Daten erst nach dem Hinzufügen zum *IPFS* bekannt ist. Um die Daten zu
+Daten erst nach dem Hinzufügen zum IPFS bekannt ist. Um die Daten zu
 verschlüsseln, müssten diese vor dem Hinzufügen komplett *gehasht* werden. Dies
 würde bedeuten, dass man die Daten insgesamt zweimal einlesen müsste (1.
 Prüfsumme generieren, 2. `brig stage`), was bei vielen und/oder großen Dateien
@@ -61,22 +61,22 @@ gespeichert hat.
 
 ### Sicherung und Bindung der kryptographischen Schlüssel an eine Identität {#sec:SEC08_SICHERUNG_UND_BINDUNG_DER_KRYPTOGRAPHISCHEN_SCHLUESSEL_AN_EINE_IDENTITAET}
 
-Das asymmetrische Schlüsselpaar von *IPFS* ist standardmäßig in keinster Weise
+Das asymmetrische Schlüsselpaar von IPFS ist standardmäßig in keinster Weise
 gesichert und muss daher besonders geschützt werden, da diese die Identität
 eines Individuums oder einer Institution darstellt. Beim Diebstahl des Schlüssels
 (Malware, Laptop--Verlust/Diebstahl) kann die jeweilige Identität nicht mehr
 als vertrauenswürdig betrachtet werden.
 
-Die *IPFS*--Identität ist eng mit dem *IPFS*--Netzwerk verwoben. Da das
+Die IPFS--Identität ist eng mit dem IPFS--Netzwerk verwoben. Da das
 Softwaredesign und auch die Sicherheitskomponenten sich aktuell in keinem
 finalen Stadium befinden, ist es für »brig« sinnvoll eine eigene
-Schlüsselhierarchie umzusetzen, welche die Komponenten von *IPFS* schützt. So
-haben auch zukünftige Änderungen an *IPFS* selbst keinen oder nur wenig
+Schlüsselhierarchie umzusetzen, welche die Komponenten von IPFS schützt. So
+haben auch zukünftige Änderungen an IPFS selbst keinen oder nur wenig
 Einfluss auf das Sicherheitskonzept von »brig«.
 
 [@fig:img-externalkey] zeigt ein Konzept, bei welchem ein externes und vom
 Benutzer kontrolliertes Schlüsselpaar als Hauptschlüssel für die
-Absicherung des *IPFS*--Repository dient.
+Absicherung des IPFS--Repository dient.
 
 ![Externes asymmetrisches Schlüsselpaar dient als Hauptschlüssel zur Sicherung der ungesicherten IPFS--Daten. Das Signieren der öffentlichen IPFS--ID ermöglicht eine zusätzliche Schicht der Authentifizierung.](images/external-key.png){#fig:img-externalkey width=70%}
 
@@ -84,18 +84,18 @@ Diese externe Identität muss dabei besonders vor Diebstahl geschützt werden, u
 einen Missbrauch zu vermeiden. Auf üblichen Endverbrauchergeräten ist der
 Passwortschutz dieses Schlüsselpaars ein absolutes Minimalkriterium. Weiterhin
 könnte »brig« den Ansatz fahren und die kryptographischen Schlüssel
-(`config`--Datei von *IPFS*) selbst nur »on demand« im Speicher beispielsweise
-über ein *VFS* (Virtual Filesystem)[^FN_VFS] *IPFS* bereitstellen.
+(`config`--Datei von IPFS) selbst nur »on demand« im Speicher beispielsweise
+über ein *VFS* (Virtual Filesystem)[^FN_VFS] IPFS bereitstellen.
 [@fig:img-vfs] zeigt ein Konzept bei welchem »brig« über einen *VFS*--Adapter
-die Konfigurationsdateien und somit auch die kryptographischen Schlüssel *IPFS*
+die Konfigurationsdateien und somit auch die kryptographischen Schlüssel IPFS
 bereitstellt.
 
 [^FN_VFS]: Virtual file system: <https://en.wikipedia.org/w/index.php?title=Virtual_file_system&oldid=758011055>
 
-![»brig« stellt mittels VFS eine Zugriffsschnittstelle für *IPFS* dar.](images/vfs.png){#fig:img-vfs width=60%}
+![»brig« stellt mittels VFS eine Zugriffsschnittstelle für IPFS dar.](images/vfs.png){#fig:img-vfs width=60%}
 
 Dabei wird beim Starten des »brig«--Daemon die verschlüsselte
-Datei im Arbeitsspeicher entschlüsselt und anschließend *IPFS* über einen
+Datei im Arbeitsspeicher entschlüsselt und anschließend IPFS über einen
 Zugriffsadapter bereitgestellt. Dabei wird der komplette Zugriff über das *VFS*
 von »brig« verwaltet.
 
@@ -377,7 +377,7 @@ Angriffsfläche[^FN_EVIL32] bietet.
 
 #### Authentifizierung über Frage--Antwort--Dialog
 
-Da *IPFS* bereits ein *Public/Private*--Schlüsselpaar mitbringt, würde sich im
+Da IPFS bereits ein *Public/Private*--Schlüsselpaar mitbringt, würde sich im
 einfachsten Falle nach dem ersten Verbindungsaufbau die Möglichkeit bieten,
 seinen Synchronisationspartner anhand eines *gemeinsamen Geheimnises* oder anhand eines
 *Frage--Antwort--Dialogs* zu verifizieren. [@fig:img-question-answer] zeigt den

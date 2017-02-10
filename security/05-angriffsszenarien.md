@@ -80,7 +80,7 @@ Angreifer möglich ist, mit einer großen Anzahl von Pseudonymen einen
 überproportional großen Einfluss in einem dezentralen Netzwerk zu erlangen.
 Möglichkeiten, die diesen Angriff entgegenwirken sind in erster Linie zentrale
 Authentifizierungsinstanzen. Der Angriff wird unter [@peer2peer], S. 200 ff. genauer
-erläutert. Das von »brig« verwendete *IPFS*--Netzwerk verwendet Teile des
+erläutert. Das von »brig« verwendete IPFS--Netzwerk verwendet Teile des
 *S/Kademlia*--Protokolls, welches es prinzipiell erschwert eine
 Sybil--Attacke[^FN_IPFS_SYBIL_ATTACK] durchzuführen. Unter [@BIB_SKADEMLIA]
 wird *S/Kademlia* bezüglich der Angriffe auf dezentrale Architekturen

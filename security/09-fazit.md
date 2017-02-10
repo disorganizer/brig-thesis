@@ -9,32 +9,32 @@ solide Basis für ein sicheres und dezentrales Synchronisationswerkzeug entstand
 
 Die übergreifende Anforderung an das Projekt, eine gute Balance zwischen
 Sicherheit und Usability zu finden, kann noch nicht endgültig bewertet werden.
-Die bisher getroffenen Entscheidungen bezüglich des Einsatzes von *IPFS* können durchaus positiv
+Die bisher getroffenen Entscheidungen bezüglich des Einsatzes von IPFS können durchaus positiv
 bewertet werden, siehe @sec:SEC06_ZUSAMMENFASSUNG_IPFS_EVALUATION. Die
 Datenhaltungsschicht bietet aufgrund des Merkle--DAG eine solide Basis mit
 Fehlererkennung, die Netzwerkschicht auf CAN--Basis setzt den dezentralen
 Ansatz von »brig« gut um. Die aktuell von »brig« umgesetzten Erweiterungen
-machen aus dem *IPFS*--Unterbau eine sichere und vollständig dezentrale
+machen aus dem IPFS--Unterbau eine sichere und vollständig dezentrale
 Synchronisationslösung. Weiterhin wurden durch die Evaluation Fehler behoben
 und Verbesserungen für die bisherige Implementierung identifiziert (siehe
 @sec:SEC08_VERBESSERUNGEN_UND_ERWEITERUNGEN).
 
 ### Schlüsselverwaltung
 
-Die erweiterte Evaluation von *IPFS* hat ergeben, dass die *IPFS*--Identität
+Die erweiterte Evaluation von IPFS hat ergeben, dass die IPFS--Identität
 (privater Schlüssel) im Klartext in der Konfigurationsdatei gespeichert wird
 (siehe @sec:SEC06_IPFS_ID). Zukünftige Versionen von »brig« müssen diesen
 kryptographischen Schlüssel sichern. Hier wurde ein mögliches Konzept für einen
 transparenten, verschlüsselten Zugriff auf Basis des *Virtual Filesystem (VFS)*
 vorgestellt (siehe @sec:SEC08_SICHERUNG_UND_BINDUNG_DER_KRYPTOGRAPHISCHEN_SCHLUESSEL_AN_EINE_IDENTITAET).
 
-Um die *IPFS*--Identität zu sichern und die zukünftige Schlüsselverwaltung von
-*IPFS* unabhängiger zu machen, wurde als Konzept eine »externe Identität«
+Um die IPFS--Identität zu sichern und die zukünftige Schlüsselverwaltung von
+IPFS unabhängiger zu machen, wurde als Konzept eine »externe Identität«
 eingeführt
 (@sec:SEC08_SICHERUNG_UND_BINDUNG_DER_KRYPTOGRAPHISCHEN_SCHLUESSEL_AN_EINE_IDENTITAET).
 Das Konzept mit dem Hauptschlüssel (externe Identität auf Basis eines
 Public--Key--Schlüsselpaar) gibt »brig« auch bei zukünftigen Veränderungen an
-der *IPFS*-Schlüsselverwaltung die Kontrolle über diese. Weiterhin wurde auf
+der IPFS-Schlüsselverwaltung die Kontrolle über diese. Weiterhin wurde auf
 der Basis dieser Identität ein erweitertes Authentifizierungskonzept
 vorgestellt (siehe
 @sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT_AUF_BASIS_DES_WEB_OF_TRUST).
@@ -54,7 +54,7 @@ Identität einen hohen Sicherheitszugewinn dar.
 
 Die Sicherheitsentscheidungen, welche bisher für »brig« getroffen wurden, sind
 größtenteils positiv zu bewerten. Die Datenverschlüsselungsschicht hat
-aktuell zwar mit der vorhandenen *IPFS*--Transportlayer--Verschlüsselungsschicht
+aktuell zwar mit der vorhandenen IPFS--Transportlayer--Verschlüsselungsschicht
 einen gewissen Overhead, befindet sich mit standardisierten Verfahren
 (AES--GCM, ChaCha20/Poly1305) aber auf der sicheren Seite.
 
@@ -115,7 +115,7 @@ dass die Deduplizierungsfunktionalität außer Kraft gesetzt wird, siehe
 Encryption* »brig« für bestimmte Angriffe, wie beispielsweise den
 »confirmation of a file«--Angriff, anfällig machen. Die Empfehlung an dieser
 Stelle wäre, die Schlüsselgenerierung weiterhin auf Zufallsbasis zu realisieren
-und das dadurch entstandene »Problem« (*IPFS* kann Daten nicht mehr sinnvoll
+und das dadurch entstandene »Problem« (IPFS kann Daten nicht mehr sinnvoll
 deduplizieren, siehe @sec:SEC07_SCHLUESSELGENERIERUNG) in Kauf zu nehmen und
 eine abgemilderte Variante der Deduplizierung über Packfiles --- wie von Herrn Pahl
 vorgeschlagen --- zu realisieren (siehe [@cpahl], S. 101 f.).
@@ -125,13 +125,13 @@ Sicht der Benutzerfreundlichkeit verbesserungswürdig. Hier würde sich eine
 vollständige Automatisierung und die Umsetzung einer grafischen
 Benutzeroberfläche --- wie unter [@cpahl], S. 84 ff. --- anbieten.
 
-Ein weiterer diskussionswürdiger Punkt ist die Verwendung von *IPFS* als Basis.
+Ein weiterer diskussionswürdiger Punkt ist die Verwendung von IPFS als Basis.
 Zwar erfüllt diese hier die benötigten Anforderungen, jedoch liegt der Fokus
 der Entwicklung des Projektes in erster Linie nicht im Bereich der Sicherheit.
 Auf Grund dieses Umstandes ist die Implementierung von Sicherheitsfeatures
 durch »brig« nicht zwangsläufig optimal. Die Implementierung bestimmter
 Sicherheits--Funktionalität wie beispielsweise Datenverschlüsselung wäre laut
-aktueller Einschätzung besser im *IPFS*--Backend zu realisieren. Weiterhin
+aktueller Einschätzung besser im IPFS--Backend zu realisieren. Weiterhin
 macht beispielsweise auch die seit Monaten andauernde Definition einer
 Spezifikation[^FN_SPEC] für das IPFS--*Keystore* weitere Entwicklungsentscheidungen für
 »brig« schwierig.

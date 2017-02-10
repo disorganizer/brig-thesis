@@ -641,7 +641,7 @@ dezentraler Ansatz, welcher verschiedene bekannte Technologien kombiniert.
 Dadurch lassen sich Schwächen aktuell genutzter Systeme und Protokolle
 abmildern oder gar vermeiden. In der aktuellen Implementierung ist das
 Projekt jedoch eher als fortgeschrittener Prototyp anzusehen. Aufgrund des
-vielversprechenden Ansatzes, ist *IPFS* die Grundlage von »brig«.
+vielversprechenden Ansatzes, ist IPFS die Grundlage von »brig«.
 
 [^FN_IPFS]: InterPlanetary--File System: <https://en.wikipedia.org/w/index.php?title=InterPlanetary_File_System&oldid=757419434>
 

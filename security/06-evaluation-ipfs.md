@@ -1,15 +1,15 @@
 # Evaluation IPFS {#sec:SEC06_EVALUATION_IPFS}
 
-*IPFS* (*InterPlanetary File System*) stellt die Netzwerkbasis für »brig« dar.
-Da *IPFS* teilweise andere Ziele als »brig« hat, ist es wichtig, dass die
-Anforderungen von »brig« durch die *IPFS*--Basis nicht verletzt werden. Im
-Folgenden wird *IPFS* bezüglich bestimmter sicherheitstechnischer Anforderungen
+IPFS (*InterPlanetary File System*) stellt die Netzwerkbasis für »brig« dar.
+Da IPFS teilweise andere Ziele als »brig« hat, ist es wichtig, dass die
+Anforderungen von »brig« durch die IPFS--Basis nicht verletzt werden. Im
+Folgenden wird IPFS bezüglich bestimmter sicherheitstechnischer Anforderungen
 genauer beleuchtet, um Diskrepanzen zu den Zielen von »brig« zu
 identifizieren.
 
-Die *IPFS*--Codebasis umfasst aktuell $\approx{900.000}$ *LoC* (siehe
+Die IPFS--Codebasis umfasst aktuell $\approx{900.000}$ *LoC* (siehe
 [@sec:APP_IPFS_LOC]). Davon gehören $\approx{100.000}$ *LoC* direkt dem
-*IPFS*--Projekt an, $\approx{800.000}$ *LoC* stammen aus Drittanbieter--Bibliotheken.
+IPFS--Projekt an, $\approx{800.000}$ *LoC* stammen aus Drittanbieter--Bibliotheken.
 
 Im zeitlich begrenzten Umfang der Masterarbeit können nur selektive
 Mechanismen der Software untersucht werden. Eine genaue Analyse der
@@ -26,7 +26,7 @@ ipfs version 0.4.3
 ## Einleitung IPFS {#sec:SEC06_EINLEITUNG_IPFS}
 
 Das *InterPlanetary File System* wird als  »content-addressable, peer-to-peer
-hypermedia distribution protocol« definiert. Das Besondere an *IPFS* ist, dass
+hypermedia distribution protocol« definiert. Das Besondere an IPFS ist, dass
 es ein sogenanntes *Content--Addressable--Network (CAN)* darstellt. Ein *CAN*
 arbeitet mit einer verteilten Hashtabelle (*Distributed Hash Table (DHT)*),
 welche als grundlegende »Datenstruktur« verwendet wird, um die Daten innerhalb
@@ -48,11 +48,11 @@ folgende Eigenschaften mit sich:
 
 ## IPFS--Basis {#sec:SEC06_IPFS_BASIS}
 
-Das *IPFS*--Dateisystem beziehungsweise Protokoll bringt das
+Das IPFS--Dateisystem beziehungsweise Protokoll bringt das
 Kommandozeilenwerkzeug `ipfs` mit, weiterhin kann es jedoch auch als
 Software--Bibliothek verwendet werden. Dieses ermöglicht eine rudimentäre
-Nutzung von *IPFS*. Beim Initialisieren von *IPFS* wird ein
-*RSA*--Schlüsselpaar generiert. Ein *IPFS*--Repository kann mit dem Befehl
+Nutzung von IPFS. Beim Initialisieren von IPFS wird ein
+*RSA*--Schlüsselpaar generiert. Ein IPFS--Repository kann mit dem Befehl
 `ipfs init` initialisiert werden. Dabei wird standardmäßig unter `~/.ipfs` ein
 Repository angelegt.
 
@@ -67,9 +67,9 @@ to get started, enter:
 ~~~
 
 Bei der Initialisierung wird eine *Peer ID* erzeugt. Anschließend kann
-der Benutzer die `readme`--Datei aus dem *IPFS*--Store betrachten.
+der Benutzer die `readme`--Datei aus dem IPFS--Store betrachten.
 [@sec:APP_IPFS_SECWARNING] zeigt weiterhin die aktuelle Sicherheitswarnung der
-*IPFS*--Software. Es wird explizit ein paar Male darauf hingewiesen, dass sich *IPFS*
+IPFS--Software. Es wird explizit ein paar Male darauf hingewiesen, dass sich IPFS
 im Alphastadium befindet. Weiterhin gibt es in der Datei `security-notes` Details zur Sicherheit, welche analog zur `readme`--Datei betrachtet werden kann.
 
 ## IPFS--Backend {#sec:SEC06_IPFS_BACKEND}
@@ -113,10 +113,10 @@ korrigiert[^FN_ZFS_HEALING_VIDEO] werden.
 [^FN_NTFS]: NTFS Dateisystem: <https://en.wikipedia.org/w/index.php?title=NTFS&oldid=743913107>
 [^FN_EXT4]: EXT4 Dateisystem: <https://en.wikipedia.org/w/index.php?title=Ext4&oldid=738311553>
 
-Das Speichern der Daten erfolgt bei *IPFS* (blockweise, in sogenannten chunks)
+Das Speichern der Daten erfolgt bei IPFS (blockweise, in sogenannten chunks)
 mittels eines *Merkle--DAG* (directed acyclic graph, gerichteter azyklischer Graph).
 
-*IPFS* verwendet als Prüfsummen--Format ein eigens entwickeltes
+IPFS verwendet als Prüfsummen--Format ein eigens entwickeltes
 *Multihash*--Format[^FN_MULTIHASH]. [@fig:img-multihash] zeigt das
 *Multihash*--Format. Es stellt eine selbstbeschreibende Prüfsumme, welche den
 Algorithmus, die Länge und die eigentliche Prüfsumme kombiniert. Dieser wird in
@@ -126,7 +126,7 @@ Namensvergabe der Datenblöcke oder `base58` für die Repräsentation der
 
 ![Das *Multihash*--Format.](images/multihash.png){#fig:img-multihash width=90%}
 
-Das folgende Listing zeigt den internen Aufbau eines *IPFS*--Repository. Die
+Das folgende Listing zeigt den internen Aufbau eines IPFS--Repository. Die
 Daten sind hierbei in ».data«--Blöcke aufgeteilt und gespeichert. Die
 Benennung der Datenblöcke basiert auf dem *Multihash*, die Enkodierung
 bei Datenblöcken ist `Base32`.
@@ -160,10 +160,10 @@ $ tree .ipfs
 
 Die Speicherung der Daten in einem Merkle--DAG hat den Vorteil, dass die Daten
 bei der Speicherung üblicherweise mit einer kryptographischen Prüfsumme
-abgelegt werden. Durch diesen Umstand kann *IPFS* eine unerwünschte Veränderung
+abgelegt werden. Durch diesen Umstand kann IPFS eine unerwünschte Veränderung
 an den Daten feststellen. Das folgende Beispiel zeigt die unerwünschte
 Modifikation der `readme`--Datei direkt im *Store--Backend* und wie die
-Integritätsprüfung von *IPFS* die Änderung der Daten erkennt:
+Integritätsprüfung von IPFS die Änderung der Daten erkennt:
 
 ~~~sh
 # Validierung der Integrität der Daten
@@ -186,7 +186,7 @@ verschlüsselten *Store* zu realisieren, aktuell wird jedoch in
 Feature--Requests[^FN_IPFS_FILEENC] die Möglichkeit der manuellen
 Verschlüsselung beispielsweise mittels *OpenSSL/GPG* nahegelegt.
 
-[^FN_IPFS_FILEENC]: *IPFS* file encryption request: <https://github.com/ipfs/faq/issues/116>
+[^FN_IPFS_FILEENC]: IPFS file encryption request: <https://github.com/ipfs/faq/issues/116>
 
 ### Datendeduplizierung {#sec:SEC06_DATENDEDUPLIZIERUNG}
 
@@ -198,20 +198,20 @@ unter einem neuen Namen gespeichert. Ohne Deduplizierung wird die Datei jedes
 mal jeweils komplett gespeichert. Der Speicherplatz der dafür benötigt wird
 würde normalerweise bei 16MiByte liegen, da die Daten auf gewöhnlichen
 Dateisystemen wie beispielsweise *ext4* oder *NTFS* redundant abgespeichert
-werden. *IPFS* teilt diese Datei --- in diesem Fall nur beispielhaft --- in
+werden. IPFS teilt diese Datei --- in diesem Fall nur beispielhaft --- in
 1 MiByte große Blöcke auf und speichert nur Datenblöcke, welche dem
-*IPFS*--Backend noch nicht bekannt sind (vgl. auch [@cpahl], S. 27 f.). Alle bekannten
+IPFS--Backend noch nicht bekannt sind (vgl. auch [@cpahl], S. 27 f.). Alle bekannten
 *Blöcke* werden vom Merkle--DAG nur referenziert. Durch diesen Ansatz reduziert
 sich im Beispiel der benötigte Speicherplatz auf 6 MiByte.
 
-![*IPFS* Block--Level Deduplizierung von Daten. Eine 4MiB große Textdatei wurde viermal kopiert und jeweils an verschiedenen Stellen geändert.](images/dedup.png){#fig:img-dedup width=90%}
+![IPFS Block--Level Deduplizierung von Daten. Eine 4MiB große Textdatei wurde viermal kopiert und jeweils an verschiedenen Stellen geändert.](images/dedup.png){#fig:img-dedup width=90%}
 
 ### IPFS--Daten und IPFS--Blöcke {#sec:SEC06_IPFS_DATEN_UND_IPFS_BLOECKE}
 
-Das *IPFS*--Kommandozeilentool kann mittels des `ipfs
-add`--Befehl Daten dem *IPFS*--Netzwerk hinzufügen. Wie bereits
+Das IPFS--Kommandozeilentool kann mittels des `ipfs
+add`--Befehl Daten dem IPFS--Netzwerk hinzufügen. Wie bereits
 erwähnt werden die Daten blockweise abgelegt. Weiterhin existiert auch die
-Möglichkeit, *IPFS* auf unterster Ebene Blöcke direkt hinzuzufügen. Hierzu wird
+Möglichkeit, IPFS auf unterster Ebene Blöcke direkt hinzuzufügen. Hierzu wird
 das Subkommando `ipfs block` verwendet. Für weitere Details siehe IPFS--Dokumentation[^FN_IPFS_DOC].
 
 
@@ -243,7 +243,7 @@ $ ipfs id
 
 Die unter *ID* gelistete Nummer stellt die Prüfsumme über den öffentlichen
 Schlüssel als *Multihash* in `base58`--Enkodierung dar. Mit dieser *ID*
-lässt sich ein Benutzer beziehungsweise Peer im *IPFS*--Netzwerk eindeutig
+lässt sich ein Benutzer beziehungsweise Peer im IPFS--Netzwerk eindeutig
 identifizieren.
 
 Der private Schlüssel ist neben weiteren Informationen zum `ipfs`--Repository
@@ -269,10 +269,10 @@ Quelltext[^FN_IPFS_CODE_INIT] zu Rate gezogen werden.
 
 ### Authentifizierung {#sec:SEC06_AUTHENTIFIZIERUNG}
 
-Ein Authentifizierungsmechanismus im eigentlichen Sinne existiert bei *IPFS*
+Ein Authentifizierungsmechanismus im eigentlichen Sinne existiert bei IPFS
 nicht. Die Benutzer haben lediglich eine eindeutige globale *Peer--ID*. Dateien
 werden nicht direkt von einer bestimmten *Peer--ID*, sondern aus dem
-*IPFS*--Netzwerk bezogen.  Schaut man sich beispielsweise mit `ipfs dht
+IPFS--Netzwerk bezogen.  Schaut man sich beispielsweise mit `ipfs dht
 findprovs` an, welche *Peers* die `readme`--Datei anbieten, bekommt man eine
 Liste verschiedener Teilnehmer:
 
@@ -336,9 +336,9 @@ Die genannten Verfahren erlauben eine initiale Authentifizierung zwischen den
 Kommunikationspartnern. Bei zukünftiger Kommunikation wird jeweils die *ID* der
 Benutzer mit der bei der initialen Authentifizierung gespeicherten *ID* verglichen.
 
-## *IPFS*--Netzwerk {#sec:SEC06_IPFS_NETZWERK}
+## IPFS--Netzwerk {#sec:SEC06_IPFS_NETZWERK}
 
-Das *IPFS*--Netzwerk arbeitet mit einer *DHT*. Standardmäßig sind nach der
+Das IPFS--Netzwerk arbeitet mit einer *DHT*. Standardmäßig sind nach der
 Installation eine Reihe von sogenannten *Bootstrap--Nodes* eingetragen, welche
 einen initialen »Einstiegspunkt« bieten (gekürzt):
 
@@ -351,10 +351,10 @@ $ ipfs bootstrap list
 
 Alle Änderungen wie beispielsweise das Hinzufügen von Daten, werden so in dem
 durch alle *Nodes* aufgespannten Netzwerk allen Teilnehmern bekannt gemacht. Da
-alle Teilnehmer im *IPFS*--Netzwerk gleichberechtigt sind, wird lediglich die
+alle Teilnehmer im IPFS--Netzwerk gleichberechtigt sind, wird lediglich die
 Prüfsumme einer Datei benötigt, um an die Daten zu gelangen.
 
-Aktuell verwendet *IPFS* als Transport--Verschlüsselung ein selbst entwickeltes
+Aktuell verwendet IPFS als Transport--Verschlüsselung ein selbst entwickeltes
 Protokoll namens *Secio*[^FN_SECIO], welches laut Entwickleraussagen
 ([@sec:APP_IPFS_TRANSPORT_SEC]) auf einem TLS1.2--Modi basiert. Es ist geplant
 in Zukunft auf TLS1.3 zu migrieren.
@@ -363,7 +363,7 @@ in Zukunft auf TLS1.3 zu migrieren.
 
 ## Zusammenfassung IPFS--Evaluation {#sec:SEC06_ZUSAMMENFASSUNG_IPFS_EVALUATION}
 
-Aus Datenhaltungs-- und Netzwerksicht stellt *IPFS* zum
+Aus Datenhaltungs-- und Netzwerksicht stellt IPFS zum
 aktuellen Zeitpunkt eine attraktive Basis für die Entwicklung des
 »brig«--Prototypen dar. Aus Datenhaltungssicht sind insbesondere folgende
 Features interessant:
@@ -371,10 +371,10 @@ Features interessant:
 * Möglichkeit der Deduplizierung von Daten (Aufgrund der Speicherung in einem Merkle-DAG)
 * Möglichkeit der Validierung der Integrität der Daten (SHA256--basiert)
 
-Aus Sicht der Sicherheit muss *IPFS* um folgende Funktionalitäten erweitert werden:
+Aus Sicht der Sicherheit muss IPFS um folgende Funktionalitäten erweitert werden:
 
 * Verschlüsselte Lagerung der Daten und kryptographischen Schlüssel
 * Mechanismus zur Authentifizierung von Kommunikationspartnern
-* Möglichkeit einer einfachen Begrenzung der am *IPFS*--Netzwerk teilnehmenden Benutzer
+* Möglichkeit einer einfachen Begrenzung der am IPFS--Netzwerk teilnehmenden Benutzer
 * Standardisiertes Protokoll zum verschlüsselten Austausch von Metadaten
 * Schlüsselmanagement (Verwaltung und Sicherung von Schlüsseln, Identitäten)
