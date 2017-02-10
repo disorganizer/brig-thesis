@@ -78,9 +78,9 @@ andererseits ist die alleinige Authentifizierung über ein Passwort --- bei eine
 mit Fokus auf Sicherheit --- als negativ zu bewerten (siehe @sec:SEC07_REPOSITORY_ZUGRIFF).
 
 Hier wurden erweiterte Konzepte der Zwei--Faktor--Authentifizierung mit dem
-*YubiKey* für Privatpersonen und Institutionen evaluiert (siehe
+YubiKey für Privatpersonen und Institutionen evaluiert (siehe
 @sec:SEC08_SMARTCARDS_UND_RSA_TOKEN_ALS_ZWEI_FAKTOR_AUTHENTIFIZIERUNG).
-Weiterhin wurde ein Konzept zur »einfachen Passworthärtung« mit dem *YubiKey*
+Weiterhin wurde ein Konzept zur »einfachen Passworthärtung« mit dem YubiKey
 vorgestellt (@sec:SEC08_YUBIKEY_FUER_PASSWORTHAERTUNG).
 
 Im Bereich der Synchronisationspartnerauthentifizierung wurden verschiedene

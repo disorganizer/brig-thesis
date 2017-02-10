@@ -578,7 +578,7 @@ wird. Weiterhin müssen keine zusätzlichen Treiber, beispielsweise für ein Les
 [^FN_YUBICO]: Yubico: <https://www.yubico.com>
 
 Bei beiden Herstellern gibt es die Hardware--Token in verschiedenen
-Ausführungen. Bekannte Institutionen, welche den *YubiKey* verwenden sind
+Ausführungen. Bekannte Institutionen, welche den YubiKey verwenden sind
 beispielsweise die Universität von Auckland[^FN_YK_UNIVERSITY_AUCKLAND], das
 *CERN*[^FN_YK_CERN] oder auch das Massachusetts Institute of Technology[^FN_YK_MIT].
 
@@ -636,7 +636,7 @@ ansprechen, Slot 2 mit einem längeren Drücken (2,5--5 Sekunden). Für weitere 
 [^FN_YK_MANUAL]: The YubiKey Manual <https://www.yubico.com/wp-content/uploads/2015/03/YubiKeyManual_v3.4.pdf>
 [^FN_YUBICO_PERSON_TOOL]: Yubico Personalization Tool: <https://www.yubico.com/products/services-software/personalization-tools/use/>
 
-Die grundlegende Konfiguration des *YubiKey* ist mit dem *YubiKey
+Die grundlegende Konfiguration des YubiKey ist mit dem *YubiKey
 Personalization Tool* möglich.
 
 ![GUI des YubiKey Personalization Tool. Das Konfigurationswerkzeug ist eine QT--Anwendung, diese wird von den gängigen Betriebssystemen (Linux, MacOs, Windows) unterstützt.](images/ykgui2.png){#fig:img-ykgui width=75%}
@@ -681,7 +681,7 @@ der zuletzt gespeicherte --- so wird das One--Time--Password nicht akzeptiert.
 Für das Testen der korrekten Funktionalität stellt *Yubico* eine Demoseite für
 *OTP*[^FN_YUBICO_DEMO_OTP] und *U2F*[^FN_YUBICO_DEMO_U2F] bereit. Über diese
 lässt sich ein One--Time--Password an die YubiCloud schicken und somit die
-korrekte Funktionsweise eines *YubiKey* validieren. [@fig:img-otp-response]
+korrekte Funktionsweise eines YubiKey validieren. [@fig:img-otp-response]
 zeigt die Authentifizierungsantwort der YubiCloud.
 
 ![YubiCloud Response bei Zwei--Faktor--Authentifizierung. Seriennummer des YubiKeys wurde retuschiert.](images/response-noserial.png){#fig:img-otp-response width=65%}
@@ -706,9 +706,9 @@ Für den Einsatz unter »brig« wird ein *API*--Key und ein *Secret--Key* von
 gegenüber dem Yubico--Dienst verwendet. Die Beantragung erfolgt
 online[^FN_APIKEY] und erfordert einen YubiKey. Die minimale Implementierung in
 @sec:APP_YUBICLOUD_AUTHENTIFIZIERUNG zeigt einen voll funktionsfähigen
-Authentifizierungs--Client,  welcher einen *YubiKey* am YubiCloud--Dienst
+Authentifizierungs--Client,  welcher einen YubiKey am YubiCloud--Dienst
 authentifiziert. [@fig:img-poc-brig-2fa] zeigt schematisch den
-Zwei--Faktor--Authentifizierung--Vorgang mit einem *YubiKey* über die
+Zwei--Faktor--Authentifizierung--Vorgang mit einem YubiKey über die
 YubiCloud. Um auf das »brig«--Repository Zugriff zu erhalten, müssen folgende
 Informationen validiert werden:
 
@@ -718,39 +718,39 @@ Informationen validiert werden:
 
 1. *Alice* startet mit ihrem Passwort und YubiKey einen Loginvorgang.
 2. »brig« prüft das Passwort von Alice.
-3. »brig« prüft anhand der *Public--ID*, ob der *YubiKey* von *Alice* dem
+3. »brig« prüft anhand der *Public--ID*, ob der YubiKey von *Alice* dem
    Repository bekannt ist.
-4. »brig« lässt das One--Time--Passwort des *YubiKey* von der YubiCloud validieren.
+4. »brig« lässt das One--Time--Passwort des YubiKey von der YubiCloud validieren.
 5. Ist das One--Time--Passwort korrekt, so bekommt *Alice* Zugriff auf das Repository.
 
 Eine essentiell wichtige Komponente an dieser Stelle ist der Zusammenhang
-zwischen dem Repository und dem *YubiKey*. Der *YubiKey* muss beim
+zwischen dem Repository und dem YubiKey. Der YubiKey muss beim
 Initialisieren dem System genauso wie das Passwort bekannt gemacht werden.
-Passiert dies nicht, so könnte sich jeder Benutzer mit einem gültigen *YubiKey*
-gegenüber »brig« authentifizieren. Der *YubiKey* kann bei der Initialisierung
+Passiert dies nicht, so könnte sich jeder Benutzer mit einem gültigen YubiKey
+gegenüber »brig« authentifizieren. Der YubiKey kann bei der Initialisierung
 durch ein One--Time--Password gegenüber »brig« bekannt gemacht werden.
 
 Beim Ausführen des Code--Snippets (@sec:APP_YUBICLOUD_AUTHENTIFIZIERUNG) wird
-das Passwort als erster Parameter übergeben. Der *YubiKey*--OTP--Schlüssel  ist
+das Passwort als erster Parameter übergeben. Der YubiKey--OTP--Schlüssel  ist
 der zweite übergebene Parameter. Die *Proof--of--concept*--Implementierung hat
-aktuell einen *YubiKey* registriert und das Passwort *Katzenbaum* als valide
+aktuell einen YubiKey registriert und das Passwort *Katzenbaum* als valide
 anerkannt.
 
-Authentifizierung mit korrektem Passwort und *YubiKey*:
+Authentifizierung mit korrektem Passwort und YubiKey:
 
 ~~~sh
 $ ./twofac katzenbaum cccccceleflifuccbfruutuudkntjhbkfjevbhndbcrk
 [yubico: OK, brig? : OK, password: OK]
 ~~~
 
-Authentifizierung mit falschem Passwort und korrektem *YubiKey*:
+Authentifizierung mit falschem Passwort und korrektem YubiKey:
 
 ~~~sh
 $ ./twofac elchwald ccccccelefliujnnnjbllkhrfeklifntfknicfbilced
 [yubico: OK, brig : OK, password: X]
 ~~~
 
-Authentifizierung mit falschem Passwort und falschem *YubiKey*:
+Authentifizierung mit falschem Passwort und falschem YubiKey:
 
 ~~~sh
 $ ./twofac elchwald ccccccejjegnjrvnbbthinvbvrbjerljknbeteluugut
@@ -758,7 +758,7 @@ $ ./twofac elchwald ccccccejjegnjrvnbbthinvbvrbjerljknbeteluugut
 ~~~
 
 Authentifizierung mit falschem Passwort und dem zuletzt wiederholten
-One--Time--Passwort des falschen *YubiKey*:
+One--Time--Passwort des falschen YubiKey:
 
 ~~~sh
 $ ./twofac elchwald ccccccejjegnjrvnbbthinvbvrbjerljknbeteluugut
@@ -771,7 +771,7 @@ If you receive this error, you might be the victim of a man-in-the-middle attack
 
 #### Allgemein {#sec:SEC08_ALLGEMEIN_SERVERINFRASTRUKTUR}
 
-Neben der Möglichkeit, das *YubiKey* One--Time--Password gegen die YubiCloud
+Neben der Möglichkeit, das YubiKey One--Time--Password gegen die YubiCloud
 validieren zu lassen, gibt es auch die Möglichkeit, eine eigene Infrastruktur für
 die Validierung bereitzustellen[^FN_YUBICO_VAL_SERVER].
 
@@ -779,13 +779,13 @@ die Validierung bereitzustellen[^FN_YUBICO_VAL_SERVER].
 
 Dies ist in erster Linie für Unternehmen interessant, da keine Abhängigkeit zu
 einem externen Dienst besteht. Weiterhin bekommt das Unternehmen dadurch mehr
-Kontrolle über den Verwendungszweck und Einsatz und kann den *YubiKey*
+Kontrolle über den Verwendungszweck und Einsatz und kann den YubiKey
 feingranularer als Sicherheitstoken nicht nur für »brig«, sondern die gesamte
 Unternehmensinfrastruktur nutzen.
 
 #### Einrichtung  {#sec:SEC08_EINRICHTUNG}
 
-Als Vorbereitung muss der *YubiKey* mit einer neuen »Identität« programmiert
+Als Vorbereitung muss der YubiKey mit einer neuen »Identität« programmiert
 werden. Für die Programmierung wird das YubiKey--Personalization--Tool
 verwendet. Hier kann unter dem Menüpunkt *Yubico OTP/Quick* eine neue Identität
 autogeneriert werden. Die hier erstellte *Public--ID*, sowie der
@@ -809,7 +809,7 @@ $ ./yubikey-server -app "brig"
 app created, id: 1 key: Q0w7RkvWxL/lvCynBh+TYiuhZKg=
 ~~~
 
-Registrierung eines *YubiKey* unter dem Benutzernamen `Christoph` und Übergabe der
+Registrierung eines YubiKey unter dem Benutzernamen `Christoph` und Übergabe der
 Public-- und Secret--ID des *YubiKeys*:
 
 ~~~sh
@@ -890,7 +890,7 @@ in der Vergangenheit kritische Sicherheitslücken aufgewiesen.
 [@fig:IMG_REVERSE_PROXY] zeigt einen Ansatz bei welchem der
 Validierungsserver hinter einem »Reverse--Proxy« betrieben wird. Alle
 One--Time--Passwöter werden über einen »normalen Webserver« entgegengenommen
-und an den *YubiKey*--Validierungsserver weitergeleitet.
+und an den YubiKey--Validierungsserver weitergeleitet.
 
 ![Validierungsserver, welcher über einen Reverse--Proxy angesprochen wird.](images/reverse-proxy.png){#fig:IMG_REVERSE_PROXY width=95%}
 
@@ -929,7 +929,7 @@ Websserver--Zertifikate eignen.
 
 Unter @sec:SEC08_YUBIKEY_NEO_EINLEITUNG wird die Funktionalität »Statische
 Passwörter« erwähnt. Diese Funktionalität ermöglicht es, auf dem YubiKey NEO
-ein bis zu 32--Zeichen langes Passwort zu hinterlegen. Der *YubiKey* arbeitet
+ein bis zu 32--Zeichen langes Passwort zu hinterlegen. Der YubiKey arbeitet
 aus Kompatibilitätsgründen mit einem *Modhex*--Alphabet[^FN_MODHEX_YUBICO]. Die
 Konfiguration kann entweder bequem vom Benutzer mit der
 *yubikey-personalization-gui* erfolgen oder unter Linux beispielsweise auch mit
@@ -961,7 +961,7 @@ Commit? (y/n) [n]: y
 
 Im Beispiel wurde der zweite Slot des YubiKey NEO mit dem Passwort
 *MyVeryLongPasswordYouWontGuessToday* konfiguriert. Beim anschließenden
-zweimaligem Aktivieren des zweiten Slots, liefert der *YubiKey* immer das
+zweimaligem Aktivieren des zweiten Slots, liefert der YubiKey immer das
 gleiche Passwort: Beim längeren Drücken (Aktivierung von Slot 2) wird das
 Passwort emittiert:
 
@@ -971,7 +971,7 @@ MyVeryLongPasswordYouWontGuessTodayMyVeryLongPasswordYouWontGuessToday
 
 Dieses Feature erlaubt es dem Benutzer beim Merken eines »einfachen« Passwortes,
 trotzdem ein sicheres Passwort generieren zu können. Je nach Anwendung kann so
-das vom *YubiKey* generierte Passwort mit einem *Prefix* und/oder *Suffix*
+das vom YubiKey generierte Passwort mit einem *Prefix* und/oder *Suffix*
 erweitert werden. Beispiel mit Prefix = »YEAH« und Suffix = »GehtDoch!?«
 (Benutzereingabe + YubiKey + Benutzereingabe):
 
@@ -990,12 +990,12 @@ jeweiligen Applikation beziehungsweise vom Service--Anbieter angeboten wird.
 
 #### Einleitung {#sec:SEC08_EINLEITUNG_SMARTCARD}
 
-Wie unter [@sec:SEC08_YUBIKEY_NEO_EINLEITUNG] erwähnt, hat der *YubiKey* die
+Wie unter [@sec:SEC08_YUBIKEY_NEO_EINLEITUNG] erwähnt, hat der YubiKey die
 Möglichkeit als Smartcard zu fungieren. Die *Chip Card Interface Device
 (CCID)*[^FN_CCID]--Funktionalität ist beim YubiKey NEO ab Werk deaktiviert.
 Für die Aktivierung kann das Kommandozeilen--Werkzeug `ykpersonalize`
 verwendet werden. Standardmäßig ist beim YubiKey NEO nur die
-*OTP*--Funktionalität aktiviert. In welchem Betriebsmodus sich der *YubiKey*
+*OTP*--Funktionalität aktiviert. In welchem Betriebsmodus sich der YubiKey
 befindet, kann man beispielsweise nach dem Anstecken über das
 System/Kernel--Logging mittels `dmesg` herausfinden (gekürzte Ausgabe):
 
@@ -1018,7 +1018,7 @@ Modi --- Einzelmodi und Kombinations--Modi --- wählen[^FN_YUBIKEY_MODES]:
 
 #### Aktivierung des OpenPGP--Applets {#sec:SEC08_AKTIVIERUNG_DES_OPENGPG_APPLETS}
 
-Da der *YubiKey* im Falle von »brig« auch als Authentifizierungs--
+Da der YubiKey im Falle von »brig« auch als Authentifizierungs--
 und Signiertoken für die Entwickler dienen soll (siehe
 @sec:SEC08_SIGNIEREN_VON_QUELLCODE), bietet sich der `OTP/CCID` Kombimodus an.
 Dieser kann mit dem Kommandozeilenprogramm `ykpersonalize` wie folgt aktiviert
@@ -1046,7 +1046,7 @@ USB HID v1.10 Keyboard [Yubico YubiKey NEO OTP+CCID] on usb-0000:00:1d.0[...]
 
 #### Übertragung kryptographischer Schlüssel auf den YubiKey {#sec:SEC08_KRYPTOGRAPHISCHE_SCHLUESSEL_AUF_YUBIKEY_UEBERTRAGEN}
 
-Nach der Aktivierung des *OpenPGP*--Applets kann der *YubiKey* wie eine
+Nach der Aktivierung des *OpenPGP*--Applets kann der YubiKey wie eine
 Standard--OpenPGP--Smartcard mit *GnuPG* verwendet werden.
 
 `gpg2 --card-status` zeigt den aktuellen Inhalt des *YubiKey OpenPGP--Applets*:
@@ -1199,7 +1199,7 @@ welcher Smartcard sich die Schlüssel befinden. Am »$>$«--Symbol erkennt der
 Benutzer, dass für die mit diesem Zeichen gekennzeichneten Schlüssel nur ein
 *Stub* existiert. Der auffällige Teil an dieser Stelle ist, dass der
 Hauptschlüssel weiterhin existiert. Dies hängt damit zusammen, dass nur die
-Unterschlüssel auf den *YubiKey* übertragen wurden. Die gekürzte Variante von
+Unterschlüssel auf den YubiKey übertragen wurden. Die gekürzte Variante von
 `gpg2 --card-status` zeigt die Schlüssel auf der Smartcard.
 
 ~~~sh
@@ -1252,7 +1252,7 @@ Bereitstellung einer separaten Signatur empfehlenswert, da die eigentlichen
 Daten dabei nicht modifiziert werden.
 
 Folgendes Kommandozeilen--Snippet zeigt das Signieren der Daten ohne
-Entwickler--*YubiKey*:
+Entwickler--YubiKey:
 
 ~~~sh
 $ gpg2 --armor --output brig-version-1.0.tar.gz.asc \
@@ -1261,7 +1261,7 @@ gpg: signing failed: Card error
 gpg: signing failed: Card error
 ~~~
 
-Unter Einsatz des *YubiKey* und der korrekten PIN können die Daten wie folgt
+Unter Einsatz des YubiKey und der korrekten PIN können die Daten wie folgt
 signiert werden. Die `--armor`--Option bewirkt, dass eine Signatur im
 *ASCII*--Format anstatt des Binär--Formates erstellt wird. Diese lässt sich
 beispielsweise auf der Download- beziehungsweise Entwicklerseite neben dem
@@ -1436,12 +1436,12 @@ Date:   Thu Dec 15 16:23:02 2016 +0100
 
 Um sich als Entwickler, beispielsweise sicher gegenüber der *GitHub*--Plattform
 zu authentifizieren, bietet die *GitHub*--Plattform Universal--2--Faktor an,
-welches auch mit dem *YubiKey* genutzt werden kann[^FN_GITHUB_U2F].
+welches auch mit dem YubiKey genutzt werden kann[^FN_GITHUB_U2F].
 
 [^FN_GITHUB_U2F]: GitHub U2F: <https://github.com/blog/2071-github-supports-universal-2nd-factor-authentication>
 
-Für diesen Einsatzzweck muss *Universal--2--Faktor* auf dem *YubiKey* aktiviert
-sein, dies kann nach dem Anstecken des *YubiKey* mit `dmesg` validiert werden:
+Für diesen Einsatzzweck muss *Universal--2--Faktor* auf dem YubiKey aktiviert
+sein, dies kann nach dem Anstecken des YubiKey mit `dmesg` validiert werden:
 
 ~~~sh
 $ dmesg | tail -n 2
@@ -1453,10 +1453,10 @@ Falls nötig kann der korrekte Modus analog zu  @sec:SEC08_EINLEITUNG_SMARTCARD
 aktiviert werden.
 
 Anschließend muss die Zwei--Faktor--Authentifizierung im persönlichen Account
-unter dem Menüpunkt »Setting« aktiviert und der *YubiKey* auf der
+unter dem Menüpunkt »Setting« aktiviert und der YubiKey auf der
 *GitHub*--Plattform registriert werden. Nach erfolgreicher Registrierung  wird
 man nach der Eingabe seines persönlichen Passworts um den zweiten Faktor
-(beispielsweise *YubiKey*) gebeten, siehe @fig:IMG_YUBIKEY_GITHUB.
+(beispielsweise YubiKey) gebeten, siehe @fig:IMG_YUBIKEY_GITHUB.
 
 ![GitHub--Anmeldung mit Zwei--Faktor--Authentifizierung.](images/ghlogin.png){#fig:IMG_YUBIKEY_GITHUB width=60%}
 
