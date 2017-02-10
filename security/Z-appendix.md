@@ -1551,7 +1551,7 @@ Your selection? Q
 gpg/card> quit
 ~~~
 
-# *YubiCloud* Zwei--Faktor--Authentifizierung {#sec:APP_YUBICLOUD_AUTHENTIFIZIERUNG}
+# YubiCloud Zwei--Faktor--Authentifizierung {#sec:APP_YUBICLOUD_AUTHENTIFIZIERUNG}
 
 Das folgende Code--Snippet zeigt nur eine vereinfachte
 Proof--of--Concept--Implementierung. Im Produktivcode müssten beispielsweise

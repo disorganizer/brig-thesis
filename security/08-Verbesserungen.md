@@ -669,7 +669,7 @@ Weiterhin fließt ein AES--Schlüssel in die Generierung des One--Time--Password
 ein, es ist für einen Angreifer somit nicht möglich die eigentlichen Daten
 auszuwerten.
 
-![Yubico OTP--Authentifizierungsprozess an der *YubiCloud*[^FN_YUBICO_OTP].](images/otp-details.png){#fig:img-otp-details width=75%}
+![Yubico OTP--Authentifizierungsprozess an der YubiCloud[^FN_YUBICO_OTP].](images/otp-details.png){#fig:img-otp-details width=75%}
 
 Das One--Time--Password ist nur einmal gültig. Zur Validierung werden am
 Server Sitzung und Zähler jeweils mit den zuvor gespeicherten Daten überprüft.
@@ -682,7 +682,7 @@ Für das Testen der korrekten Funktionalität stellt *Yubico* eine Demoseite fü
 *OTP*[^FN_YUBICO_DEMO_OTP] und *U2F*[^FN_YUBICO_DEMO_U2F] bereit. Über diese
 lässt sich ein One--Time--Password an die YubiCloud schicken und somit die
 korrekte Funktionsweise eines *YubiKey* validieren. [@fig:img-otp-response]
-zeigt die Authentifizierungsantwort der *YubiCloud*.
+zeigt die Authentifizierungsantwort der YubiCloud.
 
 ![YubiCloud Response bei Zwei--Faktor--Authentifizierung. Seriennummer des YubiKeys wurde retuschiert.](images/response-noserial.png){#fig:img-otp-response width=65%}
 
@@ -706,10 +706,10 @@ Für den Einsatz unter »brig« wird ein *API*--Key und ein *Secret--Key* von
 gegenüber dem Yubico--Dienst verwendet. Die Beantragung erfolgt
 online[^FN_APIKEY] und erfordert einen YubiKey. Die minimale Implementierung in
 @sec:APP_YUBICLOUD_AUTHENTIFIZIERUNG zeigt einen voll funktionsfähigen
-Authentifizierungs--Client,  welcher einen *YubiKey* am *YubiCloud*--Dienst
+Authentifizierungs--Client,  welcher einen *YubiKey* am YubiCloud--Dienst
 authentifiziert. [@fig:img-poc-brig-2fa] zeigt schematisch den
 Zwei--Faktor--Authentifizierung--Vorgang mit einem *YubiKey* über die
-*YubiCloud*. Um auf das »brig«--Repository Zugriff zu erhalten, müssen folgende
+YubiCloud. Um auf das »brig«--Repository Zugriff zu erhalten, müssen folgende
 Informationen validiert werden:
 
 [^FN_APIKEY]: Yubico API--Key beantragen: <https://upgrade.yubico.com/getapikey/>
@@ -720,7 +720,7 @@ Informationen validiert werden:
 2. »brig« prüft das Passwort von Alice.
 3. »brig« prüft anhand der *Public--ID*, ob der *YubiKey* von *Alice* dem
    Repository bekannt ist.
-4. »brig« lässt das One--Time--Passwort des *YubiKey* von der *YubiCloud* validieren.
+4. »brig« lässt das One--Time--Passwort des *YubiKey* von der YubiCloud validieren.
 5. Ist das One--Time--Passwort korrekt, so bekommt *Alice* Zugriff auf das Repository.
 
 Eine essentiell wichtige Komponente an dieser Stelle ist der Zusammenhang
@@ -771,7 +771,7 @@ If you receive this error, you might be the victim of a man-in-the-middle attack
 
 #### Allgemein {#sec:SEC08_ALLGEMEIN_SERVERINFRASTRUKTUR}
 
-Neben der Möglichkeit, das *YubiKey* One--Time--Password gegen die *YubiCloud*
+Neben der Möglichkeit, das *YubiKey* One--Time--Password gegen die YubiCloud
 validieren zu lassen, gibt es auch die Möglichkeit, eine eigene Infrastruktur für
 die Validierung bereitzustellen[^FN_YUBICO_VAL_SERVER].
 
@@ -796,7 +796,7 @@ verwendet.
 [^FN_YKVS_GITHUB]:YubiKey Validation Server GitHub: <https://github.com/stumpyfr/yubikey-server>
 
 
-Für die Registrierung einer neuen »Identität« für die *YubiCloud* stellt
+Für die Registrierung einer neuen »Identität« für die YubiCloud stellt
 *Yubico* eine Seite[^FN_AESKEY_UPLOAD] bereit, über welche der *AES*--Schlüssel
 an die *Yubico* Validierungsserver geschickt werden kann.
 
