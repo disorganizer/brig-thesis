@@ -528,7 +528,7 @@ großes Problem im Informationszeitalter, da von ihnen die Sicherheit eines
 gesamten Systems abhängen kann. Menschen sind schlecht darin, die
 *Entropie*[^FN_ENTROPY] von Passwörtern richtig einzuschätzen. »brig« verwendet
 für die Bestimmung der Passwort--Entropie die *zxcvbn*--Bibliothek, welche von
-*Dropbox* entwickelt wurde. Laut einer Studie [@Carnavalet], S. 11 wird die
+Dropbox entwickelt wurde. Laut einer Studie [@Carnavalet], S. 11 wird die
 Bibliothek, im Vergleich zu den getesteten Konkurrenten, in ihrer
 Funktionsweise als akkurater bezeichnet. Eine Schwäche, welche bei den
 Entropie--Schätzungswerkzeugen auftritt, ist, dass diese ohne Basis eines

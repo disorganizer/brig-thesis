@@ -86,7 +86,7 @@ benötigt wird. Dies sind in den meisten Fällen die Server des
 Cloud--Speicher--Anbieters, welche für die Synchronisation und Speicherung der
 Daten verantwortlich sind.
 
-![Datensynchronisation über zentrale Cloud--Speicher--Dienste, wie beispielsweise *Dropbox*. *Alice* und *Bob* teilen gemeinsam Dateien über das »shared storage« aus. *Mallory* stellt einen potentiellen Angreifer dar. *Mallory* kann ein externer Angreifer oder auch ein interner Mitarbeiter sein, der Zugriff auf die Daten hat.](images/cloud.png){#fig:img-cloud width=80%}
+![Datensynchronisation über zentrale Cloud--Speicher--Dienste, wie beispielsweise Dropbox. *Alice* und *Bob* teilen gemeinsam Dateien über das »shared storage« aus. *Mallory* stellt einen potentiellen Angreifer dar. *Mallory* kann ein externer Angreifer oder auch ein interner Mitarbeiter sein, der Zugriff auf die Daten hat.](images/cloud.png){#fig:img-cloud width=80%}
 
 [@fig:img-cloud] zeigt schematisch das Konzept beim Austausch von Daten über
 einen Cloud--Speicher--Dienst. Die Daten des Benutzers werden hierbei mit
@@ -145,9 +145,9 @@ auf eine eigene Infrastruktur migriert[^FN_DROPBOX_S3_OWN].
 [^FN_IOS_SECGUIDE]: Apple iOS Security: <http://www.apple.com/business/docs/iOS_Security_Guide.pdf>
 
 Das Problem hierbei ist die Umsetzung der Datenverschlüsselung der gängigen
-Cloud--Speicher--Anbieter. Anbieter wie *Dropbox* verschlüsseln laut eigener
+Cloud--Speicher--Anbieter. Anbieter wie Dropbox verschlüsseln laut eigener
 Aussage die Daten in der Cloud nach aktuellen Sicherheitsstandards. Das Problem
-im Fall von *Dropbox* ist jedoch, dass *Dropbox* und nicht der Endbenutzer der
+im Fall von Dropbox ist jedoch, dass Dropbox und nicht der Endbenutzer der
 Schlüsselinhaber ist. Es ist also, auch wenn es laut internen
 Dropbox--Richtlinien verboten ist, möglich, dass Mitarbeiter beziehungsweise
 dritte Parteien die Daten des Nutzers einsehen können (vgl. [@ko2015cloud] S. 103).
@@ -155,7 +155,7 @@ dritte Parteien die Daten des Nutzers einsehen können (vgl. [@ko2015cloud] S. 1
 Ein weiteres Problem ist, dass ein Cloud--Speicher--Anbieter aufgrund seiner
 zentralen Rolle ein gutes Angriffsziel bildet. Erst kürzlich wurde bekannt,
 dass Angreifer im Jahr 2012 ungefähr 70 Millionen
-Zugangsdaten[^FN_DROPBOX_DATALEAK] bei *Dropbox* entwendet haben. Hat ein
+Zugangsdaten[^FN_DROPBOX_DATALEAK] bei Dropbox entwendet haben. Hat ein
 Angreifer also die Zugangsdaten erbeutet, bringt die Verschlüsselung die der
 Cloud--Dienst betreibt in diesem Fall nichts. Die gestohlenen Passwörter waren
 nicht im Klartext einsehbar, moderne Angriffsmöglichkeiten auf Passwörter
@@ -176,7 +176,7 @@ Audit[^FN_ENCFS_AUDIT]) oder proprietär (Boxcryptor[^FN_BOXCRYPTOR]).
 
 Den meisten Anbietern muss man vertrauen, dass diese mit den Daten und
 Schlüsseln sorgsam umgehen. Auch wenn sich viele Anbieter wie beispielsweise
-*Dropbox* bemühen, aus den Fehlern der Vergangenheit zu lernen und verbesserte
+Dropbox bemühen, aus den Fehlern der Vergangenheit zu lernen und verbesserte
 Sicherheitsmechanismen wie beispielsweise
 Zwei--Faktor--Authentifizierung[^FN_TWO_FACTOR_AUTH] in ihre Software
 integrieren, bleibt jedoch die Krux der Intransparenz und der proprietären
@@ -188,13 +188,13 @@ Client--Software zu validieren.
 	<https://de.wikipedia.org/w/index.php?title=Zwei-Faktor-Authentifizierung&oldid=160891860>
 
 2011 hat der Sicherheitsforscher *Derek Newton* den
-Authentifizierungsmechanismus von *Dropbox* kritisiert. Nach einmaligem
-Registrieren und Einrichten des *Dropbox*--Client, werden für die
+Authentifizierungsmechanismus von Dropbox kritisiert. Nach einmaligem
+Registrieren und Einrichten des Dropbox--Client, werden für die
 Synchronisation keine weiteren Zugangsdaten mehr benötigt. Der
 Authentifizierungsmechanismus benötigt nur ein sogenanntes
 »Authentifizierungs--Token« (diese wird dem Client nach der Registrierung vom
 Server zugewiesen), die sogenannte *HOST_ID*. Mit dieser authentifiziert sich
-der *Dropbox*--Client bei zukünftigen Synchronisationsvorgängen gegenüber dem
+der Dropbox--Client bei zukünftigen Synchronisationsvorgängen gegenüber dem
 Dropbox--Service.
 
 Ein großes Problem war hierbei auch, dass die *HOST_ID* unverschlüsselt in
@@ -210,13 +210,13 @@ Cloud--Speicher--Benutzern in Frage stellt (vgl. [@mulazzani2011dark]).
 2013 haben weitere Sicherheitsforscher den Dropbox--Client mittels *Reverse
 Engineering* analysiert. Ab der Version 1.2.48 wird die *HOST_ID* in einer
 verschlüsselten *sqlite3*--Datenbank abgespeichert. Diese Nachbesserung
-seitens *Dropbox* war nicht besonders effektiv, da sich die Schlüssel zum
+seitens Dropbox war nicht besonders effektiv, da sich die Schlüssel zum
 Entschlüsseln weiterhin auf dem Client--PC befinden. Zusätzlich wird für die
-Authentifizierung in neueren *Dropbox*--Versionen ein *HOST_INT*--Wert
+Authentifizierung in neueren Dropbox--Versionen ein *HOST_INT*--Wert
 benötigt, welcher ebenfalls vom Client--PC extrahiert werden kann.
 
 Mittels dieser beiden Werte kann die Zwei--Faktor--Authentifizierung (2FA), wie
-sie von *Dropbox* implementiert ist, umgangen werden. Die Client--API verwendet
+sie von Dropbox implementiert ist, umgangen werden. Die Client--API verwendet
 anscheinend keine Zwei--Faktor--Authentifizierung. Darüber hinaus lassen sich auf Basis
 der beiden  Parameter sogenannte »Autologin--URLs« generieren. Den Forschern ist
 es auch gelungen, einen Open--Source--Prototypen zu entwickeln. Für weitere
@@ -229,10 +229,10 @@ Access Content*[^FN_USENIX].
 
 2015 wurde bekannt, dass die vorherrschenden Cloud--Speicher--Anbieter für
 sogenannte »Man--In--The--Cloud«--Angriffe anfällig sind. Die bereits im Jahr
-2011 entdeckten Schwächen bei der Authentifizierung von *Dropbox* sind
+2011 entdeckten Schwächen bei der Authentifizierung von Dropbox sind
 weiterhin präsent und auch auf andere Cloud--Speicher--Anbieter übertragbar. Um
 die Client--Software gegenüber dem Cloud--Speicher--Dienst zu authentifizieren,
-werden wie auch bei *Dropbox*, Authentifizierungs--Token verwendet. Für den
+werden wie auch bei Dropbox, Authentifizierungs--Token verwendet. Für den
 Angriff haben die Forscher ein sogenanntes »Switcher«--Programm entwickelt,
 welches in der Lage ist, ein Authentifizierungs--Token auf dem Computer des
 potentiellen Opfers auszutauschen. [@fig:img-mitc] zeigt den Ablauf eines
@@ -258,13 +258,13 @@ Der Ablauf in [@fig:img-mitc] zeigt den »Quick Double Switch Attack Flow«. Im
 Bericht der *IMPERVA -- Hacker Intelligence Initiative* werden noch weitere
 Angriffe auf Basis dieses Verfahrens aufgezeigt (vgl. [@mitcref]).
 
-Neben dem *Dropbox*--Client wurden auch die Synchronisationsapplikationen
+Neben dem Dropbox--Client wurden auch die Synchronisationsapplikationen
 Microsoft OneDrive, Box und Google Drive untersucht. Diese verwenden zum
-Authentifizieren den offenen *OAuth 2.0* Authentifizierungsstandard. *Dropbox*
-hingegen verwendet ein proprietäres Verfahren. Problematisch bei *Dropbox*
+Authentifizieren den offenen *OAuth 2.0* Authentifizierungsstandard. Dropbox
+hingegen verwendet ein proprietäres Verfahren. Problematisch bei Dropbox
 ist, dass die gesamte Sicherheit von der *HOST_ID* (und *HOST_INT*) abhängt.
 Hat ein Angreifer diese erbeutet, so kann er auch über den
-*Dropbox*--Webzugang sämtliche administrativen Aufgaben durchführen.
+Dropbox--Webzugang sämtliche administrativen Aufgaben durchführen.
 
 Laut Meinung der Autoren von »brig«, sowie auch vieler Sicherheitsexperten, wird
 beim Einsatz proprietärer Software die Sicherheit untergraben, da bei
@@ -298,7 +298,7 @@ jedoch nicht unterbunden werden können (vgl. [@2009understanding], S. 11 und
 
 Abgesehen von den Snowden--Enthüllungen, gibt es für den Endverbraucher viel
 näherliegendere Gefahren, welche die Daten und Privatsphäre gefährden. Neben dem
-soeben genannten *Dropbox* Datenleck, welches rund 70 Millionen Benutzerdaten
+soeben genannten Dropbox Datenleck, welches rund 70 Millionen Benutzerdaten
 betraf und über fast vier Jahre unentdeckt war, gibt es immer wieder Probleme
 mit zentralen Diensten. Ein Ausschnitt von bekannt gewordenen Vorfällen in
 letzter Zeit:
@@ -661,7 +661,7 @@ größten« Cloud--Speicher--Anbietern:
 
 	<http://www.wiwo.de/unternehmen/it/cloud-wer-sind-die-groessten-cloud-anbieter-und-was-kosten-sie/11975400-7.html>
 
-In Deutschland gehört *Dropbox* zu den bekannteren Anbietern, Apples *iCloud* ist
+In Deutschland gehört Dropbox zu den bekannteren Anbietern, Apples *iCloud* ist
 in erster Linie für Mac--Benutzer interessant.
 
 Im Open--Source--Bereich können die Projekte
@@ -742,7 +742,7 @@ Behörden weiter zu geben. Betrachtet man die großflächige Verbreitung von
 *Facebook* und *Whatsapp*, macht es den Anschein, dass viele Menschen für die
 Thematik der Privatsphäre nicht genug sensibilisiert sind. Diskutiert man über
 sichere Alternativen oder macht Personen auf den problematischen Datenschutz
-von zentralen Diensten wie *Facebook*, *Dropbox* und Co. aufmerksam, bekommt
+von zentralen Diensten wie *Facebook*, Dropbox und Co. aufmerksam, bekommt
 man oft das Argument »Ich habe nichts zu verbergen!« zu hören.
 
 [^FN_SNOWDEN_LEAK]: Globale Überwachungs-- und Spionageaffäre:
