@@ -23,7 +23,7 @@ Auch wenn das Aufkommen dieser Dienste auf den ersten Blick eine Abhilfe sein
 mag, so werden beim genaueren Hinsehen Risiken und Nachteile, welche erst
 durch Aufkommen dieser Dienste entstanden sind, deutlich sichtbar. Eines der
 Hauptprobleme ist, aufgrund mangelnder Transparenz, der Schutz der Daten
-beziehungswiese der Privatsphäre.
+beziehungsweise der Privatsphäre.
 
 Hier muss dem Dienstanbieter vollständig vertraut werden, da nicht bekannt ist
 welche Drittparteien Zugriff auf die Daten haben. Dies mag bei der persönlichen
@@ -31,7 +31,7 @@ Musik--Sammlung --- im Gegensatz zur Speicherung sensibler medizinischer oder
 finanzieller Unterlagen --- weniger ein Problem sein. Spätestens seit den
 Snowden--Enthüllungen und des Bekanntwerdens vom PRISM--Überwachungsprogramm ist
 offiziell bekannt[@bibgreenwald2013nsa], dass der Zugriff auf persönliche Daten
-durch Drittparteien erfolgt ist, beziehungswiese erzwungen wurde. Neben dem
+durch Drittparteien erfolgt ist, beziehungsweise erzwungen wurde. Neben dem
 geduldeten oder rechtlich erzwungenen Zugriff durch Drittparteien, haben
 Cloud--Storage--Anbieter wie beispielsweise »Dropbox« in der Vergangenheit
 immer wieder für Schlagzeilen gesorgt. Durch diverse Softwarefehler war

@@ -654,7 +654,7 @@ konkreten Fall sind, hängt stark vom Projekt, dem Aufwand und dem Einsatzzweck 
 
 Da ein Hauptaugenmerk von »brig« der sichere und dezentrale Austausch von Daten
 ist und es zusätzlich als Open--Source--Projekt angelegt ist, ist ein
-detaillierter Überblick zur Entwicklung beziehungswiese der Projektbeteiligten
+detaillierter Überblick zur Entwicklung beziehungsweise der Projektbeteiligten
 wichtig.
 
 ### »brig«--Quellcode--Repository {#sec:SEC07_BRIG_QUELLCODE_REPOSITORY}

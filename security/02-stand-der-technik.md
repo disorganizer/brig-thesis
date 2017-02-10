@@ -390,7 +390,7 @@ den Rechnern der Benutzer. Die Speicherung auf zentralen Speicher--Servern wie
 bei den zentralen Diensten ist nicht vorgesehen, jedoch aufgrund der
 Architektur realisierbar.
 
-Bei der Nutzung eines dezentralen Netzwerks zum Austausch beziehungswiese zur
+Bei der Nutzung eines dezentralen Netzwerks zum Austausch beziehungsweise zur
 Synchronisation von Daten muss der Benutzer in der Regel eine spezielle
 Software installieren und einen »Synchronisationsordner«, wie bei den zentralen
 Diensten definieren. Dieser Ordner wird dem Netzwerk »bekannt« gemacht. Je

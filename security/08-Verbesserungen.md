@@ -515,7 +515,7 @@ es mit modernen Methoden vergleichsweise einfach, das Passwort zu berechnen (sie
 Ein weiterer Schwachpunkt, der oft ausgenutzt wird, ist die unsichere
 Speicherung von kryptographischen Schlüsseln. Passwörter sowie kryptographische
 Schlüssel können bei handelsüblichen Endanwendersystemen, wie beispielsweise PC
-oder Smartphone relativ einfach mitgeloggt beziehungswiese entwendet werden.
+oder Smartphone relativ einfach mitgeloggt beziehungsweise entwendet werden.
 Neben dem *FreeBSD*--Projekt, welches dem Diebstahl von
 kryptographischen Schlüsseln zum Opfer fiel, gibt es laut Berichten zunehmend
 Schadsoftware welche explizit für diesen Einsatzzweck konzipiert wurde (siehe @sec:SEC05_ANGRIFFSFLAECHE_BEI_BRIG).
