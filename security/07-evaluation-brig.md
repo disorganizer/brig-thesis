@@ -466,7 +466,7 @@ Die eigentliche »brig«--*ID* entspricht hier der Anlehnung an den
 XMPP--Standard, der Präfix wird intern von »brig« angehängt, um die Benutzer
 des »brig«--Netzwerks identifizieren zu können.
 
-Folgendes Beispiel mit dem *Multihash*--Tool vom IPFS--Projekt zeigt die
+Folgendes Beispiel mit dem Multihash--Tool vom IPFS--Projekt zeigt die
 Generierung einer User--Hash aus dem Benutzernamen.
 
 ~~~sh
@@ -502,7 +502,7 @@ Funktionsweise siehe auch [@cpahl].
 ## Authentifizierung {#sec:SEC07_AUTHENTIFIZIERUNG}
 
 Eine Schwierigkeit, die sich im Voraus stellt, ist die sichere
-Authentifizierung. Mit der »brig«--ID ist es aufgrund des *Multihash* vom
+Authentifizierung. Mit der »brig«--ID ist es aufgrund des Multihash vom
 öffentlichen IPFS--Schlüssel möglich, den Benutzer eindeutig zu
 identifizieren. Bei der aktuellen »brig«--Version muss der Fingerabdruck beim
 Hinzufügen des Synchronisationspartners manuell hinzugefügt werden. Dies setzt

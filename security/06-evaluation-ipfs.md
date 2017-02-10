@@ -117,18 +117,18 @@ Das Speichern der Daten erfolgt bei IPFS (blockweise, in sogenannten chunks)
 mittels eines *Merkle--DAG* (directed acyclic graph, gerichteter azyklischer Graph).
 
 IPFS verwendet als Prüfsummen--Format ein eigens entwickeltes
-*Multihash*--Format[^FN_MULTIHASH]. [@fig:img-multihash] zeigt das
-*Multihash*--Format. Es stellt eine selbstbeschreibende Prüfsumme, welche den
+Multihash--Format[^FN_MULTIHASH]. [@fig:img-multihash] zeigt das
+Multihash--Format. Es stellt eine selbstbeschreibende Prüfsumme, welche den
 Algorithmus, die Länge und die eigentliche Prüfsumme kombiniert. Dieser wird in
 verschiedenen Varianten enkodiert. Beispielsweise `base32` für die interne
 Namensvergabe der Datenblöcke oder `base58` für die Repräsentation der
 *Peer--ID*.
 
-![Das *Multihash*--Format.](images/multihash.png){#fig:img-multihash width=90%}
+![Das Multihash--Format.](images/multihash.png){#fig:img-multihash width=90%}
 
 Das folgende Listing zeigt den internen Aufbau eines IPFS--Repository. Die
 Daten sind hierbei in ».data«--Blöcke aufgeteilt und gespeichert. Die
-Benennung der Datenblöcke basiert auf dem *Multihash*, die Enkodierung
+Benennung der Datenblöcke basiert auf dem Multihash, die Enkodierung
 bei Datenblöcken ist `Base32`.
 
 [^FN_MULTIHASH]: Github Multihash: <https://github.com/multiformats/multihash>
@@ -242,7 +242,7 @@ $ ipfs id
 ~~~
 
 Die unter *ID* gelistete Nummer stellt die Prüfsumme über den öffentlichen
-Schlüssel als *Multihash* in `base58`--Enkodierung dar. Mit dieser *ID*
+Schlüssel als Multihash in `base58`--Enkodierung dar. Mit dieser *ID*
 lässt sich ein Benutzer beziehungsweise Peer im IPFS--Netzwerk eindeutig
 identifizieren.
 
