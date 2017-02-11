@@ -522,8 +522,8 @@ encryption« und »bank-level encryption algorithms such as AES-256 and RSA
 2048«. Eine Authentifizierung des Kommunikationspartners findet rudimentär
 anhand von Benutzernamen/E--Mail statt. Daten werden lokal nicht verschlüsselt.
 
-**Syncthing** basiert auf einem eigens entwickeltem Protokoll, dem *Block
-Exchange Protocol*[^FN_BEP]. Der Syncthing--Client (Web--GUI Variante)
+**Syncthing** basiert auf einem eigens entwickeltem Protokoll, dem Block
+Exchange Protocol[^FN_BEP]. Der Syncthing--Client (Web--GUI Variante)
 ermöglicht das Hinzufügen von Synchronisationsordner und »Remote Devices«.
 Diese GUI ist standardmäßig von außen nicht zugreifbar, da sie auf »localhost
 only« läuft.
@@ -806,6 +806,6 @@ korrekt sein mag, sind folgende Fälle weiterhin als problematisch anzusehen:
 
 * Diebstahl auch bei nicht--mobilen Geräten möglich
 * Garantiefall (»defekte« Festplatte kann vielleicht nicht mehr gelöscht werden)
-* Software Wipe--Tools bei *SSDs*[^FN_SSD] sind problematisch (vgl. [@BIB_SSD_ERASE])
+* Software--Wipe--Tools bei SSDs[^FN_SSD] sind problematisch (vgl. [@BIB_SSD_ERASE])
 
 [^FN_SSD]: Solid--Sate--Drive: <https://de.wikipedia.org/w/index.php?title=Solid-State-Drive&oldid=160808976>

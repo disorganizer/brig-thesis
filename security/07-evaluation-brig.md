@@ -549,7 +549,7 @@ Passwörter, die bisher von vielen Benutzern als »hinreichend sicher« angesehe
 waren, nicht mehr verwendet werden sollten. Dazu gehören insbesondere
 Passwörter, bei welchen Buchstaben durch Sonderzeichen oder Zahlen ausgetauscht
 wurden. Tabelle @tbl:TAB_PASSWD listet einen Teil der Passwörter, die laut *Bruce
-Schneier* während der sogenannten *cracking session* »gecrackt« wurden. Diese
+Schneier* während der sogenannten cracking session »gecrackt« wurden. Diese
 Passwörter sind definitiv als unsicher anzusehen. Die Tabelle zeigt die
 geschätzte Entropie und Crackzeit (hier ist leider die genaue Hardware nicht
 bekannt) der genannten Passwörter. In die
