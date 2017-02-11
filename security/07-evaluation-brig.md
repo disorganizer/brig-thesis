@@ -3,7 +3,7 @@
 Parallel zu dieser Arbeit wird der »brig«--Prototyp entwickelt. Das Ziel dieses
 Kapitels ist es, die bisherige Arbeit aus Sicht der Sicherheit erneut zu
 evaluieren und bisher gemachte Fehler zu identifizieren. Für weitere allgemeine
-Details zur Architektur von »brig« siehe, die Arbeit von Herrn Pahl [@cpahl]. Für
+Details zur Architektur von »brig«, siehe die Arbeit von Herrn Pahl [@cpahl]. Für
 die Evaluation wird die Softwareversion brig v0.1.0 verwendet:
 
 ~~~sh
@@ -14,7 +14,7 @@ brig version v0.1.0-alpha+0d4b404 [buildtime: 2016-10-10T10:05:10+0000]
 ## Einleitung »brig« {#sec:SEC07_EINLEITUNG_BRIG}
 
 Das Ziel ist es, mit »brig« ein dezentrales Dateisynchronisationswerkzeug zu
-entwickeln welches eine gute Balance zwischen Sicherheit und Usability
+entwickeln, welches eine gute Balance zwischen Sicherheit und Usability
 bietet. Die Entwicklung eines gut funktionierenden dezentralen
 Protokolls/Dateisystems ist nicht trivial.
 
@@ -162,7 +162,7 @@ Ver-- und Entschlüsseln evaluieren. Daher wird der Benchmark vollständig in
 einer RAM--Disk durchgeführt. [@fig:img-ramdisk] zeigt grafisch den Aufbau
 der Testumgebung.
 
-![Testablauf in der RAMDISK bei der Erhebung der Messdaten.](images/ramdisk.png){#fig:img-ramdisk width=80%}
+![Testablauf in der RAM--Disk bei der Erhebung der Messdaten.](images/ramdisk.png){#fig:img-ramdisk width=80%}
 
 Beim Erheben der Daten wurde wie folgt vorgegangen:
 
@@ -435,7 +435,7 @@ alice
 ~~~
 
 Die Dateien mit der Endung `locked` sind durch »brig« verschlüsselt. Als
-Einstiegspunkt für den Zugriff auf das Repository fungiert aktuell eine
+»Einstiegspunkt« für den Zugriff auf das Repository fungiert aktuell eine
 Passwort--Abfrage. Das Passwort ist samt zufällig generiertem Salt als
 SHA-3--Repräsentation in der `shadow`--Datei [^FN_BRIG_SHADOW] gespeichert.
 
@@ -543,7 +543,7 @@ Schlüssel)[^FN_RANDOM_REQUIREMENTS_FOR_SECURITY].
 
 Wie bereits unter Punkt Passwortmanagement,
 @sec:SEC05_BEURTEILUNG_VON_SICHERHEIT erwähnt, ist der Einsatz von Passwörtern
-problematisch. In dem Berichten von *Bruce Schneier* und *Dan Goodin* wird
+problematisch. In den Berichten von *Bruce Schneier* und *Dan Goodin* wird
 erwähnt, dass heutzutage mit modernen Methoden und moderner Hardware auch
 Passwörter, die bisher von vielen Benutzern als hinreichend sicher angesehen
 waren, nicht mehr verwendet werden sollten. Dazu gehören insbesondere
@@ -554,7 +554,7 @@ Passwörter sind definitiv als unsicher anzusehen. Die Tabelle zeigt die
 geschätzte Entropie und Crackzeit (hier ist leider die genaue Hardware nicht
 bekannt) der genannten Passwörter. In die
 Cygnius--Schätzungen[^FN_PASSWORD_STRENGHTH_CHECKER_2] fließen neben der
-zxcvbn--Bibiothek noch weitere Prüfungen (Länge, Kleinbuchstaben,
+zxcvbn--Bibliothek noch weitere Prüfungen (Länge, Kleinbuchstaben,
 Großbuchstaben, Zahlen, Sonderzeichen), welche eine zusätzliche
 Passwortakzeptanz--Aussage machen, ein. Die
 bennish--Plattform[^FN_PASSWORD_STRENGHTH_CHECKER] arbeitet ebenso mit der
@@ -585,7 +585,7 @@ zxcvbn--Bibliothek.
 +-------------------+------------------------+--------------------------------+
 
 
-Table: Geschätzte Passwort--Entropie und »Crackdauer« von *unsicheren* Passwörtern. {#tbl:TAB_PASSWD}
+Table: Geschätzte Passwort--Entropie und Crackdauer von *unsicheren* Passwörtern. {#tbl:TAB_PASSWD}
 
 [^FN_PASSWORD_STRENGHTH_CHECKER]:Password Strength Checker: <https://www.bennish.net/password-strength-checker/>
 [^FN_PASSWORD_STRENGHTH_CHECKER_2]:Cygnius Password Strength Test: <https://apps.cygnius.net/passtest/>
@@ -593,7 +593,7 @@ Table: Geschätzte Passwort--Entropie und »Crackdauer« von *unsicheren* Passw�
 Betrachtet man die Tabelle, so würde sie dem Benutzer nach Aussagen der
 Entropie--Schätzwerkzeuge ein falsches Sicherheitsgefühl vermitteln. Eine
 Empfehlung an dieser Stelle wäre ein zufällig generiertes Passwort wie
-beispielsweise *iyLGBu\<tmr\"6!w-s.1fT* und die Verwendung eines
+beispielsweise »iyLGBu\<tmr\"6!w-s.1fT« und die Verwendung eines
 Passwort--Manager[^FN_SECURE_PASSWORD].
 
 [^FN_SECURE_PASSWORD]:The secret to online safety - Lies, random characters, and a password manager: <http://arstechnica.com/information-technology/2013/06/the-secret-to-online-safety-lies-random-characters-and-a-password-manager/>
@@ -603,7 +603,7 @@ Passwort--Manager[^FN_SECURE_PASSWORD].
 **Einschätzung**: Bei der aktuellen Authentifikation gegenüber dem Repository
 ist ein (schlechtes) Passwort oder die erzwungene Komplexität (Benutzer
 schreiben komplexe Passwörter auf Post--it's auf) eine Schwachstelle. Weiterhin
-ist auch problematisch, dass das der geheime Schlüssel von IPFS nicht
+ist auch problematisch, dass der geheime Schlüssel von IPFS nicht
 verschlüsselt abgelegt ist. Dieser Umstand ermöglicht beispielsweise
 einen Identitätsdiebstahl.
 
@@ -640,7 +640,7 @@ Implementierung ein Replay--Angriff wahrscheinlich möglich, da die freshness
 der Nonce nicht gegeben ist (vgl. [@martin2012everyday], S. 259 ff.).
 
 Die aktuelle Softwareversion bietet hier keinen Automatismus und auch keinen
-Authentifizierungsmechanismus wie er beispielsweise beim Pidgin--Messenger mit
+Authentifizierungsmechanismus, wie er beispielsweise beim Pidgin--Messenger mit
 OTR--Verschlüsselung vorhanden ist.
 
 ## Entwicklung und Entwicklungsumgebung {#sec:SEC07_EINTWICKLUNG_UND_ENTWICKLUNGSUMGEBUNG}
@@ -672,7 +672,7 @@ angebotenen Zwei--Faktor--Authentifizierung aus Gründen der Sicherheit
 anbieten.
 
 Problematisch ist aktuell der Umstand, dass die Urheber des Quelltextes nicht
-direkt authentifiziert werden können. Durch diesem Umstand wird es Personen
+direkt authentifiziert werden können. Durch diesen Umstand wird es Personen
 (Angreifern) einfacher gemacht, sich als Entwickler unter einer falschen Identität
 auszugeben.
 

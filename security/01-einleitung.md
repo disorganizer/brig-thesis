@@ -53,7 +53,7 @@ Benutzer oft vor weitere Herausforderungen.
 
 	<https://en.wikipedia.org/w/index.php?title=Comparison_of_online_backup_services&oldid=760247797>
 
-Will man aus persönlichen Bedenken auf den Einsatz von Cloud--Speicher--Dienst
+Will man aus persönlichen Bedenken auf den Einsatz von Cloud--Speicher--Diensten
 verzichten, bleibt einem immer noch die Möglichkeit, Dateien über E--Mail zu
 versenden. Hier erschließt sich aber bei näherer Betrachtung ein ähnliches
 Problem wie bei den Cloud--Speicher--Anbietern. Die Privatsphäre, beziehungsweise

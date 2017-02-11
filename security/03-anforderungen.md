@@ -4,7 +4,7 @@
 
 Die Betrachtung des aktuellen wissenschaftlichen und technischen Standes zeigt,
 dass die Thematik im Detail komplex und kompliziert ist. Nichtsdestotrotz
-ergeben sich gewissen Mindestanforderungen, die für die Entwicklung einer
+ergeben sich gewisse Mindestanforderungen, die für die Entwicklung einer
 sicheren und dezentralen Dateisynchronisationslösung nötig sind. Um eine
 möglichst gute Sicherheit und Usability zu gewährleisten, muss die Software und
 der Softwareentwicklungsprozess gewissen Mindestanforderungen genügen.
@@ -16,7 +16,7 @@ Erfahrungshorizont des Nutzers abhängig. Unter Usability ist im Allgemeinen die
 Gebrauchstauglichkeit/Benutzerfreundlichkeit[^FN_BENUTZERFREUNDLICHKEIT][^FN_GEBRAUCHSTAUGLICHKEIT]
 eines Systems zu verstehen. Bereits bekannte Konzepte werden oft als intuitiv
 empfunden, neue Konzepte hingegen oft nur mühsam vom Benutzer angenommen. Die
-Umstellung des »User Interfaces« von Windows 7 zu Windows 8 (vgl.
+Umstellung der Benutzeroberfläche von Windows 7 zu Windows 8 (vgl.
 [@nielsen2012windows]) ist hierfür ein gutes Beispiel.
 
 [^FN_BENUTZERFREUNDLICHKEIT]: Benutzerfreundlichkeit: <https://de.wikipedia.org/w/index.php?title=Benutzerfreundlichkeit&oldid=159056605>
@@ -37,8 +37,8 @@ Um dieser Problematik möglichst aus dem Weg zu gehen, sollen folgende
 Anforderungen umgesetzt werden:
 
 **Bekannte Umgebung:** Der Benutzer soll nach der Installation der Software
-weiterhin seine bekannte Umgebung in Form eines Ordners vorfinden. In welcher
-er seine Daten sicher speichern und synchronisieren kann, wie er es bereits von
+weiterhin seine bekannte Umgebung in Form eines Ordners vorfinden. In diesem Ordner
+kann er seine Daten sicher speichern und synchronisieren, wie er es bereits von
 bekannten Cloud--Speicher--Diensten, wie beispielsweise Dropbox, kennt.
 
 **Versteckte Sicherheit:** Die Sicherheitskomplexität soll möglichst hinter nur
@@ -58,12 +58,12 @@ Wie bereits unter [@sec:SEC02_DER_SICHERHEITSBEGRIFF] erwähnt, ist Sicherheit
 ein sehr weitläufiger Begriff und stark von einem bestimmten Angriffsszenario
 abhängig.
 
-Eine Software zur dezentralen Dateiverteilung benötigt Sicherheitskonzepte
+Eine Software zur dezentralen Dateiverteilung benötigt Sicherheitskonzepte,
 welche folgende Punkte gewährleisten:
 
 * *Vertraulichkeit:* Kein Zugriff auf Daten durch unbefugte Personen.
 * *Integrität:* Manipulation von Daten sind erkennbar.
-* *Authentizität:* Kommunikationspartner sind eindeutig identifizierbar.
+* *Authentifizierung:* Kommunikationspartner sind eindeutig identifizierbar.
 
 Die beiden unter [@sec:SEC02_DER_SICHERHEITSBEGRIFF] gelisteten Punkte
 Autorisierung und Verfügbarkeit stellen keine erfüllbaren Sicherheitsaspekte

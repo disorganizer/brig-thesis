@@ -16,7 +16,7 @@ Mechanismen der Software untersucht werden. Eine genaue Analyse der
 Quelltext--Basis ist aufgrund der Projektgröße und der begrenzten Zeit nicht
 möglich.
 
-Es wurde folgende Version aus den Arch Linux--Repository evaluiert:
+Es wurde folgende Version aus dem Arch Linux--Repository evaluiert:
 
 ~~~sh
 $ ipfs version
@@ -69,7 +69,7 @@ to get started, enter:
 Bei der Initialisierung wird eine Peer--ID erzeugt. Anschließend kann
 der Benutzer die `readme`--Datei aus dem IPFS--Store betrachten.
 [@sec:APP_IPFS_SECWARNING] zeigt weiterhin die aktuelle Sicherheitswarnung der
-IPFS--Software. Es wird explizit ein paar Male darauf hingewiesen, dass sich IPFS
+IPFS--Software. Es wird explizit darauf hingewiesen, dass sich IPFS
 im Alphastadium befindet. Weiterhin gibt es in der Datei `security-notes` Details zur Sicherheit, welche analog zur `readme`--Datei betrachtet werden kann.
 
 ## IPFS--Backend {#sec:SEC06_IPFS_BACKEND}
@@ -375,6 +375,5 @@ Aus Sicht der Sicherheit muss IPFS um folgende Funktionalitäten erweitert werde
 
 * Verschlüsselte Lagerung der Daten und kryptographischen Schlüssel
 * Mechanismus zur Authentifizierung von Kommunikationspartnern
-* Möglichkeit einer einfachen Begrenzung der am IPFS--Netzwerk teilnehmenden Benutzer
 * Standardisiertes Protokoll zum verschlüsselten Austausch von Metadaten
 * Schlüsselmanagement (Verwaltung und Sicherung von Schlüsseln, Identitäten)

@@ -5,7 +5,7 @@
 Software--Entwickler sind in der Regel keine Sicherheitsexperten. Nicht nur
 Fehler in der Software gefährden ganze Systeme und Benutzerdaten, sondern auch
 der fehlerhafte Einsatz von Kryptographie ist immer wieder für katastrophale
-Sicherheitsprobleme verantwortlich. Es ist *schwer* Kryptographie
+Sicherheitsprobleme verantwortlich. Es ist *nicht trivial*, Kryptographie
 *korrekt* zu implementieren. Sogar der früher weit verbreitete Standard IEEE
 802.11, *WEP (Wired Equivalent Privacy)*, zur verschlüsselten drahtlosen
 Kommunikation, weist gleich mehrere Designschwächen auf. Eine
@@ -17,7 +17,7 @@ hätte einbeziehen sollen, um solche Fehler zu vermeiden (vgl. auch
 
 [^FN_WEP_ANALYSIS]: WEP Analysis: <http://www.isaac.cs.berkeley.edu/isaac/wep-faq.html>
 
-Sogar bei Unternehmen welche explizit mit *starker Kryptographie* für ihre
+Sogar bei Unternehmen, welche explizit mit *starker Kryptographie* für ihre
 Produkte werben[^FN_HDD_ENCRYPTION_FAIL] und auch für welche Kryptographie zum
 Tagesgeschäft gehört, machen immer wieder fatale Fehler bei der Implementierung
 ihrer Produkte.
@@ -32,8 +32,8 @@ zusammengestellt. Im Leitfaden wird explizit darauf hingewiesen, dass der Leitfa
 nach Anwendungsfall nicht blind angewendet werden darf und dass bei
 sicherheitskritischen Systemen stets Experten zu Rate zu ziehen sind.
 
-Selektiv gewählte Sicherheitsprinzipien werden betrachtet, um zu sensibilisieren
-jedoch viel mehr um einen »sinnvollen« Einsatz für »brig« definieren zu können.
+Folgend werden selektiv gewählte Sicherheitsprinzipien betrachtet, einerseits um zu sensibilisieren,
+andererseits aber auch, um einen sinnvollen Einsatz für »brig« definieren zu können.
 
 ## Verschlüsselung {#sec:SEC04_VERSCHLUESSELUNG}
 
@@ -48,11 +48,11 @@ Ver-- und Entschlüsseln der Daten verwendet.
 Beim Datenaustausch über unsichere Netze, muss der Schlüssel zuerst zwischen
 den Kommunikationspartnern ausgetauscht werden. In [@fig:img-symmetric]
 verschlüsselt *Alice* die Daten mit einem *gemeinsamen Schlüssel*. Anschließend
-sendet Sie die verschlüsselten Daten an *Bob*, welcher den *gemeinsamen
+sendet sie die verschlüsselten Daten an *Bob*, welcher den *gemeinsamen
 Schlüssel* verwendet, um die Daten wieder zu entschlüsseln.
 
 Symmetrische Verfahren sind im Vergleich zu asymmetrischen Verfahren sehr
-Ressourceneffizient. Die Grundlage für symmetrische Algorithmen, stellen
+Ressourceneffizient. Die Grundlage für symmetrische Algorithmen stellen
 Manipulationen (Substitutionen, Permutationen[^FN_SUB_PERM_NETWORK] oder
 Feistelrunden[^FN_FEISTEL]) auf Bit--Ebene dar, welche ohne Schlüssel nicht
 effizient umkehrbar sind.
@@ -111,8 +111,8 @@ Blockverschlüsselung eine Stromverschlüsselung.
 
 ![ECB--Modus (links): Datenblöcke werden unabhängig voneinander verschlüsselt. CFB--Modus (rechts): Datenblöcke hängen beim Verschlüsseln voneinander ab.](images/ciphermode.png){#fig:img-ciphermode width=100%}
 
-Neben den genannten Betriebsarten gibt es noch weitere die sich in der
-Funktionsweise unterscheiden beziehungsweise für bestimmte Anwendungen
+Neben den genannten Betriebsarten gibt es noch weitere, die sich in der
+Funktionsweise unterscheiden, beziehungsweise für bestimmte Anwendungen
 konzipiert sind. Je nach Betriebsart ist ein paralleles Ver-- und Entschlüsseln
 oder auch ein wahlfreier Zugriff möglich.  Weiterhin variiert auch die
 Fehleranfälligkeit und Sicherheit. [@tbl:t-betriebsarten] zeigt gängige
@@ -140,7 +140,7 @@ In einer öffentlichen Ausschreibung wurde ein Nachfolger, der Advanced
 Encryption Standard (kurz AES) bestimmt. Gewinner des Wettbewerbs sowie der
 heutige Quasistandard wurde der Rijndael--Algorithmus.
 
-Neben dem bekanntem *AES (Rijndael)*--Algorithmus, gibt es noch weitere
+Neben dem bekannten *AES (Rijndael)*--Algorithmus, gibt es noch weitere
 Algorithmen, die heutzutage Verwendung finden. Zu den AES--Finalisten gehören
 weiterhin MARS, RC6, Serpent und der von *Bruce Schneier* entwickelte
 Twofish. Alle genannten Algorithmen arbeiten mit einer Blockgröße von 128 Bit
@@ -179,10 +179,10 @@ zugrundeliegenden mathematischen Probleme sind das Faktorisierungsproblem
 Zu den gängigen Algorithmen der asymmetrischen Verschlüsselungsverfahren
 gehören RSA und ElGamal. Beide Verfahren ermöglichen sowohl die Ver-- und
 Entschlüsselung von Daten sowie das Signieren von Daten. Zu den
-Signatur--Verfahren gehören die RSA--Signatur und *DSA (ElGamal--Signatur)*.
+Signatur--Verfahren gehören die RSA--Signatur und DSA (ElGamal--Signatur).
 
 Weiterhin gibt es eine Variante des DSA--Verfahrens, welche
-Elliptische--Kurven--Kryptographie verwendet, das *ECDSA (elliptic curve DSA)*.
+Elliptische--Kurven--Kryptographie verwendet, das ECDSA (elliptic curve DSA).
 Die Verfahren auf elliptischen Kurven haben den Vorteil, dass die
 Schlüssellängen um Faktor 6--30 kleiner sind, was bei vergleichbarem
 Sicherheitsniveau Ressourcen sparen kann, obwohl die Operationen auf
@@ -231,13 +231,13 @@ Asymmetrische Verschlüsselungsverfahren sind im Vergleich zu symmetrischen
 Verschlüsselungsverfahren sehr langsam, haben jedoch den Vorteil, dass kein
 *gemeinsamer* Schlüssel für die verschlüsselte Kommunikation bekannt sein muss.
 Symmetrische Verfahren hingegen sind sehr effizient, ein Hauptproblem, welches
-sie jedoch haben ist der Austausch eines gemeinsamen Schlüssels zum Ver-- und
+sie jedoch haben ist der Austausch eines *gemeinsamen* Schlüssels zum Ver-- und
 Entschlüsseln.
 
 Bei der hybriden Verschlüsselung macht man sich die Vorteile beider Systeme zu
 Nutzen. Bevor *Alice* und *Bob* kommunizieren können, tauschen sie mittels
 Public--Key--Kryptographie (asymmetrische Kryptographie) den *gemeinsamen*
-Schlüssel, welchen Sie anschließend für die symmetrische Verschlüsselung
+Schlüssel, welchen sie anschließend für die symmetrische Verschlüsselung
 verwenden, aus.
 
 ## Diffie--Hellman--Schlüsseltausch {#sec:SEC04_DIFFIE_HELLMANN_SCHLUESSELAUSTAUSCH}
@@ -280,7 +280,7 @@ folgende Eigenschaften bieten:
 
 * Einwegfunktion
 * Schwache Kollisionsresistenz: Praktisch unmöglich *zu gegebenen Wert* $x$ ein
-  $y$ zu finden, welches den selben Hashwert besitzt: $h(x) = h(y), x \ne y$
+  $y$ zu finden, welches den gleichen Hashwert besitzt: $h(x) = h(y), x \ne y$
 * Starke Kollisionsresistenz: Praktisch unmöglich, *zwei verschiedene
   Eingabewerte* $x$ und $y$ mit dem gleichen Hashwert zu finden $h(x) = h(y), x
   \ne y$ zu finden
@@ -301,7 +301,7 @@ Bei den praktischen Authentifizierungsverfahren ist das Passwort immer noch
 eine sehr weit verbreitete Möglichkeit der Authentifizierung. Passwörter sind
 eine sehr problematische Möglichkeit der Authentifizierung, weil sie auf gute
 »Entropie« angewiesen sind. Das heißt, dass Passwörter möglichst »zufällig«
-sein müssen. Passwörter die leicht zu erraten sind, sind *de facto* schlechte
+sein müssen. Passwörter, die leicht zu erraten sind, sind *de facto* schlechte
 Authentifizierungsmechanismen.
 
 Die Problematik mit den Passwörtern kennt heutzutage jedes Unternehmen. Sind
@@ -312,7 +312,7 @@ mehrere Anwendungen.
 
 Die Situation lässt sich jedoch auf recht einfache Art und Weise durch den
 Einsatz eines zusätzlichen Authentifizierungsfaktors verbessern. Diese Art der
-Authentifizierung wird Multi--Faktor-- oder auch im speziellen Zwei--Faktor--Authentifizierung
+Authentifizierung wird Multi--Faktor-- oder auch im Speziellen Zwei--Faktor--Authentifizierung
 genannt. Als zweiter Faktor kann beispielsweise ein biometrisches Merkmal
 verwendet werden. Eine weitere Form der Zwei--Faktor--Authentifizierung wäre
 beispielsweise die Chipkarte der Bank. Hierbei wird einerseits die PIN (etwas

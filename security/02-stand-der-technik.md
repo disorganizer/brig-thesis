@@ -26,7 +26,7 @@ oft von den folgenden fünf Sicherheitsaspekten:
 * *Verfügbarkeit:* Dienste stehen legitimen Benutzern tatsächlich zur Verfügung.
 
 Dies sind auch die Sicherheitsaspekte, die bei der Verwendung von
-Cloud--Speicher--Anbietern zu tragen kommen. Zur Umsetzung der genannten
+Cloud--Speicher--Diensten entscheidend sind. Zur Umsetzung der genannten
 Sicherheitsaspekte reicht in der Regel die alleinige Implementierung
 technischer Komponenten nicht aus. Es muss viel mehr ein Prozess entwickelt
 werden, der Sicherheit permanent sicherstellt und evaluiert. Hierzu gehört auch
@@ -47,7 +47,7 @@ Zugangsdaten an Dritte, kompromittiert werden.
 [^FN_XKCD_ENC_COMIC]:Bildquelle: <http://imgs.xkcd.com/comics/security.png>
 
 Neben dem technischen Ansatz beim Angriff auf ein System, gibt es auch die
-psychologische Komponente, beim Menschen, welche wahrscheinlich die größte
+psychologische Komponente beim Menschen, welche wahrscheinlich die größte
 Schwachstelle in den meisten Systemen darstellt.
 
 Beim technischen Ansatz werden in der Regel Fehler in der Software oder
@@ -57,7 +57,7 @@ verschaffen.
 Beim nicht technischen Angriff wird der Benutzer auf »psychologischer Ebene«
 manipuliert und mit sogenannten »Social Hacking«--, auch »Social
 Engineering«--Methoden dazu verleitet beispielsweise sein Passwort
-weiterzugeben. Auch der Einsatz von »Phishing«, ist eine Variante
+weiterzugeben. Auch der Einsatz von »Phishing« ist eine Variante
 von »Social Engineering«. [@fig:img-security] zeigt scherzhaft eine weitere
 Variante für welche Menschen anfällig sind.
 
@@ -89,22 +89,22 @@ Daten verantwortlich sind.
 ![Datensynchronisation über zentrale Cloud--Speicher--Dienste, wie beispielsweise Dropbox. *Alice* und *Bob* teilen gemeinsam Dateien über das »shared storage« aus. *Mallory* stellt einen potentiellen Angreifer dar. *Mallory* kann ein externer Angreifer oder auch ein interner Mitarbeiter sein, der Zugriff auf die Daten hat.](images/cloud.png){#fig:img-cloud width=80%}
 
 [@fig:img-cloud] zeigt schematisch das Konzept beim Austausch von Daten über
-einen Cloud--Speicher--Dienst. Die Daten des Benutzers werden hierbei mit
-einer »zentralen Stelle« synchronisiert. In der Regel legt der Benutzer einen
+einen Cloud--Speicher--Dienst. Die Daten des Benutzers werden hierbei über
+eine zentrale Stelle synchronisiert. In der Regel legt der Benutzer einen
 Account beim Cloud--Speicher--Anbieter an, installiert dessen Client--Software,
 legt einen Ordner zur Synchronisation fest und registriert sich abschließend
 online beim Cloud--Speicher--Anbieter.
 
-Dieser Ordner lässt sich dann beispielsweise auf weitere Geräte des Benutzer
-synchronisieren. Weiterhin gibt es in der Regel, die Möglichkeit Dateien mit
+Dieser Ordner lässt sich dann beispielsweise auf weitere Geräte des Benutzers
+synchronisieren. Weiterhin gibt es in der Regel die Möglichkeit, Dateien mit
 anderen Benutzern zu teilen (siehe @fig:img-cloud). Welche genauen
 Einstellungen sich vornehmen lassen und wie feingranular die
 Benutzerverwaltung und die Möglichkeiten beim Synchronisieren sind, ist von dem
 jeweiligen Cloud--Speicher--Anbieter abhängig.
 
-Mittlerweile werben die Anbieter mit »starker Verschlüsselung« und dass die
+Mittlerweile werben die Anbieter mit starker Verschlüsselung und dass die
 Daten in der Cloud »sicher« sind. Spätestens seit den Snowden--Enthüllungen
-ist es jedoch klar, dass die Anbieter dazu gezwungen werden können die Daten
+ist es jedoch klar, dass die Anbieter dazu gezwungen werden können, die Daten
 eines Benutzers herauszugeben (vgl. [@bibgreenwald2013nsa]).
 
 #### Synchronisations--Software {#sec:SEC02_SYNCHRONISATIONS_SOFTWARE}
@@ -156,8 +156,8 @@ Ein weiteres Problem ist, dass ein Cloud--Speicher--Anbieter aufgrund seiner
 zentralen Rolle ein gutes Angriffsziel bildet. Erst kürzlich wurde bekannt,
 dass Angreifer im Jahr 2012 ungefähr 70 Millionen
 Zugangsdaten[^FN_DROPBOX_DATALEAK] bei Dropbox entwendet haben. Hat ein
-Angreifer also die Zugangsdaten erbeutet, bringt die Verschlüsselung die der
-Cloud--Dienst betreibt in diesem Fall nichts. Die gestohlenen Passwörter waren
+Angreifer also die Zugangsdaten erbeutet, bringt die Verschlüsselung, die der
+Cloud--Dienst betreibt, in diesem Fall nichts. Die gestohlenen Passwörter waren
 nicht im Klartext einsehbar, moderne Angriffsmöglichkeiten auf Passwörter
 zeigen jedoch, dass das nichtsdestotrotz ein großes Problem ist (siehe auch
 @sec:SEC05_SICHERHEIT_UND_ANGRIFFSSZENARIEN).
@@ -180,7 +180,7 @@ Dropbox bemühen, aus den Fehlern der Vergangenheit zu lernen und verbesserte
 Sicherheitsmechanismen wie beispielsweise
 Zwei--Faktor--Authentifizierung[^FN_TWO_FACTOR_AUTH] in ihre Software
 integrieren, bleibt jedoch die Krux der Intransparenz und der proprietären
-Software. Es ist für den Benutzer nicht ohne weiteres möglich, die Sicherheit der
+Software. Es ist für den Benutzer nicht ohne Weiteres möglich, die Sicherheit der
 Client--Software zu validieren.
 
 [^FN_TWO_FACTOR_AUTH]: Zwei--Faktor--Authentifizierung:
@@ -192,7 +192,7 @@ Authentifizierungsmechanismus von Dropbox kritisiert. Nach einmaligem
 Registrieren und Einrichten des Dropbox--Client, werden für die
 Synchronisation keine weiteren Zugangsdaten mehr benötigt. Der
 Authentifizierungsmechanismus benötigt nur ein sogenanntes
-Authentifizierungs--Token (diese wird dem Client nach der Registrierung vom
+Authentifizierungs--Token (dieses wird dem Client nach der Registrierung vom
 Server zugewiesen), die sogenannte `HOST_ID`. Mit dieser authentifiziert sich
 der Dropbox--Client bei zukünftigen Synchronisationsvorgängen gegenüber dem
 Dropbox--Dienst.
@@ -204,7 +204,7 @@ anscheinend auch nach Änderung der Zugangsdaten weiterhin bestehen.
 [^FN_DROPBOX_INSECURE_BY_DESIGN]: Dropbox authentication: »insecure by design«: <http://dereknewton.com/2011/04/dropbox-authentication-static-host-ids/>
 
 Eine weitere Arbeit aus dem Jahr 2011 beschreibt verschiedene Angriffsszenarien
-und Probleme welche die Datensicherheit und Privatsphäre von
+und Probleme, welche die Datensicherheit und Privatsphäre von
 Cloud--Speicher--Benutzern in Frage stellt (vgl. [@mulazzani2011dark]).
 
 2013 haben weitere Sicherheitsforscher den Dropbox--Client mittels *Reverse
@@ -378,14 +378,14 @@ eines Cloud--Speicher--Dienstes essentiell ist.
 
 Der dezentrale Bereich klassifiziert sich durch den Dateiaustausch, welcher in
 der Regel *ohne* eine zentrale Instanz auskommt. Es handelt sich hierbei um
-Systeme aus dem Bereich des Peer-to-peer--Modells. Eines der frühen
+Systeme aus dem Bereich des Peer-to-peer--Modells (P2P). Eines der frühen
 Peer--to--Peer--Protokolle ist das Napster--Protokoll der gleichnamigen
 Anwendung Napster, welche Ende der 90' Jahre für den Tausch von Musik
 verwendet wurde. Später sind weitere Peer--to--Peer--Protokolle wie das
 Multisource--File--Transfer--Protocol oder das BitTorrent--Protokoll hinzugekommen.
 
 [@fig:img-p2p] zeigt schematisch den Austausch von Daten in einem dezentralen
-Netzwerk. Bei einem dezentralem System liegen die Daten in der Regel nur auf
+Netzwerk. Bei einem dezentralen System liegen die Daten in der Regel nur auf
 den Rechnern der Benutzer. Die Speicherung auf zentralen Speicher--Servern wie
 bei den zentralen Diensten ist nicht vorgesehen, jedoch aufgrund der
 Architektur realisierbar.
@@ -410,7 +410,7 @@ unterscheiden sich die verschiedenen Protokolle und Netzwerke voneinander.
 
 Ein bekannter Vertreter der P2P--Protokolle ist BitTorrent[^FN_BITTORRENT].
 Das Protokoll kommt beispielsweise bei der Verbreitung von Software,
-Computerspielen (HumblieIndieBundle.com), dem Blender Movie--Projekten,
+Computerspielen (HumbleIndieBundle.com), dem Blender Movie--Projekten,
 Linux--Distributionen, der Verteilung von Updates (Windows 10), bei diversen
 Spieleherstellern und auch anderen Anwendungen zum Einsatz[^FN_BTUSAGE].
 
@@ -420,7 +420,7 @@ Spieleherstellern und auch anderen Anwendungen zum Einsatz[^FN_BTUSAGE].
 Ein Vorteil bei den dezentralen Systemen ist, dass es im Vergleich zu zentralen
 Architekturen keinen Single Point Of Failure[^FN_SPOF] gibt. Ein weiterer
 Unterschied zur zentralen Lösung ist bei dezentralen Netzwerken der
-»Datenfluss«. Die Daten werden nicht von einer zentralen Instanz »besorgt«,
+Datenfluss. Die Daten werden nicht von einer zentralen Instanz »besorgt«,
 sondern liegen im jeweiligen Netzwerk, verteilt auf die Netzwerkteilnehmer
 (peers). Jeder Teilnehmer des Netzwerks fungiert in der Regel als Client und
 als Server. Daten werden beim Austausch nicht zwangsläufig von einem
@@ -434,22 +434,24 @@ die gleiche Datei besitzen, siehe [@fig:img-swarm].
 Aktuell verbreitete Peer--to--Peer--Protokolle:
 
 * Bittorrent (Filesharing allgemein)
-* Skype Protokoll (VOIP--Telephonie)
+* Skype--Protokoll (VOIP--Telephonie)
 
 Früher eingesetzte Peer--to--Peer--Filesharing--Protokolle:
 
 * Direct Connect
 * Multisource File Transfer Protocol (Einsatz: eDonkey2000, Overnet)
 * Fasttrack (Einsatz: Kazaa, Grokster, IMesh, Morpheus file sharing)
-* Gnutella Protokoll (Einsatz: Gnutella Client)
+* Gnutella--Protokoll (Einsatz: Gnutella Client)
 * Napster--Protokoll
 
 #### Synchronisations--Software {#sec:SEC02_SYNCHRONISATIONSSOFTWARE}
 
-Zu den Vertretern der etablierten dezentralen Systeme gibt es vergleichsweise
+Zu den Vertretern der etablierten dezentralen Systeme gibt es im Vergleich
 zu den Cloud--Speicher--Anbietern nur wenige Produkte, welche für die
 Synchronisation von Daten beziehungsweise den Austausch von Dokumenten
-eingesetzt werden können. Bekannten Lösungen sind:
+eingesetzt werden können.
+
+Bekannte Lösungen sind:
 
 * Resilio (ehem. BitTorrent--Sync, proprietär)
 * Infinit (proprietär, [@quintard2012towards])
@@ -472,21 +474,21 @@ Infrastruktur des Netzwerks, der Sicherung der Daten (verschlüsselte
 Speicherung, verschlüsselte Übertragung) und der Möglichkeit, einen
 Kommunikationspartner zu authentifizieren.
 
-**Resilio--Sync** (ehemals Bittorrent--Sync), verwendet eine modifizierte
+**Resilio--Sync** (ehemals BitTorrent Sync), verwendet eine modifizierte
 Variante des BitTorrent--Protokolls[^FN_RESILIO_PROTOCOL]. Alle Daten werden
 laut Hersteller zusätzlich symmetrisch mit AES--128 (siehe
 @sec:SEC04_SYMMETRISCHE_VERSCHLUESSELUNGSVERFAHREN) verschlüsselt übertragen.
-Die getestete Version entspricht der Standardversion welche kostenfrei
+Die getestete Version entspricht der Standardversion, welche kostenfrei
 benutzbar ist, jedoch nur einen eingeschränkten Funktionsumfang bietet.
-Weiterhin gibt es eine Pro--Version welche »selektive und kollaborative
-Synchronisation« ermöglicht.
+Weiterhin gibt es eine Pro--Version, welche selektive und kollaborative
+Synchronisation ermöglicht.
 
 [^FN_RESILIO_PROTOCOL]:Inoffizielle Protokoll--Spezifikation <https://forum.resilio.com/topic/21338-inofficial-protocol-specification/>
 
 Bei Resilio (Webbasierte GUI[^FN_GUI]) werden Daten mittels verschiedener Schlüssel
 synchronisiert. Beim Anlegen eines Synchronisationsordners erscheinen dem
 Benutzer folgende Schlüssel, über welche er den Synchronisationsordner mit
-anderen Synchronisationspartnern teilen kann. Anhand des gewählten Schlüssels,
+anderen Synchronisationspartnern teilen kann. Anhand des gewählten Schlüssels
 wird folgende Funktionalität beim Synchronisieren realisiert:
 
 [^FN_GUI]: Grafische Benutzeroberfläche:
@@ -502,7 +504,7 @@ Peers/Synchronisationsordnern steuern. Neue Peers können über das Teilen eines
 Schlüssels hinzugefügt werden. Die Anwendung macht einen undurchsichtigen
 Eindruck. Eine 2014 durchgeführte Analyse von BitTorrent--Sync auf der
 *Hackito* kommt aufgrund mehrerer Sicherheits-- und Designprobleme zur
-Einschätzung[^FN_HACKITO], dass BitTorrent--Sync nicht für sensitive Daten
+Einschätzung[^FN_HACKITO], dass BitTorrent--Sync nicht für sensible Daten
 verwendet werden sollte.
 
 [^FN_HACKITO]: Security analysis of BTsync:
@@ -516,7 +518,7 @@ Installation der Anwendung eine Registrierung statt. Diese Daten
 (Benutzername/E--Mail--Addresse) können anschließend verwendet werden, um mit der
 Anwendung andere Infinit--Partner zu finden oder von diesen gefunden zu werden.
 Anschließend kann eine Datei über eine Drag & Drop--Fläche an den gefundenen
-Partner gesendet werden. Es ist unklar, ob Daten/Metadaten an die
+Partner gesendet werden. Es ist unklar, welche Daten/Metadaten an die
 Infinit--Plattform übertragen werden. Infinit wirbt mit »point--to--point
 encryption« und »bank-level encryption algorithms such as AES-256 and RSA
 2048«. Eine Authentifizierung des Kommunikationspartners findet rudimentär
@@ -563,14 +565,14 @@ Spoofing*[^FN_SYNCTHING_SPOOFING] anfällig. Das heißt, dass ein Angreifer der
 im Netzwerk mitliest, Device--IDs mitlesen kann und sich somit als ein
 bestimmter Peer ausgeben kann. Das würde einem Angreifer die Information
 liefern, mit welchen Peers sich eine bestimmte Device--ID synchronisiert. Mehr
-zu Device--IDs sowie möglichen damit in Verbindung stehenden Problemen findet
+zu Device--IDs, sowie möglichen damit in Verbindung stehenden Problemen, findet
 sich in der offiziellen Syncthing--Dokumentation[^FN_SYNCTHING_DEVID].
 
 [^FN_SYNCTHING_SPOOFING]: Problems and Vulnerabilities: <https://docs.syncthing.net/dev/device-ids.html#problems-and-vulnerabilities>
 [^FN_SYNCTHING_DEVID]: Understanding Device--IDs: <https://docs.syncthing.net/dev/device-ids.html>
 
-Eine lokale Verschlüsselung der Daten finden nicht statt. Schlüssel, welche die
-Device--ID eindeutig identifizieren sind nicht weiter gesichert.
+Eine lokale Verschlüsselung der Daten findet nicht statt. Schlüssel, welche die
+Device--ID eindeutig identifizieren, sind nicht weiter gesichert.
 
 **Librevault** ist ein sich noch im Frühstadium befindlicher Prototyp. Die
 aktuell getestete Alphaversion ist beim Hinzufügen eines
@@ -604,7 +606,7 @@ Neben der Verschlüsselung von git--remotes mit gcrypt gibt es auch die
 Möglichkeit, die Daten auf special remotes zu verschlüsseln. Hierfür gibt es
 die vier Verfahren:
 
-* **hybrid encryption:** Gemeinsamer »shared key« wird im mit einem »public
+* **hybrid encryption:** Gemeinsamer »shared key« wird mit einem »public
   key«  verschlüsselt im Repository gespeichert.
 * **shared encryption:** Gemeinsamer »shared key« wird im Klartext im
   Repository gespeichert.
@@ -649,11 +651,11 @@ vielversprechenden Ansatzes, ist IPFS die Grundlage von »brig«.
 
 Da der Cloud--Speicher--Markt sehr dynamisch und fragmentiert ist, ist es
 schwierig hier zuverlässige Daten zu finden. Laut einem Online--Beitrag der
-»Wirtschafts Woche«[^FN_CLOUDSTORAGE] gehören folgende Anbieter zu »den
-größten« Cloud--Speicher--Anbietern:
+»Wirtschafts Woche«[^FN_CLOUDSTORAGE] gehören folgende Anbieter zu den
+größten Cloud--Speicher--Anbietern:
 
 * Dropbox
-* Apples iCloud
+* Apple iCloud
 * Microsoft OneDrive
 * Google Drive
 
@@ -661,7 +663,7 @@ größten« Cloud--Speicher--Anbietern:
 
 	<http://www.wiwo.de/unternehmen/it/cloud-wer-sind-die-groessten-cloud-anbieter-und-was-kosten-sie/11975400-7.html>
 
-In Deutschland gehört Dropbox zu den bekannteren Anbietern, Apples iCloud ist
+In Deutschland gehört Dropbox zu den bekannteren Anbietern, Apple iCloud ist
 in erster Linie für Mac--Benutzer interessant.
 
 Im Open--Source--Bereich können die Projekte
@@ -672,7 +674,7 @@ Im Open--Source--Bereich können die Projekte
 als zentrale Konkurrenz--Produkte angesehen werden.
 
 Diese zentralen Systeme stellen in gewisser Weise ein indirektes
-Konkurrenz--Produkt dar. Als weitere Wettbewerber können auch die bereits
+Konkurrenz--Produkt zu »brig« dar. Als weitere Wettbewerber können auch die bereits
 genannten dezentralen Synchronisationswerkzeuge angesehen werden.
 
 ## Closed--Source vs. Open--Source {#sec:SEC02_CLOSEDSOURCE_VS_OPENSOURCE}
@@ -680,8 +682,8 @@ genannten dezentralen Synchronisationswerkzeuge angesehen werden.
 Es ist schwierig zu beantworten, ob Open--Source--Software als sicherer
 anzusehen ist. Es spielen hierbei sehr viele Faktoren eine Rolle, weswegen eine
 eindeutige Aussage nicht möglich ist. Oft wird mit »Linus's Law« --- *Given
-enough eyeballs, all bugs are shallow.*[^FN_LINUS_LAW] --- für die Sicherheit *Freier
-Software* argumentiert. Software--Bugs wie
+enough eyeballs, all bugs are shallow.*[^FN_LINUS_LAW] --- für die Sicherheit Freier
+Software argumentiert. Software--Bugs wie
 
 [^FN_LINUS_LAW]:Linus's Law: <https://en.wikipedia.org/w/index.php?title=Linus%27s_Law&oldid=761677049>
 
@@ -691,8 +693,8 @@ Software* argumentiert. Software--Bugs wie
 [^FN_DEBIAN_RNG_BUG]: Random Number Bug in Debian Linux: <https://www.schneier.com/blog/archives/2008/05/random_number_b.html>
 [^FN_HEARTBLEED]: Heartbleed: <https://www.schneier.com/blog/archives/2014/04/heartbleed.html>
 
-haben jedoch gezeigt, dass auch Freie Software vor »Sicherheitskatastrophen«
-nicht sicher ist. Die besagten Bugs wurden erst nach mehreren Jahren entdeckt
+haben jedoch gezeigt, dass auch Freie Software von »Sicherheitskatastrophen«
+nicht verschont bleibt. Die besagten Fehler wurden erst nach mehreren Jahren entdeckt
 und es ist unbekannt, ob und in welchem Ausmaß diese ausgenutzt werden konnten.
 Diese Beispiele zeigen, dass man sich auf das »More eyeballs principle« allein
 nicht verlassen darf. Weiterhin kann das Open--Source--Modell auch dazu
@@ -710,7 +712,7 @@ keine signifikanten Unterschiede bezüglich der Sicherheit zwischen den beiden
 Entwicklungsmodellen gibt. Open--Source scheint jedoch ein extrem schlechtes
 Patch--Management seitens des Herstellers zu verhindern (vgl. [@Schryen]).
 
-Wenn man davon ausgeht, dass schlechte Quellcode--Qualität zu mehr Bugs und
+Wenn man davon ausgeht, dass schlechte Quellcode--Qualität zu mehr Fehlern und
 somit zu mehr Sicherheitslücken führt, kann man auch einen Teil der
 Sicherheit über die Quellcode--Qualität definieren. Eine Studie, welche die
 Quellcode--Qualität von vier großen Betriebssystemkerneln (Linux (open source),
@@ -808,4 +810,4 @@ korrekt sein mag, sind folgende Fälle weiterhin als problematisch anzusehen:
 * Garantiefall (defekte Festplatte kann vielleicht nicht mehr gelöscht werden)
 * Software--Wipe--Tools bei SSDs[^FN_SSD] sind problematisch (vgl. [@BIB_SSD_ERASE])
 
-[^FN_SSD]: Solid--Sate--Drive: <https://de.wikipedia.org/w/index.php?title=Solid-State-Drive&oldid=160808976>
+[^FN_SSD]: Solid--State--Drive: <https://de.wikipedia.org/w/index.php?title=Solid-State-Drive&oldid=160808976>

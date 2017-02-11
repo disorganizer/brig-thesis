@@ -64,8 +64,8 @@ nicht unnötig Ressourcen in sicherheitstechnische Details zu investieren.
 
 ### Allgemein
 
-Ziel dieser Arbeit ist es praxisrelevante Gefahren/Risiken für ein
-Software--Produkt und einen Entwicklungsprozess wie er bei »brig« vorliegt zu
+Ziel dieser Arbeit ist es, praxisrelevante Gefahren/Risiken für ein
+Software--Produkt und einen Entwicklungsprozess, wie er bei »brig« vorliegt, zu
 definieren und mögliche Verbesserungskonzepte zu erarbeiten.
 
 Hierbei wird in erster Linie angenommen, dass die meisten Sicherheitsprobleme durch
@@ -114,7 +114,7 @@ auch @sec:SEC07_REPOSITORY_ZUGRIFF.
 	<http://arstechnica.com/security/2012/08/passwords-under-assault/>
 
 **Schlüsselmanagement:** Die sichere Kommunikation von kryptographischen
-Schlüsseln stellt eines der größten Probleme im digitalen Zeitalter dar.
+Schlüsseln stellt eines der größten Probleme im digitalen Zeitalter dar
 (@martin2012everyday, S. 326 ff.). In jüngster Vergangenheit wurde
 beispielsweise beim FreeBSD--Projekt mittels gestohlener kryptographischer
 Schlüssel eingebrochen[^FN_FREEBSD_SSH_MALWARE]. Laut
