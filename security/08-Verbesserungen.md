@@ -1370,7 +1370,7 @@ Eine weit verbreitete Möglichkeit zur Authentifizierung, ist hierbei die
 *Digitale Signatur*. Quelltext, beziehungsweise *Commits* (Beitrag u. Änderungen
 an einem Projekt), können auf eine ähnliche Art wie Binärdateien signiert werden.
 
-Im Fall von »brig«, welches `git` verwendet und über *GitHub* entwickelt wird,
+Im Fall von »brig«, welches `git` verwendet und über GitHub entwickelt wird,
 bietet sich das Signieren und Verifizieren von *Commits* und *Tags* an. Hierzu
 kann beispielsweise mit `git config` global die *Schlüssel--ID* des Schlüssels
 hinzugefügt werden, mit welchem der Quelltext in Zukunft signiert werden soll.
@@ -1398,17 +1398,17 @@ Möchte man das Signieren dauerhaft aktivieren, so muss noch die `gpgsign`--Opti
 ~~~
 
 
-Durch das Signieren von *Commits* wird auf *GitHub* über ein Label ein
+Durch das Signieren von *Commits* wird auf GitHub über ein Label ein
 erweiterter Status zum jeweiligen *Commit* beziehungsweise *Tag* angezeigt,
 siehe [@fig:img-signunveri].
 
-![Nach dem Absetzen eines signierten Commits/Tags erscheint auf der *GitHub*--Plattform ein zusätzliches Label »Unverified«, wenn der öffentliche Schlüssel des Entwicklers bei Github nicht hinterlegt ist.](images/signed-unverified2.png){#fig:img-signunveri width=65%}
+![Nach dem Absetzen eines signierten Commits/Tags erscheint auf der GitHub--Plattform ein zusätzliches Label »Unverified«, wenn der öffentliche Schlüssel des Entwicklers bei GitHub nicht hinterlegt ist.](images/signed-unverified2.png){#fig:img-signunveri width=65%}
 
-Pflegen die Entwickler zusätzlich ihren öffentlichen Schlüssel im *GitHub*--Account
+Pflegen die Entwickler zusätzlich ihren öffentlichen Schlüssel im GitHub--Account
 ein, so signalisiert das Label eine verifizierte Signatur des jeweiligen
 *Commits* beziehungsweise *Tags*, siehe [@fig:img-signed].
 
-![Verifiziertes *GitHub*--Signatur--Label eines Commits/Tags welches aufgeklappt
+![Verifiziertes GitHub--Signatur--Label eines Commits/Tags welches aufgeklappt
 wurde.](images/signed2.png){#fig:img-signed width=70%}
 
 Auf der Kommandozeile kann eine *Signatur* einfach mit der
@@ -1434,11 +1434,11 @@ Date:   Thu Dec 15 16:23:02 2016 +0100
 
 #### GitHub--Plattform
 
-Um sich als Entwickler, beispielsweise sicher gegenüber der *GitHub*--Plattform
-zu authentifizieren, bietet die *GitHub*--Plattform Universal--2--Faktor an,
+Um sich als Entwickler, beispielsweise sicher gegenüber der GitHub--Plattform
+zu authentifizieren, bietet die GitHub--Plattform Universal--2--Faktor an,
 welches auch mit dem YubiKey genutzt werden kann[^FN_GITHUB_U2F].
 
-[^FN_GITHUB_U2F]: GitHub U2F: <https://github.com/blog/2071-github-supports-universal-2nd-factor-authentication>
+[^FN_GITHUB_U2F]: GitHub--U2F: <https://github.com/blog/2071-github-supports-universal-2nd-factor-authentication>
 
 Für diesen Einsatzzweck muss *Universal--2--Faktor* auf dem YubiKey aktiviert
 sein, dies kann nach dem Anstecken des YubiKey mit `dmesg` validiert werden:
@@ -1454,7 +1454,7 @@ aktiviert werden.
 
 Anschließend muss die Zwei--Faktor--Authentifizierung im persönlichen Account
 unter dem Menüpunkt »Setting« aktiviert und der YubiKey auf der
-*GitHub*--Plattform registriert werden. Nach erfolgreicher Registrierung  wird
+GitHub--Plattform registriert werden. Nach erfolgreicher Registrierung  wird
 man nach der Eingabe seines persönlichen Passworts um den zweiten Faktor
 (beispielsweise YubiKey) gebeten, siehe @fig:IMG_YUBIKEY_GITHUB.
 
@@ -1464,7 +1464,7 @@ man nach der Eingabe seines persönlichen Passworts um den zweiten Faktor
 
 Grundsätzlich gibt es, wie bei anderen Plattformen die Möglichkeit, sich mit
 dem Benutzernamen und dem Passwort gegenüber einer Plattform wie beispielsweise
-*GitHub* zu authentifizieren.
+GitHub zu authentifizieren.
 
 **Public--Key--Authentifizierung:**
 
@@ -1501,7 +1501,7 @@ Das genannte Konzept lässt sich durch die Nutzung einer Smartcard erweitern. Di
 Vorteile liegen hier in erster Linie beim Schutz der kryptographischen
 Schlüssel.
 
-Für die SSH--Authentifizierung mit einer Smartcard/*GnuPG* gegenüber *GitHub* --- oder auch
+Für die SSH--Authentifizierung mit einer Smartcard/*GnuPG* gegenüber GitHub --- oder auch
 anderen Entwicklerplattformen --- gibt es in dieser Kombination die folgenden zwei
 Varianten:
 
@@ -1529,7 +1529,7 @@ fi
 ~~~
 
 Der öffentliche Schlüssel kann mit dem `ssh-add`--Befehl extrahiert werden.
-Dieser muss anschließend wahlweise auf der *GitHub*--Plattform oder einem
+Dieser muss anschließend wahlweise auf der GitHub--Plattform oder einem
 eigenen Entwicklungssystem, welches einen SSH--Zugang bereitstellt, hinterlegt werden.
 
 ~~~sh

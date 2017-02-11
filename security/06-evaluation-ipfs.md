@@ -131,7 +131,7 @@ Daten sind hierbei in ».data«--Blöcke aufgeteilt und gespeichert. Die
 Benennung der Datenblöcke basiert auf dem Multihash, die Enkodierung
 bei Datenblöcken ist `Base32`.
 
-[^FN_MULTIHASH]: Github Multihash: <https://github.com/multiformats/multihash>
+[^FN_MULTIHASH]: GitHub--Multihash: <https://github.com/multiformats/multihash>
 
 ~~~sh
 $ tree .ipfs
@@ -359,7 +359,7 @@ Protokoll namens *Secio*[^FN_SECIO], welches laut Entwickleraussagen
 ([@sec:APP_IPFS_TRANSPORT_SEC]) auf einem TLS1.2--Modi basiert. Es ist geplant
 in Zukunft auf TLS1.3 zu migrieren.
 
-[^FN_SECIO]: Github IPFS Secio--Verschlüsselung: <https://github.com/libp2p/go-libp2p-secio>
+[^FN_SECIO]: GitHub--IPFS--Secio--Verschlüsselung: <https://github.com/libp2p/go-libp2p-secio>
 
 ## Zusammenfassung IPFS--Evaluation {#sec:SEC06_ZUSAMMENFASSUNG_IPFS_EVALUATION}
 

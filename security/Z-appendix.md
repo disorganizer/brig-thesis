@@ -11,7 +11,7 @@ autogenerieren Quelltextdateien (*Protobuf*, Endung »pb.go«) ausgeschlossen.
 Die Analyse wurde auf die in der Programmiersprache *Go* geschriebenen Teile
 begrenzt.
 
-[^cloc]: Github--Seite des Projektes: <https://github.com/AlDanial/cloc>
+[^cloc]: GitHub--Seite des Projektes: <https://github.com/AlDanial/cloc>
 
 Umfang IPFS--Projekt:
 

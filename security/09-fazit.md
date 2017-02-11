@@ -96,7 +96,7 @@ Hierbei wurden neben Konzepten zum Update--Management (siehe
 Softwareentwicklungsprozesses evaluiert (siehe
 @sec:SEC08_SIGNIEREN_VON_QUELLCODE). Weiterhin wurden unterschiedliche
 Verfahren zur Authentifizierung (Zwei--Faktor--Authentifizierung,
-Public--Key/Smartcard--Authentifizierung) gegenüber der *GitHub*--Plattform
+Public--Key/Smartcard--Authentifizierung) gegenüber der GitHub--Plattform
 evaluiert (siehe @sec:SEC08_SICHERE_AUTHENTIFIZIERUNG_FUER_ENTWICKLER).
 
 

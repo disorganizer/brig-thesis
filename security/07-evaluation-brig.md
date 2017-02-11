@@ -661,13 +661,13 @@ wichtig.
 
 Aktuell wird »brig« mit der Quelltext--Versionsverwaltungssoftware `git`
 verwaltet. Da es sich um ein Open--Souce--Projekt handelt, ist das Repository
-öffentlich auf der *Github*--Plattform zu finden.
+öffentlich auf der GitHub--Plattform zu finden.
 
 **Einschätzung:** Quelltexte/Releases sind bisher nicht signiert. Updates am
 Repository werden aktuell über den von den Entwicklern hinterlegten
 *SSH*--Schlüssel *gepusht* beziehungsweise *gepullt*. Der Zugriff auf die
-*GitHub*--Plattform erfolgt aktuell zum Teil über eine Kombination aus
-Benutzername und Passwort. Hier würde sich die Aktivierung der von *GitHub*
+GitHub--Plattform erfolgt aktuell zum Teil über eine Kombination aus
+Benutzername und Passwort. Hier würde sich die Aktivierung der von GitHub
 angebotenen Zwei--Faktor--Authentifizierung aus Gründen der Sicherheit
 anbieten.
 
@@ -678,7 +678,7 @@ auszugeben.
 
 ### Update--Mechanismus {#sec:SEC07_UPDATE_MECHANISMUS}
 
-Im aktuellen Stadium kann »brig« über das Beziehen des Quelltextes von *GitHub*
+Im aktuellen Stadium kann »brig« über das Beziehen des Quelltextes von GitHub
 installiert werden. Ein Update--Mechanismus existiert nicht, die Validierung
 der Integrität des Quelltextes ist aktuell nur auf Basis der `git`
 *SHA--1*--Integrität möglich.

@@ -697,7 +697,7 @@ und es ist unbekannt, ob und in welchem Ausmaß diese ausgenutzt werden konnten.
 Diese Beispiele zeigen, dass man sich auf das »More eyeballs principle« allein
 nicht verlassen darf. Weiterhin kann das Open--Source--Modell auch dazu
 verwendet werden, um automatisiert nach Sicherheitslücken im Quelltext auf
-*Github* bei jedem *Commit* zu suchen. Der Google Softwareentwickler *Kees
+GitHub bei jedem *Commit* zu suchen. Der Google Softwareentwickler *Kees
 Cook* verweist auf diese Problematik auf dem aktuellsten *Linux Security Summit
 2016*[^FN_LINUX_SEC_SUMMIT].
 
@@ -727,7 +727,7 @@ Quelltext zu validieren und auch an die eigenen Sicherheitsbedürfnisse
 anzupassen. Wenn man beispielsweise wissen möchte, ob und wie die
 Festplattenverschlüsselungssoftware (in diesem Fall *Cryptsetup/LUKS*)  den
 Volume--Schlüssel aus dem Speicher entfernt, kann man sich den Quelltext auf
-*Github* anschauen. Im Fall von *LUKS* wir der Speicherbereich mit Nullen
+GitHub anschauen. Im Fall von *LUKS* wir der Speicherbereich mit Nullen
 überschrieben[^FN_LUKS_VK_MEMSET].
 
 [^FN_LUKS_VK_MEMSET]: LUKS Volume--Key Free--Funktion:
