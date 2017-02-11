@@ -379,9 +379,9 @@ eines Cloud--Speicher--Dienstes essentiell ist.
 Der dezentrale Bereich klassifiziert sich durch den Dateiaustausch, welcher in
 der Regel *ohne* eine zentrale Instanz auskommt. Es handelt sich hierbei um
 Systeme aus dem Bereich des Peer-to-peer--Modells. Eines der frühen
-Peer--to--peer Protokolle ist das *Napster*--Protokoll der gleichnamigen
+Peer--to--Peer--Protokolle ist das *Napster*--Protokoll der gleichnamigen
 Anwendung *Napster*, welche Ende der 90' Jahre für den Tausch von Musik
-verwendet wurde. Später sind weitere Peer--to--peer--Protokolle wie das
+verwendet wurde. Später sind weitere Peer--to--Peer--Protokolle wie das
 *Multisource--File--Transfer--Protocol* oder das *BitTorrent*--Protokoll hinzugekommen.
 
 [@fig:img-p2p] zeigt schematisch den Austausch von Daten in einem dezentralen
@@ -431,12 +431,12 @@ die gleiche Datei besitzen, siehe [@fig:img-swarm].
 
 ![Zeigt einen »Swarm«. *Alice* lädt die Datei »image.iso« von mehreren Teilnehmern gleichzeitig, die Datei »mydog.png« jedoch nur von *Dan*.](images/distsync.png){#fig:img-swarm width=70%}
 
-Aktuell verbreitete Peer--to--peer Protokolle:
+Aktuell verbreitete Peer--to--Peer--Protokolle:
 
 * Bittorrent (Filesharing allgemein)
 * Skype Protokoll (VOIP--Telephonie)
 
-Früher eingesetzte Peer--to--peer Filesharing--Protokolle:
+Früher eingesetzte Peer--to--Peer--Filesharing--Protokolle:
 
 * Direct Connect
 * Multisource File Transfer Protocol (Einsatz: eDonkey2000, Overnet)
@@ -457,7 +457,7 @@ eingesetzt werden können. Bekannten Lösungen sind:
 * Syncthing (Open--Source)
 * Librevault (Open--Source)
 
-#### Sicherheit von Peer--to--peer Synchronisationsanwendungen {#sec:SEC02_SICHERHEIT_VON_PEERTOPEER_SYNCHRONISATIONSANWENDUNGEN}
+#### Sicherheit von Peer--to--Peer--Synchronisationsanwendungen {#sec:SEC02_SICHERHEIT_VON_PEERTOPEER_SYNCHRONISATIONSANWENDUNGEN}
 
 Bei den bekannten Vertretern des BitTorrent--Netzwerks wie dem
 BitTorrent--Client werden die Daten in der Regel unverschlüsselt übertragen und

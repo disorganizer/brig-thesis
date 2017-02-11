@@ -22,7 +22,7 @@ In [@sec:SEC02_FUNKTIONSWEISE_DEZENTRALER_DIENSTE] wurden bereits verschiedene
 dezentrale Protokolle genannt. Diese sind jedoch hauptsächlich für den
 generellen Dateiaustausch ausgelegt. Um die in [@sec:SEC03_ANFORDERUNGEN]
 aufgeführten Anforderungen zu realisieren, müssen die genannten Protokolle
-beziehungsweise das Verhalten des Peer--To--Peer--Netzwerks an die gesetzten
+beziehungsweise das Verhalten des Peer--to--Peer--Netzwerks an die gesetzten
 Anforderungen angepasst werden. Als Basis für die Implementierung eines
 Prototypen standen die beiden Protokolle *BitTorrent* und IPFS in der engeren
 Auswahl. Aufgrund der unter [@sec:SEC06_ZUSAMMENFASSUNG_IPFS_EVALUATION]

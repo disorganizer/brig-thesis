@@ -30,7 +30,7 @@ hypermedia distribution protocol« definiert. Das Besondere an IPFS ist, dass
 es ein sogenanntes *Content--Addressable--Network (CAN)* darstellt. Ein *CAN*
 arbeitet mit einer verteilten Hashtabelle (*Distributed Hash Table (DHT)*),
 welche als grundlegende »Datenstruktur« verwendet wird, um die Daten innerhalb
-eines Peer--to--peer--Netzwerks zu lokalisieren und zu speichern.
+eines Peer--to--Peer--Netzwerks zu lokalisieren und zu speichern.
 
 Eine *DHT* als Datenstruktur bringt in der Theorie laut Wikipedia[^FN_DHT]
 folgende Eigenschaften mit sich:
