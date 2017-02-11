@@ -5,8 +5,8 @@
 Der Austausch von Dokumenten beziehungsweise Dateien wurde früher hauptsächlich
 über Datenträger (Diskette, USB--Stick) oder E--Mail durchgeführt. Mit dem
 Aufkommen der Cloud--Lösungen der letzten Jahre werden Dateien immer öfters
-über Cloud--Dienste, wie beispielsweise »Apple iCloud«, »Dropbox«, »Microsoft
-OneDrive« oder »Google--Drive«, ausgetauscht.
+über Cloud--Dienste, wie beispielsweise Apple iCloud, Dropbox, Microsoft
+OneDrive oder Google Drive, ausgetauscht.
 
 Diese Dienste basieren auf einer zentralen Architektur und ermöglichen dem
 Benutzer, seine Dateien über mehrere Computer hinweg zu synchronisieren und mit

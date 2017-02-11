@@ -131,7 +131,7 @@ und mittlerweile auch verschlüsselt gespeichert.
 [^FN_DROPBOX_SECURITY]:Dropbox Security: <https://www.dropbox.com/security>
 
 Beim Einsatz der Cloud--Speicher--Dienste hängt die Sicherheit der Daten somit
-in erster Linie vom Dienstanbieter ab. Beim *iCloud*--Dienst von Apple
+in erster Linie vom Dienstanbieter ab. Beim iCloud--Dienst von Apple
 beispielsweise werden die Daten verschlüsselt bei Drittanbietern wie der
 *Amazon S3*- oder *Windows Azure*--Cloud gespeichert[^FN_IOS_SECGUIDE]. Die
 Metadaten und kryptographischen Schlüssel verwaltet Apple auf seinen eigenen
@@ -309,7 +309,7 @@ letzter Zeit:
 * Google Drive Datenleck[^FN_GDRIVE_DATALEAK]
 * Microsoft OneDrive Datenleck[^FN_MS_DATALEAK]
 * 7 Millionen Zugangsdaten von Dropbox im Umlauf (unbestätigt)[^FN_DROPBOX_DATALEAK_3]
-* *iCloud*--Hack auf private Fotos von Prominenten[^FN_FAPPENING]
+* iCloud--Hack auf private Fotos von Prominenten[^FN_FAPPENING]
 
 **Weitere Probleme:**
 
@@ -608,9 +608,9 @@ die vier Verfahren:
   key«  verschlüsselt im Repository gespeichert.
 * **shared encryption:** Gemeinsamer »shared key« wird im Klartext im
   Repository gespeichert.
-* **public key encryption:** Hierbei wird der »public key« verwendet, zum
+* **public key encryption:** Hierbei wird der »Public--Key« verwendet, zum
   Entschlüsseln benötigt man den »private key«.
-* **shared public key encryption:** Wie beim »public key«--Verfahren, jedoch
+* **shared public key encryption:** Wie beim »Public--Key«--Verfahren, jedoch
   nur Besitzer des geheimen Schlüssel dürfen die Daten von einem »special remote« beziehen.
 
 [^FN_GIT_ANNEX_SPECIALREMOTES]: *git--annex* special remotes: <https://git-annex.branchable.com/special_remotes/>
@@ -661,7 +661,7 @@ größten« Cloud--Speicher--Anbietern:
 
 	<http://www.wiwo.de/unternehmen/it/cloud-wer-sind-die-groessten-cloud-anbieter-und-was-kosten-sie/11975400-7.html>
 
-In Deutschland gehört Dropbox zu den bekannteren Anbietern, Apples *iCloud* ist
+In Deutschland gehört Dropbox zu den bekannteren Anbietern, Apples iCloud ist
 in erster Linie für Mac--Benutzer interessant.
 
 Im Open--Source--Bereich können die Projekte
