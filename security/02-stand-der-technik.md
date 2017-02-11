@@ -530,7 +530,7 @@ only« läuft.
 
 [^FN_BEP]: Block exchange protocol: <https://docs.syncthing.net/specs/bep-v1.html>
 
-Die Peers werden durch eine eindeutige *Device ID* identifiziert. Diese leitet
+Die Peers werden durch eine eindeutige *Device--ID* identifiziert. Diese leitet
 sich aus einen asymmetrischen Schlüsselpaar (3072 Bit RSA[^FN_SYNCTHING_KEYS])
 ab, welches beim ersten Start der Anwendung erstellt wird. Abgelegt wird ein
 privater Schlüssel und ein selbst signiertes Zertifikat. Der private Schlüssel
@@ -560,17 +560,17 @@ einzelnen Peers verwendet wird.
 
 Weiterhin ist das aktuelle Design für *Discovery
 Spoofing*[^FN_SYNCTHING_SPOOFING] anfällig. Das heißt, dass ein Angreifer der
-im Netzwerk mitliest, *Device IDs* mitlesen kann und sich somit als ein
+im Netzwerk mitliest, *Device--IDs* mitlesen kann und sich somit als ein
 bestimmter Peer ausgeben kann. Das würde einem Angreifer die Information
-liefern, mit welchen Peers sich eine bestimmte *Device ID* synchronisiert. Mehr
-zu *Device IDs* sowie möglichen damit in Verbindung stehenden Problemen findet
+liefern, mit welchen Peers sich eine bestimmte *Device--ID* synchronisiert. Mehr
+zu *Device--IDs* sowie möglichen damit in Verbindung stehenden Problemen findet
 sich in der offiziellen Syncthing--Dokumentation[^FN_SYNCTHING_DEVID].
 
 [^FN_SYNCTHING_SPOOFING]: Problems and Vulnerabilities: <https://docs.syncthing.net/dev/device-ids.html#problems-and-vulnerabilities>
 [^FN_SYNCTHING_DEVID]: Understanding Device--IDs: <https://docs.syncthing.net/dev/device-ids.html>
 
 Eine lokale Verschlüsselung der Daten finden nicht statt. Schlüssel, welche die
-*Device ID* eindeutig identifizieren sind nicht weiter gesichert.
+*Device--ID* eindeutig identifizieren sind nicht weiter gesichert.
 
 **Librevault** ist ein sich noch im Frühstadium befindlicher Prototyp. Die
 aktuell getestete Alphaversion ist beim Hinzufügen eines

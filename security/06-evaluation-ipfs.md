@@ -66,7 +66,7 @@ to get started, enter:
         ipfs cat /ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme
 ~~~
 
-Bei der Initialisierung wird eine *Peer ID* erzeugt. Anschließend kann
+Bei der Initialisierung wird eine *Peer--ID* erzeugt. Anschließend kann
 der Benutzer die `readme`--Datei aus dem IPFS--Store betrachten.
 [@sec:APP_IPFS_SECWARNING] zeigt weiterhin die aktuelle Sicherheitswarnung der
 IPFS--Software. Es wird explizit ein paar Male darauf hingewiesen, dass sich IPFS
