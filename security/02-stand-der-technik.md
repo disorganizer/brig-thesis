@@ -91,9 +91,9 @@ Daten verantwortlich sind.
 [@fig:img-cloud] zeigt schematisch das Konzept beim Austausch von Daten über
 einen Cloud--Speicher--Dienst. Die Daten des Benutzers werden hierbei mit
 einer »zentralen Stelle« synchronisiert. In der Regel legt der Benutzer einen
-Account beim Cloud--Storage--Anbieter an, installiert dessen Client--Software,
+Account beim Cloud--Speicher--Anbieter an, installiert dessen Client--Software,
 legt einen Ordner zur Synchronisation fest und registriert sich abschließend
-online beim Cloud--Storage--Anbieter.
+online beim Cloud--Speicher--Anbieter.
 
 Dieser Ordner lässt sich dann beispielsweise auf weitere Geräte des Benutzer
 synchronisieren. Weiterhin gibt es in der Regel, die Möglichkeit Dateien mit
@@ -195,7 +195,7 @@ Authentifizierungsmechanismus benötigt nur ein sogenanntes
 »Authentifizierungs--Token« (diese wird dem Client nach der Registrierung vom
 Server zugewiesen), die sogenannte *HOST_ID*. Mit dieser authentifiziert sich
 der Dropbox--Client bei zukünftigen Synchronisationsvorgängen gegenüber dem
-Dropbox--Service.
+Dropbox--Dienst.
 
 Ein großes Problem war hierbei auch, dass die *HOST_ID* unverschlüsselt in
 einer Konfigurationsdatei (sqlite3--Datenkbank) abgelegt war. Diese *ID* bleibt
@@ -657,7 +657,7 @@ größten« Cloud--Speicher--Anbietern:
 * Microsoft OneDrive
 * Google Drive
 
-[^FN_CLOUDSTORAGE]: Größte Cloud--Speicher Anbieter:
+[^FN_CLOUDSTORAGE]: Größte Cloud--Speicher--Anbieter:
 
 	<http://www.wiwo.de/unternehmen/it/cloud-wer-sind-die-groessten-cloud-anbieter-und-was-kosten-sie/11975400-7.html>
 

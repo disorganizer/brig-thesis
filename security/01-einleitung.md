@@ -33,36 +33,36 @@ Snowden--Enthüllungen und des Bekanntwerdens vom PRISM--Überwachungsprogramm i
 offiziell bekannt[@bibgreenwald2013nsa], dass der Zugriff auf persönliche Daten
 durch Drittparteien erfolgt ist, beziehungsweise erzwungen wurde. Neben dem
 geduldeten oder rechtlich erzwungenen Zugriff durch Drittparteien, haben
-Cloud--Storage--Anbieter wie beispielsweise »Dropbox« in der Vergangenheit
+Cloud--Speicher--Anbieter wie beispielsweise »Dropbox« in der Vergangenheit
 immer wieder für Schlagzeilen gesorgt. Durch diverse Softwarefehler war
 beispielsweise der Zugriff über mehrere Stunden mit beliebigen Passwörtern
 möglich[^FN_DROPBOX_AUTH_BUG]. Ein weiterer Softwarefehler hat bei der
 Aktivierung bestimmter Features Daten unwiderruflich
 gelöscht[^FN_DROPBOX_DATA_CORRUPTION]. Daneben wird die Sicherheit von
-Cloud--Storage--Services in Studien bemängelt, vgl. [@bibfisitcloudsec].
+Cloud--Speicher--Diensten in Studien bemängelt, vgl. [@bibfisitcloudsec].
 
 [^FN_DROPBOX_AUTH_BUG]: Authentifizierungs--Bug: <https://blogs.dropbox.com/dropbox/2011/06/yesterdays-authentication-bug/>
 [^FN_DROPBOX_DATA_CORRUPTION]: Selective--Sync--Bug: <https://plus.google.com/+MichaelArmogan/posts/E9sVnrLTB5C>
 
 Will man Daten privat oder geschäftlich austauschen, so muss man sich in der
 Regel auf einen Anbieter einigen. Hierbei stellt die
-Fragmentierung[^FN_PROVIDER_FRAGMENTATION] der Cloud--Storage--Anbieter den
+Fragmentierung[^FN_PROVIDER_FRAGMENTATION] der Cloud--Speicher--Anbieter den
 Benutzer oft vor weitere Herausforderungen.
 
 [^FN_PROVIDER_FRAGMENTATION]: Übersicht Online--Backup--Provider:
 
 	<https://en.wikipedia.org/w/index.php?title=Comparison_of_online_backup_services&oldid=760247797>
 
-Will man aus persönlichen Bedenken auf den Einsatz von Cloud--Storage--Anbietern
+Will man aus persönlichen Bedenken auf den Einsatz von Cloud--Speicher--Dienst
 verzichten, bleibt einem immer noch die Möglichkeit, Dateien über E--Mail zu
 versenden. Hier erschließt sich aber bei näherer Betrachtung ein ähnliches
-Problem wie bei den Cloud--Storage--Anbietern. Die Privatsphäre, beziehungsweise
+Problem wie bei den Cloud--Speicher--Anbietern. Die Privatsphäre, beziehungsweise
 der Schutz der Daten vor dem Zugriff durch Dritte, ist mangelhaft. Es gibt die
 Möglichkeit E-Mails beispielsweise mittels *Pretty Good Privacy (PGP)* zu
 verschlüsseln, jedoch ist der Einsatz und Aufwand für den Otto
 Normalverbraucher schlichtweg zu kompliziert und wird daher kaum genutzt.
 
-Der Austausch über Cloud--Storage--Service oder E-Mail ist nichtsdestotrotz der
+Der Austausch über einen Cloud--Speicher--Dienst oder E-Mail ist nichtsdestotrotz der
 Quasi--Standard. Es gibt zwar technisch gesehen weitere Möglichkeiten, Daten
 auch ohne eine zentrale Instanz auszutauschen, diese sind jedoch entweder
 recht unbekannt, für den Otto Normalverbraucher unbenutzbar oder unsicher. Zu

@@ -39,7 +39,7 @@ Anforderungen umgesetzt werden:
 **Bekannte Umgebung:** Der Benutzer soll nach der Installation der Software
 weiterhin seine bekannte Umgebung in Form eines Ordners vorfinden. In welcher
 er seine Daten sicher speichern und synchronisieren kann, wie er es bereits von
-bekannten Cloud--Storage--Diensten, wie beispielsweise Dropbox, kennt.
+bekannten Cloud--Speicher--Diensten, wie beispielsweise Dropbox, kennt.
 
 **Versteckte Sicherheit:** Die Sicherheitskomplexität soll möglichst hinter nur
 »einem Passwort« versteckt werden. Dies soll sicherstellen, dass der Benutzer

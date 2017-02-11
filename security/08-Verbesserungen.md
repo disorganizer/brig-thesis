@@ -25,7 +25,7 @@ Datei ein zufälliger Schlüssel generiert. Mit diesem Ansatz wird die
 Deduplizierungsfunktionalität von IPFS weitestgehend nutzlos gemacht.
 
 Ein Ansatz dieses Problem zu umgehen, ist die sogenannte »Convergent
-Encryption«. Diese Technik wird beispielsweise von *Cloud--Storage*--Anbietern
+Encryption«. Diese Technik wird beispielsweise von *Cloud--Speicher*--Anbietern
 verwendet, um verschlüsselte Daten deduplizieren zu können, ohne dabei auf den
 eigentlichen Inhalt zugreifen zu müssen (vgl. [@convergent-encryption]).
 
@@ -984,7 +984,7 @@ erspart, so sollte es trotzdem mit Vorsicht eingesetzt werden, da
 Standard--Passwörter jederzeit beispielsweise mittels eines Keyloggers
 aufgezeichnet werden können. Die bessere Alternative ist an dieser Stelle
 trotzdem eine »echte« Zwei--Faktor--Authentifizierung, sofern diese von der
-jeweiligen Applikation beziehungsweise vom Service--Anbieter angeboten wird.
+jeweiligen Applikation beziehungsweise vom Dienstanbieter angeboten wird.
 
 ### YubiKey als Smartcard {#sec:SEC08_YUBIKEY_ALS_SMARTCARD}
 
