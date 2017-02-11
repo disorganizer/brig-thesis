@@ -1435,12 +1435,12 @@ Date:   Thu Dec 15 16:23:02 2016 +0100
 #### GitHub--Plattform
 
 Um sich als Entwickler, beispielsweise sicher gegenüber der GitHub--Plattform
-zu authentifizieren, bietet die GitHub--Plattform Universal--2--Faktor an,
-welches auch mit dem YubiKey genutzt werden kann[^FN_GITHUB_U2F].
+zu authentifizieren, bietet die GitHub--Plattform Universal--Zwei--Faktor--Authentifizierung an,
+welche auch mit dem YubiKey genutzt werden kann[^FN_GITHUB_U2F].
 
 [^FN_GITHUB_U2F]: GitHub--U2F: <https://github.com/blog/2071-github-supports-universal-2nd-factor-authentication>
 
-Für diesen Einsatzzweck muss *Universal--2--Faktor* auf dem YubiKey aktiviert
+Für diesen Einsatzzweck muss Universal--Zwei--Faktor--Authentifizierung (U2F) auf dem YubiKey aktiviert
 sein, dies kann nach dem Anstecken des YubiKey mit `dmesg` validiert werden:
 
 ~~~sh

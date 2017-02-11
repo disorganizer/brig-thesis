@@ -451,7 +451,7 @@ zu den Cloud--Speicher--Anbietern nur wenige Produkte, welche für die
 Synchronisation von Daten beziehungsweise den Austausch von Dokumenten
 eingesetzt werden können. Bekannten Lösungen sind:
 
-* Resilio (ehem. BitTorrent-Sync, proprietär)
+* Resilio (ehem. BitTorrent--Sync, proprietär)
 * Infinit (proprietär, [@quintard2012towards])
 * git--annex (Open--Source)
 * Syncthing (Open--Source)
