@@ -459,16 +459,16 @@ Referenz hergenommen werden.
 ![Authentifizierung auf Basis des Web of Trust.](images/web-of-trust.png){#fig:img-web-of-trust width=100%}
 
 Eine weitere Möglichkeit einer Authentifizierung ist auf Basis des
-*Web of Trust*.  Dieses beschreibt einen typischen dezentralen PKI--Ansatz,
+Web of Trust.  Dieses beschreibt einen typischen dezentralen PKI--Ansatz,
 welcher aktuell mittels der GnuPG--Software umgesetzt wird.
 Die *IPFS--ID* kann hierbei mit dem privaten Schlüssel signiert werden und über das
-»Web of Trust--Overlay--Network« von den jeweiligen Benutzer validiert
+Web--of--Trust--Overlay--Network von den jeweiligen Benutzer validiert
 werden. [@fig:img-web-of-trust] stellt das Konzept grafisch dar.
 
 Die Authentifizierung von Kommunikationspartnern ist für den Benutzer keine
 triviale Aufgabe. Die in [@fig:img-web-of-trust] dargestellte Situation stellt
-jedoch eine ideale Sichtweise des *Web of Trust*--Vertrauensmodells dar. Das
-Vertrauen zwischen den verschiedenen Parteien des *Web of Trust* ist nicht
+jedoch eine ideale Sichtweise des Web--of--Trust--Vertrauensmodells dar. Das
+Vertrauen zwischen den verschiedenen Parteien des Web of Trust ist nicht
 generell übertragbar, da es lediglich auf Empfehlungen einzelner Individuen
 basiert (vgl. [@pgp-trust-model]). »A Probabilistic Trust Model for GnuPG«
 stellt eine interessante wahrscheinlichkeitstheoretische Erweiterung des
@@ -476,12 +476,12 @@ klassischen Vertrauensmodells dar (vgl. [@gpg-probabilistic]).
 
 **Kurze Erläuterung:**
 
-1. *Alice* und *Bob* sind Teilnehmer des *Web of Trust*, ihre öffentlichen Schlüssel
+1. *Alice* und *Bob* sind Teilnehmer des Web of Trust, ihre öffentlichen Schlüssel
    sind von weiteren Personen (Freunden) signiert.
 2. *Alice* und *Bob* signieren ihre *IPFS--ID* vor dem Austausch mit dem jeweiligen
    Synchronisationspartner.
 3. *Alice* und *Bob* beschaffen sich den öffentlichen Schlüssel des
-   Synchronisationspartners aus dem *Web of Trust*, um damit die Signatur der *IPFS--ID* damit zu prüfen.
+   Synchronisationspartners aus dem Web of Trust, um damit die Signatur der *IPFS--ID* damit zu prüfen.
 4. Da die öffentlichen Schlüssel der jeweiligen Parteien bereits von anderen
    vertrauenswürdigen Parteien unterschrieben sind, akzeptieren beide
    Synchronisationspartner die Signatur und somit die *IPFS--ID*.
@@ -493,7 +493,7 @@ Krypto--Kampagne[^FN_CTCRYPTO], kann das Vertrauen in die Identität einer Parte
 weiter erhöht werden.
 
 Wissenschaftliche Untersuchungen haben weiterhin ergeben, dass ein Großteil der
-*Web of Trust*--Teilnehmer zum sogenanntem *Strong Set* gehören. Diese Teilmenge
+Web--of--Trust--Teilnehmer zum sogenanntem *Strong Set* gehören. Diese Teilmenge
 repräsentiert Benutzer/Schlüssel welche durch gegenseitige Bestätigung
 vollständig miteinander verbunden sind. Projekte wie die c't Krypto--Kampagne
 oder auch das *Debian*--Projekt sollen hierzu einen deutlichen Beitrag
@@ -1219,7 +1219,7 @@ Schlüsselbund gelöscht werden. Dies kann mit ` gpg --delete-secret-keys
 E9CD5AB4075551F6F1D6AE918219B30B103FB091` erledigt werden. Wird der
 Hauptschlüssel gelöscht, so erscheint beim Hauptschlüssel das »**#**«--Symbol, um
 anzuzeigen, dass es sich nur um einen *Stub* handelt. Anschließend können die
-neuen öffentlichen Unterschlüssel dem *Web of Trust* mit `gpg2 --send-keys
+neuen öffentlichen Unterschlüssel dem Web of Trust mit `gpg2 --send-keys
 E9CD5AB4075551F6F1D6AE918219B30B103FB091` bekannt gemacht werden.
 
 Anschließend sollte noch die Standard--PIN `123456` und die
