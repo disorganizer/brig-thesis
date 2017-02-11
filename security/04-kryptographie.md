@@ -312,7 +312,7 @@ mehrere Anwendungen.
 
 Die Situation lässt sich jedoch auf recht einfache Art und Weise durch den
 Einsatz eines zusätzlichen *Authentifizierungsfaktors* verbessern. Diese Art der
-Authentifizierung wird Zwei--Faktor-- oder auch Mehr--Faktor--Authentifizierung
+Authentifizierung wird Multi--Faktor-- oder auch im speziellen Zwei--Faktor--Authentifizierung
 genannt. Als zweiter *Faktor* kann beispielsweise ein biometrisches Merkmal
 verwendet werden. Eine weitere Form der Zwei--Faktor--Authentifizierung wäre
 beispielsweise die Chipkarte der Bank. Hierbei wird einerseits die *PIN* (etwas
