@@ -581,26 +581,26 @@ Entwicklers[^FN_LIBREVAULT_BLOG] zu finden.
 
 [^FN_LIBREVAULT_BLOG]: Librevault Entwicklerblog: <https://librevault.com/blog/>
 
-**git--annex** ist ein sehr stark am *git*--Versionsverwaltungssystem
+**git--annex** ist ein sehr stark am git--Versionsverwaltungssystem
 orientiertes Synchronisationswerkzeug. Prinzipiell ist es für die Kommandozeile
 entwickelt worden, es existiert mittlerweile jedoch ein *Webfrontend* (Webapp).
 
-*git--annex* verwaltet nur die Metadaten in *git*. Es funktioniert als
-*git*--Aufsatz, welcher es dem Benutzer ermöglicht, auch große binäre Dateien
-mittels *git* zu verwalten, beziehungsweise zu synchronisieren. Zum
-Synchronisieren der Metadaten wird *git* verwendet, zum Synchronisieren der
+*git--annex* verwaltet nur die Metadaten in git. Es funktioniert als
+git--Aufsatz, welcher es dem Benutzer ermöglicht, auch große binäre Dateien
+mittels git zu verwalten, beziehungsweise zu synchronisieren. Zum
+Synchronisieren der Metadaten wird git verwendet, zum Synchronisieren der
 eigentlichen Daten wird *git--annex* genutzt. Es überträgt die Daten
-verschlüsselt mit *rsync über ssh*. Mittels der *git*--Erweiterung
-*gcrypt*[^FN_GCRYPT] ist es möglich, vollständig verschlüsselte »*git*--remotes«
+verschlüsselt mit *rsync über ssh*. Mittels der git--Erweiterung
+*gcrypt*[^FN_GCRYPT] ist es möglich, vollständig verschlüsselte »git--remotes«
 anzulegen.
 
 [^FN_GCRYPT]: *gcrypt* git addon: <https://spwhitton.name/tech/code/git-remote-gcrypt/>
 
-Neben normalen *git*--Repositories werden sogenannte »Special
+Neben normalen git--Repositories werden sogenannte »Special
 Remotes«[^FN_GIT_ANNEX_SPECIALREMOTES] unterstützt. Diese werden verwendet, um
-Daten auf ein System, auf welchem *git* nicht installiert ist, zu synchronisieren.
+Daten auf ein System, auf welchem git nicht installiert ist, zu synchronisieren.
 
-Neben der Verschlüsselung von *git*--remotes mit *gcrypt* gibt es auch die
+Neben der Verschlüsselung von git--remotes mit *gcrypt* gibt es auch die
 Möglichkeit, die Daten auf *special remotes* zu verschlüsseln. Hierfür gibt es
 die vier Verfahren:
 

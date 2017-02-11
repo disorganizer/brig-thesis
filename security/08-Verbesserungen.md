@@ -1412,7 +1412,7 @@ ein, so signalisiert das Label eine verifizierte Signatur des jeweiligen
 wurde.](images/signed2.png){#fig:img-signed width=70%}
 
 Auf der Kommandozeile kann eine *Signatur* einfach mit der
-`--show-signature`--Option von *git* angezeigt werden (gekürzte Ausgabe):
+`--show-signature`--Option von git angezeigt werden (gekürzte Ausgabe):
 
 ~~~sh
 # git log --show-signature
