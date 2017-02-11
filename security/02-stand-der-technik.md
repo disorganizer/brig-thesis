@@ -228,7 +228,7 @@ Access Content*[^FN_USENIX].
 	<https://www.usenix.org/conference/woot13/workshop-program/presentation/kholia>
 
 2015 wurde bekannt, dass die vorherrschenden Cloud--Speicher--Anbieter für
-sogenannte »Man--In--The--Cloud«--Angriffe anfällig sind. Die bereits im Jahr
+sogenannte »Man--in--the--Cloud«--Angriffe anfällig sind. Die bereits im Jahr
 2011 entdeckten Schwächen bei der Authentifizierung von Dropbox sind
 weiterhin präsent und auch auf andere Cloud--Speicher--Anbieter übertragbar. Um
 die Client--Software gegenüber dem Cloud--Speicher--Dienst zu authentifizieren,
@@ -236,7 +236,7 @@ werden wie auch bei Dropbox, Authentifizierungs--Token verwendet. Für den
 Angriff haben die Forscher ein sogenanntes »Switcher«--Programm entwickelt,
 welches in der Lage ist, ein Authentifizierungs--Token auf dem Computer des
 potentiellen Opfers auszutauschen. [@fig:img-mitc] zeigt den Ablauf eines
-möglichen »Man--In--The--Cloud«--Angriffs.
+möglichen »Man--in--the--Cloud«--Angriffs.
 
 ![»Quick Double Switch Attack Flow«--Man--in--the--Cloud--Angriff. Die Buchstaben a, b, c und d repräsentieren dabei jeweils die Synchronisationsvorgänge.](images/mitc.png){#fig:img-mitc width=80%}
 

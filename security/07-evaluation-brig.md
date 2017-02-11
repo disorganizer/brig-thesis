@@ -635,7 +635,7 @@ Verbindung zwischen zwei Synchronisationspartnern.
 **Einschätzung**: Der Aufbau der verschlüsselten Verbindung setzt eine
 vorherige Authentifizierung des jeweiligen Synchronisationspartner voraus. Wäre
 dieser nicht authentifiziert, so wäre in diesem Fall ein
-*Man--In--The--Middle*--Angriff denkbar. Weiterhin wäre bei der aktuellen
+Man--in--the--Middle--Angriff denkbar. Weiterhin wäre bei der aktuellen
 Implementierung ein Replay--Angriff wahrscheinlich möglich, da die *freshness*
 der Nonce nicht gegeben ist (vgl. [@martin2012everyday], S. 259 ff.).
 

@@ -1554,8 +1554,8 @@ gpg/card> quit
 # YubiCloud Zwei--Faktor--Authentifizierung {#sec:APP_YUBICLOUD_AUTHENTIFIZIERUNG}
 
 Das folgende Code--Snippet zeigt nur eine vereinfachte
-Proof--of--Concept--Implementierung. Im Produktivcode müssten beispielsweise
-Daten wie Passwort und YubikeyID mit mittels einer Passwortableitungfunktion
+Proof--of--Concept--Implementierung. Im Produktiv--Code müssten beispielsweise
+Daten wie Passwort und YubikeyID mittels einer Passwortableitungsfunktion
 verwaltet werden.
 
 ~~~go
