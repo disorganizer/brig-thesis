@@ -354,7 +354,7 @@ beiden Systemen ist ein starker Geschwindigkeitseinbruch unter Verwendung von
 Verschlüsselung zu verzeichnen. Betrachtet man die tatsächliche Geschwindigkeit
 beim Lesen und Schreiben auf die Festplatte mit dem
 `dd`--Kommandozeilen--Werkzeug ([@tbl:TAB_HIGH_SYS] ), so fällt weiterhin auf,
-dass bei den beiden Systemen die Verschlüsselung und nicht die »langsame«
+dass bei den beiden Systemen die Verschlüsselung und nicht die langsame
 Festplatte der limitierende Faktor ist. Auffällig ist auch, dass das
 Intel--Atom--System ohne SSE2--Optimierungen schneller ist.
 
@@ -412,7 +412,7 @@ besser als AES/GCM geeignet zu sein.
 ## Metadatenverschlüsselung {#sec:SEC07_METADATENVERSCHLUESSELUNG}
 
 Neben den Nutzdaten, die von IPFS verwaltet werden, werden weiterhin die
-sogenannten »Stores« verschlüsselt. Diese beinhalten den Metadatenstand der
+sogenannten Stores verschlüsselt. Diese beinhalten den Metadatenstand der
 jeweiligen Synchronisationspartner.
 
 Folgend ist die Struktur eines neu initialisierten »brig«--Repositories (vgl.
@@ -533,7 +533,7 @@ Bibliothek, im Vergleich zu den getesteten Konkurrenten, in ihrer
 Funktionsweise als akkurater bezeichnet. Eine Schwäche, welche bei den
 Entropie--Schätzungswerkzeugen auftritt, ist, dass diese ohne Basis eines
 Wörterbuchs arbeiten und somit bei Zeichenketten Brute--Force als schnellsten
-Angriff annehmen. Weiterhin ist die Schätzung einer »sicheren Entropie«
+Angriff annehmen. Weiterhin ist die Schätzung einer sicheren Entropie
 schwierig, da diese stark vom Angriffsszenario abhängt. Die Schätzspanne für
 ein sicheres Passwort liegt zwischen 29 Bit (Online--Passwörter) -- 128 Bit
 oder mehr (Sicherung kryptographischer
@@ -545,7 +545,7 @@ Wie bereits unter Punkt Passwortmanagement,
 @sec:SEC05_BEURTEILUNG_VON_SICHERHEIT erwähnt, ist der Einsatz von Passwörtern
 problematisch. In dem Berichten von *Bruce Schneier* und *Dan Goodin* wird
 erwähnt, dass heutzutage mit modernen Methoden und moderner Hardware auch
-Passwörter, die bisher von vielen Benutzern als »hinreichend sicher« angesehen
+Passwörter, die bisher von vielen Benutzern als hinreichend sicher angesehen
 waren, nicht mehr verwendet werden sollten. Dazu gehören insbesondere
 Passwörter, bei welchen Buchstaben durch Sonderzeichen oder Zahlen ausgetauscht
 wurden. Tabelle @tbl:TAB_PASSWD listet einen Teil der Passwörter, die laut *Bruce

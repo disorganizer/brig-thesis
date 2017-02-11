@@ -95,7 +95,7 @@ Betriebsarten zu besserem Verständnis:
 Klartextblöcke unabhängig voneinander verschlüsselt. Dies hat den Nachteil,
 dass gleiche Klartextblöcke immer gleiche Geheimtextblöcke, bei Verwendung
 des gleichen Schlüssels, ergeben. [@fig:img-ecbvschaining] zeigt eine
-»Schwäche« dieses Verfahrens.
+Schwäche dieses Verfahrens.
 
 ![Bild zur graphischen Verdeutlichung des ECB--Modus im Vergleich zu einem block chaining cipher.[^FN_TUX_ECB]](images/ecbvschaining.png){#fig:img-ecbvschaining width=80%}
 
@@ -138,7 +138,7 @@ Standard)*, welcher eine effektive Schlüssellänge von 56  Bit hatte, war Ende
 der 90er--Jahre nicht mehr ausreichend sicher gegen Brute--Force--Angriffe.
 In einer öffentlichen Ausschreibung wurde ein Nachfolger, der Advanced
 Encryption Standard (kurz AES) bestimmt. Gewinner des Wettbewerbs sowie der
-heutige »Quasistandard« wurde der Rijndael--Algorithmus.
+heutige Quasistandard wurde der Rijndael--Algorithmus.
 
 Neben dem bekanntem *AES (Rijndael)*--Algorithmus, gibt es noch weitere
 Algorithmen, die heutzutage Verwendung finden. Zu den AES--Finalisten gehören
@@ -307,7 +307,7 @@ Authentifizierungsmechanismen.
 Die Problematik mit den Passwörtern kennt heutzutage jedes Unternehmen. Sind
 die Passwort--Richtlinien zu kompliziert, werden die Passwörter oft von
 Benutzern aufgeschrieben. Gibt es keine Passwort--Richtlinien, dann verwenden
-Menschen oft schwache Passwörter, oft auch das gleiche »einfache« Passwort für
+Menschen oft schwache Passwörter, oft auch das gleiche einfache Passwort für
 mehrere Anwendungen.
 
 Die Situation lässt sich jedoch auf recht einfache Art und Weise durch den

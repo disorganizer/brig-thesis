@@ -14,7 +14,7 @@ der Softwareentwicklungsprozess gewissen Mindestanforderungen genügen.
 Die Usability von Software ist teilweise subjektiv und ist stark von dem
 Erfahrungshorizont des Nutzers abhängig. Unter Usability ist im Allgemeinen die
 Gebrauchstauglichkeit/Benutzerfreundlichkeit[^FN_BENUTZERFREUNDLICHKEIT][^FN_GEBRAUCHSTAUGLICHKEIT]
-eines Systems zu verstehen. Bereits bekannte Konzepte werden oft als »intuitiv«
+eines Systems zu verstehen. Bereits bekannte Konzepte werden oft als intuitiv
 empfunden, neue Konzepte hingegen oft nur mühsam vom Benutzer angenommen. Die
 Umstellung des »User Interfaces« von Windows 7 zu Windows 8 (vgl.
 [@nielsen2012windows]) ist hierfür ein gutes Beispiel.
@@ -55,7 +55,7 @@ verschlüsselt sein.
 ## Sicherheit {#sec:SEC03_SICHERHEIT}
 
 Wie bereits unter [@sec:SEC02_DER_SICHERHEITSBEGRIFF] erwähnt, ist Sicherheit
-ein sehr weitläufiger Begriff und stark von einem bestimmten »Angriffsszenario«
+ein sehr weitläufiger Begriff und stark von einem bestimmten Angriffsszenario
 abhängig.
 
 Eine Software zur dezentralen Dateiverteilung benötigt Sicherheitskonzepte

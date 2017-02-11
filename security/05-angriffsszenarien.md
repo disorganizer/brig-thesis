@@ -40,12 +40,12 @@ es nicht für jeden Anwendungsfall eine konkrete Empfehlung geben kann. Manchmal
 muss auch zwischen Sicherheit und Geschwindigkeit abgewogen werden. Ein
 Beispiel hierfür wäre die Abwägung ob man Betriebsmodi verwendet, die
 Authentifikation und Verschlüsselung unterstützen, wie beispielsweise GCM, oder
-doch besser eine »Encrypt--than--MAC«--Komposition (vgl. auch [@encryptthanmac]). Weiterhin macht die Kryptoanalyse Fortschritte und kommt beispielsweise zu neuen Erkenntnissen[^FN_PRIME_BACKDOOR], dass Primzahlen Hintertüren enthalten können.
+doch besser eine Encrypt--than--MAC--Komposition (vgl. auch [@encryptthanmac]). Weiterhin macht die Kryptoanalyse Fortschritte und kommt beispielsweise zu neuen Erkenntnissen[^FN_PRIME_BACKDOOR], dass Primzahlen Hintertüren enthalten können.
 
 [^FN_PRIME_BACKDOOR]: Cryptanalysis of 1024-bit trapdoored primes: <http://caramba.inria.fr/hsnfs1024.html>
 
 Ein weiteres Beispiel welches die Komplexität der Lage darstellt, ist eine
-aktuelle Warnung vom BSI[^FN_BSI_NORTON] bei welcher »Sicherheitssoftware«
+aktuelle Warnung vom BSI[^FN_BSI_NORTON] bei welcher Sicherheitssoftware
 aufgrund von gravierenden Sicherheitslücken als Einfallstor für Schadsoftware
 missbraucht werden kann.
 
@@ -57,7 +57,7 @@ Laut [@martin2012everyday], S. 10 f. ist es in der Regel eine Abwägung zwischen
 Risikofaktoren und finanziellem sowie zeitlichem Aufwand. Es macht so gesehen
 keinen Sinn, mehrere Millionen Euro in ein Softwareprodukt zu investieren,
 welches beispielsweise nur Daten im Wert von ein paar tausend Euro schützt.
-Weiterhin ist es auch wichtig »realistische« Gefahren zu identifizieren und
+Weiterhin ist es auch wichtig realistische Gefahren zu identifizieren und
 nicht unnötig Ressourcen in sicherheitstechnische Details zu investieren.
 
 ## Angriffsfläche bei »brig« {#sec:SEC05_ANGRIFFSFLAECHE_BEI_BRIG}
@@ -134,7 +134,7 @@ das Ausspähen kryptographischer Schlüssel entwickelt.
 
 **Authentifizierung:** Wie weiss der Benutzer, dass sein Kommunikationspartner
 der ist für den er sich ausgibt? Hier sollen mögliche Konzepte erarbeitet
-werden, um Angriffe durch »fremde« Kommunikationspartner identifizieren zu können.
+werden, um Angriffe durch fremde Kommunikationspartner identifizieren zu können.
 
 **Softwareverteilung:** Der Benutzer muss sicherstellen
 können, dass die aus dem Internet bezogene Open--Source--Software keine Malware
@@ -143,4 +143,4 @@ bekannte Sicherheitslücken zu schließen.
 
 **Entwicklungsumgebung bei Open--Source--Projekten:**  Wie können
 Softwareentwickler das Risiko von unerwünschten Manipulationen am eigenen
-Projekt minimieren? Wie sichern Softwareentwickler ihren »Arbeitsprozess« ab?
+Projekt minimieren? Wie sichern Softwareentwickler ihren Arbeitsprozess ab?

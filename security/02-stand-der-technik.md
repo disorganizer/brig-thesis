@@ -13,17 +13,17 @@ hierzu, vgl. [@peer2peer], S. 232 ff.
 
 ### Der »Sicherheitsbegriff« {#sec:SEC02_DER_SICHERHEITSBEGRIFF}
 
-Betrachten man die »Sicherheit« von Dateiverteilungssystemen, so müssen
+Betrachtet man die Sicherheit von Dateiverteilungssystemen, so müssen
 verschiedene Teilaspekte betrachten werden. Leider ist das Umfeld der
 Sicherheit sehr groß und die Begrifflichkeiten nicht immer eindeutig definiert.
-In der Fachliteratur (vgl. [@pauly2004netzwerk], S. 21 f.) spricht man bei »Sicherheit«
+In der Fachliteratur (vgl. [@pauly2004netzwerk], S. 21 f.) spricht man bei Sicherheit
 oft von den folgenden fünf Sicherheitsaspekten:
 
-* Vertraulichkeit: Schutz der Daten vor Zugriff durch Dritte.
-* Integrität: Schutz der Daten vor Manipulation.
-* Authentifizierung: Eindeutige Identifikation von Benutzern.
-* Autorisierung: Definiert die Zugangs-- und Zugriffssteuerung auf Dienste.
-* Verfügbarkeit: Dienste stehen legitimen Benutzern tatsächlich zur Verfügung.
+* *Vertraulichkeit:* Schutz der Daten vor Zugriff durch Dritte.
+* *Integrität:* Schutz der Daten vor Manipulation.
+* *Authentifizierung:* Eindeutige Identifikation von Benutzern.
+* *Autorisierung:* Definiert die Zugangs-- und Zugriffssteuerung auf Dienste.
+* *Verfügbarkeit:* Dienste stehen legitimen Benutzern tatsächlich zur Verfügung.
 
 Dies sind auch die Sicherheitsaspekte, die bei der Verwendung von
 Cloud--Speicher--Anbietern zu tragen kommen. Zur Umsetzung der genannten
@@ -37,7 +37,7 @@ werden muss.
 
 Die Sicherheit eines System lässt sich nicht mit einem einfachen »ja« oder
 »nein« beantworten. Betrachtet man ein System bezüglich seiner Sicherheit, so
-muss auch genau definiert werden, gegen welches »Angriffsszenario« ein System
+muss auch genau definiert werden, gegen welches Angriffsszenario ein System
 sicher ist. Auch ein System das aus kryptographischer Sicht als »sicher« zu
 betrachten wäre, kann im einfachsten Fall, durch die Weitergabe von
 Zugangsdaten an Dritte, kompromittiert werden.
@@ -103,7 +103,7 @@ Benutzerverwaltung und die Möglichkeiten beim Synchronisieren sind, ist von dem
 jeweiligen Cloud--Speicher--Anbieter abhängig.
 
 Mittlerweile werben die Anbieter mit »starker Verschlüsselung« und dass die
-Daten in der »Cloud« »sicher« sind. Spätestens seit den Snowden--Enthüllungen
+Daten in der Cloud »sicher« sind. Spätestens seit den Snowden--Enthüllungen
 ist es jedoch klar, dass die Anbieter dazu gezwungen werden können die Daten
 eines Benutzers herauszugeben (vgl. [@bibgreenwald2013nsa]).
 
@@ -192,7 +192,7 @@ Authentifizierungsmechanismus von Dropbox kritisiert. Nach einmaligem
 Registrieren und Einrichten des Dropbox--Client, werden für die
 Synchronisation keine weiteren Zugangsdaten mehr benötigt. Der
 Authentifizierungsmechanismus benötigt nur ein sogenanntes
-»Authentifizierungs--Token« (diese wird dem Client nach der Registrierung vom
+Authentifizierungs--Token (diese wird dem Client nach der Registrierung vom
 Server zugewiesen), die sogenannte `HOST_ID`. Mit dieser authentifiziert sich
 der Dropbox--Client bei zukünftigen Synchronisationsvorgängen gegenüber dem
 Dropbox--Dienst.
@@ -218,7 +218,7 @@ benötigt, welcher ebenfalls vom Client--PC extrahiert werden kann.
 Mittels dieser beiden Werte kann die Zwei--Faktor--Authentifizierung (2FA), wie
 sie von Dropbox implementiert ist, umgangen werden. Die Client--API verwendet
 anscheinend keine Zwei--Faktor--Authentifizierung. Darüber hinaus lassen sich auf Basis
-der beiden  Parameter sogenannte »Autologin--URLs« generieren. Den Forschern ist
+der beiden  Parameter sogenannte Autologin--URLs generieren. Den Forschern ist
 es auch gelungen, einen Open--Source--Prototypen zu entwickeln. Für weitere
 Details vgl. [@kholia2013looking], beziehungsweise siehe Vortag *USENIX Open
 Access Content*[^FN_USENIX].
@@ -228,30 +228,30 @@ Access Content*[^FN_USENIX].
 	<https://www.usenix.org/conference/woot13/workshop-program/presentation/kholia>
 
 2015 wurde bekannt, dass die vorherrschenden Cloud--Speicher--Anbieter für
-sogenannte »Man--in--the--Cloud«--Angriffe anfällig sind. Die bereits im Jahr
+sogenannte Man--in--the--Cloud--Angriffe anfällig sind. Die bereits im Jahr
 2011 entdeckten Schwächen bei der Authentifizierung von Dropbox sind
 weiterhin präsent und auch auf andere Cloud--Speicher--Anbieter übertragbar. Um
 die Client--Software gegenüber dem Cloud--Speicher--Dienst zu authentifizieren,
 werden wie auch bei Dropbox, Authentifizierungs--Token verwendet. Für den
-Angriff haben die Forscher ein sogenanntes »Switcher«--Programm entwickelt,
+Angriff haben die Forscher ein sogenanntes Switcher--Programm entwickelt,
 welches in der Lage ist, ein Authentifizierungs--Token auf dem Computer des
 potentiellen Opfers auszutauschen. [@fig:img-mitc] zeigt den Ablauf eines
-möglichen »Man--in--the--Cloud«--Angriffs.
+möglichen Man--in--the--Cloud--Angriffs.
 
-![»Quick Double Switch Attack Flow«--Man--in--the--Cloud--Angriff. Die Buchstaben a, b, c und d repräsentieren dabei jeweils die Synchronisationsvorgänge.](images/mitc.png){#fig:img-mitc width=80%}
+![Quick Double Switch Attack Flow--Man--in--the--Cloud--Angriff. Die Buchstaben a, b, c und d repräsentieren dabei jeweils die Synchronisationsvorgänge.](images/mitc.png){#fig:img-mitc width=80%}
 
-1. Der Angreifer platziert den »Switcher« auf dem Rechner des Opfers
+1. Der Angreifer platziert den Switcher auf dem Rechner des Opfers
    (beispielsweise mittels Social Engineering oder Phishing--Methoden)
-2. Der »Switcher« ändert den Token des Benutzers. Hierbei wird der
+2. Der Switcher ändert den Token des Benutzers. Hierbei wird der
    Synchronisationssoftware der Token vom Angreifer »injiziert« (first switch)
    und anschließend der Orignal--Token vom Opfer in den nun vom Angreifer
    kontrollierten Synchronisationsordner kopiert.  (a) wird inaktiv, (b) wird
    aktiv.
 3. Die Synchronisationssoftware synchronisiert nun den Token des Opfers zum
    Angreifer (b).
-4. Der Angreifer kann sich nun mittels des »gestohlenen« Token mit dem Account
+4. Der Angreifer kann sich nun mittels des gestohlenen Token mit dem Account
    des Opfers synchronisieren (c).
-5. Anschließend wird der »Switcher« noch einmal ausgeführt, um beim Opfer
+5. Anschließend wird der Switcher noch einmal ausgeführt, um beim Opfer
    wieder den ursprünglichen Synchronisationszustand herzustellen (second switch).
 
 Der Ablauf in [@fig:img-mitc] zeigt den »Quick Double Switch Attack Flow«. Im
@@ -286,7 +286,7 @@ auf den ersten Blick als »sicherer« erscheinen mag, widerspricht Sie dem
 Kerckhoffs’schen Prinzip, bei welchem die Sicherheit eines System nur von der
 Geheimhaltung des Schlüssels, jedoch nicht von der Geheimhaltung weiterer
 Systemelemente abhängen sollte. Die Vergangenheit hat beispielsweise beim
-GSM--Standard oder beim DVD--Kopierschutz »CSS«[^FN_CSS] gezeigt, dass durch die
+GSM--Standard oder beim DVD--Kopierschutz CSS[^FN_CSS] gezeigt, dass durch die
 Geheimhaltung von Systemkomponenten erfolgreiche Angriffe, höchstens erschwert,
 jedoch nicht unterbunden werden können (vgl. [@2009understanding], S. 11 und
 [@ertel2012angewandte], S. 23).
@@ -364,7 +364,7 @@ seiner Webseite[^FN_HAVEIBEENBWNED].
 ### Private Cloud {#sec:SEC02_PRIVATE_CLOUD}
 
 Weiterhin gibt es bei der Cloud--Speicher--Lösung auch die Möglichkeit, einen
-eigenen »Cloud--Speicher« aufzusetzen. Hierfür wird oft die
+eigenen Cloud--Speicher aufzusetzen. Hierfür wird oft die
 Open--Source--Lösung Owncloud genommen. Der Nachteil hierbei ist, dass der
 Benutzer selbst für die Bereitstellung der Infrastruktur verantwortlich ist.
 Für Unternehmen mag die Owncloud durchaus interessant sein, für die meisten
@@ -392,15 +392,15 @@ Architektur realisierbar.
 
 Bei der Nutzung eines dezentralen Netzwerks zum Austausch beziehungsweise zur
 Synchronisation von Daten muss der Benutzer in der Regel eine spezielle
-Software installieren und einen »Synchronisationsordner«, wie bei den zentralen
-Diensten definieren. Dieser Ordner wird dem Netzwerk »bekannt« gemacht. Je
+Software installieren und einen Synchronisationsordner, wie bei den zentralen
+Diensten definieren. Dieser Ordner wird dem Netzwerk bekannt gemacht. Je
 nach eingesetztem Protokoll, variiert die Funktionsweise und Sicherheit.
 
-![Dezentraler Datenaustausch über Peer--to-Peer--Kommunikation. Es existiert keine zentrale Instanz, jeder Peer im Netzwerk ist »gleichberechtigt«.](images/p2p.png){#fig:img-p2p width=80%}
+![Dezentraler Datenaustausch über Peer--to-Peer--Kommunikation. Es existiert keine zentrale Instanz, jeder Peer im Netzwerk ist gleichberechtigt.](images/p2p.png){#fig:img-p2p width=80%}
 
 Die dezentralen Systeme unterliegen in der Regel keiner Regulierung durch eine
 zentrale Instanz. Je nach verwendeter Technologie zum Datenaustausch,
-existieren sogenannte »rendezvous hosts«[^FN_RENDEZVOUS_HOST], welche für die
+existieren sogenannte rendezvous hosts[^FN_RENDEZVOUS_HOST], welche für die
 initiale Konfiguration und als »Einstiegspunkt« benötigt werden. Hier
 unterscheiden sich die verschiedenen Protokolle und Netzwerke voneinander.
 
@@ -418,7 +418,7 @@ Spieleherstellern und auch anderen Anwendungen zum Einsatz[^FN_BTUSAGE].
 [^FN_BTUSAGE]: BitTorrent Einsatzgebiete: <https://en.wikipedia.org/w/index.php?title=BitTorrent&oldid=761280798#Adoption>
 
 Ein Vorteil bei den dezentralen Systemen ist, dass es im Vergleich zu zentralen
-Architekturen keinen »Single Point Of Failure«[^FN_SPOF] gibt. Ein weiterer
+Architekturen keinen Single Point Of Failure[^FN_SPOF] gibt. Ein weiterer
 Unterschied zur zentralen Lösung ist bei dezentralen Netzwerken der
 »Datenfluss«. Die Daten werden nicht von einer zentralen Instanz »besorgt«,
 sondern liegen im jeweiligen Netzwerk, verteilt auf die Netzwerkteilnehmer
@@ -478,14 +478,14 @@ laut Hersteller zusätzlich symmetrisch mit AES--128 (siehe
 @sec:SEC04_SYMMETRISCHE_VERSCHLUESSELUNGSVERFAHREN) verschlüsselt übertragen.
 Die getestete Version entspricht der Standardversion welche kostenfrei
 benutzbar ist, jedoch nur einen eingeschränkten Funktionsumfang bietet.
-Weiterhin gibt es eine »Pro«--Version welche »selektive und kollaborative
+Weiterhin gibt es eine Pro--Version welche »selektive und kollaborative
 Synchronisation« ermöglicht.
 
 [^FN_RESILIO_PROTOCOL]:Inoffizielle Protokoll--Spezifikation <https://forum.resilio.com/topic/21338-inofficial-protocol-specification/>
 
-Bei Resilio (Webbasierte GUI[^FN_GUI]) werden Daten mittels verschiedener »Schlüssel«
+Bei Resilio (Webbasierte GUI[^FN_GUI]) werden Daten mittels verschiedener Schlüssel
 synchronisiert. Beim Anlegen eines Synchronisationsordners erscheinen dem
-Benutzer folgende »Schlüssel«, über welche er den Synchronisationsordner mit
+Benutzer folgende Schlüssel, über welche er den Synchronisationsordner mit
 anderen Synchronisationspartnern teilen kann. Anhand des gewählten Schlüssels,
 wird folgende Funktionalität beim Synchronisieren realisiert:
 
@@ -524,7 +524,7 @@ anhand von Benutzernamen/E--Mail statt. Daten werden lokal nicht verschlüsselt.
 
 **Syncthing** basiert auf einem eigens entwickeltem Protokoll, dem Block
 Exchange Protocol[^FN_BEP]. Der Syncthing--Client (Web--GUI Variante)
-ermöglicht das Hinzufügen von Synchronisationsordner und »Remote Devices«.
+ermöglicht das Hinzufügen von Synchronisationsordner und Remote Devices.
 Diese GUI ist standardmäßig von außen nicht zugreifbar, da sie auf »localhost
 only« läuft.
 
@@ -591,7 +591,7 @@ mittels git zu verwalten, beziehungsweise zu synchronisieren. Zum
 Synchronisieren der Metadaten wird git verwendet, zum Synchronisieren der
 eigentlichen Daten wird git--annex genutzt. Es überträgt die Daten
 verschlüsselt mit rsync über ssh. Mittels der git--Erweiterung
-gcrypt[^FN_GCRYPT] ist es möglich, vollständig verschlüsselte »git--remotes«
+gcrypt[^FN_GCRYPT] ist es möglich, vollständig verschlüsselte git--remotes
 anzulegen.
 
 [^FN_GCRYPT]: gcrypt git addon: <https://spwhitton.name/tech/code/git-remote-gcrypt/>
@@ -608,10 +608,10 @@ die vier Verfahren:
   key«  verschlüsselt im Repository gespeichert.
 * **shared encryption:** Gemeinsamer »shared key« wird im Klartext im
   Repository gespeichert.
-* **public key encryption:** Hierbei wird der »Public--Key« verwendet, zum
+* **public key encryption:** Hierbei wird der »public key« verwendet, zum
   Entschlüsseln benötigt man den »private key«.
-* **shared public key encryption:** Wie beim »Public--Key«--Verfahren, jedoch
-  nur Besitzer des geheimen Schlüssel dürfen die Daten von einem »special remote« beziehen.
+* **shared public key encryption:** Wie beim »public key«--Verfahren, jedoch
+  nur Besitzer des geheimen Schlüssel dürfen die Daten von einem special remote beziehen.
 
 [^FN_GIT_ANNEX_SPECIALREMOTES]: git--annex special remotes: <https://git-annex.branchable.com/special_remotes/>
 [^FN_GIT_ANNEX_ENCRYPTION]: git--annex encryption: <http://git-annex.branchable.com/design/encryption/>
@@ -761,25 +761,25 @@ vergleichbar?
 
 Die eigene Privatsphäre aus der »Ich habe nichts zu verbergen«--Perspektive zu
 betrachten, ist ein diskussionswürdiger Ansatz. Es geht bei der Privatsphäre nicht
-darum, irgend etwas »Illegales« zu verbergen, es geht um den Schutz der eigenen
+darum, irgend etwas Illegales zu verbergen, es geht um den Schutz der eigenen
 Persönlichkeit und um die Wahrung der eigenen Persönlichkeitsrechte. Die
 Privatsphäre stellt ein Grundrecht dar und ist in allen modernen Demokratien
 verankert[^FN_WP_PRIVACY].
 
 [^FN_WP_PRIVACY]: Privatsphäre: <https://de.wikipedia.org/w/index.php?title=Privatsph%C3%A4re&oldid=161564657>
 
-Ob man etwas zu verbergen hat, wird weiterhin durch den »Beobachter«
+Ob man etwas zu verbergen hat, wird weiterhin durch den Beobachter
 entschieden. In unserem heutigen gesellschaftlichen Kontext heißt das, dass
 sich die politische Lage auch jederzeit ändern kann. Durch eine Änderung auf
-politischer Ebene kann eine vorher als »unschuldig« geglaubte Person plötzlich
+politischer Ebene kann eine vorher als unschuldig geglaubte Person plötzlich
 aufgrund ihrer politischen Einstellung, ihrem Glauben oder der sexuellen
 Orientierung zu einer politisch verfolgten Minderheit gehören.
 
 Dass ein Datensatz über Leben und Tod entscheiden kann, zeigt die Geschichte.
 Anfang des 19ten Jahrhunderts wurden in Amsterdam alle Bürger bereitwillig in
-einem »Bevölkerungsregister« erfasst. Die dort gespeicherten Informationen
+einem Bevölkerungsregister erfasst. Die dort gespeicherten Informationen
 enthielten Beziehungsstatus, Beruf und Religionszugehörigkeit. Die Bürger der
-Stadt glaubten sicherlich an ihre »Unschuld« und hatten nichts zu verbergen.
+Stadt glaubten sicherlich an ihre Unschuld und hatten nichts zu verbergen.
 Als im Mai 1940 die deutschen Besatzer einmarschierten, konnten sie anhand des
 Registers alle jüdischen Bürger in kürzester Zeit identifizieren. Diese
 wurden in Konzentrationslager deportiert. In diesem Fall hat ein einfacher
@@ -787,8 +787,8 @@ Datensatz über Leben und Tod entschieden (vgl. [@ct-juden], S. 3).
 
 Nicht nur Daten, die von öffentlichen Einrichtungen erhoben werden sind als
 problematisch anzusehen. Auch Daten, die wir jeden Tag unfreiwillig in der
-»digitalen Welt« zurücklassen, werden täglich missbraucht --- Personen die sich
-als »unschuldig« glaubten, geraten plötzlich ins Visier von Ermittlern.
+digitalen Welt zurücklassen, werden täglich missbraucht --- Personen die sich
+als unschuldig glaubten, geraten plötzlich ins Visier von Ermittlern.
 Ermittlungsfehler, welche unschuldige Menschen hinter Gittern bringen oder zu
 Selbstmord treiben, sind hier leider an der Tagesordnung[^FN_DATENMISSBRAUCH].
 
@@ -796,7 +796,7 @@ Selbstmord treiben, sind hier leider an der Tagesordnung[^FN_DATENMISSBRAUCH].
 
 Laut Meinung des Autors ist es allgemein sinnvoll und wichtig, Daten heutzutage
 vorwiegend verschlüsselt zu speichern. Der Wert der Daten wird vom Benutzer oft
-nicht »korrekt« eingestuft. Das Paradebeispiel hierfür ist die oben
+nicht korrekt eingestuft. Das Paradebeispiel hierfür ist die oben
 genannte geschichtliche Entwicklung.
 
 Auch wenn bei mobilen Geräten noch Einsicht herrscht (Diebstahl, Verlust des
@@ -805,7 +805,7 @@ Bedarf sicher gelöscht werden können. Auch wenn dies für die meisten Fälle
 korrekt sein mag, sind folgende Fälle weiterhin als problematisch anzusehen:
 
 * Diebstahl auch bei nicht--mobilen Geräten möglich
-* Garantiefall (»defekte« Festplatte kann vielleicht nicht mehr gelöscht werden)
+* Garantiefall (defekte Festplatte kann vielleicht nicht mehr gelöscht werden)
 * Software--Wipe--Tools bei SSDs[^FN_SSD] sind problematisch (vgl. [@BIB_SSD_ERASE])
 
 [^FN_SSD]: Solid--Sate--Drive: <https://de.wikipedia.org/w/index.php?title=Solid-State-Drive&oldid=160808976>

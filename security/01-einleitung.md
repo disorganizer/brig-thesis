@@ -33,7 +33,7 @@ Snowden--Enthüllungen und des Bekanntwerdens vom PRISM--Überwachungsprogramm i
 offiziell bekannt[@bibgreenwald2013nsa], dass der Zugriff auf persönliche Daten
 durch Drittparteien erfolgt ist, beziehungsweise erzwungen wurde. Neben dem
 geduldeten oder rechtlich erzwungenen Zugriff durch Drittparteien, haben
-Cloud--Speicher--Anbieter wie beispielsweise »Dropbox« in der Vergangenheit
+Cloud--Speicher--Anbieter wie beispielsweise Dropbox in der Vergangenheit
 immer wieder für Schlagzeilen gesorgt. Durch diverse Softwarefehler war
 beispielsweise der Zugriff über mehrere Stunden mit beliebigen Passwörtern
 möglich[^FN_DROPBOX_AUTH_BUG]. Ein weiterer Softwarefehler hat bei der

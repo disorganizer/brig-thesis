@@ -175,11 +175,11 @@ historische Gründe (auf Grund von Patenten konnten frühere Versionen von GnuPG
 kein RSA/RSA Schlüsselpaar zum Signieren und Ver-- und Entschlüsseln anlegen,
 es wurde standardmäßig ein DSA Schlüssel zum Signieren und ein ElGamal
 Schlüssel zum Ver-- und Entschlüsseln angelegt), andererseits ermöglicht es
-GnuPG, Schlüssel mit unterschiedlichem »Schutzbedarf« anders zu behandeln.
+GnuPG, Schlüssel mit unterschiedlichem Schutzbedarf anders zu behandeln.
 
 ![GnuPG--Schlüsselpaar RSA/RSA bestehend aus einem Haupt- und Unterschlüssel. Beide Schlüssel haben unterschiedliche Fähigkeiten und bestehen jeweils aus einem öffentlichen und einem privaten Schlüssel. In Hexadezimal ist jeweils der Fingerprint eines Schlüssels dargestellt. Der Fingerprint ist 20 Bytes groß. Die »Long--Key--ID« entspricht den letzten 8 Bytes, die »Short--Key--ID« entspricht den letzten 4 Bytes.](images/gpg_keypair.png){#fig:IMG_GNUPG_KEYPAIR width=90%}
 
-Der »Schlüsselbund« besteht bei Anlage eines neuen Schlüssels mit `gpg
+Der Schlüsselbund besteht bei Anlage eines neuen Schlüssels mit `gpg
 --gen-key` aus einem Hauptschlüssel- und einem Unterschlüsselpaar. Beide
 Schlüsselpaare bestehen jeweils aus einem öffentlichen und einem privaten
 Schlüssel (siehe [@fig:IMG_GNUPG_KEYPAIR]).
@@ -273,7 +273,7 @@ d90dc1dbb96387ef25995ada677c59f909a9249eafcb32fc7a4f5eae91c82b42  private.key
 ~~~
 
 Eine Möglichkeit, den privaten Schlüssel analog zu sichern, bietet die
-Applikation Paperkey[^FN_PAPERKEY]. Paperkey »extrahiert« nur die
+Applikation Paperkey[^FN_PAPERKEY]. Paperkey extrahiert nur die
 benötigten Daten zur Sicherung des privaten Schlüssels und bringt diese in eine
 gut druckbare Form.
 
@@ -286,8 +286,8 @@ Funktionalität von GnuPG und *nicht* Teil des RFC4880--Standards.
 
 #### Unterschlüssel und Key Separation {#sec:SEC08_UNTERSCHLUESSEL_UND_KEYSEPERATION}
 
-Eine weitere Maßnahme und »Best Practise« im Bereich der Kryptographie ist die
-sogenannte »Key Separation«. Das heißt, dass kryptographische Schlüssel an
+Eine weitere Maßnahme und Best Practise im Bereich der Kryptographie ist die
+sogenannte Key Separation. Das heißt, dass kryptographische Schlüssel an
 einen bestimmten Zweck gebunden sein sollen. Einen Schlüssel für mehrere
 verschiedene Zwecke zu verwenden, ist sicherheitstechnisch bedenklich.
 
@@ -301,7 +301,7 @@ Schlüsseln `[C]` auch für das Signieren von Daten `[S]` Verwendung finden.
 Dieser Umstand würde auch verhindern, dass der Benutzer beim Einsatz der
 Offline Hauptschlüssel--Funktionalität Daten signieren kann.
 
-Die Umsetzung einer »Key Separation« kann mit GnuPG beim Anlegen (`gpg2
+Die Umsetzung einer Key Separation kann mit GnuPG beim Anlegen (`gpg2
 --full-gen-key --expert`) oder nachträglich (`gpg2 --edit-key <keyid>`)
 realisiert werden. [@fig:IMG_KEYSEPERATION] zeigt das Möglichkeit der Anlage
 von Unterschlüsseln für den regulären Gebrauch.
@@ -333,7 +333,7 @@ bei einer Sicherheitssoftware wie GnuPG, welche wichtige kryptographische
 Schlüssel schützen muss fragwürdig, da ein Passwort dieser Komplexität als
 definitiv unsicher angesehen werden sollte (siehe auch
 @sec:SEC07_REPOSITORY_ZUGRIFF). Weiterhin vermittelt dieser Dialog dem Benutzer
-ein Gefühl von falscher Sicherheit und »erzieht« ihn zu schlechten
+ein Gefühl von falscher Sicherheit und erzieht ihn zu schlechten
 Gewohnheiten.
 
 ## Authentifizierungskonzept {#sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT}
@@ -565,7 +565,7 @@ Diese Hardware--Token haben zudem den Vorteil, dass sie die Funktionalität
 einer Smartcard und eines Hardware--Token für Zwei--Faktor--Authentifizierung
 vereinen.
 
-![YubiKey NEO[^FN_BILD] mit USB--Kontaktschnittstelle und »Push--Button«, welcher bei Berührung reagiert.](images/yubikeyneo.png){#fig:img-yubikey width=35%}
+![YubiKey NEO[^FN_BILD] mit USB--Kontaktschnittstelle und Push--Button, welcher bei Berührung reagiert.](images/yubikeyneo.png){#fig:img-yubikey width=35%}
 
 Das Besondere bei diesen Hardware--Komponenten ist, dass sie sich über die
 USB--Schnittstelle als HID (Human--Interface--Device[^FN_HID]) ausgeben und
@@ -785,7 +785,7 @@ Unternehmensinfrastruktur nutzen.
 
 #### Einrichtung  {#sec:SEC08_EINRICHTUNG}
 
-Als Vorbereitung muss der YubiKey mit einer neuen »Identität« programmiert
+Als Vorbereitung muss der YubiKey mit einer neuen Identität programmiert
 werden. Für die Programmierung wird das YubiKey--Personalization--Tool
 verwendet. Hier kann unter dem Menüpunkt *Yubico OTP/Quick* eine neue Identität
 autogeneriert werden. Die hier erstellte Public--ID, sowie der
@@ -796,7 +796,7 @@ verwendet.
 [^FN_YKVS_GITHUB]:YubiKey Validation Server GitHub: <https://github.com/stumpyfr/yubikey-server>
 
 
-Für die Registrierung einer neuen »Identität« für die YubiCloud stellt
+Für die Registrierung einer neuen Identität für die YubiCloud stellt
 Yubico eine Seite[^FN_AESKEY_UPLOAD] bereit, über welche der AES--Schlüssel
 an die Yubico Validierungsserver geschickt werden kann.
 
@@ -888,8 +888,8 @@ in der Vergangenheit kritische Sicherheitslücken aufgewiesen.
 [^FN_YUBISERVER_DEBIAN_VULNERABILITY_2]:YubiServer CVE-2015-0843 Buffer Overflow Vulnerability: <https://security-tracker.debian.org/tracker/CVE-2015-0843>
 
 [@fig:IMG_REVERSE_PROXY] zeigt einen Ansatz bei welchem der
-Validierungsserver hinter einem »Reverse--Proxy« betrieben wird. Alle
-One--Time--Passwöter werden über einen »normalen Webserver« entgegengenommen
+Validierungsserver hinter einem Reverse--Proxy betrieben wird. Alle
+One--Time--Passwöter werden über einen normalen Webserver entgegengenommen
 und an den YubiKey--Validierungsserver weitergeleitet.
 
 ![Validierungsserver, welcher über einen Reverse--Proxy angesprochen wird.](images/reverse-proxy.png){#fig:IMG_REVERSE_PROXY width=95%}
@@ -969,7 +969,7 @@ Passwort emittiert:
 MyVeryLongPasswordYouWontGuessTodayMyVeryLongPasswordYouWontGuessToday
 ~~~
 
-Dieses Feature erlaubt es dem Benutzer beim Merken eines »einfachen« Passwortes,
+Dieses Feature erlaubt es dem Benutzer beim Merken eines einfachen Passwortes,
 trotzdem ein sicheres Passwort generieren zu können. Je nach Anwendung kann so
 das vom YubiKey generierte Passwort mit einem Prefix und/oder Suffix
 erweitert werden. Beispiel mit Prefix = »YEAH« und Suffix = »GehtDoch!?«
@@ -1121,7 +1121,7 @@ auf der Smartcard erstellte Identität verliert.
 
 **Variante 2:**
 
-Die zweite Variante ermöglicht es dem Benutzer ein »echtes« Backup der privaten
+Die zweite Variante ermöglicht es dem Benutzer ein echtes Backup der privaten
 Schlüssel anzulegen. Ein Schlüsselpaar kann hier mit den Standardbefehlen `gpg2
 --gen-key` angelegt werden.  Wird der Expertenmodus nicht verwendet, so legt GnuPG
 standardmäßig einen Haupt-- und einen Unterschlüssel an (siehe @sec:SEC08_GRUNDLAGEN).

@@ -29,7 +29,7 @@ Das InterPlanetary File System wird als  »content-addressable, peer-to-peer
 hypermedia distribution protocol« definiert. Das Besondere an IPFS ist, dass
 es ein sogenanntes Content--Addressable--Network (CAN) darstellt. Ein CAN
 arbeitet mit einer verteilten Hashtabelle (Distributed Hash Table (DHT)),
-welche als grundlegende »Datenstruktur« verwendet wird, um die Daten innerhalb
+welche als grundlegende Datenstruktur verwendet wird, um die Daten innerhalb
 eines Peer--to--Peer--Netzwerks zu lokalisieren und zu speichern.
 
 Eine DHT als Datenstruktur bringt in der Theorie laut Wikipedia[^FN_DHT]
@@ -40,7 +40,7 @@ folgende Eigenschaften mit sich:
 * **Fehlertoleranz:** Das System sollte zuverlässig funktionieren, auch wenn Knoten
   ausfallen oder das System verlassen.
 * **Lastenverteilung:** Schlüssel werden gleichmäßig auf alle Knoten verteilt.
-* **Robustheit:** Das System sollte »korrekt« funktionieren können, auch wenn ein
+* **Robustheit:** Das System sollte korrekt funktionieren können, auch wenn ein
   Teil (möglicherweise ein Großteil) der Knoten versucht, das System zu stören.
 * **Selbstorganisation:** Es ist keine manuelle Konfiguration nötig.
 * **Skalierbarkeit:** Das System sollte in der Lage sein, auch mit einer großen
@@ -77,10 +77,10 @@ im Alphastadium befindet. Weiterhin gibt es in der Datei `security-notes` Detail
 ### Speicherung und Datenintegrität {#sec:SEC06_SPEICHERUNG_UND_DATENINTEGRITAET}
 
 Die Speicherung von Daten mag auf den ersten Blick simpel erscheinen.
-Betrachtet man jedoch die »Rahmenbedingungen«, die zu beachten sind, um Daten
+Betrachtet man jedoch die Rahmenbedingungen, die zu beachten sind, um Daten
 sicher zu speichern, wird die Thematik komplizierter. Das Hauptproblem an
-dieser Stelle ist die sogenannte »Silent Data Corruption« (vgl. [@BIB_CERN], [@BIB_SILENT_DATA_CORRUPTION]), oft auch
-»Bitrot« genannt. Der Begriff beschreibt den Umstand, dass Fehler in Daten im
+dieser Stelle ist die sogenannte Silent Data Corruption (vgl. [@BIB_CERN], [@BIB_SILENT_DATA_CORRUPTION]), oft auch
+Bitrot genannt. Der Begriff beschreibt den Umstand, dass Fehler in Daten im
 Laufe der Zeit auftreten. Für die Fehlerursache können verschiedene Gründe verantwortlich sein, wie beispielsweise:
 
 * Hardwarefehler bedingt durch Alterungsprozess der Festplatte
@@ -90,7 +90,7 @@ Laufe der Zeit auftreten. Für die Fehlerursache können verschiedene Gründe ve
 * Schadsoftware
 
 Gängige Dateisysteme wie beispielsweise NTFS[^FN_NTFS] oder EXT4[^FN_EXT4]
-können Fehler, verursacht durch »Silent Data Corruption«, nicht erkennen und den
+können Fehler, verursacht durch Silent Data Corruption, nicht erkennen und den
 Benutzer vor dieser Fehlerart nicht schützen. Um eine Veränderung der Daten
 festzustellen, müsste der Benutzer beispielsweise die Daten mit einer
 kryptographischen Prüfsumme validieren. Entspricht die Prüfsumme beim Lesen der
@@ -284,7 +284,7 @@ QmPKBHmwWJbin2BuzE3zvua9JxsrsEGm6rn69CgWTEU5wn
 ~~~
 
 Ruft man den Befehl auf der Prüfsumme einer
-»persönlichen« Datei im lokalen Netzwerk auf, so bekommt man als einzigen
+persönlichen Datei im lokalen Netzwerk auf, so bekommt man als einzigen
 anbietenden Knoten die Peer--ID des Rechners im lokalen Netzwerk:
 
 ~~~sh

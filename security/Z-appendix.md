@@ -7,7 +7,7 @@ Projekts ermittelt indem alle Abhängigkeiten mit `x install --global=false`
 beschafft wurden. Im Anschluss wurden alle erkenntlichen
 Drittanbieter--Bibliotheken in ein separates 3rd--Verzeichnis verschoben. Für
 die Analyse wurde das Werkzeug `cloc`[^cloc] verwendet. Bei Analyse wurden die
-autogenerieren Quelltextdateien (Protobuf, Endung »pb.go«) ausgeschlossen.
+autogenerieren Quelltextdateien (Protobuf, Endung pb.go) ausgeschlossen.
 Die Analyse wurde auf die in der Programmiersprache Go geschriebenen Teile
 begrenzt.
 
@@ -227,7 +227,7 @@ vmmcall npt lbrv svm_lock nrip_save
 
 **System 3:**
 
-Das erste »low--end«--System ist ein Netbook auf Intel--Atom--Basis mit einer
+Das erste der schwächeren Systeme ist ein Netbook auf Intel--Atom--Basis mit einer
 32--bit--CPU. Der folgende `lscpu`--Ausschnitt zeigt die genauen
 Spezifikationen der CPU.
 
@@ -257,7 +257,7 @@ pdcm movbe lahf_lm dtherm
 
 **System 4:**
 
-Das zweite »low--end«--System ist ein Raspberry Pi Zero. Dieser hat die gleiche CPU
+Das zweite der schwächeren System ist ein Raspberry Pi Zero. Dieser hat die gleiche CPU
 wie die erste Version des Raspberry Pi, jedoch mit einer dynamisch erhöhten Frequenz.
 Der folgende `lscpu`--Ausschnitt zeigt die genauen Spezifikationen der CPU.
 

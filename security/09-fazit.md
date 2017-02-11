@@ -107,7 +107,7 @@ größten Teil als prototypischer Ansatz oder als Konzept umgesetzt wurden, sind
 der aktuellen Implementierung jedoch ein paar Aspekte nicht vernünftig gelöst
 oder könnten durch bessere Ansätze ergänzt werden.
 
-Ein weiterhin bestehendes »Problem« ist die Umsetzung der Schlüsselgenerierung
+Ein weiterhin bestehendes Problem ist die Umsetzung der Schlüsselgenerierung
 für das Verschlüsseln der Dateien in einem »brig«--Repository. Die aktuelle
 Implementierung erstellt zufallsgenerierte Schlüssel. Dies hat den Nachteil,
 dass die Deduplizierungsfunktionalität außer Kraft gesetzt wird, siehe
@@ -150,7 +150,7 @@ sinnvoll, um die Software auch für den öffentlichen Bereich tauglich zu machen
 ## Ausblick {#sec:SEC09_AUSBLICK}
 
 Die Evaluation der Sicherheit von »brig« sowie die evaluierten
-Sicherheitskonzepte für die weitere Entwicklungen stellen einen »Erstentwurf«
+Sicherheitskonzepte für die weitere Entwicklungen stellen einen Erstentwurf
 dar. Wie bereits unter @sec:SEC04_KRYPTOGRAPHISCHE_PRIMITIVEN_UND_PROTOKOLLE
 und @sec:SEC05_SICHERHEIT_UND_ANGRIFFSSZENARIEN erläutert, ist die
 Implementierung und Evaluierung von Sicherheit keine triviale Aufgabe.
