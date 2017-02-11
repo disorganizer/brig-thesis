@@ -7,7 +7,7 @@ Folgenden wird IPFS bezüglich bestimmter sicherheitstechnischer Anforderungen
 genauer beleuchtet, um Diskrepanzen zu den Zielen von »brig« zu
 identifizieren.
 
-Die IPFS--Codebasis umfasst aktuell $\approx{900.000}$ LoC (siehe
+Die IPFS--Codebasis umfasst aktuell $\approx{900.000}$ LoC (Lines of Code, siehe
 [@sec:APP_IPFS_LOC]). Davon gehören $\approx{100.000}$ LoC direkt dem
 IPFS--Projekt an, $\approx{800.000}$ LoC stammen aus Drittanbieter--Bibliotheken.
 
@@ -27,8 +27,8 @@ ipfs version 0.4.3
 
 Das InterPlanetary File System wird als  »content-addressable, peer-to-peer
 hypermedia distribution protocol« definiert. Das Besondere an IPFS ist, dass
-es ein sogenanntes *Content--Addressable--Network (CAN)* darstellt. Ein CAN
-arbeitet mit einer verteilten Hashtabelle (*Distributed Hash Table (DHT)*),
+es ein sogenanntes Content--Addressable--Network (CAN) darstellt. Ein CAN
+arbeitet mit einer verteilten Hashtabelle (Distributed Hash Table (DHT)),
 welche als grundlegende »Datenstruktur« verwendet wird, um die Daten innerhalb
 eines Peer--to--Peer--Netzwerks zu lokalisieren und zu speichern.
 
@@ -90,7 +90,7 @@ Laufe der Zeit auftreten. Für die Fehlerursache können verschiedene Gründe ve
 * Schadsoftware
 
 Gängige Dateisysteme wie beispielsweise NTFS[^FN_NTFS] oder EXT4[^FN_EXT4]
-können Fehler, verursacht durch Silent Data Corruption, nicht erkennen und den
+können Fehler, verursacht durch »Silent Data Corruption«, nicht erkennen und den
 Benutzer vor dieser Fehlerart nicht schützen. Um eine Veränderung der Daten
 festzustellen, müsste der Benutzer beispielsweise die Daten mit einer
 kryptographischen Prüfsumme validieren. Entspricht die Prüfsumme beim Lesen der
@@ -196,15 +196,15 @@ einem Merkle-DAG auch den Vorteil, Daten effizient deduplizieren zu können.
 große Textdatei wurde hierbei jeweils an verschiedenen Stellen geändert und
 unter einem neuen Namen gespeichert. Ohne Deduplizierung wird die Datei jedes
 mal jeweils komplett gespeichert. Der Speicherplatz der dafür benötigt wird
-würde normalerweise bei 16MiByte liegen, da die Daten auf gewöhnlichen
-Dateisystemen wie beispielsweise ext4 oder NTFS redundant abgespeichert
+würde normalerweise bei 16 MiByte liegen, da die Daten auf gewöhnlichen
+Dateisystemen wie beispielsweise EXT4 oder NTFS redundant abgespeichert
 werden. IPFS teilt diese Datei --- in diesem Fall nur beispielhaft --- in
 1 MiByte große Blöcke auf und speichert nur Datenblöcke, welche dem
 IPFS--Backend noch nicht bekannt sind (vgl. auch [@cpahl], S. 27 f.). Alle bekannten
 *Blöcke* werden vom Merkle--DAG nur referenziert. Durch diesen Ansatz reduziert
 sich im Beispiel der benötigte Speicherplatz auf 6 MiByte.
 
-![IPFS Block--Level Deduplizierung von Daten. Eine 4MiB große Textdatei wurde viermal kopiert und jeweils an verschiedenen Stellen geändert.](images/dedup.png){#fig:img-dedup width=90%}
+![IPFS Block--Level Deduplizierung von Daten. Eine 4 MiB große Textdatei wurde viermal kopiert und jeweils an verschiedenen Stellen geändert.](images/dedup.png){#fig:img-dedup width=90%}
 
 ### IPFS--Daten und IPFS--Blöcke {#sec:SEC06_IPFS_DATEN_UND_IPFS_BLOECKE}
 

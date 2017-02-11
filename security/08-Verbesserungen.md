@@ -696,7 +696,7 @@ Zwei--Faktor--Authentifizierungstest mit Passwort durchzuführen.
 
 ### Konzept zur Zwei--Faktor--Authentifizierung von »brig« mit der YubiCloud {#sec:SEC08_KONZEPT_ZWEI_FAKTOR_AUTHENTIFIZIERUNG_VON_BRIG_MIT_YUBICLOUD}
 
-Für die Proof--of--concept--Implementierung der Zwei--Faktor--Authentifizierung
+Für die Proof--of--Concept--Implementierung der Zwei--Faktor--Authentifizierung
 wird die yubigo--Bibliothek[^FN_YUBIGO] verwendet.
 
 [^FN_YUBIGO]: Yubigo Dokumentation: <https://godoc.org/github.com/GeertJohan/yubigo>
@@ -732,7 +732,7 @@ durch ein One--Time--Password gegenüber »brig« bekannt gemacht werden.
 
 Beim Ausführen des Code--Snippets (@sec:APP_YUBICLOUD_AUTHENTIFIZIERUNG) wird
 das Passwort als erster Parameter übergeben. Der YubiKey--OTP--Schlüssel  ist
-der zweite übergebene Parameter. Die Proof--of--concept--Implementierung hat
+der zweite übergebene Parameter. Die Proof--of--Concept--Implementierung hat
 aktuell einen YubiKey registriert und das Passwort *Katzenbaum* als valide
 anerkannt.
 
@@ -1034,7 +1034,7 @@ Commit? (y/n) [n]: y
 ~~~
 
 Nach dem erneuten Anstecken des YubiKeys meldet sich dieser am System als
-*Human--Interface--Device (HID)* mit *OTP+CCID*--Funktionalität an (gekürzte
+Human Interface Device (HID) mit OTP+CCID--Funktionalität an (gekürzte
 Ausgabe):
 
 ~~~sh

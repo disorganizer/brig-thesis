@@ -143,7 +143,7 @@ Lese-- und Schreibtest durchgeführt, um die Geschwindigkeit der Festplatte (in
 der Regel langsamste Komponente) zu identifizieren. Der `dd`--Benchmark dient
 lediglich als grober Orientierungswert für die jeweiligen Systeme.
 
-|                 	| Intel i5--3320M  	| AMD Phenom X4      | Intel Atom N270   | Raspberry Pi Zero    |
+|                 	| Intel i5 3320M  	| AMD Phenom X4      | Intel Atom N270   | Raspberry Pi Zero    |
 |-----------------	|------------------	|------------------- |-----------------	 |--------------------	|
 | Architektur     	|      x86_64      	|       x86_64       | x86             	 | ARM                	|
 | Betriebsmodus   	|      64-bit       |       64-bit       | 32-bit          	 | 32-bit             	|
@@ -232,7 +232,7 @@ Mittelfeld ist die Geschwindigkeit stabil, ab einer Blockgröße von oberhalb
 Verlauf. Hier ist die Geschwindigkeit unterhalb 4 KiByte Blockgröße rückläufig.
 Der obere Grenzwert für die Blockgröße ist beim Verschlüsseln weniger gut
 erkennbar. Hier bricht die Geschwindigkeit verglichen mit dem Entschlüsseln nur
-beim Intel System mit AES--Algorithmus ab ungefähr 32 MiByte ein.
+beim Intel--System mit AES--Algorithmus ab ungefähr 32 MiByte ein.
 
 ![Schreibgeschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/write-performance-blocksize.json.svg.pdf){#fig:img-write-block width=95%}
 
@@ -286,7 +286,7 @@ Für das Erstellen der Benchmark--Binary für die schwächeren Systeme wurde die
 Go--Cross--Compiler--Funktionalität verwendet. Hierbei wurden die Binaries für
 die beiden Systeme mit folgenden Parametern kompiliert:
 
-* Raspberry Pi Binary: `GOARM=6 GOARCH=arm GOOS=linux  go build main.go`
+* Raspberry Pi: `GOARM=6 GOARCH=arm GOOS=linux  go build main.go`
 * Intel Atom SSE2: `GOARCH=386 GO386=sse2 go build main.go`
 * Intel Atom FPU-387: `GOARCH=386 GO386=387 go build main.go`
 
@@ -295,7 +295,7 @@ beiden Systeme (Intel Atom, Raspberry Pi) im Vergleich zum Intel i5/AMD
 Phenom so langsam sind, dass eine Durchführung des Benchmarks mit den gleichen
 Parametern in keiner akzeptablen Zeit durchgeführt werden kann. Aus diesem
 Grund wurde die Anzahl der Durchläufe auf drei, und die zu verarbeitende
-Dateigröße auf 32MiByte reduziert.
+Dateigröße auf 32 MiByte reduziert.
 
 @fig:img-readblock-low zeigt den Einfluss der Blockgröße beim
 Lesen/Entschlüsseln auf den schwächeren Systemen. In der Tabelle
@@ -346,8 +346,8 @@ weniger gut erkennbar.
 Table: Zeigt die effizientesten Blockgrößen beim Verschlüsseln. Der erste Wert entspricht der Zeit in Millisekunden, der zweite Wert der Geschwindigkeit in MiByte/s beim Schreiben einer 32 MiByte großen Datei. {#tbl:TAB_WRITE_BLOCK_LOW}
 
 Trotz des reduzierten Benchmarkaufwandes lagen die Zeiten für die Durchführung
-des Benchmarks bei 1 Stunde 30 Minuten (Raspberry Pi) und 40 Minuten (*Intel
-Atom*). [@fig:img-lowend] zeigt den Einbruch der Geschwindigkeit beim Ver-- und
+des Benchmarks bei 1 Stunde 30 Minuten (Raspberry Pi) und 40 Minuten (Intel
+Atom). [@fig:img-lowend] zeigt den Einbruch der Geschwindigkeit beim Ver-- und
 Entschlüsseln auf den schwächeren Systemen. Der Wert Base zeigt hier die
 Lese-- und Schreibgeschwindigkeit der Systeme ohne Verschlüsselungsschicht. Auf
 beiden Systemen ist ein starker Geschwindigkeitseinbruch unter Verwendung von
@@ -355,8 +355,8 @@ Verschlüsselung zu verzeichnen. Betrachtet man die tatsächliche Geschwindigkei
 beim Lesen und Schreiben auf die Festplatte mit dem
 `dd`--Kommandozeilen--Werkzeug ([@tbl:TAB_HIGH_SYS] ), so fällt weiterhin auf,
 dass bei den beiden Systemen die Verschlüsselung und nicht die »langsame«
-Festplatte der limitierende Faktor ist. Auffällig ist auch, dass das *Intel
-Atom*--System ohne *SSE2*--Optimierungen schneller ist.
+Festplatte der limitierende Faktor ist. Auffällig ist auch, dass das
+Intel--Atom--System ohne SSE2--Optimierungen schneller ist.
 
 ![Geschwindigkeitseinbruch unter Verwendung von Verschlüsselung auf schwächeren Systemen.](images/low-end-performance.json.svg.pdf){#fig:img-lowend width=100%}
 

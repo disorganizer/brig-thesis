@@ -147,8 +147,8 @@ IRC--Logauszug vom 14.10.2016
 
 **System 1:**
 
-Das erste System (Entwicklersystem Herr Piechula) ist ein Notebook mit *Intel
-i5*--Architektur und *AES--NI*--Befehlserweiterungssatz. Der folgende
+Das erste System (Entwicklersystem Herr Piechula) ist ein Notebook mit
+Intel--i5--Architektur und AES--NI--Befehlserweiterungssatz. Der folgende
 `lscpu`--Ausschnitt zeigt die genauen Spezifikationen der CPU.
 
 ~~~sh
@@ -187,9 +187,9 @@ fsgsbase smep erms xsaveopt dtherm ida arat pln pts
 
 **System 2:**
 
-Das zweite System (Entwicklersystem Herr Pahl) ist ein Desktopsystem mit *AMD
-Phenom X4*--Architektur ohne *AES--NI*--Befehlserweiterungssatz. Der folgende
-`lscpu`--Ausschnitt zeigt die genauen Spezifikationen der CPU.
+Das zweite System (Entwicklersystem Herr Pahl) ist ein Desktopsystem mit
+AMD--Phenom--X4--Architektur ohne AES--NI--Befehlserweiterungssatz. Der
+folgende `lscpu`--Ausschnitt zeigt die genauen Spezifikationen der CPU.
 
 ~~~sh
 
@@ -227,8 +227,8 @@ vmmcall npt lbrv svm_lock nrip_save
 
 **System 3:**
 
-Das erste »low--end«--System ist ein Netbook auf Intel Atom--Basis mit einer
-*32-bit--CPU*. Der folgende `lscpu`--Ausschnitt zeigt die genauen
+Das erste »low--end«--System ist ein Netbook auf Intel--Atom--Basis mit einer
+32--bit--CPU. Der folgende `lscpu`--Ausschnitt zeigt die genauen
 Spezifikationen der CPU.
 
 ~~~sh

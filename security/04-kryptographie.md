@@ -5,7 +5,7 @@
 Software--Entwickler sind in der Regel keine Sicherheitsexperten. Nicht nur
 Fehler in der Software gefährden ganze Systeme und Benutzerdaten, sondern auch
 der fehlerhafte Einsatz von Kryptographie ist immer wieder für katastrophale
-Sicherheitsprobleme verantwortlich. Es ist *sehr schwer* Kryptographie
+Sicherheitsprobleme verantwortlich. Es ist *schwer* Kryptographie
 *korrekt* zu implementieren. Sogar der früher weit verbreitete Standard IEEE
 802.11, *WEP (Wired Equivalent Privacy)*, zur verschlüsselten drahtlosen
 Kommunikation, weist gleich mehrere Designschwächen auf. Eine
@@ -101,7 +101,7 @@ des gleichen Schlüssels, ergeben. [@fig:img-ecbvschaining] zeigt eine
 
 [^FN_TUX_ECB]:Bildquelle ECB: <https://de.wikipedia.org/w/index.php?title=Electronic_Code_Book_Mode&oldid=159557291>
 
-**Cipher Feedback Mode (CFB):** Beim *CFB*--Modus fließt, neben dem Schlüssel,
+**Cipher Feedback Mode (CFB):** Beim CFB--Modus fließt, neben dem Schlüssel,
 der Geheimtextblock vom Vorgänger ein. Durch diese Arbeitsweise haben im
 Gegensatz zum ECB--Modus gleiche Klartextblöcke unterschiedliche
 Geheimtextblöcke. Weiterhin wird bei dieser Arbeitsweise aus der
