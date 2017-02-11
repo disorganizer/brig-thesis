@@ -1078,7 +1078,7 @@ ssb>  rsa2048/E5A1965037A8E37C  created: 2016-12-11  expires: 2021-12-10
 gpg/card>
 ~~~
 
-Schlüssel mit *GnuPG* anzeigen lassen:
+Schlüssel mit GnuPG anzeigen lassen:
 
 ~~~sh
 freya :: code/brig-thesis/security ‹master*› » gpg --list-keys 932AEBFDD72FE59C

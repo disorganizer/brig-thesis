@@ -105,17 +105,17 @@ von »brig« verwaltet.
 
 Für die Erstellung einer externen Identität
 ([@sec:SEC08_SICHERUNG_UND_BINDUNG_DER_KRYPTOGRAPHISCHEN_SCHLUESSEL_AN_EINE_IDENTITAET])
-kann beispielsweise *GnuPG* verwendet werden. *GnuPG* ist eine freie
+kann beispielsweise GnuPG verwendet werden. GnuPG ist eine freie
 Implementierung des OpenPGP--Standards (RFC4880[^FN_RFC4880]). Die
 Implementierung ist heutzutage auf den gängigen Plattformen (Windows, MacOS,
 Linux, BSD) vorhanden. Die Implementierung für Windows
 (*Gpg4win*[^FN_GPG4WIN]) wurde vom Bundesamt für Sicherheit in der
 Informationstechnik in Auftrag gegeben. Neben dem Einsatz der sicheren
-E--Mail--Kommunikation, wird *GnuPG* heute unter vielen unixoiden
+E--Mail--Kommunikation, wird GnuPG heute unter vielen unixoiden
 Betriebssystemen zur vertrauenswürdigen Paketverwaltung verwendet.
 Distributionen wie beispielsweise *Debian*[^FN_DEBIAN_GPG],
 *OpenSuse*[^FN_OPENSUSE_GPG], *Arch Linux*[^FN_ARCH_GPG] und weitere verwenden
-*GnuPG* zum Signieren von Paketen.
+GnuPG zum Signieren von Paketen.
 
 [^FN_GPG4WIN]: Gpg4win: <https://de.wikipedia.org/w/index.php?title=Gpg4win&oldid=159789331>
 [^FN_ARCH_GPG]: Pacman/Package Signing: <https://wiki.archlinux.org/index.php/Pacman/Package_signing>
@@ -134,15 +134,15 @@ Das theoretische Prinzip der asymmetrischen Verschlüsselung ist unter
 der Praxis ergeben sich jedoch nennenswerte Unterschiede, welche direkten
 Einfluss auf die Sicherheit des Verfahrens haben können.
 
-Von *GnuPG* werden aktuell die folgenden drei Versionen gepflegt:
+Von GnuPG werden aktuell die folgenden drei Versionen gepflegt:
 
 
-* *GnuPG* modern 2.1 -- neuer Entwicklungzweig mit erweiterten Funktionalitäten
+* GnuPG modern 2.1 -- neuer Entwicklungzweig mit erweiterten Funktionalitäten
   und neuen kryptographischen Algorithmen beispielsweise für elliptische Kurven.
-* *GnuPG* stable 2.0 -- modularisierte Version von *GnuPG* (Support bis 2017-12-31).
-* *GnuPG* classic -- obsolete nicht modulare Version, diese wird aus Kompatibilitätsgründen zu alten Systemen gepflegt.
+* GnuPG stable 2.0 -- modularisierte Version von GnuPG (Support bis 2017-12-31).
+* GnuPG classic -- obsolete nicht modulare Version, diese wird aus Kompatibilitätsgründen zu alten Systemen gepflegt.
 
-Für die hier vorgestellten Konzepte wird *GnuPG* modern in der version 2.1 als
+Für die hier vorgestellten Konzepte wird GnuPG modern in der version 2.1 als
 Kommandozeilen--Werkzeug verwendet, dieses ist unter Linux über die
 Kommandozeile mit `gpg/gpg2` verwendbar:
 
@@ -164,18 +164,18 @@ Hash: SHA1, RIPEMD160, SHA256, SHA384, SHA512, SHA224
 Compression: Uncompressed, ZIP, ZLIB, BZIP2
 ~~~
 
-Für den *GnuPG*--Neuling gibt es verschiedene Frontends[^FN_GNUPG_FRONTENDS]
-und Anwendungen, welche als *GnuPG*--Aufsatz verwendet werden können.
+Für den GnuPG--Neuling gibt es verschiedene Frontends[^FN_GNUPG_FRONTENDS]
+und Anwendungen, welche als GnuPG--Aufsatz verwendet werden können.
 
-[^FN_GNUPG_FRONTENDS]:*GnuPG*--Frontends: <https://www.gnupg.org/related_software/frontends.html>
+[^FN_GNUPG_FRONTENDS]:GnuPG--Frontends: <https://www.gnupg.org/related_software/frontends.html>
 
-Beim Erstellen eines Schlüsselpaars wird bei *GnuPG* standardmäßig ein
+Beim Erstellen eines Schlüsselpaars wird bei GnuPG standardmäßig ein
 Hauptschlüssel- und ein Unterschlüsselpaar angelegt. Dies hat einerseits
 historische Gründe (auf Grund von Patenten konnten frühere Versionen von GnuPG
 kein RSA/RSA Schlüsselpaar zum Signieren und Ver-- und Entschlüsseln anlegen,
 es wurde standardmäßig ein *DSA* Schlüssel zum Signieren und ein *ElGamal*
 Schlüssel zum Ver-- und Entschlüsseln angelegt), andererseits ermöglicht es
-*GnuPG*, Schlüssel mit unterschiedlichem »Schutzbedarf« anders zu behandeln.
+GnuPG, Schlüssel mit unterschiedlichem »Schutzbedarf« anders zu behandeln.
 
 ![GnuPG--Schlüsselpaar RSA/RSA bestehend aus einem Haupt- und Unterschlüssel. Beide Schlüssel haben unterschiedliche Fähigkeiten und bestehen jeweils aus einem öffentlichen und einem privaten Schlüssel. In Hexadezimal ist jeweils der Fingerprint eines Schlüssels dargestellt. Der Fingerprint ist 20 Bytes groß. Die »Long--Key--ID« entspricht den letzten 8 Bytes, die »Short--Key--ID« entspricht den letzten 4 Bytes.](images/gpg_keypair.png){#fig:IMG_GNUPG_KEYPAIR width=90%}
 
@@ -210,7 +210,7 @@ handelt es sich ebenso wie beim Hauptschlüssel um einen RSA--Schlüssel mit 204
 Bit. Die Fähigkeit eines Schlüssel wird durch die Flags in eckigen Klammern
 angezeigt (Hauptschlüssel `[SC]`, Unterschlüssel `[E]`).
 
-Schlüssel können unter *GnuPG* folgende Fähigkeiten besitzen:
+Schlüssel können unter GnuPG folgende Fähigkeiten besitzen:
 
 * `C` (certify): Dieser Schlüssel ist zum *Signieren von anderen/neuen
   Schlüsseln* fähig.
@@ -226,8 +226,8 @@ anderen Teilnehmern zu signieren.
 
 #### Offline Hauptschlüssel {#sec:SEC08_OFFLINE_HAUPTSCHLUESSEL}
 
-Die privaten Schlüssel sind bei *GnuPG*  mit einer Passphrase geschützt.
-Zusätzlich bietet *GnuPG* für den Schutz des privaten Hauptschlüssels eine
+Die privaten Schlüssel sind bei GnuPG  mit einer Passphrase geschützt.
+Zusätzlich bietet GnuPG für den Schutz des privaten Hauptschlüssels eine
 Funktionalität namens *Offline Master Key*. Diese Funktionalität ermöglicht dem
 Benutzer den privaten Teil des Hauptschlüssels zu exportieren und
 beispielsweise auf einem sicheren externen Datenträger zu speichern. 
@@ -282,7 +282,7 @@ gut druckbare Form.
 [^FN_PAPERKEY]: Paperkey Homepage: <http://www.jabberwocky.com/software/paperkey/>
 
 Die *Offline Hauptschlüssel*--Funktionalität ist eine zusätzliche
-Funktionalität von *GnuPG* und *nicht* Teil des RFC4880--Standards.
+Funktionalität von GnuPG und *nicht* Teil des RFC4880--Standards.
 
 #### Unterschlüssel und Key Separation {#sec:SEC08_UNTERSCHLUESSEL_UND_KEYSEPERATION}
 
@@ -291,7 +291,7 @@ sogenannte »Key Separation«. Das heißt, dass kryptographische Schlüssel an
 einen bestimmten Zweck gebunden sein sollen. Einen Schlüssel für mehrere
 verschiedene Zwecke zu verwenden, ist sicherheitstechnisch bedenklich.
 
-Obwohl es mit *GnuPG* möglich, ist ein Schlüsselpaar zu erstellen, welches zum
+Obwohl es mit GnuPG möglich, ist ein Schlüsselpaar zu erstellen, welches zum
 Signieren, Zertifizieren und Ver-- und Entschlüsseln verwendet werden kann
 (Flags `[SCE]`), ist dies aus Gründen der Sicherheit nicht empfehlenswert. Beim
 Anlegen eines neuen Schlüssels wird standardmäßig bereits ein Schlüsselpaar
@@ -301,7 +301,7 @@ Schlüsseln `[C]` auch für das Signieren von Daten `[S]` Verwendung finden.
 Dieser Umstand würde auch verhindern, dass der Benutzer beim Einsatz der
 *Offline Hauptschlüssel*--Funktionalität Daten signieren kann.
 
-Die Umsetzung einer »Key Separation« kann mit *GnuPG* beim Anlegen (`gpg2
+Die Umsetzung einer »Key Separation« kann mit GnuPG beim Anlegen (`gpg2
 --full-gen-key --expert`) oder nachträglich (`gpg2 --edit-key <keyid>`)
 realisiert werden. [@fig:IMG_KEYSEPERATION] zeigt das Möglichkeit der Anlage
 von Unterschlüsseln für den regulären Gebrauch.
@@ -314,7 +314,7 @@ auf eine *Smartcard* auszulagern (siehe
 
 #### GPG--Agent {#sec:SEC08_GPG_AGENT}
 
-*GnuPG* hat einen `gpg-agent`. Dieser übernimmt das Management der vom Benutzer
+GnuPG hat einen `gpg-agent`. Dieser übernimmt das Management der vom Benutzer
 eingegebenen Passphrasen und kann diese für eine gewisse Zeit speichern und bei
 Bedarf abfragen. Weiterhin bietet der Agent seit Version 2.0.x die Möglichkeit,
 auf Smartcards zuzugreifen. Zusätzlich ist es seit Version 2 möglich,
@@ -322,14 +322,14 @@ GPG--Schlüssel für die SSH--Authentifizierung zu verwenden.
 
 #### Weiteres
 
-Bei der Evaluation einer sinnvollen Schlüsselverwaltung ist aufgefallen, dass die Passwortabfrage beim Generieren des *GnuPG*--Schlüssls eine für den Benutzer fragliche Rückmeldung bezüglich der Passwortqualität liefert.
+Bei der Evaluation einer sinnvollen Schlüsselverwaltung ist aufgefallen, dass die Passwortabfrage beim Generieren des GnuPG--Schlüssls eine für den Benutzer fragliche Rückmeldung bezüglich der Passwortqualität liefert.
 
-![Fragwürdige Entropieschätzung im *GnuPG*--Pinentry Dialog.](images/weakgpgpass.png){#fig:IMG_GNUPG_PWMETER width=50%}
+![Fragwürdige Entropieschätzung im GnuPG--Pinentry Dialog.](images/weakgpgpass.png){#fig:IMG_GNUPG_PWMETER width=50%}
 
-Hier wird in der aktuellen *GnuPG*--Version 2.1.16 unter *Arch Linux*
+Hier wird in der aktuellen GnuPG--Version 2.1.16 unter *Arch Linux*
 anscheinend jedes Passwort mit einer Zeichenlänge von 10 Zeichen als *Qualität
 100%* definiert (siehe beispielhaft @fig:IMG_GNUPG_PWMETER). Dieser Ansatz ist
-bei einer Sicherheitssoftware wie *GnuPG*, welche wichtige kryptographische
+bei einer Sicherheitssoftware wie GnuPG, welche wichtige kryptographische
 Schlüssel schützen muss fragwürdig, da ein Passwort dieser Komplexität als
 definitiv unsicher angesehen werden sollte (siehe auch
 @sec:SEC07_REPOSITORY_ZUGRIFF). Weiterhin vermittelt dieser Dialog dem Benutzer
@@ -530,11 +530,11 @@ RSA--Schlüsselpaar) geraten (vgl. [@martin2012everyday], S. 350 ff.).
 Für die Speicherung von kryptographischen Schlüsseln eignen sich beispielsweise
 Chipkarten, welche die Speicherung kryptographischer Schlüssel ermöglichen.
 
-![Von g10 code vertriebene Smartcard für den Einsatz mit *GnuPG*[^FN_SC].](images/newcard-b.jpg){#fig:IMG_G10_SMARTCARD width=50%}
+![Von g10 code vertriebene Smartcard für den Einsatz mit GnuPG[^FN_SC].](images/newcard-b.jpg){#fig:IMG_G10_SMARTCARD width=50%}
 
 [@fig:IMG_G10_SMARTCARD] zeigt die *OpenPGP--Card* Chipkarte[^FN_OPENPGP_CARD]
 von *ZeitControl*, welche über *g10 code* vertrieben wird. Der Anbieter der
-Smartcard ist gleichzeitig der Entwickler hinter dem *GnuPG*--Projekt. Auf der
+Smartcard ist gleichzeitig der Entwickler hinter dem GnuPG--Projekt. Auf der
 OpenPGP--Chipkarte Version 2.0 lassen sich drei RSA--Schlüssel (Signieren,
 Ver--/Entschlüsseln, Authentifizieren) mit jeweils 2048 Bit speichern. Der
 Vorteil bei der Smartcard ist, dass die kryptographischen Schlüssel die Karte
@@ -1047,7 +1047,7 @@ USB HID v1.10 Keyboard [Yubico YubiKey NEO OTP+CCID] on usb-0000:00:1d.0[...]
 #### Übertragung kryptographischer Schlüssel auf den YubiKey {#sec:SEC08_KRYPTOGRAPHISCHE_SCHLUESSEL_AUF_YUBIKEY_UEBERTRAGEN}
 
 Nach der Aktivierung des *OpenPGP*--Applets kann der YubiKey wie eine
-Standard--OpenPGP--Smartcard mit *GnuPG* verwendet werden.
+Standard--OpenPGP--Smartcard mit GnuPG verwendet werden.
 
 `gpg2 --card-status` zeigt den aktuellen Inhalt des *YubiKey OpenPGP--Applets*:
 
@@ -1080,7 +1080,7 @@ Authentifizieren zu speichern. Der Authentifizierungsschlüssel, der hier gesetz
 werden kann, wird nicht von `gpg` genutzt, jedoch von anderen `PAM`--basierten
 Anwendungen. Für weitere Informationen zum Aufbau des Applets und zu den
 Funktionalitäten (*PIN-Counter* et cetera) siehe die
-*GnuPG*--Administrationsdokumentation zur Smartcard[^FN_GNUPG_SMARTCARD_DOC].
+GnuPG--Administrationsdokumentation zur Smartcard[^FN_GNUPG_SMARTCARD_DOC].
 
 [^FN_GNUPG_SMARTCARD_DOC]: Chapter 3. Administrating the Card: <https://www.gnupg.org/howtos/card-howto/en/ch03.html>
 
@@ -1123,7 +1123,7 @@ auf der Smartcard erstellte Identität verliert.
 
 Die zweite Variante ermöglicht es dem Benutzer ein »echtes« Backup der privaten
 Schlüssel anzulegen. Ein Schlüsselpaar kann hier mit den Standardbefehlen `gpg2
---gen-key` angelegt werden.  Wird der Expertenmodus nicht verwendet, so legt *GnuPG*
+--gen-key` angelegt werden.  Wird der Expertenmodus nicht verwendet, so legt GnuPG
 standardmäßig einen Haupt-- und einen Unterschlüssel an (siehe @sec:SEC08_GRUNDLAGEN).
 
 Wie unter @sec:SEC08_OFFLINE_HAUPTSCHLUESSEL erwähnt, ist es sinnvoll für den
@@ -1163,7 +1163,7 @@ sub   rsa2048 2016-12-11 [A] [expires: 2018-12-11]
       2BC3 8804 4699 B83F DEA0  A323 74B0 50CC 5ED6 4D18
 ~~~
 
-Beim Verschieben der Schlüssel auf die Smartcard werden von *GnuPG* sogenannte
+Beim Verschieben der Schlüssel auf die Smartcard werden von GnuPG sogenannte
 *Stubs* für die privaten Schlüssel erstellt. Deshalb sollte spätestens jetzt
 ein Backup von den privaten Haupt-- und Unterschlüsseln erfolgen. Dies kann am
 einfachsten über das Kopieren des `.gnupg`--Konfigurationsordners
@@ -1194,7 +1194,7 @@ ssb>  rsa2048 2016-12-11 [A] [expires: 2018-12-11]
       Card serial no. = 0006 00000000
 ~~~
 
-*GnuPG* teilt mit `Card serial no. = 0006 00000000` dem Benutzer mit, auf
+GnuPG teilt mit `Card serial no. = 0006 00000000` dem Benutzer mit, auf
 welcher Smartcard sich die Schlüssel befinden. Am »$>$«--Symbol erkennt der
 Benutzer, dass für die mit diesem Zeichen gekennzeichneten Schlüssel nur ein
 *Stub* existiert. Der auffällige Teil an dieser Stelle ist, dass der
@@ -1243,7 +1243,7 @@ Applikation um die Auslieferung einer korrekt signierten Version kümmern.
 
 Eine weitere Möglichkeit, die dem Benutzer mehr Kontrolle gibt ist das direkte
 Herunterladen auf der Entwickler/Anbieter--Webseite. Diese Art der
-Bereitstellung von Software bietet beispielsweise auch das *GnuPG* und das
+Bereitstellung von Software bietet beispielsweise auch das GnuPG und das
 *Tor--Projekt* an.
 
 Hier gibt es die Möglichkeit, die Daten direkt zu signieren oder eine separate
@@ -1501,7 +1501,7 @@ Das genannte Konzept lässt sich durch die Nutzung einer Smartcard erweitern. Di
 Vorteile liegen hier in erster Linie beim Schutz der kryptographischen
 Schlüssel.
 
-Für die SSH--Authentifizierung mit einer Smartcard/*GnuPG* gegenüber GitHub --- oder auch
+Für die SSH--Authentifizierung mit einer Smartcard/GnuPG gegenüber GitHub --- oder auch
 anderen Entwicklerplattformen --- gibt es in dieser Kombination die folgenden zwei
 Varianten:
 

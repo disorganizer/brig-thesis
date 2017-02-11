@@ -44,7 +44,7 @@ verwendeten kryptographischen Schlüssel. Dies ermöglicht eine Sicherung der
 kryptographischen Schlüssel, beispielsweise auf einer Smartcard (siehe
 @sec:SEC08_KRYPTOGRAPHISCHE_SCHLUESSEL_AUF_YUBIKEY_UEBERTRAGEN).
 
-Die Thematik der externen Identität wurde weiterhin auf Basis von *GnuPG*
+Die Thematik der externen Identität wurde weiterhin auf Basis von GnuPG
 anhand unterschiedlicher Konzepte und Möglichkeiten im Detail erläutert. Für
 mögliche Probleme bei der Verwaltung des Schlüsselpaars wurden verschiedene
 Lösungen evaluiert. Zusammengefasst stellt der Ansatz auf Basis der externen
