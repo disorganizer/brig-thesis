@@ -139,12 +139,12 @@ Spezifikation[^FN_SPEC] für das IPFS--*Keystore* weitere Entwicklungsentscheidu
 [^FN_SPEC]: Keystore Spezifikation: <https://github.com/ipfs/specs/tree/25411025e787e12b17f621fca25d636c5684316e/keystore>
 
 Die Evaluation der Performance hat weiterhin gezeigt, dass beispielsweise die
-Geschwindigkeit mit den implementierten Algorithmen auf dem *Raspberry Pi*
+Geschwindigkeit mit den implementierten Algorithmen auf dem Raspberry Pi
 untragbar ist. Hier wäre eine Evaluation möglicher Optimierungen bezüglich der
-Geschwindigkeit nötig, wenn man den *Raspberry Pi* als geeignete Plattform ansehen möchte.
+Geschwindigkeit nötig, wenn man den Raspberry Pi als geeignete Plattform ansehen möchte.
 
 Weiterhin wurde die Entwicklung aktuell hauptsächlich problemorientiert
-vorangetrieben. Eine striktere Umsetzung der *BSI*--Richtlinien wäre hier
+vorangetrieben. Eine striktere Umsetzung der BSI--Richtlinien wäre hier
 sinnvoll, um die Software auch für den öffentlichen Bereich tauglich zu machen.
 
 ## Ausblick {#sec:SEC09_AUSBLICK}

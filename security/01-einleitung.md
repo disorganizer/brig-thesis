@@ -67,7 +67,7 @@ Quasi--Standard. Es gibt zwar technisch gesehen weitere Möglichkeiten, Daten
 auch ohne eine zentrale Instanz auszutauschen, diese sind jedoch entweder
 recht unbekannt, für den Otto Normalverbraucher unbenutzbar oder unsicher. Zu
 den bekanntesten Vertretern gehören hier wahrscheinlich
-*Syncthing*[^FN_SYNCTHING], *git--annex*[^FN_GIT_ANNEX] oder auch *Resilio*[^FN_RESILIO].
+Syncthing[^FN_SYNCTHING], git--annex[^FN_GIT_ANNEX] oder auch *Resilio*[^FN_RESILIO].
 
 [^FN_SYNCTHING]: Syncthing: <https://syncthing.net/>
 [^FN_RESILIO]: Resilio: <https://getsync.com/>

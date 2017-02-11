@@ -45,7 +45,7 @@ doch besser eine »Encrypt--than--MAC«--Komposition (vgl. auch [@encryptthanmac
 [^FN_PRIME_BACKDOOR]: Cryptanalysis of 1024-bit trapdoored primes: <http://caramba.inria.fr/hsnfs1024.html>
 
 Ein weiteres Beispiel welches die Komplexität der Lage darstellt, ist eine
-aktuelle Warnung vom *BSI*[^FN_BSI_NORTON] bei welcher »Sicherheitssoftware«
+aktuelle Warnung vom BSI[^FN_BSI_NORTON] bei welcher »Sicherheitssoftware«
 aufgrund von gravierenden Sicherheitslücken als Einfallstor für Schadsoftware
 missbraucht werden kann.
 

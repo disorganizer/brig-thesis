@@ -258,7 +258,7 @@ pdcm movbe lahf_lm dtherm
 **System 4:**
 
 Das zweite »low--end«--System ist ein *Raspberry Pi Zero*. Dieser hat die gleiche CPU
-wie die erste Version des *Raspberry Pi*, jedoch mit einer dynamisch erhöhten Frequenz.
+wie die erste Version des Raspberry Pi, jedoch mit einer dynamisch erhöhten Frequenz.
 Der folgende `lscpu`--Ausschnitt zeigt die genauen Spezifikationen der CPU.
 
 ~~~sh

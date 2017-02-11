@@ -24,7 +24,7 @@ generellen Dateiaustausch ausgelegt. Um die in [@sec:SEC03_ANFORDERUNGEN]
 aufgeführten Anforderungen zu realisieren, müssen die genannten Protokolle
 beziehungsweise das Verhalten des Peer--to--Peer--Netzwerks an die gesetzten
 Anforderungen angepasst werden. Als Basis für die Implementierung eines
-Prototypen standen die beiden Protokolle *BitTorrent* und IPFS in der engeren
+Prototypen standen die beiden Protokolle BitTorrent und IPFS in der engeren
 Auswahl. Aufgrund der unter [@sec:SEC06_ZUSAMMENFASSUNG_IPFS_EVALUATION]
 genannten Funktionalitäten wurde IPFS als Basis bevorzugt.
 
@@ -280,7 +280,7 @@ Regression ist reproduzierbar, die Ursache hierfür ist unklar.
 #### Schwächere Systeme {#sec:SEC07_LOW_END_SYSTEME}
 
 Neben leistungsfähigeren Systemen soll auch die Geschwindigkeit von schwächeren Systemen,
-wie beispielsweise dem weit verbreiteten *Raspberry Pi* evaluiert werden.
+wie beispielsweise dem weit verbreiteten Raspberry Pi evaluiert werden.
 
 Für das Erstellen der Benchmark--Binary für die schwächeren Systeme wurde die
 Go--Cross--Compiler--Funktionalität verwendet. Hierbei wurden die Binaries für
@@ -346,7 +346,7 @@ weniger gut erkennbar.
 Table: Zeigt die effizientesten Blockgrößen beim Verschlüsseln. Der erste Wert entspricht der Zeit in Millisekunden, der zweite Wert der Geschwindigkeit in MiByte/s beim Schreiben einer 32 MiByte großen Datei. {#tbl:TAB_WRITE_BLOCK_LOW}
 
 Trotz des reduzierten Benchmarkaufwandes lagen die Zeiten für die Durchführung
-des Benchmarks bei 1 Stunde 30 Minuten (*Raspberry Pi*) und 40 Minuten (*Intel
+des Benchmarks bei 1 Stunde 30 Minuten (Raspberry Pi) und 40 Minuten (*Intel
 Atom*). [@fig:img-lowend] zeigt den Einbruch der Geschwindigkeit beim Ver-- und
 Entschlüsseln auf den schwächeren Systemen. Der Wert *Base* zeigt hier die
 Lese-- und Schreibgeschwindigkeit der Systeme ohne Verschlüsselungsschicht. Auf
@@ -456,13 +456,13 @@ Da IPFS an sich keinen Authentifizierungsmechanismus bietet, muss dieser von
 »brig« bereitgestellt werden. Im IPFS--Netzwerk haben die *Peers* durch die
 Prüfsumme über den öffentlichen Schlüssel eine eindeutige Kennung. Diese
 Prüfsumme ist aufgrund des Aufbaues und der Länge als menschenlesbare Kennung
-nicht geeignet. Aus diesem Grund wurde ein »brig«--Identifier (»brig«--*ID*)
+nicht geeignet. Aus diesem Grund wurde ein »brig«--Identifier (»brig«--ID)
 eingeführt.
 
-Die »brig«--*ID* repräsentiert den Benutzer mit einem Benutzernamen im
+Die »brig«--ID repräsentiert den Benutzer mit einem Benutzernamen im
 »brig«--Netzwerk nach außen. Der Aufbau dieses Namens ist an die Semantik des
 XMPP--Standard[^FN_XMPPID] angelehnt und mit dem Präfix `brig#user:` versehen.
-Die eigentliche »brig«--*ID* entspricht hier der Anlehnung an den
+Die eigentliche »brig«--ID entspricht hier der Anlehnung an den
 XMPP--Standard, der Präfix wird intern von »brig« angehängt, um die Benutzer
 des »brig«--Netzwerks identifizieren zu können.
 
@@ -485,7 +485,7 @@ welchem die Zeichenkette des Nutzernamens als Block dem IPFS--Netzwerk bekannt
 gemacht wird (vgl. [@cpahl], S. 62). Dieser Block selbst ist nicht eindeutig und
 könnte auch von einem Angreifer selbst erstellt worden sein. Um eine
 Eindeutigkeit herzustellen, wird der Benutzername direkt an die eindeutige,
-öffentliche *ID* (siehe [@sec:SEC06_IPFS_ID]) geknüpft.
+öffentliche ID (siehe [@sec:SEC06_IPFS_ID]) geknüpft.
 
 Folgende Daten werden kombiniert, um einen Benutzer eindeutig zu identifizieren:
 

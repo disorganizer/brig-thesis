@@ -8,7 +8,7 @@ Zentrale und dezentrale Systeme sind die Basis für den Austausch von
 Informationen. Ob ein System zentral oder dezentral fungiert ist nicht immer
 klar abgrenzbar. Oft kommen auch hybride Systeme zum Einsatz, welche zwar
 dezentral funktionieren, jedoch teilweise zentrale Instanzen benötigen. Hier
-wäre beispielsweise das *Torrent*--Konzept zu nennen. Weitere Informationen
+wäre beispielsweise das Torrent--Konzept zu nennen. Weitere Informationen
 hierzu, vgl. [@peer2peer], S. 232 ff.
 
 ### Der »Sicherheitsbegriff« {#sec:SEC02_DER_SICHERHEITSBEGRIFF}
@@ -133,9 +133,9 @@ und mittlerweile auch verschlüsselt gespeichert.
 Beim Einsatz der Cloud--Speicher--Dienste hängt die Sicherheit der Daten somit
 in erster Linie vom Dienstanbieter ab. Beim iCloud--Dienst von Apple
 beispielsweise werden die Daten verschlüsselt bei Drittanbietern wie der
-*Amazon S3*- oder *Windows Azure*--Cloud gespeichert[^FN_IOS_SECGUIDE]. Die
+Amazon--S3- oder Windows--Azure--Cloud gespeichert[^FN_IOS_SECGUIDE]. Die
 Metadaten und kryptographischen Schlüssel verwaltet Apple auf seinen eigenen
-Servern. Dropbox hat laut Medienberichten mittlerweile von der *Amazon*--Cloud
+Servern. Dropbox hat laut Medienberichten mittlerweile von der Amazon--Cloud
 auf eine eigene Infrastruktur migriert[^FN_DROPBOX_S3_OWN].
 
 [^FN_DROPBOX_S3_OWN]:Dropbox Exodus Amazon Cloud Empire:
@@ -198,7 +198,7 @@ der Dropbox--Client bei zukünftigen Synchronisationsvorgängen gegenüber dem
 Dropbox--Dienst.
 
 Ein großes Problem war hierbei auch, dass die *HOST_ID* unverschlüsselt in
-einer Konfigurationsdatei (sqlite3--Datenkbank) abgelegt war. Diese *ID* bleibt
+einer Konfigurationsdatei (sqlite3--Datenkbank) abgelegt war. Diese ID bleibt
 anscheinend auch nach Änderung der Zugangsdaten weiterhin bestehen.
 
 [^FN_DROPBOX_INSECURE_BY_DESIGN]: Dropbox authentication: »insecure by design«: <http://dereknewton.com/2011/04/dropbox-authentication-static-host-ids/>
@@ -365,9 +365,9 @@ seiner Webseite[^FN_HAVEIBEENBWNED].
 
 Weiterhin gibt es bei der Cloud--Speicher--Lösung auch die Möglichkeit, einen
 eigenen »Cloud--Speicher« aufzusetzen. Hierfür wird oft die
-Open--Source--Lösung *Owncloud* genommen. Der Nachteil hierbei ist, dass der
+Open--Source--Lösung Owncloud genommen. Der Nachteil hierbei ist, dass der
 Benutzer selbst für die Bereitstellung der Infrastruktur verantwortlich ist.
-Für Unternehmen mag die *Owncloud* durchaus interessant sein, für die meisten
+Für Unternehmen mag die Owncloud durchaus interessant sein, für die meisten
 Privatanwender ist der Aufwand höchstwahrscheinlich zu hoch. Weiterhin haben
 Endanwender in der Regel nicht das nötige Know--How, welches für das Betreiben
 eines Cloud--Speicher--Dienstes essentiell ist.
@@ -382,7 +382,7 @@ Systeme aus dem Bereich des Peer-to-peer--Modells. Eines der frühen
 Peer--to--Peer--Protokolle ist das *Napster*--Protokoll der gleichnamigen
 Anwendung *Napster*, welche Ende der 90' Jahre für den Tausch von Musik
 verwendet wurde. Später sind weitere Peer--to--Peer--Protokolle wie das
-*Multisource--File--Transfer--Protocol* oder das *BitTorrent*--Protokoll hinzugekommen.
+*Multisource--File--Transfer--Protocol* oder das BitTorrent--Protokoll hinzugekommen.
 
 [@fig:img-p2p] zeigt schematisch den Austausch von Daten in einem dezentralen
 Netzwerk. Bei einem dezentralem System liegen die Daten in der Regel nur auf
@@ -500,9 +500,9 @@ wird folgende Funktionalität beim Synchronisieren realisiert:
 Mittels dieser Schlüssel lässt sich die Synchronisation mit anderen
 Peers/Synchronisationsordnern steuern. Neue Peers können über das Teilen eines
 Schlüssels hinzugefügt werden. Die Anwendung macht einen undurchsichtigen
-Eindruck. Eine 2014 durchgeführte Analyse von *BitTorrent*--Sync auf der
+Eindruck. Eine 2014 durchgeführte Analyse von BitTorrent--Sync auf der
 *Hackito* kommt aufgrund mehrerer Sicherheits-- und Designprobleme zur
-Einschätzung[^FN_HACKITO], dass *BitTorrent*--Sync nicht für sensitive Daten
+Einschätzung[^FN_HACKITO], dass BitTorrent--Sync nicht für sensitive Daten
 verwendet werden sollte.
 
 [^FN_HACKITO]: Security analysis of BTsync:
@@ -530,13 +530,13 @@ only« läuft.
 
 [^FN_BEP]: Block exchange protocol: <https://docs.syncthing.net/specs/bep-v1.html>
 
-Die Peers werden durch eine eindeutige *Device--ID* identifiziert. Diese leitet
+Die Peers werden durch eine eindeutige Device--ID identifiziert. Diese leitet
 sich aus einen asymmetrischen Schlüsselpaar (3072 Bit RSA[^FN_SYNCTHING_KEYS])
 ab, welches beim ersten Start der Anwendung erstellt wird. Abgelegt wird ein
 privater Schlüssel und ein selbst signiertes Zertifikat. Der private Schlüssel
 scheint nicht geschützt zu sein:
 
-[^FN_SYNCTHING_KEYS]: Syncthing Keys: <https://docs.syncthing.net/dev/device-ids.html#keys>
+[^FN_SYNCTHING_KEYS]: Syncthing--Keys: <https://docs.syncthing.net/dev/device-ids.html#keys>
 
 ~~~bash
 $ ~/.config/syncthing » cat key.pem
@@ -549,7 +549,7 @@ $ ~/.config/syncthing » cat key.pem
 ~~~
 
 Das selbst signierte Zertifikat bringt keine zusätzliche Sicherheit, ermöglicht
-jedoch die Nutzung von Transport Layer Security (TLS)[^FN_TLS]. Diese *ID* ist
+jedoch die Nutzung von Transport Layer Security (TLS)[^FN_TLS]. Diese ID ist
 für jeden Teilnehmer eindeutig (aufgrund der asymmetrischen Kryptographie). Sie
 besteht aus einer kryptographischen Prüfsumme (SHA--256, siehe
 @sec:SEC04_HASHFUNKTIONEN) eines eindeutigen kryptographischen Zertifikates,
@@ -560,17 +560,17 @@ einzelnen Peers verwendet wird.
 
 Weiterhin ist das aktuelle Design für *Discovery
 Spoofing*[^FN_SYNCTHING_SPOOFING] anfällig. Das heißt, dass ein Angreifer der
-im Netzwerk mitliest, *Device--IDs* mitlesen kann und sich somit als ein
+im Netzwerk mitliest, Device--IDs mitlesen kann und sich somit als ein
 bestimmter Peer ausgeben kann. Das würde einem Angreifer die Information
-liefern, mit welchen Peers sich eine bestimmte *Device--ID* synchronisiert. Mehr
-zu *Device--IDs* sowie möglichen damit in Verbindung stehenden Problemen findet
+liefern, mit welchen Peers sich eine bestimmte Device--ID synchronisiert. Mehr
+zu Device--IDs sowie möglichen damit in Verbindung stehenden Problemen findet
 sich in der offiziellen Syncthing--Dokumentation[^FN_SYNCTHING_DEVID].
 
 [^FN_SYNCTHING_SPOOFING]: Problems and Vulnerabilities: <https://docs.syncthing.net/dev/device-ids.html#problems-and-vulnerabilities>
 [^FN_SYNCTHING_DEVID]: Understanding Device--IDs: <https://docs.syncthing.net/dev/device-ids.html>
 
 Eine lokale Verschlüsselung der Daten finden nicht statt. Schlüssel, welche die
-*Device--ID* eindeutig identifizieren sind nicht weiter gesichert.
+Device--ID eindeutig identifizieren sind nicht weiter gesichert.
 
 **Librevault** ist ein sich noch im Frühstadium befindlicher Prototyp. Die
 aktuell getestete Alphaversion ist beim Hinzufügen eines
@@ -585,22 +585,22 @@ Entwicklers[^FN_LIBREVAULT_BLOG] zu finden.
 orientiertes Synchronisationswerkzeug. Prinzipiell ist es für die Kommandozeile
 entwickelt worden, es existiert mittlerweile jedoch ein *Webfrontend* (Webapp).
 
-*git--annex* verwaltet nur die Metadaten in git. Es funktioniert als
+git--annex verwaltet nur die Metadaten in git. Es funktioniert als
 git--Aufsatz, welcher es dem Benutzer ermöglicht, auch große binäre Dateien
 mittels git zu verwalten, beziehungsweise zu synchronisieren. Zum
 Synchronisieren der Metadaten wird git verwendet, zum Synchronisieren der
-eigentlichen Daten wird *git--annex* genutzt. Es überträgt die Daten
+eigentlichen Daten wird git--annex genutzt. Es überträgt die Daten
 verschlüsselt mit *rsync über ssh*. Mittels der git--Erweiterung
-*gcrypt*[^FN_GCRYPT] ist es möglich, vollständig verschlüsselte »git--remotes«
+gcrypt[^FN_GCRYPT] ist es möglich, vollständig verschlüsselte »git--remotes«
 anzulegen.
 
-[^FN_GCRYPT]: *gcrypt* git addon: <https://spwhitton.name/tech/code/git-remote-gcrypt/>
+[^FN_GCRYPT]: gcrypt git addon: <https://spwhitton.name/tech/code/git-remote-gcrypt/>
 
 Neben normalen git--Repositories werden sogenannte »Special
 Remotes«[^FN_GIT_ANNEX_SPECIALREMOTES] unterstützt. Diese werden verwendet, um
 Daten auf ein System, auf welchem git nicht installiert ist, zu synchronisieren.
 
-Neben der Verschlüsselung von git--remotes mit *gcrypt* gibt es auch die
+Neben der Verschlüsselung von git--remotes mit gcrypt gibt es auch die
 Möglichkeit, die Daten auf *special remotes* zu verschlüsseln. Hierfür gibt es
 die vier Verfahren:
 
@@ -613,8 +613,8 @@ die vier Verfahren:
 * **shared public key encryption:** Wie beim »Public--Key«--Verfahren, jedoch
   nur Besitzer des geheimen Schlüssel dürfen die Daten von einem »special remote« beziehen.
 
-[^FN_GIT_ANNEX_SPECIALREMOTES]: *git--annex* special remotes: <https://git-annex.branchable.com/special_remotes/>
-[^FN_GIT_ANNEX_ENCRYPTION]: *git--annex* encryption: <http://git-annex.branchable.com/design/encryption/>
+[^FN_GIT_ANNEX_SPECIALREMOTES]: git--annex special remotes: <https://git-annex.branchable.com/special_remotes/>
+[^FN_GIT_ANNEX_ENCRYPTION]: git--annex encryption: <http://git-annex.branchable.com/design/encryption/>
 
 ### Ähnliche Arbeiten {#sec:SEC02_AEHNLICHE_ARBEITEN}
 
@@ -685,8 +685,8 @@ Software* argumentiert. Software--Bugs wie
 
 [^FN_LINUS_LAW]:Linus's Law: <https://en.wikipedia.org/w/index.php?title=Linus%27s_Law&oldid=761677049>
 
-* *Debian Random Number Generator Bug*[^FN_DEBIAN_RNG_BUG]
-* *Open--SSL Heartbleed--Bug*[^FN_HEARTBLEED]
+* Debian--Random--Number--Generator--Bug[^FN_DEBIAN_RNG_BUG]
+* Open--SSL--Heartbleed--Bug[^FN_HEARTBLEED]
 
 [^FN_DEBIAN_RNG_BUG]: Random Number Bug in Debian Linux: <https://www.schneier.com/blog/archives/2008/05/random_number_b.html>
 [^FN_HEARTBLEED]: Heartbleed: <https://www.schneier.com/blog/archives/2014/04/heartbleed.html>
@@ -739,10 +739,10 @@ GitHub anschauen. Im Fall von *LUKS* wir der Speicherbereich mit Nullen
 Seit den Snowden--Enthüllungen[^FN_SNOWDEN_LEAK] ist offiziell bekannt, dass
 Unternehmen rechtlich gezwungen werden können, personenbezogene Daten an
 Behörden weiter zu geben. Betrachtet man die großflächige Verbreitung von
-*Facebook* und *Whatsapp*, macht es den Anschein, dass viele Menschen für die
+Facebook und Whatsapp, macht es den Anschein, dass viele Menschen für die
 Thematik der Privatsphäre nicht genug sensibilisiert sind. Diskutiert man über
 sichere Alternativen oder macht Personen auf den problematischen Datenschutz
-von zentralen Diensten wie *Facebook*, Dropbox und Co. aufmerksam, bekommt
+von zentralen Diensten wie Facebook, Dropbox und Co. aufmerksam, bekommt
 man oft das Argument »Ich habe nichts zu verbergen!« zu hören.
 
 [^FN_SNOWDEN_LEAK]: Globale Überwachungs-- und Spionageaffäre:

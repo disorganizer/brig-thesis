@@ -647,7 +647,7 @@ Der YubiKey ist im Auslieferungszustand so konfiguriert, dass er sich gegenüber
 der YubiCloud mittels Yubico OTP authentifizieren kann. [@fig:img-otp-details]
 zeigt den Ablauf des Authentifizierungsprozesses. Das One--Time--Passwort ist
 insgesamt 44 Zeichen lang und besteht dabei aus zwei Teilkomponenten. Die
-ersten 12 Zeichen repräsentieren eine statische öffentliche *ID* mit welcher
+ersten 12 Zeichen repräsentieren eine statische öffentliche ID mit welcher
 sich die YubiKey Hardware identifizieren lässt. Die verbleibenden Zeichen
 repräsentieren den dynamisch generierten Teil des One--Time--Passworts.
 [@fig:IMG_OTP_STRING] zeigt ein vollständiges valides One--Time--Password.

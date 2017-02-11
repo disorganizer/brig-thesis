@@ -25,7 +25,7 @@ ihrer Produkte.
 [^FN_HDD_ENCRYPTION_FAIL]: Festplattenverschlüsselung: <http://www.heise.de/security/artikel/Verschusselt-statt-verschluesselt-270058.html>
 
 Die oben genannten Beispiele zeigen, dass selbst Systeme, die von Experten
-entwickelt werden, genauso kritische Fehler aufweisen können. Das *BSI* (Bundesamt
+entwickelt werden, genauso kritische Fehler aufweisen können. Das BSI (Bundesamt
 für Sicherheit in der Informationstechnik) hat aus diesem Grund einen Leitfaden
 (vgl. [@bsi]) für die Implementierung kryptographischer Verfahren
 zusammengestellt. Im Leitfaden wird explizit darauf hingewiesen, dass der Leitfaden je

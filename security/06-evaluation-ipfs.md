@@ -241,8 +241,8 @@ $ ipfs id
 }
 ~~~
 
-Die unter *ID* gelistete Nummer stellt die Prüfsumme über den öffentlichen
-Schlüssel als Multihash in `base58`--Enkodierung dar. Mit dieser *ID*
+Die unter ID gelistete Nummer stellt die Prüfsumme über den öffentlichen
+Schlüssel als Multihash in `base58`--Enkodierung dar. Mit dieser ID
 lässt sich ein Benutzer beziehungsweise Peer im IPFS--Netzwerk eindeutig
 identifizieren.
 
@@ -333,8 +333,8 @@ Authentifizierung einer gesicherten Verbindung:
   Telefon) die Korrektheit des Fingerabdruck zu bestätigen.
 
 Die genannten Verfahren erlauben eine initiale Authentifizierung zwischen den
-Kommunikationspartnern. Bei zukünftiger Kommunikation wird jeweils die *ID* der
-Benutzer mit der bei der initialen Authentifizierung gespeicherten *ID* verglichen.
+Kommunikationspartnern. Bei zukünftiger Kommunikation wird jeweils die ID der
+Benutzer mit der bei der initialen Authentifizierung gespeicherten ID verglichen.
 
 ## IPFS--Netzwerk {#sec:SEC06_IPFS_NETZWERK}
 
