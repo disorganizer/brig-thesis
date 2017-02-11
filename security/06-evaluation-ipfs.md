@@ -184,7 +184,7 @@ Aktuell werden die Daten mittels SHA256 gehasht. Eine Verschlüsselung der
 Daten findet nicht statt. Es gibt zwar Pläne für die Zukunft einen
 verschlüsselten Store zu realisieren, aktuell wird jedoch in
 Feature--Requests[^FN_IPFS_FILEENC] die Möglichkeit der manuellen
-Verschlüsselung beispielsweise mittels *OpenSSL/GPG* nahegelegt.
+Verschlüsselung beispielsweise mittels OpenSSL/GPG nahegelegt.
 
 [^FN_IPFS_FILEENC]: IPFS file encryption request: <https://github.com/ipfs/faq/issues/116>
 
@@ -260,7 +260,7 @@ $ cat .ipfs/config | grep PrivKey
 	 VQMS8YcXyzXoE+DQXzM5TqbZT/jxUS/UUFcs7UKhuEu+E9etcYBgpncrMoQckQE="
 ~~~
 
-Für weitere Details zur Erstellung der *Identität* sollte der
+Für weitere Details zur Erstellung der Identität sollte der
 Quelltext[^FN_IPFS_CODE_INIT] zu Rate gezogen werden.
 
 [^FN_IPFS_CODE_INIT]: IPFS Schlüsselgenerierung:

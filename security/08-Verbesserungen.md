@@ -281,7 +281,7 @@ gut druckbare Form.
 [^FN_GITHUB_LIBGFSHARE]: GitHub libgfshare: <https://github.com/jcushman/libgfshare>
 [^FN_PAPERKEY]: Paperkey Homepage: <http://www.jabberwocky.com/software/paperkey/>
 
-Die *Offline Hauptschlüssel*--Funktionalität ist eine zusätzliche
+Die Offline Hauptschlüssel--Funktionalität ist eine zusätzliche
 Funktionalität von GnuPG und *nicht* Teil des RFC4880--Standards.
 
 #### Unterschlüssel und Key Separation {#sec:SEC08_UNTERSCHLUESSEL_UND_KEYSEPERATION}
@@ -299,7 +299,7 @@ bestehend aus Haupt- und Unterschlüssel angelegt. In der Standardkonfiguration
 würde der Hauptschlüssel auf Grund seiner Flags neben dem Signieren von
 Schlüsseln `[C]` auch für das Signieren von Daten `[S]` Verwendung finden.
 Dieser Umstand würde auch verhindern, dass der Benutzer beim Einsatz der
-*Offline Hauptschlüssel*--Funktionalität Daten signieren kann.
+Offline Hauptschlüssel--Funktionalität Daten signieren kann.
 
 Die Umsetzung einer »Key Separation« kann mit GnuPG beim Anlegen (`gpg2
 --full-gen-key --expert`) oder nachträglich (`gpg2 --edit-key <keyid>`)
@@ -377,7 +377,7 @@ Angriffsfläche[^FN_EVIL32] bietet.
 
 #### Authentifizierung über Frage--Antwort--Dialog
 
-Da IPFS bereits ein *Public/Private*--Schlüsselpaar mitbringt, würde sich im
+Da IPFS bereits ein Public/Private--Schlüsselpaar mitbringt, würde sich im
 einfachsten Falle nach dem ersten Verbindungsaufbau die Möglichkeit bieten,
 seinen Synchronisationspartner anhand eines *gemeinsamen Geheimnises* oder anhand eines
 Frage--Antwort--Dialogs zu verifizieren. [@fig:img-question-answer] zeigt den
@@ -488,7 +488,7 @@ klassischen Vertrauensmodells dar (vgl. [@gpg-probabilistic]).
 
 Dieses Konzept ist um so vertrauenswürdiger, je mehr vertrauenswürdige Parteien
 einen öffentlichen Schlüssel unterschreiben. Durch zusätzliche Instanzen, wie
-beispielsweise die Zertifizierungsstelle CAcert[^FN_CACERT] und die *c't*
+beispielsweise die Zertifizierungsstelle CAcert[^FN_CACERT] und die c't
 Krypto--Kampagne[^FN_CTCRYPTO], kann das Vertrauen in die Identität einer Partei
 weiter erhöht werden.
 
@@ -1372,7 +1372,7 @@ an einem Projekt), können auf eine ähnliche Art wie Binärdateien signiert wer
 
 Im Fall von »brig«, welches `git` verwendet und über GitHub entwickelt wird,
 bietet sich das Signieren und Verifizieren von Commits und Tags an. Hierzu
-kann beispielsweise mit `git config` global die *Schlüssel--ID* des Schlüssels
+kann beispielsweise mit `git config` global die Schlüssel--ID des Schlüssels
 hinzugefügt werden, mit welchem der Quelltext in Zukunft signiert werden soll.
 Anschließend kann mit dem zusätzlichen Parameter (`-S[<keyid>],
 --gpg-sign[=<keyid>]`) ein digital unterschriebener Commit abgesetzt werden.

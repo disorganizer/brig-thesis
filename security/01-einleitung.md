@@ -58,7 +58,7 @@ verzichten, bleibt einem immer noch die Möglichkeit, Dateien über E--Mail zu
 versenden. Hier erschließt sich aber bei näherer Betrachtung ein ähnliches
 Problem wie bei den Cloud--Speicher--Anbietern. Die Privatsphäre, beziehungsweise
 der Schutz der Daten vor dem Zugriff durch Dritte, ist mangelhaft. Es gibt die
-Möglichkeit E-Mails beispielsweise mittels *Pretty Good Privacy (PGP)* zu
+Möglichkeit E-Mails beispielsweise mittels Pretty Good Privacy (PGP) zu
 verschlüsseln, jedoch ist der Einsatz und Aufwand für den Otto
 Normalverbraucher schlichtweg zu kompliziert und wird daher kaum genutzt.
 

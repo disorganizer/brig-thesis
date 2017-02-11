@@ -4,7 +4,7 @@ Parallel zu dieser Arbeit wird der »brig«--Prototyp entwickelt. Das Ziel diese
 Kapitels ist es, die bisherige Arbeit aus Sicht der Sicherheit erneut zu
 evaluieren und bisher gemachte Fehler zu identifizieren. Für weitere allgemeine
 Details zur Architektur von »brig« siehe, die Arbeit von Herrn Pahl [@cpahl]. Für
-die Evaluation wird die Softwareversion *brig v0.1.0* verwendet:
+die Evaluation wird die Softwareversion brig v0.1.0 verwendet:
 
 ~~~sh
 $  brig --version
@@ -273,7 +273,7 @@ einen Geschwindigkeitszuwachs von ~20--30% auf, die AES/GCM--Implementierung
 hingegen hat beim AMD--System jedoch einen Geschwindigkeitszuwachs von nur ~15%,
 das Intel--System hingegen kann seine Geschwindigkeit jedoch aufgrund der
 funktionierenden AES--NI--Beschleunigung um ~750% (!) steigern. Weiterhin ist
-auffällig, dass der *ChaCha20/Poly1305*--Algorithmus auf dem Intel--System mit
+auffällig, dass der ChaCha20/Poly1305--Algorithmus auf dem Intel--System mit
 Go--Version 1.6 langsamer ist als die Go--Version 1.5.3 Variante. Diese
 Regression ist reproduzierbar, die Ursache hierfür ist unklar.
 
@@ -406,8 +406,8 @@ Zusammengefasst kann gesagt werden, dass sich die Blockgröße beim Verschlüsse
 Entschlüsseln im Bereich von 32 KiByte bis wenigen MiByte bewegen sollte.
 Blockgrößen außerhalb dieses Bereiches haben laut den Benchmarkergebnissen
 einen negativen Einfluss auf die Geschwindigkeit der Verschlüsselungsschicht.
-Weiterhin scheint der *ChaCha20/Poly1305*--Algorithmus für schwächere Systeme
-besser als *AES/GCM* geeignet zu sein.
+Weiterhin scheint der ChaCha20/Poly1305--Algorithmus für schwächere Systeme
+besser als AES/GCM geeignet zu sein.
 
 ## Metadatenverschlüsselung {#sec:SEC07_METADATENVERSCHLUESSELUNG}
 

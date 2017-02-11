@@ -260,7 +260,7 @@ Angriffe auf Basis dieses Verfahrens aufgezeigt (vgl. [@mitcref]).
 
 Neben dem Dropbox--Client wurden auch die Synchronisationsapplikationen
 Microsoft OneDrive, Box und Google Drive untersucht. Diese verwenden zum
-Authentifizieren den offenen *OAuth 2.0* Authentifizierungsstandard. Dropbox
+Authentifizieren den offenen OAuth 2.0--Authentifizierungsstandard. Dropbox
 hingegen verwendet ein proprietäres Verfahren. Problematisch bei Dropbox
 ist, dass die gesamte Sicherheit von der `HOST_ID` (und `HOST_INT`) abhängt.
 Hat ein Angreifer diese erbeutet, so kann er auch über den
@@ -515,7 +515,7 @@ Basis für Infinit stellt [@quintard2012towards] dar. Bei Infinit findet bei der
 Installation der Anwendung eine Registrierung statt. Diese Daten
 (Benutzername/E--Mail--Addresse) können anschließend verwendet werden, um mit der
 Anwendung andere Infinit--Partner zu finden oder von diesen gefunden zu werden.
-Anschließend kann eine Datei über eine *Drag & Drop*--Fläche an den gefundenen
+Anschließend kann eine Datei über eine Drag & Drop--Fläche an den gefundenen
 Partner gesendet werden. Es ist unklar, ob Daten/Metadaten an die
 Infinit--Plattform übertragen werden. Infinit wirbt mit »point--to--point
 encryption« und »bank-level encryption algorithms such as AES-256 and RSA
@@ -590,7 +590,7 @@ git--Aufsatz, welcher es dem Benutzer ermöglicht, auch große binäre Dateien
 mittels git zu verwalten, beziehungsweise zu synchronisieren. Zum
 Synchronisieren der Metadaten wird git verwendet, zum Synchronisieren der
 eigentlichen Daten wird git--annex genutzt. Es überträgt die Daten
-verschlüsselt mit *rsync über ssh*. Mittels der git--Erweiterung
+verschlüsselt mit rsync über ssh. Mittels der git--Erweiterung
 gcrypt[^FN_GCRYPT] ist es möglich, vollständig verschlüsselte »git--remotes«
 anzulegen.
 
@@ -725,7 +725,7 @@ als Closed--Source--Projekten (vgl. [@csr2013] und [@csr2014]).
 Durch Freie Software hat der Verbraucher jedoch immer die Möglichkeit, den
 Quelltext zu validieren und auch an die eigenen Sicherheitsbedürfnisse
 anzupassen. Wenn man beispielsweise wissen möchte, ob und wie die
-Festplattenverschlüsselungssoftware (in diesem Fall *Cryptsetup/LUKS*)  den
+Festplattenverschlüsselungssoftware (in diesem Fall Cryptsetup/LUKS)  den
 Volume--Schlüssel aus dem Speicher entfernt, kann man sich den Quelltext auf
 GitHub anschauen. Im Fall von LUKS wir der Speicherbereich mit Nullen
 überschrieben[^FN_LUKS_VK_MEMSET].
