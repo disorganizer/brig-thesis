@@ -193,11 +193,11 @@ Registrieren und Einrichten des Dropbox--Client, werden für die
 Synchronisation keine weiteren Zugangsdaten mehr benötigt. Der
 Authentifizierungsmechanismus benötigt nur ein sogenanntes
 »Authentifizierungs--Token« (diese wird dem Client nach der Registrierung vom
-Server zugewiesen), die sogenannte *HOST_ID*. Mit dieser authentifiziert sich
+Server zugewiesen), die sogenannte `HOST_ID`. Mit dieser authentifiziert sich
 der Dropbox--Client bei zukünftigen Synchronisationsvorgängen gegenüber dem
 Dropbox--Dienst.
 
-Ein großes Problem war hierbei auch, dass die *HOST_ID* unverschlüsselt in
+Ein großes Problem war hierbei auch, dass die `HOST_ID` unverschlüsselt in
 einer Konfigurationsdatei (sqlite3--Datenkbank) abgelegt war. Diese ID bleibt
 anscheinend auch nach Änderung der Zugangsdaten weiterhin bestehen.
 
@@ -208,11 +208,11 @@ und Probleme welche die Datensicherheit und Privatsphäre von
 Cloud--Speicher--Benutzern in Frage stellt (vgl. [@mulazzani2011dark]).
 
 2013 haben weitere Sicherheitsforscher den Dropbox--Client mittels *Reverse
-Engineering* analysiert. Ab der Version 1.2.48 wird die *HOST_ID* in einer
+Engineering* analysiert. Ab der Version 1.2.48 wird die `HOST_ID` in einer
 verschlüsselten sqlite3--Datenbank abgespeichert. Diese Nachbesserung
 seitens Dropbox war nicht besonders effektiv, da sich die Schlüssel zum
 Entschlüsseln weiterhin auf dem Client--PC befinden. Zusätzlich wird für die
-Authentifizierung in neueren Dropbox--Versionen ein *HOST_INT*--Wert
+Authentifizierung in neueren Dropbox--Versionen ein `HOST_INT`--Wert
 benötigt, welcher ebenfalls vom Client--PC extrahiert werden kann.
 
 Mittels dieser beiden Werte kann die Zwei--Faktor--Authentifizierung (2FA), wie
@@ -262,7 +262,7 @@ Neben dem Dropbox--Client wurden auch die Synchronisationsapplikationen
 Microsoft OneDrive, Box und Google Drive untersucht. Diese verwenden zum
 Authentifizieren den offenen *OAuth 2.0* Authentifizierungsstandard. Dropbox
 hingegen verwendet ein proprietäres Verfahren. Problematisch bei Dropbox
-ist, dass die gesamte Sicherheit von der *HOST_ID* (und *HOST_INT*) abhängt.
+ist, dass die gesamte Sicherheit von der `HOST_ID` (und `HOST_INT`) abhängt.
 Hat ein Angreifer diese erbeutet, so kann er auch über den
 Dropbox--Webzugang sämtliche administrativen Aufgaben durchführen.
 
