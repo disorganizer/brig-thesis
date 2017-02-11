@@ -67,7 +67,7 @@ Quasi--Standard. Es gibt zwar technisch gesehen weitere Möglichkeiten, Daten
 auch ohne eine zentrale Instanz auszutauschen, diese sind jedoch entweder
 recht unbekannt, für den Otto Normalverbraucher unbenutzbar oder unsicher. Zu
 den bekanntesten Vertretern gehören hier wahrscheinlich
-Syncthing[^FN_SYNCTHING], git--annex[^FN_GIT_ANNEX] oder auch *Resilio*[^FN_RESILIO].
+Syncthing[^FN_SYNCTHING], git--annex[^FN_GIT_ANNEX] oder auch Resilio[^FN_RESILIO].
 
 [^FN_SYNCTHING]: Syncthing: <https://syncthing.net/>
 [^FN_RESILIO]: Resilio: <https://getsync.com/>
@@ -158,7 +158,7 @@ Die Namensanlehnung soll analog den dezentralen Transport von Daten darstellen.
 [^FN_BRIGG]: Brigg Handelsschiff: <https://de.wikipedia.org/w/index.php?title=Brigg&oldid=155265558>
 
 Aufgrund der Projektziele kommt als Lizenzierung die Open--Source--Lizenz
-*AGPLv3*[^FN_AGPL] zum Einsatz. Denkbar wären jedoch im späteren Verlauf des
+AGPLv3[^FN_AGPL] zum Einsatz. Denkbar wären jedoch im späteren Verlauf des
 Projektes kombinierte Lizenzen für Unternehmen.
 
 [^FN_AGPL]: AGPLv3 Lizenz: <https://www.gnu.org/licenses/agpl-3.0.de.html>

@@ -39,7 +39,7 @@ dass sich Experten nicht immer einig sind oder es kommt erschwerend hinzu, dass
 es nicht für jeden Anwendungsfall eine konkrete Empfehlung geben kann. Manchmal
 muss auch zwischen Sicherheit und Geschwindigkeit abgewogen werden. Ein
 Beispiel hierfür wäre die Abwägung ob man Betriebsmodi verwendet, die
-Authentifikation und Verschlüsselung unterstützen, wie beispielsweise *GCM*, oder
+Authentifikation und Verschlüsselung unterstützen, wie beispielsweise GCM, oder
 doch besser eine »Encrypt--than--MAC«--Komposition (vgl. auch [@encryptthanmac]). Weiterhin macht die Kryptoanalyse Fortschritte und kommt beispielsweise zu neuen Erkenntnissen[^FN_PRIME_BACKDOOR], dass Primzahlen Hintertüren enthalten können.
 
 [^FN_PRIME_BACKDOOR]: Cryptanalysis of 1024-bit trapdoored primes: <http://caramba.inria.fr/hsnfs1024.html>
@@ -116,7 +116,7 @@ auch @sec:SEC07_REPOSITORY_ZUGRIFF.
 **Schlüsselmanagement:** Die sichere Kommunikation von kryptographischen
 Schlüsseln stellt eines der größten Probleme im digitalen Zeitalter dar.
 (@martin2012everyday, S. 326 ff.). In jüngster Vergangenheit wurde
-beispielsweise beim *FreeBSD*--Projekt mittels gestohlener kryptographischer
+beispielsweise beim FreeBSD--Projekt mittels gestohlener kryptographischer
 Schlüssel eingebrochen[^FN_FREEBSD_SSH_MALWARE]. Laut
 Berichten[^FN_SSH_MALWARE][^FN_PRIV_KEY_MALWARE][^FN_PRIV_KEY_MALWARE_2]
 expandiert der Malware--Markt in dieser Richtung, es wird zunehmend Malware für

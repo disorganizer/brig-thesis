@@ -7,17 +7,17 @@ beziehungsweise zu beheben.
 ## Datenverschlüsselung {#sec:SEC08_DATENVERSCHLUESSELUNG}
 
 Aktuell verwendet die Implementierung der Datenverschlüsselungsschicht 8 Bytes
-große *Noncen*. Die *MAC* ist inklusive *Padding* 16 Bytes groß (siehe
+große Noncen. Die MAC ist inklusive Padding 16 Bytes groß (siehe
 @sec:SEC07_DATENVERSCHLUESSELUNGSSCHICHT). Hier muss laut BSI--Richtlinie
-nachgebessert werden. Die empfohlene *Noncen*--Größe ist mit 96 Bit angegeben
+nachgebessert werden. Die empfohlene Noncen--Größe ist mit 96 Bit angegeben
 (vgl. [@bsi], S. 24).
 
 Wie unter @sec:SEC06_IPFS_ID zu sehen, sind die IPFS--Schlüssel aktuell in der
 `config`--Datei von IPFS im Klartext hinterlegt. »brig« verschlüsselt diese
 Datei zum aktuellen Zeitpunkt nicht. Hier wäre eine Verschlüsselung mit einem
-*Repository*--Key möglich, welcher wiederrum durch einen Hautpschlüssel
+Repository--Key möglich, welcher wiederrum durch einen Hautpschlüssel
 geschützt werden sollte (siehe [@sec:SEC08_KEYMANAGEMENT]). Eine weitere
-Überlegung wäre, das gesamte *Repository* mittels eines externen Hauptschlüssels
+Überlegung wäre, das gesamte Repository mittels eines externen Hauptschlüssels
 zu verschlüsseln.
 
 Wie unter [@sec:SEC07_SCHLUESSELGENERIERUNG] erläutert, wird aktuell für jede
@@ -25,7 +25,7 @@ Datei ein zufälliger Schlüssel generiert. Mit diesem Ansatz wird die
 Deduplizierungsfunktionalität von IPFS weitestgehend nutzlos gemacht.
 
 Ein Ansatz dieses Problem zu umgehen, ist die sogenannte »Convergent
-Encryption«. Diese Technik wird beispielsweise von *Cloud--Speicher*--Anbietern
+Encryption«. Diese Technik wird beispielsweise von Cloud--Speicher--Anbietern
 verwendet, um verschlüsselte Daten deduplizieren zu können, ohne dabei auf den
 eigentlichen Inhalt zugreifen zu müssen (vgl. [@convergent-encryption]).
 
@@ -38,7 +38,7 @@ kryptographischen Hashfunktion abgeleitet.
 Diese Verfahren lässt sich jedoch bei der aktuellen Architektur (separate
 Verschlüsselungsschicht) nur eingeschränkt realisieren, da die Prüfsumme der
 Daten erst nach dem Hinzufügen zum IPFS bekannt ist. Um die Daten zu
-verschlüsseln, müssten diese vor dem Hinzufügen komplett *gehasht* werden. Dies
+verschlüsseln, müssten diese vor dem Hinzufügen komplett gehasht werden. Dies
 würde bedeuten, dass man die Daten insgesamt zweimal einlesen müsste (1.
 Prüfsumme generieren, 2. `brig stage`), was bei vielen und/oder großen Dateien
 ineffizient wäre.
@@ -51,7 +51,7 @@ man auch viele unterschiedliche Dateien mit dem gleichen Schlüssel
 verschlüsseln würde, da mehrere unterschiedliche Dateien mit einer gewissen
 Wahrscheinlichkeit fälschlicherweise die gleiche Prüfsumme generieren würden.
 
-Ein weiteres Problem der *Convergent Encryption* ist, dass dieses Verfahren für
+Ein weiteres Problem der Convergent Encryption ist, dass dieses Verfahren für
 den »confirmation of a file«--Angriff anfällig ist. Das heißt, dass es einem
 Angreifer möglich ist, durch das Verschlüsseln eigener Dateien darauf zu
 schließen, was beispielsweise ein anderer Benutzer in seinem Repository
@@ -85,8 +85,8 @@ einen Missbrauch zu vermeiden. Auf üblichen Endverbrauchergeräten ist der
 Passwortschutz dieses Schlüsselpaars ein absolutes Minimalkriterium. Weiterhin
 könnte »brig« den Ansatz fahren und die kryptographischen Schlüssel
 (`config`--Datei von IPFS) selbst nur »on demand« im Speicher beispielsweise
-über ein *VFS* (Virtual Filesystem)[^FN_VFS] IPFS bereitstellen.
-[@fig:img-vfs] zeigt ein Konzept bei welchem »brig« über einen *VFS*--Adapter
+über ein VFS (Virtual Filesystem)[^FN_VFS] IPFS bereitstellen.
+[@fig:img-vfs] zeigt ein Konzept bei welchem »brig« über einen VFS--Adapter
 die Konfigurationsdateien und somit auch die kryptographischen Schlüssel IPFS
 bereitstellt.
 
@@ -96,7 +96,7 @@ bereitstellt.
 
 Dabei wird beim Starten des »brig«--Daemon die verschlüsselte
 Datei im Arbeitsspeicher entschlüsselt und anschließend IPFS über einen
-Zugriffsadapter bereitgestellt. Dabei wird der komplette Zugriff über das *VFS*
+Zugriffsadapter bereitgestellt. Dabei wird der komplette Zugriff über das VFS
 von »brig« verwaltet.
 
 ### GnuPG als Basis für »externe Identität« {#sec:SEC08_GNUPG_ALS_BASIS_FUER_EXTERNE_IDENTITAET}
@@ -109,12 +109,12 @@ kann beispielsweise GnuPG verwendet werden. GnuPG ist eine freie
 Implementierung des OpenPGP--Standards (RFC4880[^FN_RFC4880]). Die
 Implementierung ist heutzutage auf den gängigen Plattformen (Windows, MacOS,
 Linux, BSD) vorhanden. Die Implementierung für Windows
-(*Gpg4win*[^FN_GPG4WIN]) wurde vom Bundesamt für Sicherheit in der
+(Gpg4win[^FN_GPG4WIN]) wurde vom Bundesamt für Sicherheit in der
 Informationstechnik in Auftrag gegeben. Neben dem Einsatz der sicheren
 E--Mail--Kommunikation, wird GnuPG heute unter vielen unixoiden
 Betriebssystemen zur vertrauenswürdigen Paketverwaltung verwendet.
-Distributionen wie beispielsweise *Debian*[^FN_DEBIAN_GPG],
-*OpenSuse*[^FN_OPENSUSE_GPG], *Arch Linux*[^FN_ARCH_GPG] und weitere verwenden
+Distributionen wie beispielsweise Debian[^FN_DEBIAN_GPG],
+OpenSuse[^FN_OPENSUSE_GPG], Arch Linux[^FN_ARCH_GPG] und weitere verwenden
 GnuPG zum Signieren von Paketen.
 
 [^FN_GPG4WIN]: Gpg4win: <https://de.wikipedia.org/w/index.php?title=Gpg4win&oldid=159789331>
@@ -173,7 +173,7 @@ Beim Erstellen eines Schlüsselpaars wird bei GnuPG standardmäßig ein
 Hauptschlüssel- und ein Unterschlüsselpaar angelegt. Dies hat einerseits
 historische Gründe (auf Grund von Patenten konnten frühere Versionen von GnuPG
 kein RSA/RSA Schlüsselpaar zum Signieren und Ver-- und Entschlüsseln anlegen,
-es wurde standardmäßig ein *DSA* Schlüssel zum Signieren und ein *ElGamal*
+es wurde standardmäßig ein DSA Schlüssel zum Signieren und ein ElGamal
 Schlüssel zum Ver-- und Entschlüsseln angelegt), andererseits ermöglicht es
 GnuPG, Schlüssel mit unterschiedlichem »Schutzbedarf« anders zu behandeln.
 
@@ -182,7 +182,7 @@ GnuPG, Schlüssel mit unterschiedlichem »Schutzbedarf« anders zu behandeln.
 Der »Schlüsselbund« besteht bei Anlage eines neuen Schlüssels mit `gpg
 --gen-key` aus einem Hauptschlüssel- und einem Unterschlüsselpaar. Beide
 Schlüsselpaare bestehen jeweils aus einem öffentlichen und einem privaten
-Schlüssel (siehe [@fig:IMG_GNUPG_KEYPAIR]). 
+Schlüssel (siehe [@fig:IMG_GNUPG_KEYPAIR]).
 
 Der Hauptschlüssel dient standardmäßig zum Signieren von Daten und
 Zertifizieren von Schlüsseln. Der Unterschlüssel wird für das Verschlüsseln von
@@ -212,11 +212,11 @@ angezeigt (Hauptschlüssel `[SC]`, Unterschlüssel `[E]`).
 
 Schlüssel können unter GnuPG folgende Fähigkeiten besitzen:
 
-* `C` (certify): Dieser Schlüssel ist zum *Signieren von anderen/neuen
-  Schlüsseln* fähig.
-* `S` (sign): Dieser Schlüssel ist zum *Signieren von Daten* fähig.
-* `E` (encrypt): Dieser Schlüssel ist zum *Ver-- und Entschlüsseln* fähig.
-* `A` (auth): Dieser Schlüssel ist zum *Authentifizieren* fähig.
+* `C` (certify): Dieser Schlüssel ist zum Signieren von anderen/neuen
+  Schlüsseln fähig.
+* `S` (sign): Dieser Schlüssel ist zum Signieren von Daten fähig.
+* `E` (encrypt): Dieser Schlüssel ist zum Ver-- und Entschlüsseln fähig.
+* `A` (auth): Dieser Schlüssel ist zum Authentifizieren fähig.
 
 Einen besonderen Schutzbedarf hat an dieser Stelle der Hauptschlüssel, da
 dieser in der Lage ist, neu erstellte Schlüssel und Unterschlüssel zu signieren
@@ -228,18 +228,18 @@ anderen Teilnehmern zu signieren.
 
 Die privaten Schlüssel sind bei GnuPG  mit einer Passphrase geschützt.
 Zusätzlich bietet GnuPG für den Schutz des privaten Hauptschlüssels eine
-Funktionalität namens *Offline Master Key*. Diese Funktionalität ermöglicht dem
+Funktionalität namens Offline Master Key. Diese Funktionalität ermöglicht dem
 Benutzer den privaten Teil des Hauptschlüssels zu exportieren und
-beispielsweise auf einem sicheren externen Datenträger zu speichern. 
+beispielsweise auf einem sicheren externen Datenträger zu speichern.
 
 Dieser Schlüssel wird zum Zertifizieren/Signieren anderer Schlüssel verwendet
 und wird nicht für den täglichen Gebrauch benötigt. Für die sichere externe
-Speicherung kann beispielsweise ein Verfahren wie *Shamir's Secret Sharing*
+Speicherung kann beispielsweise ein Verfahren wie Shamir's Secret Sharing
 (vgl. [@martin2012everyday], S. 337 f. und [@BIB_SHAMIR_SECRET]) verwendet
 werden. Bei diesem Verfahren wird ein Geheimnis auf mehrere Instanzen
 aufgeteilt, zur Rekonstruktion des Geheimnisses ist jedoch nur eine gewisse
-Teilmenge nötig. Das *Shamir's Secret Sharing*--Verfahren wird von
-*libgfshare*[^FN_GITHUB_LIBGFSHARE] implementiert. Diese bietet mit dem beiden
+Teilmenge nötig. Das Shamir's Secret Sharing--Verfahren wird von
+libgfshare[^FN_GITHUB_LIBGFSHARE] implementiert. Diese bietet mit dem beiden
 Kommandozeilenwerkzeugen `gfsplit` und `gfcombine` eine einfache Möglichkeit,
 den privaten Schlüssel auf mehrere Instanzen aufzuteilen. Im Standardfall wird
 der Schlüssel auf fünf Dateien aufgeteilt, von welchen mindestens drei benötigt
@@ -273,7 +273,7 @@ d90dc1dbb96387ef25995ada677c59f909a9249eafcb32fc7a4f5eae91c82b42  private.key
 ~~~
 
 Eine Möglichkeit, den privaten Schlüssel analog zu sichern, bietet die
-Applikation *Paperkey*[^FN_PAPERKEY]. *Paperkey* »extrahiert« nur die
+Applikation Paperkey[^FN_PAPERKEY]. Paperkey »extrahiert« nur die
 benötigten Daten zur Sicherung des privaten Schlüssels und bringt diese in eine
 gut druckbare Form.
 
@@ -307,7 +307,7 @@ realisiert werden. [@fig:IMG_KEYSEPERATION] zeigt das Möglichkeit der Anlage
 von Unterschlüsseln für den regulären Gebrauch.
 
 Eine weitere Empfehlung an dieser Stelle wäre es, die Unterschlüssel zusätzlich
-auf eine *Smartcard* auszulagern (siehe
+auf eine Smartcard auszulagern (siehe
 [@sec:SEC08_KRYPTOGRAPHISCHE_SCHLUESSEL_AUF_YUBIKEY_UEBERTRAGEN]).
 
 ![GPG--Schlüsselbund mit Unterschlüsseln für den regulären Einsatz. Jeder Unterschlüssel ist an einen bestimmten Einsatzzweck gebunden.](images/gpg_subkey_keypair.png){#fig:IMG_KEYSEPERATION width=100%}
@@ -326,7 +326,7 @@ Bei der Evaluation einer sinnvollen Schlüsselverwaltung ist aufgefallen, dass d
 
 ![Fragwürdige Entropieschätzung im GnuPG--Pinentry Dialog.](images/weakgpgpass.png){#fig:IMG_GNUPG_PWMETER width=50%}
 
-Hier wird in der aktuellen GnuPG--Version 2.1.16 unter *Arch Linux*
+Hier wird in der aktuellen GnuPG--Version 2.1.16 unter Arch Linux
 anscheinend jedes Passwort mit einer Zeichenlänge von 10 Zeichen als *Qualität
 100%* definiert (siehe beispielhaft @fig:IMG_GNUPG_PWMETER). Dieser Ansatz ist
 bei einer Sicherheitssoftware wie GnuPG, welche wichtige kryptographische
@@ -380,7 +380,7 @@ Angriffsfläche[^FN_EVIL32] bietet.
 Da IPFS bereits ein *Public/Private*--Schlüsselpaar mitbringt, würde sich im
 einfachsten Falle nach dem ersten Verbindungsaufbau die Möglichkeit bieten,
 seinen Synchronisationspartner anhand eines *gemeinsamen Geheimnises* oder anhand eines
-*Frage--Antwort--Dialogs* zu verifizieren. [@fig:img-question-answer] zeigt den
+Frage--Antwort--Dialogs zu verifizieren. [@fig:img-question-answer] zeigt den
 Ablauf einer Authentifizierung des Synchronisationspartners mittels Frage--Antwort--Dialog, welcher in folgenden Schritten abläuft:
 
 ![Frage--Antwort--Authentifizierung. *Alice* stellt *Bob* eine persönliche Frage auf die *Bob* die Antwort weiß.](images/question-answer.png){#fig:img-question-answer width=100%}
@@ -406,24 +406,24 @@ initialisiert werden.
 Die Anforderungen des Protokolls richten sich hierbei nach den Prinzipien (vgl. [@martin2012everyday], S. 295 ff.):
 
 * Nachrichtenauthentifizierung, durch Signatur bereitgestellt.
-* Gültigkeit (engl. *freshness*), durch Nonce bereit gestellt.
+* Gültigkeit (engl. freshness), durch Nonce bereit gestellt.
 * Bezug zur korrekten Anfrage. Frage wird in der Antwort mitgesendet.
 
-Weiterhin wäre diese Art der Authentifizierung auch unter Verwendung des *Socialist Millionaire*--Protokolls möglich, siehe folgendes Kapitel.
+Weiterhin wäre diese Art der Authentifizierung auch unter Verwendung des Socialist Millionaire--Protokolls möglich, siehe folgendes Kapitel.
 
 #### Authentifizierung über gemeinsames Geheimnis (Socialist Millionaire--Protokoll)
 
 Eine weitere Möglichkeit der Authentifizierung des Synchronisationspartners
-wäre, wie beim OTR--Plugin des *Pidgin*--Messengers, das Teilen eines
+wäre, wie beim OTR--Plugin des Pidgin--Messengers, das Teilen eines
 gemeinsamen Geheimnisses. Das Off--the--Record--Messaging--Protokoll
-verwendet hierbei das *Socialist Millionaire*--Protokoll. Das Protokoll
-erlaubt es *Alice* und *Bob* ein gemeinsam geglaubtes Geheimnis $x$ (*Alice*) und $y$
+verwendet hierbei das Socialist Millionaire--Protokoll. Das Protokoll
+erlaubt es *Alice* und *Bob* ein gemeinsam geglaubtes Geheimnis $x$ (Alice) und $y$
 (*Bob*) auf Gleichheit zu prüfen ohne es austauschen zu müssen. Weiterhin ist
 das Protokoll nicht für einen Man--in--the--Middle--Angriff anfällig. Beim
 Off--the--Record--Messaging--Protokoll[^FN_PIDGIN_SMP] werden alle Operationen
 modulo einer bestimmten 1536 Bit Primzahl genommen, $g_{1}$ ist hier das
 erzeugende Element dieser Gruppe. [@fig:img-shared-secret] zeigt den
-grundlegenden Ablauf des *Socialist Millionaire*--Protokoll.
+grundlegenden Ablauf des Socialist Millionaire--Protokoll.
 
 ![Authentifizierung über ein gemeinsames Geheimnis unter Verwendung des Socialist Millionaire--Protokoll.](images/smp.png){#fig:img-shared-secret width=100%}
 
@@ -461,7 +461,7 @@ Referenz hergenommen werden.
 Eine weitere Möglichkeit einer Authentifizierung ist auf Basis des
 Web of Trust.  Dieses beschreibt einen typischen dezentralen PKI--Ansatz,
 welcher aktuell mittels der GnuPG--Software umgesetzt wird.
-Die *IPFS--ID* kann hierbei mit dem privaten Schlüssel signiert werden und über das
+Die IPFS--ID kann hierbei mit dem privaten Schlüssel signiert werden und über das
 Web--of--Trust--Overlay--Network von den jeweiligen Benutzer validiert
 werden. [@fig:img-web-of-trust] stellt das Konzept grafisch dar.
 
@@ -478,13 +478,13 @@ klassischen Vertrauensmodells dar (vgl. [@gpg-probabilistic]).
 
 1. *Alice* und *Bob* sind Teilnehmer des Web of Trust, ihre öffentlichen Schlüssel
    sind von weiteren Personen (Freunden) signiert.
-2. *Alice* und *Bob* signieren ihre *IPFS--ID* vor dem Austausch mit dem jeweiligen
+2. *Alice* und *Bob* signieren ihre IPFS--ID vor dem Austausch mit dem jeweiligen
    Synchronisationspartner.
 3. *Alice* und *Bob* beschaffen sich den öffentlichen Schlüssel des
-   Synchronisationspartners aus dem Web of Trust, um damit die Signatur der *IPFS--ID* damit zu prüfen.
+   Synchronisationspartners aus dem Web of Trust, um damit die Signatur der IPFS--ID damit zu prüfen.
 4. Da die öffentlichen Schlüssel der jeweiligen Parteien bereits von anderen
    vertrauenswürdigen Parteien unterschrieben sind, akzeptieren beide
-   Synchronisationspartner die Signatur und somit die *IPFS--ID*.
+   Synchronisationspartner die Signatur und somit die IPFS--ID.
 
 Dieses Konzept ist um so vertrauenswürdiger, je mehr vertrauenswürdige Parteien
 einen öffentlichen Schlüssel unterschreiben. Durch zusätzliche Instanzen, wie
@@ -493,10 +493,10 @@ Krypto--Kampagne[^FN_CTCRYPTO], kann das Vertrauen in die Identität einer Parte
 weiter erhöht werden.
 
 Wissenschaftliche Untersuchungen haben weiterhin ergeben, dass ein Großteil der
-Web--of--Trust--Teilnehmer zum sogenanntem *Strong Set* gehören. Diese Teilmenge
+Web--of--Trust--Teilnehmer zum sogenanntem Strong Set gehören. Diese Teilmenge
 repräsentiert Benutzer/Schlüssel welche durch gegenseitige Bestätigung
 vollständig miteinander verbunden sind. Projekte wie die c't Krypto--Kampagne
-oder auch das *Debian*--Projekt sollen hierzu einen deutlichen Beitrag
+oder auch das Debian--Projekt sollen hierzu einen deutlichen Beitrag
 geleistet haben (vgl. [@wot1] und [@wot2]).
 
 [^FN_CACERT]: CAcert: <https://de.wikipedia.org/w/index.php?title=CAcert&oldid=161320822>
@@ -516,7 +516,7 @@ Ein weiterer Schwachpunkt, der oft ausgenutzt wird, ist die unsichere
 Speicherung von kryptographischen Schlüsseln. Passwörter sowie kryptographische
 Schlüssel können bei handelsüblichen Endanwendersystemen, wie beispielsweise PC
 oder Smartphone relativ einfach mitgeloggt beziehungsweise entwendet werden.
-Neben dem *FreeBSD*--Projekt, welches dem Diebstahl von
+Neben dem FreeBSD--Projekt, welches dem Diebstahl von
 kryptographischen Schlüsseln zum Opfer fiel, gibt es laut Berichten zunehmend
 Schadsoftware welche explizit für diesen Einsatzzweck konzipiert wurde (siehe @sec:SEC05_ANGRIFFSFLAECHE_BEI_BRIG).
 
@@ -532,8 +532,8 @@ Chipkarten, welche die Speicherung kryptographischer Schlüssel ermöglichen.
 
 ![Von g10 code vertriebene Smartcard für den Einsatz mit GnuPG[^FN_SC].](images/newcard-b.jpg){#fig:IMG_G10_SMARTCARD width=50%}
 
-[@fig:IMG_G10_SMARTCARD] zeigt die *OpenPGP--Card* Chipkarte[^FN_OPENPGP_CARD]
-von *ZeitControl*, welche über *g10 code* vertrieben wird. Der Anbieter der
+[@fig:IMG_G10_SMARTCARD] zeigt die OpenPGP--Card Chipkarte[^FN_OPENPGP_CARD]
+von ZeitControl, welche über g10 code vertrieben wird. Der Anbieter der
 Smartcard ist gleichzeitig der Entwickler hinter dem GnuPG--Projekt. Auf der
 OpenPGP--Chipkarte Version 2.0 lassen sich drei RSA--Schlüssel (Signieren,
 Ver--/Entschlüsseln, Authentifizieren) mit jeweils 2048 Bit speichern. Der
@@ -560,7 +560,7 @@ einem Hardware--Token wie beispielsweise der RSA SecureID[^FN_SECUREID] verknüp
 Ein Problem hierbei ist wieder die Umsetzung im privaten Bereich.
 
 Eine relativ »neue« Möglichkeit bieten die Hardware--Token von
-*Yubico*[^FN_YUBICO] (siehe [@fig:img-yubikey]) und *Nitrokey*[^FN_NITROKEY].
+Yubico[^FN_YUBICO] (siehe [@fig:img-yubikey]) und Nitrokey[^FN_NITROKEY].
 Diese Hardware--Token haben zudem den Vorteil, dass sie die Funktionalität
 einer Smartcard und eines Hardware--Token für Zwei--Faktor--Authentifizierung
 vereinen.
@@ -580,7 +580,7 @@ wird. Weiterhin müssen keine zusätzlichen Treiber, beispielsweise für ein Les
 Bei beiden Herstellern gibt es die Hardware--Token in verschiedenen
 Ausführungen. Bekannte Institutionen, welche den YubiKey verwenden sind
 beispielsweise die Universität von Auckland[^FN_YK_UNIVERSITY_AUCKLAND], das
-*CERN*[^FN_YK_CERN] oder auch das Massachusetts Institute of Technology[^FN_YK_MIT].
+CERN[^FN_YK_CERN] oder auch das Massachusetts Institute of Technology[^FN_YK_MIT].
 
 [^FN_YK_UNIVERSITY_AUCKLAND]: Auckland University YubiKey--Benutzeranweisung:
 
@@ -596,7 +596,7 @@ beispielsweise die Universität von Auckland[^FN_YK_UNIVERSITY_AUCKLAND], das
 [^FN_BILD]: Bildquelle: <https://www.yubico.com/wp-content/uploads/2015/04/YubiKey-NEO-1000-2016-444x444.png>
 
 Für die Entwicklung von »brig« wurden YubiKey NEO--Hardware--Token ---
-aufgrund der umfangreichen Programmier--API --- des Herstellers *Yubico*
+aufgrund der umfangreichen Programmier--API --- des Herstellers Yubico
 beschafft. Alle weiteren Ausführungen und Demonstrationen beziehen sich auf
 dieses Modell.
 
@@ -659,7 +659,7 @@ repräsentieren den dynamisch generierten Teil des One--Time--Passworts.
    geprüft.
 3. Interner Zähler (2 Bytes), ein nichtflüchtiger Zähler, der beim »power up/reset« um eins inkrementiert wird.
 4. Zeitstempel (3 Bytes)
-5. Sitzungszähler (1 Byte), beim »power up« wird dieser Zähler auf null gesetzt und bei jedem *One--Time--Password* inkrementiert.
+5. Sitzungszähler (1 Byte), beim »power up« wird dieser Zähler auf null gesetzt und bei jedem One--Time--Password inkrementiert.
 6. Zufällig generierte Nonce (2 Bytes), wird vom internen Random--Number--Generator erstellt, um weitere Entropie hinzuzufügen.
 7. CRC16 Prüfsumme (2 Bytes).
 
@@ -678,8 +678,8 @@ der zuletzt gespeicherte --- so wird das One--Time--Password nicht akzeptiert.
 
 [^FN_YUBICO_OTP]: Bildquelle OTPs Explained: <https://developers.yubico.com/OTP/OTPs_Explained.html>
 
-Für das Testen der korrekten Funktionalität stellt *Yubico* eine Demoseite für
-*OTP*[^FN_YUBICO_DEMO_OTP] und *U2F*[^FN_YUBICO_DEMO_U2F] bereit. Über diese
+Für das Testen der korrekten Funktionalität stellt Yubico eine Demoseite für
+OTP[^FN_YUBICO_DEMO_OTP] und U2F[^FN_YUBICO_DEMO_U2F] bereit. Über diese
 lässt sich ein One--Time--Password an die YubiCloud schicken und somit die
 korrekte Funktionsweise eines YubiKey validieren. [@fig:img-otp-response]
 zeigt die Authentifizierungsantwort der YubiCloud.
@@ -697,12 +697,12 @@ Zwei--Faktor--Authentifizierungstest mit Passwort durchzuführen.
 ### Konzept zur Zwei--Faktor--Authentifizierung von »brig« mit der YubiCloud {#sec:SEC08_KONZEPT_ZWEI_FAKTOR_AUTHENTIFIZIERUNG_VON_BRIG_MIT_YUBICLOUD}
 
 Für die Proof--of--concept--Implementierung der Zwei--Faktor--Authentifizierung
-wird die *yubigo*--Bibliothek[^FN_YUBIGO] verwendet.
+wird die yubigo--Bibliothek[^FN_YUBIGO] verwendet.
 
 [^FN_YUBIGO]: Yubigo Dokumentation: <https://godoc.org/github.com/GeertJohan/yubigo>
 
-Für den Einsatz unter »brig« wird ein *API*--Key und ein *Secret--Key* von
-*Yubico* benötigt. Dieser wird für die Authentifizierung der Bibliothek
+Für den Einsatz unter »brig« wird ein API--Key und ein Secret--Key von
+Yubico benötigt. Dieser wird für die Authentifizierung der Bibliothek
 gegenüber dem Yubico--Dienst verwendet. Die Beantragung erfolgt
 online[^FN_APIKEY] und erfordert einen YubiKey. Die minimale Implementierung in
 @sec:APP_YUBICLOUD_AUTHENTIFIZIERUNG zeigt einen voll funktionsfähigen
@@ -718,7 +718,7 @@ Informationen validiert werden:
 
 1. *Alice* startet mit ihrem Passwort und YubiKey einen Loginvorgang.
 2. »brig« prüft das Passwort von Alice.
-3. »brig« prüft anhand der *Public--ID*, ob der YubiKey von *Alice* dem
+3. »brig« prüft anhand der Public--ID, ob der YubiKey von *Alice* dem
    Repository bekannt ist.
 4. »brig« lässt das One--Time--Passwort des YubiKey von der YubiCloud validieren.
 5. Ist das One--Time--Passwort korrekt, so bekommt *Alice* Zugriff auf das Repository.
@@ -732,7 +732,7 @@ durch ein One--Time--Password gegenüber »brig« bekannt gemacht werden.
 
 Beim Ausführen des Code--Snippets (@sec:APP_YUBICLOUD_AUTHENTIFIZIERUNG) wird
 das Passwort als erster Parameter übergeben. Der YubiKey--OTP--Schlüssel  ist
-der zweite übergebene Parameter. Die *Proof--of--concept*--Implementierung hat
+der zweite übergebene Parameter. Die Proof--of--concept--Implementierung hat
 aktuell einen YubiKey registriert und das Passwort *Katzenbaum* als valide
 anerkannt.
 
@@ -788,17 +788,17 @@ Unternehmensinfrastruktur nutzen.
 Als Vorbereitung muss der YubiKey mit einer neuen »Identität« programmiert
 werden. Für die Programmierung wird das YubiKey--Personalization--Tool
 verwendet. Hier kann unter dem Menüpunkt *Yubico OTP/Quick* eine neue Identität
-autogeneriert werden. Die hier erstellte *Public--ID*, sowie der
-*AES*--Schlüssel müssen anschließend dem Validierungsserver bekannt gemacht
-werden. Zum Testen wird folgend ein in *Go* geschriebener Validierungsserver
+autogeneriert werden. Die hier erstellte Public--ID, sowie der
+AES--Schlüssel müssen anschließend dem Validierungsserver bekannt gemacht
+werden. Zum Testen wird folgend ein in Go geschriebener Validierungsserver
 verwendet.
 
 [^FN_YKVS_GITHUB]:YubiKey Validation Server GitHub: <https://github.com/stumpyfr/yubikey-server>
 
 
 Für die Registrierung einer neuen »Identität« für die YubiCloud stellt
-*Yubico* eine Seite[^FN_AESKEY_UPLOAD] bereit, über welche der *AES*--Schlüssel
-an die *Yubico* Validierungsserver geschickt werden kann.
+Yubico eine Seite[^FN_AESKEY_UPLOAD] bereit, über welche der AES--Schlüssel
+an die Yubico Validierungsserver geschickt werden kann.
 
 [^FN_AESKEY_UPLOAD]: Yubico AES--Key--Upload: <https://upload.yubico.com/>
 
@@ -810,7 +810,7 @@ app created, id: 1 key: Q0w7RkvWxL/lvCynBh+TYiuhZKg=
 ~~~
 
 Registrierung eines YubiKey unter dem Benutzernamen `Christoph` und Übergabe der
-Public-- und Secret--ID des *YubiKeys*:
+Public-- und Secret--ID des YubiKeys:
 
 ~~~sh
 $ ./yubikey-server -name "Christoph" -pub "vvrfglutrrgk" \
@@ -830,7 +830,7 @@ $ ./yubikey-server -s
 #### Testen des Validierungsservers {#sec:SEC08_VALIDIERUNG_DES_VALIDIERUNGSSERVERS}
 
 Der folgende Konsolenauszug zeigt die Validierung am lokalen Server. Für den
-Zugriff wird das Kommandozeilen--Tool *cURL*[^FN_CURL] verwendet. Die URL für
+Zugriff wird das Kommandozeilen--Tool cURL[^FN_CURL] verwendet. Die URL für
 die Anfrage ist wie folgt aufgebaut:
 
 [^FN_CURL]: cURL Homepage: <https://curl.haxx.se/>
@@ -841,7 +841,7 @@ http://<ip>:<port>/wsapi/2.0/verify?otp=<otp>&id=<app id>&nonce=<nonce>
 
 Auf der Kommandozeile werden die Platzhalter durch ein valides
 One--Time--Passwort, eine valide Applikations--ID und eine zufällige Nonce
-ersetzt. Der Server läuft standardmäßig auf *localhost*, Port *4242*:
+ersetzt. Der Server läuft standardmäßig auf localhost, Port 4242:
 
 ~~~sh
 # Validierung des YubiKey OTP
@@ -873,12 +873,12 @@ h=JqO407mZWS4Us/J/n2jCtbSnRFk=
 #### Sicherheit {#sec:SEC08_SICHERHEIT}
 
 Beim Betreiben eines eigenen Validierungsservers muss besonderer Wert auf die
-Sicherheit gelegt werden, da der Server die *AES*--Schlüssel der registrierten
-*YubiKeys* enthält.
+Sicherheit gelegt werden, da der Server die AES--Schlüssel der registrierten
+YubiKeys enthält.
 
 Es ist für Unternehmen empfehlenswert, den Validierungsserver nicht direkt am
 Netz, sondern über einen Reverse--Proxy zu betreiben. Neben der
-*GO*--Implementierung haben andere Validierungsserver auf
+GO--Implementierung haben andere Validierungsserver auf
 Python--[^FN_YUBICO_YUBISERVE_VULNERABILITY] und
 C--Basis[^FN_YUBISERVER_DEBIAN_VULNERABILITY_1][^FN_YUBISERVER_DEBIAN_VULNERABILITY_2]
 in der Vergangenheit kritische Sicherheitslücken aufgewiesen.
@@ -897,13 +897,13 @@ und an den YubiKey--Validierungsserver weitergeleitet.
 Der Vorteil an dieser Stelle ist, dass je nach Organisation und
 Unternehmensgröße ein anderer Validierungsserver im Hintergrund eingesetzt
 werden kann. Es ist zusätzlich weiterhin davon auszugehen, dass kritische
-Sicherheitslücken in weit verbreiteten Webservern wie *NGINX*[^FN_NGINX] oder
-*Apache*[^FN_APACHE] schneller gefunden und behoben werden, wie bei einem
+Sicherheitslücken in weit verbreiteten Webservern wie NGINX[^FN_NGINX] oder
+Apache[^FN_APACHE] schneller gefunden und behoben werden, wie bei einem
 spezifischen Server--Produkt. Weiterhin kann der Webserver feingranularer
 konfiguriert werden und Sicherheitsfeatures, wie beispielsweise
-*X-XSS-Protection* oder *HTTP Strict Transport Security (HSTS)*[^FN_XXSS_FSTS]
+X-XSS-Protection oder *HTTP Strict Transport Security (HSTS)*[^FN_XXSS_FSTS]
 aktiviert werden. Wichtig an dieser Stelle ist auch der ausschließliche Einsatz
-von *HTTPS* mit einem validen Zertifikat als Transportprotokoll, um mögliche
+von HTTPS mit einem validen Zertifikat als Transportprotokoll, um mögliche
 Man--in--the--Middle--Angriffe zu verhindern.
 
 [^FN_XXSS_FSTS]:Hardening Your HTTP Security Headers: <https://www.keycdn.com/blog/http-security-headers/>
@@ -913,14 +913,14 @@ neben der architektonischen Trennung auch die Umsetzung einer internen
 sicherheitsorientierten Systemarchitektur anbieten, um das Risiko bestimmter
 Exploit--Arten zu minimieren. Unter Linux, beispielsweise mittels
 grsecurity, SELinux (vgl. [@BIB_GRSECURITY]) oder mittels Jails bei einem
-*BSD*--Derivat wie *FreeBSD*.
+BSD--Derivat wie FreeBSD.
 
 [^FN_NGINX]: NGINX--Webserver Homepage: <https://nginx.org/en/>
 [^FN_APACHE]: Apache--Webserver Homepage: <https://httpd.apache.org/>
 
 Für den Einsatz bei gemeinnützigen Organisationen oder auch öffentlichen
 Institutionen wie einer Hochschule, würde sich zusätzlich der Einsatz von
-*Letsencrypt*[^FN_LETSECNRYPT_HP] für die Bereitstellung kostenfreier valider
+Letsencrypt[^FN_LETSECNRYPT_HP] für die Bereitstellung kostenfreier valider
 Websserver--Zertifikate eignen.
 
 [^FN_LETSECNRYPT_HP]: Let's Encrypt--Homepage: <https://letsencrypt.org/about/>
@@ -930,11 +930,11 @@ Websserver--Zertifikate eignen.
 Unter @sec:SEC08_YUBIKEY_NEO_EINLEITUNG wird die Funktionalität »Statische
 Passwörter« erwähnt. Diese Funktionalität ermöglicht es, auf dem YubiKey NEO
 ein bis zu 32--Zeichen langes Passwort zu hinterlegen. Der YubiKey arbeitet
-aus Kompatibilitätsgründen mit einem *Modhex*--Alphabet[^FN_MODHEX_YUBICO]. Die
+aus Kompatibilitätsgründen mit einem Modhex--Alphabet[^FN_MODHEX_YUBICO]. Die
 Konfiguration kann entweder bequem vom Benutzer mit der
-*yubikey-personalization-gui* erfolgen oder unter Linux beispielsweise auch mit
+yubikey-personalization-gui erfolgen oder unter Linux beispielsweise auch mit
 mit dem `ykpersonalize`--Werkzeug (dieses ist Teil des YubiKey Personalization
-Tool) mit Hilfe des *ModHex*--Converters[^FN_GITHUB_MOD_HEX] von Michael
+Tool) mit Hilfe des ModHex--Converters[^FN_GITHUB_MOD_HEX] von Michael
 Stapelberg:
 
 [^FN_GITHUB_MOD_HEX]: GitHub pw-to-yubi.pl: <https://github.com/stapelberg/pw-to-yubi/blob/master/pw-to-yubi.pl>
@@ -960,7 +960,7 @@ Commit? (y/n) [n]: y
 ~~~
 
 Im Beispiel wurde der zweite Slot des YubiKey NEO mit dem Passwort
-*MyVeryLongPasswordYouWontGuessToday* konfiguriert. Beim anschließenden
+MyVeryLongPasswordYouWontGuessToday konfiguriert. Beim anschließenden
 zweimaligem Aktivieren des zweiten Slots, liefert der YubiKey immer das
 gleiche Passwort: Beim längeren Drücken (Aktivierung von Slot 2) wird das
 Passwort emittiert:
@@ -971,7 +971,7 @@ MyVeryLongPasswordYouWontGuessTodayMyVeryLongPasswordYouWontGuessToday
 
 Dieses Feature erlaubt es dem Benutzer beim Merken eines »einfachen« Passwortes,
 trotzdem ein sicheres Passwort generieren zu können. Je nach Anwendung kann so
-das vom YubiKey generierte Passwort mit einem *Prefix* und/oder *Suffix*
+das vom YubiKey generierte Passwort mit einem Prefix und/oder Suffix
 erweitert werden. Beispiel mit Prefix = »YEAH« und Suffix = »GehtDoch!?«
 (Benutzereingabe + YubiKey + Benutzereingabe):
 
@@ -995,7 +995,7 @@ Möglichkeit als Smartcard zu fungieren. Die *Chip Card Interface Device
 (CCID)*[^FN_CCID]--Funktionalität ist beim YubiKey NEO ab Werk deaktiviert.
 Für die Aktivierung kann das Kommandozeilen--Werkzeug `ykpersonalize`
 verwendet werden. Standardmäßig ist beim YubiKey NEO nur die
-*OTP*--Funktionalität aktiviert. In welchem Betriebsmodus sich der YubiKey
+OTP--Funktionalität aktiviert. In welchem Betriebsmodus sich der YubiKey
 befindet, kann man beispielsweise nach dem Anstecken über das
 System/Kernel--Logging mittels `dmesg` herausfinden (gekürzte Ausgabe):
 
@@ -1033,7 +1033,7 @@ The USB mode will be set to: 0x2
 Commit? (y/n) [n]: y
 ~~~
 
-Nach dem erneuten Anstecken des *YubiKeys* meldet sich dieser am System als
+Nach dem erneuten Anstecken des YubiKeys meldet sich dieser am System als
 *Human--Interface--Device (HID)* mit *OTP+CCID*--Funktionalität an (gekürzte
 Ausgabe):
 
@@ -1046,10 +1046,10 @@ USB HID v1.10 Keyboard [Yubico YubiKey NEO OTP+CCID] on usb-0000:00:1d.0[...]
 
 #### Übertragung kryptographischer Schlüssel auf den YubiKey {#sec:SEC08_KRYPTOGRAPHISCHE_SCHLUESSEL_AUF_YUBIKEY_UEBERTRAGEN}
 
-Nach der Aktivierung des *OpenPGP*--Applets kann der YubiKey wie eine
+Nach der Aktivierung des OpenPGP--Applets kann der YubiKey wie eine
 Standard--OpenPGP--Smartcard mit GnuPG verwendet werden.
 
-`gpg2 --card-status` zeigt den aktuellen Inhalt des *YubiKey OpenPGP--Applets*:
+`gpg2 --card-status` zeigt den aktuellen Inhalt des YubiKey OpenPGP--Applets:
 
 ~~~sh
 $ gpg --card-status
@@ -1075,11 +1075,11 @@ General key info..: [none]
 ~~~
 
 Wie die Ausgabe zeigt, gibt es die Möglichkeit, drei verschiedene
-*RSA*--Schlüssel (2048 Bit) zum Signieren, Ver--/Entschlüsseln und
+RSA--Schlüssel (2048 Bit) zum Signieren, Ver--/Entschlüsseln und
 Authentifizieren zu speichern. Der Authentifizierungsschlüssel, der hier gesetzt
 werden kann, wird nicht von `gpg` genutzt, jedoch von anderen `PAM`--basierten
 Anwendungen. Für weitere Informationen zum Aufbau des Applets und zu den
-Funktionalitäten (*PIN-Counter* et cetera) siehe die
+Funktionalitäten (PIN-Counter et cetera) siehe die
 GnuPG--Administrationsdokumentation zur Smartcard[^FN_GNUPG_SMARTCARD_DOC].
 
 [^FN_GNUPG_SMARTCARD_DOC]: Chapter 3. Administrating the Card: <https://www.gnupg.org/howtos/card-howto/en/ch03.html>
@@ -1111,7 +1111,7 @@ D61CEE19369B9C330A4A482D932AEBFDD72FE59C.rev'
 
 Der Hinweis, dass der Schlüssel `sk_E5A1965037A8E37C.gpg` (sk == secret key)
 gespeichert wurde, ist an dieser Stelle irreführend. Es wurde hier lediglich
-ein sogenannter *Stub*[^FN_STUB] erstellt, welcher den eigentlichen
+ein sogenannter Stub[^FN_STUB] erstellt, welcher den eigentlichen
 privaten Schlüssel *nicht* enthält. Bei Schlüsseln, die auf der Smartcard
 generiert wurden, gibt es *keine* Möglichkeit des Backups der privaten
 Schlüssel. Dies hat zur Folge, dass man bei einem Defekt oder Verlust auch die
@@ -1164,7 +1164,7 @@ sub   rsa2048 2016-12-11 [A] [expires: 2018-12-11]
 ~~~
 
 Beim Verschieben der Schlüssel auf die Smartcard werden von GnuPG sogenannte
-*Stubs* für die privaten Schlüssel erstellt. Deshalb sollte spätestens jetzt
+Stubs für die privaten Schlüssel erstellt. Deshalb sollte spätestens jetzt
 ein Backup von den privaten Haupt-- und Unterschlüsseln erfolgen. Dies kann am
 einfachsten über das Kopieren des `.gnupg`--Konfigurationsordners
 bewerkstelligt werden. Dieser enthält die `pubring.gpg` und `secring.gpg`
@@ -1197,7 +1197,7 @@ ssb>  rsa2048 2016-12-11 [A] [expires: 2018-12-11]
 GnuPG teilt mit `Card serial no. = 0006 00000000` dem Benutzer mit, auf
 welcher Smartcard sich die Schlüssel befinden. Am »$>$«--Symbol erkennt der
 Benutzer, dass für die mit diesem Zeichen gekennzeichneten Schlüssel nur ein
-*Stub* existiert. Der auffällige Teil an dieser Stelle ist, dass der
+Stub existiert. Der auffällige Teil an dieser Stelle ist, dass der
 Hauptschlüssel weiterhin existiert. Dies hängt damit zusammen, dass nur die
 Unterschlüssel auf den YubiKey übertragen wurden. Die gekürzte Variante von
 `gpg2 --card-status` zeigt die Schlüssel auf der Smartcard.
@@ -1218,7 +1218,7 @@ Signieren neuer Schlüssel zu verwenden, sollte dieser am Schluss aus dem
 Schlüsselbund gelöscht werden. Dies kann mit ` gpg --delete-secret-keys
 E9CD5AB4075551F6F1D6AE918219B30B103FB091` erledigt werden. Wird der
 Hauptschlüssel gelöscht, so erscheint beim Hauptschlüssel das »**#**«--Symbol, um
-anzuzeigen, dass es sich nur um einen *Stub* handelt. Anschließend können die
+anzuzeigen, dass es sich nur um einen Stub handelt. Anschließend können die
 neuen öffentlichen Unterschlüssel dem Web of Trust mit `gpg2 --send-keys
 E9CD5AB4075551F6F1D6AE918219B30B103FB091` bekannt gemacht werden.
 
@@ -1244,7 +1244,7 @@ Applikation um die Auslieferung einer korrekt signierten Version kümmern.
 Eine weitere Möglichkeit, die dem Benutzer mehr Kontrolle gibt ist das direkte
 Herunterladen auf der Entwickler/Anbieter--Webseite. Diese Art der
 Bereitstellung von Software bietet beispielsweise auch das GnuPG und das
-*Tor--Projekt* an.
+Tor--Projekt an.
 
 Hier gibt es die Möglichkeit, die Daten direkt zu signieren oder eine separate
 Signatur zu erstellen. Für die Bereitstellung von Binärdaten ist die
@@ -1263,7 +1263,7 @@ gpg: signing failed: Card error
 
 Unter Einsatz des YubiKey und der korrekten PIN können die Daten wie folgt
 signiert werden. Die `--armor`--Option bewirkt, dass eine Signatur im
-*ASCII*--Format anstatt des Binär--Formates erstellt wird. Diese lässt sich
+ASCII--Format anstatt des Binär--Formates erstellt wird. Diese lässt sich
 beispielsweise auf der Download- beziehungsweise Entwicklerseite neben dem
 Fingerprint der Signierschlüssel publizieren.
 
@@ -1349,7 +1349,7 @@ Entwicklerquelle lädt und automatisiert validiert (Schritt 2.1--2.5). Bei
 erfolgreicher Ausführung/Validierung aller Teilschritte kann die Software ein
 Update durchführen, ansonsten wird der Benutzer gewarnt und ein Update
 verweigert. Dies sollte sich beispielsweise mit einer High--Level
-Bibliothek wie *openpgp*[^FN_OPENPGP_GO] realisieren lassen.
+Bibliothek wie openpgp[^FN_OPENPGP_GO] realisieren lassen.
 
 [^FN_OPENPGP_GO]: Go OpenPGP--Bibliothek: <https://godoc.org/golang.org/x/crypto/openpgp>
 
@@ -1358,33 +1358,33 @@ Bibliothek wie *openpgp*[^FN_OPENPGP_GO] realisieren lassen.
 Um die Verantwortlichkeit, sowie den Urheber bestimmter Quellcodeteile besser
 identifizieren zu können und dadurch die Entwickler auch vor Manipulationen am
 Quelltext--Repository besser zu schützen, bietet sich das Signieren von
-Quellcode (auch *code signing* genannt) an. Zwar bietet beispielsweise `git`
-bereits mit kryptographischen Prüfsummen (*SHA--1*) eine gewisse
-Manipulationssicherheit, jedoch ermöglicht *SHA--1* keine Authentifizierung der
+Quellcode (auch code signing genannt) an. Zwar bietet beispielsweise `git`
+bereits mit kryptographischen Prüfsummen (SHA--1) eine gewisse
+Manipulationssicherheit, jedoch ermöglicht SHA--1 keine Authentifizierung der
 Quelle.
 
 Die Authentifikation einer Quelle ist keine einfache Aufgabe. Gerade bei
 Open--Source--Projekten, bei welchen jeder der Zugriffsrechte besitzt, Quellcode zum Projekt beitragen kann, ist eine Authentifizierung um so wichtiger.
 
 Eine weit verbreitete Möglichkeit zur Authentifizierung, ist hierbei die
-*Digitale Signatur*. Quelltext, beziehungsweise *Commits* (Beitrag u. Änderungen
+Digitale Signatur. Quelltext, beziehungsweise Commits (Beitrag u. Änderungen
 an einem Projekt), können auf eine ähnliche Art wie Binärdateien signiert werden.
 
 Im Fall von »brig«, welches `git` verwendet und über GitHub entwickelt wird,
-bietet sich das Signieren und Verifizieren von *Commits* und *Tags* an. Hierzu
+bietet sich das Signieren und Verifizieren von Commits und Tags an. Hierzu
 kann beispielsweise mit `git config` global die *Schlüssel--ID* des Schlüssels
 hinzugefügt werden, mit welchem der Quelltext in Zukunft signiert werden soll.
 Anschließend kann mit dem zusätzlichen Parameter (`-S[<keyid>],
---gpg-sign[=<keyid>]`) ein digital unterschriebener *Commit* abgesetzt werden.
+--gpg-sign[=<keyid>]`) ein digital unterschriebener Commit abgesetzt werden.
 
-Für signierte *Commits* unter `git` sollte die Key--ID beziehungsweise der
+Für signierte Commits unter `git` sollte die Key--ID beziehungsweise der
 Fingerprint in der git--Konfigurationsdatei hinterlegt werden:
 
 ~~~sh
 $ git config --global user.signingkey  8219B30B103FB091
 ~~~
 
-Anschließend kann mit der `--gpg-sign`--Option ein signierter *Commit* abgesetzt
+Anschließend kann mit der `--gpg-sign`--Option ein signierter Commit abgesetzt
 werden:
 
 ~~~sh
@@ -1398,20 +1398,20 @@ Möchte man das Signieren dauerhaft aktivieren, so muss noch die `gpgsign`--Opti
 ~~~
 
 
-Durch das Signieren von *Commits* wird auf GitHub über ein Label ein
-erweiterter Status zum jeweiligen *Commit* beziehungsweise *Tag* angezeigt,
+Durch das Signieren von Commits wird auf GitHub über ein Label ein
+erweiterter Status zum jeweiligen Commit beziehungsweise Tag angezeigt,
 siehe [@fig:img-signunveri].
 
 ![Nach dem Absetzen eines signierten Commits/Tags erscheint auf der GitHub--Plattform ein zusätzliches Label »Unverified«, wenn der öffentliche Schlüssel des Entwicklers bei GitHub nicht hinterlegt ist.](images/signed-unverified2.png){#fig:img-signunveri width=65%}
 
 Pflegen die Entwickler zusätzlich ihren öffentlichen Schlüssel im GitHub--Account
 ein, so signalisiert das Label eine verifizierte Signatur des jeweiligen
-*Commits* beziehungsweise *Tags*, siehe [@fig:img-signed].
+Commits beziehungsweise Tags, siehe [@fig:img-signed].
 
 ![Verifiziertes GitHub--Signatur--Label eines Commits/Tags welches aufgeklappt
 wurde.](images/signed2.png){#fig:img-signed width=70%}
 
-Auf der Kommandozeile kann eine *Signatur* einfach mit der
+Auf der Kommandozeile kann eine Signatur einfach mit der
 `--show-signature`--Option von git angezeigt werden (gekürzte Ausgabe):
 
 ~~~sh
@@ -1469,7 +1469,7 @@ GitHub zu authentifizieren.
 **Public--Key--Authentifizierung:**
 
 Eine erweiterte Möglichkeit ist es, sich über
-einen *SSH*-Schlüssel zu authentifizieren. [@fig:img-sshauth] zeigt schematisch
+einen SSH-Schlüssel zu authentifizieren. [@fig:img-sshauth] zeigt schematisch
 den Ablauf einer Authentifizierung mittels Public--Key--Verfahren (vgl.
 [@BIB_SSH_SECURE_SHELL], S. 63 f.).
 
@@ -1511,15 +1511,15 @@ Varianten:
    `gpg-agent` geschützt verwaltet.
 
 Bei der ersten Variante kann der `gpg-agent` so konfiguriert werden, dass er
-die *SSH*--Anwendung direkt unterstützt. Dazu muss die *SSH*--Unterstützung in der
-Konfigurationsdatei vom *gpg--agent* aktiviert werden:
+die SSH--Anwendung direkt unterstützt. Dazu muss die SSH--Unterstützung in der
+Konfigurationsdatei vom gpg--agent aktiviert werden:
 
 ~~~sh
 echo "enable-ssh-support" >> ~/.gnupg/gpg-agent.conf
 ~~~
 
 Weiterhin muss die Kommunikationsschnittstelle zwischen `gpg-agent` und
-*SSH*--Anwendung bekannt gemacht werden (Auszug aus `man gpg-agent`):
+SSH--Anwendung bekannt gemacht werden (Auszug aus `man gpg-agent`):
 
 ~~~sh
 unset SSH_AGENT_PID
@@ -1545,11 +1545,11 @@ fViXwnf9l cardno:000600000011
 ~~~
 
 Betreibt man einen eigenen Server, so muss bei einem typischen unixoiden
-System mit *OpenSSH* der Public--Key auf dem Server in der
+System mit OpenSSH der Public--Key auf dem Server in der
 `~/.ssh/authorized_keys`--Datei hinterlegt werden und das Public--Key--Verfahren
 in der sshd--Konfigurationsdatei aktiviert werden.
 
-Ob die Authentifizierung über die Smartcard funktioniert, kann beim *SSH*--Login
+Ob die Authentifizierung über die Smartcard funktioniert, kann beim SSH--Login
 mittels Verbose--Flag validiert werden. Dieses ist auch für Debuggingzwecke
 empfehlenswert. Folgender gekürzter Auszug, zeigt eine erfolgreich konfigurierte
 GitHub--SSH--Smartcard--Authentifizierung, cardno:000600000011 zeigt hierbei die
@@ -1574,10 +1574,10 @@ Ohne Smartcard/PIN schlägt der Loginversuch fehl. Bei der Verwendung eines
 eigenen Servers ist es empfehlenswert, eine Fallback--Loginmethode in der
 sshd--Konfigurationsdatei des Servers zu aktivieren, mehr hierzu siehe `man
 sshd_config` unter `AuthenticationMethods`. Für weitere Details zum Thema
-Konfiguration und *OpenSSH*--Authentifizierung siehe [@BIB_OPENSSH].
+Konfiguration und OpenSSH--Authentifizierung siehe [@BIB_OPENSSH].
 
 Für die Einrichtung der zweiten Variante (`gpg--agent` fungiert als
-`ssh-agent`) muss lediglich ergänzend ein generierter *SSH*--Schlüssel mit
+`ssh-agent`) muss lediglich ergänzend ein generierter SSH--Schlüssel mit
 `ssh-add <identity>` dem `gpg-agent` bekannt gemacht werden. Der `gpg-agent`
 schützt den Schlüssel anschließend mit einer vom Nutzer vergebenen Passphrase und
 ersetzt somit einen separat laufenden `ssh-agent`. Mit `ssh-add -l` können die
@@ -1588,12 +1588,12 @@ aktuell verwalteten Schlüssel--Fingerprints überprüft werden:
 2048 SHA256:V00F8adokJZljo1WD+XPjSP51rTl/GVS3bh5YfJOLtk /home/qitta/.ssh/id_rsa (RSA)
 ~~~
 
-Lädt man anschließend seine Änderungen bei GitHub über *SSH* hoch, so wird
+Lädt man anschließend seine Änderungen bei GitHub über SSH hoch, so wird
 primär der vom `gpg--agent` verwaltete Schlüssel mittels Passwortabfrage
 freigegeben. Würde man diese abbrechen, so verwendet der Agent den öffentlichen
 Schlüssel auf der Smartcard. Im Folgenden wird die
-*SSH*--Public--Key--Authentifizierung über den vom `gpg-agent` verwalteten
-*SSH*--Schlüssel gezeigt:
+SSH--Public--Key--Authentifizierung über den vom `gpg-agent` verwalteten
+SSH--Schlüssel gezeigt:
 
 ~~~sh
 $ GIT_SSH_COMMAND="ssh -vv" git push

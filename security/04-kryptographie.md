@@ -99,11 +99,11 @@ des gleichen Schlüssels, ergeben. [@fig:img-ecbvschaining] zeigt eine
 
 ![Bild zur graphischen Verdeutlichung des ECB--Modus im Vergleich zu einem block chaining cipher.[^FN_TUX_ECB]](images/ecbvschaining.png){#fig:img-ecbvschaining width=80%}
 
-[^FN_TUX_ECB]:Bildquelle *ECB*: <https://de.wikipedia.org/w/index.php?title=Electronic_Code_Book_Mode&oldid=159557291>
+[^FN_TUX_ECB]:Bildquelle ECB: <https://de.wikipedia.org/w/index.php?title=Electronic_Code_Book_Mode&oldid=159557291>
 
 **Cipher Feedback Mode (CFB):** Beim *CFB*--Modus fließt, neben dem Schlüssel,
 der Geheimtextblock vom Vorgänger ein. Durch diese Arbeitsweise haben im
-Gegensatz zum *ECB*--Modus gleiche Klartextblöcke unterschiedliche
+Gegensatz zum ECB--Modus gleiche Klartextblöcke unterschiedliche
 Geheimtextblöcke. Weiterhin wird bei dieser Arbeitsweise aus der
 Blockverschlüsselung eine Stromverschlüsselung.
 
@@ -135,18 +135,18 @@ Verschlüsselungsalgorithmen. {#tbl:t-betriebsarten}
 
 Der ursprünglich seit Ende der 70er--Jahre verwendete *DES (Data Encryption
 Standard)*, welcher eine effektive Schlüssellänge von 56  Bit hatte, war Ende
-der 90er--Jahre nicht mehr ausreichend sicher gegen *Brute--Force*--Angriffe.
+der 90er--Jahre nicht mehr ausreichend sicher gegen Brute--Force--Angriffe.
 In einer öffentlichen Ausschreibung wurde ein Nachfolger, der Advanced
-Encryption Standard (kurz *AES*) bestimmt. Gewinner des Wettbewerbs sowie der
+Encryption Standard (kurz AES) bestimmt. Gewinner des Wettbewerbs sowie der
 heutige »Quasistandard« wurde der Rijndael--Algorithmus.
 
 Neben dem bekanntem *AES (Rijndael)*--Algorithmus, gibt es noch weitere
-Algorithmen, die heutzutage Verwendung finden. Zu den *AES*--Finalisten gehören
-weiterhin *MARS*, *RC6*, *Serpent* und der von *Bruce Schneier* entwickelte
-*Twofish*. Alle genannten Algorithmen arbeiten mit einer Blockgröße von 128 Bit
+Algorithmen, die heutzutage Verwendung finden. Zu den AES--Finalisten gehören
+weiterhin MARS, RC6, Serpent und der von *Bruce Schneier* entwickelte
+Twofish. Alle genannten Algorithmen arbeiten mit einer Blockgröße von 128 Bit
 und unterstützen jeweils die Schlüssellängen 128 Bit, 192 Bit und 256 Bit.
 
-*AES* ist die aktuelle Empfehlung vom *BSI (vgl. [@bsi] S.22 f.)*.
+AES ist die aktuelle Empfehlung vom *BSI (vgl. [@bsi] S.22 f.)*.
 
 ### Asymmetrische Verschlüsselungsverfahren {#sec:SEC04_ASYMMETRISCHE_VERSCHLUESSELUNGSVERFAHREN}
 
@@ -171,17 +171,17 @@ Verschlüsselung auf der Basis eines mathematischen Problems, welches eine
 Einwegfunktion ist. Das heißt, dass die Berechnung in die eine Richtung sehr
 leicht ist, die Umkehrfunktion jedoch sehr schwierig zu berechnen ist. Die
 zugrundeliegenden mathematischen Probleme sind das Faktorisierungsproblem
-(*RSA*--Verfahren) großer Primzahlen und das diskrete Logarithmusproblem
-(*ElGamal*--Verfahren).
+(RSA--Verfahren) großer Primzahlen und das diskrete Logarithmusproblem
+(ElGamal--Verfahren).
 
 #### Gängige Algorithmen, Einsatzzwecke und Schlüssellängen {#sec:SEC04_GAENGIGE_ALGORITHMEN_EINSATZZWECKE_UND_SCHLUESSELLAENGEN}
 
 Zu den gängigen Algorithmen der asymmetrischen Verschlüsselungsverfahren
-gehören *RSA* und *ElGamal*. Beide Verfahren ermöglichen sowohl die Ver-- und
+gehören RSA und ElGamal. Beide Verfahren ermöglichen sowohl die Ver-- und
 Entschlüsselung von Daten sowie das Signieren von Daten. Zu den
 Signatur--Verfahren gehören die RSA--Signatur und *DSA (ElGamal--Signatur)*.
 
-Weiterhin gibt es eine Variante des *DSA*--Verfahrens, welche
+Weiterhin gibt es eine Variante des DSA--Verfahrens, welche
 Elliptische--Kurven--Kryptographie verwendet, das *ECDSA (elliptic curve DSA)*.
 Die Verfahren auf elliptischen Kurven haben den Vorteil, dass die
 Schlüssellängen um Faktor 6--30 kleiner sind, was bei vergleichbarem
@@ -242,20 +242,20 @@ verwenden, aus.
 
 ## Diffie--Hellman--Schlüsseltausch {#sec:SEC04_DIFFIE_HELLMANN_SCHLUESSELAUSTAUSCH}
 
-Aus dem Diffie--Hellman--Schlüsselaustausch (kurz *DH*) geht das
-ElGamal--Verschlüsselungsverfahren hervor. *DH* ist ein
+Aus dem Diffie--Hellman--Schlüsselaustausch (kurz DH) geht das
+ElGamal--Verschlüsselungsverfahren hervor. DH ist ein
 Schlüsselaustauschprotokoll, welches es zwei Kommunikationspartnern ermöglicht,
 einen *gemeinsamen* Schlüssel zu bestimmen, ohne diesen über den potentiell
 unsicheren Kommunikationskanal austauschen zu müssen.
 
 ![Grafische Darstellung, Ablauf des Diffie--Hellman--Schlüsseltausch.](images/dh.png){#fig:img-dh width=75%}
 
-[@fig:img-dh] zeigt Ablauf des *DH*--Protokolls:
+[@fig:img-dh] zeigt Ablauf des DH--Protokolls:
 
 1) *Alice* und *Bob* einigen sich auf große Primzahl $p$ und natürliche Zahl $g$, die kleiner ist als $p$.
 2) *Alice* und *Bob* generieren jeweils eine geheime Zufallszahl $a$ und $b$.
 3) *Alice* berechnet $A=g^{a} (\mod p)$  und schickt $A$ an *Bob* (dies
-   entspricht im Grunde einem temporärem *ElGamal* Schlüsselpaar: $a$ = privater
+   entspricht im Grunde einem temporärem ElGamal Schlüsselpaar: $a$ = privater
    Schlüssel, $g^a$ = öffentlicher Schlüssel)
 4) *Bob* berechnet $B=g^{b}(\mod p)$ und schickt  $B$ an *Alice*.
 5) *Alice* erhält $B$ von *Bob* und berechnet mit $a$ die Zahl $K_{1}=B^{a} (\mod p)$.
@@ -273,7 +273,7 @@ Hashfunktionen werden in der Informatik verwendet, um eine beliebige endliche
 Eingabemenge auf einer Prüfsumme (Hashwert) einer bestimmten Länge abzubilden.
 Prüfsummen können verwendet werden, um beispielsweise die Integrität von Daten
 zu validieren. Ein Praxisbeispiel wäre die Korrektheit von übertragenen Daten
-zu validieren, beispielsweise nach dem Download eines *Linux*--Images.
+zu validieren, beispielsweise nach dem Download eines Linux--Images.
 
 Kryptographische Hashfunktionen sind spezielle Formen von Hashfunktionen, welche
 folgende Eigenschaften bieten:
@@ -289,7 +289,7 @@ folgende Eigenschaften bieten:
 
 Um nicht nur die Integrität der Daten, sondern auch deren Quelle zu
 validieren, werden sogenannte Message Authentification Codes (kurz MAC)
-verwendet. *MACs* sind schlüsselabhängige Hashfunktionen. Neben Hashfunktionen
+verwendet. MACs sind schlüsselabhängige Hashfunktionen. Neben Hashfunktionen
 werden auch Blockchiffren verwendet. [@fig:img-hmac] zeigt die Übertragung von
 Daten mit einer *Keyed-Hash Message Authentication Code (HMAC)*.
 
@@ -311,13 +311,13 @@ Menschen oft schwache Passwörter, oft auch das gleiche »einfache« Passwort f�
 mehrere Anwendungen.
 
 Die Situation lässt sich jedoch auf recht einfache Art und Weise durch den
-Einsatz eines zusätzlichen *Authentifizierungsfaktors* verbessern. Diese Art der
+Einsatz eines zusätzlichen Authentifizierungsfaktors verbessern. Diese Art der
 Authentifizierung wird Multi--Faktor-- oder auch im speziellen Zwei--Faktor--Authentifizierung
-genannt. Als zweiter *Faktor* kann beispielsweise ein biometrisches Merkmal
+genannt. Als zweiter Faktor kann beispielsweise ein biometrisches Merkmal
 verwendet werden. Eine weitere Form der Zwei--Faktor--Authentifizierung wäre
-beispielsweise die Chipkarte der Bank. Hierbei wird einerseits die *PIN* (etwas
+beispielsweise die Chipkarte der Bank. Hierbei wird einerseits die PIN (etwas
 das man weiß) und die Chipkarte (etwas das man hat) benötigt. Eine
-erfolgreiche Authentifizierung findet in dem Fall nur bei korrekter *PIN* unter
+erfolgreiche Authentifizierung findet in dem Fall nur bei korrekter PIN unter
 Verwendung der Chipkarte der Bank statt.
 
 ## Keymanagement {#sec:SEC04_KEYMANAGEMENT}

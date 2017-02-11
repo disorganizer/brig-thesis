@@ -209,7 +209,7 @@ Cloud--Speicher--Benutzern in Frage stellt (vgl. [@mulazzani2011dark]).
 
 2013 haben weitere Sicherheitsforscher den Dropbox--Client mittels *Reverse
 Engineering* analysiert. Ab der Version 1.2.48 wird die *HOST_ID* in einer
-verschlüsselten *sqlite3*--Datenbank abgespeichert. Diese Nachbesserung
+verschlüsselten sqlite3--Datenbank abgespeichert. Diese Nachbesserung
 seitens Dropbox war nicht besonders effektiv, da sich die Schlüssel zum
 Entschlüsseln weiterhin auf dem Client--PC befinden. Zusätzlich wird für die
 Authentifizierung in neueren Dropbox--Versionen ein *HOST_INT*--Wert
@@ -379,10 +379,10 @@ eines Cloud--Speicher--Dienstes essentiell ist.
 Der dezentrale Bereich klassifiziert sich durch den Dateiaustausch, welcher in
 der Regel *ohne* eine zentrale Instanz auskommt. Es handelt sich hierbei um
 Systeme aus dem Bereich des Peer-to-peer--Modells. Eines der frühen
-Peer--to--Peer--Protokolle ist das *Napster*--Protokoll der gleichnamigen
-Anwendung *Napster*, welche Ende der 90' Jahre für den Tausch von Musik
+Peer--to--Peer--Protokolle ist das Napster--Protokoll der gleichnamigen
+Anwendung Napster, welche Ende der 90' Jahre für den Tausch von Musik
 verwendet wurde. Später sind weitere Peer--to--Peer--Protokolle wie das
-*Multisource--File--Transfer--Protocol* oder das BitTorrent--Protokoll hinzugekommen.
+Multisource--File--Transfer--Protocol oder das BitTorrent--Protokoll hinzugekommen.
 
 [@fig:img-p2p] zeigt schematisch den Austausch von Daten in einem dezentralen
 Netzwerk. Bei einem dezentralem System liegen die Daten in der Regel nur auf
@@ -583,7 +583,7 @@ Entwicklers[^FN_LIBREVAULT_BLOG] zu finden.
 
 **git--annex** ist ein sehr stark am git--Versionsverwaltungssystem
 orientiertes Synchronisationswerkzeug. Prinzipiell ist es für die Kommandozeile
-entwickelt worden, es existiert mittlerweile jedoch ein *Webfrontend* (Webapp).
+entwickelt worden, es existiert mittlerweile jedoch ein Webfrontend (Webapp).
 
 git--annex verwaltet nur die Metadaten in git. Es funktioniert als
 git--Aufsatz, welcher es dem Benutzer ermöglicht, auch große binäre Dateien
@@ -601,7 +601,7 @@ Remotes«[^FN_GIT_ANNEX_SPECIALREMOTES] unterstützt. Diese werden verwendet, um
 Daten auf ein System, auf welchem git nicht installiert ist, zu synchronisieren.
 
 Neben der Verschlüsselung von git--remotes mit gcrypt gibt es auch die
-Möglichkeit, die Daten auf *special remotes* zu verschlüsseln. Hierfür gibt es
+Möglichkeit, die Daten auf special remotes zu verschlüsseln. Hierfür gibt es
 die vier Verfahren:
 
 * **hybrid encryption:** Gemeinsamer »shared key« wird im mit einem »public
@@ -627,7 +627,7 @@ setzt eine Ebene tiefer als »brig« an und befasst sich mit den Eigenschaften
 und dem Entwurf eines dezentralen Dateisystems.
 
 **Bazil**[^FN_BAZIL]ist ein weiteres Projekt, welches als dezentrales
-Dateisystem entwickelt wird. *Bazil* hat ähnliche Ziele wie »brig«. Es
+Dateisystem entwickelt wird. Bazil hat ähnliche Ziele wie »brig«. Es
 verschlüsselt die Daten, arbeitet dezentral und hat auch Features wie
 Deduplizierung von Daten oder Snapshots. Weiterhin ist die
 Go--FUSE--Bibliothek[^FN_GOFUSE] aus dem Projekt entstanden, welche auch von
@@ -691,13 +691,13 @@ Software* argumentiert. Software--Bugs wie
 [^FN_DEBIAN_RNG_BUG]: Random Number Bug in Debian Linux: <https://www.schneier.com/blog/archives/2008/05/random_number_b.html>
 [^FN_HEARTBLEED]: Heartbleed: <https://www.schneier.com/blog/archives/2014/04/heartbleed.html>
 
-haben jedoch gezeigt, dass auch *Freie Software* vor »Sicherheitskatastrophen«
+haben jedoch gezeigt, dass auch Freie Software vor »Sicherheitskatastrophen«
 nicht sicher ist. Die besagten Bugs wurden erst nach mehreren Jahren entdeckt
 und es ist unbekannt, ob und in welchem Ausmaß diese ausgenutzt werden konnten.
 Diese Beispiele zeigen, dass man sich auf das »More eyeballs principle« allein
 nicht verlassen darf. Weiterhin kann das Open--Source--Modell auch dazu
 verwendet werden, um automatisiert nach Sicherheitslücken im Quelltext auf
-GitHub bei jedem *Commit* zu suchen. Der Google Softwareentwickler *Kees
+GitHub bei jedem Commit zu suchen. Der Google Softwareentwickler *Kees
 Cook* verweist auf diese Problematik auf dem aktuellsten *Linux Security Summit
 2016*[^FN_LINUX_SEC_SUMMIT].
 
@@ -710,7 +710,7 @@ keine signifikanten Unterschiede bezüglich der Sicherheit zwischen den beiden
 Entwicklungsmodellen gibt. Open--Source scheint jedoch ein extrem schlechtes
 Patch--Management seitens des Herstellers zu verhindern (vgl. [@Schryen]).
 
-Wenn man davon ausgeht, dass schlechte Quellcode--Qualität zu mehr *Bugs* und
+Wenn man davon ausgeht, dass schlechte Quellcode--Qualität zu mehr Bugs und
 somit zu mehr Sicherheitslücken führt, kann man auch einen Teil der
 Sicherheit über die Quellcode--Qualität definieren. Eine Studie, welche die
 Quellcode--Qualität von vier großen Betriebssystemkerneln (Linux (open source),
@@ -722,12 +722,12 @@ Open--Source--Softwareentwicklungmodell bezüglich Quellcode--Qualität gibt (vg
 Open--Source--Software--Projekten eine tendenziell bessere Quellcode--Qualität
 als Closed--Source--Projekten (vgl. [@csr2013] und [@csr2014]).
 
-Durch *Freie Software* hat der Verbraucher jedoch immer die Möglichkeit, den
+Durch Freie Software hat der Verbraucher jedoch immer die Möglichkeit, den
 Quelltext zu validieren und auch an die eigenen Sicherheitsbedürfnisse
 anzupassen. Wenn man beispielsweise wissen möchte, ob und wie die
 Festplattenverschlüsselungssoftware (in diesem Fall *Cryptsetup/LUKS*)  den
 Volume--Schlüssel aus dem Speicher entfernt, kann man sich den Quelltext auf
-GitHub anschauen. Im Fall von *LUKS* wir der Speicherbereich mit Nullen
+GitHub anschauen. Im Fall von LUKS wir der Speicherbereich mit Nullen
 überschrieben[^FN_LUKS_VK_MEMSET].
 
 [^FN_LUKS_VK_MEMSET]: LUKS Volume--Key Free--Funktion:
@@ -781,7 +781,7 @@ einem »Bevölkerungsregister« erfasst. Die dort gespeicherten Informationen
 enthielten Beziehungsstatus, Beruf und Religionszugehörigkeit. Die Bürger der
 Stadt glaubten sicherlich an ihre »Unschuld« und hatten nichts zu verbergen.
 Als im Mai 1940 die deutschen Besatzer einmarschierten, konnten sie anhand des
-*Registers* alle jüdischen Bürger in kürzester Zeit identifizieren. Diese
+Registers alle jüdischen Bürger in kürzester Zeit identifizieren. Diese
 wurden in Konzentrationslager deportiert. In diesem Fall hat ein einfacher
 Datensatz über Leben und Tod entschieden (vgl. [@ct-juden], S. 3).
 

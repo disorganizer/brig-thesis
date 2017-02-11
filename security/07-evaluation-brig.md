@@ -55,7 +55,7 @@ vor dem IPFS--Backend [@fig:img-enclayer] eingeführt.
 Die Verschlüsselungsschicht ist so ausgelegt, dass die verwendete
 Verschlüsselungstechnik austauschbar ist. Für den anfänglichen Prototypen
 wurden zwei Verfahren (AES, ChaCha20) implementiert. Die Entscheidung bei der
-Standardeinstellung ist neben dem weit etablierten *AES*--Standard auf Chacha20
+Standardeinstellung ist neben dem weit etablierten AES--Standard auf Chacha20
 gefallen. Dieses recht neue Verfahren bietet
 Geschwindigkeitsvorteile[^FN_CHACHA20_PERF1][^FN_CHACHA20_PERF2] auf
 schwächerer und mobiler Hardware, insbesondere bei Hardware ohne
@@ -80,7 +80,7 @@ Algorithmus gewährleistet werden.
 
 ### Verwendete Algorithmen {#sec:SEC07_VERWENDETE_ALGORITHMEN}
 
-Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEAD*--Betriebsmodi[^AEAD]:
+Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die AEAD--Betriebsmodi[^AEAD]:
 
 * AES--GCM [@gcm] mit 256 Bit Schlüssellänge
 * ChaCha20/Poly1305 mit 256 Bit Schlüssellänge (externe Bibliothek[^FN_CHACHA20])
@@ -92,7 +92,7 @@ Die aktuelle Softwareversion[^FN_SYMALGO] beherrscht die *AEAD*--Betriebsmodi[^A
 [^FN_CHACHA20]: ChaCha20/Poly1305--Bibliothek: <https://github.com/codahale/chacha20poly1305>
 [^AEAD]: Authenticated encryption: <https://en.wikipedia.org/w/index.php?title=Authenticated_encryption&oldid=760384391>
 
-Der *AEAD*--Betriebsmodus wurde gewählt, weil er den Vorteil hat, dass er neben
+Der AEAD--Betriebsmodus wurde gewählt, weil er den Vorteil hat, dass er neben
 der Vertraulichkeit auch die Authentizität und die Integrität sicherstellt.
 
 ### Geschwindigkeitsevaluation {#sec:SEC07_GESCHWINDIGKEITSEVALUATION}
@@ -104,19 +104,19 @@ Geschwindigkeit bei Verschlüsselung vergleichsweise stark eingebrochen ist.
 Um Verschlüsselungsoperationen zu beschleunigen, gibt es neben der Wahl
 verschiedener Blockcipher, auch die Möglichkeit einer hardwarebasierten
 Beschleunigung. Moderne Prozessoren bieten eine Beschleunigung mit dem
-sogenannten *AES--NI*--Befehlserweiterungssatz. Diese müssen jedoch vom
+sogenannten AES--NI--Befehlserweiterungssatz. Diese müssen jedoch vom
 Betriebssystem und der jeweiligen Anwendung unterstützt werden.
 
-Von *CloudFlare* gibt es einen Go--Fork[^FN_CLOUDFLARE], welcher
+Von CloudFlare gibt es einen Go--Fork[^FN_CLOUDFLARE], welcher
 AES--NI--Erweiterungen unterstützt und somit eine erhöhte Performance auf
 bestimmten Systemen bieten sollte.
 
 [^FN_CLOUDFLARE]: CloudFlare Go--Crypto--Fork: <https://blog.cloudflare.com/go-crypto-bridging-the-performance-gap/>
 
-Der *AES--NI*--Befehlserweiterungssatz war lange Zeit aufgrund von
-Lizenzproblemen nicht in *Go* implementiert. Nach eingehender Recherche
-scheinen jedoch bereits die Patches von *CloudFlare* mittlerweile in
-*Go* Einzug[^FN_AESNI_MERGE][^FN_ECDSA_MERGE] gefunden zu haben.
+Der AES--NI--Befehlserweiterungssatz war lange Zeit aufgrund von
+Lizenzproblemen nicht in Go implementiert. Nach eingehender Recherche
+scheinen jedoch bereits die Patches von CloudFlare mittlerweile in
+Go Einzug[^FN_AESNI_MERGE][^FN_ECDSA_MERGE] gefunden zu haben.
 
 [^FN_AESNI_MERGE]: Go AES--NI--Patch--Merge: <https://go-review.googlesource.com/#/c/10484/>
 [^FN_ECDSA_MERGE]: Go ECDSA--P256--Patch--Merge: <https://go-review.googlesource.com/#/c/8968/>
@@ -167,7 +167,7 @@ der Testumgebung.
 Beim Erheben der Daten wurde wie folgt vorgegangen:
 
 * Swap--Datei wurde mit `swapoff -a` deaktiviert, um ein Auslagern der Daten aus dem
-  *RAM* auf die Festplatte zu verhindern.
+  RAM auf die Festplatte zu verhindern.
 * Eine RAM--Disk wurde mittels Skript angelegt.
 * Verschlüsselte und entschlüsselte Daten werden mittels Skript erstellt.
 * Daten werden verschlüsselt (Schreibvorgang) nach `/dev/null` geschrieben,
@@ -219,20 +219,20 @@ kompiliert.
 
 Table: Zeigt die effizientesten Blockgrößen beim Entschlüsseln. Der erste Wert entspricht der Zeit in Millisekunden, der zweite Wert der Geschwindigkeit in MiByte/s beim Lesen einer 128 MiByte großen Datei. {#tbl:TAB_READ_BLOCK_HIGH}
 
-Hierbei wurden die Systeme mit einer Datei der Größe von *128 MiByte* getestet.
+Hierbei wurden die Systeme mit einer Datei der Größe von 128 MiByte getestet.
 Diese Datei wurde jeweils komplett mehrmals in der RAM--DISK mit verschiedenen
 Blockgrößen verschlüsselt und wieder entschlüsselt.
 
 Beim Entschlüsseln [@fig:img-read-block] ist erkennbar, dass die
-Geschwindigkeit bei beiden Algorithmen unterhalb *4 KiByte* einbricht. Im
+Geschwindigkeit bei beiden Algorithmen unterhalb 4 KiByte einbricht. Im
 Mittelfeld ist die Geschwindigkeit stabil, ab einer Blockgröße von oberhalb
-*32 MiByte* scheint die Geschwindigkeit wieder zu degenerieren.
+32 MiByte scheint die Geschwindigkeit wieder zu degenerieren.
 
 Ähnlich wie beim Entschlüsseln, zeigt die Verschlüsselung einen vergleichbaren
-Verlauf. Hier ist die Geschwindigkeit unterhalb *4 KiByte* Blockgröße rückläufig.
+Verlauf. Hier ist die Geschwindigkeit unterhalb 4 KiByte Blockgröße rückläufig.
 Der obere Grenzwert für die Blockgröße ist beim Verschlüsseln weniger gut
 erkennbar. Hier bricht die Geschwindigkeit verglichen mit dem Entschlüsseln nur
-beim Intel System mit *AES*--Algorithmus ab ungefähr *32 MiByte* ein.
+beim Intel System mit AES--Algorithmus ab ungefähr 32 MiByte ein.
 
 ![Schreibgeschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/write-performance-blocksize.json.svg.pdf){#fig:img-write-block width=95%}
 
@@ -258,10 +258,10 @@ Speichermanagement/Speicherallokierung zusammenhängen könnte.
 #### Einfluss des AES--NI--Befehlserweiterungssatzes beim Ver-- und Entschlüsseln {#sec:SEC07_EINFLUSS_DES_AES_NI_BEFEHLSERWEITERUNGSSATZES_BEIM_VER_UND_ENTSCHLUESSELN}
 
 [@fig:img-aesni] zeigt den Geschwindigkeitszuwachs, der durch die Nutzung des
-*AES--NI*--Befehlserweiterungssatzes zustande kommt. Hier wurde die
+AES--NI--Befehlserweiterungssatzes zustande kommt. Hier wurde die
 Verschlüsselungsschicht mit verschiedenen Go--Versionen kompiliert, um zu sehen,
 wie stark sich die Geschwindigkeit ab Go Version 1.6 (Merge des
-*Cloudflare--AES--NI*--Patches [^FN_AESNI_MERGE]) verändert hat.
+Cloudflare--AES--NI--Patches [^FN_AESNI_MERGE]) verändert hat.
 
 ![Geschwindigkeitszuwachs durch AES--NI.](images/aesni-impact.json.svg.pdf){#fig:img-aesni width=95%}
 
@@ -295,13 +295,13 @@ beiden Systeme (Intel Atom, Raspberry Pi) im Vergleich zum Intel i5/AMD
 Phenom so langsam sind, dass eine Durchführung des Benchmarks mit den gleichen
 Parametern in keiner akzeptablen Zeit durchgeführt werden kann. Aus diesem
 Grund wurde die Anzahl der Durchläufe auf drei, und die zu verarbeitende
-Dateigröße auf *32MiByte* reduziert.
+Dateigröße auf 32MiByte reduziert.
 
 @fig:img-readblock-low zeigt den Einfluss der Blockgröße beim
 Lesen/Entschlüsseln auf den schwächeren Systemen. In der Tabelle
 @tbl:TAB_READ_BLOCK_LOW sind jeweils die effizientesten Blockgrößen beim
 Entschlüsseln zu entnehmen. Hier zeigt sich ein vergleichbares Verhalten wie
-bei den stärkeren Systemen. Unterhalb *4 KiByte* bricht die Lesegeschwindigkeit
+bei den stärkeren Systemen. Unterhalb 4 KiByte bricht die Lesegeschwindigkeit
 stark ein. Verglichen zu den stärkeren Systemen bricht hier die
 Lesegeschwindigkeit bereits ab einer Blockgröße von ungefähr 2 MiByte ein.
 
@@ -348,7 +348,7 @@ Table: Zeigt die effizientesten Blockgrößen beim Verschlüsseln. Der erste Wer
 Trotz des reduzierten Benchmarkaufwandes lagen die Zeiten für die Durchführung
 des Benchmarks bei 1 Stunde 30 Minuten (Raspberry Pi) und 40 Minuten (*Intel
 Atom*). [@fig:img-lowend] zeigt den Einbruch der Geschwindigkeit beim Ver-- und
-Entschlüsseln auf den schwächeren Systemen. Der Wert *Base* zeigt hier die
+Entschlüsseln auf den schwächeren Systemen. Der Wert Base zeigt hier die
 Lese-- und Schreibgeschwindigkeit der Systeme ohne Verschlüsselungsschicht. Auf
 beiden Systemen ist ein starker Geschwindigkeitseinbruch unter Verwendung von
 Verschlüsselung zu verzeichnen. Betrachtet man die tatsächliche Geschwindigkeit
@@ -388,17 +388,17 @@ sehr unwahrscheinlich.
 Beim Benchmark--Tool wurde beim Verschlüsseln eine Geschwindigkeits--Anomalie
 bei der Verwendung verschiedener Dateigrößen festgestellt. Nach eingehender
 Recherche wurde hierfür die Ableitung des Schlüssels mittels
-*scrypt*[^FN_SCRYPT]  als Ursache identifiziert.
+scrypt[^FN_SCRYPT]  als Ursache identifiziert.
 
 [^FN_SCRYPT]: Scrypt: <https://de.wikipedia.org/w/index.php?title=Scrypt&oldid=158788414>
 
-[@fig:img-keyoverhead] zeigt den Verlauf des *Overheads* bei verschiedenen
+[@fig:img-keyoverhead] zeigt den Verlauf des Overheads bei verschiedenen
 Dateigrößen verglichen mit zwei weiteren Verfahren. Die
-*scrypt*--Schlüsselableitungsfunktion fällt bei kleinen Dateien stark ins
+scrypt--Schlüsselableitungsfunktion fällt bei kleinen Dateien stark ins
 Gewicht. »brig« verwendet aktuell einen zufällig generierten Schlüssel (in
 @fig:img-keyoverhead Dev Random generated key).
 
-![Geschwindigkeitseinbruch verursacht durch Schlüsselableitung mittels der *scrypt*--Schlüsselableitungsfunktion.](images/keygenoverhead-profile.json.svg.pdf){#fig:img-keyoverhead width=95%}
+![Geschwindigkeitseinbruch verursacht durch Schlüsselableitung mittels der scrypt--Schlüsselableitungsfunktion.](images/keygenoverhead-profile.json.svg.pdf){#fig:img-keyoverhead width=95%}
 
 #### Zusammenfassung Geschwindigkeitsevaluation  {#sec:SEC07_ZUSAMMENFASSUNG_GESCHWINDIGKEITSEVALUATION}
 
@@ -437,23 +437,23 @@ alice
 Die Dateien mit der Endung `locked` sind durch »brig« verschlüsselt. Als
 Einstiegspunkt für den Zugriff auf das Repository fungiert aktuell eine
 Passwort--Abfrage. Das Passwort ist samt zufällig generiertem Salt als
-*SHA-3*--Repräsentation in der `shadow`--Datei [^FN_BRIG_SHADOW] gespeichert.
+SHA-3--Repräsentation in der `shadow`--Datei [^FN_BRIG_SHADOW] gespeichert.
 
 [^FN_BRIG_SHADOW]: Quellcode: <https://github.com/disorganizer/brig/blob/fa9bb634b4b83aaabaa967ac523123ce67aa217d/repo/shadow.go>
 
-Die verschlüsselte Remotes--Datei beinhaltet den *Benutzernamen* mit
-dazugehöriger *Peer--ID* und einen *Zeitstempel* (letzter Onlinestatus) für die
+Die verschlüsselte Remotes--Datei beinhaltet den Benutzernamen mit
+dazugehöriger Peer--ID und einen Zeitstempel (letzter Onlinestatus) für die
 jeweils bekannten (authentifizierten) Synchronisationspartner.
 
 **Einschätzung:** Das IPFS--Repository, sowie das Schlüsselpaar von IPFS
 ist aktuell unverschlüsselt. Dies würde diverse Modifikationen am Repository
-erlauben wie beispielsweise die Manipulation der *Peer--ID* von IPFS. Der
+erlauben wie beispielsweise die Manipulation der Peer--ID von IPFS. Der
 `master.key` hat aktuell keine Verwendung.
 
 ## »brig«--Identifier {#sec:SEC07_BRIG_IDENTIFIER}
 
 Da IPFS an sich keinen Authentifizierungsmechanismus bietet, muss dieser von
-»brig« bereitgestellt werden. Im IPFS--Netzwerk haben die *Peers* durch die
+»brig« bereitgestellt werden. Im IPFS--Netzwerk haben die Peers durch die
 Prüfsumme über den öffentlichen Schlüssel eine eindeutige Kennung. Diese
 Prüfsumme ist aufgrund des Aufbaues und der Länge als menschenlesbare Kennung
 nicht geeignet. Aus diesem Grund wurde ein »brig«--Identifier (»brig«--ID)
@@ -526,13 +526,13 @@ Um Zugriff auf das »brig«--Repository zu erhalten, muss sich der Benutzer »br
 gegenüber mit einem Passwort authentifizieren. Schlechte Passwörter sind ein
 großes Problem im Informationszeitalter, da von ihnen die Sicherheit eines
 gesamten Systems abhängen kann. Menschen sind schlecht darin, die
-*Entropie*[^FN_ENTROPY] von Passwörtern richtig einzuschätzen. »brig« verwendet
-für die Bestimmung der Passwort--Entropie die *zxcvbn*--Bibliothek, welche von
+Entropie[^FN_ENTROPY] von Passwörtern richtig einzuschätzen. »brig« verwendet
+für die Bestimmung der Passwort--Entropie die zxcvbn--Bibliothek, welche von
 Dropbox entwickelt wurde. Laut einer Studie [@Carnavalet], S. 11 wird die
 Bibliothek, im Vergleich zu den getesteten Konkurrenten, in ihrer
 Funktionsweise als akkurater bezeichnet. Eine Schwäche, welche bei den
 Entropie--Schätzungswerkzeugen auftritt, ist, dass diese ohne Basis eines
-Wörterbuchs arbeiten und somit bei Zeichenketten *Brute--Force* als schnellsten
+Wörterbuchs arbeiten und somit bei Zeichenketten Brute--Force als schnellsten
 Angriff annehmen. Weiterhin ist die Schätzung einer »sicheren Entropie«
 schwierig, da diese stark vom Angriffsszenario abhängt. Die Schätzspanne für
 ein sicheres Passwort liegt zwischen 29 Bit (Online--Passwörter) -- 128 Bit
@@ -541,7 +541,7 @@ Schlüssel)[^FN_RANDOM_REQUIREMENTS_FOR_SECURITY].
 
 [^FN_RANDOM_REQUIREMENTS_FOR_SECURITY]:Randomness Requirements for Security: <https://tools.ietf.org/html/rfc4086#section-8.2>
 
-Wie bereits unter Punkt *Passwortmanagement*,
+Wie bereits unter Punkt Passwortmanagement,
 @sec:SEC05_BEURTEILUNG_VON_SICHERHEIT erwähnt, ist der Einsatz von Passwörtern
 problematisch. In dem Berichten von *Bruce Schneier* und *Dan Goodin* wird
 erwähnt, dass heutzutage mit modernen Methoden und moderner Hardware auch
@@ -557,7 +557,7 @@ Cygnius--Schätzungen[^FN_PASSWORD_STRENGHTH_CHECKER_2] fließen neben der
 zxcvbn--Bibiothek noch weitere Prüfungen (Länge, Kleinbuchstaben,
 Großbuchstaben, Zahlen, Sonderzeichen), welche eine zusätzliche
 Passwortakzeptanz--Aussage machen, ein. Die
-*bennish*--Plattform[^FN_PASSWORD_STRENGHTH_CHECKER] arbeitet ebenso mit der
+bennish--Plattform[^FN_PASSWORD_STRENGHTH_CHECKER] arbeitet ebenso mit der
 zxcvbn--Bibliothek.
 
 +-------------------+------------------------+--------------------------------+
@@ -628,20 +628,20 @@ Verbindung zwischen zwei Synchronisationspartnern.
    Nonce $nB$ mit *Alice* ausgetauscht.
 8. *Alice* entschlüsselt die Nonce $nB$ von *Bob* und lässt diese in die
    Schlüsselgenerierung einfließen.
-9. Der gemeinsame Schlüssel ist nun eine *XOR*--Verknüpfung der beiden Noncen
+9. Der gemeinsame Schlüssel ist nun eine XOR--Verknüpfung der beiden Noncen
    $nA$ und $nB$. Um den Schlüssel zu verstärken wird zusätzlich die
-   Schlüsselableitungsfunktion *scrypt* (vgl. [@scrypt]) angewendet.
+   Schlüsselableitungsfunktion scrypt (vgl. [@scrypt]) angewendet.
 
 **Einschätzung**: Der Aufbau der verschlüsselten Verbindung setzt eine
 vorherige Authentifizierung des jeweiligen Synchronisationspartner voraus. Wäre
 dieser nicht authentifiziert, so wäre in diesem Fall ein
 Man--in--the--Middle--Angriff denkbar. Weiterhin wäre bei der aktuellen
-Implementierung ein Replay--Angriff wahrscheinlich möglich, da die *freshness*
+Implementierung ein Replay--Angriff wahrscheinlich möglich, da die freshness
 der Nonce nicht gegeben ist (vgl. [@martin2012everyday], S. 259 ff.).
 
 Die aktuelle Softwareversion bietet hier keinen Automatismus und auch keinen
-Authentifizierungsmechanismus wie er beispielsweise beim *Pidgin*--Messenger mit
-*OTR*--Verschlüsselung vorhanden ist.
+Authentifizierungsmechanismus wie er beispielsweise beim Pidgin--Messenger mit
+OTR--Verschlüsselung vorhanden ist.
 
 ## Entwicklung und Entwicklungsumgebung {#sec:SEC07_EINTWICKLUNG_UND_ENTWICKLUNGSUMGEBUNG}
 
@@ -665,7 +665,7 @@ verwaltet. Da es sich um ein Open--Souce--Projekt handelt, ist das Repository
 
 **Einschätzung:** Quelltexte/Releases sind bisher nicht signiert. Updates am
 Repository werden aktuell über den von den Entwicklern hinterlegten
-*SSH*--Schlüssel *gepusht* beziehungsweise *gepullt*. Der Zugriff auf die
+SSH--Schlüssel gepusht beziehungsweise gepullt. Der Zugriff auf die
 GitHub--Plattform erfolgt aktuell zum Teil über eine Kombination aus
 Benutzername und Passwort. Hier würde sich die Aktivierung der von GitHub
 angebotenen Zwei--Faktor--Authentifizierung aus Gründen der Sicherheit
@@ -681,7 +681,7 @@ auszugeben.
 Im aktuellen Stadium kann »brig« über das Beziehen des Quelltextes von GitHub
 installiert werden. Ein Update--Mechanismus existiert nicht, die Validierung
 der Integrität des Quelltextes ist aktuell nur auf Basis der `git`
-*SHA--1*--Integrität möglich.
+SHA--1--Integrität möglich.
 
 **Einschätzung:** Aktuell ist es für den Benutzer nicht möglich, den Ursprung
 der heruntergeladenen Software zu validieren.

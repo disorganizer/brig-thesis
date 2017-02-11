@@ -1,22 +1,22 @@
 # Evaluation IPFS {#sec:SEC06_EVALUATION_IPFS}
 
-IPFS (*InterPlanetary File System*) stellt die Netzwerkbasis für »brig« dar.
+IPFS (InterPlanetary File System) stellt die Netzwerkbasis für »brig« dar.
 Da IPFS teilweise andere Ziele als »brig« hat, ist es wichtig, dass die
 Anforderungen von »brig« durch die IPFS--Basis nicht verletzt werden. Im
 Folgenden wird IPFS bezüglich bestimmter sicherheitstechnischer Anforderungen
 genauer beleuchtet, um Diskrepanzen zu den Zielen von »brig« zu
 identifizieren.
 
-Die IPFS--Codebasis umfasst aktuell $\approx{900.000}$ *LoC* (siehe
-[@sec:APP_IPFS_LOC]). Davon gehören $\approx{100.000}$ *LoC* direkt dem
-IPFS--Projekt an, $\approx{800.000}$ *LoC* stammen aus Drittanbieter--Bibliotheken.
+Die IPFS--Codebasis umfasst aktuell $\approx{900.000}$ LoC (siehe
+[@sec:APP_IPFS_LOC]). Davon gehören $\approx{100.000}$ LoC direkt dem
+IPFS--Projekt an, $\approx{800.000}$ LoC stammen aus Drittanbieter--Bibliotheken.
 
 Im zeitlich begrenzten Umfang der Masterarbeit können nur selektive
 Mechanismen der Software untersucht werden. Eine genaue Analyse der
 Quelltext--Basis ist aufgrund der Projektgröße und der begrenzten Zeit nicht
 möglich.
 
-Es wurde folgende Version aus den *Arch Linux*--Repository evaluiert:
+Es wurde folgende Version aus den Arch Linux--Repository evaluiert:
 
 ~~~sh
 $ ipfs version
@@ -25,14 +25,14 @@ ipfs version 0.4.3
 
 ## Einleitung IPFS {#sec:SEC06_EINLEITUNG_IPFS}
 
-Das *InterPlanetary File System* wird als  »content-addressable, peer-to-peer
+Das InterPlanetary File System wird als  »content-addressable, peer-to-peer
 hypermedia distribution protocol« definiert. Das Besondere an IPFS ist, dass
-es ein sogenanntes *Content--Addressable--Network (CAN)* darstellt. Ein *CAN*
+es ein sogenanntes *Content--Addressable--Network (CAN)* darstellt. Ein CAN
 arbeitet mit einer verteilten Hashtabelle (*Distributed Hash Table (DHT)*),
 welche als grundlegende »Datenstruktur« verwendet wird, um die Daten innerhalb
 eines Peer--to--Peer--Netzwerks zu lokalisieren und zu speichern.
 
-Eine *DHT* als Datenstruktur bringt in der Theorie laut Wikipedia[^FN_DHT]
+Eine DHT als Datenstruktur bringt in der Theorie laut Wikipedia[^FN_DHT]
 folgende Eigenschaften mit sich:
 
 [^FN_DHT]: Verteilte Hashtabelle: <https://de.wikipedia.org/w/index.php?title=Verteilte_Hashtabelle&oldid=157901191>
@@ -52,7 +52,7 @@ Das IPFS--Dateisystem beziehungsweise Protokoll bringt das
 Kommandozeilenwerkzeug `ipfs` mit, weiterhin kann es jedoch auch als
 Software--Bibliothek verwendet werden. Dieses ermöglicht eine rudimentäre
 Nutzung von IPFS. Beim Initialisieren von IPFS wird ein
-*RSA*--Schlüsselpaar generiert. Ein IPFS--Repository kann mit dem Befehl
+RSA--Schlüsselpaar generiert. Ein IPFS--Repository kann mit dem Befehl
 `ipfs init` initialisiert werden. Dabei wird standardmäßig unter `~/.ipfs` ein
 Repository angelegt.
 
@@ -66,7 +66,7 @@ to get started, enter:
         ipfs cat /ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme
 ~~~
 
-Bei der Initialisierung wird eine *Peer--ID* erzeugt. Anschließend kann
+Bei der Initialisierung wird eine Peer--ID erzeugt. Anschließend kann
 der Benutzer die `readme`--Datei aus dem IPFS--Store betrachten.
 [@sec:APP_IPFS_SECWARNING] zeigt weiterhin die aktuelle Sicherheitswarnung der
 IPFS--Software. Es wird explizit ein paar Male darauf hingewiesen, dass sich IPFS
@@ -89,8 +89,8 @@ Laufe der Zeit auftreten. Für die Fehlerursache können verschiedene Gründe ve
 * Fehler in der Software (Kernel, Dateisystem)
 * Schadsoftware
 
-Gängige Dateisysteme wie beispielsweise *NTFS*[^FN_NTFS] oder *EXT4*[^FN_EXT4]
-können Fehler, verursacht durch *Silent Data Corruption*, nicht erkennen und den
+Gängige Dateisysteme wie beispielsweise NTFS[^FN_NTFS] oder EXT4[^FN_EXT4]
+können Fehler, verursacht durch Silent Data Corruption, nicht erkennen und den
 Benutzer vor dieser Fehlerart nicht schützen. Um eine Veränderung der Daten
 festzustellen, müsste der Benutzer beispielsweise die Daten mit einer
 kryptographischen Prüfsumme validieren. Entspricht die Prüfsumme beim Lesen der
@@ -99,11 +99,11 @@ wurde, so sind die Daten mit hoher Wahrscheinlichkeit korrekt an den Benutzer
 zurückgegeben worden. Diese Art der Validierung der Integrität ist jedoch
 aufgrund des hohen Aufwands nicht praxistauglich.
 
-Dateisysteme wie *BTRFS*[^FN_BTRFS] oder *ZFS*[^FN_ZFS] validieren die Daten und Metadaten
+Dateisysteme wie BTRFS[^FN_BTRFS] oder ZFS[^FN_ZFS] validieren die Daten und Metadaten
 während der Lese-- und Schreibvorgänge mittels Prüfsummen. Durch dieses
 spezielle Feature kann die Verarbeitungskette beim Lesen-- und Speichern der
 Daten bezüglich ihrer Integrität validiert werden. Bei der Benutzung eines
-*RAID*--System[^FN_RAID] können die Daten sogar automatisiert ohne Zutun des Benutzers
+RAID--System[^FN_RAID] können die Daten sogar automatisiert ohne Zutun des Benutzers
 korrigiert[^FN_ZFS_HEALING_VIDEO] werden.
 
 [^FN_ZFS]: ZFS Dateisystem: <https://en.wikipedia.org/w/index.php?title=ZFS&oldid=761908184>
@@ -114,7 +114,7 @@ korrigiert[^FN_ZFS_HEALING_VIDEO] werden.
 [^FN_EXT4]: EXT4 Dateisystem: <https://en.wikipedia.org/w/index.php?title=Ext4&oldid=738311553>
 
 Das Speichern der Daten erfolgt bei IPFS (blockweise, in sogenannten chunks)
-mittels eines *Merkle--DAG* (directed acyclic graph, gerichteter azyklischer Graph).
+mittels eines Merkle--DAG (directed acyclic graph, gerichteter azyklischer Graph).
 
 IPFS verwendet als Prüfsummen--Format ein eigens entwickeltes
 Multihash--Format[^FN_MULTIHASH]. [@fig:img-multihash] zeigt das
@@ -122,7 +122,7 @@ Multihash--Format. Es stellt eine selbstbeschreibende Prüfsumme, welche den
 Algorithmus, die Länge und die eigentliche Prüfsumme kombiniert. Dieser wird in
 verschiedenen Varianten enkodiert. Beispielsweise `base32` für die interne
 Namensvergabe der Datenblöcke oder `base58` für die Repräsentation der
-*Peer--ID*.
+Peer--ID.
 
 ![Das Multihash--Format.](images/multihash.png){#fig:img-multihash width=90%}
 
@@ -162,7 +162,7 @@ Die Speicherung der Daten in einem Merkle--DAG hat den Vorteil, dass die Daten
 bei der Speicherung üblicherweise mit einer kryptographischen Prüfsumme
 abgelegt werden. Durch diesen Umstand kann IPFS eine unerwünschte Veränderung
 an den Daten feststellen. Das folgende Beispiel zeigt die unerwünschte
-Modifikation der `readme`--Datei direkt im *Store--Backend* und wie die
+Modifikation der `readme`--Datei direkt im Store--Backend und wie die
 Integritätsprüfung von IPFS die Änderung der Daten erkennt:
 
 ~~~sh
@@ -180,9 +180,9 @@ was corrupt (block in storage has different hash than requested)
 Error: verify complete, some blocks were corrupt.
 ~~~
 
-Aktuell werden die Daten mittels *SHA256* gehasht. Eine Verschlüsselung der
+Aktuell werden die Daten mittels SHA256 gehasht. Eine Verschlüsselung der
 Daten findet nicht statt. Es gibt zwar Pläne für die Zukunft einen
-verschlüsselten *Store* zu realisieren, aktuell wird jedoch in
+verschlüsselten Store zu realisieren, aktuell wird jedoch in
 Feature--Requests[^FN_IPFS_FILEENC] die Möglichkeit der manuellen
 Verschlüsselung beispielsweise mittels *OpenSSL/GPG* nahegelegt.
 
@@ -197,7 +197,7 @@ große Textdatei wurde hierbei jeweils an verschiedenen Stellen geändert und
 unter einem neuen Namen gespeichert. Ohne Deduplizierung wird die Datei jedes
 mal jeweils komplett gespeichert. Der Speicherplatz der dafür benötigt wird
 würde normalerweise bei 16MiByte liegen, da die Daten auf gewöhnlichen
-Dateisystemen wie beispielsweise *ext4* oder *NTFS* redundant abgespeichert
+Dateisystemen wie beispielsweise ext4 oder NTFS redundant abgespeichert
 werden. IPFS teilt diese Datei --- in diesem Fall nur beispielhaft --- in
 1 MiByte große Blöcke auf und speichert nur Datenblöcke, welche dem
 IPFS--Backend noch nicht bekannt sind (vgl. auch [@cpahl], S. 27 f.). Alle bekannten
@@ -270,10 +270,10 @@ Quelltext[^FN_IPFS_CODE_INIT] zu Rate gezogen werden.
 ### Authentifizierung {#sec:SEC06_AUTHENTIFIZIERUNG}
 
 Ein Authentifizierungsmechanismus im eigentlichen Sinne existiert bei IPFS
-nicht. Die Benutzer haben lediglich eine eindeutige globale *Peer--ID*. Dateien
-werden nicht direkt von einer bestimmten *Peer--ID*, sondern aus dem
+nicht. Die Benutzer haben lediglich eine eindeutige globale Peer--ID. Dateien
+werden nicht direkt von einer bestimmten Peer--ID, sondern aus dem
 IPFS--Netzwerk bezogen.  Schaut man sich beispielsweise mit `ipfs dht
-findprovs` an, welche *Peers* die `readme`--Datei anbieten, bekommt man eine
+findprovs` an, welche Peers die `readme`--Datei anbieten, bekommt man eine
 Liste verschiedener Teilnehmer:
 
 ~~~sh
@@ -285,7 +285,7 @@ QmPKBHmwWJbin2BuzE3zvua9JxsrsEGm6rn69CgWTEU5wn
 
 Ruft man den Befehl auf der Prüfsumme einer
 »persönlichen« Datei im lokalen Netzwerk auf, so bekommt man als einzigen
-anbietenden Knoten die *Peer--ID* des Rechners im lokalen Netzwerk:
+anbietenden Knoten die Peer--ID des Rechners im lokalen Netzwerk:
 
 ~~~sh
 $ ipfs dht findprovs QmagF4CPz5LCwSwkwhYwn1uZHhJXoXQJDWeV65fcuTyqP1
@@ -295,16 +295,16 @@ QmW2jc7k5Ug987QEkUx6tJUTdZov7io39MDCiKKp2f57mD
 Eine Art Authentifizierung kann also nur manuell über einen Seitenkanal
 erfolgen. Ein Benutzer kann also nur überprüfen ob eine Datei mit einer
 bestimmten Prüfsumme auch auf einem bestimmten System mit der ihm bekannten
-*Peer--ID* vorzufinden ist. Hier wäre es denkbar, dass zwei kommunizierende
-Parteien ihre *Peer--ID* gegenseitig telefonisch austauschen beziehungsweise
+Peer--ID vorzufinden ist. Hier wäre es denkbar, dass zwei kommunizierende
+Parteien ihre Peer--ID gegenseitig telefonisch austauschen beziehungsweise
 bestätigen. Diese grundlegende Funktionalität der Authentifizierung einer
 Quelle ist nur bedingt praxistauglich, da eine nicht persönliche Datei durchaus
 mehrere Provider haben kann.
 
 **Einschub:** Im Gegensatz dazu haben beispielsweise andere dezentrale Systeme
 mit einem direkten Kommunikationskanal weitere Möglichkeiten der
-Authentifizierung. Der Instant--Messaging--Client *Pidgin*[^FN_PIDGIN] bietet
-beispielsweise mit dem *OTR*--Plugin[^FN_OTR] folgende Möglichkeiten für die
+Authentifizierung. Der Instant--Messaging--Client Pidgin[^FN_PIDGIN] bietet
+beispielsweise mit dem OTR--Plugin[^FN_OTR] folgende Möglichkeiten für die
 Authentifizierung einer gesicherten Verbindung:
 
 [^FN_PIDGIN]: Instant--Messaging--Client Pidgin:
@@ -338,8 +338,8 @@ Benutzer mit der bei der initialen Authentifizierung gespeicherten ID verglichen
 
 ## IPFS--Netzwerk {#sec:SEC06_IPFS_NETZWERK}
 
-Das IPFS--Netzwerk arbeitet mit einer *DHT*. Standardmäßig sind nach der
-Installation eine Reihe von sogenannten *Bootstrap--Nodes* eingetragen, welche
+Das IPFS--Netzwerk arbeitet mit einer DHT. Standardmäßig sind nach der
+Installation eine Reihe von sogenannten Bootstrap--Nodes eingetragen, welche
 einen initialen »Einstiegspunkt« bieten (gekürzt):
 
 ~~~sh
@@ -350,12 +350,12 @@ $ ipfs bootstrap list
 ~~~
 
 Alle Änderungen wie beispielsweise das Hinzufügen von Daten, werden so in dem
-durch alle *Nodes* aufgespannten Netzwerk allen Teilnehmern bekannt gemacht. Da
+durch alle Nodes aufgespannten Netzwerk allen Teilnehmern bekannt gemacht. Da
 alle Teilnehmer im IPFS--Netzwerk gleichberechtigt sind, wird lediglich die
 Prüfsumme einer Datei benötigt, um an die Daten zu gelangen.
 
 Aktuell verwendet IPFS als Transport--Verschlüsselung ein selbst entwickeltes
-Protokoll namens *Secio*[^FN_SECIO], welches laut Entwickleraussagen
+Protokoll namens Secio[^FN_SECIO], welches laut Entwickleraussagen
 ([@sec:APP_IPFS_TRANSPORT_SEC]) auf einem TLS1.2--Modi basiert. Es ist geplant
 in Zukunft auf TLS1.3 zu migrieren.
 

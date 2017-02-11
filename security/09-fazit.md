@@ -25,7 +25,7 @@ Die erweiterte Evaluation von IPFS hat ergeben, dass die IPFS--Identität
 (privater Schlüssel) im Klartext in der Konfigurationsdatei gespeichert wird
 (siehe @sec:SEC06_IPFS_ID). Zukünftige Versionen von »brig« müssen diesen
 kryptographischen Schlüssel sichern. Hier wurde ein mögliches Konzept für einen
-transparenten, verschlüsselten Zugriff auf Basis des *Virtual Filesystem (VFS)*
+transparenten, verschlüsselten Zugriff auf Basis des Virtual Filesystem (VFS)
 vorgestellt (siehe @sec:SEC08_SICHERUNG_UND_BINDUNG_DER_KRYPTOGRAPHISCHEN_SCHLUESSEL_AN_EINE_IDENTITAET).
 
 Um die IPFS--Identität zu sichern und die zukünftige Schlüsselverwaltung von
@@ -63,16 +63,16 @@ Algorithmus leichter austauschbar. Die bisher gewählte Blockgröße der
 Verschlüsselungsschicht könnte noch teilweise optimiert werden. Die bisherigen
 Annahmen zur Algorithmuswahl konnten jedoch mit der Performance--Evaluation gut
 bestätigt werden. Systeme ohne kryptographischer Befehlssatzerweiterung
-profitieren vom *ChaCha20/Poly1305* (siehe @sec:SEC07_BENCHMARKS). Ab *Go v1.6*
+profitieren vom ChaCha20/Poly1305 (siehe @sec:SEC07_BENCHMARKS). Ab Go v1.6
 profitieren Systeme mit kryptographischen Befehlserweiterungssatz stark
-von den *AES--NI*--Optimierungen. Schwächere Systeme wie der *Raspberry Pi
-Zero* haben trotz des recht performanten *ChaCha20/Poly1305*--Verfahrens eine
+von den AES--NI--Optimierungen. Schwächere Systeme wie der Raspberry Pi
+Zero haben trotz des recht performanten ChaCha20/Poly1305--Verfahrens eine
 relativ schlechte Schreib-- und Lesegeschwindigkeit. Hier bedarf es noch
 einiger Optimierungen.
 
 ### Authentifizierung
 
-Die aktuelle Implementierung über die *zxcvbn*--Bibliothek setzt eine robuste
+Die aktuelle Implementierung über die zxcvbn--Bibliothek setzt eine robuste
 Passwortvalidierung um. Das Problem hierbei ist die schlechte Usability,
 andererseits ist die alleinige Authentifizierung über ein Passwort --- bei einem System
 mit Fokus auf Sicherheit --- als negativ zu bewerten (siehe @sec:SEC07_REPOSITORY_ZUGRIFF).
@@ -111,8 +111,8 @@ Ein weiterhin bestehendes »Problem« ist die Umsetzung der Schlüsselgenerierun
 für das Verschlüsseln der Dateien in einem »brig«--Repository. Die aktuelle
 Implementierung erstellt zufallsgenerierte Schlüssel. Dies hat den Nachteil,
 dass die Deduplizierungsfunktionalität außer Kraft gesetzt wird, siehe
-@sec:SEC07_SCHLUESSELGENERIERUNG. Hingegen würde die Verwendung von *Convergent
-Encryption* »brig« für bestimmte Angriffe, wie beispielsweise den
+@sec:SEC07_SCHLUESSELGENERIERUNG. Hingegen würde die Verwendung von Convergent
+Encryption »brig« für bestimmte Angriffe, wie beispielsweise den
 »confirmation of a file«--Angriff, anfällig machen. Die Empfehlung an dieser
 Stelle wäre, die Schlüsselgenerierung weiterhin auf Zufallsbasis zu realisieren
 und das dadurch entstandene »Problem« (IPFS kann Daten nicht mehr sinnvoll
@@ -133,7 +133,7 @@ durch »brig« nicht zwangsläufig optimal. Die Implementierung bestimmter
 Sicherheits--Funktionalität wie beispielsweise Datenverschlüsselung wäre laut
 aktueller Einschätzung besser im IPFS--Backend zu realisieren. Weiterhin
 macht beispielsweise auch die seit Monaten andauernde Definition einer
-Spezifikation[^FN_SPEC] für das IPFS--*Keystore* weitere Entwicklungsentscheidungen für
+Spezifikation[^FN_SPEC] für das IPFS--Keystore weitere Entwicklungsentscheidungen für
 »brig« schwierig.
 
 [^FN_SPEC]: Keystore Spezifikation: <https://github.com/ipfs/specs/tree/25411025e787e12b17f621fca25d636c5684316e/keystore>
@@ -169,7 +169,7 @@ werden.
 
 Weiterhin wäre für anknüpfende Arbeiten im Bereich von »brig« oder allgemein
 von dezentralen und sicherheitsorientierten Dateiverteilungslösungen die
-Evaluation von Plattformen wie *Keybase.io*[^FN_KEYBASE] als
+Evaluation von Plattformen wie Keybase.io[^FN_KEYBASE] als
 Authentifizierungsplattform erwähnenswert.
 
 [^FN_KEYBASE]: Keybase.io: <https://keybase.io/>
