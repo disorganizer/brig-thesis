@@ -15,7 +15,7 @@ nachgebessert werden. Die empfohlene Noncen--Größe ist mit 96 Bit angegeben
 Wie unter @sec:SEC06_IPFS_ID zu sehen, sind die IPFS--Schlüssel aktuell in der
 `config`--Datei von IPFS im Klartext hinterlegt. »brig« verschlüsselt diese
 Datei zum aktuellen Zeitpunkt nicht. Hier wäre eine Verschlüsselung mit einem
-Repository--Key möglich, welcher wiederrum durch einen Hautpschlüssel
+Repository--Key möglich, welcher wiederrum durch einen Hauptschlüssel
 geschützt werden sollte (siehe [@sec:SEC08_KEYMANAGEMENT]). Eine weitere
 Überlegung wäre, das gesamte Repository mittels eines externen Hauptschlüssels
 zu verschlüsseln.
@@ -35,7 +35,7 @@ Wie in [@fig:img-convergent-encryption] zu sehen, wird hierbei beispielsweise
 der Schlüssel zum Verschlüsseln einer Datei von dieser selbst mittels einer
 kryptographischen Hashfunktion abgeleitet.
 
-Diese Verfahren lässt sich jedoch bei der aktuellen Architektur (separate
+Dieses Verfahren lässt sich jedoch bei der aktuellen Architektur (separate
 Verschlüsselungsschicht) nur eingeschränkt realisieren, da die Prüfsumme der
 Daten erst nach dem Hinzufügen zum IPFS bekannt ist. Um die Daten zu
 verschlüsseln, müssten diese vor dem Hinzufügen komplett gehasht werden. Dies
@@ -62,14 +62,14 @@ gespeichert hat.
 ### Sicherung und Bindung der kryptographischen Schlüssel an eine Identität {#sec:SEC08_SICHERUNG_UND_BINDUNG_DER_KRYPTOGRAPHISCHEN_SCHLUESSEL_AN_EINE_IDENTITAET}
 
 Das asymmetrische Schlüsselpaar von IPFS ist standardmäßig in keinster Weise
-gesichert und muss daher besonders geschützt werden, da diese die Identität
+gesichert und muss daher besonders geschützt werden, da dieses Schlüsselpaar die Identität
 eines Individuums oder einer Institution darstellt. Beim Diebstahl des Schlüssels
 (Malware, Laptop--Verlust/Diebstahl) kann die jeweilige Identität nicht mehr
 als vertrauenswürdig betrachtet werden.
 
 Die IPFS--Identität ist eng mit dem IPFS--Netzwerk verwoben. Da das
 Softwaredesign und auch die Sicherheitskomponenten sich aktuell in keinem
-finalen Stadium befinden, ist es für »brig« sinnvoll eine eigene
+finalen Stadium befinden, ist es für »brig« sinnvoll, eine eigene
 Schlüsselhierarchie umzusetzen, welche die Komponenten von IPFS schützt. So
 haben auch zukünftige Änderungen an IPFS selbst keinen oder nur wenig
 Einfluss auf das Sicherheitskonzept von »brig«.
@@ -137,7 +137,7 @@ Einfluss auf die Sicherheit des Verfahrens haben können.
 Von GnuPG werden aktuell die folgenden drei Versionen gepflegt:
 
 
-* GnuPG modern 2.1 -- neuer Entwicklungzweig mit erweiterten Funktionalitäten
+* GnuPG modern 2.1 -- neuer Entwicklungszweig mit erweiterten Funktionalitäten
   und neuen kryptographischen Algorithmen beispielsweise für elliptische Kurven.
 * GnuPG stable 2.0 -- modularisierte Version von GnuPG (Support bis 2017-12-31).
 * GnuPG classic -- obsolete nicht modulare Version, diese wird aus Kompatibilitätsgründen zu alten Systemen gepflegt.
@@ -177,7 +177,7 @@ es wurde standardmäßig ein DSA Schlüssel zum Signieren und ein ElGamal
 Schlüssel zum Ver-- und Entschlüsseln angelegt), andererseits ermöglicht es
 GnuPG, Schlüssel mit unterschiedlichem Schutzbedarf anders zu behandeln.
 
-![GnuPG--Schlüsselpaar RSA/RSA bestehend aus einem Haupt- und Unterschlüssel. Beide Schlüssel haben unterschiedliche Fähigkeiten und bestehen jeweils aus einem öffentlichen und einem privaten Schlüssel. In Hexadezimal ist jeweils der Fingerprint eines Schlüssels dargestellt. Der Fingerprint ist 20 Bytes groß. Die »Long--Key--ID« entspricht den letzten 8 Bytes, die »Short--Key--ID« entspricht den letzten 4 Bytes.](images/gpg_keypair.png){#fig:IMG_GNUPG_KEYPAIR width=90%}
+![GnuPG--Schlüsselpaar RSA/RSA bestehend aus einem Haupt- und Unterschlüsselpaar. Beide Schlüssel haben unterschiedliche Fähigkeiten und bestehen jeweils aus einem öffentlichen und einem privaten Schlüssel. In Hexadezimal ist jeweils der Fingerprint eines Schlüssels dargestellt. Der Fingerprint ist 20 Bytes groß. Die »Long--Key--ID« entspricht den letzten 8 Bytes, die »Short--Key--ID« entspricht den letzten 4 Bytes.](images/gpg_keypair.png){#fig:IMG_GNUPG_KEYPAIR width=90%}
 
 Der Schlüsselbund besteht bei Anlage eines neuen Schlüssels mit `gpg
 --gen-key` aus einem Hauptschlüssel- und einem Unterschlüsselpaar. Beide
@@ -207,7 +207,7 @@ Hier ist in der ersten Zeile der öffentliche Teil des Hauptschlüssels (pub =
 public key) zu sehen. Es handelt sich um einen RSA--Schlüssel mit 2048 Bit. Im
 unteren Bereich ist der Unterschlüssel (sub = public subkey) zu sehen, hierbei
 handelt es sich ebenso wie beim Hauptschlüssel um einen RSA--Schlüssel mit 2048
-Bit. Die Fähigkeit eines Schlüssel wird durch die Flags in eckigen Klammern
+Bit. Die Fähigkeit eines Schlüssels wird durch die Flags in eckigen Klammern
 angezeigt (Hauptschlüssel `[SC]`, Unterschlüssel `[E]`).
 
 Schlüssel können unter GnuPG folgende Fähigkeiten besitzen:
@@ -239,17 +239,15 @@ Speicherung kann beispielsweise ein Verfahren wie Shamir's Secret Sharing
 werden. Bei diesem Verfahren wird ein Geheimnis auf mehrere Instanzen
 aufgeteilt, zur Rekonstruktion des Geheimnisses ist jedoch nur eine gewisse
 Teilmenge nötig. Das Shamir's Secret Sharing--Verfahren wird von
-libgfshare[^FN_GITHUB_LIBGFSHARE] implementiert. Diese bietet mit dem beiden
+libgfshare[^FN_GITHUB_LIBGFSHARE] implementiert. Diese Bibliothek bietet mit den beiden
 Kommandozeilenwerkzeugen `gfsplit` und `gfcombine` eine einfache Möglichkeit,
 den privaten Schlüssel auf mehrere Instanzen aufzuteilen. Im Standardfall wird
 der Schlüssel auf fünf Dateien aufgeteilt, von welchen mindestens drei benötigt
 werden, um den Schlüssel wieder zu rekonstruieren.
 
-Die folgende Kommandozeilenauszüge zeigen die Funktionsweise im Erfolgs-- und
-Fehlerfall.
-
-Gezeigt wird die Prüfsumme des zu sichernden privaten Schlüssels und die
-Aufteilung mittels `gfsplit`:
+Die folgenden Kommandozeilenauszüge zeigen die Funktionsweise im Erfolgs-- und
+Fehlerfall. Gezeigt wird die Prüfsumme des zu sichernden privaten Schlüssels
+und die Aufteilung mittels `gfsplit`:
 
 ~~~sh
 $ sha256sum private.key
@@ -291,7 +289,7 @@ sogenannte Key Separation. Das heißt, dass kryptographische Schlüssel an
 einen bestimmten Zweck gebunden sein sollen. Einen Schlüssel für mehrere
 verschiedene Zwecke zu verwenden, ist sicherheitstechnisch bedenklich.
 
-Obwohl es mit GnuPG möglich, ist ein Schlüsselpaar zu erstellen, welches zum
+Obwohl es mit GnuPG möglich ist, ein Schlüsselpaar zu erstellen, welches zum
 Signieren, Zertifizieren und Ver-- und Entschlüsseln verwendet werden kann
 (Flags `[SCE]`), ist dies aus Gründen der Sicherheit nicht empfehlenswert. Beim
 Anlegen eines neuen Schlüssels wird standardmäßig bereits ein Schlüsselpaar
@@ -303,7 +301,7 @@ Offline Hauptschlüssel--Funktionalität Daten signieren kann.
 
 Die Umsetzung einer Key Separation kann mit GnuPG beim Anlegen (`gpg2
 --full-gen-key --expert`) oder nachträglich (`gpg2 --edit-key <keyid>`)
-realisiert werden. [@fig:IMG_KEYSEPERATION] zeigt das Möglichkeit der Anlage
+realisiert werden. [@fig:IMG_KEYSEPERATION] zeigt die Möglichkeit der Anlage
 von Unterschlüsseln für den regulären Gebrauch.
 
 Eine weitere Empfehlung an dieser Stelle wäre es, die Unterschlüssel zusätzlich
@@ -322,7 +320,7 @@ GPG--Schlüssel für die SSH--Authentifizierung zu verwenden.
 
 #### Weiteres
 
-Bei der Evaluation einer sinnvollen Schlüsselverwaltung ist aufgefallen, dass die Passwortabfrage beim Generieren des GnuPG--Schlüssls eine für den Benutzer fragliche Rückmeldung bezüglich der Passwortqualität liefert.
+Bei der Evaluation einer sinnvollen Schlüsselverwaltung ist aufgefallen, dass die Passwortabfrage beim Generieren des GnuPG--Schlüssels eine für den Benutzer fragliche Rückmeldung bezüglich der Passwortqualität liefert.
 
 ![Fragwürdige Entropieschätzung im GnuPG--Pinentry Dialog.](images/weakgpgpass.png){#fig:IMG_GNUPG_PWMETER width=50%}
 
@@ -352,7 +350,7 @@ benutzerfreundlichere Konzepte vorgestellt werden.
 
 Eine sinnvolle Erweiterung an dieser Stelle wäre die Einführung eines QR--Codes
 welcher die Identität eines Synchronisationspartners eindeutig bestimmt.
-Auf Visitenkaten gedruckte QR--Codes lassen den Benutzer beispielsweise seinen
+Auf Visitenkarten gedruckte QR--Codes lassen den Benutzer beispielsweise seinen
 Synchronisationspartner mit wenig Aufwand über eine Smartphone--Applikation
 verifizieren. Bei Anwendung einer externen Identität welche für das Signieren
 der »brig«--ID verwendet werden kann --- wie unter [@sec:SEC08_KEYMANAGEMENT]
@@ -379,7 +377,7 @@ Angriffsfläche[^FN_EVIL32] bietet.
 
 Da IPFS bereits ein Public/Private--Schlüsselpaar mitbringt, würde sich im
 einfachsten Falle nach dem ersten Verbindungsaufbau die Möglichkeit bieten,
-seinen Synchronisationspartner anhand eines *gemeinsamen Geheimnises* oder anhand eines
+seinen Synchronisationspartner anhand eines *gemeinsamen Geheimnisses* oder anhand eines
 Frage--Antwort--Dialogs zu verifizieren. [@fig:img-question-answer] zeigt den
 Ablauf einer Authentifizierung des Synchronisationspartners mittels Frage--Antwort--Dialog, welcher in folgenden Schritten abläuft:
 
@@ -406,10 +404,10 @@ initialisiert werden.
 Die Anforderungen des Protokolls richten sich hierbei nach den Prinzipien (vgl. [@martin2012everyday], S. 295 ff.):
 
 * Nachrichtenauthentifizierung, durch Signatur bereitgestellt.
-* Gültigkeit (engl. freshness), durch Nonce bereit gestellt.
+* Gültigkeit (engl. freshness), durch Nonce bereitgestellt.
 * Bezug zur korrekten Anfrage. Frage wird in der Antwort mitgesendet.
 
-Weiterhin wäre diese Art der Authentifizierung auch unter Verwendung des Socialist Millionaire--Protokolls möglich, siehe folgendes Kapitel.
+Weiterhin wäre diese Art der Authentifizierung auch unter Verwendung des Socialist Millionaire--Protokolls möglich, siehe folgender Abschnitt.
 
 #### Authentifizierung über gemeinsames Geheimnis (Socialist Millionaire--Protokoll)
 
@@ -417,7 +415,7 @@ Eine weitere Möglichkeit der Authentifizierung des Synchronisationspartners
 wäre, wie beim OTR--Plugin des Pidgin--Messengers, das Teilen eines
 gemeinsamen Geheimnisses. Das Off--the--Record--Messaging--Protokoll
 verwendet hierbei das Socialist Millionaire--Protokoll. Das Protokoll
-erlaubt es *Alice* und *Bob* ein gemeinsam geglaubtes Geheimnis $x$ (Alice) und $y$
+erlaubt es *Alice* und *Bob* ein gemeinsam geglaubtes Geheimnis $x$ (*Alice*) und $y$
 (*Bob*) auf Gleichheit zu prüfen ohne es austauschen zu müssen. Weiterhin ist
 das Protokoll nicht für einen Man--in--the--Middle--Angriff anfällig. Beim
 Off--the--Record--Messaging--Protokoll[^FN_PIDGIN_SMP] werden alle Operationen
@@ -436,12 +434,12 @@ grundlegenden Ablauf des Socialist Millionaire--Protokoll.
 2. *Bob* generiert zwei zufällige Exponenten $b_{2}$ und $b_{3}$. Anschließend berechnet
    *Bob* $g_{2b}$, $g_{3b}$, $g_{2}$ und $g_{3}$. *Bob* wählt einen zufälligen Exponenten $r$. *Bob* berechnet
    $P_{b}$ und $Q_{b}$ (hier fließt das gemeinsame Geheimnis $y$ von *Bob* ein) und sendet
-   $g_{2b}$, $g_{3b}$, $P_{b}$ und $Q_{b}$ an Alice.
+   $g_{2b}$, $g_{3b}$, $P_{b}$ und $Q_{b}$ an *Alice*.
 3. *Alice* berechnet $g_{2}$, $g_{3}$, wählt einen zufälligen Exponenten $s$,
    berechnet $P_{a}$,
-   $Q_{a}$ (hier fließt das gemeinsame Geheimnis $x$ von *Alice* ein), $R_{a}$ und sendet $P_{a}$, $Q_{a}$ und $R_{a}$ an Bob.
+   $Q_{a}$ (hier fließt das gemeinsame Geheimnis $x$ von *Alice* ein), $R_{a}$ und sendet $P_{a}$, $Q_{a}$ und $R_{a}$ an *Bob*.
 4. *Bob* berechnet $R_{b}$, $R_{ab}$ und prüft ob $R_{ab} == (P_{a}/P_{b})$. Anschließend sendet er $R_{b}$
-   an Alice.
+   an *Alice*.
 5. *Alice* berechnet $R_{ab}$ und prüft ob $R_{ab} == (P_{a}/P_{b})$.
 
 Konnten *Alice* und *Bob* jeweils $R_{ab} = (P_{a}/P_{b})$ als korrekt validieren,
@@ -458,16 +456,16 @@ Referenz hergenommen werden.
 
 ![Authentifizierung auf Basis des Web of Trust.](images/web-of-trust.png){#fig:img-web-of-trust width=100%}
 
-Eine weitere Möglichkeit einer Authentifizierung ist auf Basis des
-Web of Trust.  Dieses beschreibt einen typischen dezentralen PKI--Ansatz,
+Eine weitere Möglichkeit einer Authentifizierung wäre beispielsweise auf Basis des
+Web of Trust denkbar. Dieses beschreibt einen typischen dezentralen PKI--Ansatz,
 welcher aktuell mittels der GnuPG--Software umgesetzt wird.
 Die IPFS--ID kann hierbei mit dem privaten Schlüssel signiert werden und über das
-Web--of--Trust--Overlay--Network von den jeweiligen Benutzer validiert
+Web of Trust--Overlay--Network von den jeweiligen Benutzern validiert
 werden. [@fig:img-web-of-trust] stellt das Konzept grafisch dar.
 
 Die Authentifizierung von Kommunikationspartnern ist für den Benutzer keine
 triviale Aufgabe. Die in [@fig:img-web-of-trust] dargestellte Situation stellt
-jedoch eine ideale Sichtweise des Web--of--Trust--Vertrauensmodells dar. Das
+jedoch eine ideale Sichtweise des Web of Trust--Vertrauensmodells dar. Das
 Vertrauen zwischen den verschiedenen Parteien des Web of Trust ist nicht
 generell übertragbar, da es lediglich auf Empfehlungen einzelner Individuen
 basiert (vgl. [@pgp-trust-model]). »A Probabilistic Trust Model for GnuPG«
@@ -481,7 +479,7 @@ klassischen Vertrauensmodells dar (vgl. [@gpg-probabilistic]).
 2. *Alice* und *Bob* signieren ihre IPFS--ID vor dem Austausch mit dem jeweiligen
    Synchronisationspartner.
 3. *Alice* und *Bob* beschaffen sich den öffentlichen Schlüssel des
-   Synchronisationspartners aus dem Web of Trust, um damit die Signatur der IPFS--ID damit zu prüfen.
+   Synchronisationspartners aus dem Web of Trust, um damit die Signatur der IPFS--ID zu prüfen.
 4. Da die öffentlichen Schlüssel der jeweiligen Parteien bereits von anderen
    vertrauenswürdigen Parteien unterschrieben sind, akzeptieren beide
    Synchronisationspartner die Signatur und somit die IPFS--ID.
@@ -493,7 +491,7 @@ Krypto--Kampagne[^FN_CTCRYPTO], kann das Vertrauen in die Identität einer Parte
 weiter erhöht werden.
 
 Wissenschaftliche Untersuchungen haben weiterhin ergeben, dass ein Großteil der
-Web--of--Trust--Teilnehmer zum sogenanntem Strong Set gehören. Diese Teilmenge
+Web of Trust--Teilnehmer zum sogenanntem Strong Set gehören. Diese Teilmenge
 repräsentiert Benutzer/Schlüssel welche durch gegenseitige Bestätigung
 vollständig miteinander verbunden sind. Projekte wie die c't Krypto--Kampagne
 oder auch das Debian--Projekt sollen hierzu einen deutlichen Beitrag
@@ -508,7 +506,7 @@ geleistet haben (vgl. [@wot1] und [@wot2]).
 
 Wie bereits erwähnt, ist die Authentifizierung über ein Passwort oft der
 Schwachpunkt eines zu sichernden Systems. Ist das Passwort oder die
-Passwort--Richtlinien zu komplex, so neigen Benutzer oft dazu die Passwörter
+Passwort--Richtlinien zu komplex, so neigen Benutzer oft dazu, die Passwörter
 aufzuschreiben. Ist die Komplexität beziehungsweise Entropie zu niedrig, so ist
 es mit modernen Methoden vergleichsweise einfach, das Passwort zu berechnen (siehe @sec:SEC05_ANGRIFFSFLAECHE_BEI_BRIG).
 
@@ -533,7 +531,7 @@ Chipkarten, welche die Speicherung kryptographischer Schlüssel ermöglichen.
 ![Von g10 code vertriebene Smartcard für den Einsatz mit GnuPG[^FN_SC].](images/newcard-b.jpg){#fig:IMG_G10_SMARTCARD width=50%}
 
 [@fig:IMG_G10_SMARTCARD] zeigt die OpenPGP--Card Chipkarte[^FN_OPENPGP_CARD]
-von ZeitControl, welche über g10 code vertrieben wird. Der Anbieter der
+von ZeitControl, welche über den Anbieter g10 code vertrieben wird. Der Anbieter der
 Smartcard ist gleichzeitig der Entwickler hinter dem GnuPG--Projekt. Auf der
 OpenPGP--Chipkarte Version 2.0 lassen sich drei RSA--Schlüssel (Signieren,
 Ver--/Entschlüsseln, Authentifizieren) mit jeweils 2048 Bit speichern. Der
@@ -636,8 +634,8 @@ ansprechen, Slot 2 mit einem längeren Drücken (2,5--5 Sekunden). Für weitere 
 [^FN_YK_MANUAL]: The YubiKey Manual <https://www.yubico.com/wp-content/uploads/2015/03/YubiKeyManual_v3.4.pdf>
 [^FN_YUBICO_PERSON_TOOL]: Yubico Personalization Tool: <https://www.yubico.com/products/services-software/personalization-tools/use/>
 
-Die grundlegende Konfiguration des YubiKey ist mit dem *YubiKey
-Personalization Tool* möglich.
+Die grundlegende Konfiguration des YubiKey ist mit dem YubiKey Personalization
+Tool möglich.
 
 ![GUI des YubiKey Personalization Tool. Das Konfigurationswerkzeug ist eine QT--Anwendung, diese wird von den gängigen Betriebssystemen (Linux, MacOs, Windows) unterstützt.](images/ykgui2.png){#fig:img-ykgui width=75%}
 
@@ -663,10 +661,10 @@ repräsentieren den dynamisch generierten Teil des One--Time--Passworts.
 6. Zufällig generierte Nonce (2 Bytes), wird vom internen Random--Number--Generator erstellt, um weitere Entropie hinzuzufügen.
 7. CRC16 Prüfsumme (2 Bytes).
 
-Der dynamische Teil besteht aus mehreren verschiedenen Einzelkomponenten die
-beispielsweise eine zufällige Nonce, Sitzungsschlüssel und Zähler beinhalten.
+Der dynamische Teil besteht aus mehreren verschiedenen Einzelkomponenten, die
+eine zufällige Nonce, Sitzungsschlüssel und Zähler beinhalten.
 Weiterhin fließt ein AES--Schlüssel in die Generierung des One--Time--Password
-ein, es ist für einen Angreifer somit nicht möglich die eigentlichen Daten
+ein. Es ist für einen Angreifer somit nicht möglich, die eigentlichen Daten
 auszuwerten.
 
 ![Yubico OTP--Authentifizierungsprozess an der YubiCloud[^FN_YUBICO_OTP].](images/otp-details.png){#fig:img-otp-details width=75%}
@@ -709,8 +707,7 @@ online[^FN_APIKEY] und erfordert einen YubiKey. Die minimale Implementierung in
 Authentifizierungs--Client,  welcher einen YubiKey am YubiCloud--Dienst
 authentifiziert. [@fig:img-poc-brig-2fa] zeigt schematisch den
 Zwei--Faktor--Authentifizierung--Vorgang mit einem YubiKey über die
-YubiCloud. Um auf das »brig«--Repository Zugriff zu erhalten, müssen folgende
-Informationen validiert werden:
+YubiCloud. 
 
 [^FN_APIKEY]: Yubico API--Key beantragen: <https://upgrade.yubico.com/getapikey/>
 
@@ -786,7 +783,7 @@ Unternehmensinfrastruktur nutzen.
 #### Einrichtung  {#sec:SEC08_EINRICHTUNG}
 
 Als Vorbereitung muss der YubiKey mit einer neuen Identität programmiert
-werden. Für die Programmierung wird das YubiKey--Personalization--Tool
+werden. Für die Programmierung wird das YubiKey Personalization Tool
 verwendet. Hier kann unter dem Menüpunkt *Yubico OTP/Quick* eine neue Identität
 autogeneriert werden. Die hier erstellte Public--ID, sowie der
 AES--Schlüssel müssen anschließend dem Validierungsserver bekannt gemacht
@@ -889,7 +886,7 @@ in der Vergangenheit kritische Sicherheitslücken aufgewiesen.
 
 [@fig:IMG_REVERSE_PROXY] zeigt einen Ansatz bei welchem der
 Validierungsserver hinter einem Reverse--Proxy betrieben wird. Alle
-One--Time--Passwöter werden über einen normalen Webserver entgegengenommen
+One--Time--Password--Anfragen werden über einen normalen Webserver entgegengenommen
 und an den YubiKey--Validierungsserver weitergeleitet.
 
 ![Validierungsserver, welcher über einen Reverse--Proxy angesprochen wird.](images/reverse-proxy.png){#fig:IMG_REVERSE_PROXY width=95%}
@@ -901,7 +898,7 @@ Sicherheitslücken in weit verbreiteten Webservern wie NGINX[^FN_NGINX] oder
 Apache[^FN_APACHE] schneller gefunden und behoben werden, wie bei einem
 spezifischen Server--Produkt. Weiterhin kann der Webserver feingranularer
 konfiguriert werden und Sicherheitsfeatures, wie beispielsweise
-X-XSS-Protection oder *HTTP Strict Transport Security (HSTS)*[^FN_XXSS_FSTS]
+X-XSS-Protection oder HTTP Strict Transport Security (HSTS)[^FN_XXSS_FSTS]
 aktiviert werden. Wichtig an dieser Stelle ist auch der ausschließliche Einsatz
 von HTTPS mit einem validen Zertifikat als Transportprotokoll, um mögliche
 Man--in--the--Middle--Angriffe zu verhindern.
@@ -961,15 +958,14 @@ Commit? (y/n) [n]: y
 
 Im Beispiel wurde der zweite Slot des YubiKey NEO mit dem Passwort
 MyVeryLongPasswordYouWontGuessToday konfiguriert. Beim anschließenden
-zweimaligem Aktivieren des zweiten Slots, liefert der YubiKey immer das
-gleiche Passwort: Beim längeren Drücken (Aktivierung von Slot 2) wird das
-Passwort emittiert:
+zweimaligem Aktivieren des zweiten Slots, liefert der YubiKey zweimal das
+gleiche Passwort:
 
 ~~~sh
-MyVeryLongPasswordYouWontGuessTodayMyVeryLongPasswordYouWontGuessToday
+$ MyVeryLongPasswordYouWontGuessTodayMyVeryLongPasswordYouWontGuessToday
 ~~~
 
-Dieses Feature erlaubt es dem Benutzer beim Merken eines einfachen Passwortes,
+Dieses Feature erlaubt es dem Benutzer durch Merken eines einfachen Passwortes,
 trotzdem ein sicheres Passwort generieren zu können. Je nach Anwendung kann so
 das vom YubiKey generierte Passwort mit einem Prefix und/oder Suffix
 erweitert werden. Beispiel mit Prefix = »YEAH« und Suffix = »GehtDoch!?«
@@ -983,7 +979,7 @@ Auch wenn dieses Feature dem Benutzer das Merken von langen Passwörtern
 erspart, so sollte es trotzdem mit Vorsicht eingesetzt werden, da
 Standard--Passwörter jederzeit beispielsweise mittels eines Keyloggers
 aufgezeichnet werden können. Die bessere Alternative ist an dieser Stelle
-trotzdem eine »echte« Zwei--Faktor--Authentifizierung, sofern diese von der
+trotzdem eine echte Zwei--Faktor--Authentifizierung, sofern diese von der
 jeweiligen Applikation beziehungsweise vom Dienstanbieter angeboten wird.
 
 ### YubiKey als Smartcard {#sec:SEC08_YUBIKEY_ALS_SMARTCARD}
@@ -991,8 +987,8 @@ jeweiligen Applikation beziehungsweise vom Dienstanbieter angeboten wird.
 #### Einleitung {#sec:SEC08_EINLEITUNG_SMARTCARD}
 
 Wie unter [@sec:SEC08_YUBIKEY_NEO_EINLEITUNG] erwähnt, hat der YubiKey die
-Möglichkeit als Smartcard zu fungieren. Die *Chip Card Interface Device
-(CCID)*[^FN_CCID]--Funktionalität ist beim YubiKey NEO ab Werk deaktiviert.
+Möglichkeit als Smartcard zu fungieren. Die Chip Card Interface Device
+(CCID)[^FN_CCID]--Funktionalität ist beim YubiKey NEO ab Werk deaktiviert.
 Für die Aktivierung kann das Kommandozeilen--Werkzeug `ykpersonalize`
 verwendet werden. Standardmäßig ist beim YubiKey NEO nur die
 OTP--Funktionalität aktiviert. In welchem Betriebsmodus sich der YubiKey
@@ -1011,7 +1007,7 @@ USB HID v1.10 Keyboard [Yubico YubiKey NEO OTP] on usb-0000:00:1d.0-1.8.1.3/inpu
 Beim Aktivieren kann man beim YubiKey NEO zwischen insgesamt sieben verschiedenen
 Modi --- Einzelmodi und Kombinations--Modi --- wählen[^FN_YUBIKEY_MODES]:
 
-* Einzelmodi: `OTP`, `CCID`, `U2F`
+* Einzel--Modi: `OTP`, `CCID`, `U2F`
 * Kombinations--Modi: `OTP/CCID`, `OTP/U2F`, `U2F/CCID`,  `OTP/U2F/CCID`
 
 [^FN_YUBIKEY_MODES]: YubiKey NEO Modes: <https://developers.yubico.com/libu2f-host/Mode_switch_YubiKey.html>
@@ -1084,7 +1080,7 @@ GnuPG--Administrationsdokumentation zur Smartcard[^FN_GNUPG_SMARTCARD_DOC].
 
 [^FN_GNUPG_SMARTCARD_DOC]: Chapter 3. Administrating the Card: <https://www.gnupg.org/howtos/card-howto/en/ch03.html>
 
-Es gibt zwei Möglichkeiten die Smartcard mit kryptographischen Schlüsseln zu befüllen.
+Es gibt zwei Möglichkeiten die Smartcard mit kryptographischen Schlüsseln zu befüllen:
 
 1. Schlüssel direkt auf Smartcard generieren lassen.
 2. Schlüssel extern auf PC generieren und auf Smartcard verschieben.
@@ -1169,7 +1165,7 @@ ein Backup von den privaten Haupt-- und Unterschlüsseln erfolgen. Dies kann am
 einfachsten über das Kopieren des `.gnupg`--Konfigurationsordners
 bewerkstelligt werden. Dieser enthält die `pubring.gpg` und `secring.gpg`
 Dateien, welche die öffentlichen und privaten Schlüssel enthalten. Eine
-alternative Methode einen bestimmten Schlüssel zu sicheren, zeigt
+alternative Methode einen bestimmten Schlüssel zu sichern, zeigt
 @sec:APP_EXPORTIEREN_DER_PRIVATEN_UND_OEFFENTLICHEN_SCHLUESSEL. Verfahren zur
 Offline--Speicherung von Schlüsseln wurden bereits unter
 @sec:SEC08_OFFLINE_HAUPTSCHLUESSEL behandelt.
@@ -1223,9 +1219,8 @@ neuen öffentlichen Unterschlüssel dem Web of Trust mit `gpg2 --send-keys
 E9CD5AB4075551F6F1D6AE918219B30B103FB091` bekannt gemacht werden.
 
 Anschließend sollte noch die Standard--PIN `123456` und die
-Standard--Admin--PIN `12345678` geändert werden. Diese Einstellung kann
-ebenso mit `gpg2 --card-edit` im Untermenü `admin/passwd` getätigt werden.
-
+Standard--Admin--PIN `12345678` geändert werden. Diese Einstellung kann ebenso
+mit `gpg2 --card-edit` im Untermenü `admin/passwd` getätigt werden.
 @sec:SEC08_ERSTELLEN_UND_VALIDIEREN_VON_SIGNATUREN zeigt das Signieren von
 Daten mit und ohne Smartcard.
 
@@ -1241,7 +1236,7 @@ im Falle einer Linux--Distribution, sich die signierten Pakete mittels
 Paketmanager zu beschaffen. In diesem Fall muss sich der Paketierer der
 Applikation um die Auslieferung einer korrekt signierten Version kümmern.
 
-Eine weitere Möglichkeit, die dem Benutzer mehr Kontrolle gibt ist das direkte
+Eine weitere Möglichkeit, die dem Benutzer mehr Kontrolle gibt, ist das direkte
 Herunterladen auf der Entwickler/Anbieter--Webseite. Diese Art der
 Bereitstellung von Software bietet beispielsweise auch das GnuPG und das
 Tor--Projekt an.
@@ -1344,12 +1339,12 @@ gewährleistet ist und Softwareinternas nicht verändert wurden.
 ![Updateprozess zur sicheren Softwareverteilung.](images/updateprocess.png){#fig:IMG_UPDATEPROCESS width=95%}
 
 Auf dieser Basis könnte die Software intern ein Schlüsselmanagement (revoked
-keys, valid keys) verwalten, anhand welchem sie Updates von der
+keys, valid keys) betreiben, anhand welchem sie Updates von der
 Entwicklerquelle lädt und automatisiert validiert (Schritt 2.1--2.5). Bei
 erfolgreicher Ausführung/Validierung aller Teilschritte kann die Software ein
 Update durchführen, ansonsten wird der Benutzer gewarnt und ein Update
-verweigert. Dies sollte sich beispielsweise mit einer High--Level
-Bibliothek wie openpgp[^FN_OPENPGP_GO] realisieren lassen.
+verweigert. Dies sollte sich beispielsweise mit einer High--Level--Bibliothek
+wie openpgp[^FN_OPENPGP_GO] realisieren lassen.
 
 [^FN_OPENPGP_GO]: Go OpenPGP--Bibliothek: <https://godoc.org/golang.org/x/crypto/openpgp>
 
@@ -1358,19 +1353,19 @@ Bibliothek wie openpgp[^FN_OPENPGP_GO] realisieren lassen.
 Um die Verantwortlichkeit, sowie den Urheber bestimmter Quellcodeteile besser
 identifizieren zu können und dadurch die Entwickler auch vor Manipulationen am
 Quelltext--Repository besser zu schützen, bietet sich das Signieren von
-Quellcode (auch code signing genannt) an. Zwar bietet beispielsweise `git`
+Quellcode (auch code signing genannt) an. Zwar bietet beispielsweise git
 bereits mit kryptographischen Prüfsummen (SHA--1) eine gewisse
 Manipulationssicherheit, jedoch ermöglicht SHA--1 keine Authentifizierung der
 Quelle.
 
-Die Authentifikation einer Quelle ist keine einfache Aufgabe. Gerade bei
+Die Authentifizierung einer Quelle ist keine einfache Aufgabe. Gerade bei
 Open--Source--Projekten, bei welchen jeder der Zugriffsrechte besitzt, Quellcode zum Projekt beitragen kann, ist eine Authentifizierung um so wichtiger.
 
 Eine weit verbreitete Möglichkeit zur Authentifizierung, ist hierbei die
-Digitale Signatur. Quelltext, beziehungsweise Commits (Beitrag u. Änderungen
+Digitale Signatur. Quelltext, beziehungsweise Commits (Beitrag und Änderungen
 an einem Projekt), können auf eine ähnliche Art wie Binärdateien signiert werden.
 
-Im Fall von »brig«, welches `git` verwendet und über GitHub entwickelt wird,
+Im Fall von »brig«, welches git zur Quellcode--Verwaltung verwendet und über GitHub entwickelt wird,
 bietet sich das Signieren und Verifizieren von Commits und Tags an. Hierzu
 kann beispielsweise mit `git config` global die Schlüssel--ID des Schlüssels
 hinzugefügt werden, mit welchem der Quelltext in Zukunft signiert werden soll.
@@ -1415,7 +1410,7 @@ Auf der Kommandozeile kann eine Signatur einfach mit der
 `--show-signature`--Option von git angezeigt werden (gekürzte Ausgabe):
 
 ~~~sh
-# git log --show-signature
+$ git log --show-signature
 [...]
 commit 9fefd0e69791dfacade4bb1c9930776dcf73b8bc
 gpg: Signature made Do 15 Dez 2016 16:23:02 CET
