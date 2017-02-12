@@ -82,7 +82,7 @@ Verschlüsselung neben dem Schlüssel mit in die Verschlüsselung einfließen,
 bestimmt die sogenannte Betriebsart. [@fig:img-streamblock] zeigt exemplarisch
 den Unterschied zwischen Strom-- und Blockverschlüsselung.
 
-![Unterschied in der Arbeitsweise zwischen Block-- und Stromchiffre. Die Blockchiffre verschlüsselt die Daten blockweise, eine Stromchiffre hingegen verschlüsselt den Datenstrom »on--the--fly«.](images/streamblock.png){#fig:img-streamblock width=80%}
+![Unterschied in der Arbeitsweise zwischen Block-- und Stromchiffre. Die Blockchiffre verschlüsselt die Daten blockweise, eine Stromchiffre hingegen verschlüsselt den Datenstrom »on the fly«.](images/streamblock.png){#fig:img-streamblock width=80%}
 
 #### Betriebsarten der Blockverschlüsselung {#sec:SEC04_BETRIEBSARTEN_DER_BLOCKVERSCHLUESSELUNG}
 
@@ -300,7 +300,7 @@ Daten mit einer *Keyed-Hash Message Authentication Code (HMAC)*.
 Bei den praktischen Authentifizierungsverfahren ist das Passwort immer noch
 eine sehr weit verbreitete Möglichkeit der Authentifizierung. Passwörter sind
 eine sehr problematische Möglichkeit der Authentifizierung, weil sie auf gute
-»Entropie« angewiesen sind. Das heißt, dass Passwörter möglichst »zufällig«
+Entropie angewiesen sind. Das heißt, dass Passwörter möglichst zufällig
 sein müssen. Passwörter, die leicht zu erraten sind, sind *de facto* schlechte
 Authentifizierungsmechanismen.
 

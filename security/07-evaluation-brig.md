@@ -136,7 +136,7 @@ kann.
 Um das Verhalten auf verschiedenen Klassen von Rechnern testen zu können,
 wurden zwei »Systemklassen« in die Geschwindigkeitsanalyse mit einbezogen.
 [@tbl:TAB_HIGH_SYS] zeigt die getesteten Prozessorarchitekturen, die
-»schwächeren« Systeme sollen hierbei ersatzweise für mobile Plattformen als
+schwächeren Systeme sollen hierbei ersatzweise für mobile Plattformen als
 Referenzwert dienen. Für genauere Informationen zur jeweiligen CPU siehe
 @sec:APP_CPUARCH. Weiterhin wurde mit dem `dd`--Kommandozeilen--Werkzeug ein
 Lese-- und Schreibtest durchgeführt, um die Geschwindigkeit der Festplatte (in

@@ -24,8 +24,8 @@ Wie unter [@sec:SEC07_SCHLUESSELGENERIERUNG] erläutert, wird aktuell für jede
 Datei ein zufälliger Schlüssel generiert. Mit diesem Ansatz wird die
 Deduplizierungsfunktionalität von IPFS weitestgehend nutzlos gemacht.
 
-Ein Ansatz dieses Problem zu umgehen, ist die sogenannte »Convergent
-Encryption«. Diese Technik wird beispielsweise von Cloud--Speicher--Anbietern
+Ein Ansatz dieses Problem zu umgehen, ist die sogenannte Convergent
+Encryption. Diese Technik wird beispielsweise von Cloud--Speicher--Anbietern
 verwendet, um verschlüsselte Daten deduplizieren zu können, ohne dabei auf den
 eigentlichen Inhalt zugreifen zu müssen (vgl. [@convergent-encryption]).
 
@@ -1092,7 +1092,7 @@ generieren. Hier muss man in den `admin`--Modus wechseln und kann anschließend
 mit dem Befehl `generate` die Schlüssel generieren lassen.
 @sec:APP_SCHLUESSELGENERIERUNG_AUF_DER_KARTE zeigt den kompletten Vorgang. Beim Generieren der
 Schlüssel wird man von der Anwendung gefragt, ob ein Schlüssel
-»off--card«--Backup gemacht werden soll. Weiterhin werden
+»off card«--Backup gemacht werden soll. Weiterhin werden
 Revocation--Zertifikate generiert. Früher mussten diese manuell erstellt
 werden, aktuelle gpg Versionen erstellen diese automatisch.
 
@@ -1448,7 +1448,7 @@ Falls nötig kann der korrekte Modus analog zu  @sec:SEC08_EINLEITUNG_SMARTCARD
 aktiviert werden.
 
 Anschließend muss die Zwei--Faktor--Authentifizierung im persönlichen Account
-unter dem Menüpunkt »Setting« aktiviert und der YubiKey auf der
+unter dem Menüpunkt *Setting* aktiviert und der YubiKey auf der
 GitHub--Plattform registriert werden. Nach erfolgreicher Registrierung  wird
 man nach der Eingabe seines persönlichen Passworts um den zweiten Faktor
 (beispielsweise YubiKey) gebeten, siehe @fig:IMG_YUBIKEY_GITHUB.

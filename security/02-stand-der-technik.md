@@ -35,8 +35,8 @@ werden muss.
 
 ### Angriffe und Bedrohungen {#sec:SEC02_ANGRIFFE_UND_BEDROHUNGEN}
 
-Die Sicherheit eines System lässt sich nicht mit einem einfachen »ja« oder
-»nein« beantworten. Betrachtet man ein System bezüglich seiner Sicherheit, so
+Die Sicherheit eines System lässt sich nicht mit einem einfachen »Ja« oder
+»Nein« beantworten. Betrachtet man ein System bezüglich seiner Sicherheit, so
 muss auch genau definiert werden, gegen welches Angriffsszenario ein System
 sicher ist. Auch ein System das aus kryptographischer Sicht als »sicher« zu
 betrachten wäre, kann im einfachsten Fall, durch die Weitergabe von
@@ -61,7 +61,7 @@ weiterzugeben. Auch der Einsatz von »Phishing« ist eine Variante
 von »Social Engineering«. [@fig:img-security] zeigt scherzhaft eine weitere
 Variante für welche Menschen anfällig sind.
 
-Um Sicherheit zu gewährleisten, ist es wichtig ein System »im Ganzen« zu
+Um Sicherheit zu gewährleisten, ist es wichtig ein System im Ganzen zu
 betrachten. Die Implementierung bestimmter Sicherheitsfeatures ist nur die
 technische Maßnahme. Der Benutzer eines Systems erwartet in erster Linie
 Funktionalität und möchte sich in den wenigsten Fällen mit dem System oder der
@@ -86,7 +86,7 @@ benötigt wird. Dies sind in den meisten Fällen die Server des
 Cloud--Speicher--Anbieters, welche für die Synchronisation und Speicherung der
 Daten verantwortlich sind.
 
-![Datensynchronisation über zentrale Cloud--Speicher--Dienste, wie beispielsweise Dropbox. *Alice* und *Bob* teilen gemeinsam Dateien über das »shared storage« aus. *Mallory* stellt einen potentiellen Angreifer dar. *Mallory* kann ein externer Angreifer oder auch ein interner Mitarbeiter sein, der Zugriff auf die Daten hat.](images/cloud.png){#fig:img-cloud width=80%}
+![Datensynchronisation über zentrale Cloud--Speicher--Dienste, wie beispielsweise Dropbox. *Alice* und *Bob* teilen gemeinsam Dateien über das shared storage aus. *Mallory* stellt einen potentiellen Angreifer dar. *Mallory* kann ein externer Angreifer oder auch ein interner Mitarbeiter sein, der Zugriff auf die Daten hat.](images/cloud.png){#fig:img-cloud width=80%}
 
 [@fig:img-cloud] zeigt schematisch das Konzept beim Austausch von Daten über
 einen Cloud--Speicher--Dienst. Die Daten des Benutzers werden hierbei über
@@ -201,7 +201,7 @@ Ein großes Problem war hierbei auch, dass die `HOST_ID` unverschlüsselt in
 einer Konfigurationsdatei (sqlite3--Datenkbank) abgelegt war. Diese ID bleibt
 anscheinend auch nach Änderung der Zugangsdaten weiterhin bestehen.
 
-[^FN_DROPBOX_INSECURE_BY_DESIGN]: Dropbox authentication: »insecure by design«: <http://dereknewton.com/2011/04/dropbox-authentication-static-host-ids/>
+[^FN_DROPBOX_INSECURE_BY_DESIGN]: Dropbox authentication: insecure by design: <http://dereknewton.com/2011/04/dropbox-authentication-static-host-ids/>
 
 Eine weitere Arbeit aus dem Jahr 2011 beschreibt verschiedene Angriffsszenarien
 und Probleme, welche die Datensicherheit und Privatsphäre von
@@ -282,7 +282,7 @@ kann Kryptographie dank Freier Software von unabhängigen Sicherheitsforschern
 bewertet werden.
 
 Auch wenn für viele Benutzer die Geheimhaltung der Software und Infrastruktur
-auf den ersten Blick als »sicherer« erscheinen mag, widerspricht Sie dem
+auf den ersten Blick als sicherer erscheinen mag, widerspricht sie dem
 Kerckhoffs’schen Prinzip, bei welchem die Sicherheit eines System nur von der
 Geheimhaltung des Schlüssels, jedoch nicht von der Geheimhaltung weiterer
 Systemelemente abhängen sollte. Die Vergangenheit hat beispielsweise beim
@@ -429,7 +429,7 @@ die gleiche Datei besitzen, siehe [@fig:img-swarm].
 
 [^FN_SPOF]: Single Point of Failure: <https://de.wikipedia.org/w/index.php?title=Single_Point_of_Failure&oldid=156306981>
 
-![Zeigt einen »Swarm«. *Alice* lädt die Datei »image.iso« von mehreren Teilnehmern gleichzeitig, die Datei »mydog.png« jedoch nur von *Dan*.](images/distsync.png){#fig:img-swarm width=70%}
+![Zeigt einen Swarm. *Alice* lädt die Datei image.iso von mehreren Teilnehmern gleichzeitig, die Datei mydog.png jedoch nur von *Dan*.](images/distsync.png){#fig:img-swarm width=70%}
 
 Aktuell verbreitete Peer--to--Peer--Protokolle:
 
@@ -598,8 +598,8 @@ anzulegen.
 
 [^FN_GCRYPT]: gcrypt git addon: <https://spwhitton.name/tech/code/git-remote-gcrypt/>
 
-Neben normalen git--Repositories werden sogenannte »Special
-Remotes«[^FN_GIT_ANNEX_SPECIALREMOTES] unterstützt. Diese werden verwendet, um
+Neben normalen git--Repositories werden sogenannte special
+remotes[^FN_GIT_ANNEX_SPECIALREMOTES] unterstützt. Diese werden verwendet, um
 Daten auf ein System, auf welchem git nicht installiert ist, zu synchronisieren.
 
 Neben der Verschlüsselung von git--remotes mit gcrypt gibt es auch die

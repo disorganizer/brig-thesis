@@ -80,7 +80,7 @@ mit Fokus auf Sicherheit --- als negativ zu bewerten (siehe @sec:SEC07_REPOSITOR
 Hier wurden erweiterte Konzepte der Zwei--Faktor--Authentifizierung mit dem
 YubiKey für Privatpersonen und Institutionen evaluiert (siehe
 @sec:SEC08_SMARTCARDS_UND_RSA_TOKEN_ALS_ZWEI_FAKTOR_AUTHENTIFIZIERUNG).
-Weiterhin wurde ein Konzept zur »einfachen Passworthärtung« mit dem YubiKey
+Weiterhin wurde ein Konzept zur einfachen Passworthärtung mit dem YubiKey
 vorgestellt (@sec:SEC08_YUBIKEY_FUER_PASSWORTHAERTUNG).
 
 Im Bereich der Synchronisationspartnerauthentifizierung wurden verschiedene
@@ -115,7 +115,7 @@ dass die Deduplizierungsfunktionalität außer Kraft gesetzt wird, siehe
 Encryption »brig« für bestimmte Angriffe, wie beispielsweise den
 »confirmation of a file«--Angriff, anfällig machen. Die Empfehlung an dieser
 Stelle wäre, die Schlüsselgenerierung weiterhin auf Zufallsbasis zu realisieren
-und das dadurch entstandene »Problem« (IPFS kann Daten nicht mehr sinnvoll
+und das dadurch entstandene Problem (IPFS kann Daten nicht mehr sinnvoll
 deduplizieren, siehe @sec:SEC07_SCHLUESSELGENERIERUNG) in Kauf zu nehmen und
 eine abgemilderte Variante der Deduplizierung über Packfiles --- wie von Herrn Pahl
 vorgeschlagen --- zu realisieren (siehe [@cpahl], S. 101 f.).
