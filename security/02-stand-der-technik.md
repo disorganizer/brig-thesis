@@ -378,7 +378,7 @@ eines Cloud--Speicher--Dienstes essentiell ist.
 
 Der dezentrale Bereich klassifiziert sich durch den Dateiaustausch, welcher in
 der Regel *ohne* eine zentrale Instanz auskommt. Es handelt sich hierbei um
-Systeme aus dem Bereich des Peer-to-peer--Modells (P2P). Eines der frühen
+Systeme aus dem Bereich des Peer--to--Peer--Modells (P2P). Eines der frühen
 Peer--to--Peer--Protokolle ist das Napster--Protokoll der gleichnamigen
 Anwendung Napster, welche Ende der 90' Jahre für den Tausch von Musik
 verwendet wurde. Später sind weitere Peer--to--Peer--Protokolle wie das
