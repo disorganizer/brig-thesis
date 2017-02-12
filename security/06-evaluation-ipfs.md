@@ -27,12 +27,14 @@ ipfs version 0.4.3
 
 Das InterPlanetary File System wird als  »content-addressable, peer-to-peer
 hypermedia distribution protocol« definiert. Das Besondere an IPFS ist, dass
-es ein sogenanntes Content--Addressable--Network (CAN) darstellt. Ein CAN
-arbeitet mit einer verteilten Hashtabelle (Distributed Hash Table (DHT)),
+es ein sogenanntes Content--Addressable--Network (CAN)[^FN_CAN] darstellt. Ein CAN
+arbeitet mit einer verteilten Hashtabelle (Distributed Hash Table, kurz DHT[^FN_DHT]),
 welche als grundlegende Datenstruktur verwendet wird, um die Daten innerhalb
 eines Peer--to--Peer--Netzwerks zu lokalisieren und zu speichern.
 
-Eine DHT als Datenstruktur bringt in der Theorie laut Wikipedia[^FN_DHT]
+[^FN_CAN]: Content Addressable Network: <https://de.wikipedia.org/w/index.php?title=Content_Addressable_Network&oldid=157598552>
+
+Eine DHT als Datenstruktur bringt in der Theorie laut Wikipedia
 folgende Eigenschaften mit sich:
 
 [^FN_DHT]: Verteilte Hashtabelle: <https://de.wikipedia.org/w/index.php?title=Verteilte_Hashtabelle&oldid=157901191>
@@ -67,10 +69,10 @@ to get started, enter:
 ~~~
 
 Bei der Initialisierung wird eine Peer--ID erzeugt. Anschließend kann
-der Benutzer die `readme`--Datei aus dem IPFS--Store betrachten.
+der Benutzer die readme--Datei aus dem IPFS--Store betrachten.
 [@sec:APP_IPFS_SECWARNING] zeigt weiterhin die aktuelle Sicherheitswarnung der
 IPFS--Software. Es wird explizit darauf hingewiesen, dass sich IPFS
-im Alphastadium befindet. Weiterhin gibt es in der Datei `security-notes` Details zur Sicherheit, welche analog zur `readme`--Datei betrachtet werden kann.
+im Alphastadium befindet. Weiterhin gibt es in der Datei »security-notes« Details zur Sicherheit, welche analog zur readme--Datei betrachtet werden kann.
 
 ## IPFS--Backend {#sec:SEC06_IPFS_BACKEND}
 
@@ -120,16 +122,16 @@ IPFS verwendet als Prüfsummen--Format ein eigens entwickeltes
 Multihash--Format[^FN_MULTIHASH]. [@fig:img-multihash] zeigt das
 Multihash--Format. Es stellt eine selbstbeschreibende Prüfsumme, welche den
 Algorithmus, die Länge und die eigentliche Prüfsumme kombiniert. Dieser wird in
-verschiedenen Varianten enkodiert. Beispielsweise `base32` für die interne
-Namensvergabe der Datenblöcke oder `base58` für die Repräsentation der
+verschiedenen Varianten enkodiert. Beispielsweise Base32 für die interne
+Namensvergabe der Datenblöcke oder Base58 für die Repräsentation der
 Peer--ID.
 
 ![Das Multihash--Format.](images/multihash.png){#fig:img-multihash width=90%}
 
 Das folgende Listing zeigt den internen Aufbau eines IPFS--Repository. Die
-Daten sind hierbei in ».data«--Blöcke aufgeteilt und gespeichert. Die
+Daten sind hierbei in *.data*--Blöcke aufgeteilt und gespeichert. Die
 Benennung der Datenblöcke basiert auf dem Multihash, die Enkodierung
-bei Datenblöcken ist `Base32`.
+bei Datenblöcken ist Base32.
 
 [^FN_MULTIHASH]: GitHub--Multihash: <https://github.com/multiformats/multihash>
 
@@ -162,7 +164,7 @@ Die Speicherung der Daten in einem Merkle--DAG hat den Vorteil, dass die Daten
 bei der Speicherung üblicherweise mit einer kryptographischen Prüfsumme
 abgelegt werden. Durch diesen Umstand kann IPFS eine unerwünschte Veränderung
 an den Daten feststellen. Das folgende Beispiel zeigt die unerwünschte
-Modifikation der `readme`--Datei direkt im Store--Backend und wie die
+Modifikation der readme--Datei direkt im Store--Backend und wie die
 Integritätsprüfung von IPFS die Änderung der Daten erkennt:
 
 ~~~sh
@@ -201,7 +203,7 @@ Dateisystemen wie beispielsweise EXT4 oder NTFS redundant abgespeichert
 werden. IPFS teilt diese Datei --- in diesem Fall nur beispielhaft --- in
 1 MiByte große Blöcke auf und speichert nur Datenblöcke, welche dem
 IPFS--Backend noch nicht bekannt sind (vgl. auch [@cpahl], S. 27 f.). Alle bekannten
-*Blöcke* werden vom Merkle--DAG nur referenziert. Durch diesen Ansatz reduziert
+Blöcke werden vom Merkle--DAG nur referenziert. Durch diesen Ansatz reduziert
 sich im Beispiel der benötigte Speicherplatz auf 6 MiByte.
 
 ![IPFS Block--Level Deduplizierung von Daten. Eine 4 MiB große Textdatei wurde viermal kopiert und jeweils an verschiedenen Stellen geändert.](images/dedup.png){#fig:img-dedup width=90%}
@@ -242,12 +244,12 @@ $ ipfs id
 ~~~
 
 Die unter ID gelistete Nummer stellt die Prüfsumme über den öffentlichen
-Schlüssel als Multihash in `base58`--Enkodierung dar. Mit dieser ID
+Schlüssel als Multihash in Base58--Enkodierung dar. Mit dieser ID
 lässt sich ein Benutzer beziehungsweise Peer im IPFS--Netzwerk eindeutig
 identifizieren.
 
 Der private Schlüssel ist neben weiteren Informationen zum `ipfs`--Repository
-in der `~/.ipfs/config`--Datei zu finden, welche beim Anlegen des Repositories
+in der ~/.ipfs/config--Datei zu finden, welche beim Anlegen des Repositories
 automatisch erstellt wird (gekürzte Ausgabe):
 
 ~~~sh
@@ -273,7 +275,7 @@ Ein Authentifizierungsmechanismus im eigentlichen Sinne existiert bei IPFS
 nicht. Die Benutzer haben lediglich eine eindeutige globale Peer--ID. Dateien
 werden nicht direkt von einer bestimmten Peer--ID, sondern aus dem
 IPFS--Netzwerk bezogen.  Schaut man sich beispielsweise mit `ipfs dht
-findprovs` an, welche Peers die `readme`--Datei anbieten, bekommt man eine
+findprovs` an, welche Peers die readme--Datei anbieten, bekommt man eine
 Liste verschiedener Teilnehmer:
 
 ~~~sh
@@ -365,10 +367,11 @@ in Zukunft auf TLS1.3 zu migrieren.
 
 Aus Datenhaltungs-- und Netzwerksicht stellt IPFS zum
 aktuellen Zeitpunkt eine attraktive Basis für die Entwicklung des
-»brig«--Prototypen dar. Aus Datenhaltungssicht sind insbesondere folgende
-Features interessant:
+»brig«--Prototypen dar. Dabei sind insbesondere folgende Features interessant:
 
-* Möglichkeit der Deduplizierung von Daten (Aufgrund der Speicherung in einem Merkle-DAG)
+* Funktionsweise auf Basis eines Content Addressable Network
+* Netzwerkarchitektur basierend auf Public--Key--Infrastruktur
+* Möglichkeit der Deduplizierung von Daten (aufgrund der Speicherung in einem Merkle-DAG)
 * Möglichkeit der Validierung der Integrität der Daten (SHA256--basiert)
 
 Aus Sicht der Sicherheit muss IPFS um folgende Funktionalitäten erweitert werden:

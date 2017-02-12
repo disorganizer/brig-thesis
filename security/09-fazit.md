@@ -128,7 +128,7 @@ Benutzeroberfläche --- wie unter [@cpahl], S. 84 ff. --- anbieten.
 Ein weiterer diskussionswürdiger Punkt ist die Verwendung von IPFS als Basis.
 Zwar erfüllt diese hier die benötigten Anforderungen, jedoch liegt der Fokus
 der Entwicklung des Projektes in erster Linie nicht im Bereich der Sicherheit.
-Auf Grund dieses Umstandes ist die Implementierung von Sicherheitsfeatures
+Aufgrund dieses Umstandes ist die Implementierung von Sicherheitsfeatures
 durch »brig« nicht zwangsläufig optimal. Die Implementierung bestimmter
 Sicherheits--Funktionalität wie beispielsweise Datenverschlüsselung wäre laut
 aktueller Einschätzung besser im IPFS--Backend zu realisieren. Weiterhin

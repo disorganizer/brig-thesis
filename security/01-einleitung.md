@@ -157,8 +157,10 @@ Die Namensanlehnung soll analog den dezentralen Transport von Daten darstellen.
 
 [^FN_BRIGG]: Brigg Handelsschiff: <https://de.wikipedia.org/w/index.php?title=Brigg&oldid=155265558>
 
-Aufgrund der Projektziele kommt als Lizenzierung die Open--Source--Lizenz
+Aufgrund der Projektziele kommt als Lizenzierung die Open--Source--Lizenz[^FN_OPENSOURCE]
 AGPLv3[^FN_AGPL] zum Einsatz. Denkbar wären jedoch im späteren Verlauf des
 Projektes kombinierte Lizenzen für Unternehmen.
+
+[^FN_OPENSOURCE]: Open--Source--Software: <https://de.wikipedia.org/w/index.php?title=Open_Source&oldid=162165962>
 
 [^FN_AGPL]: AGPLv3 Lizenz: <https://www.gnu.org/licenses/agpl-3.0.de.html>

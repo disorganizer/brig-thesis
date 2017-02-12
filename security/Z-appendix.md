@@ -228,7 +228,7 @@ vmmcall npt lbrv svm_lock nrip_save
 **System 3:**
 
 Das erste der schwächeren Systeme ist ein Netbook auf Intel--Atom--Basis mit einer
-32--bit--CPU. Der folgende `lscpu`--Ausschnitt zeigt die genauen
+32--Bit--CPU. Der folgende `lscpu`--Ausschnitt zeigt die genauen
 Spezifikationen der CPU.
 
 ~~~sh
@@ -1081,14 +1081,14 @@ gpg/card>
 Schlüssel mit GnuPG anzeigen lassen:
 
 ~~~sh
-freya :: code/brig-thesis/security ‹master*› » gpg --list-keys 932AEBFDD72FE59C
+freya :: code/brig-thesis/security ‹master*› » gpg2 --list-keys 932AEBFDD72FE59C
 pub   rsa2048 2016-12-11 [SC] [expires: 2021-12-10]
       D61CEE19369B9C330A4A482D932AEBFDD72FE59C
 uid           [ultimate] Christoph Piechula <christoph@nullcat.de>
 sub   rsa2048 2016-12-11 [A] [expires: 2021-12-10]
 sub   rsa2048 2016-12-11 [E] [expires: 2021-12-10]
 
-freya :: code/brig-thesis/security ‹master*› » gpg --list-secret-keys 932AEBFDD72FE59C
+freya :: code/brig-thesis/security ‹master*› » gpg2 --list-secret-keys 932AEBFDD72FE59C
 sec>  rsa2048 2016-12-11 [SC] [expires: 2021-12-10]
       D61CEE19369B9C330A4A482D932AEBFDD72FE59C
       Card serial no. = 0006 00000000
@@ -1100,7 +1100,7 @@ ssb>  rsa2048 2016-12-11 [E] [expires: 2021-12-10]
 # Unterschlüssel erstellen {#sec:APP_UNTERSCHLUESSEL_ERSTELLEN}
 
 ~~~sh
-$ gpg --expert --edit-key E9CD5AB4075551F6F1D6AE918219B30B103FB091
+$ gpg2 --expert --edit-key E9CD5AB4075551F6F1D6AE918219B30B103FB091
 gpg (GnuPG) 2.1.16; Copyright (C) 2016 Free Software Foundation, Inc.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
@@ -1247,7 +1247,7 @@ Ablaufdatum für den Hauptschlüssel und für den Unterschlüssel zum
 Ver--/Entschlüsseln ändern:
 
 ~~~sh
-$ gpg --expert --edit-key E9CD5AB4075551F6F1D6AE918219B30B103FB091
+$ gpg2 --expert --edit-key E9CD5AB4075551F6F1D6AE918219B30B103FB091
 gpg (GnuPG) 2.1.16; Copyright (C) 2016 Free Software Foundation, Inc.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
@@ -1332,18 +1332,18 @@ gpg> save
 Exportieren der privaten Schlüssel:
 
 ~~~sh
-$ gpg --armor --export E9CD5AB4075551F6F1D6AE918219B30B103FB091 \
+$ gpg2 --armor --export E9CD5AB4075551F6F1D6AE918219B30B103FB091 \
   > E9CD5AB4075551F6F1D6AE918219B30B103FB091.pub
-$ gpg --armor --export-secret-keys \
+$ gpg2 --armor --export-secret-keys \
   > E9CD5AB4075551F6F1D6AE918219B30B103FB091.sec
-$ gpg --armor --export-secret-subkeys \
+$ gpg2 --armor --export-secret-subkeys \
   > E9CD5AB4075551F6F1D6AE918219B30B103FB091.secsub
 ~~~
 
 # Schlüssel auf die Smartcard verschieben {#sec:APP_SCHLUESSEL_AUF_SMARTCARD_VERSCHIEBEN}
 
 ~~~sh
-$ gpg --expert --edit-key E9CD5AB4075551F6F1D6AE918219B30B103FB091
+$ gpg2 --expert --edit-key E9CD5AB4075551F6F1D6AE918219B30B103FB091
 gpg (GnuPG) 2.1.16; Copyright (C) 2016 Free Software Foundation, Inc.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
@@ -1484,7 +1484,7 @@ gpg> save
 # User-- und Admin--PIN ändern {#sec:APP_USER_UND_ADMIN_PIN_AENDERN}
 
 ~~~sh
-freya :: code/brig-thesis/security ‹master*› » gpg --card-edit
+freya :: code/brig-thesis/security ‹master*› » gpg2 --card-edit
 
 Reader ...........: 0000:0000:X:0
 Application ID ...: 00000000000000000000000000000000

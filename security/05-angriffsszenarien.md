@@ -132,7 +132,7 @@ das Ausspähen kryptographischer Schlüssel entwickelt.
 
 	<https://isc.sans.edu/forums/diary/Active+attacks+using+stolen+SSH+keys+UPDATED/4937/>
 
-**Authentifizierung:** Wie weiss der Benutzer, dass sein Kommunikationspartner
+**Authentifizierung:** Wie weiß der Benutzer, dass sein Kommunikationspartner
 der ist für den er sich ausgibt? Hier sollen mögliche Konzepte erarbeitet
 werden, um Angriffe durch fremde Kommunikationspartner identifizieren zu können.
 

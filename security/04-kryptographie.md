@@ -7,7 +7,7 @@ Fehler in der Software gefährden ganze Systeme und Benutzerdaten, sondern auch
 der fehlerhafte Einsatz von Kryptographie ist immer wieder für katastrophale
 Sicherheitsprobleme verantwortlich. Es ist *nicht trivial*, Kryptographie
 *korrekt* zu implementieren. Sogar der früher weit verbreitete Standard IEEE
-802.11, *WEP (Wired Equivalent Privacy)*, zur verschlüsselten drahtlosen
+802.11, WEP (Wired Equivalent Privacy), zur verschlüsselten drahtlosen
 Kommunikation, weist gleich mehrere Designschwächen auf. Eine
 Analyse[^FN_WEP_ANALYSIS] kommt zu der Einschätzung, dass kryptographische
 Primitiven missverstanden und auf ungünstige Art kombiniert wurden. Weiterhin
@@ -47,9 +47,9 @@ Ver-- und Entschlüsseln der Daten verwendet.
 
 Beim Datenaustausch über unsichere Netze, muss der Schlüssel zuerst zwischen
 den Kommunikationspartnern ausgetauscht werden. In [@fig:img-symmetric]
-verschlüsselt *Alice* die Daten mit einem *gemeinsamen Schlüssel*. Anschließend
-sendet sie die verschlüsselten Daten an *Bob*, welcher den *gemeinsamen
-Schlüssel* verwendet, um die Daten wieder zu entschlüsseln.
+verschlüsselt *Alice* die Daten mit einem *gemeinsamen* Schlüssel. Anschließend
+sendet sie die verschlüsselten Daten an *Bob*, welcher den *gemeinsamen*
+Schlüssel verwendet, um die Daten wieder zu entschlüsseln.
 
 Symmetrische Verfahren sind im Vergleich zu asymmetrischen Verfahren sehr
 Ressourceneffizient. Die Grundlage für symmetrische Algorithmen stellen
@@ -65,7 +65,7 @@ effizient umkehrbar sind.
 Das grundsätzliche Problem, welches bei der Anwendung symmetrischer Verschlüsselung
 besteht, ist der *sichere* Schlüsselaustausch.
 
-![Konzept beim Austausch von Daten über einen unsicheren Kommunikationsweg unter Verwendung symmetrischer Kryptographie. *Alice* und *Bob* teilen einen *gemeinsamen Schlüssel*, um die Daten zu ver-- und entschlüsseln.](images/symmetric.png){#fig:img-symmetric width=85%}
+![Konzept beim Austausch von Daten über einen unsicheren Kommunikationsweg unter Verwendung symmetrischer Kryptographie. *Alice* und *Bob* teilen einen *gemeinsamen* Schlüssel, um die Daten zu ver-- und entschlüsseln.](images/symmetric.png){#fig:img-symmetric width=85%}
 
 #### Unterschied zwischen Block-- und Stromverschlüsselung {#sec:SEC04_UNTERSCHIED_ZWISCHEN_BLOCK_UND_STROMVERSCHLUESSELUNG}
 
@@ -133,20 +133,22 @@ Verschlüsselungsalgorithmen. {#tbl:t-betriebsarten}
 
 #### Gängige Algorithmen, Schlüssellängen und Blockgrößen {#sec:SEC04_GAENGIGE_ALGORITHMEN_SCHLUESSELLAENGEN_UND_BLOCKGROESSEN}
 
-Der ursprünglich seit Ende der 70er--Jahre verwendete *DES (Data Encryption
-Standard)*, welcher eine effektive Schlüssellänge von 56  Bit hatte, war Ende
+Der ursprünglich seit Ende der 70er--Jahre verwendete DES (Data Encryption
+Standard), welcher eine effektive Schlüssellänge von 56  Bit hatte, war Ende
 der 90er--Jahre nicht mehr ausreichend sicher gegen Brute--Force--Angriffe.
 In einer öffentlichen Ausschreibung wurde ein Nachfolger, der Advanced
 Encryption Standard (kurz AES) bestimmt. Gewinner des Wettbewerbs sowie der
 heutige Quasistandard wurde der Rijndael--Algorithmus.
 
-Neben dem bekannten *AES (Rijndael)*--Algorithmus, gibt es noch weitere
+Neben dem bekannten AES (Rijndael)--Algorithmus, gibt es noch weitere
 Algorithmen, die heutzutage Verwendung finden. Zu den AES--Finalisten gehören
 weiterhin MARS, RC6, Serpent und der von *Bruce Schneier* entwickelte
 Twofish. Alle genannten Algorithmen arbeiten mit einer Blockgröße von 128 Bit
 und unterstützen jeweils die Schlüssellängen 128 Bit, 192 Bit und 256 Bit.
 
-AES ist die aktuelle Empfehlung vom *BSI (vgl. [@bsi] S.22 f.)*.
+AES ist die aktuelle Empfehlung vom BSI, vgl. [@bsi] S.22 f. Für weitere
+Details zum Thema symmetrische Kryptographie vgl. [@martin2012everyday], S. 106
+ff.
 
 ### Asymmetrische Verschlüsselungsverfahren {#sec:SEC04_ASYMMETRISCHE_VERSCHLUESSELUNGSVERFAHREN}
 
@@ -155,7 +157,7 @@ AES ist die aktuelle Empfehlung vom *BSI (vgl. [@bsi] S.22 f.)*.
 Im Vergleich zur symmetrischen Verschlüsselung, werden bei der asymmetrischen
 Verschlüsselung die Daten mit einem unterschiedlichen Schlüssel ver-- und
 entschlüsselt. Der Vorteil zu symmetrischen Verschlüsselung ist, dass die
-kommunizierenden Parteien keinen gemeinsamen Schlüssel kennen müssen.
+kommunizierenden Parteien *keinen gemeinsamen* Schlüssel kennen müssen.
 
 Um Daten mittels asymmetrischer Verschlüsselung auszutauschen,  müssen die
 beiden Kommunikationspartner *Alice* und *Bob* ein Schlüsselpaar, bestehend aus
@@ -177,17 +179,21 @@ zugrundeliegenden mathematischen Probleme sind das Faktorisierungsproblem
 #### Gängige Algorithmen, Einsatzzwecke und Schlüssellängen {#sec:SEC04_GAENGIGE_ALGORITHMEN_EINSATZZWECKE_UND_SCHLUESSELLAENGEN}
 
 Zu den gängigen Algorithmen der asymmetrischen Verschlüsselungsverfahren
-gehören RSA und ElGamal. Beide Verfahren ermöglichen sowohl die Ver-- und
-Entschlüsselung von Daten sowie das Signieren von Daten. Zu den
-Signatur--Verfahren gehören die RSA--Signatur und DSA (ElGamal--Signatur).
+gehören RSA und ElGamal. Beide Verfahren ermöglichen die Ver-- und
+Entschlüsselung von Daten. Zu den gängigen Signaturverfahren gehören die
+RSA-- und ElGamal--Signaturverfahren. Die RSA--Signatur basiert direkt auf dem
+RSA--Verfahren, die ElGamal--Signatur auf einer modifizierten Form vom ElGamal,
+für weitere Details vgl. [@martin2012everyday], S. 230 ff. und S. 240 f.
 
-Weiterhin gibt es eine Variante des DSA--Verfahrens, welche
+Weiterhin gibt es eine Variante des DSA--Verfahrens[^FN_DSA], welche
 Elliptische--Kurven--Kryptographie verwendet, das ECDSA (elliptic curve DSA).
 Die Verfahren auf elliptischen Kurven haben den Vorteil, dass die
 Schlüssellängen um Faktor 6--30 kleiner sind, was bei vergleichbarem
 Sicherheitsniveau Ressourcen sparen kann, obwohl die Operationen auf
 elliptischen Kurven aufwendiger zu berechnen sind als Operationen in
 vergleichbar großen endlichen Körpern.
+
+[^FN_DSA]: Digital Signature Algorithm: <https://de.wikipedia.org/w/index.php?title=Digital_Signature_Algorithm&oldid=161702305>
 
 Heutzutage typische Schlüssellängen bei asymmetrischer Verschlüsselung sind
 1024 Bit, 2048 Bit und 4096 Bit. Die Schlüssellängen sind nicht direkt mit den
@@ -225,6 +231,9 @@ asymmetrischer und symmetrischer Verfahren im direkten Vergleich. {#tbl:t-keys}
 
 	<http://www.ecrypt.eu.org/ecrypt2/documents/D.SPA.20.pdf>
 
+Für weitere Details zum Thema asymmetrische Kryptographie vgl.
+[@martin2012everyday], S. 150 ff.
+
 ### Hybride Verschlüsselungsverfahren {#sec:SEC04_HYBRIDE_VERSCHLUESSELUNGSVERFAHREN}
 
 Asymmetrische Verschlüsselungsverfahren sind im Vergleich zu symmetrischen
@@ -238,7 +247,8 @@ Bei der hybriden Verschlüsselung macht man sich die Vorteile beider Systeme zu
 Nutzen. Bevor *Alice* und *Bob* kommunizieren können, tauschen sie mittels
 Public--Key--Kryptographie (asymmetrische Kryptographie) den *gemeinsamen*
 Schlüssel, welchen sie anschließend für die symmetrische Verschlüsselung
-verwenden, aus.
+verwenden, aus. Für weitere Details zum Thema asymmetrische Kryptographie vgl.
+[@martin2012everyday], S. 179 ff.
 
 ## Diffie--Hellman--Schlüsseltausch {#sec:SEC04_DIFFIE_HELLMANN_SCHLUESSELAUSTAUSCH}
 
@@ -250,7 +260,7 @@ unsicheren Kommunikationskanal austauschen zu müssen.
 
 ![Grafische Darstellung, Ablauf des Diffie--Hellman--Schlüsseltausch.](images/dh.png){#fig:img-dh width=75%}
 
-[@fig:img-dh] zeigt Ablauf des DH--Protokolls:
+[@fig:img-dh] zeigt Ablauf des Diffie--Hellman--Protokolls:
 
 1) *Alice* und *Bob* einigen sich auf große Primzahl $p$ und natürliche Zahl $g$, die kleiner ist als $p$.
 2) *Alice* und *Bob* generieren jeweils eine geheime Zufallszahl $a$ und $b$.
@@ -264,6 +274,9 @@ unsicheren Kommunikationskanal austauschen zu müssen.
 Beide haben den gleichen Schlüssel berechnet, da gilt:
 
 $$ K_{1} = B^{a} = (g^{b})^{a} = (g^{a})^{b} = A^{b} = K_{2} $$
+
+Für weitere Details zum Thema Diffie--Hellman vgl. [@martin2012everyday], S. 311
+ff.
 
 ## Hashfunktionen {#sec:SEC04_HASHFUNKTIONEN}
 
@@ -291,7 +304,8 @@ Um nicht nur die Integrität der Daten, sondern auch deren Quelle zu
 validieren, werden sogenannte Message Authentification Codes (kurz MAC)
 verwendet. MACs sind schlüsselabhängige Hashfunktionen. Neben Hashfunktionen
 werden auch Blockchiffren verwendet. [@fig:img-hmac] zeigt die Übertragung von
-Daten mit einer *Keyed-Hash Message Authentication Code (HMAC)*.
+Daten mit einer Keyed--Hash Message Authentication Code (HMAC). Für weitere
+Details vgl. [@martin2012everyday], S. 214 ff.
 
 ![Message--Übertragung mit HMAC.](images/hmac.png){#fig:img-hmac width=85%}
 
@@ -300,9 +314,11 @@ Daten mit einer *Keyed-Hash Message Authentication Code (HMAC)*.
 Bei den praktischen Authentifizierungsverfahren ist das Passwort immer noch
 eine sehr weit verbreitete Möglichkeit der Authentifizierung. Passwörter sind
 eine sehr problematische Möglichkeit der Authentifizierung, weil sie auf gute
-Entropie angewiesen sind. Das heißt, dass Passwörter möglichst zufällig
+Entropie[^FN_ENTROPY] angewiesen sind. Das heißt, dass Passwörter möglichst zufällig
 sein müssen. Passwörter, die leicht zu erraten sind, sind *de facto* schlechte
 Authentifizierungsmechanismen.
+
+[^FN_ENTROPY]: Entropie: <https://de.wikipedia.org/w/index.php?title=Entropie_(Informationstheorie)&oldid=161847818>
 
 Die Problematik mit den Passwörtern kennt heutzutage jedes Unternehmen. Sind
 die Passwort--Richtlinien zu kompliziert, werden die Passwörter oft von

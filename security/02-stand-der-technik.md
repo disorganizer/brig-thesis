@@ -107,7 +107,7 @@ Daten in der Cloud »sicher« sind. Spätestens seit den Snowden--Enthüllungen
 ist es jedoch klar, dass die Anbieter dazu gezwungen werden können, die Daten
 eines Benutzers herauszugeben (vgl. [@bibgreenwald2013nsa]).
 
-#### Synchronisations--Software {#sec:SEC02_SYNCHRONISATIONS_SOFTWARE}
+#### Synchronisationssoftware {#sec:SEC02_SYNCHRONISATIONS_SOFTWARE}
 
 Die verwendete Software zur Synchronisation ist ebenfalls vom jeweiligen
 Anbieter abhängig. Das Problem hierbei ist, dass die Software in der Regel
@@ -207,8 +207,8 @@ Eine weitere Arbeit aus dem Jahr 2011 beschreibt verschiedene Angriffsszenarien
 und Probleme, welche die Datensicherheit und Privatsphäre von
 Cloud--Speicher--Benutzern in Frage stellt (vgl. [@mulazzani2011dark]).
 
-2013 haben weitere Sicherheitsforscher den Dropbox--Client mittels *Reverse
-Engineering* analysiert. Ab der Version 1.2.48 wird die `HOST_ID` in einer
+2013 haben weitere Sicherheitsforscher den Dropbox--Client mittels Reverse
+Engineering analysiert. Ab der Version 1.2.48 wird die `HOST_ID` in einer
 verschlüsselten sqlite3--Datenbank abgespeichert. Diese Nachbesserung
 seitens Dropbox war nicht besonders effektiv, da sich die Schlüssel zum
 Entschlüsseln weiterhin auf dem Client--PC befinden. Zusätzlich wird für die
@@ -378,11 +378,13 @@ eines Cloud--Speicher--Dienstes essentiell ist.
 
 Der dezentrale Bereich klassifiziert sich durch den Dateiaustausch, welcher in
 der Regel *ohne* eine zentrale Instanz auskommt. Es handelt sich hierbei um
-Systeme aus dem Bereich des Peer--to--Peer--Modells (P2P). Eines der frühen
+Systeme aus dem Bereich des Peer--to--Peer--Modells (P2P)[^FN_P2P]. Eines der frühen
 Peer--to--Peer--Protokolle ist das Napster--Protokoll der gleichnamigen
 Anwendung Napster, welche Ende der 90' Jahre für den Tausch von Musik
 verwendet wurde. Später sind weitere Peer--to--Peer--Protokolle wie das
 Multisource--File--Transfer--Protocol oder das BitTorrent--Protokoll hinzugekommen.
+
+[^FN_P2P]: Peer--to--Peer: <https://de.wikipedia.org/w/index.php?title=Peer-to-Peer&oldid=159040176>
 
 [@fig:img-p2p] zeigt schematisch den Austausch von Daten in einem dezentralen
 Netzwerk. Bei einem dezentralen System liegen die Daten in der Regel nur auf
@@ -433,7 +435,7 @@ die gleiche Datei besitzen, siehe [@fig:img-swarm].
 
 Aktuell verbreitete Peer--to--Peer--Protokolle:
 
-* Bittorrent (Filesharing allgemein)
+* BitTorrent (Filesharing allgemein)
 * Skype--Protokoll (VOIP--Telephonie)
 
 Früher eingesetzte Peer--to--Peer--Filesharing--Protokolle:
@@ -441,10 +443,10 @@ Früher eingesetzte Peer--to--Peer--Filesharing--Protokolle:
 * Direct Connect
 * Multisource File Transfer Protocol (Einsatz: eDonkey2000, Overnet)
 * Fasttrack (Einsatz: Kazaa, Grokster, IMesh, Morpheus file sharing)
-* Gnutella--Protokoll (Einsatz: Gnutella Client)
-* Napster--Protokoll
+* Gnutella (Einsatz: Gnutella Client)
+* Napster
 
-#### Synchronisations--Software {#sec:SEC02_SYNCHRONISATIONSSOFTWARE}
+#### Synchronisationssoftware {#sec:SEC02_SYNCHRONISATIONSSOFTWARE}
 
 Zu den Vertretern der etablierten dezentralen Systeme gibt es im Vergleich
 zu den Cloud--Speicher--Anbietern nur wenige Produkte, welche für die
@@ -560,8 +562,8 @@ einzelnen Peers verwendet wird.
 
 [^FN_TLS]: Transport Layer Security: <https://de.wikipedia.org/w/index.php?title=Transport_Layer_Security&oldid=160767422>
 
-Weiterhin ist das aktuelle Design für *Discovery
-Spoofing*[^FN_SYNCTHING_SPOOFING] anfällig. Das heißt, dass ein Angreifer der
+Weiterhin ist das aktuelle Design für Discovery
+Spoofing[^FN_SYNCTHING_SPOOFING] anfällig. Das heißt, dass ein Angreifer der
 im Netzwerk mitliest, Device--IDs mitlesen kann und sich somit als ein
 bestimmter Peer ausgeben kann. Das würde einem Angreifer die Information
 liefern, mit welchen Peers sich eine bestimmte Device--ID synchronisiert. Mehr
@@ -589,12 +591,18 @@ entwickelt worden, es existiert mittlerweile jedoch ein Webfrontend (Webapp).
 
 git--annex verwaltet nur die Metadaten in git. Es funktioniert als
 git--Aufsatz, welcher es dem Benutzer ermöglicht, auch große binäre Dateien
-mittels git zu verwalten, beziehungsweise zu synchronisieren. Zum
+mittels git[^FN_GIT] zu verwalten, beziehungsweise zu synchronisieren. Zum
 Synchronisieren der Metadaten wird git verwendet, zum Synchronisieren der
 eigentlichen Daten wird git--annex genutzt. Es überträgt die Daten
-verschlüsselt mit rsync über ssh. Mittels der git--Erweiterung
+verschlüsselt mit rsync[^FN_RSYNC] über ssh. Mittels der git--Erweiterung
 gcrypt[^FN_GCRYPT] ist es möglich, vollständig verschlüsselte git--remotes
 anzulegen.
+
+[^FN_SSH]: Secure Shell: <https://de.wikipedia.org/w/index.php?title=Secure_Shell&oldid=162392397>
+
+[^FN_RSYNC]: rsync: <https://de.wikipedia.org/w/index.php?title=Rsync&oldid=162199260>
+
+[^FN_GIT]: Versionsverwaltungssystem git: <https://de.wikipedia.org/w/index.php?title=Git&oldid=161769023>
 
 [^FN_GCRYPT]: gcrypt git addon: <https://spwhitton.name/tech/code/git-remote-gcrypt/>
 
@@ -693,7 +701,7 @@ Software argumentiert. Software--Bugs wie
 [^FN_DEBIAN_RNG_BUG]: Random Number Bug in Debian Linux: <https://www.schneier.com/blog/archives/2008/05/random_number_b.html>
 [^FN_HEARTBLEED]: Heartbleed: <https://www.schneier.com/blog/archives/2014/04/heartbleed.html>
 
-haben jedoch gezeigt, dass auch Freie Software von »Sicherheitskatastrophen«
+haben jedoch gezeigt, dass auch Freie Software[^FN_FREE_SOFTWARE] (beziehungsweise das Open--Source--Modell) von »Sicherheitskatastrophen«
 nicht verschont bleibt. Die besagten Fehler wurden erst nach mehreren Jahren entdeckt
 und es ist unbekannt, ob und in welchem Ausmaß diese ausgenutzt werden konnten.
 Diese Beispiele zeigen, dass man sich auf das »More eyeballs principle« allein
@@ -702,6 +710,8 @@ verwendet werden, um automatisiert nach Sicherheitslücken im Quelltext auf
 GitHub bei jedem Commit zu suchen. Der Google Softwareentwickler *Kees
 Cook* verweist auf diese Problematik auf dem aktuellsten *Linux Security Summit
 2016*[^FN_LINUX_SEC_SUMMIT].
+
+[^FN_FREE_SOFTWARE]: Freie Software: <https://de.wikipedia.org/w/index.php?title=Freie_Software&oldid=162291001>
 
 [^FN_LINUX_SEC_SUMMIT]: Status of the Kernel Self Protection Project:
 
@@ -715,7 +725,7 @@ Patch--Management seitens des Herstellers zu verhindern (vgl. [@Schryen]).
 Wenn man davon ausgeht, dass schlechte Quellcode--Qualität zu mehr Fehlern und
 somit zu mehr Sicherheitslücken führt, kann man auch einen Teil der
 Sicherheit über die Quellcode--Qualität definieren. Eine Studie, welche die
-Quellcode--Qualität von vier großen Betriebssystemkerneln (Linux (open source),
+Quellcode--Qualität von vier großen Betriebssystemkernen (Linux (open source),
 FreeBSD (open source), Solaris (closed source), Windows (closed source)) mit
 Hilfe verschiedener Metriken vergleicht, kommt zum Ergebnis, dass es keine
 signifikanten Unterschiede zwischen dem Closed--Source-- und

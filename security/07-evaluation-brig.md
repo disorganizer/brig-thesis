@@ -102,7 +102,7 @@ Die bisherigen »brig«--Benchmarks unter [@cpahl], S. 96 ff. haben die Geschwin
 Geschwindigkeit bei Verschlüsselung vergleichsweise stark eingebrochen ist.
 
 Um Verschlüsselungsoperationen zu beschleunigen, gibt es neben der Wahl
-verschiedener Blockcipher, auch die Möglichkeit einer hardwarebasierten
+verschiedener Blockchiffren, auch die Möglichkeit einer hardwarebasierten
 Beschleunigung. Moderne Prozessoren bieten eine Beschleunigung mit dem
 sogenannten AES--NI--Befehlserweiterungssatz. Diese müssen jedoch vom
 Betriebssystem und der jeweiligen Anwendung unterstützt werden.
@@ -173,7 +173,7 @@ Beim Erheben der Daten wurde wie folgt vorgegangen:
 * Daten werden verschlüsselt (Schreibvorgang) nach `/dev/null` geschrieben,
   Daten werden entschlüsselt (Lesevorgang) nach `/dev/null` geschrieben.
 * Zeitmessung erfolgt jeweils beim Ver/Entschlüsseln nach `/dev/null`.
-* Die Messpunkte bilden den Mittelwert aus mehreren Durchläufen, um statistische
+* Die Messpunkte bilden den Mittelwert aus fünf Durchläufen, um statistische
   Ausreißer zu minimieren. Hier wurde bewusst der Mittelwert anstatt des
   maximal möglichen Werts genommen, um eine möglichst praxisnahe Abbildung zu
   erhalten.
@@ -189,8 +189,8 @@ ist, ist unklar.
 
 #### Einfluss der Blockgröße beim Ver-- und Entschlüsseln {#sec:SEC07_EINFLUSS_DER_BLOCKGROESSE_BEIM_VER_UND_ENTSCHLUESSELN}
 
-Die Verschlüsselungsschicht arbeitet aktuell mit einer Blockgröße von *64
-KiByte*. Diese Blockgröße wurde mehr oder weniger für den ersten Prototypen
+Die Verschlüsselungsschicht arbeitet aktuell mit einer Blockgröße von 64
+KiByte. Diese Blockgröße wurde mehr oder weniger für den ersten Prototypen
 willkürlich festgelegt. Die Blockgröße entspricht hierbei dem internen
 Verschlüsselungspuffer, welcher zum Ver-- und Entschlüsseln im Speicher
 allokiert wird.
@@ -325,8 +325,8 @@ Table: Zeigt die effizientesten Blockgrößen beim Entschlüsseln. Der erste Wer
 Schreiben/Verschlüsseln auf schwächeren Systemen. Unter Tabelle
 @tbl:TAB_WRITE_BLOCK_LOW sind jeweils die effizientesten Blockgrößen beim
 Verschlüsseln auf den schwächeren Systemen zu finden. Hier bricht die
-Geschwindigkeit, wie bei den restlichen getesteten System, unterhab der *4
-KiByte*  stark ein. Eine obere Blockgröße, bei der die Geschwindigkeit einbricht,  ist bei den schwächeren Systemen
+Geschwindigkeit, wie bei den restlichen getesteten System, unterhab der 4
+KiByte  stark ein. Eine obere Blockgröße, bei der die Geschwindigkeit einbricht,  ist bei den schwächeren Systemen
 weniger gut erkennbar.
 
 ![Schreibgeschwindigkeit der Verschlüsselungsschicht auf schwächeren Systemen bei der Benutzung verschiedener Blockgrößen.](images/write-performance-blocksize-low.json.svg.pdf){#fig:IMG_BLOCKSIZE_WRITE_LOW width=95%}
@@ -526,7 +526,7 @@ Um Zugriff auf das »brig«--Repository zu erhalten, muss sich der Benutzer »br
 gegenüber mit einem Passwort authentifizieren. Schlechte Passwörter sind ein
 großes Problem im Informationszeitalter, da von ihnen die Sicherheit eines
 gesamten Systems abhängen kann. Menschen sind schlecht darin, die
-Entropie[^FN_ENTROPY] von Passwörtern richtig einzuschätzen. »brig« verwendet
+Entropie[^FN_ENTROPY2] von Passwörtern richtig einzuschätzen. »brig« verwendet
 für die Bestimmung der Passwort--Entropie die zxcvbn--Bibliothek, welche von
 Dropbox entwickelt wurde. Laut einer Studie [@Carnavalet], S. 11 wird die
 Bibliothek, im Vergleich zu den getesteten Konkurrenten, in ihrer
@@ -598,9 +598,9 @@ Passwort--Manager[^FN_SECURE_PASSWORD].
 
 [^FN_SECURE_PASSWORD]:The secret to online safety - Lies, random characters, and a password manager: <http://arstechnica.com/information-technology/2013/06/the-secret-to-online-safety-lies-random-characters-and-a-password-manager/>
 
-[^FN_ENTROPY]: Password--Entropy: <https://en.wikipedia.org/w/index.php?title=Password_strength&oldid=761771461#Entropy_as_a_measure_of_password_strength>
+[^FN_ENTROPY2]: Password--Entropy: <https://en.wikipedia.org/w/index.php?title=Password_strength&oldid=761771461#Entropy_as_a_measure_of_password_strength>
 
-**Einschätzung**: Bei der aktuellen Authentifikation gegenüber dem Repository
+**Einschätzung**: Bei der aktuellen Authentifizierung gegenüber dem Repository
 ist ein (schlechtes) Passwort oder die erzwungene Komplexität (Benutzer
 schreiben komplexe Passwörter auf Post--it's auf) eine Schwachstelle. Weiterhin
 ist auch problematisch, dass der geheime Schlüssel von IPFS nicht
@@ -635,9 +635,11 @@ Verbindung zwischen zwei Synchronisationspartnern.
 **Einschätzung**: Der Aufbau der verschlüsselten Verbindung setzt eine
 vorherige Authentifizierung des jeweiligen Synchronisationspartner voraus. Wäre
 dieser nicht authentifiziert, so wäre in diesem Fall ein
-Man--in--the--Middle--Angriff denkbar. Weiterhin wäre bei der aktuellen
+Man--in--the--Middle--Angriff (kurz MITM--Angriff)[^FN_MITM] denkbar. Weiterhin wäre bei der aktuellen
 Implementierung ein Replay--Angriff wahrscheinlich möglich, da die freshness
 der Nonce nicht gegeben ist (vgl. [@martin2012everyday], S. 259 ff.).
+
+[^FN_MITM]: Man--in--the--Middle--Angriff: <https://de.wikipedia.org/w/index.php?title=Man-in-the-Middle-Angriff&oldid=161582213>
 
 Die aktuelle Softwareversion bietet hier keinen Automatismus und auch keinen
 Authentifizierungsmechanismus, wie er beispielsweise beim Pidgin--Messenger mit

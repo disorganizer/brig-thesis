@@ -13,7 +13,7 @@ nachgebessert werden. Die empfohlene Noncen--Größe ist mit 96 Bit angegeben
 (vgl. [@bsi], S. 24).
 
 Wie unter @sec:SEC06_IPFS_ID zu sehen, sind die IPFS--Schlüssel aktuell in der
-`config`--Datei von IPFS im Klartext hinterlegt. »brig« verschlüsselt diese
+Konfigurationsdatei von IPFS im Klartext hinterlegt. »brig« verschlüsselt diese
 Datei zum aktuellen Zeitpunkt nicht. Hier wäre eine Verschlüsselung mit einem
 Repository--Key möglich, welcher wiederrum durch einen Hauptschlüssel
 geschützt werden sollte (siehe [@sec:SEC08_KEYMANAGEMENT]). Eine weitere
@@ -84,7 +84,7 @@ Diese externe Identität muss dabei besonders vor Diebstahl geschützt werden, u
 einen Missbrauch zu vermeiden. Auf üblichen Endverbrauchergeräten ist der
 Passwortschutz dieses Schlüsselpaars ein absolutes Minimalkriterium. Weiterhin
 könnte »brig« den Ansatz fahren und die kryptographischen Schlüssel
-(`config`--Datei von IPFS) selbst nur »on demand« im Speicher beispielsweise
+(Konfigurationsdatei von IPFS) selbst nur »on demand« im Speicher beispielsweise
 über ein VFS (Virtual Filesystem)[^FN_VFS] IPFS bereitstellen.
 [@fig:img-vfs] zeigt ein Konzept bei welchem »brig« über einen VFS--Adapter
 die Konfigurationsdateien und somit auch die kryptographischen Schlüssel IPFS
@@ -171,7 +171,7 @@ und Anwendungen, welche als GnuPG--Aufsatz verwendet werden können.
 
 Beim Erstellen eines Schlüsselpaars wird bei GnuPG standardmäßig ein
 Hauptschlüssel- und ein Unterschlüsselpaar angelegt. Dies hat einerseits
-historische Gründe (auf Grund von Patenten konnten frühere Versionen von GnuPG
+historische Gründe (aufgrund von Patenten konnten frühere Versionen von GnuPG
 kein RSA/RSA Schlüsselpaar zum Signieren und Ver-- und Entschlüsseln anlegen,
 es wurde standardmäßig ein DSA Schlüssel zum Signieren und ein ElGamal
 Schlüssel zum Ver-- und Entschlüsseln angelegt), andererseits ermöglicht es
@@ -179,7 +179,7 @@ GnuPG, Schlüssel mit unterschiedlichem Schutzbedarf anders zu behandeln.
 
 ![GnuPG--Schlüsselpaar RSA/RSA bestehend aus einem Haupt- und Unterschlüsselpaar. Beide Schlüssel haben unterschiedliche Fähigkeiten und bestehen jeweils aus einem öffentlichen und einem privaten Schlüssel. In Hexadezimal ist jeweils der Fingerprint eines Schlüssels dargestellt. Der Fingerprint ist 20 Bytes groß. Die »Long--Key--ID« entspricht den letzten 8 Bytes, die »Short--Key--ID« entspricht den letzten 4 Bytes.](images/gpg_keypair.png){#fig:IMG_GNUPG_KEYPAIR width=90%}
 
-Der Schlüsselbund besteht bei Anlage eines neuen Schlüssels mit `gpg
+Der Schlüsselbund besteht bei Anlage eines neuen Schlüssels mit `gpg2
 --gen-key` aus einem Hauptschlüssel- und einem Unterschlüsselpaar. Beide
 Schlüsselpaare bestehen jeweils aus einem öffentlichen und einem privaten
 Schlüssel (siehe [@fig:IMG_GNUPG_KEYPAIR]).
@@ -195,7 +195,7 @@ genannten Befehl angelegten Schlüssel, welcher mit den Daten der Abbildung
 übereinstimmt.
 
 ~~~sh
-$ gpg --list-keys --fingerprint --fingerprint christoph@nullcat.de
+$ gpg2 --list-keys --fingerprint --fingerprint christoph@nullcat.de
 pub   rsa2048 2013-02-09 [SC] [expires: 2017-01-31]
       E9CD 5AB4 0755 51F6 F1D6  AE91 8219 B30B 103F B091
 uid           [ultimate] Christoph Piechula <christoph@nullcat.de>
@@ -210,13 +210,14 @@ handelt es sich ebenso wie beim Hauptschlüssel um einen RSA--Schlüssel mit 204
 Bit. Die Fähigkeit eines Schlüssels wird durch die Flags in eckigen Klammern
 angezeigt (Hauptschlüssel `[SC]`, Unterschlüssel `[E]`).
 
-Schlüssel können unter GnuPG folgende Fähigkeiten besitzen:
+Schlüssel können unter GnuPG folgende Fähigkeiten besitzen (vgl. `man gpg2`,
+Unterabschnitt `show--usage`):
 
-* `C` (certify): Dieser Schlüssel ist zum Signieren von anderen/neuen
+* `C` (certification): Dieser Schlüssel ist zum Signieren von anderen/neuen
   Schlüsseln fähig.
-* `S` (sign): Dieser Schlüssel ist zum Signieren von Daten fähig.
-* `E` (encrypt): Dieser Schlüssel ist zum Ver-- und Entschlüsseln fähig.
-* `A` (auth): Dieser Schlüssel ist zum Authentifizieren fähig.
+* `S` (signing): Dieser Schlüssel ist zum Signieren von Daten fähig.
+* `E` (encryption): Dieser Schlüssel ist zum Ver-- und Entschlüsseln fähig.
+* `A` (authentication): Dieser Schlüssel ist zum Authentifizieren fähig.
 
 Einen besonderen Schutzbedarf hat an dieser Stelle der Hauptschlüssel, da
 dieser in der Lage ist, neu erstellte Schlüssel und Unterschlüssel zu signieren
@@ -228,9 +229,12 @@ anderen Teilnehmern zu signieren.
 
 Die privaten Schlüssel sind bei GnuPG  mit einer Passphrase geschützt.
 Zusätzlich bietet GnuPG für den Schutz des privaten Hauptschlüssels eine
-Funktionalität namens Offline Master Key. Diese Funktionalität ermöglicht dem
-Benutzer den privaten Teil des Hauptschlüssels zu exportieren und
-beispielsweise auf einem sicheren externen Datenträger zu speichern.
+Funktionalität namens Offline--Hauptschlüssel[^FN_OFFLINEKEY] (Offline Master
+Key). Diese Funktionalität ermöglicht dem Benutzer den privaten Teil des
+Hauptschlüssels zu exportieren und beispielsweise auf einem sicheren externen
+Datenträger zu speichern.
+
+[^FN_OFFLINEKEY]: Offline-Hauptschlüssel: <https://de.wikipedia.org/w/index.php?title=GNU_Privacy_Guard&oldid=159842195#Offline-Hauptschl.C3.BCssel>
 
 Dieser Schlüssel wird zum Zertifizieren/Signieren anderer Schlüssel verwendet
 und wird nicht für den täglichen Gebrauch benötigt. Für die sichere externe
@@ -285,16 +289,17 @@ Funktionalität von GnuPG und *nicht* Teil des RFC4880--Standards.
 #### Unterschlüssel und Key Separation {#sec:SEC08_UNTERSCHLUESSEL_UND_KEYSEPERATION}
 
 Eine weitere Maßnahme und Best Practise im Bereich der Kryptographie ist die
-sogenannte Key Separation. Das heißt, dass kryptographische Schlüssel an
-einen bestimmten Zweck gebunden sein sollen. Einen Schlüssel für mehrere
-verschiedene Zwecke zu verwenden, ist sicherheitstechnisch bedenklich.
+sogenannte Key Separation (vgl. [@martin2012everyday], S. 359 ff.). Das heißt,
+dass kryptographische Schlüssel an einen bestimmten Zweck gebunden sein sollen.
+Einen Schlüssel für mehrere verschiedene Zwecke zu verwenden, ist
+sicherheitstechnisch bedenklich.
 
 Obwohl es mit GnuPG möglich ist, ein Schlüsselpaar zu erstellen, welches zum
 Signieren, Zertifizieren und Ver-- und Entschlüsseln verwendet werden kann
 (Flags `[SCE]`), ist dies aus Gründen der Sicherheit nicht empfehlenswert. Beim
 Anlegen eines neuen Schlüssels wird standardmäßig bereits ein Schlüsselpaar
 bestehend aus Haupt- und Unterschlüssel angelegt. In der Standardkonfiguration
-würde der Hauptschlüssel auf Grund seiner Flags neben dem Signieren von
+würde der Hauptschlüssel aufgrund seiner Flags neben dem Signieren von
 Schlüsseln `[C]` auch für das Signieren von Daten `[S]` Verwendung finden.
 Dieser Umstand würde auch verhindern, dass der Benutzer beim Einsatz der
 Offline Hauptschlüssel--Funktionalität Daten signieren kann.
@@ -377,7 +382,7 @@ Angriffsfläche[^FN_EVIL32] bietet.
 
 Da IPFS bereits ein Public/Private--Schlüsselpaar mitbringt, würde sich im
 einfachsten Falle nach dem ersten Verbindungsaufbau die Möglichkeit bieten,
-seinen Synchronisationspartner anhand eines *gemeinsamen Geheimnisses* oder anhand eines
+seinen Synchronisationspartner anhand eines *gemeinsamen* Geheimnisses oder anhand eines
 Frage--Antwort--Dialogs zu verifizieren. [@fig:img-question-answer] zeigt den
 Ablauf einer Authentifizierung des Synchronisationspartners mittels Frage--Antwort--Dialog, welcher in folgenden Schritten abläuft:
 
@@ -605,7 +610,7 @@ dieses Modell.
 Der YubiKey NEO hat folgende Funktionalitäten beziehungsweise Eigenschaften:
 
 * Yubico OTP, One--Time--Password--Verfahren des Herstellers. Standardmäßig
-  kann jeder YubiKey gegen den YubiCloud--Authentifizierungdienst mittels One--Time--Passwort authentifiziert werden.
+  kann jeder YubiKey gegen den YubiCloud--Authentifizierungdienst mittels One--Time--Password authentifiziert werden.
 * OATH–Kompatibilität (HMAC--Based--OTP-- und Time--Based--OTP--Verfahren, für
   weitere Details vgl. [@oath], S. 904 f.)
 * Challange--Response--Verfahren (HMAC-SHA1, Yubico OTP)
@@ -627,7 +632,7 @@ Weitere Eigenschaften sind im Datenblatt[^FN_YUBIKEY_NEO] des YubiKey NEO zu fin
 Der YubiKey NEO bietet mit zwei Konfigurationsslots (siehe GUI--Screenshot
 [@fig:img-ykgui]) die Möglichkeit, mehrere Verfahren gleichzeitig nutzen zu
 können. Eine beispielhafte Konfiguration wäre den ersten Konfigurationsslot mit
-einem statischen Passwort und den zweiten mit einem One--Time--Passwort zu
+einem statischen Passwort und den zweiten mit einem One--Time--Password zu
 belegen. Slot 1 lässt sich mit einem kurzen Drücken (0,3--1,5 Sekunden)
 ansprechen, Slot 2 mit einem längeren Drücken (2,5--5 Sekunden). Für weitere Details siehe »The YubiKey Manual«[^FN_YK_MANUAL].
 
@@ -643,11 +648,11 @@ Tool möglich.
 
 Der YubiKey ist im Auslieferungszustand so konfiguriert, dass er sich gegenüber
 der YubiCloud mittels Yubico OTP authentifizieren kann. [@fig:img-otp-details]
-zeigt den Ablauf des Authentifizierungsprozesses. Das One--Time--Passwort ist
+zeigt den Ablauf des Authentifizierungsprozesses. Das One--Time--Password ist
 insgesamt 44 Zeichen lang und besteht dabei aus zwei Teilkomponenten. Die
 ersten 12 Zeichen repräsentieren eine statische öffentliche ID mit welcher
 sich die YubiKey Hardware identifizieren lässt. Die verbleibenden Zeichen
-repräsentieren den dynamisch generierten Teil des One--Time--Passworts.
+repräsentieren den dynamisch generierten Teil des One--Time--Password.
 [@fig:IMG_OTP_STRING] zeigt ein vollständiges valides One--Time--Password.
 
 ![Yubico OTP Aufbau](images/otp_string.png){#fig:IMG_OTP_STRING width=100%}
@@ -685,7 +690,7 @@ zeigt die Authentifizierungsantwort der YubiCloud.
 ![YubiCloud Response bei Zwei--Faktor--Authentifizierung. Seriennummer des YubiKeys wurde retuschiert.](images/response-noserial.png){#fig:img-otp-response width=65%}
 
 Die Demoseite bietet hier neben dem einfachen Authentifizierungstest, bei
-welchem nur das One--Time--Passwort validiert wird, auch noch die Möglichkeit,
+welchem nur das One--Time--Password validiert wird, auch noch die Möglichkeit,
 einen einfachen Zwei--Faktor--Authentifizierungstest und einen
 Zwei--Faktor--Authentifizierungstest mit Passwort durchzuführen.
 
@@ -717,8 +722,8 @@ YubiCloud.
 2. »brig« prüft das Passwort von Alice.
 3. »brig« prüft anhand der Public--ID, ob der YubiKey von *Alice* dem
    Repository bekannt ist.
-4. »brig« lässt das One--Time--Passwort des YubiKey von der YubiCloud validieren.
-5. Ist das One--Time--Passwort korrekt, so bekommt *Alice* Zugriff auf das Repository.
+4. »brig« lässt das One--Time--Password des YubiKey von der YubiCloud validieren.
+5. Ist das One--Time--Password korrekt, so bekommt *Alice* Zugriff auf das Repository.
 
 Eine essentiell wichtige Komponente an dieser Stelle ist der Zusammenhang
 zwischen dem Repository und dem YubiKey. Der YubiKey muss beim
@@ -755,7 +760,7 @@ $ ./twofac elchwald ccccccejjegnjrvnbbthinvbvrbjerljknbeteluugut
 ~~~
 
 Authentifizierung mit falschem Passwort und dem zuletzt wiederholten
-One--Time--Passwort des falschen YubiKey:
+One--Time--Password des falschen YubiKey:
 
 ~~~sh
 $ ./twofac elchwald ccccccejjegnjrvnbbthinvbvrbjerljknbeteluugut
@@ -787,11 +792,12 @@ werden. Für die Programmierung wird das YubiKey Personalization Tool
 verwendet. Hier kann unter dem Menüpunkt *Yubico OTP/Quick* eine neue Identität
 autogeneriert werden. Die hier erstellte Public--ID, sowie der
 AES--Schlüssel müssen anschließend dem Validierungsserver bekannt gemacht
-werden. Zum Testen wird folgend ein in Go geschriebener Validierungsserver
+werden. Zum Testen wird folgend ein in Go[^FN_GOSERVER] geschriebener Validierungsserver
 verwendet.
 
-[^FN_YKVS_GITHUB]:YubiKey Validation Server GitHub: <https://github.com/stumpyfr/yubikey-server>
+[^FN_GOSERVER]: Go YubiKey Server: <https://github.com/stumpyfr/yubikey-server>
 
+[^FN_YKVS_GITHUB]:YubiKey Validation Server GitHub: <https://github.com/stumpyfr/yubikey-server>
 
 Für die Registrierung einer neuen Identität für die YubiCloud stellt
 Yubico eine Seite[^FN_AESKEY_UPLOAD] bereit, über welche der AES--Schlüssel
@@ -837,7 +843,7 @@ http://<ip>:<port>/wsapi/2.0/verify?otp=<otp>&id=<app id>&nonce=<nonce>
 ~~~
 
 Auf der Kommandozeile werden die Platzhalter durch ein valides
-One--Time--Passwort, eine valide Applikations--ID und eine zufällige Nonce
+One--Time--Password, eine valide Applikations--ID und eine zufällige Nonce
 ersetzt. Der Server läuft standardmäßig auf localhost, Port 4242:
 
 ~~~sh
@@ -1048,7 +1054,7 @@ Standard--OpenPGP--Smartcard mit GnuPG verwendet werden.
 `gpg2 --card-status` zeigt den aktuellen Inhalt des YubiKey OpenPGP--Applets:
 
 ~~~sh
-$ gpg --card-status
+$ gpg2 --card-status
 Reader ...........: 0000:0000:0:0
 Application ID ...: 00000000000000000000000000000000
 Version ..........: 2.0
@@ -1073,10 +1079,12 @@ General key info..: [none]
 Wie die Ausgabe zeigt, gibt es die Möglichkeit, drei verschiedene
 RSA--Schlüssel (2048 Bit) zum Signieren, Ver--/Entschlüsseln und
 Authentifizieren zu speichern. Der Authentifizierungsschlüssel, der hier gesetzt
-werden kann, wird nicht von `gpg` genutzt, jedoch von anderen `PAM`--basierten
+werden kann, wird nicht von `gpg2` genutzt, jedoch von anderen PAM--basierten[^FN_PAM]
 Anwendungen. Für weitere Informationen zum Aufbau des Applets und zu den
 Funktionalitäten (PIN-Counter et cetera) siehe die
 GnuPG--Administrationsdokumentation zur Smartcard[^FN_GNUPG_SMARTCARD_DOC].
+
+[^FN_PAM]: PAM: https://de.wikipedia.org/w/index.php?title=Pluggable_Authentication_Modules&oldid=146057418
 
 [^FN_GNUPG_SMARTCARD_DOC]: Chapter 3. Administrating the Card: <https://www.gnupg.org/howtos/card-howto/en/ch03.html>
 
@@ -1094,7 +1102,7 @@ mit dem Befehl `generate` die Schlüssel generieren lassen.
 Schlüssel wird man von der Anwendung gefragt, ob ein Schlüssel
 »off card«--Backup gemacht werden soll. Weiterhin werden
 Revocation--Zertifikate generiert. Früher mussten diese manuell erstellt
-werden, aktuelle gpg Versionen erstellen diese automatisch.
+werden, aktuelle GnuPG--Versionen erstellen diese automatisch.
 
 Auszug aus @sec:APP_SCHLUESSELGENERIERUNG_AUF_DER_KARTE:
 
@@ -1174,7 +1182,7 @@ Nach dem Verschieben schaut die Ausgabe der privaten Schlüssel im
 Schlüsselbund wie folgt aus:
 
 ~~~sh
-$ gpg --list-secret-keys --fingerprint --fingerprint \
+$ gpg2 --list-secret-keys --fingerprint --fingerprint \
   E9CD5AB4075551F6F1D6AE918219B30B103FB091
 sec   rsa2048 2013-02-09 [SC] [expires: 2026-12-09]
       E9CD 5AB4 0755 51F6 F1D6  AE91 8219 B30B 103F B091
@@ -1211,7 +1219,7 @@ Authentication key: 2BC3 8804 4699 B83F DEA0  A323 74B0 50CC 5ED6 4D18
 
 Um den in @sec:SEC08_OFFLINE_HAUPTSCHLUESSEL vorgeschlagenen Weg zu gehen und den Hauptschlüssel nur zum
 Signieren neuer Schlüssel zu verwenden, sollte dieser am Schluss aus dem
-Schlüsselbund gelöscht werden. Dies kann mit ` gpg --delete-secret-keys
+Schlüsselbund gelöscht werden. Dies kann mit ` gpg2 --delete-secret-keys
 E9CD5AB4075551F6F1D6AE918219B30B103FB091` erledigt werden. Wird der
 Hauptschlüssel gelöscht, so erscheint beim Hauptschlüssel das »**#**«--Symbol, um
 anzuzeigen, dass es sich nur um einen Stub handelt. Anschließend können die
