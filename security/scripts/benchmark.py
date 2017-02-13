@@ -19,7 +19,9 @@ def get_read_dummy(filesize):
 
 def get_blocksizes(filesize):
     return [64 * 1024]
-    #return [(2**x) for x in range(30) if 2**x >= 64 and (2**x)/1024**2 <= filesize]
+    #return [
+    #    (2**x) for x in range(30) if 2**x >= 64 and (2**x)/1024**2 <= filesize
+    #]
 
 def benchmark_preprocessing(config):
     print(config)
@@ -33,7 +35,9 @@ def benchmark_preprocessing(config):
         "mkdir -p data",
         "sudo mount -t ramfs -o size=2G ramfs data",
         "sudo chmod 0777 data",
-        "sudo dd if=/dev/urandom of={0} bs=1M count={1} conv=sync".format(path, config["filesize"]),
+        "sudo dd if=/dev/urandom of={0} bs=1M count={1} conv=sync".format(
+            path, config["filesize"]
+        ),
         "sudo chown -R {user}:users data".format(user=getpass.getuser()),
         "go build main.go",
         "cp ./main ./data/main"
@@ -41,7 +45,6 @@ def benchmark_preprocessing(config):
         print(cmd)
         if subprocess.call(cmd.split(), shell=False) != 0:
             return -1, "Error occured during setup of read benchmark."
-
     return 0, ""
 
 def teardown(data):
@@ -165,18 +168,4 @@ def run_benchmark(config, runs=5, filesize=128):
         teardown(bench_input)
 
 if __name__ == '__main__':
-
-    for fs in [1, 2, 4, 8, 16, 32, 64, 128]:
-        runs = [("aes", "AES/GCM"), ("chacha", "ChaCha20/Poly1305")]
-        kgfuncs = ["none", "scrypt", "random"]
-        for run in runs:
-            for kgfunc in kgfuncs:
-                for type in ["write"]:
-                    config = {
-                        "algos": run,
-                        "kgfunc": kgfunc,
-                        "system" : sys.argv[1],
-                        "type": type
-                    }
-                    run_benchmark(config, runs=10, filesize=fs)
-
+    pass
