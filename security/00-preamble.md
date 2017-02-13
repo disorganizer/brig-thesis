@@ -14,7 +14,6 @@ lot: yes
 loe: yes
 cref: yes
 listings: yes
-date: \today
 ---
 
 \newpage
