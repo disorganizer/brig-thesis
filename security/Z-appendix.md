@@ -9,16 +9,14 @@ Drittanbieter--Bibliotheken in ein separates 3rd--Verzeichnis verschoben. Für
 die Analyse wurde das Werkzeug `cloc`[^cloc] verwendet. Bei Analyse wurden die
 autogenerieren Quelltextdateien (Protobuf, Endung pb.go) ausgeschlossen.
 Die Analyse wurde auf die in der Programmiersprache Go geschriebenen Teile
-begrenzt.
+begrenzt. Umfang IPFS--Projekt:
 
 [^cloc]: GitHub--Seite des Projektes: <https://github.com/AlDanial/cloc>
 
-Umfang IPFS--Projekt:
 
 ~~~sh
 
-freya :: src/github.com/ipfs » cloc $(find ./go-ipfs -iname '*.go' -type f | \
-                               grep -v 'pb.go')
+$ cloc $(find ./go-ipfs -iname '*.go' -type f | grep -v 'pb.go')
      858 text files.
      844 unique files.
       14 files ignored.
@@ -36,8 +34,7 @@ SUM:                           844          19983          10605          97639
 Umfang vom IPFS--Projekt genutzter Drittanbieter--Bibliotheken:
 
 ~~~sh
-freya :: src/github.com/ipfs » cloc $(find ./3rd -iname '*.go' -type f | \
-                               grep -v 'pb.go')
+$ cloc $(find ./3rd -iname '*.go' -type f | \ grep -v 'pb.go')
     1975 text files.
     1742 unique files.
      233 files ignored.
@@ -57,7 +54,7 @@ SUM:                          1742          57033          70893         822177
 Die Initialisierung als IPFS--Einstiegspunkt (gekürzt):
 
 ~~~sh
-freya :: ~ » ipfs cat /ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme
+$ ipfs cat /ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/readme
 Hello and Welcome to IPFS!
 
 [...]
@@ -85,7 +82,7 @@ Check out some of the other files in this directory:
 Sicherheitshinweis von IPFS:
 
 ~~~sh
-freya :: ~ » ipfs cat /ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/security-notes
+$ ipfs cat /ipfs/QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG/security-notes
                     IPFS Alpha Security Notes
 
 We try hard to ensure our system is safe and robust, but all software
@@ -145,11 +142,9 @@ IRC--Logauszug vom 14.10.2016
 
 # Anhang D: Details zur CPU--Architektur {#sec:APP_CPUARCH}
 
-**System 1:**
-
-Das erste System (Entwicklersystem Herr Piechula) ist ein Notebook mit
-Intel--i5--Architektur und AES--NI--Befehlserweiterungssatz. Der folgende
-`lscpu`--Ausschnitt zeigt die genauen Spezifikationen der CPU.
+**System 1:** Das erste System (Entwicklersystem Herr Piechula) ist ein
+Notebook mit Intel--i5--Architektur und AES--NI--Befehlserweiterungssatz. Der
+folgende `lscpu`--Ausschnitt zeigt die genauen Spezifikationen der CPU.
 
 ~~~sh
 Architecture:          x86_64
@@ -185,11 +180,10 @@ aes xsave avx f16c rdrand lahf_lm epb tpr_shadow vnmi flexpriority ept vpid
 fsgsbase smep erms xsaveopt dtherm ida arat pln pts
 ~~~
 
-**System 2:**
-
-Das zweite System (Entwicklersystem Herr Pahl) ist ein Desktopsystem mit
-AMD--Phenom--X4--Architektur ohne AES--NI--Befehlserweiterungssatz. Der
-folgende `lscpu`--Ausschnitt zeigt die genauen Spezifikationen der CPU.
+**System 2:** Das zweite System (Entwicklersystem Herr Pahl) ist ein
+Desktopsystem mit AMD--Phenom--X4--Architektur ohne
+AES--NI--Befehlserweiterungssatz. Der folgende `lscpu`--Ausschnitt zeigt die
+genauen Spezifikationen der CPU.
 
 ~~~sh
 
@@ -225,11 +219,9 @@ sse4a misalignsse 3dnowprefetch osvw ibs skinit wdt nodeid_msr hw_pstate
 vmmcall npt lbrv svm_lock nrip_save
 ~~~
 
-**System 3:**
-
-Das erste der schwächeren Systeme ist ein Netbook auf Intel--Atom--Basis mit einer
-32--Bit--CPU. Der folgende `lscpu`--Ausschnitt zeigt die genauen
-Spezifikationen der CPU.
+**System 3:** Das erste der schwächeren Systeme ist ein Netbook auf
+Intel--Atom--Basis mit einer 32--Bit--CPU. Der folgende `lscpu`--Ausschnitt
+zeigt die genauen Spezifikationen der CPU.
 
 ~~~sh
 Architecture:          i686
@@ -255,11 +247,10 @@ arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl est tm2 ssse3 xtpr
 pdcm movbe lahf_lm dtherm
 ~~~
 
-**System 4:**
-
-Das zweite der schwächeren System ist ein Raspberry Pi Zero. Dieser hat die gleiche CPU
-wie die erste Version des Raspberry Pi, jedoch mit einer dynamisch erhöhten Frequenz.
-Der folgende `lscpu`--Ausschnitt zeigt die genauen Spezifikationen der CPU.
+**System 4:** Das zweite der schwächeren System ist ein Raspberry Pi Zero.
+Dieser hat die gleiche CPU wie die erste Version des Raspberry Pi, jedoch mit
+einer dynamisch erhöhten Frequenz. Der folgende `lscpu`--Ausschnitt zeigt die
+genauen Spezifikationen der CPU.
 
 ~~~sh
 Architecture:          armv6l
@@ -290,13 +281,15 @@ WRITEACC=0
 
 function read_bench() {
 	sudo echo 3 > /proc/sys/vm/drop_caches
-	RESULT=`dd if=/boot/$TESTFILE of="$BENCHDIR/$TESTFILE" bs=1M count=256 oflag=sync 2>&1 | tail -n 1| awk '{ gsub(",","."); print $(NF-1) }'`
+	RESULT=`dd if=/boot/$TESTFILE of="$BENCHDIR/$TESTFILE" bs=1M count=256 \
+	oflag=sync 2>&1 | tail -n 1| awk '{ gsub(",","."); print $(NF-1) }'`
 	READACC=`python3 -c "print($READACC+$RESULT)"`
 }
 
 function write_bench() {
 	sudo echo 3 > /proc/sys/vm/drop_caches
-	RESULT=`dd if=$BENCHDIR/$TESTFILE of=/boot/$TESTFILE bs=1M count=256 oflag=sync 2>&1 | tail -n 1| awk '{ gsub(",","."); print $(NF-1) }'`
+	RESULT=`dd if=$BENCHDIR/$TESTFILE of=/boot/$TESTFILE bs=1M count=256 \
+	oflag=sync 2>&1 | tail -n 1| awk '{ gsub(",","."); print $(NF-1) }'`
 	WRITEACC=`python3 -c "print($WRITEACC+$RESULT)"`
 }
 
@@ -418,10 +411,18 @@ func parseFlags() options {
 	read := flag.Bool("r", false, "Read mode.")
 	write := flag.Bool("w", false, "Write mode.")
 	maxblocksize := flag.Int64("b", 64*1024, "BlockSize.")
-	zipalgo := flag.String("c", "none", "Possible compression algorithms: none, snappy, lz4.")
-	output := flag.String("o", "", "User defined output file destination.")
-	encalgo := flag.String("e", "aes", "Possible encryption algorithms: aes, chacha.")
-	keyderiv := flag.String("k", "none", "Use random or scrypt as key derivation: random, scrypt")
+	zipalgo := flag.String( // just some formating to match appendix width.
+		"c", "none", "Possible compression algorithms: none, snappy, lz4.",
+	)
+	output := flag.String(
+		"o", "", "User defined output file destination."
+	)
+	encalgo := flag.String(
+		"e", "aes", "Possible encryption algorithms: aes, chacha."
+		)
+	keyderiv := flag.String(
+		"k", "none", "Use random or scrypt as key derivation: random, scrypt"
+	)
 	forceDstOverwrite := flag.Bool("f", false, "Force overwriting destination file.")
 	useDevNull := flag.Bool("D", false, "Write to /dev/null.")
 	flag.Parse()
@@ -469,7 +470,9 @@ func main() {
 	defer src.Close()
 
 	if opts.useDevNull && opts.output != "" {
-		fmt.Printf("%s\n", "dev/null (-D) and outputfile (-o) may not be set at the same time.")
+		fmt.Printf(
+			"%s\n", "dev/null (-D) and outputfile (-o) may not be set at the same time."
+		)
 		os.Exit(-1)
 	}
 
@@ -520,7 +523,9 @@ func main() {
 		ew := io.WriteCloser(dst)
 		// Encryption is enabled
 		if opts.encalgo != "none" {
-			ew, err = encrypt.NewWriterWithTypeAndBlockSize(dst, key, cipher, opts.maxblocksize)
+			ew, err = encrypt.NewWriterWithTypeAndBlockSize(
+				dst, key, cipher, opts.maxblocksize
+			)
 			if err != nil {
 				die(err)
 			}
@@ -567,12 +572,7 @@ Kommandozeilen--Tools zur Ver-- und Entschlüsselung von Dateien:
 #!/usr/bin/env python
 # encoding: utf-8
 
-import sys
-import json
-import time
-import timeit
-import getpass
-import subprocess
+import sys, json, time, timeit, getpass, subprocess
 from statistics import mean
 
 BINARY="./data/main"
@@ -599,7 +599,9 @@ def benchmark_preprocessing(config):
         "mkdir -p data",
         "sudo mount -t ramfs -o size=2G ramfs data",
         "sudo chmod 0777 data",
-        "sudo dd if=/dev/urandom of={0} bs=1M count={1} conv=sync".format(path, config["filesize"]),
+        "sudo dd if=/dev/urandom of={0} bs=1M count={1} conv=sync".format(
+            path, config["filesize"]
+        ),
         "sudo chown -R {user}:users data".format(user=getpass.getuser()),
         "go build main.go",
         "cp ./main ./data/main"
@@ -607,7 +609,6 @@ def benchmark_preprocessing(config):
         print(cmd)
         if subprocess.call(cmd.split(), shell=False) != 0:
             return -1, "Error occured during setup of read benchmark."
-
     return 0, ""
 
 def teardown(data):
@@ -640,14 +641,15 @@ def build_read_cmd(data, block):
     return cmd.split()
 
 def build_prepare_read_cmd(data, block):
-    cmd = "{binary} -k {keyderiv} -w -b {block} -e {enc} -o {outputfile} -f {inputfile}".format(
+    cmd = "{binary} -k {keyderiv} -w -b {block} -e {enc} -o {outputfile} -f {inputfile}"\
+	.format(
             keyderiv=data["kgfunc"],
             binary=BINARY,
             block=block,
             enc=data["encryption"],
             inputfile=get_read_dummy(data["filesize"]),
 	    outputfile=get_write_dummy(data["filesize"])
-        )
+	)
     return cmd.split()
 
 def write_bench_data(data):
@@ -731,22 +733,10 @@ def run_benchmark(config, runs=5, filesize=128):
         teardown(bench_input)
 
 if __name__ == '__main__':
-
-    for fs in [1, 2, 4, 8, 16, 32, 64, 128]:
-        runs = [("aes", "AES/GCM"), ("chacha", "ChaCha20/Poly1305")]
-        kgfuncs = ["none", "scrypt", "random"]
-        for run in runs:
-            for kgfunc in kgfuncs:
-                for type in ["write"]:
-                    config = {
-                        "algos": run,
-                        "kgfunc": kgfunc,
-                        "system" : sys.argv[1],
-                        "type": type
-                    }
-                    run_benchmark(config, runs=10, filesize=fs)
-
+    pass
 ~~~
+
+\newpage
 
 Python Skript für das Plotten der Benchmark--Daten:
 
@@ -754,17 +744,11 @@ Python Skript für das Plotten der Benchmark--Daten:
 #!/usr/bin/env python
 # encoding: utf-8
 
-import json
-import os
-import sys
-import pygal
-import pygal.style
+import json, os, sys, pprint, subprocess, pygal.style, pygal
+from math import log
 from collections import OrderedDict
 from collections import defaultdict
-from math import log
 from statistics import mean
-import subprocess
-import pprint
 
 LEGEND_MAP = {
     'aesread': 'AES/GCM [R]',
@@ -784,7 +768,7 @@ LEGEND_MAP_SCRYPT = {
 LEGEND_SYS_MAP = {
     "Intel i5 (Go 1.7.1)": "Intel i5",
     "Intel i5 (Go 1.5.3)": "Intel i5",
-    "Intel i5 (Go  1.6)": "Intel",
+    "Intel i5 (Go 1.6)": "Intel",
     "AMD Phenom II X4 (Go 1.5.3)": "AMD Phenom",
     "AMD Phenom II X4 (Go 1.7.1)": "AMD Phenom",
     "ARM11 (Go 1.7.1)": "RPi Zero",
@@ -821,18 +805,23 @@ def render_line_plot_scrypt(data):
     line_chart.y_title = data["y-title"]
 
     plot_data = sorted(plot_data, key=lambda d: d["system"],  reverse=False)
-    print(plot_data)
 
-    sys1 = [s for s in plot_data if s["system"] == "Intel Keygen (Go 1.7.1)" and s["kgfunc"] == "scrypt"]
+    sys1 = [
+		s for s in plot_data if s["system"] == "Intel Keygen (Go 1.7.1)" and
+		s["kgfunc"] == "scrypt"
+	]
     sys1 = sorted(sys1, key=lambda d: d["filesize"],  reverse=False)
 
-
-    sys2 = [s for s in plot_data if s["system"] == "Intel Keygen (Go 1.7.1)" and s["kgfunc"] == "random"]
+    sys2 = [
+		s for s in plot_data if s["system"] == "Intel Keygen (Go 1.7.1)" and
+		s["kgfunc"] == "random"
+	]
     sys2 = sorted(sys2, key=lambda d: d["filesize"],  reverse=False)
 
-    sys3 = [s for s in plot_data if s["system"] == "Intel Keygen (Go 1.7.1)" and s["kgfunc"] == "none"]
+    sys3 = [s for s in plot_data if s["system"] == "Intel Keygen (Go 1.7.1)" and
+		s["kgfunc"] == "none"
+	]
     sys3 = sorted(sys3, key=lambda d: d["filesize"],  reverse=False)
-    print(sys3)
 
     d1 = {}
     for item in sys1 + sys2 + sys3:
@@ -852,7 +841,6 @@ def format_min(values, min, filesize):
             values_str.append(val)
     return values_str
 
-
 def render_table(table, header, filesize):
     print("||" + "|".join([str(pretty_size(h)) + " [ms, B/s]" for h in header]) + "|")
     for title, row in table.items():
@@ -870,7 +858,9 @@ def render_line_plot(data):
         interpolate='cubic'
     )
     line_chart.title = data["title"]
-    line_chart.x_labels = [pretty_size(x) for x in get_blocksizes(data["needs"]["filesize"])]
+    line_chart.x_labels = [pretty_size(x) for x in get_blocksizes(
+		data["needs"]["filesize"])
+	]
     line_chart.x_title = data["x-title"]
     line_chart.y_title = data["y-title"]
 
@@ -883,10 +873,8 @@ def render_line_plot(data):
         fs_bytes = megabytes_to_bytes(item["filesize"])
         avg_mb_sec = round(fs_bytes/avg_sec, 2)
         op = item["type"][0]
-        #title =LEGEND_SYS_MAP[item["system"]] + "(" + LEGEND_MAP[item["encryption"] + item["type"]] + " (" + pretty_size(avg_mb_sec)  + "/s) [{0})".format(op.upper())
-        title =LEGEND_SYS_MAP[item["system"]] + " (" + LEGEND_MAP[item["encryption"] + item["type"]]  + ")"
-        #if item["filesize"] == 32:
-        #    item["results"] += [None, None]
+        title = LEGEND_SYS_MAP[item["system"]] + " (" + LEGEND_MAP[item["encryption"] + \
+		        item["type"]]  + ")"
         table[title]= item["results"]
         line_chart.add(title, item["results"])
         line_chart.render_to_file(data["outputfile"])
@@ -910,7 +898,9 @@ def render_bar_plot(data):
     line_chart.title = data["title"]
 
     plot_data = data["plot-data"]
-    plot_data = sorted(plot_data, key=lambda d: d["system"] + d["encryption"] + d["type"], reverse=False)
+    plot_data = sorted(
+        plot_data, key=lambda d: d["system"] + d["encryption"] + d["type"], reverse=False
+    )
 
     line_chart.x_labels = list(sorted(set([x["system"] for x in plot_data])))
     line_chart.x_title = data["x-title"]
@@ -936,9 +926,6 @@ def is_valid(jdir, metadata):
     if jdir.get("type") not in metadata["needs"]["type"]:
         return False
 
-    #if jdir.get("filesize") != metadata["needs"]["filesize"]:
-    #    return False
-
     if jdir.get("encryption") not in metadata["needs"]["algo"]:
         return False
 
@@ -949,7 +936,6 @@ def get_input_data(path):
         metadata = json.loads(fd.read())
         metadata["input-data"] = os.path.abspath(metadata["input-data"])
 
-    # Load all benchmark files
     benchmark_files = []
     for file in sorted(os.listdir(metadata["input-data"])):
         jfile = os.path.abspath(os.path.join(metadata["input-data"], file))
@@ -957,7 +943,6 @@ def get_input_data(path):
             with open(jfile, "r") as fd:
                 benchmark_files.append(json.loads(fd.read()))
 
-    # Filter only needed files
     needed_files = []
     for jfile in benchmark_files:
         if is_valid(jfile, metadata):
@@ -969,16 +954,13 @@ if __name__ == '__main__':
     dir_path = os.path.dirname(config_path)
     input_data = get_input_data(config_path)
     input_data["outputfile"] = os.path.join(
-	    dir_path, os.path.basename(config_path) + ".svg"
-	)
+        dir_path, os.path.basename(config_path) + ".svg"
+    )
 
     if input_data["plot-data"] == []:
         print("No Plot data found with this attributes.")
         sys.exit(0)
 
-    #with open('/tmp/input.json', "w") as fd:
-    #    fd.write(json.dumps(input_data))
-    #    sys.exit(-1)
     if input_data["type"] == "line":
         render_line_plot(input_data)
 
@@ -990,10 +972,10 @@ if __name__ == '__main__':
 
     subprocess.call(
         [
-			"inkscape",
-			"{0}".format(input_data["outputfile"]),
-			"--export-pdf={0}.pdf".format(input_data["outputfile"])
-		]
+            "inkscape",
+            "{0}".format(input_data["outputfile"]),
+            "--export-pdf={0}.pdf".format(input_data["outputfile"])
+        ]
     )
     subprocess.call(
         ["chromium", "{0}".format(input_data["outputfile"]), "&"]
@@ -1037,7 +1019,8 @@ disks) during the prime generation; this gives the random number
 generator a better chance to gain enough entropy.
 gpg: Note: backup of card key saved to '/home/qitta/.gnupg/sk_E5A1965037A8E37C.gpg'
 gpg: key 932AEBFDD72FE59C marked as ultimately trusted
-gpg: revocation certificate stored as '/home/qitta/.gnupg/openpgp-revocs.d/D61CEE19369B9C330A4A482D932AEBFDD72FE59C.rev'
+gpg: revocation certificate stored as '/home/qitta/.gnupg/openpgp-revocs.d/ \
+     D61CEE19369B9C330A4A482D932AEBFDD72FE59C.rev'
 public and secret key created and signed.
 ~~~
 
@@ -1067,7 +1050,8 @@ Encryption key....: DD5E 14EE D04D 58AB 85D7  0AB3 E5A1 9650 37A8 E37C
       created ....: 2016-12-11 12:44:36
 Authentication key: 4E45 FC88 A1B1 292F 6CFA  B577 4CE8 E35B 8002 9F6E
       created ....: 2016-12-11 12:44:36
-General key info..: pub  rsa2048/932AEBFDD72FE59C 2016-12-11 Christoph Piechula <christoph@nullcat.de>
+General key info..: pub  rsa2048/932AEBFDD72FE59C 2016-12-11 \
+                    Christoph Piechula <christoph@nullcat.de>
 sec>  rsa2048/932AEBFDD72FE59C  created: 2016-12-11  expires: 2021-12-10
                                 card-no: 0006 00000000
 ssb>  rsa2048/4CE8E35B80029F6E  created: 2016-12-11  expires: 2021-12-10
@@ -1081,14 +1065,14 @@ gpg/card>
 Schlüssel mit GnuPG anzeigen lassen:
 
 ~~~sh
-freya :: code/brig-thesis/security ‹master*› » gpg2 --list-keys 932AEBFDD72FE59C
+$ gpg2 --list-keys 932AEBFDD72FE59C
 pub   rsa2048 2016-12-11 [SC] [expires: 2021-12-10]
       D61CEE19369B9C330A4A482D932AEBFDD72FE59C
 uid           [ultimate] Christoph Piechula <christoph@nullcat.de>
 sub   rsa2048 2016-12-11 [A] [expires: 2021-12-10]
 sub   rsa2048 2016-12-11 [E] [expires: 2021-12-10]
 
-freya :: code/brig-thesis/security ‹master*› » gpg2 --list-secret-keys 932AEBFDD72FE59C
+$ gpg2 --list-secret-keys 932AEBFDD72FE59C
 sec>  rsa2048 2016-12-11 [SC] [expires: 2021-12-10]
       D61CEE19369B9C330A4A482D932AEBFDD72FE59C
       Card serial no. = 0006 00000000
@@ -1484,7 +1468,7 @@ gpg> save
 # User-- und Admin--PIN ändern {#sec:APP_USER_UND_ADMIN_PIN_AENDERN}
 
 ~~~sh
-freya :: code/brig-thesis/security ‹master*› » gpg2 --card-edit
+$ gpg2 --card-edit
 
 Reader ...........: 0000:0000:X:0
 Application ID ...: 00000000000000000000000000000000
@@ -1507,7 +1491,8 @@ Encryption key....: 6258 6E4C D843 F566 0488  0EB0 0B81 E5BF 8582 1570
       created ....: 2013-02-09 23:18:50
 Authentication key: 2BC3 8804 4699 B83F DEA0  A323 74B0 50CC 5ED6 4D18
       created ....: 2016-12-11 16:34:21
-General key info..: sub  rsa2048/2CC4F84BE43F54ED 2016-12-11 Christoph Piechula <christoph@nullcat.de>
+General key info..: sub  rsa2048/2CC4F84BE43F54ED 2016-12-11 \
+                    Christoph Piechula <christoph@nullcat.de>
 sec   rsa2048/8219B30B103FB091  created: 2013-02-09  expires: 2026-12-09
 ssb>  rsa2048/0B81E5BF85821570  created: 2013-02-09  expires: 2018-12-11
                                 card-no: 0006 00000000
@@ -1549,6 +1534,29 @@ Q - quit
 Your selection? Q
 
 gpg/card> quit
+~~~
+
+# QR--Code--Snippet {#sec:APP_QR}
+
+Das folgende Code--Snippet zeigt den Quellcode zum generieren des »brig« QR--Codes:
+
+~~~go
+
+package main
+
+import (
+	"fmt"
+	"os"
+
+	qrcode "github.com/skip2/go-qrcode"
+)
+
+func main() {
+	t := os.Args[1] // On cli: "your qr code string"
+	if err := qrcode.WriteFile(t, qrcode.Highest, 256, "qr.png"); err != nil {
+		fmt.Printf("%v\n", err)
+	}
+}
 ~~~
 
 # YubiCloud Zwei--Faktor--Authentifizierung {#sec:APP_YUBICLOUD_AUTHENTIFIZIERUNG}
