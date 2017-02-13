@@ -67,23 +67,23 @@ profitieren vom ChaCha20/Poly1305 (siehe @sec:SEC07_BENCHMARKS). Ab Go v1.6
 profitieren Systeme mit kryptographischen Befehlserweiterungssatz stark
 von den AES--NI--Optimierungen. Schwächere Systeme wie der Raspberry Pi
 Zero haben trotz des recht performanten ChaCha20/Poly1305--Verfahrens eine
-relativ schlechte Schreib-- und Lesegeschwindigkeit. Hier bedarf es noch
-einiger Optimierungen.
+relativ schlechte Schreib-- und Lesegeschwindigkeit.
 
 ### Authentifizierung
 
 Die aktuelle Implementierung über die zxcvbn--Bibliothek setzt eine robuste
-Passwortvalidierung um. Das Problem hierbei ist die schlechte Usability,
+Passwortvalidierung um. Das Problem hierbei ist einerseits die schlechte Usability,
 andererseits ist die alleinige Authentifizierung über ein Passwort --- bei einem System
 mit Fokus auf Sicherheit --- als negativ zu bewerten (siehe @sec:SEC07_REPOSITORY_ZUGRIFF).
 
 Hier wurden erweiterte Konzepte der Zwei--Faktor--Authentifizierung mit dem
-YubiKey für Privatpersonen und Institutionen evaluiert (siehe
-@sec:SEC08_SMARTCARDS_UND_RSA_TOKEN_ALS_ZWEI_FAKTOR_AUTHENTIFIZIERUNG).
+YubiKey OTP für Privatpersonen (siehe
+@sec:SEC08_KONZEPT_ZWEI_FAKTOR_AUTHENTIFIZIERUNG_VON_BRIG_MIT_YUBICLOUD) und
+Institutionen (@sec:SEC08_KONZEPT_MIT_EIGENER_SERVERINFRASTRUKTUR) evaluiert.
 Weiterhin wurde ein Konzept zur einfachen Passworthärtung mit dem YubiKey
 vorgestellt (@sec:SEC08_YUBIKEY_FUER_PASSWORTHAERTUNG).
 
-Im Bereich der Synchronisationspartnerauthentifizierung wurden verschiedene
+Im Bereich der Synchronisationspartner--Authentifizierung wurden verschiedene
 Konzepte vorgestellt (siehe @sec:SEC08_AUTHENTIFIZIERUNGSKONZEPT), über welche
 sich eine manuelle und automatisierte Authentifizierung des
 Synchronisationspartners durchführen lässt.
@@ -150,15 +150,15 @@ sinnvoll, um die Software auch für den öffentlichen Bereich tauglich zu machen
 ## Ausblick {#sec:SEC09_AUSBLICK}
 
 Die Evaluation der Sicherheit von »brig« sowie die evaluierten
-Sicherheitskonzepte für die weitere Entwicklungen stellen einen Erstentwurf
-dar. Wie bereits unter @sec:SEC04_KRYPTOGRAPHISCHE_PRIMITIVEN_UND_PROTOKOLLE
-und @sec:SEC05_SICHERHEIT_UND_ANGRIFFSSZENARIEN erläutert, ist die
-Implementierung und Evaluierung von Sicherheit keine triviale Aufgabe.
-Weiterhin kann auch die Umsetzung kryptographischer Elemente aufgrund von
-Missverständnissen fehlerhaft implementiert sein.
+Sicherheitskonzepte stellen für weitere Entwicklungen einen Erstentwurf dar.
+Wie bereits unter @sec:SEC04_KRYPTOGRAPHISCHE_PRIMITIVEN_UND_PROTOKOLLE und
+@sec:SEC05_SICHERHEIT_UND_ANGRIFFSSZENARIEN erläutert, ist die Implementierung
+und Evaluierung von Sicherheit keine triviale Aufgabe. Weiterhin kann auch die
+Umsetzung kryptographischer Elemente aufgrund von Missverständnissen fehlerhaft
+implementiert sein.
 
-Da »brig« einen Schwerpunkt auf Sicherheit setzt, ist es essentiell, dass das in dieser
-Arbeit evaluierte System und die vorgestellten Konzepte von weiteren
+Da »brig« einen Schwerpunkt auf Sicherheit setzt, ist es essentiell, dass das
+in dieser Arbeit evaluierte System und die vorgestellten Konzepte von weiteren
 unabhängigen Sicherheitsexperten --- beispielsweise von der HSASec[^FN_HSASEC]
 --- beurteilen zu lassen und die vorgestellten Konzepte kritisch zu
 diskutieren. Zusätzlich sollte ein unabhängiges Sicherheitsaudit der
@@ -174,20 +174,45 @@ Authentifizierungsplattform erwähnenswert.
 
 [^FN_KEYBASE]: Keybase.io: <https://keybase.io/>
 
+Im Bereich der Authentifizierung wäre eine Evaluation weiterer
+Authentifizierungsmöglichkeiten am »brig«--Repository, beispielsweise direkt über
+eine Smartcard--Authentifizierung, sinnvoll.
+
 Die durchgeführten Benchmarks zur Geschwindigkeit zeigen nur eine Tendenz
 bezüglich der Geschwindigkeit auf den getesteten Plattformen. Hier wäre die
 Evaluation weiterer Hardware--Systeme nötig, um bessere Entscheidungen für
 Optimierungen und bezüglich der Auswahl geeigneter Algorithmen treffen zu
 können.
 
-Abschließend ist es wichtig zu erwähnen, dass unabhängig von den
+Die aktuelle Empfehlung ist es, auf Convergent Encryption zu verzichten.
+Einerseits kommt hier neue Angriffsfläche hinzu, andererseits besteht das
+Problem, dass bei der aktuellen Architektur die Daten zweimal gelesen werden
+müssten, da die Prüfsumme erst nach dem Hinzufügen in das IPFS--Backend bekannt
+ist. Hier wäre nichtsdestotrotz eine Evaluierung des unter
+@sec:SEC08_DATENVERSCHLUESSELUNG erwähnten Ansatzes --- Prüfsumme nur über
+wenige Bytes und Dateigröße -- interessant.
+
+Weiterhin bleibt neben einer benutzerfreundlichen Implementierung der
+vorgestellten Sicherheitskonzepte die Fragestellung der automatisierten
+Schlüsselsicherung offen --- wie kann der Benutzer seine Identität auf einfache
+Art und Weise sichern?
+
+Unabhängig davon ist es wichtig zu erwähnen, dass von den
 implementierten technischen Maßnahmen, der Mensch eine essentielle Rolle in
 jedem sicherheitskritischen System spielt. Diese Arbeit soll
 Software--Entwicklern als Einstiegspunkt für die Thematik der Sicherheit dienen
 und sie weiterhin für die sicherheitsorientierte Softwareentwicklung sensibilisieren.
 
 Der Otto Normalbenutzer sollte immer wieder aufs Neue für das Thema Sicherheit
-und Datenschutz sensibilisiert werden, da gerade in unser heutigen digitalen
-Informationsgesellschaft Fehleinschätzungen fatale Folgen --- für das
-Individuum selbst aber auch politische und gesellschaftliche Entwicklungen ---
-haben können.
+und Datenschutz sensibilisiert werden, da gerade in unserer heutigen digitalen
+Informationsgesellschaft Fehleinschätzungen fatale Folgen haben können.
+
+Prinzipiell kann gesagt werden, dass im begrenztem Zeitrahmen der Masterarbeit
+eine vorzeigbare Lösung zum dezentralen und sicheren Austausch von Daten
+entstanden ist. Auch wenn es nicht möglich war, in diesem kurzen Zeitraum
+weitere Fördermöglichkeiten zu finden, sollte die Entwicklung dennoch aufgrund
+des vielversprechenden Ansatzes weitergeführt werden. Hier wäre ein
+konstruktives Feedback von der Open--Source--Community und ein baldiges Release
+eines ersten Prototypen wichtig. Nicht nur um den Bekanntheitsgrad weiterhin zu
+steigern jedoch auch um in naher Zukunft eine ernsthafte und benutzerfreundliche
+Alternative zu den vorherrschenden Cloud--Speicher--Anbietern zu etablieren.
