@@ -21,6 +21,9 @@ all:
 
 	cd pdf && latexmk -silent -pdf thesis.tex
 
+title:
+	latexmk -pdf tex/hsa-title.tex -output-directory=pdf
+
 html:
 	pandoc \
 		--toc \

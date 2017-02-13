@@ -1,0 +1,228 @@
+\documentclass{scrartcl}
+\usepackage[utf8]{luainputenc}
+\usepackage[T1]{fontenc}
+
+\newcommand{\titel}{\Large Sicherheitskonzepte und Evaluation dezentraler Dateisynchronisationssysteme am Beispiel \frqq brig\flqq}
+\newcommand{\untertitel}{Christoph Piechula}
+\newcommand{\art}{Masterarbeit}
+\newcommand{\fachgebiet}{Distributed Systems}
+\newcommand{\autor}{Christoph Piechula}
+\newcommand{\addresse}{Holzbachstr. 35}
+\newcommand{\plz}{86152}
+\newcommand{\ort}{Augsburg}
+\newcommand{\telefon}{+49 (0) 15 156 619 131}
+\newcommand{\mail}{christoph@nullcat.de}
+\newcommand{\studienbereich}{Informatik}
+\newcommand{\matrikelnr}{944082}
+\newcommand{\pruefer}{Prof.\ Dr.-Ing.\ Thorsten\ \textsc{Schöler}}
+\newcommand{\zweitpruefer}{Prof.\ Dr.\ Hubert\  \textsc{Högl}}
+\newcommand{\jahr}{2017}
+\newcommand{\logo}{images/fh-logo-plain.jpg}
+\newcommand{\coverlogo}{images/fh-logo.jpg}
+
+
+% Anpassung des Seitenlayouts --------------------------------------------------
+%   siehe Seitenstil.tex
+% ------------------------------------------------------------------------------
+\usepackage[
+    automark, % Kapitelangaben in Kopfzeile automatisch erstellen
+    headsepline, % Trennlinie unter Kopfzeile
+    ilines % Trennlinie linksbündig ausrichten
+]{scrpage2}
+% Anpassung an Landessprache ---------------------------------------------------
+\usepackage[ngerman]{babel}
+% Schrift ----------------------------------------------------------------------
+\usepackage{lmodern} % bessere Fonts
+\usepackage{relsize} % Schriftgröße relativ festlegen
+% Umlaute ----------------------------------------------------------------------
+%   Umlaute/Sonderzeichen wie äüöß direkt im Quelltext verwenden (CodePage).
+%   Erlaubt automatische Trennung von Worten mit Umlauten.
+% ------------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp} % Euro-Zeichen etc.
+% Grafiken ---------------------------------------------------------------------
+% Einbinden von JPG-Grafiken ermöglichen
+\usepackage{graphicx}
+%\usepackage[dvips,final]{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.eps}
+% Befehle aus AMSTeX für mathematische Symbole z.B. \boldsymbol \mathbb --------
+\usepackage{amsmath,amsfonts}
+% für Index-Ausgabe mit \printindex --------------------------------------------
+\usepackage{makeidx}
+% Einfache Definition der Zeilenabstände und Seitenränder etc. -----------------
+\usepackage{setspace}
+\usepackage{geometry}
+% Symbolverzeichnis ------------------------------------------------------------
+%   Symbolverzeichnisse bequem erstellen. Beruht auf MakeIndex:
+%     makeindex.exe %Name%.nlo -s nomencl.ist -o %Name%.nls
+%   erzeugt dann das Verzeichnis. Dieser Befehl kann z.B. im TeXnicCenter
+%   als Postprozessor eingetragen werden, damit er nicht ständig manuell
+%   ausgeführt werden muss.
+%   Die Definitionen sind ausgegliedert in die Datei "Glossar.tex".
+% ------------------------------------------------------------------------------
+\usepackage[intoc]{nomencl}
+\let\abbrev\nomenclature
+\renewcommand{\nomname}{Abkürzungsverzeichnis}
+\setlength{\nomlabelwidth}{.25\hsize}
+\renewcommand{\nomlabel}[1]{#1 \dotfill}
+\setlength{\nomitemsep}{-\parsep}
+% zum Umfließen von Bildern ----------------------------------------------------
+\usepackage{floatflt}
+% zum Einbinden von Programmcode -----------------------------------------------
+\usepackage{listings}
+\usepackage{xcolor} 
+% URL verlinken, lange URLs umbrechen etc. -------------------------------------
+\usepackage{url}
+% wichtig für korrekte Zitierweise ---------------------------------------------
+\usepackage[round]{natbib}
+% PDF-Optionen -----------------------------------------------------------------
+\usepackage[
+    bookmarks,
+    bookmarksopen=true,
+    bookmarksnumbered, % nummerierte bookmarks im PDF
+    colorlinks=true,
+% diese Farbdefinitionen zeichnen Links im PDF farblich aus
+    linkcolor=navy, % einfache interne Verknüpfungen
+    anchorcolor=black,% Ankertext
+    citecolor=navy, % Verweise auf Literaturverzeichniseinträge im Text
+    filecolor=navy, % Verknüpfungen, die lokale Dateien öffnen
+    menucolor=black, % Acrobat-Menüpunkte
+    urlcolor=navy, 
+% diese Farbdefinitionen sollten für den Druck verwendet werden (alles schwarz)
+    %linkcolor=black, % einfache interne Verknüpfungen
+    %anchorcolor=black, % Ankertext
+    %citecolor=black, % Verweise auf Literaturverzeichniseinträge im Text
+    %filecolor=black, % Verknüpfungen, die lokale Dateien öffnen
+    %menucolor=black, % Acrobat-Menüpunkte
+    %urlcolor=black, 
+    backref,
+    plainpages=false, % zur korrekten Erstellung der Bookmarks
+    pdfpagelabels=true, % zur korrekten Erstellung der Bookmarks
+    hypertexnames=true, % zur korrekten Erstellung der Bookmarks
+    linktocpage % Seitenzahlen anstatt Text im Inhaltsverzeichnis verlinken
+]{hyperref}
+% Befehle, die Umlaute ausgeben, führen zu Fehlern, wenn sie hyperref als Optionen übergeben werden
+\hypersetup{
+    pdftitle={\titel \untertitel},
+    pdfauthor={\autor},
+    pdfcreator={\autor},
+    pdfsubject={\titel \untertitel},
+    pdfkeywords={\titel \untertitel},
+}
+% fortlaufendes Durchnummerieren der Fußnoten ----------------------------------
+\usepackage{chngcntr}
+% für lange Tabellen -----------------------------------------------------------
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{ragged2e}
+\usepackage{lscape}
+% Spaltendefinition rechtsbündig mit definierter Breite ------------------------
+\newcolumntype{w}[1]{>{\raggedleft\hspace{0pt}}p{#1}}
+% Formatierung von Listen ändern -----------------------------------------------
+\usepackage{paralist}
+% bei der Definition eigener Befehle benötigt
+\usepackage{ifthen}
+% definiert u.a. die Befehle \todo und \listoftodos
+\usepackage{todonotes}
+% sorgt dafür, dass Leerzeichen hinter parameterlosen Makros nicht als Makroendezeichen interpretiert werden
+\usepackage{xspace}
+\usepackage{wrapfig}
+\usepackage[labelfont=bf,font=small]{caption}
+\captionsetup{format=plain} 
+\usepackage{sidecap}
+\usepackage{capt-of}
+%\usepackage{needspace}
+\usepackage{shorttoc} %\shorttableofcontents This package deﬁnes the \shorttableofcontents macro, which is used as follows: \shorttableofcontents{htitle i}{hdepth i} where htitlei will be the title of this table of contents and hdepthi its “depth”, with the meaning of the tocdepth counter.
+\usepackage{lipsum}
+\usepackage[strings]{underscore}
+\usepackage{soul}
+\usepackage{rotating}
+
+\usepackage{gentium}
+\usepackage{inconsolata}
+
+
+\definecolor{bluegray}{RGB}{235,235,250}
+\definecolor{colKeys}{rgb}{0,0,1}
+\definecolor{colIdentifier}{rgb}{0,0,0}
+\definecolor{colComments}{RGB}{108,226,108}
+\definecolor{colString}{rgb}{0,0.5,0}
+\definecolor{navy}{RGB}{0,0,128}
+\definecolor{HSAorange}{RGB}{255,102,0}
+\definecolor{HSAred}{RGB}{204,0,51}
+\definecolor{dkgreen}{RGB}{0,100,30}
+\definecolor{dkgray}{gray}{0.25}
+\definecolor{gray}{gray}{0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{orange}{RGB}{255,102,0}
+\definecolor{lgGray}{gray}{1}
+\definecolor{lstBg}{gray}{1}
+\sethlcolor{lgGray}
+
+\begin{document}
+\thispagestyle{plain}
+\begin{titlepage}
+  \thispagestyle{empty}
+  \addtolength{\textwidth}{55mm}
+  \addtolength{\oddsidemargin}{-18mm}
+
+  ~
+  \begin{wrapfigure}{r}{25mm}
+    \vspace{-40mm}
+    \includegraphics[scale=0.4]{\coverlogo}
+  \end{wrapfigure}
+
+
+  \vspace{-1mm}
+
+  \huge{\textcolor{HSAorange}{\fontfamily{phv}\selectfont\art}}
+
+
+  \vspace{10mm}
+  \LARGE{Studienrichtung \studienbereich}
+  \vspace{20mm}
+
+
+  \begin{minipage}[t]{0.6\textwidth}
+    \begin{center}
+    \LARGE{\textbf{\textcolor{dkgray}{\untertitel}}} \\[1.2ex]
+    \Huge{\textbf{\textcolor{HSAorange}{\titel}}}\\[1.2ex]
+	\end{center}
+	\vspace{2cm}
+    \Large{\emph{\ \ \ \ \ \ Prüfer:}\ \ \pruefer}\\
+    \Large{\emph{Zweitprüfer:} \ \zweitpruefer}\\
+	\linebreak
+	\linebreak
+	\linebreak
+	\linebreak
+	\linebreak
+	\linebreak
+	\linebreak
+	\linebreak
+	\emph{Abgabe der Arbeit am} 15. Februar 2017\\
+  \end{minipage}
+  \hspace{0.11\textwidth}
+  \begin{minipage}[t]{0.2\textwidth}
+    \vspace{7cm}
+    \scriptsize
+    \emph{Verfasser:}\\
+    \autor\\
+    \addresse\\
+    \plz\ \ort\\
+    \telefon\\
+    \mail\\
+    Matrikelnr.: \matrikelnr\\
+    
+    \vspace{15mm}
+    
+    \textcolor{HSAred}{Hochschule\,für\,angewandte Wissenschaften Augsburg}\\
+    \textcolor{HSAred}{An der Hochschule 1}\\
+    \textcolor{HSAred}{86161 Augsburg}\\
+    \textcolor{HSAred}{Telefon: +49 (0)821-5586-0}\\
+    \textcolor{HSAred}{Fax: +49 (0)821-5586-3222}\\
+    \textcolor{HSAred}{info@hs-augsburg.de}\\
+    
+  \end{minipage}
+\end{titlepage}
+\end{document}
