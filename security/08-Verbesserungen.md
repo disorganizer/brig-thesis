@@ -52,7 +52,7 @@ verschlüsseln würde, da mehrere unterschiedliche Dateien mit einer gewissen
 Wahrscheinlichkeit fälschlicherweise die gleiche Prüfsumme generieren würden.
 
 Ein weiteres Problem der Convergent Encryption ist, dass dieses Verfahren für
-den »confirmation of a file«--Angriff anfällig ist. Das heißt, dass es einem
+den Confirmation of a File--Angriff anfällig ist. Das heißt, dass es einem
 Angreifer möglich ist, durch das Verschlüsseln eigener Dateien darauf zu
 schließen, was beispielsweise ein anderer Benutzer in seinem Repository
 gespeichert hat.
@@ -369,7 +369,7 @@ und könnte beispielsweise in folgender Form realisiert werden:
 
 * `QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2qv5BW7HNhCkpL | D3B2790FBAC07EAC`
 
-[@fig:img-qrcode] zeigt den definierten Datensatz als QR--Code. Es sollte bei
+[@fig:img-qrcode] zeigt den definierten Datensatz als QR--Code (Quelltext siehe @sec:APP_QR). Es sollte bei
 der GPG--Key--ID darauf geachtet werden, dass hier mindestens 16 Byte des
 Fingerprints verwendet werden, da die 8 Byte Repräsentation
 Angriffsfläche[^FN_EVIL32] bietet.

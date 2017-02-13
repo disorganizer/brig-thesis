@@ -63,7 +63,7 @@ welche folgende Punkte gewährleisten:
 
 * *Vertraulichkeit:* Kein Zugriff auf Daten durch unbefugte Personen.
 * *Integrität:* Manipulation von Daten sind erkennbar.
-* *Authentifikation:* Kommunikationspartner sind eindeutig identifizierbar.
+* *Authentifizierung:* Kommunikationspartner sind eindeutig identifizierbar.
 
 Die beiden unter [@sec:SEC02_DER_SICHERHEITSBEGRIFF] gelisteten Punkte
 Autorisierung und Verfügbarkeit stellen keine erfüllbaren Sicherheitsaspekte

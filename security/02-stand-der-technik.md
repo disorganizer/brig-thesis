@@ -15,9 +15,13 @@ hierzu, vgl. [@peer2peer], S. 232 ff.
 
 Betrachtet man die Sicherheit von Dateiverteilungssystemen, so müssen
 verschiedene Teilaspekte betrachten werden. Leider ist das Umfeld der
-Sicherheit sehr groß und die Begrifflichkeiten nicht immer eindeutig definiert.
-In der Fachliteratur (vgl. [@pauly2004netzwerk], S. 21 f.) spricht man bei Sicherheit
-oft von den folgenden fünf Sicherheitsaspekten:
+Sicherheit sehr groß und die Begrifflichkeiten nicht immer eindeutig definiert, 
+teilweise werden auch bestimmte Begrifflichkeiten synonym
+verwendet[^FN_BSI_GLOSSAR]. In der Fachliteratur (vgl. [@pauly2004netzwerk], S.
+21 f.) spricht man bei Sicherheit oft von den folgenden fünf
+Sicherheitsaspekten:
+
+[^FN_BSI_GLOSSAR]: BSI Glossar: <https://www.bsi.bund.de/DE/Themen/ITGrundschutz/ITGrundschutzKataloge/Inhalt/Glossar/glossar_node.html>
 
 * *Vertraulichkeit:* Schutz der Daten vor Zugriff durch Dritte.
 * *Integrität:* Schutz der Daten vor Manipulation.
@@ -238,7 +242,7 @@ welches in der Lage ist, ein Authentifizierungs--Token auf dem Computer des
 potentiellen Opfers auszutauschen. [@fig:img-mitc] zeigt den Ablauf eines
 möglichen Man--in--the--Cloud--Angriffs.
 
-![Quick Double Switch Attack Flow--Man--in--the--Cloud--Angriff. Die Buchstaben a, b, c und d repräsentieren dabei jeweils die Synchronisationsvorgänge.](images/mitc.png){#fig:img-mitc width=80%}
+![Quick Double Switch Attack Flow. Die Buchstaben a, b, c und d repräsentieren dabei jeweils die Synchronisationsvorgänge.](images/mitc.png){#fig:img-mitc width=80%}
 
 1. Der Angreifer platziert den Switcher auf dem Rechner des Opfers
    (beispielsweise mittels Social Engineering oder Phishing--Methoden)
@@ -254,7 +258,7 @@ möglichen Man--in--the--Cloud--Angriffs.
 5. Anschließend wird der Switcher noch einmal ausgeführt, um beim Opfer
    wieder den ursprünglichen Synchronisationszustand herzustellen (second switch).
 
-Der Ablauf in [@fig:img-mitc] zeigt den »Quick Double Switch Attack Flow«. Im
+Der Ablauf in [@fig:img-mitc] zeigt den Quick Double Switch Attack Flow. Im
 Bericht der *IMPERVA -- Hacker Intelligence Initiative* werden noch weitere
 Angriffe auf Basis dieses Verfahrens aufgezeigt (vgl. [@mitcref]).
 

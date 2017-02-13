@@ -113,7 +113,7 @@ Implementierung erstellt zufallsgenerierte Schlüssel. Dies hat den Nachteil,
 dass die Deduplizierungsfunktionalität außer Kraft gesetzt wird, siehe
 @sec:SEC07_SCHLUESSELGENERIERUNG. Hingegen würde die Verwendung von Convergent
 Encryption »brig« für bestimmte Angriffe, wie beispielsweise den
-»confirmation of a file«--Angriff, anfällig machen. Die Empfehlung an dieser
+Confirmation of a File--Angriff, anfällig machen. Die Empfehlung an dieser
 Stelle wäre, die Schlüsselgenerierung weiterhin auf Zufallsbasis zu realisieren
 und das dadurch entstandene Problem (IPFS kann Daten nicht mehr sinnvoll
 deduplizieren, siehe @sec:SEC07_SCHLUESSELGENERIERUNG) in Kauf zu nehmen und
