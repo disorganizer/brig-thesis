@@ -1538,7 +1538,7 @@ gpg/card> quit
 
 # QR--Code--Snippet {#sec:APP_QR}
 
-Das folgende Code--Snippet zeigt den Quellcode zum generieren des »brig« QR--Codes:
+Das folgende Code--Snippet zeigt den Quellcode zum Generieren des »brig« QR--Codes:
 
 ~~~go
 

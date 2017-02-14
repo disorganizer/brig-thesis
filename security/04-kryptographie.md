@@ -193,7 +193,9 @@ Sicherheitsniveau Ressourcen sparen kann, obwohl die Operationen auf
 elliptischen Kurven aufwendiger zu berechnen sind als Operationen in
 vergleichbar großen endlichen Körpern.
 
-[^FN_DSA]: Digital Signature Algorithm: <https://de.wikipedia.org/w/index.php?title=Digital_Signature_Algorithm&oldid=161702305>
+[^FN_DSA]: Digital Signature Algorithm: 
+
+	<https://de.wikipedia.org/w/index.php?title=Digital_Signature_Algorithm&oldid=161702305>
 
 Heutzutage typische Schlüssellängen bei asymmetrischer Verschlüsselung sind
 1024 Bit, 2048 Bit und 4096 Bit. Die Schlüssellängen sind nicht direkt mit den
@@ -247,10 +249,10 @@ Bei der hybriden Verschlüsselung macht man sich die Vorteile beider Systeme zu
 Nutzen. Bevor *Alice* und *Bob* kommunizieren können, tauschen sie mittels
 Public--Key--Kryptographie (asymmetrische Kryptographie) den *gemeinsamen*
 Schlüssel, welchen sie anschließend für die symmetrische Verschlüsselung
-verwenden, aus. Für weitere Details zum Thema asymmetrische Kryptographie vgl.
+verwenden, aus. Für weitere Details zum Thema hybride Verschlüsselungsverfahren vgl.
 [@martin2012everyday], S. 179 ff.
 
-## Diffie--Hellman--Schlüsseltausch {#sec:SEC04_DIFFIE_HELLMANN_SCHLUESSELAUSTAUSCH}
+## Diffie--Hellman--Schlüsselaustausch {#sec:SEC04_DIFFIE_HELLMANN_SCHLUESSELAUSTAUSCH}
 
 Aus dem Diffie--Hellman--Schlüsselaustausch (kurz DH) geht das
 ElGamal--Verschlüsselungsverfahren hervor. DH ist ein

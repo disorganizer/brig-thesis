@@ -32,7 +32,9 @@ arbeitet mit einer verteilten Hashtabelle (Distributed Hash Table, kurz DHT[^FN_
 welche als grundlegende Datenstruktur verwendet wird, um die Daten innerhalb
 eines Peer--to--Peer--Netzwerks zu lokalisieren und zu speichern.
 
-[^FN_CAN]: Content Addressable Network: <https://de.wikipedia.org/w/index.php?title=Content_Addressable_Network&oldid=157598552>
+[^FN_CAN]: Content Addressable Network: 
+
+	<https://de.wikipedia.org/w/index.php?title=Content_Addressable_Network&oldid=157598552>
 
 Eine DHT als Datenstruktur bringt in der Theorie laut Wikipedia
 folgende Eigenschaften mit sich:

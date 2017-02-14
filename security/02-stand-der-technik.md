@@ -598,7 +598,7 @@ git--Aufsatz, welcher es dem Benutzer ermöglicht, auch große binäre Dateien
 mittels git[^FN_GIT] zu verwalten, beziehungsweise zu synchronisieren. Zum
 Synchronisieren der Metadaten wird git verwendet, zum Synchronisieren der
 eigentlichen Daten wird git--annex genutzt. Es überträgt die Daten
-verschlüsselt mit rsync[^FN_RSYNC] über ssh. Mittels der git--Erweiterung
+verschlüsselt mit rsync[^FN_RSYNC] über ssh[^FN_SSH]. Mittels der git--Erweiterung
 gcrypt[^FN_GCRYPT] ist es möglich, vollständig verschlüsselte git--remotes
 anzulegen.
 

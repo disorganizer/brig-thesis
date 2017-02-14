@@ -640,7 +640,9 @@ Implementierung ein Replay--Angriff wahrscheinlich möglich, da die freshness
 der Nonce nicht gegeben ist (vgl. [@martin2012everyday], S. 259 ff.). Eine
 zusätzliche freshness sollte hier das Problem beheben.
 
-[^FN_MITM]: Man--in--the--Middle--Angriff: <https://de.wikipedia.org/w/index.php?title=Man-in-the-Middle-Angriff&oldid=161582213>
+[^FN_MITM]: Man--in--the--Middle--Angriff: 
+
+	<https://de.wikipedia.org/w/index.php?title=Man-in-the-Middle-Angriff&oldid=161582213>
 
 Die aktuelle Softwareversion bietet hier keinen Automatismus und auch keinen
 Authentifizierungsmechanismus, wie er beispielsweise beim Pidgin--Messenger mit

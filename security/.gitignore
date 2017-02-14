@@ -2,3 +2,8 @@ html/thesis.html
 main
 main1.7
 tmp
+pdf/hsa-title.aux
+pdf/hsa-title.fdb_latexmk
+pdf/hsa-title.fls
+pdf/hsa-title.log
+pdf/hsa-title.out

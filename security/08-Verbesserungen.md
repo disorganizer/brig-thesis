@@ -234,7 +234,9 @@ Key). Diese Funktionalität ermöglicht dem Benutzer den privaten Teil des
 Hauptschlüssels zu exportieren und beispielsweise auf einem sicheren externen
 Datenträger zu speichern.
 
-[^FN_OFFLINEKEY]: Offline-Hauptschlüssel: <https://de.wikipedia.org/w/index.php?title=GNU_Privacy_Guard&oldid=159842195#Offline-Hauptschl.C3.BCssel>
+[^FN_OFFLINEKEY]: Offline-Hauptschlüssel: 
+
+	<https://de.wikipedia.org/w/index.php?title=GNU_Privacy_Guard&oldid=159842195#Offline-Hauptschl.C3.BCssel>
 
 Dieser Schlüssel wird zum Zertifizieren/Signieren anderer Schlüssel verwendet
 und wird nicht für den täglichen Gebrauch benötigt. Für die sichere externe
@@ -1084,7 +1086,7 @@ Anwendungen. Für weitere Informationen zum Aufbau des Applets und zu den
 Funktionalitäten (PIN-Counter et cetera) siehe die
 GnuPG--Administrationsdokumentation zur Smartcard[^FN_GNUPG_SMARTCARD_DOC].
 
-[^FN_PAM]: PAM: https://de.wikipedia.org/w/index.php?title=Pluggable_Authentication_Modules&oldid=146057418
+[^FN_PAM]: PAM: <https://de.wikipedia.org/w/index.php?title=Pluggable_Authentication_Modules&oldid=146057418>
 
 [^FN_GNUPG_SMARTCARD_DOC]: Chapter 3. Administrating the Card: <https://www.gnupg.org/howtos/card-howto/en/ch03.html>
 
