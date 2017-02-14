@@ -15,7 +15,7 @@ nachgebessert werden. Die empfohlene Noncen--Größe ist mit 96 Bit angegeben
 Wie unter @sec:SEC06_IPFS_ID zu sehen, sind die IPFS--Schlüssel aktuell in der
 Konfigurationsdatei von IPFS im Klartext hinterlegt. »brig« verschlüsselt diese
 Datei zum aktuellen Zeitpunkt nicht. Hier wäre eine Verschlüsselung mit einem
-Repository--Key möglich, welcher wiederrum durch einen Hauptschlüssel
+Repository--Key möglich, welcher wiederum durch einen Hauptschlüssel
 geschützt werden sollte (siehe [@sec:SEC08_KEYMANAGEMENT]). Eine weitere
 Überlegung wäre, das gesamte Repository mittels eines externen Hauptschlüssels
 zu verschlüsseln.
@@ -713,7 +713,7 @@ online[^FN_APIKEY] und erfordert einen YubiKey. Die minimale Implementierung in
 @sec:APP_YUBICLOUD_AUTHENTIFIZIERUNG zeigt einen voll funktionsfähigen
 Authentifizierungs--Client,  welcher einen YubiKey am YubiCloud--Dienst
 authentifiziert. [@fig:img-poc-brig-2fa] zeigt schematisch den
-Zwei--Faktor--Authentifizierung--Vorgang mit einem YubiKey über die
+Zwei--Faktor--Authentifizierungs--Vorgang mit einem YubiKey über die
 YubiCloud. 
 
 [^FN_APIKEY]: Yubico API--Key beantragen: <https://upgrade.yubico.com/getapikey/>
@@ -926,7 +926,7 @@ BSD--Derivat wie FreeBSD.
 Für den Einsatz bei gemeinnützigen Organisationen oder auch öffentlichen
 Institutionen wie einer Hochschule, würde sich zusätzlich der Einsatz von
 Letsencrypt[^FN_LETSECNRYPT_HP] für die Bereitstellung kostenfreier valider
-Websserver--Zertifikate eignen.
+Webserver--Zertifikate eignen.
 
 [^FN_LETSECNRYPT_HP]: Let's Encrypt--Homepage: <https://letsencrypt.org/about/>
 
@@ -975,8 +975,8 @@ $ MyVeryLongPasswordYouWontGuessTodayMyVeryLongPasswordYouWontGuessToday
 
 Dieses Feature erlaubt es dem Benutzer durch Merken eines einfachen Passwortes,
 trotzdem ein sicheres Passwort generieren zu können. Je nach Anwendung kann so
-das vom YubiKey generierte Passwort mit einem Prefix und/oder Suffix
-erweitert werden. Beispiel mit Prefix = »YEAH« und Suffix = »GehtDoch!?«
+das vom YubiKey generierte Passwort mit einem Präfix und/oder Suffix
+erweitert werden. Beispiel mit Präfix = »YEAH« und Suffix = »GehtDoch!?«
 (Benutzereingabe + YubiKey + Benutzereingabe):
 
 ~~~sh
@@ -1344,7 +1344,7 @@ Diese könnte innerhalb von »brig« das oben genannte Verfahren mit der manuell
 [@fig:IMG_UPDATEPROCESS] visualisiert den Updateprozess. Bei erfolgreicher
 initialer Validierung der Signatur nach dem ersten Herunterladen der Software
 (Schritt 1.1--1.3) kann davon ausgegangen werden, dass die Integrität
-gewährleistet ist und Softwareinternas nicht verändert wurden.
+gewährleistet ist und Softwareinterna nicht verändert wurden.
 
 ![Updateprozess zur sicheren Softwareverteilung.](images/updateprocess.png){#fig:IMG_UPDATEPROCESS width=95%}
 

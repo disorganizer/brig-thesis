@@ -325,7 +325,7 @@ Table: Zeigt die effizientesten Blockgrößen beim Entschlüsseln. Der erste Wer
 Schreiben/Verschlüsseln auf schwächeren Systemen. Unter Tabelle
 @tbl:TAB_WRITE_BLOCK_LOW sind jeweils die effizientesten Blockgrößen beim
 Verschlüsseln auf den schwächeren Systemen zu finden. Hier bricht die
-Geschwindigkeit, wie bei den restlichen getesteten System, unterhab der 4
+Geschwindigkeit, wie bei den restlichen getesteten System, unterhalb der 4
 KiByte  stark ein. Eine obere Blockgröße, bei der die Geschwindigkeit einbricht,  ist bei den schwächeren Systemen
 weniger gut erkennbar.
 
@@ -665,7 +665,7 @@ wichtig.
 ### »brig«--Quellcode--Repository {#sec:SEC07_BRIG_QUELLCODE_REPOSITORY}
 
 Aktuell wird »brig« mit der Quelltext--Versionsverwaltungssoftware `git`
-verwaltet. Da es sich um ein Open--Souce--Projekt handelt, ist das Repository
+verwaltet. Da es sich um ein Open--Source--Projekt handelt, ist das Repository
 öffentlich auf der GitHub--Plattform zu finden.
 
 **Einschätzung:** Quelltexte/Releases sind bisher nicht signiert. Updates am

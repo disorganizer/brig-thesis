@@ -6,8 +6,8 @@ Nach einem frischen `git clone` vom IPFS--Repository wurde der Umfang des
 Projekts ermittelt indem alle Abhängigkeiten mit `x install --global=false`
 beschafft wurden. Im Anschluss wurden alle erkenntlichen
 Drittanbieter--Bibliotheken in ein separates 3rd--Verzeichnis verschoben. Für
-die Analyse wurde das Werkzeug `cloc`[^cloc] verwendet. Bei Analyse wurden die
-autogenerieren Quelltextdateien (Protobuf, Endung pb.go) ausgeschlossen.
+die Analyse wurde das Werkzeug `cloc`[^cloc] verwendet. Bei der Analyse wurden die
+autogenerierten Quelltextdateien (Protobuf, Endung pb.go) ausgeschlossen.
 Die Analyse wurde auf die in der Programmiersprache Go geschriebenen Teile
 begrenzt. Umfang IPFS--Projekt:
 

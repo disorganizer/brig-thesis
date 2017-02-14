@@ -52,7 +52,7 @@ sendet sie die verschlüsselten Daten an *Bob*, welcher den *gemeinsamen*
 Schlüssel verwendet, um die Daten wieder zu entschlüsseln.
 
 Symmetrische Verfahren sind im Vergleich zu asymmetrischen Verfahren sehr
-Ressourceneffizient. Die Grundlage für symmetrische Algorithmen stellen
+ressourceneffizient. Die Grundlage für symmetrische Algorithmen stellen
 Manipulationen (Substitutionen, Permutationen[^FN_SUB_PERM_NETWORK] oder
 Feistelrunden[^FN_FEISTEL]) auf Bit--Ebene dar, welche ohne Schlüssel nicht
 effizient umkehrbar sind.
@@ -138,7 +138,7 @@ Standard), welcher eine effektive Schlüssellänge von 56  Bit hatte, war Ende
 der 90er--Jahre nicht mehr ausreichend sicher gegen Brute--Force--Angriffe.
 In einer öffentlichen Ausschreibung wurde ein Nachfolger, der Advanced
 Encryption Standard (kurz AES) bestimmt. Gewinner des Wettbewerbs sowie der
-heutige Quasistandard wurde der Rijndael--Algorithmus.
+heutige Quasi--Standard. wurde der Rijndael--Algorithmus.
 
 Neben dem bekannten AES (Rijndael)--Algorithmus, gibt es noch weitere
 Algorithmen, die heutzutage Verwendung finden. Zu den AES--Finalisten gehören

@@ -248,7 +248,7 @@ möglichen Man--in--the--Cloud--Angriffs.
    (beispielsweise mittels Social Engineering oder Phishing--Methoden)
 2. Der Switcher ändert den Token des Benutzers. Hierbei wird der
    Synchronisationssoftware der Token vom Angreifer »injiziert« (first switch)
-   und anschließend der Orignal--Token vom Opfer in den nun vom Angreifer
+   und anschließend der Original--Token vom Opfer in den nun vom Angreifer
    kontrollierten Synchronisationsordner kopiert.  (a) wird inaktiv, (b) wird
    aktiv.
 3. Die Synchronisationssoftware synchronisiert nun den Token des Opfers zum
@@ -521,7 +521,7 @@ verwendet werden sollte.
 zwischen verschiedenen Benutzern, ohne Server--Instanz, auszutauschen. Die
 Basis für Infinit stellt [@quintard2012towards] dar. Bei Infinit findet bei der
 Installation der Anwendung eine Registrierung statt. Diese Daten
-(Benutzername/E--Mail--Addresse) können anschließend verwendet werden, um mit der
+(Benutzername/E--Mail--Adresse) können anschließend verwendet werden, um mit der
 Anwendung andere Infinit--Partner zu finden oder von diesen gefunden zu werden.
 Anschließend kann eine Datei über eine Drag & Drop--Fläche an den gefundenen
 Partner gesendet werden. Es ist unklar, welche Daten/Metadaten an die
@@ -699,8 +699,8 @@ Software argumentiert. Software--Bugs wie
 
 [^FN_LINUS_LAW]:Linus's Law: <https://en.wikipedia.org/w/index.php?title=Linus%27s_Law&oldid=761677049>
 
-* Debian--Random--Number--Generator--Bug[^FN_DEBIAN_RNG_BUG]
-* Open--SSL--Heartbleed--Bug[^FN_HEARTBLEED]
+* Debian Random Number Generator Bug[^FN_DEBIAN_RNG_BUG]
+* OpenSSL Heartbleed Bug[^FN_HEARTBLEED]
 
 [^FN_DEBIAN_RNG_BUG]: Random Number Bug in Debian Linux: <https://www.schneier.com/blog/archives/2008/05/random_number_b.html>
 [^FN_HEARTBLEED]: Heartbleed: <https://www.schneier.com/blog/archives/2014/04/heartbleed.html>
@@ -733,7 +733,7 @@ Quellcode--Qualität von vier großen Betriebssystemkernen (Linux (open source),
 FreeBSD (open source), Solaris (closed source), Windows (closed source)) mit
 Hilfe verschiedener Metriken vergleicht, kommt zum Ergebnis, dass es keine
 signifikanten Unterschiede zwischen dem Closed--Source-- und
-Open--Source--Softwareentwicklungmodell bezüglich Quellcode--Qualität gibt (vgl.
+Open--Source--Softwareentwicklungsmodell bezüglich Quellcode--Qualität gibt (vgl.
 [@Spi08b]). Neuere Studien widersprechen hier und attestieren
 Open--Source--Software--Projekten eine tendenziell bessere Quellcode--Qualität
 als Closed--Source--Projekten (vgl. [@csr2013] und [@csr2014]).
