@@ -276,7 +276,9 @@ proprietärer Software explizit eingebaute Hintertüren nicht ausgeschlossen
 werden können und es auch keine einfache Möglichkeit der Prüfung auf solche
 durch den Endbenutzer gibt.
 
-Insbesondere hat die Freilegung der Snowden--Dokumente weiterhin zu der
+\newpage
+
+Insbesondere hat die Veröffentlichung der Snowden--Dokumente weiterhin zu der
 Schlussfolgerung geführt, dass der Einsatz von Freier Software empfehlenswerter
 ist. Bekannte Sicherheitsexperten wie *Bruce
 Schneier*[^FN_SCHNEIER_1][^FN_SCHNEIER_2] oder auch *Rüdiger Weis* sehen Freie
@@ -312,7 +314,6 @@ letzter Zeit:
 * Datenleck bei Dropbox[^FN_DROPBOX_DATALEAK_4]
 * Google Drive Datenleck[^FN_GDRIVE_DATALEAK]
 * Microsoft OneDrive Datenleck[^FN_MS_DATALEAK]
-* 7 Millionen Zugangsdaten von Dropbox im Umlauf (unbestätigt)[^FN_DROPBOX_DATALEAK_3]
 * iCloud--Hack auf private Fotos von Prominenten[^FN_FAPPENING]
 
 **Weitere Probleme:**
@@ -341,9 +342,6 @@ letzter Zeit:
 	<https://www.heise.de/security/meldung/Auch-Google-schliesst-Datenleck-im-Cloud-Speicher-2243366.html>
 
 [^FN_DROPBOX_DATALEAK_4]: Dropbox Datenleck: <https://www.heise.de/security/meldung/Dropbox-bestaetigt-Datenleck-1656798.html>
-[^FN_DROPBOX_DATALEAK_3]: 7 Mio. Zugangsdaten im Umlauf:
-
-	<https://www.heise.de/security/meldung/Angeblich-7-Millionen-Dropbox-Passwoerter-im-Umlauf-2423684.html>
 
 [^FN_DROPBOX_SPY]: Dropbox--Schnüffelverdacht:
 
@@ -589,6 +587,8 @@ Entwicklers[^FN_LIBREVAULT_BLOG] zu finden.
 
 [^FN_LIBREVAULT_BLOG]: Librevault Entwicklerblog: <https://librevault.com/blog/>
 
+\newpage
+
 **git--annex** ist ein sehr stark am git--Versionsverwaltungssystem
 orientiertes Synchronisationswerkzeug. Prinzipiell ist es für die Kommandozeile
 entwickelt worden, es existiert mittlerweile jedoch ein Webfrontend (Webapp).
@@ -725,18 +725,17 @@ Untersuchungen von Closed-- und Open--Source--Projekten haben gezeigt, dass es
 keine signifikanten Unterschiede bezüglich der Sicherheit zwischen den beiden
 Entwicklungsmodellen gibt. Open--Source scheint jedoch ein extrem schlechtes
 Patch--Management seitens des Herstellers zu verhindern (vgl. [@Schryen]).
-
 Wenn man davon ausgeht, dass schlechte Quellcode--Qualität zu mehr Fehlern und
 somit zu mehr Sicherheitslücken führt, kann man auch einen Teil der
 Sicherheit über die Quellcode--Qualität definieren. Eine Studie, welche die
-Quellcode--Qualität von vier großen Betriebssystemkernen (Linux (open source),
-FreeBSD (open source), Solaris (closed source), Windows (closed source)) mit
-Hilfe verschiedener Metriken vergleicht, kommt zum Ergebnis, dass es keine
-signifikanten Unterschiede zwischen dem Closed--Source-- und
-Open--Source--Softwareentwicklungsmodell bezüglich Quellcode--Qualität gibt (vgl.
-[@Spi08b]). Neuere Studien widersprechen hier und attestieren
-Open--Source--Software--Projekten eine tendenziell bessere Quellcode--Qualität
-als Closed--Source--Projekten (vgl. [@csr2013] und [@csr2014]).
+Quellcode--Qualität von vier großen Betriebssystemkernen (Linux, FreeBSD,
+Solaris, Windows) mit Hilfe verschiedener Metriken vergleicht, kommt zum
+Ergebnis, dass es keine signifikanten Unterschiede zwischen dem
+Closed--Source-- und Open--Source--Softwareentwicklungsmodell bezüglich
+Quellcode--Qualität gibt (vgl. [@Spi08b]). Neuere Studien widersprechen hier
+und attestieren Open--Source--Software--Projekten eine tendenziell bessere
+Quellcode--Qualität als Closed--Source--Projekten (vgl. [@csr2013] und
+[@csr2014]).
 
 Durch Freie Software hat der Verbraucher jedoch immer die Möglichkeit, den
 Quelltext zu validieren und auch an die eigenen Sicherheitsbedürfnisse
@@ -808,7 +807,9 @@ als unschuldig glaubten, geraten plötzlich ins Visier von Ermittlern.
 Ermittlungsfehler, welche unschuldige Menschen hinter Gittern bringen oder zu
 Selbstmord treiben, sind hier leider an der Tagesordnung[^FN_DATENMISSBRAUCH].
 
-[^FN_DATENMISSBRAUCH]: Datenmissbrauch und Irrtümer: <http://www.daten-speicherung.de/index.php/faelle-von-datenmissbrauch-und-irrtuemern/>
+[^FN_DATENMISSBRAUCH]: Datenmissbrauch und Irrtümer: 
+
+	<http://www.daten-speicherung.de/index.php/faelle-von-datenmissbrauch-und-irrtuemern/>
 
 Laut Meinung des Autors ist es allgemein sinnvoll und wichtig, Daten heutzutage
 vorwiegend verschlüsselt zu speichern. Der Wert der Daten wird vom Benutzer oft

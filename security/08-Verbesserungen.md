@@ -234,7 +234,7 @@ Key). Diese Funktionalität ermöglicht dem Benutzer den privaten Teil des
 Hauptschlüssels zu exportieren und beispielsweise auf einem sicheren externen
 Datenträger zu speichern.
 
-[^FN_OFFLINEKEY]: Offline-Hauptschlüssel: 
+[^FN_OFFLINEKEY]: Offline-Hauptschlüssel:
 
 	<https://de.wikipedia.org/w/index.php?title=GNU_Privacy_Guard&oldid=159842195#Offline-Hauptschl.C3.BCssel>
 
@@ -308,11 +308,13 @@ Offline Hauptschlüssel--Funktionalität Daten signieren kann.
 
 Die Umsetzung einer Key Separation kann mit GnuPG beim Anlegen (`gpg2
 --full-gen-key --expert`) oder nachträglich (`gpg2 --edit-key <keyid>`)
-realisiert werden. [@fig:IMG_KEYSEPERATION] zeigt die Möglichkeit der Anlage
-von Unterschlüsseln für den regulären Gebrauch.
+realisiert werden.
 
-Eine weitere Empfehlung an dieser Stelle wäre es, die Unterschlüssel zusätzlich
-auf eine Smartcard auszulagern (siehe
+\newpage
+
+[@fig:IMG_KEYSEPERATION] zeigt die Möglichkeit der Anlage von Unterschlüsseln
+für den regulären Gebrauch. Eine weitere Empfehlung an dieser Stelle wäre es,
+die Unterschlüssel zusätzlich auf eine Smartcard auszulagern (siehe
 [@sec:SEC08_KRYPTOGRAPHISCHE_SCHLUESSEL_AUF_YUBIKEY_UEBERTRAGEN]).
 
 ![GPG--Schlüsselbund mit Unterschlüsseln für den regulären Einsatz. Jeder Unterschlüssel ist an einen bestimmten Einsatzzweck gebunden.](images/gpg_subkey_keypair.png){#fig:IMG_KEYSEPERATION width=100%}
@@ -371,12 +373,14 @@ und könnte beispielsweise in folgender Form realisiert werden:
 
 * `QmbR6tDXRCgpRwWZhGG3qLfJMKrLcrgk2qv5BW7HNhCkpL | D3B2790FBAC07EAC`
 
-[@fig:img-qrcode] zeigt den definierten Datensatz als QR--Code (Quelltext siehe @sec:APP_QR). Es sollte bei
-der GPG--Key--ID darauf geachtet werden, dass hier mindestens 16 Byte des
-Fingerprints verwendet werden, da die 8 Byte Repräsentation
-Angriffsfläche[^FN_EVIL32] bietet.
+[@fig:img-qrcode] zeigt den definierten Datensatz als QR--Code (Quelltext siehe @sec:APP_QR).
 
 ![»brig« QR--Code um einen Synchronisationspartner auf einfache Art und Weise zu authentifizieren.](images/qrcode.png){#fig:img-qrcode width=30%}
+
+Es sollte bei der GPG--Key--ID darauf geachtet werden, dass hier mindestens 16
+Byte des Fingerprints verwendet werden, da die 8 Byte Repräsentation
+Angriffsfläche[^FN_EVIL32] bietet.
+
 
 [^FN_EVIL32]: Evil32--Schwachstelle: <https://evil32.com/>
 
@@ -619,6 +623,8 @@ Der YubiKey NEO hat folgende Funktionalitäten beziehungsweise Eigenschaften:
 * FIDO U2F (Universal Second Factor)
 * Statische Passwörter
 
+\newpage
+
 Smartcard--Funktionalität:
 
 * PIV (Personal Identity Verification) Standard[^FN_NISTPIV]
@@ -655,6 +661,9 @@ insgesamt 44 Zeichen lang und besteht dabei aus zwei Teilkomponenten. Die
 ersten 12 Zeichen repräsentieren eine statische öffentliche ID mit welcher
 sich die YubiKey Hardware identifizieren lässt. Die verbleibenden Zeichen
 repräsentieren den dynamisch generierten Teil des One--Time--Password.
+
+\newpage
+
 [@fig:IMG_OTP_STRING] zeigt ein vollständiges valides One--Time--Password.
 
 ![Yubico OTP Aufbau](images/otp_string.png){#fig:IMG_OTP_STRING width=80%}
@@ -712,13 +721,16 @@ gegenüber dem Yubico--Dienst verwendet. Die Beantragung erfolgt
 online[^FN_APIKEY] und erfordert einen YubiKey. Die minimale Implementierung in
 @sec:APP_YUBICLOUD_AUTHENTIFIZIERUNG zeigt einen voll funktionsfähigen
 Authentifizierungs--Client,  welcher einen YubiKey am YubiCloud--Dienst
-authentifiziert. [@fig:img-poc-brig-2fa] zeigt schematisch den
-Zwei--Faktor--Authentifizierungs--Vorgang mit einem YubiKey über die
-YubiCloud. 
+authentifiziert.
+
+\newpage
+
+[@fig:img-poc-brig-2fa] zeigt schematisch den
+Zwei--Faktor--Authentifizierungs--Vorgang mit einem YubiKey über die YubiCloud.
 
 [^FN_APIKEY]: Yubico API--Key beantragen: <https://upgrade.yubico.com/getapikey/>
 
-![Schematische Darstellung der Zwei--Faktor--Authentifizierung gegenüber einem »brig«--Repository.](images/poc-2fa-auth.png){#fig:img-poc-brig-2fa width=85%}
+![Schematische Darstellung der Zwei--Faktor--Authentifizierung gegenüber einem »brig«--Repository.](images/poc-2fa-auth.png){#fig:img-poc-brig-2fa width=95%}
 
 1. *Alice* startet mit ihrem Passwort und YubiKey einen Loginvorgang.
 2. »brig« prüft das Passwort von Alice.
@@ -1514,6 +1526,8 @@ Varianten:
 2. GnuPG--Agent als SSH--Agent laufen lassen und sich mit den bisherigen
    SSH--Schlüsseln authentifizieren. Hierbei werden die SSH--Schlüssel vom
    `gpg-agent` geschützt verwaltet.
+
+\newpage
 
 Bei der ersten Variante kann der `gpg-agent` so konfiguriert werden, dass er
 die SSH--Anwendung direkt unterstützt. Dazu muss die SSH--Unterstützung in der

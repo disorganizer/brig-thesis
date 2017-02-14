@@ -1,6 +1,6 @@
 \appendix
 
-# Anhang A: Umfang IPFS--Codebasis {#sec:APP_IPFS_LOC }
+# Umfang IPFS--Codebasis {#sec:APP_IPFS_LOC }
 
 Nach einem frischen `git clone` vom IPFS--Repository wurde der Umfang des
 Projekts ermittelt indem alle Abhängigkeiten mit `x install --global=false`
@@ -49,7 +49,7 @@ SUM:                          1742          57033          70893         822177
 -------------------------------------------------------------------------------
 ~~~
 
-# Anhang B: IPFS--Grundlagen {#sec:APP_IPFS_SECWARNING}
+# IPFS--Grundlagen {#sec:APP_IPFS_SECWARNING}
 
 Die Initialisierung als IPFS--Einstiegspunkt (gekürzt):
 
@@ -106,7 +106,7 @@ Please note the following:
   If this is a blocking feature for you, please contact us.
 ~~~
 
-# Anfang C: IRC--Log zur TLS--Verschlüsselung {#sec:APP_IPFS_TRANSPORT_SEC}
+# IRC--Log zur TLS--Verschlüsselung {#sec:APP_IPFS_TRANSPORT_SEC}
 
 IPFS--Entwickler:
 
@@ -140,7 +140,7 @@ IRC--Logauszug vom 14.10.2016
 (17:18:00) Kubuxu: we plan to move to TLS1.3 when it is available
 ~~~
 
-# Anhang D: Details zur CPU--Architektur {#sec:APP_CPUARCH}
+# Details zur CPU--Architektur {#sec:APP_CPUARCH}
 
 **System 1:** Das erste System (Entwicklersystem Herr Piechula) ist ein
 Notebook mit Intel--i5--Architektur und AES--NI--Befehlserweiterungssatz. Der
@@ -267,7 +267,7 @@ CPU max MHz:           1000.0000
 CPU min MHz:           700.0000
 ~~~
 
-# Anhang E: Benchmark--Skripte {#sec:APP_SCRIPTE}
+# Benchmark--Skripte {#sec:APP_SCRIPTE}
 
 Bash--Skript zur Ermittlung der Lese-- und Schreibgeschwindigkeit mittels `dd`:
 

@@ -203,7 +203,7 @@ Wahl der Blockgröße auf die Geschwindigkeit hat. Unter Tabelle
 Das Verschlüsselungsmodul wurde hierfür mit der aktuellen Go Version 1.7.1
 kompiliert.
 
-![Lesegeschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/read-performance-blocksize.json.svg.pdf){#fig:img-read-block width=95%}
+![Lesegeschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/read-performance-blocksize.json.svg.pdf){#fig:img-read-block width=100%}
 
 +-------------------+----------------------+----------------------+---------------------+
 | Blockgröße        | 32.0 KiByte          | 64.0 KiByte          | 4.0 MiByte          |
@@ -234,7 +234,7 @@ Der obere Grenzwert für die Blockgröße ist beim Verschlüsseln weniger gut
 erkennbar. Hier bricht die Geschwindigkeit verglichen mit dem Entschlüsseln nur
 beim Intel--System mit AES--Algorithmus ab ungefähr 32 MiByte ein.
 
-![Schreibgeschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/write-performance-blocksize.json.svg.pdf){#fig:img-write-block width=95%}
+![Schreibgeschwindigkeit des Kryptographielayers bei der Benutzung verschiedener Blockgrößen.](images/write-performance-blocksize.json.svg.pdf){#fig:img-write-block width=100%}
 
 
 +------------------+----------------+----------------+----------------+-----------------+
@@ -263,7 +263,7 @@ Verschlüsselungsschicht mit verschiedenen Go--Versionen kompiliert, um zu sehen
 wie stark sich die Geschwindigkeit ab Go Version 1.6 (Merge des
 Cloudflare--AES--NI--Patches [^FN_AESNI_MERGE]) verändert hat.
 
-![Geschwindigkeitszuwachs durch AES--NI.](images/aesni-impact.json.svg.pdf){#fig:img-aesni width=95%}
+![Geschwindigkeitszuwachs durch AES--NI.](images/aesni-impact.json.svg.pdf){#fig:img-aesni width=100%}
 
 Weiterhin wurde das AMD--System, welches kein AES--NI unterstützt zum Vergleich
 mit in die Auswertung aufgenommen. Hier zeigt sich ein großer Unterschied beim
@@ -297,6 +297,8 @@ Parametern in keiner akzeptablen Zeit durchgeführt werden kann. Aus diesem
 Grund wurde die Anzahl der Durchläufe auf drei, und die zu verarbeitende
 Dateigröße auf 32 MiByte reduziert.
 
+\newpage
+
 [@fig:img-readblock-low] zeigt den Einfluss der Blockgröße beim
 Lesen/Entschlüsseln auf den schwächeren Systemen. In der
 [@tbl:TAB_READ_BLOCK_LOW] sind jeweils die effizientesten Blockgrößen beim
@@ -305,7 +307,7 @@ bei den stärkeren Systemen. Unterhalb 4 KiByte bricht die Lesegeschwindigkeit
 stark ein. Verglichen zu den stärkeren Systemen bricht hier die
 Lesegeschwindigkeit bereits ab einer Blockgröße von ungefähr 2 MiByte ein.
 
-![Lesegeschwindigkeit der Verschlüsselungsschicht auf schwächeren Systemen bei der Benutzung verschiedener Blockgrößen.](images/read-performance-blocksize-low.json.svg.pdf){#fig:img-readblock-low width=95%}
+![Lesegeschwindigkeit der Verschlüsselungsschicht auf schwächeren Systemen bei der Benutzung verschiedener Blockgrößen.](images/read-performance-blocksize-low.json.svg.pdf){#fig:img-readblock-low width=100%}
 
 +------------------------+---------------+-----------------+---------------+
 | Blockgröße             | 32.0 KiByte   | 128.0 KiByte    | 256.0 KiByte  |
@@ -321,6 +323,8 @@ Lesegeschwindigkeit bereits ab einer Blockgröße von ungefähr 2 MiByte ein.
 
 Table: Zeigt die effizientesten Blockgrößen beim Entschlüsseln. Der erste Wert entspricht der Zeit in Millisekunden, der zweite Wert der Geschwindigkeit in MiByte/s beim Lesen einer 32 MiByte großen Datei. {#tbl:TAB_READ_BLOCK_LOW}
 
+\newpage
+
 [@fig:IMG_BLOCKSIZE_WRITE_LOW] zeigt den Einfluss der Blockgröße beim
 Schreiben/Verschlüsseln auf schwächeren Systemen. Unter Tabelle
 [@tbl:TAB_WRITE_BLOCK_LOW] sind jeweils die effizientesten Blockgrößen beim
@@ -329,7 +333,7 @@ Geschwindigkeit, wie bei den restlichen getesteten System, unterhalb der 4
 KiByte  stark ein. Eine obere Blockgröße, bei der die Geschwindigkeit einbricht,  ist bei den schwächeren Systemen
 weniger gut erkennbar.
 
-![Schreibgeschwindigkeit der Verschlüsselungsschicht auf schwächeren Systemen bei der Benutzung verschiedener Blockgrößen.](images/write-performance-blocksize-low.json.svg.pdf){#fig:IMG_BLOCKSIZE_WRITE_LOW width=95%}
+![Schreibgeschwindigkeit der Verschlüsselungsschicht auf schwächeren Systemen bei der Benutzung verschiedener Blockgrößen.](images/write-performance-blocksize-low.json.svg.pdf){#fig:IMG_BLOCKSIZE_WRITE_LOW width=100%}
 
 +-----------------------+-------------------+-------------------+-----------------+
 | Blockgröße            | 256.0 KiByte      | 512.0 KiByte      | 1.0 MiByte      |
@@ -364,6 +368,8 @@ Weiterhin ist in der Grafik ersichtlich, dass der
 Chacha20/Poly1305--Algorithmus bei diesen schwachen Systemen, verglichen mit
 AES/GCM, bessere Ver-- und Entschlüsselungsgeschwindigkeiten liefert.
 
+\newpage 
+
 #### Schlüsselgenerierung {#sec:SEC07_SCHLUESSELGENERIERUNG}
 
 Aktuell wird für jede Datei ein Schlüssel zufällig generiert. Dieser wird in
@@ -373,7 +379,7 @@ unterschiedlicher Schlüssel erstellt. Ein großer Nachteil, der aktuell dadurch
 zum Tragen kommt, ist, dass die IPFS--Deduplizierung nur noch stark
 eingeschränkt funktioniert.
 
-![Für die gleiche Datei werden aktuell unterschiedliche Schlüssel generiert. Das hat zur Folge, dass die Deduplizierungsfunktionalität von IPFS weitestgehend nicht mehr funktioniert.](images/dedupbroken.png){#fig:img-dedupbroken width=95%}
+![Für die gleiche Datei werden aktuell unterschiedliche Schlüssel generiert. Das hat zur Folge, dass die Deduplizierungsfunktionalität von IPFS weitestgehend nicht mehr funktioniert.](images/dedupbroken.png){#fig:img-dedupbroken width=100%}
 
 [@fig:img-dedupbroken] zeigt den aktuellen Ansatz. Durch den zufällig
 generierten Schlüssel haben die verschlüsselten Dateien und Datenblöcke ---
@@ -398,7 +404,7 @@ scrypt--Schlüsselableitungsfunktion fällt bei kleinen Dateien stark ins
 Gewicht. »brig« verwendet aktuell einen zufällig generierten Schlüssel (in
 [@fig:img-keyoverhead] Dev Random generated key).
 
-![Geschwindigkeitseinbruch verursacht durch Schlüsselableitung mittels der scrypt--Schlüsselableitungsfunktion.](images/keygenoverhead-profile.json.svg.pdf){#fig:img-keyoverhead width=95%}
+![Geschwindigkeitseinbruch verursacht durch Schlüsselableitung mittels der scrypt--Schlüsselableitungsfunktion.](images/keygenoverhead-profile.json.svg.pdf){#fig:img-keyoverhead width=100%}
 
 #### Zusammenfassung Geschwindigkeitsevaluation  {#sec:SEC07_ZUSAMMENFASSUNG_GESCHWINDIGKEITSEVALUATION}
 
@@ -607,6 +613,8 @@ ist auch problematisch, dass der geheime Schlüssel von IPFS nicht
 verschlüsselt abgelegt ist. Dieser Umstand ermöglicht beispielsweise
 einen Identitätsdiebstahl.
 
+\newpage
+
 ## Aufbau einer verschlüsselten Verbindung {#sec:SEC07_AUFBAU_EINER_VERSCHLUESSELTEN_VERBINDUNG}
 
 [@fig:img-keyexchange] zeigt den Ablauf beim Aufbau einer verschlüsselten
@@ -645,7 +653,7 @@ zusätzliche freshness sollte hier das Problem beheben.
 	<https://de.wikipedia.org/w/index.php?title=Man-in-the-Middle-Angriff&oldid=161582213>
 
 Die aktuelle Softwareversion bietet hier keinen Automatismus und auch keinen
-Authentifizierungsmechanismus, wie er beispielsweise beim Pidgin--Messenger mit
+Authentifizierungsmechanismus, wie er beim Pidgin--Messenger mit
 OTR--Verschlüsselung vorhanden ist.
 
 ## Entwicklung und Entwicklungsumgebung {#sec:SEC07_EINTWICKLUNG_UND_ENTWICKLUNGSUMGEBUNG}

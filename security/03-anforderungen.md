@@ -70,7 +70,7 @@ Autorisierung und Verfügbarkeit stellen keine erfüllbaren Sicherheitsaspekte
 für eine dezentrale Softwarelösung dar.
 
 Weiterhin sollen sich die Anforderungen an die Sicherheit an den aktuell
-vorherrschenden und bewährten Sicherheitsstandards orientieren (vgl. @bsi).
+vorherrschenden und bewährten Sicherheitsstandards orientieren (vgl. [@bsi]).
 
 Die Entwicklung einer sicheren Software setzt einen sicheren und transparenten
 Entwicklungsprozess voraus. Wird eine Software produktiv eingesetzt, so ist ein
