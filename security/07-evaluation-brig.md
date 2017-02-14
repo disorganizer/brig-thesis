@@ -198,7 +198,7 @@ allokiert wird.
 Die beiden Auswertungen [@fig:img-read-block] (Lesegeschwindigkeit) und
 [@fig:img-write-block] (Schreibgeschwindigkeit) zeigen, welchen Einfluss die
 Wahl der Blockgröße auf die Geschwindigkeit hat. Unter Tabelle
-@tbl:TAB_READ_BLOCK_HIGH (Lesegeschwindigkeit) und Tabelle @tbl:TAB_WRITE_BLOCK_HIGH
+[@tbl:TAB_READ_BLOCK_HIGH] (Lesegeschwindigkeit) und Tabelle [@tbl:TAB_WRITE_BLOCK_HIGH]
 (Schreibgeschwindigkeit) sind jeweils die effizientesten Blockgrößen der Systeme zu entnehmen.
 Das Verschlüsselungsmodul wurde hierfür mit der aktuellen Go Version 1.7.1
 kompiliert.
@@ -297,9 +297,9 @@ Parametern in keiner akzeptablen Zeit durchgeführt werden kann. Aus diesem
 Grund wurde die Anzahl der Durchläufe auf drei, und die zu verarbeitende
 Dateigröße auf 32 MiByte reduziert.
 
-@fig:img-readblock-low zeigt den Einfluss der Blockgröße beim
-Lesen/Entschlüsseln auf den schwächeren Systemen. In der Tabelle
-@tbl:TAB_READ_BLOCK_LOW sind jeweils die effizientesten Blockgrößen beim
+[@fig:img-readblock-low] zeigt den Einfluss der Blockgröße beim
+Lesen/Entschlüsseln auf den schwächeren Systemen. In der
+[@tbl:TAB_READ_BLOCK_LOW] sind jeweils die effizientesten Blockgrößen beim
 Entschlüsseln zu entnehmen. Hier zeigt sich ein vergleichbares Verhalten wie
 bei den stärkeren Systemen. Unterhalb 4 KiByte bricht die Lesegeschwindigkeit
 stark ein. Verglichen zu den stärkeren Systemen bricht hier die
@@ -321,9 +321,9 @@ Lesegeschwindigkeit bereits ab einer Blockgröße von ungefähr 2 MiByte ein.
 
 Table: Zeigt die effizientesten Blockgrößen beim Entschlüsseln. Der erste Wert entspricht der Zeit in Millisekunden, der zweite Wert der Geschwindigkeit in MiByte/s beim Lesen einer 32 MiByte großen Datei. {#tbl:TAB_READ_BLOCK_LOW}
 
-@fig:IMG_BLOCKSIZE_WRITE_LOW zeigt den Einfluss der Blockgröße beim
+[@fig:IMG_BLOCKSIZE_WRITE_LOW] zeigt den Einfluss der Blockgröße beim
 Schreiben/Verschlüsseln auf schwächeren Systemen. Unter Tabelle
-@tbl:TAB_WRITE_BLOCK_LOW sind jeweils die effizientesten Blockgrößen beim
+[@tbl:TAB_WRITE_BLOCK_LOW] sind jeweils die effizientesten Blockgrößen beim
 Verschlüsseln auf den schwächeren Systemen zu finden. Hier bricht die
 Geschwindigkeit, wie bei den restlichen getesteten System, unterhalb der 4
 KiByte  stark ein. Eine obere Blockgröße, bei der die Geschwindigkeit einbricht,  ist bei den schwächeren Systemen
@@ -396,7 +396,7 @@ scrypt[^FN_SCRYPT]  als Ursache identifiziert.
 Dateigrößen verglichen mit zwei weiteren Verfahren. Die
 scrypt--Schlüsselableitungsfunktion fällt bei kleinen Dateien stark ins
 Gewicht. »brig« verwendet aktuell einen zufällig generierten Schlüssel (in
-@fig:img-keyoverhead Dev Random generated key).
+[@fig:img-keyoverhead] Dev Random generated key).
 
 ![Geschwindigkeitseinbruch verursacht durch Schlüsselableitung mittels der scrypt--Schlüsselableitungsfunktion.](images/keygenoverhead-profile.json.svg.pdf){#fig:img-keyoverhead width=95%}
 
@@ -548,7 +548,7 @@ erwähnt, dass heutzutage mit modernen Methoden und moderner Hardware auch
 Passwörter, die bisher von vielen Benutzern als hinreichend sicher angesehen
 waren, nicht mehr verwendet werden sollten. Dazu gehören insbesondere
 Passwörter, bei welchen Buchstaben durch Sonderzeichen oder Zahlen ausgetauscht
-wurden. Tabelle @tbl:TAB_PASSWD listet einen Teil der Passwörter, die laut *Bruce
+wurden. Tabelle [@tbl:TAB_PASSWD] listet einen Teil der Passwörter, die laut *Bruce
 Schneier* während der sogenannten cracking session »gecrackt« wurden. Diese
 Passwörter sind definitiv als unsicher anzusehen. Die Tabelle zeigt die
 geschätzte Entropie und Crackzeit (hier ist leider die genaue Hardware nicht
@@ -640,7 +640,7 @@ Implementierung ein Replay--Angriff wahrscheinlich möglich, da die freshness
 der Nonce nicht gegeben ist (vgl. [@martin2012everyday], S. 259 ff.). Eine
 zusätzliche freshness sollte hier das Problem beheben.
 
-[^FN_MITM]: Man--in--the--Middle--Angriff: 
+[^FN_MITM]: Man--in--the--Middle--Angriff:
 
 	<https://de.wikipedia.org/w/index.php?title=Man-in-the-Middle-Angriff&oldid=161582213>
 

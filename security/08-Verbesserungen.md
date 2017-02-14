@@ -333,7 +333,7 @@ Bei der Evaluation einer sinnvollen Schlüsselverwaltung ist aufgefallen, dass d
 
 Hier wird in der aktuellen GnuPG--Version 2.1.16 unter Arch Linux
 anscheinend jedes Passwort mit einer Zeichenlänge von 10 Zeichen als *Qualität
-100%* definiert (siehe beispielhaft @fig:IMG_GNUPG_PWMETER). Dieser Ansatz ist
+100%* definiert (siehe beispielhaft [@fig:IMG_GNUPG_PWMETER]). Dieser Ansatz ist
 bei einer Sicherheitssoftware wie GnuPG, welche wichtige kryptographische
 Schlüssel schützen muss fragwürdig, da ein Passwort dieser Komplexität als
 definitiv unsicher angesehen werden sollte (siehe auch
@@ -657,7 +657,7 @@ sich die YubiKey Hardware identifizieren lässt. Die verbleibenden Zeichen
 repräsentieren den dynamisch generierten Teil des One--Time--Password.
 [@fig:IMG_OTP_STRING] zeigt ein vollständiges valides One--Time--Password.
 
-![Yubico OTP Aufbau](images/otp_string.png){#fig:IMG_OTP_STRING width=100%}
+![Yubico OTP Aufbau](images/otp_string.png){#fig:IMG_OTP_STRING width=80%}
 
 1. Öffentliche ID (6 Bytes), statischer Teil des One--Time--Password.
 2. Geheime ID (6 Bytes), dynamisch erzeugt, wird von der validierenden Instanz
@@ -1461,7 +1461,7 @@ Anschließend muss die Zwei--Faktor--Authentifizierung im persönlichen Account
 unter dem Menüpunkt *Setting* aktiviert und der YubiKey auf der
 GitHub--Plattform registriert werden. Nach erfolgreicher Registrierung  wird
 man nach der Eingabe seines persönlichen Passworts um den zweiten Faktor
-(beispielsweise YubiKey) gebeten, siehe @fig:IMG_YUBIKEY_GITHUB.
+(beispielsweise YubiKey) gebeten, siehe [@fig:IMG_YUBIKEY_GITHUB].
 
 ![GitHub--Anmeldung mit Zwei--Faktor--Authentifizierung.](images/ghlogin.png){#fig:IMG_YUBIKEY_GITHUB width=60%}
 

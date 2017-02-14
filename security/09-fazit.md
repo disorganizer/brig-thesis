@@ -120,11 +120,6 @@ deduplizieren, siehe @sec:SEC07_SCHLUESSELGENERIERUNG) in Kauf zu nehmen und
 eine abgemilderte Variante der Deduplizierung über Packfiles --- wie von Herrn Pahl
 vorgeschlagen --- zu realisieren (siehe [@cpahl], S. 101 f.).
 
-Weiterhin sind die mittels GPG--Tool evaluierten Konzepte im aktuellen Stadium aus
-Sicht der Benutzerfreundlichkeit verbesserungswürdig. Hier würde sich eine
-vollständige Automatisierung und die Umsetzung einer grafischen
-Benutzeroberfläche --- wie unter [@cpahl], S. 84 ff. --- anbieten.
-
 Ein weiterer diskussionswürdiger Punkt ist die Verwendung von IPFS als Basis.
 Zwar erfüllt diese hier die benötigten Anforderungen, jedoch liegt der Fokus
 der Entwicklung des Projektes in erster Linie nicht im Bereich der Sicherheit.
@@ -150,7 +145,7 @@ sinnvoll, um die Software auch für den öffentlichen Bereich tauglich zu machen
 ## Ausblick {#sec:SEC09_AUSBLICK}
 
 Die Evaluation der Sicherheit von »brig« sowie die evaluierten
-Sicherheitskonzepte stellen für weitere Entwicklungen einen Erstentwurf dar.
+Sicherheitskonzepte stellen einen Erstentwurf für weitere Entwicklungen dar.
 Wie bereits unter @sec:SEC04_KRYPTOGRAPHISCHE_PRIMITIVEN_UND_PROTOKOLLE und
 @sec:SEC05_SICHERHEIT_UND_ANGRIFFSSZENARIEN erläutert, ist die Implementierung
 und Evaluierung von Sicherheit keine triviale Aufgabe. Weiterhin kann auch die
@@ -213,6 +208,6 @@ entstanden ist. Auch wenn es nicht möglich war, in diesem kurzen Zeitraum
 weitere Fördermöglichkeiten zu finden, sollte die Entwicklung dennoch aufgrund
 des vielversprechenden Ansatzes weitergeführt werden. Hier wäre ein
 konstruktives Feedback von der Open--Source--Community und ein baldiges Release
-eines ersten Prototypen wichtig. Nicht nur um den Bekanntheitsgrad weiterhin zu
-steigern jedoch auch um in naher Zukunft eine ernsthafte und benutzerfreundliche
+eines ersten Prototypen wichtig. Nicht nur, um den Bekanntheitsgrad weiterhin zu
+steigern, jedoch auch um in naher Zukunft eine ernsthafte und benutzerfreundliche
 Alternative zu den vorherrschenden Cloud--Speicher--Anbietern zu etablieren.

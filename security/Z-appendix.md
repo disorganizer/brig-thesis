@@ -119,7 +119,7 @@ Brig--Entickler:
 
 IRC--Logauszug vom 14.10.2016
 
-~~~
+~~~sh
 (17:06:38) manny: Hi, is ipfs using currently any encryption (like TLS) for data
            tansport? Is there a spec?
 (17:08:15) Kubuxu: yes, we are using minimalistic subset of TLS, secio
@@ -128,7 +128,7 @@ IRC--Logauszug vom 14.10.2016
 (17:11:24) whyrusleeping: manny: theres not a spec yet
 (17:11:27) whyrusleeping: the code is here: https://github.com/libp2p/go-libp2p-secio
 (17:11:33) manny: thx
-(17:11:52) whyrusleeping: its not a '1.0' type release, we're still going to be
+(17:11:52) whyrusleeping: its not a '1.0' type release, we are still going to be
            changing a couple things moving forward
 (17:12:04) whyrusleeping: and probably just straight up replace it with tls 1.3
            once its more common
@@ -179,6 +179,8 @@ tm2 ssse3 cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic popcnt tsc_deadline_timer
 aes xsave avx f16c rdrand lahf_lm epb tpr_shadow vnmi flexpriority ept vpid
 fsgsbase smep erms xsaveopt dtherm ida arat pln pts
 ~~~
+
+\newpage 
 
 **System 2:** Das zweite System (Entwicklersystem Herr Pahl) ist ein
 Desktopsystem mit AMD--Phenom--X4--Architektur ohne
@@ -247,7 +249,7 @@ arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl est tm2 ssse3 xtpr
 pdcm movbe lahf_lm dtherm
 ~~~
 
-**System 4:** Das zweite der schwächeren System ist ein Raspberry Pi Zero.
+**System 4:** Das zweite der schwächeren Systeme ist ein Raspberry Pi Zero.
 Dieser hat die gleiche CPU wie die erste Version des Raspberry Pi, jedoch mit
 einer dynamisch erhöhten Frequenz. Der folgende `lscpu`--Ausschnitt zeigt die
 genauen Spezifikationen der CPU.
@@ -263,7 +265,6 @@ Socket(s):             1
 Model name:            ARMv6-compatible processor rev 7 (v6l)
 CPU max MHz:           1000.0000
 CPU min MHz:           700.0000
-Linux luna 4.4.30-1-ARCH #1 Tue Nov 1 21:44:33 MDT 2016 armv6l GNU/Linux
 ~~~
 
 # Anhang E: Benchmark--Skripte {#sec:APP_SCRIPTE}

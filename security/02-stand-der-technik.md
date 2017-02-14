@@ -101,7 +101,7 @@ online beim Cloud--Speicher--Anbieter.
 
 Dieser Ordner lässt sich dann beispielsweise auf weitere Geräte des Benutzers
 synchronisieren. Weiterhin gibt es in der Regel die Möglichkeit, Dateien mit
-anderen Benutzern zu teilen (siehe @fig:img-cloud). Welche genauen
+anderen Benutzern zu teilen (siehe [@fig:img-cloud]). Welche genauen
 Einstellungen sich vornehmen lassen und wie feingranular die
 Benutzerverwaltung und die Möglichkeiten beim Synchronisieren sind, ist von dem
 jeweiligen Cloud--Speicher--Anbieter abhängig.
